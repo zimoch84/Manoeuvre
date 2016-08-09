@@ -20,6 +20,7 @@ public interface TerrainInterface {
     public static int MARSH  = 3;
     public static int FIELDS  = 4;
     public static int LAKE  = 5;
+    public static int CITY  = 6;
     
     
     /*
@@ -32,6 +33,12 @@ public interface TerrainInterface {
     */
     
     public int getDefenceBonus();
+    
+    /*
+    Return attackBonus
+    */
+    
+    public int getAttackBonus(TerrainInterface attackingTile);
     
     /*
     Returns if its blocking Line of sight
