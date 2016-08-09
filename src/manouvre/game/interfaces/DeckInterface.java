@@ -1,4 +1,4 @@
-package maneuvre;
+package manouvre.game.interfaces;
 
 /**
  *
