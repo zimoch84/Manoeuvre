@@ -9,7 +9,11 @@ package manouvre.game.interfaces;
  *
  * @author Piotr
  */
-public class MapInterface {
+public interface MapInterface {
+    
+    public void generateMap();
+    
+    TerrainInterface getTileAtIndex(int x, int y);
     
     
     
