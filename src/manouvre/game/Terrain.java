@@ -24,6 +24,8 @@ public class Terrain  implements TerrainInterface {
     
     boolean isRedoubt;
     boolean isOccupiedByUnit;
+    
+    Position pos;
 
     public boolean setIsRedoubt() {
         return isRedoubt;

@@ -37,6 +37,15 @@ public interface PositionInterface {
 	public static final int COLUMN_G = 6;
 	public static final int COLUMN_H = 7;
 	
+        
+        abstract public int convertColumnToX(int column);
+	
+	/**
+	 * convert logical row into y coordinate
+	 * @param row
+	 * @return y coordinate for row
+	 */
+	abstract public int convertRowToY(int row);
 	
     
 }
