@@ -27,6 +27,14 @@ public class Terrain  implements TerrainInterface {
     
     Position pos;
 
+    public Position getPos() {
+        return pos;
+    }
+
+    public void setPos(Position pos) {
+        this.pos = pos;
+    }
+
     public boolean setIsRedoubt() {
         return isRedoubt;
     }
@@ -44,7 +52,9 @@ public class Terrain  implements TerrainInterface {
     }
      
     
-    public Terrain(int type){
+    public Terrain(int type, Position pos){
+        
+        this.pos = pos;
         this.type = type;
         calculateDefenceBonus();
         calculateBlockLOS();
@@ -72,14 +82,14 @@ public class Terrain  implements TerrainInterface {
         String out;
         out = "Terrain Type:";
         switch (type){
-            case Terrain.CITY : out=  out + " City" ;
-            case Terrain.CLEAR: out = out + " Clear";
-            case Terrain.FIELDS: out = out + " Fields";
-            case Terrain.FOREST : out=  out + " Forest" ;
-            case Terrain.HILL: out = out + " Hill";
-            case Terrain.LAKE: out = out + " Lake";
-            case Terrain.MARSH: out = out + " Marsh";
-            default: out = out + " No definition";
+            case Terrain.CITY : out=  out + " City" ; break;
+            case Terrain.CLEAR: out = out + " Clear";break;
+            case Terrain.FIELDS: out = out + " Fields"; break;
+            case Terrain.FOREST : out=  out + " Forest" ; break;
+            case Terrain.HILL: out = out + " Hill"; break;
+            case Terrain.LAKE: out = out + " Lake"; break;
+            case Terrain.MARSH: out = out + " Marsh"; break;
+            default: out = out + " No definition " ;
         }
         return out;
             

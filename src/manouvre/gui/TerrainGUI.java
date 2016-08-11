@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package manouvre.ui;
+package manouvre.gui;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -12,30 +12,30 @@ import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import manouvre.game.Position;
 import manouvre.game.Terrain;
 
 /**
  *
  * @author Piotr
  */
-public class TerrainGUI {
+public class TerrainGUI extends Terrain{
     
         private Image img;
-	private int x;
-	private int y;
-	private Terrain terrain;
-
-	public TerrainGUI(Image img, Terrain terrain) throws IOException  {
-		this.img = img;
-		this.terrain = terrain;
-                generateImageForPiece(terrain.getType());
+	
+	public TerrainGUI(int terrainType, Position pos) throws IOException  {
+		
+                super(terrainType, pos);
+		
+                generateImageForPiece(terrainType);
 
 		//this.resetToUnderlyingPiecePosition();
 	}
         
-        private void generateImageForPiece(int terrainType) throws IOException {
 
-		String filename = "/terrain/TerrainMap.png";
+        public void generateImageForPiece(int terrainType) throws IOException {
+
+		String filename = "resources\\terrain\\TerrainMap.png";
                
                 final int width = 205;
                 final int height = 205;
@@ -71,5 +71,7 @@ public class TerrainGUI {
 		}
                    this.img = cutImage;
 	}
-    
+     public Image getImg() {
+        return img;
+    }
 }

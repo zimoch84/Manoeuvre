@@ -15,6 +15,7 @@ import manouvre.game.interfaces.TerrainInterface;
  * @author Piotr
  */
 public class Map implements MapInterface {
+
     
     /*
     Map is 8x8 Terrain square
@@ -22,11 +23,24 @@ public class Map implements MapInterface {
     ArrayList index 0 = 0x0 point and lastIndex
     */
     
-    TerrainInterface[][] tiles  ;
-    
+    TerrainInterface[][] terrains = new TerrainInterface[8][8] ;
+
+    public Map() {
+        generateMap();
+    }
     
     @Override
-    public void generateMap() {
+    public TerrainInterface[][] getTerrains() {
+        return terrains;
+    }
+
+    public void setTerrains(TerrainInterface[][] terrains) {
+        this.terrains = terrains;
+    }
+    
+    
+ 
+    private void generateMap() {
       
         Random rand = new Random();
         int var;
@@ -36,23 +50,23 @@ public class Map implements MapInterface {
                    for(int j=0;j<8;j++){
                        
                        var = rand.nextInt()%100;
-                       
+                       Position pos = new Position(i, j);
                        if (var < 40) 
-                           tiles[i][j] = new Terrain(Terrain.CLEAR);
+                           terrains[i][j] = new Terrain(Terrain.CLEAR, pos);
                        else if ( (var >= 40) && (var <50) )
-                           tiles[i][j] = new Terrain(Terrain.CITY);
+                           terrains[i][j] = new Terrain(Terrain.CITY, pos);
                        else if ( (var >= 50) && (var <60) )
-                           tiles[i][j] = new Terrain(Terrain.HILL);
+                           terrains[i][j] = new Terrain(Terrain.HILL, pos);
                        else if ( (var >= 60) && (var <70) )
-                           tiles[i][j] = new Terrain(Terrain.FIELDS);
+                           terrains[i][j] = new Terrain(Terrain.FIELDS, pos);
                        else if ( (var >= 70) && (var <80) )
-                           tiles[i][j] = new Terrain(Terrain.LAKE);
+                           terrains[i][j] = new Terrain(Terrain.LAKE, pos);
                        else if ( (var >= 80) && (var <90) )
-                           tiles[i][j] = new Terrain(Terrain.FOREST);
+                           terrains[i][j] = new Terrain(Terrain.FOREST, pos);
                        else if ( (var >= 90) && (var <100) )
-                           tiles[i][j] = new Terrain(Terrain.MARSH);
+                           terrains[i][j] = new Terrain(Terrain.MARSH,pos);
                        else   
-                           tiles[i][j] = new Terrain(Terrain.CLEAR);   
+                           terrains[i][j] = new Terrain(Terrain.CLEAR, pos);   
                             
                        
                    }
@@ -64,13 +78,13 @@ public class Map implements MapInterface {
 
     @Override
     public TerrainInterface getTileAtIndex(int x, int y) {
-        return tiles[x][y];
+        return terrains[x][y];
     }
     
     
     public void changeTerrainAtIndex(int x, int y , TerrainInterface finalTerrain){
     
-        tiles[x][y] = finalTerrain;
+        terrains[x][y] = finalTerrain;
     }
     
     

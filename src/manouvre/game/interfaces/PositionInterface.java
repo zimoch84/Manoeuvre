@@ -11,8 +11,7 @@ package manouvre.game.interfaces;
  */
 public interface PositionInterface {
     
-    public int[][] getRelativePosition();
-    
+   
     	//eight rows (called ranks and denoted with numbers 1 to 8)
 	//and eight columns (called files and denoted with letters a to h) of squares.
 	

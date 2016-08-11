@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.4" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <NonVisualComponents>
+    <Container class="javax.swing.JFrame" name="jFrame1">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace min="0" pref="400" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace min="0" pref="300" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+    </Container>
+  </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
   </Properties>
@@ -93,6 +110,9 @@
   </Layout>
   <SubComponents>
     <Container class="javax.swing.JPanel" name="mainMapPanel">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JPanel()&#xa;{&#xa;@Override&#xa;    public void paintComponent(Graphics g) {&#xa;&#xa;&#x9;&#x9;// draw background&#xa;&#x9;&#x9;//g.drawImage(this.imgBackground, 0, 0, null);&#xa;                       System.out.println(map.getTerrains().length) ;&#xa;&#x9;&#x9;// draw pieces&#xa;&#x9;&#x9;for (int i=0;i &lt; map.getTerrains().length ;i++)&#xa;                {   &#xa;                    System.out.println(i);&#xa;                    for (int j=0;j&lt; map.getTerrains()[i].length;j++)&#xa;                    {&#xa;                        System.out.println(map.getTerrains()[i][j].toString());&#xa;                       // g.drawImage(map.getTerrains()[i][j].getImg(), 0, 0, null);&#xa;                    g.drawImage(map.getTerrains()[i][j].getImg(), map.getTerrains()[i][j].getPos().convertColumnToX(i), map.getTerrains()[i][j].getPos().convertRowToY(j), null);&#xa;                    }&#xa;                }&#xa;&#x9;&#x9;&#x9;&#xa;&#x9;&#x9;&#x9;}&#xa;}&#xa;"/>
+      </AuxValues>
 
       <Layout>
         <DimensionLayout dim="0">

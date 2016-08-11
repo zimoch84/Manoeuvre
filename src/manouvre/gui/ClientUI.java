@@ -3,9 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package manouvre.ui;
+package manouvre.gui;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import manouvre.game.Map;
+import manouvre.game.Terrain;
+import manouvre.game.interfaces.TerrainInterface;
 
 /**
  *
@@ -13,16 +20,18 @@ import manouvre.game.Map;
  */
 public class ClientUI extends javax.swing.JFrame {
 
-    Map map;
+    MapGUI map ;
     
     
     
     /**
      * Creates new form ClientUI
      */
-    public ClientUI() {
+    public ClientUI() throws IOException {
         initComponents();
-        map.generateMap();
+        map = new MapGUI();
+        drawMap();
+        //map.generateMap();
     }
 
     /**
@@ -34,7 +43,30 @@ public class ClientUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        mainMapPanel = new javax.swing.JPanel();
+        jFrame1 = new javax.swing.JFrame();
+        mainMapPanel = new javax.swing.JPanel()
+        {
+            @Override
+            public void paintComponent(Graphics g) {
+
+                // draw background
+                //g.drawImage(this.imgBackground, 0, 0, null);
+                System.out.println(map.getTerrains().length) ;
+                // draw pieces
+                for (int i=0;i < map.getTerrains().length ;i++)
+                {
+                    System.out.println(i);
+                    for (int j=0;j< map.getTerrains()[i].length;j++)
+                    {
+                        System.out.println(map.getTerrains()[i][j].toString());
+                        // g.drawImage(map.getTerrains()[i][j].getImg(), 0, 0, null);
+                        g.drawImage(map.getTerrains()[i][j].getImg(), map.getTerrains()[i][j].getPos().convertColumnToX(i), map.getTerrains()[i][j].getPos().convertRowToY(j), null);
+                    }
+                }
+
+            }
+        }
+        ;
         jLabel4 = new javax.swing.JLabel();
         playerHandPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -47,6 +79,17 @@ public class ClientUI extends javax.swing.JFrame {
         jTextArea2 = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+
+        javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
+        jFrame1.getContentPane().setLayout(jFrame1Layout);
+        jFrame1Layout.setHorizontalGroup(
+            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jFrame1Layout.setVerticalGroup(
+            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -225,16 +268,22 @@ public class ClientUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ClientUI().setVisible(true);
+                try {
+                    new ClientUI().setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(ClientUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     void drawMap(){
     
-        
-        
+     
     }
+    
+   
+
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -242,6 +291,7 @@ public class ClientUI extends javax.swing.JFrame {
     private javax.swing.JPanel discardPanel;
     private javax.swing.JPanel gameLogPanel;
     private javax.swing.JButton jButton1;
+    private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

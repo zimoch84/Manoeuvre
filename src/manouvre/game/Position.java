@@ -6,7 +6,7 @@
 package manouvre.game;
 
 import manouvre.game.interfaces.PositionInterface;
-import manouvre.ui.MapGUI;
+import manouvre.gui.MapGUI;
 
 /**
  *
@@ -14,9 +14,23 @@ import manouvre.ui.MapGUI;
  */
 public class Position implements PositionInterface{
 
-    @Override
-    public int[][] getRelativePosition() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    private int column;
+    private int row;
+    
+    public int getColumn() {
+        return column;
+    }
+
+    public int getRow() {
+        return row;
+    }
+    
+    
+    
+    public Position(int column, int row) {
+        this.column = column;
+        this.row = row;
     }
     
     
