@@ -37,14 +37,14 @@ public interface PositionInterface {
 	public static final int COLUMN_H = 7;
 	
         
-        abstract public int convertColumnToX(int column);
+        abstract public int convertColumnToMouseX(int column);
 	
 	/**
 	 * convert logical row into y coordinate
 	 * @param row
 	 * @return y coordinate for row
 	 */
-	abstract public int convertRowToY(int row);
+	abstract public int convertRowToMouseY(int row);
 	
     
 }

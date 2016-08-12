@@ -25,6 +25,9 @@
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
+  <Events>
+    <EventHandler event="componentHidden" listener="java.awt.event.ComponentListener" parameters="java.awt.event.ComponentEvent" handler="formComponentHidden"/>
+  </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -110,8 +113,11 @@
   </Layout>
   <SubComponents>
     <Container class="javax.swing.JPanel" name="mainMapPanel">
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="mainMapPanelMouseClicked"/>
+      </Events>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JPanel()&#xa;{&#xa;@Override&#xa;    public void paintComponent(Graphics g) {&#xa;&#xa;&#x9;&#x9;// draw background&#xa;&#x9;&#x9;//g.drawImage(this.imgBackground, 0, 0, null);&#xa;                       System.out.println(map.getTerrains().length) ;&#xa;&#x9;&#x9;// draw pieces&#xa;&#x9;&#x9;for (int i=0;i &lt; map.getTerrains().length ;i++)&#xa;                {   &#xa;                    System.out.println(i);&#xa;                    for (int j=0;j&lt; map.getTerrains()[i].length;j++)&#xa;                    {&#xa;                        System.out.println(map.getTerrains()[i][j].toString());&#xa;                       // g.drawImage(map.getTerrains()[i][j].getImg(), 0, 0, null);&#xa;                    g.drawImage(map.getTerrains()[i][j].getImg(), map.getTerrains()[i][j].getPos().convertColumnToX(i), map.getTerrains()[i][j].getPos().convertRowToY(j), null);&#xa;                    }&#xa;                }&#xa;&#x9;&#x9;&#x9;&#xa;&#x9;&#x9;&#x9;}&#xa;}&#xa;"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JPanel()&#xa;{&#xa;    @Override&#xa;    public void paintComponent(Graphics g) {&#xa;        int gap = 5;&#xa;        // draw background&#xa;        //g.drawImage(this.imgBackground, 0, 0, null);&#xa;        System.out.println(map.getTerrains().length) ;&#xa;        // draw pieces&#xa;        for (int i=0;i &lt; map.getTerrains().length ;i++)&#xa;        {&#xa;            System.out.println(i);&#xa;            for (int j=0;j&lt; map.getTerrains()[i].length;j++)&#xa;            {&#xa;                System.out.println(map.getTerrains()[i][j].toString());&#xa;                // g.drawImage(map.getTerrains()[i][j].getImg(), 0, 0, null);&#xa;                g.drawImage(map.getTerrains()[i][j].getImg(),&#xa;                    map.getTerrains()[i][j].getPos().convertColumnToMouseX(i),&#xa;                    map.getTerrains()[i][j].getPos().convertRowToMouseY(j), null);&#xa;&#xa;                if(map.getTerrains()[i][j].isSelected()){&#xa;&#xa;                    g.drawRoundRect(&#xa;                        map.getTerrains()[i][j].getPos().convertColumnToMouseX(i) + gap&#xa;                        ,map.getTerrains()[i][j].getPos().convertRowToMouseY(j) + gap&#xa;                        , MapGUI.SQUARE_WIDTH - 2*gap , MapGUI.SQUARE_HEIGHT - 2*gap,&#xa;                        10,10);&#xa;&#xa;                }&#xa;&#xa;            }&#xa;        }&#xa;&#xa;    }&#xa;}&#xa;"/>
       </AuxValues>
 
       <Layout>

@@ -34,6 +34,8 @@ public class ClientUI extends javax.swing.JFrame {
         //map.generateMap();
     }
 
+
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -48,7 +50,7 @@ public class ClientUI extends javax.swing.JFrame {
         {
             @Override
             public void paintComponent(Graphics g) {
-
+                int gap = 5;
                 // draw background
                 //g.drawImage(this.imgBackground, 0, 0, null);
                 System.out.println(map.getTerrains().length) ;
@@ -60,7 +62,20 @@ public class ClientUI extends javax.swing.JFrame {
                     {
                         System.out.println(map.getTerrains()[i][j].toString());
                         // g.drawImage(map.getTerrains()[i][j].getImg(), 0, 0, null);
-                        g.drawImage(map.getTerrains()[i][j].getImg(), map.getTerrains()[i][j].getPos().convertColumnToX(i), map.getTerrains()[i][j].getPos().convertRowToY(j), null);
+                        g.drawImage(map.getTerrains()[i][j].getImg(),
+                            map.getTerrains()[i][j].getPos().convertColumnToMouseX(i),
+                            map.getTerrains()[i][j].getPos().convertRowToMouseY(j), null);
+
+                        if(map.getTerrains()[i][j].isSelected()){
+
+                            g.drawRoundRect(
+                                map.getTerrains()[i][j].getPos().convertColumnToMouseX(i) + gap
+                                ,map.getTerrains()[i][j].getPos().convertRowToMouseY(j) + gap
+                                , MapGUI.SQUARE_WIDTH - 2*gap , MapGUI.SQUARE_HEIGHT - 2*gap,
+                                10,10);
+
+                        }
+
                     }
                 }
 
@@ -92,6 +107,17 @@ public class ClientUI extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentHidden(java.awt.event.ComponentEvent evt) {
+                formComponentHidden(evt);
+            }
+        });
+
+        mainMapPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mainMapPanelMouseClicked(evt);
+            }
+        });
 
         jLabel4.setText("Map");
 
@@ -238,6 +264,53 @@ public class ClientUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formComponentHidden
+
+    private void mainMapPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainMapPanelMouseClicked
+        int x = evt.getPoint().x;
+		int y = evt.getPoint().y;
+		// find out which piece to move.
+		// we check the list from top to buttom
+		// (therefore we itereate in reverse order)
+		//
+		for (int i=0;i<8;i++)
+                    {
+                   for(int j=0;j<8;j++){
+                       TerrainGUI guiTerrain = this.map.getTerrains()[i][j];
+     			if(mouseOverPiece(guiTerrain,x,y))
+                        {   
+                            if(!guiTerrain.isSelected())
+				guiTerrain.setSelected(true);
+                            else guiTerrain.setSelected(false);
+                                this.repaint();
+				
+                        }
+                   }
+                }
+        
+        
+        
+    }//GEN-LAST:event_mainMapPanelMouseClicked
+    
+    /**
+	 * check whether the mouse is currently over this piece
+	 * @param piece the playing piece
+	 * @param x x coordinate of mouse
+	 * @param y y coordinate of mouse
+	 * @return true if mouse is over the piece
+	 */
+	
+        private boolean mouseOverPiece(TerrainGUI guiTerrain, int x, int y) {
+
+		return guiTerrain.getPos().getMouseX() <= x 
+			&& guiTerrain.getPos().getMouseX() +guiTerrain.getWidth() >= x
+			&& guiTerrain.getPos().getMouseY() <= y
+			&& guiTerrain.getPos().getMouseY()+guiTerrain.getHeight() >= y;
+	
+        }
+        
     /**
      * @param args the command line arguments
      */
@@ -283,7 +356,6 @@ public class ClientUI extends javax.swing.JFrame {
     }
     
    
-
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -302,4 +374,7 @@ public class ClientUI extends javax.swing.JFrame {
     private javax.swing.JPanel mainMapPanel;
     private javax.swing.JPanel playerHandPanel;
     // End of variables declaration//GEN-END:variables
+
+
+
 }

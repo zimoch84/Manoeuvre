@@ -22,7 +22,11 @@ import manouvre.game.Terrain;
 public class TerrainGUI extends Terrain{
     
         private Image img;
-	
+        
+        boolean selected;
+
+    
+
 	public TerrainGUI(int terrainType, Position pos) throws IOException  {
 		
                 super(terrainType, pos);
@@ -32,15 +36,11 @@ public class TerrainGUI extends Terrain{
 		//this.resetToUnderlyingPiecePosition();
 	}
         
-
+        
         public void generateImageForPiece(int terrainType) throws IOException {
 
 		String filename = "resources\\terrain\\TerrainMap240.png";
                
-                
-                        final int rows = 4;
-                final int cols = 4;
-	
                 BufferedImage bigImage = ImageIO.read(new File(filename));
                 BufferedImage cutImage;
   
@@ -73,4 +73,19 @@ public class TerrainGUI extends Terrain{
      public Image getImg() {
         return img;
     }
+     
+     public int getWidth() {
+		return img.getWidth(null);
+	}
+
+    public int getHeight() {
+		return img.getHeight(null);
+	}
+    public boolean isSelected() {
+            return selected;
+        }
+
+    public void setSelected(boolean selected) {
+            this.selected = selected;
+     }
 }
