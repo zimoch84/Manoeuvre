@@ -1,4 +1,6 @@
-package Game;
+package manouvre.game;
+
+import manouvre.game.interfaces.CardInterface;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -10,7 +12,7 @@ package Game;
  *
  * @author Bartosz
  */
-public class Card {
+public class Card implements CardInterface{
     private int deckValue;
     private int faceValue;
     private int suitValue;
