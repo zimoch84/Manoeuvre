@@ -1,0 +1,65 @@
+name;imageReduced;imageFull;ID;fullStrength;reducedStrength;type;country
+1st Foot Guards;BR1FGdsb.png;BR1FGds.png;1;8;4;0;Britain
+4th Reg of Foot;BR4RgtFb.png;BR4RgtF.png;2;7;3;0;Britain
+32nd Reg of Foot;BR32RgtFb.png;BR32RgtF.png;3;6;3;0;Britain
+42nd Reg of Foot;BR42RgtFb.png;BR42RgtF.png;4;6;4;0;Britain
+52nd Reg of Foot;BR52RgtFb.png;BR52RgtF.png;5;6;3;0;Britain
+Dutch-Belgians;BRDBelgb.png;BRDBelg.png;6;5;3;0;Britain
+King's Dragoons;BRKDrgb.png;BRKDrg.png;7;8;4;1;Britain
+9th Queen's Royal;BR9QnRoyb.png;BR9QnRoy.png;8;7;3;1;Britain
+1st Infantry Reg;AU1InfRb.png;AU1InfR.png;9;7;4;0;Austria
+3rd Infantry Reg;AU3InfRb.png;AU3InfR.png;10;6;3;0;Austria
+4th Infantry Reg;AU4InfRb.png;AU4InfR.png;11;5;3;0;Austria
+6th Grenzer Reg;AU6GrzRb.png;AU6GrzR.png;12;7;3;0;Austria
+9th  Infantry Reg;AU9InfRb.png;AU9InfR.png;13;6;3;0;Austria
+14th Infantry Reg;AU14InfRb.png;AU14InfR.png;14;5;3;0;Austria
+Johann Drg;AUJohDrgb.png;AUJohDrg.png;15;6;3;1;Austria
+O'Reilly Chev;AUOReilCb.png;AUOReilC.png;16;8;4;1;Austria
+1st Cuirassier;FR1Cuirb.png;FR1Cuir.png;17;7;4;1;France
+2nd Reg Leger;FR2RgtLb.png;FR2RgtL.png;18;6;3;0;France
+4th Reg Suisse;FR4RgtSub.png;FR4RgtSu.png;19;5;3;0;France
+8th Reg Legere;FR8RgtLb.png;FR8RgtL.png;20;6;3;0;France
+19th Reg de Ligne;FR19RgtLb.png;FR19RgtL.png;21;7;4;0;France
+45th Reg de Ligne;FR45RgtLb.png;FR45RgtL.png;22;6;3;0;France
+Guard Cavalry;FRGdCavb.png;FRGdCav.png;23;8;5;1;France
+Garde Imperial;FRGdImpb.png;FRGdImp.png;24;8;5;0;France
+1st Janissaries;OT1Janb.png;OT1Jan.png;25;8;5;0;Ottoman Empire
+2nd Janissaries;OT2Janb.png;OT2Jan.png;26;8;5;0;Ottoman Empire
+Albanian Feudal;OTAlbFdlb.png;OTAlbFdl.png;27;6;2;0;Ottoman Empire
+Ali Pasha's Cav;OTAliPasCvb.png;OTAliPasCv.png;28;7;5;1;Ottoman Empire
+Arab Cavalry;OTArabCvb.png;OTArabCv.png;29;6;3;1;Ottoman Empire
+Greek Feudal;OTGkFdlb.png;OTGkFdl.png;30;6;2;0;Ottoman Empire
+Irregular Cav;OTIrrCvb.png;OTIrrCv.png;31;5;2;1;Ottoman Empire
+Regular Cav;OTRegCvb.png;OTRegCv.png;32;7;4;1;Ottoman Empire
+1st Infantry Reg;PR1InfRgtb.png;PR1InfRgt.png;33;6;4;0;Prussia
+10th Dragoons;PR10Drgb.png;PR10Drg.png;34;6;3;1;Prussia
+13th Infantry Reg;PR13InfRgtb.png;PR13InfRgt.png;35;6;3;0;Prussia
+25th Infantry Reg;PR25InfRgtb.png;PR25InfRgt.png;36;5;3;0;Prussia
+27th Infantry Reg;PR27InfRgtb.png;PR27InfRgt.png;37;5;3;0;Prussia
+32nd Infantry Reg;PR32InfRgtb.png;PR32InfRgt.png;38;5;3;0;Prussia
+Guard Gren;PRGrdGrenb.png;PRGrdGren.png;39;8;5;0;Prussia
+Royal Escort;PRRylEscb.png;PRRylEsc.png;40;7;4;1;Prussia
+1st Cavalry;RU1stCvb.png;RU1stCv.png;41;6;4;1;Russia
+Black Sea Cossacks;RUBSCosb.png;RUBSCos.png;42;5;4;1;Russia
+Russian Guard;RUGuardb.png;RUGuard.png;43;8;6;0;Russia
+Kexholm Reg;RUKexRgtb.png;RUKexRgt.png;44;7;5;0;Russia
+Koursk Reg;RUKrsRgtb.png;RUKrsRgt.png;45;6;5;0;Russia
+Leib Grenadiers;RULeiGrnb.png;RULeiGrn.png;46;6;5;0;Russia
+Moscow Reg;RUMosRgtb.png;RUMosRgt.png;47;6;5;0;Russia
+Orlov Reg;RUOrlRgtb.png;RUOrlRgt.png;48;6;5;0;Russia
+1st Line Reg;SP1LnRgtb.png;SP1LnRgt.png;49;7;4;0;Spain
+3rd Hussars;SP3rdhusb.png;SP3rdhus.png;50;6;4;1;Spain
+7th Navarrese;SP7thNavb.png;SP7thNav.png;51;6;4;0;Spain
+20th Line Reg;SP20LnRgtb.png;SP20LnRgt.png;52;6;4;0;Spain
+Castille Reg;SPCasRgtb.png;SPCasRgt.png;53;5;3;0;Spain
+Del Rey Drg;SPDryDrgb.png;SPDryDrg.png;54;5;3;1;Spain
+Inf Imperial;SPInfImpb.png;SPInfImp.png;55;6;4;1;Spain
+Walloon Gds;SPWalGdsb.png;SPWalGds.png;56;8;5;0;Spain
+1st Regiment;US1Regtb.png;US1Regt.png;57;8;4;0;United States
+2nd Regiment;US2Regtb.png;US2Regt.png;58;7;4;0;United States
+3rd Regiment;US3Regtb.png;US3Regt.png;59;6;4;0;United States
+4th Militia;US4Milb.png;US4Mil.png;60;5;2;0;United States
+10th Regiment;US10Regtb.png;US10Regt.png;61;6;4;0;United States
+13th Militia;US13Milb.png;US13Mil.png;62;5;2;0;United States
+22nd Regiment;US22Regtb.png;US22Regt.png;63;6;4;0;United States
+Volunteers;USVolb.png;USVol.png;64;5;3;1;United States
