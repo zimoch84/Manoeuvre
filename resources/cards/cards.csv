@@ -1,481 +1,481 @@
-dent;Name;MaskFile;FrontFile;ID2
-1;Committed Attack;BRMask.JPG;BRCattk.JPG;64
-2;Earl of Uxbridge;BRMask.JPG;BRUxbridge.JPG;65
-3;Forced March;BRMask.JPG;BRFmarch.JPG;66
-4;Forced March;BRMask.JPG;BRFmarch.JPG;67
-5;Lord Wellington;BRMask.JPG;BRWelly.JPG;68
-6;Redoubt;BRMask.JPG;BRRedbt.JPG;69
-7;Redoubt;BRMask.JPG;BRRedbt.JPG;70
-8;Rowland Hill;BRMask.JPG;BRHill.JPG;71
-9;Royal Engineers;BRMask.JPG;BRRyEng.JPG;72
-10;Sir John Moore;BRMask.JPG;BRMoore.JPG;73
-11;Skirmish;BRMask.JPG;BRSkirm.JPG;74
-12;Spy;BRMask.JPG;BRSpy.JPG;75
-13;Supply;BRMask.JPG;BRSuply.JPG;76
-14;Supply;BRMask.JPG;BRSuply.JPG;77
-15;Supply;BRMask.JPG;BRSuply.JPG;78
-16;Supply;BRMask.JPG;BRSuply.JPG;79
-17;William Beresford;BRMask.JPG;BRBeresford.JPG;80
-18;Withdraw;BRMask.JPG;BRWdraw.JPG;81
-19;Withdraw;BRMask.JPG;BRWdraw.JPG;82
-20;Withdraw;BRMask.JPG;BRWdraw.JPG;83
-21;1st Foot Guards;BRMask.JPG;BR1FGa.JPG;84
-22;1st Foot Guards;BRMask.JPG;BR1FGa.JPG;85
-23;1st Foot Guards;BRMask.JPG;BR1FGb.JPG;86
-24;1st Foot Guards;BRMask.JPG;BR1FGb.JPG;87
-25;1st Foot Guards;BRMask.JPG;BR1FGc.JPG;88
-26;4th Regiment of Foot;BRMask.JPG;BR4a.JPG;89
-27;4th Regiment of Foot;BRMask.JPG;BR4a.JPG;90
-28;4th Regiment of Foot;BRMask.JPG;BR4a.JPG;91
-29;4th Regiment of Foot;BRMask.JPG;BR4b.JPG;92
-30;4th Regiment of Foot;BRMask.JPG;BR4c.JPG;93
-31;9th Queen`s Royal Lancers;BRMask.JPG;BR9QLa.JPG;94
-32;9th Queen`s Royal Lancers;BRMask.JPG;BR9QLb.JPG;95
-33;9th Queen`s Royal Lancers;BRMask.JPG;BR9QLb.JPG;96
-34;9th Queen`s Royal Lancers;BRMask.JPG;BR9QLb.JPG;97
-35;9th Queen`s Royal Lancers;BRMask.JPG;BR9QLc.JPG;98
-36;32nd Regiment of Foot;BRMask.JPG;BR32a.JPG;99
-37;32nd Regiment of Foot;BRMask.JPG;BR32a.JPG;100
-38;32nd Regiment of Foot;BRMask.JPG;BR32b.JPG;101
-39;32nd Regiment of Foot;BRMask.JPG;BR32c.JPG;102
-40;32nd Regiment of Foot;BRMask.JPG;BR32d.JPG;103
-41;42nd Regiment of Foot;BRMask.JPG;BR42a.JPG;104
-42;42nd Regiment of Foot;BRMask.JPG;BR42b.JPG;105
-43;42nd Regiment of Foot;BRMask.JPG;BR42b.JPG;106
-44;42nd Regiment of Foot;BRMask.JPG;BR42c.JPG;107
-45;42nd Regiment of Foot;BRMask.JPG;BR42d.JPG;108
-46;52nd Regiment of Foot;BRMask.JPG;BR52a.JPG;109
-47;52nd Regiment of Foot;BRMask.JPG;BR52a.JPG;110
-48;52nd Regiment of Foot;BRMask.JPG;BR52b.JPG;111
-49;52nd Regiment of Foot;BRMask.JPG;BR52c.JPG;112
-50;52nd Regiment of Foot;BRMask.JPG;BR52d.JPG;113
-51;Dutch-Belgians;BRMask.JPG;BRDBa.JPG;114
-52;Dutch-Belgians;BRMask.JPG;BRDBa.JPG;115
-53;Dutch-Belgians;BRMask.JPG;BRDBb.JPG;116
-54;Dutch-Belgians;BRMask.JPG;BRDBb.JPG;117
-55;Dutch-Belgians;BRMask.JPG;BRDBc.JPG;118
-56;King's Dragoon Guards;BRMask.JPG;BRKDGa.JPG;119
-57;King's Dragoon Guards;BRMask.JPG;BRKDGb.JPG;120
-58;King's Dragoon Guards;BRMask.JPG;BRKDGb.JPG;121
-59;King's Dragoon Guards;BRMask.JPG;BRKDGc.JPG;122
-60;King's Dragoon Guards;BRMask.JPG;BRKDGd.JPG;123
-61;1st Cuirassiers;FRMask.JPG;FR1Ca.JPG;124
-62;1st Cuirassiers;FRMask.JPG;FR1Ca.JPG;125
-63;1st Cuirassiers;FRMask.JPG;FR1Cb.JPG;126
-64;1st Cuirassiers;FRMask.JPG;FR1Cb.JPG;127
-65;1st Cuirassiers;FRMask.JPG;FR1Cc.JPG;128
-66;2nd Regiment Legere;FRMask.JPG;FR2RLa.JPG;129
-67;2nd Regiment Legere;FRMask.JPG;FR2RLa.JPG;130
-68;2nd Regiment Legere;FRMask.JPG;FR2RLb.JPG;131
-69;2nd Regiment Legere;FRMask.JPG;FR2RLc.JPG;132
-70;2nd Regiment Legere;FRMask.JPG;FR2RLd.JPG;133
-71;4th Regiment Suisse;FRMask.JPG;FR4RSua.JPG;134
-72;4th Regiment Suisse;FRMask.JPG;FR4RSua.JPG;135
-73;4th Regiment Suisse;FRMask.JPG;FR4RSub.JPG;136
-74;4th Regiment Suisse;FRMask.JPG;FR4RSuc.JPG;137
-75;4th Regiment Suisse;FRMask.JPG;FR4RSud.JPG;138
-76;8th Regiment Legere;FRMask.JPG;FR8RLa.JPG;139
-77;8th Regiment Legere;FRMask.JPG;FR8RLb.JPG;140
-78;8th Regiment Legere;FRMask.JPG;FR8RLc.JPG;141
-79;8th Regiment Legere;FRMask.JPG;FR8RLc.JPG;142
-80;8th Regiment Legere;FRMask.JPG;FR8RLd.JPG;143
-81;19th Regiment Legere;FRMask.JPG;FR19RLa.JPG;144
-82;19th Regiment Legere;FRMask.JPG;FR19RLb.JPG;145
-83;19th Regiment Legere;FRMask.JPG;FR19RLc.JPG;146
-84;19th Regiment Legere;FRMask.JPG;FR19RLc.JPG;147
-85;19th Regiment Legere;FRMask.JPG;FR19RLd.JPG;148
-86;45th Regiment Legere;FRMask.JPG;FR45RLa.JPG;149
-87;45th Regiment Legere;FRMask.JPG;FR45RLb.JPG;150
-88;45th Regiment Legere;FRMask.JPG;FR45RLb.JPG;151
-89;45th Regiment Legere;FRMask.JPG;FR45RLb.JPG;152
-90;45th Regiment Legere;FRMask.JPG;FR45RLc.JPG;153
-91;Imperial Guard;FRMask.JPG;FRIGa.JPG;154
-92;Imperial Guard;FRMask.JPG;FRIGa.JPG;155
-93;Imperial Guard;FRMask.JPG;FRIGa.JPG;156
-94;Imperial Guard;FRMask.JPG;FRIGa.JPG;157
-95;Imperial Guard;FRMask.JPG;FRIGb.JPG;158
-96;Guard Cavalry;FRMask.JPG;FRGCa.JPG;159
-97;Guard Cavalry;FRMask.JPG;FRGCb.JPG;160
-98;Guard Cavalry;FRMask.JPG;FRGCb.JPG;161
-99;Guard Cavalry;FRMask.JPG;FRGCb.JPG;162
-100;Guard Cavalry;FRMask.JPG;FRGCc.JPG;163
-101;Forced March;FRMask.JPG;FRFMarch.JPG;164
-102;Forced March;FRMask.JPG;FRFMarch.JPG;165
-103;Forced March;FRMask.JPG;FRFMarch.JPG;166
-104;French Sappers;FRMask.JPG;FRSprs.JPG;167
-105;Jean Lannes;FRMask.JPG;FRLannes.JPG;168
-106;Joachim Murat;FRMask.JPG;FRMurat.JPG;169
-107;Louis Nicolas Davout;FRMask.JPG;FRDavout.JPG;170
-108;Michel Ney;FRMask.JPG;FRNey.JPG;171
-109;Napoléon Bonaparte;FRMask.JPG;FRNapoleon.JPG;172
-110;Nicolas Soult;FRMask.JPG;FRSoult.JPG;173
-111;Redoubt;FRMask.JPG;FRRedbt.JPG;174
-112;Skirmish;FRMask.JPG;FRSkrm.JPG;175
-113;Supply;FRMask.JPG;FRSuply.JPG;176
-114;Supply;FRMask.JPG;FRSuply.JPG;177
-115;Supply;FRMask.JPG;FRSuply.JPG;178
-116;Supply;FRMask.JPG;FRSuply.JPG;179
-117;Withdraw;FRMask.JPG;FRWdrw.JPG;180
-118;Withdraw;FRMask.JPG;FRWdrw.JPG;181
-119;Withdraw;FRMask.JPG;FRWdrw.JPG;182
-120;Withdraw;FRMask.JPG;FRWdrw.JPG;183
-121;1st Cavalry;RUMask.JPG;RU1Ca.JPG;184
-122;1st Cavalry;RUMask.JPG;RU1Cb.JPG;185
-123;1st Cavalry;RUMask.JPG;RU1Cc.JPG;186
-124;1st Cavalry;RUMask.JPG;RU1Cc.JPG;187
-125;1st Cavalry;RUMask.JPG;RU1Cd.JPG;188
-126;Black Sea Cossacks;RUMask.JPG;RUBSCa.JPG;189
-127;Black Sea Cossacks;RUMask.JPG;RUBSCb.JPG;190
-128;Black Sea Cossacks;RUMask.JPG;RUBSCc.JPG;191
-129;Black Sea Cossacks;RUMask.JPG;RUBSCd.JPG;192
-130;Black Sea Cossacks;RUMask.JPG;RUBSCe.JPG;193
-131;Kexholm Regiment;RUMask.JPG;RUKRa.JPG;194
-132;Kexholm Regiment;RUMask.JPG;RUKRa.JPG;195
-133;Kexholm Regiment;RUMask.JPG;RUKRa.JPG;196
-134;Kexholm Regiment;RUMask.JPG;RUKRb.JPG;197
-135;Kexholm Regiment;RUMask.JPG;RUKRc.JPG;198
-136;Koursk  Regiment;RUMask.JPG;RUKORa.JPG;199
-137;Koursk  Regiment;RUMask.JPG;RUKORa.JPG;200
-138;Koursk  Regiment;RUMask.JPG;RUKORa.JPG;201
-139;Koursk  Regiment;RUMask.JPG;RUKORb.JPG;202
-140;Koursk  Regiment;RUMask.JPG;RUKORc.JPG;203
-141;Leib Grenadiers;RUMask.JPG;RULGa.JPG;204
-142;Leib Grenadiers;RUMask.JPG;RULGb.JPG;205
-143;Leib Grenadiers;RUMask.JPG;RULGb.JPG;206
-144;Leib Grenadiers;RUMask.JPG;RULGc.JPG;207
-145;Leib Grenadiers;RUMask.JPG;RULGd.JPG;208
-146;Moscow Regiment;RUMask.JPG;RUMRa.JPG;209
-147;Moscow Regiment;RUMask.JPG;RUMRa.JPG;210
-148;Moscow Regiment;RUMask.JPG;RUMRa.JPG;211
-149;Moscow Regiment;RUMask.JPG;RUMRb.JPG;212
-150;Moscow Regiment;RUMask.JPG;RUMRc.JPG;213
-151;Orlov Regiment;RUMask.JPG;RUORa.JPG;214
-152;Orlov Regiment;RUMask.JPG;RUORa.JPG;215
-153;Orlov Regiment;RUMask.JPG;RUORb.JPG;216
-154;Orlov Regiment;RUMask.JPG;RUORc.JPG;217
-155;Orlov Regiment;RUMask.JPG;RUORd.JPG;218
-156;Russian Guard;RUMask.JPG;RUGa.JPG;219
-157;Russian Guard;RUMask.JPG;RUGa.JPG;220
-158;Russian Guard;RUMask.JPG;RUGa.JPG;221
-159;Russian Guard;RUMask.JPG;RUGb.JPG;222
-160;Russian Guard;RUMask.JPG;RUGc.JPG;223
-161;Barclay de Tolly;RUMask.JPG;RUTolly.JPG;224
-162;Committed Attack;RUMask.JPG;RUCattk.JPG;225
-163;Committed Attack;RUMask.JPG;RUCattk.JPG;226
-164;Committed Attack;RUMask.JPG;RUCattk.JPG;227
-165;Count of Sayn-Wittgenstein;RUMask.JPG;RUWittgn.JPG;228
-166;Friederich W. von Buxhoevden;RUMask.JPG;RUBuxhoevden.JPG;229
-167;Guerillas;RUMask.JPG;RUGuer.JPG;230
-168;Guerillas;RUMask.JPG;RUGuer.JPG;231
-169;Levin August Count of Bennigsen;RUMask.JPG;RUBennigsen.JPG;232
-170;Mikhail I. Kutuzov;RUMask.JPG;RUKutuzov.JPG;233
-171;Pyotr I. Bagration;RUMask.JPG;RUBagration.JPG;234
-172;Redoubt;RUMask.JPG;RURdbt.JPG;235
-173;Redoubt;RUMask.JPG;RURdbt.JPG;236
-174;Skirmish;RUMask.JPG;RUSkirm.JPG;237
-175;Supply;RUMask.JPG;RUSuply.JPG;238
-176;Supply;RUMask.JPG;RUSuply.JPG;239
-177;Supply;RUMask.JPG;RUSuply.JPG;240
-178;Supply;RUMask.JPG;RUSuply.JPG;241
-179;Withdraw;RUMask.JPG;RUWdraw.JPG;242
-180;Withdraw;RUMask.JPG;RUWdraw.JPG;243
-181;1st Infantry Regiment;PRMask.JPG;PR1Ra.JPG;244
-182;1st Infantry Regiment;PRMask.JPG;PR1Ra.JPG;245
-183;1st Infantry Regiment;PRMask.JPG;PR1Rb.JPG;246
-184;1st Infantry Regiment;PRMask.JPG;PR1Rc.JPG;247
-185;1st Infantry Regiment;PRMask.JPG;PR1Rd.JPG;248
-186;10th Dragoons;PRMask.JPG;PR10Da.JPG;249
-187;10th Dragoons;PRMask.JPG;PR10Da.JPG;250
-188;10th Dragoons;PRMask.JPG;PR10Db.JPG;251
-189;10th Dragoons;PRMask.JPG;PR10Dc.JPG;252
-190;10th Dragoons;PRMask.JPG;PR10Dd.JPG;253
-191;13th Infantry Regiment;PRMask.JPG;PR13Ra.JPG;254
-192;13th Infantry Regiment;PRMask.JPG;PR13Rb.JPG;255
-193;13th Infantry Regiment;PRMask.JPG;PR13Rc.JPG;256
-194;13th Infantry Regiment;PRMask.JPG;PR13Rd.JPG;257
-195;13th Infantry Regiment;PRMask.JPG;PR13Re.JPG;258
-196;25th Infantry Regiment;PRMask.JPG;PR25Ra.JPG;259
-197;25th Infantry Regiment;PRMask.JPG;PR25Rb.JPG;260
-198;25th Infantry Regiment;PRMask.JPG;PR25Rc.JPG;261
-199;25th Infantry Regiment;PRMask.JPG;PR25Rd.JPG;262
-200;25th Infantry Regiment;PRMask.JPG;PR25Re.JPG;263
-201;27th Infantry Regiment;PRMask.JPG;PR27Ra.JPG;264
-202;27th Infantry Regiment;PRMask.JPG;PR27Rb.JPG;265
-203;27th Infantry Regiment;PRMask.JPG;PR27Rb.JPG;266
-204;27th Infantry Regiment;PRMask.JPG;PR27Rc.JPG;267
-205;27th Infantry Regiment;PRMask.JPG;PR27Rd.JPG;268
-206;32nd Infantry Regiment;PRMask.JPG;PR32Ra.JPG;269
-207;32nd Infantry Regiment;PRMask.JPG;PR32Rb.JPG;270
-208;32nd Infantry Regiment;PRMask.JPG;PR32Rb.JPG;271
-209;32nd Infantry Regiment;PRMask.JPG;PR32Rc.JPG;272
-210;32nd Infantry Regiment;PRMask.JPG;PR32Rd.JPG;273
-211;Guard Grenadiers;PRMask.JPG;PRGGa.JPG;274
-212;Guard Grenadiers;PRMask.JPG;PRGGa.JPG;275
-213;Guard Grenadiers;PRMask.JPG;PRGGb.JPG;276
-214;Guard Grenadiers;PRMask.JPG;PRGGc.JPG;277
-215;Guard Grenadiers;PRMask.JPG;PRGGd.JPG;278
-216;Royal Escort;PRMask.JPG;PRREa.JPG;279
-217;Royal Escort;PRMask.JPG;PRREb.JPG;280
-218;Royal Escort;PRMask.JPG;PRREb.JPG;281
-219;Royal Escort;PRMask.JPG;PRREc.JPG;282
-220;Royal Escort;PRMask.JPG;PRREd.JPG;283
-221;Frederick Wilhelm Duke of Brunswick;PRMask.JPG;PRBrunswick.JPG;284
-222;Johann Yorck von Wartenburg;PRMask.JPG;PRYorck.JPG;285
-223;Count Kleist von Nollendorf;PRMask.JPG;PRKleist.JPG;286
-224;Gebhard Lebrecht von Blucher;PRMask.JPG;PRBlucher.JPG;287
-225;Committed Attack;PRMask.JPG;PRCattk.JPG;288
-226;Forced March;PRMask.JPG;PRFMarch.JPG;289
-227;Forced March;PRMask.JPG;PRFMarch.JPG;290
-228;Forced March;PRMask.JPG;PRFMarch.JPG;291
-229;Guerrilas;PRMask.JPG;PRGuerillas.JPG;292
-230;Redoubt;PRMask.JPG;PRRedbt.JPG;293
-231;Redoubt;PRMask.JPG;PRRedbt.JPG;294
-232;Redoubt;PRMask.JPG;PRRedbt.JPG;295
-233;Skirmish;PRMask.JPG;PRskrm.JPG;296
-234;Skirmish;PRMask.JPG;PRskrm.JPG;297
-235;Supply;PRMask.JPG;PRsuply.JPG;298
-236;Supply;PRMask.JPG;PRsuply.JPG;299
-237;Supply;PRMask.JPG;PRsuply.JPG;300
-238;Supply;PRMask.JPG;PRsuply.JPG;301
-239;Withdraw;PRMask.JPG;PRWdraw.JPG;302
-240;Withdraw;PRMask.JPG;PRWdraw.JPG;303
-241;1st  Regiment;AUMask.JPG;AU1Ra.JPG;304
-242;1st  Regiment;AUMask.JPG;AU1Rb.JPG;305
-243;1st  Regiment;AUMask.JPG;AU1Rb.JPG;306
-244;1st  Regiment;AUMask.JPG;AU1Rb.JPG;307
-245;1st  Regiment;AUMask.JPG;AU1Rc.JPG;308
-246;3rd  Regiment;AUMask.JPG;AU3Ra.JPG;309
-247;3rd  Regiment;AUMask.JPG;AU3Rb.JPG;310
-248;3rd  Regiment;AUMask.JPG;AU3Rb.JPG;311
-249;3rd  Regiment;AUMask.JPG;AU3Rb.JPG;312
-250;3rd  Regiment;AUMask.JPG;AU3Rc.JPG;313
-251;4th  Regiment;AUMask.JPG;AU4Ra.JPG;314
-252;4th  Regiment;AUMask.JPG;AU4Rb.JPG;315
-253;4th  Regiment;AUMask.JPG;AU4Rc.JPG;316
-254;4th  Regiment;AUMask.JPG;AU4Rd.JPG;317
-255;4th  Regiment;AUMask.JPG;AU4Re.JPG;318
-256;6th Grenzers;AUMask.JPG;AU6Ga.JPG;319
-257;6th Grenzers;AUMask.JPG;AU6Gb.JPG;320
-258;6th Grenzers;AUMask.JPG;AU6Gc.JPG;321
-259;6th Grenzers;AUMask.JPG;AU6Gd.JPG;322
-260;6th Grenzers;AUMask.JPG;AU6Ge.JPG;323
-261;9th Regiment;AUMask.JPG;AU9Ra.JPG;324
-262;9th Regiment;AUMask.JPG;AU9Rb.JPG;325
-263;9th Regiment;AUMask.JPG;AU9Rc.JPG;326
-264;9th Regiment;AUMask.JPG;AU9Rc.JPG;327
-265;9th Regiment;AUMask.JPG;AU9Rc.JPG;328
-266;14th Regiment;AUMask.JPG;AU14a.JPG;329
-267;14th Regiment;AUMask.JPG;AU14b.JPG;330
-268;14th Regiment;AUMask.JPG;AU14b.JPG;331
-269;14th Regiment;AUMask.JPG;AU14c.JPG;332
-270;14th Regiment;AUMask.JPG;AU14d.JPG;333
-271;Johann Dragoons;AUMask.JPG;AUJDa.JPG;334
-272;Johann Dragoons;AUMask.JPG;AUJDa.JPG;335
-273;Johann Dragoons;AUMask.JPG;AUJDb.JPG;336
-274;Johann Dragoons;AUMask.JPG;AUJDc.JPG;337
-275;Johann Dragoons;AUMask.JPG;AUJDd.JPG;338
-276;O'Reilly Chevaulegers;AUMask.JPG;AUOCa.JPG;339
-277;O'Reilly Chevaulegers;AUMask.JPG;AUOCa.JPG;340
-278;O'Reilly Chevaulegers;AUMask.JPG;AUOCb.JPG;341
-279;O'Reilly Chevaulegers;AUMask.JPG;AUOCc.JPG;342
-280;O'Reilly Chevaulegers;AUMask.JPG;AUOCd.JPG;343
-281;Ambush;AUMask.JPG;AUAmbush.JPG;344
-282;Ambush;AUMask.JPG;AUAmbush.JPG;345
-283;Committed Attack;AUMask.JPG;AUCattk.JPG;346
-284;Guerrillas;AUMask.JPG;AUGuer.JPG;347
-285;Guerrillas;AUMask.JPG;AUGuer.JPG;348
-286;Redoubt;AUMask.JPG;AURedbt.JPG;349
-287;Redoubt;AUMask.JPG;AURedbt.JPG;350
-288;Redoubt;AUMask.JPG;AURedbt.JPG;351
-289;Skirmish;AUMask.JPG;AUSkirm.JPG;352
-290;Skirmish;AUMask.JPG;AUSkirm.JPG;353
-291;Supply;AUMask.JPG;AUSuply.JPG;354
-292;Supply;AUMask.JPG;AUSuply.JPG;355
-293;Supply;AUMask.JPG;AUSuply.JPG;356
-294;Supply;AUMask.JPG;AUSuply.JPG;357
-295;Withdraw;AUMask.JPG;AUWdraw.JPG;358
-296;Withdraw;AUMask.JPG;AUWdraw.JPG;359
-297;Archduke Charles;AUMask.JPG;AUCharles.JPG;360
-298;Emperor Francis II;AUMask.JPG;AUFrancis.JPG;361
-299;Karl Mack von Leiberich;AUMask.JPG;AUMack.JPG;362
-300;Duke of Schwarzenberg;AUMask.JPG;AUSchwarz.JPG;363
-301;1st  Line Regiment;SPMask.JPG;SP1La.JPG;364
-302;1st  Line Regiment;SPMask.JPG;SP1Lb.JPG;365
-303;1st  Line Regiment;SPMask.JPG;SP1Lb.JPG;366
-304;1st  Line Regiment;SPMask.JPG;SP1Lc.JPG;367
-305;1st  Line Regiment;SPMask.JPG;SP1Ld.JPG;368
-306;3rd Hussars;SPMask.JPG;SP3Ha.JPG;369
-307;3rd Hussars;SPMask.JPG;SP3Hb.JPG;370
-308;3rd Hussars;SPMask.JPG;SP3Hb.JPG;371
-309;3rd Hussars;SPMask.JPG;SP3Hb.JPG;372
-310;3rd Hussars;SPMask.JPG;SP3Hc.JPG;373
-311;7th Navarrese Regiment;SPMask.JPG;SP7Na.JPG;374
-312;7th Navarrese Regiment;SPMask.JPG;SP7Nb.JPG;375
-313;7th Navarrese Regiment;SPMask.JPG;SP7Nb.JPG;376
-314;7th Navarrese Regiment;SPMask.JPG;SP7Nc.JPG;377
-315;7th Navarrese Regiment;SPMask.JPG;SP7Nd.JPG;378
-316;20th Line Regiment;SPMask.JPG;SP20a.JPG;379
-317;20th Line Regiment;SPMask.JPG;SP20b.JPG;380
-318;20th Line Regiment;SPMask.JPG;SP20c.JPG;381
-319;20th Line Regiment;SPMask.JPG;SP20d.JPG;382
-320;20th Line Regiment;SPMask.JPG;SP20e.JPG;383
-321;Regiment de Castille;SPMask.JPG;SPRCa.JPG;384
-322;Regiment de Castille;SPMask.JPG;SPRCb.JPG;385
-323;Regiment de Castille;SPMask.JPG;SPRCc.JPG;386
-324;Regiment de Castille;SPMask.JPG;SPRCc.JPG;387
-325;Regiment de Castille;SPMask.JPG;SPRCd.JPG;388
-326;Del Rey Dragoons;SPMask.JPG;SPDRa.JPG;389
-327;Del Rey Dragoons;SPMask.JPG;SPDRb.JPG;390
-328;Del Rey Dragoons;SPMask.JPG;SPDRc.JPG;391
-329;Del Rey Dragoons;SPMask.JPG;SPDRd.JPG;392
-330;Del Rey Dragoons;SPMask.JPG;SPDRe.JPG;393
-331;Infanteria Imperial;SPMask.JPG;SPIIa.JPG;394
-332;Infanteria Imperial;SPMask.JPG;SPiIb.JPG;395
-333;Infanteria Imperial;SPMask.JPG;SPiIb.JPG;396
-334;Infanteria Imperial;SPMask.JPG;SPiIb.JPG;397
-335;Infanteria Imperial;SPMask.JPG;SPiIc.JPG;398
-336;Walloon Guards;SPMask.JPG;SPWGb.JPG;399
-337;Walloon Guards;SPMask.JPG;SPWGa.JPG;400
-338;Walloon Guards;SPMask.JPG;SPWGd.JPG;401
-339;Walloon Guards;SPMask.JPG;SPWGd.JPG;402
-340;Walloon Guards;SPMask.JPG;SPWGc.JPG;403
-341;Joaquin Blake y Joyes;SPMask.JPG;SPBlake.JPG;404
-342;Francisco Javier Castanos;SPMask.JPG;SPCastanos.JPG;405
-343;Gregorio Garcia de la Cuesta;SPMask.JPG;SPCuesta.JPG;406
-344;Pedro Caro y Sureda;SPMask.JPG;SPCaro.JPG;407
-345;Guerrillas;SPMask.JPG;SPGuerr.JPG;408
-346;Guerrillas;SPMask.JPG;SPGuerr.JPG;409
-347;Guerrillas;SPMask.JPG;SPGuerr.JPG;410
-348;Guerrillas;SPMask.JPG;SPGuerr.JPG;411
-349;Guerrillas;SPMask.JPG;SPGuerr.JPG;412
-350;Redoubt;SPMask.JPG;SPRedbt.JPG;413
-351;Redoubt;SPMask.JPG;SPRedbt.JPG;414
-352;Redoubt;SPMask.JPG;SPRedbt.JPG;415
-353;Redoubt;SPMask.JPG;SPRedbt.JPG;416
-354;Skirmish;SPMask.JPG;SPSkirm.JPG;417
-355;Supply;SPMask.JPG;SPSupply.JPG;418
-356;Supply;SPMask.JPG;SPSupply.JPG;419
-357;Withdraw;SPMask.JPG;SPWdraw.JPG;420
-358;Withdraw;SPMask.JPG;SPWdraw.JPG;421
-359;Withdraw;SPMask.JPG;SPWdraw.JPG;422
-360;Jose de Palafox y Melzi;SPMask.JPG;SPPalofax.JPG;423
-361;1st Janissaries;OTMask.JPG;OT1Ja.JPG;424
-362;1st Janissaries;OTMask.JPG;OT1Jb.JPG;425
-363;1st Janissaries;OTMask.JPG;OT1Jb.JPG;426
-364;1st Janissaries;OTMask.JPG;OT1Jc.JPG;427
-365;1st Janissaries;OTMask.JPG;OT1Jd.JPG;428
-366;2nd Janissaries;OTMask.JPG;OT2Ja.JPG;429
-367;2nd Janissaries;OTMask.JPG;OT2Jb.JPG;430
-368;2nd Janissaries;OTMask.JPG;OT2Jb.JPG;431
-369;2nd Janissaries;OTMask.JPG;OT2Jc.JPG;432
-370;2nd Janissaries;OTMask.JPG;OT2Jd.JPG;433
-371;Albanian Feudal Corps;OTMask.JPG;OTAFa.JPG;434
-372;Albanian Feudal Corps;OTMask.JPG;OTAFa.JPG;435
-373;Albanian Feudal Corps;OTMask.JPG;OTAFa.JPG;436
-374;Albanian Feudal Corps;OTMask.JPG;OTAFa.JPG;437
-375;Albanian Feudal Corps;OTMask.JPG;OTAFb.JPG;438
-376;Arab Cavalry;OTMask.JPG;OTACa.JPG;439
-377;Arab Cavalry;OTMask.JPG;OTACb.JPG;440
-378;Arab Cavalry;OTMask.JPG;OTACc.JPG;441
-379;Arab Cavalry;OTMask.JPG;OTACd.JPG;442
-380;Arab Cavalry;OTMask.JPG;OTACe.JPG;443
-381;Greek Feudal Corps;OTMask.JPG;OTGFa.JPG;444
-382;Greek Feudal Corps;OTMask.JPG;OTGFa.JPG;445
-383;Greek Feudal Corps;OTMask.JPG;OTGFa.JPG;446
-384;Greek Feudal Corps;OTMask.JPG;OTGFa.JPG;447
-385;Greek Feudal Corps;OTMask.JPG;OTGFb.JPG;448
-386;Irregular Cavalry;OTMask.JPG;OTICa.JPG;449
-387;Irregular Cavalry;OTMask.JPG;OTICa.JPG;450
-388;Irregular Cavalry;OTMask.JPG;OTICb.JPG;451
-389;Irregular Cavalry;OTMask.JPG;OTICb.JPG;452
-390;Irregular Cavalry;OTMask.JPG;OTICc.JPG;453
-391;Regular Cavalry;OTMask.JPG;OTRCa.JPG;454
-392;Regular Cavalry;OTMask.JPG;OTRCb.JPG;455
-393;Regular Cavalry;OTMask.JPG;OTRCc.JPG;456
-394;Regular Cavalry;OTMask.JPG;OTRCd.JPG;457
-395;Regular Cavalry;OTMask.JPG;OTRCe.JPG;458
-396;Grand Visier Pasha;OTMask.JPG;OTPasha.JPG;459
-397;Muhammad Ali;OTMask.JPG;OTAli.JPG;460
-398;Omar Agha;OTMask.JPG;OTAgha.JPG;461
-399;Pechlivan Khan;OTMask.JPG;OTKhan.JPG;462
-400;Committed Attack;OTMask.JPG;OTCattk.JPG;463
-401;Committed Attack;OTMask.JPG;OTCattk.JPG;464
-402;Committed Attack;OTMask.JPG;OTCattk.JPG;465
-403;Committed Attack;OTMask.JPG;OTCattk.JPG;466
-404;Withdraw;OTMask.JPG;OTWdraw.JPG;467
-405;Withdraw;OTMask.JPG;OTWdraw.JPG;468
-406;Withdraw;OTMask.JPG;OTWdraw.JPG;469
-407;Withdraw;OTMask.JPG;OTWdraw.JPG;470
-408;Withdraw;OTMask.JPG;OTWdraw.JPG;471
-409;Regroup;OTMask.JPG;OTRegroup.JPG;472
-410;Regroup;OTMask.JPG;OTRegroup.JPG;473
-411;Regroup;OTMask.JPG;OTRegroup.JPG;474
-412;Regroup;OTMask.JPG;OTRegroup.JPG;475
-413;Regroup;OTMask.JPG;OTRegroup.JPG;476
-414;Regroup;OTMask.JPG;OTRegroup.JPG;477
-415;Regroup;OTMask.JPG;OTRegroup.JPG;478
-416;Ali Pasha's Cavalry;OTMask.JPG;OTAPa.JPG;479
-417;Ali Pasha's Cavalry;OTMask.JPG;OTAPa.JPG;480
-418;Ali Pasha's Cavalry;OTMask.JPG;OTAPb.JPG;481
-419;Ali Pasha's Cavalry;OTMask.JPG;OTAPc.JPG;482
-420;Ali Pasha's Cavalry;OTMask.JPG;OTAPd.JPG;483
-421;1st Infantry Regiment;USMask.JPG;US1Ia.JPG;484
-422;1st Infantry Regiment;USMask.JPG;US1Ia.JPG;485
-423;1st Infantry Regiment;USMask.JPG;US1Ib.JPG;486
-424;1st Infantry Regiment;USMask.JPG;US1Ib.JPG;487
-425;1st Infantry Regiment;USMask.JPG;US1Ic.JPG;488
-426;2nd Infantry Regiment;USMask.JPG;US2Ia.JPG;489
-427;2nd Infantry Regiment;USMask.JPG;US2Ia.JPG;490
-428;2nd Infantry Regiment;USMask.JPG;US2Ib.JPG;491
-429;2nd Infantry Regiment;USMask.JPG;US2Ib.JPG;492
-430;2nd Infantry Regiment;USMask.JPG;US2Ic.JPG;493
-431;4th Militia;USMask.JPG;US4Ma.JPG;494
-432;4th Militia;USMask.JPG;US4Mb.JPG;495
-433;4th Militia;USMask.JPG;US4Mc.JPG;496
-434;4th Militia;USMask.JPG;US4Md.JPG;497
-435;4th Militia;USMask.JPG;US4Me.JPG;498
-436;Volunteer Cavalry;USMask.JPG;USVCa.JPG;499
-437;Volunteer Cavalry;USMask.JPG;USVCa.JPG;500
-438;Volunteer Cavalry;USMask.JPG;USVCb.JPG;501
-439;Volunteer Cavalry;USMask.JPG;USVCb.JPG;502
-440;Volunteer Cavalry;USMask.JPG;USVCc.JPG;503
-441;3rd Infantry Regiment;USMask.JPG;US3Ia.JPG;504
-442;3rd Infantry Regiment;USMask.JPG;US3Ia.JPG;505
-443;3rd Infantry Regiment;USMask.JPG;US3Ib.JPG;506
-444;3rd Infantry Regiment;USMask.JPG;US3Ib.JPG;507
-445;3rd Infantry Regiment;USMask.JPG;US3Ic.JPG;508
-446;Henry Dearborn;USMask.JPG;USDearborn.JPG;509
-447;William Henry Harrison;USMask.JPG;USHarrison.JPG;510
-448;Andrew Jackson;USMask.JPG;USJackson.JPG;511
-449;Alexander Macomb;USMask.JPG;USMacomb.JPG;512
-450;Winfield Scott;USMask.JPG;USScott.JPG;513
-451;10th Infantry Regiment;USMask.JPG;US10a.JPG;514
-452;10th Infantry Regiment;USMask.JPG;US10a.JPG;515
-453;10th Infantry Regiment;USMask.JPG;US10b.JPG;516
-454;10th Infantry Regiment;USMask.JPG;US10b.JPG;517
-455;10th Infantry Regiment;USMask.JPG;US10c.JPG;518
-456;13th Militia;USMask.JPG;US13a.JPG;519
-457;13th Militia;USMask.JPG;US13a.JPG;520
-458;13th Militia;USMask.JPG;US13a.JPG;521
-459;13th Militia;USMask.JPG;US13a.JPG;522
-460;13th Militia;USMask.JPG;US13b.JPG;523
-461;22nd Infantry Regiment;USMask.JPG;US22a.JPG;524
-462;22nd Infantry Regiment;USMask.JPG;US22b.JPG;525
-463;22nd Infantry Regiment;USMask.JPG;US22b.JPG;526
-464;22nd Infantry Regiment;USMask.JPG;US22c.JPG;527
-465;22nd Infantry Regiment;USMask.JPG;US22d.JPG;528
-466;Ambush;USMask.JPG;USAmbush.JPG;529
-467;Ambush;USMask.JPG;USAmbush.JPG;530
-468;Ambush;USMask.JPG;USAmbush.JPG;531
-469;Ambush;USMask.JPG;USAmbush.JPG;532
-470;Engineers;USMask.JPG;USEng.JPG;533
-471;Redoubt;USMask.JPG;USRdbt.JPG;534
-472;Redoubt;USMask.JPG;USRdbt.JPG;535
-473;Redoubt;USMask.JPG;USRdbt.JPG;536
-474;Scout;USMask.JPG;USScout.JPG;537
-475;Skirmish;USMask.JPG;USSkirm.JPG;538
-476;Supply;USMask.JPG;USSupply.JPG;539
-477;Supply;USMask.JPG;USSupply.JPG;540
-478;Supply;USMask.JPG;USSupply.JPG;541
-479;Withdraw;USMask.JPG;USWdraw.JPG;542
-480;Withdraw;USMask.JPG;USWdraw.JPG;543
+CardID;CardName;CardFlag;CardImg;CardType;UnitAttack;UnitDeffense;UnitRange;UnitBombard;UnitVolley;UnitPursuit;UnitWithdraw;LederCommand;LederCombat;LederRally;LederPursuit;LederGrandBatt;UnitDescr
+1;Committed Attack;BR;BRCattk.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;Add 2d6 to your combat total on an atack you initiate. Play after all defensive cards have been played. The attacking unit is reduced at the end of the combat.
+2;Earl of Uxbridge;BR;BRUxbridge.JPG;HqLeader;;;;;;;;2;1;4;-1;HQ;
+3;Forced March;BR;BRFmarch.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;Any one unit you moved this turn may move one additional space
+4;Forced March;BR;BRFmarch.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;Any one unit you moved this turn may move one additional space
+5;Lord Wellington;BR;BRWelly.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+6;Redoubt;BR;BRRedbt.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+7;Redoubt;BR;BRRedbt.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+8;Rowland Hill;BR;BRHill.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+9;Royal Engineers;BR;BRRyEng.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+10;Sir John Moore;BR;BRMoore.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+11;Skirmish;BR;BRSkirm.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+12;Spy;BR;BRSpy.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+13;Supply;BR;BRSuply.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+14;Supply;BR;BRSuply.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+15;Supply;BR;BRSuply.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+16;Supply;BR;BRSuply.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+17;William Beresford;BR;BRBeresford.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+18;Withdraw;BR;BRWdraw.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+19;Withdraw;BR;BRWdraw.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+20;Withdraw;BR;BRWdraw.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+21;1st Foot Guards;BR;BR1FGa.JPG;Unit;;;;;;;;0;0;0;0;0;
+22;1st Foot Guards;BR;BR1FGa.JPG;Unit;;;;;;;;0;0;0;0;0;
+23;1st Foot Guards;BR;BR1FGb.JPG;Unit;;;;;;;;0;0;0;0;0;
+24;1st Foot Guards;BR;BR1FGb.JPG;Unit;;;;;;;;0;0;0;0;0;
+25;1st Foot Guards;BR;BR1FGc.JPG;Unit;;;;;;;;0;0;0;0;0;
+26;4th Regiment of Foot;BR;BR4a.JPG;Unit;;;;;;;;0;0;0;0;0;
+27;4th Regiment of Foot;BR;BR4a.JPG;Unit;;;;;;;;0;0;0;0;0;
+28;4th Regiment of Foot;BR;BR4a.JPG;Unit;;;;;;;;0;0;0;0;0;
+29;4th Regiment of Foot;BR;BR4b.JPG;Unit;;;;;;;;0;0;0;0;0;
+30;4th Regiment of Foot;BR;BR4c.JPG;Unit;;;;;;;;0;0;0;0;0;
+31;9th Queen`s Royal Lancers;BR;BR9QLa.JPG;Unit;;;;;;;;0;0;0;0;0;
+32;9th Queen`s Royal Lancers;BR;BR9QLb.JPG;Unit;;;;;;;;0;0;0;0;0;
+33;9th Queen`s Royal Lancers;BR;BR9QLb.JPG;Unit;;;;;;;;0;0;0;0;0;
+34;9th Queen`s Royal Lancers;BR;BR9QLb.JPG;Unit;;;;;;;;0;0;0;0;0;
+35;9th Queen`s Royal Lancers;BR;BR9QLc.JPG;Unit;;;;;;;;0;0;0;0;0;
+36;32nd Regiment of Foot;BR;BR32a.JPG;Unit;;;;;;;;0;0;0;0;0;
+37;32nd Regiment of Foot;BR;BR32a.JPG;Unit;;;;;;;;0;0;0;0;0;
+38;32nd Regiment of Foot;BR;BR32b.JPG;Unit;;;;;;;;0;0;0;0;0;
+39;32nd Regiment of Foot;BR;BR32c.JPG;Unit;;;;;;;;0;0;0;0;0;
+40;32nd Regiment of Foot;BR;BR32d.JPG;Unit;;;;;;;;0;0;0;0;0;
+41;42nd Regiment of Foot;BR;BR42a.JPG;Unit;;;;;;;;0;0;0;0;0;
+42;42nd Regiment of Foot;BR;BR42b.JPG;Unit;;;;;;;;0;0;0;0;0;
+43;42nd Regiment of Foot;BR;BR42b.JPG;Unit;;;;;;;;0;0;0;0;0;
+44;42nd Regiment of Foot;BR;BR42c.JPG;Unit;;;;;;;;0;0;0;0;0;
+45;42nd Regiment of Foot;BR;BR42d.JPG;Unit;;;;;;;;0;0;0;0;0;
+46;52nd Regiment of Foot;BR;BR52a.JPG;Unit;;;;;;;;0;0;0;0;0;
+47;52nd Regiment of Foot;BR;BR52a.JPG;Unit;;;;;;;;0;0;0;0;0;
+48;52nd Regiment of Foot;BR;BR52b.JPG;Unit;;;;;;;;0;0;0;0;0;
+49;52nd Regiment of Foot;BR;BR52c.JPG;Unit;;;;;;;;0;0;0;0;0;
+50;52nd Regiment of Foot;BR;BR52d.JPG;Unit;;;;;;;;0;0;0;0;0;
+51;Dutch-Belgians;BR;BRDBa.JPG;Unit;;;;;;;;0;0;0;0;0;
+52;Dutch-Belgians;BR;BRDBa.JPG;Unit;;;;;;;;0;0;0;0;0;
+53;Dutch-Belgians;BR;BRDBb.JPG;Unit;;;;;;;;0;0;0;0;0;
+54;Dutch-Belgians;BR;BRDBb.JPG;Unit;;;;;;;;0;0;0;0;0;
+55;Dutch-Belgians;BR;BRDBc.JPG;Unit;;;;;;;;0;0;0;0;0;
+56;King's Dragoon Guards;BR;BRKDGa.JPG;Unit;;;;;;;;0;0;0;0;0;
+57;King's Dragoon Guards;BR;BRKDGb.JPG;Unit;;;;;;;;0;0;0;0;0;
+58;King's Dragoon Guards;BR;BRKDGb.JPG;Unit;;;;;;;;0;0;0;0;0;
+59;King's Dragoon Guards;BR;BRKDGc.JPG;Unit;;;;;;;;0;0;0;0;0;
+60;King's Dragoon Guards;BR;BRKDGd.JPG;Unit;;;;;;;;0;0;0;0;0;
+61;1st Cuirassiers;FR;FR1Ca.JPG;Unit;2d10;3;0;0;0;4;0;0;0;0;0;0;
+62;1st Cuirassiers;FR;FR1Ca.JPG;Unit;2d10;3;0;0;0;4;0;0;0;0;0;0;
+63;1st Cuirassiers;FR;FR1Cb.JPG;Unit;2d6;3;0;0;0;3;0;0;0;0;0;0;
+64;1st Cuirassiers;FR;FR1Cb.JPG;Unit;2d6;3;0;0;0;3;0;0;0;0;0;0;
+65;1st Cuirassiers;FR;FR1Cc.JPG;Unit;0;5;2;1d10;0;0;0;0;0;0;0;0;
+66;2nd Regiment Legere;FR;FR2RLa.JPG;Unit;;;;;;;;0;0;0;0;0;
+67;2nd Regiment Legere;FR;FR2RLa.JPG;Unit;;;;;;;;0;0;0;0;0;
+68;2nd Regiment Legere;FR;FR2RLb.JPG;Unit;;;;;;;;0;0;0;0;0;
+69;2nd Regiment Legere;FR;FR2RLc.JPG;Unit;;;;;;;;0;0;0;0;0;
+70;2nd Regiment Legere;FR;FR2RLd.JPG;Unit;;;;;;;;0;0;0;0;0;
+71;4th Regiment Suisse;FR;FR4RSua.JPG;Unit;;;;;;;;0;0;0;0;0;
+72;4th Regiment Suisse;FR;FR4RSua.JPG;Unit;;;;;;;;0;0;0;0;0;
+73;4th Regiment Suisse;FR;FR4RSub.JPG;Unit;;;;;;;;0;0;0;0;0;
+74;4th Regiment Suisse;FR;FR4RSuc.JPG;Unit;;;;;;;;0;0;0;0;0;
+75;4th Regiment Suisse;FR;FR4RSud.JPG;Unit;;;;;;;;0;0;0;0;0;
+76;8th Regiment Legere;FR;FR8RLa.JPG;Unit;;;;;;;;0;0;0;0;0;
+77;8th Regiment Legere;FR;FR8RLb.JPG;Unit;;;;;;;;0;0;0;0;0;
+78;8th Regiment Legere;FR;FR8RLc.JPG;Unit;;;;;;;;0;0;0;0;0;
+79;8th Regiment Legere;FR;FR8RLc.JPG;Unit;;;;;;;;0;0;0;0;0;
+80;8th Regiment Legere;FR;FR8RLd.JPG;Unit;;;;;;;;0;0;0;0;0;
+81;19th Regiment Legere;FR;FR19RLa.JPG;Unit;;;;;;;;0;0;0;0;0;
+82;19th Regiment Legere;FR;FR19RLb.JPG;Unit;;;;;;;;0;0;0;0;0;
+83;19th Regiment Legere;FR;FR19RLc.JPG;Unit;;;;;;;;0;0;0;0;0;
+84;19th Regiment Legere;FR;FR19RLc.JPG;Unit;;;;;;;;0;0;0;0;0;
+85;19th Regiment Legere;FR;FR19RLd.JPG;Unit;;;;;;;;0;0;0;0;0;
+86;45th Regiment Legere;FR;FR45RLa.JPG;Unit;;;;;;;;0;0;0;0;0;
+87;45th Regiment Legere;FR;FR45RLb.JPG;Unit;;;;;;;;0;0;0;0;0;
+88;45th Regiment Legere;FR;FR45RLb.JPG;Unit;;;;;;;;0;0;0;0;0;
+89;45th Regiment Legere;FR;FR45RLb.JPG;Unit;;;;;;;;0;0;0;0;0;
+90;45th Regiment Legere;FR;FR45RLc.JPG;Unit;;;;;;;;0;0;0;0;0;
+91;Imperial Guard;FR;FRIGa.JPG;Unit;;;;;;;;0;0;0;0;0;
+92;Imperial Guard;FR;FRIGa.JPG;Unit;;;;;;;;0;0;0;0;0;
+93;Imperial Guard;FR;FRIGa.JPG;Unit;;;;;;;;0;0;0;0;0;
+94;Imperial Guard;FR;FRIGa.JPG;Unit;;;;;;;;0;0;0;0;0;
+95;Imperial Guard;FR;FRIGb.JPG;Unit;;;;;;;;0;0;0;0;0;
+96;Guard Cavalry;FR;FRGCa.JPG;Unit;;;;;;;;0;0;0;0;0;
+97;Guard Cavalry;FR;FRGCb.JPG;Unit;;;;;;;;0;0;0;0;0;
+98;Guard Cavalry;FR;FRGCb.JPG;Unit;;;;;;;;0;0;0;0;0;
+99;Guard Cavalry;FR;FRGCb.JPG;Unit;;;;;;;;0;0;0;0;0;
+100;Guard Cavalry;FR;FRGCc.JPG;Unit;;;;;;;;0;0;0;0;0;
+101;Forced March;FR;FRFMarch.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;Any one unit you moved this turn may move one additional space
+102;Forced March;FR;FRFMarch.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;Any one unit you moved this turn may move one additional space
+103;Forced March;FR;FRFMarch.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;Any one unit you moved this turn may move one additional space
+104;French Sappers;FR;FRSprs.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+105;Jean Lannes;FR;FRLannes.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+106;Joachim Murat;FR;FRMurat.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+107;Louis Nicolas Davout;FR;FRDavout.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+108;Michel Ney;FR;FRNey.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+109;Napoleon Bonaparte;FR;FRNapoleon.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+110;Nicolas Soult;FR;FRSoult.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+111;Redoubt;FR;FRRedbt.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+112;Skirmish;FR;FRSkrm.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+113;Supply;FR;FRSuply.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+114;Supply;FR;FRSuply.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+115;Supply;FR;FRSuply.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+116;Supply;FR;FRSuply.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+117;Withdraw;FR;FRWdrw.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+118;Withdraw;FR;FRWdrw.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+119;Withdraw;FR;FRWdrw.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+120;Withdraw;FR;FRWdrw.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+121;1st Cavalry;RU;RU1Ca.JPG;Unit;2d10;7;0;0;0;4;0;0;0;0;0;0;Not required to advance
+122;1st Cavalry;RU;RU1Cb.JPG;Unit;2d6;5;0;0;0;3;0;0;0;0;0;0;
+123;1st Cavalry;RU;RU1Cc.JPG;Unit;2d6;3;0;0;0;2;0;0;0;0;0;0;
+124;1st Cavalry;RU;RU1Cc.JPG;Unit;2d6;3;0;0;0;2;0;0;0;0;0;0;
+125;1st Cavalry;RU;RU1Cd.JPG;Unit;0;6;2;2d6;0;0;0;0;0;0;0;0;
+126;Black Sea Cossacks;RU;RUBSCa.JPG;Unit;;;;;;;;0;0;0;0;0;
+127;Black Sea Cossacks;RU;RUBSCb.JPG;Unit;;;;;;;;0;0;0;0;0;
+128;Black Sea Cossacks;RU;RUBSCc.JPG;Unit;;;;;;;;0;0;0;0;0;
+129;Black Sea Cossacks;RU;RUBSCd.JPG;Unit;;;;;;;;0;0;0;0;0;
+130;Black Sea Cossacks;RU;RUBSCe.JPG;Unit;;;;;;;;0;0;0;0;0;
+131;Kexholm Regiment;RU;RUKRa.JPG;Unit;;;;;;;;0;0;0;0;0;
+132;Kexholm Regiment;RU;RUKRa.JPG;Unit;;;;;;;;0;0;0;0;0;
+133;Kexholm Regiment;RU;RUKRa.JPG;Unit;;;;;;;;0;0;0;0;0;
+134;Kexholm Regiment;RU;RUKRb.JPG;Unit;;;;;;;;0;0;0;0;0;
+135;Kexholm Regiment;RU;RUKRc.JPG;Unit;;;;;;;;0;0;0;0;0;
+136;Koursk  Regiment;RU;RUKORa.JPG;Unit;;;;;;;;0;0;0;0;0;
+137;Koursk  Regiment;RU;RUKORa.JPG;Unit;;;;;;;;0;0;0;0;0;
+138;Koursk  Regiment;RU;RUKORa.JPG;Unit;;;;;;;;0;0;0;0;0;
+139;Koursk  Regiment;RU;RUKORb.JPG;Unit;;;;;;;;0;0;0;0;0;
+140;Koursk  Regiment;RU;RUKORc.JPG;Unit;;;;;;;;0;0;0;0;0;
+141;Leib Grenadiers;RU;RULGa.JPG;Unit;;;;;;;;0;0;0;0;0;
+142;Leib Grenadiers;RU;RULGb.JPG;Unit;;;;;;;;0;0;0;0;0;
+143;Leib Grenadiers;RU;RULGb.JPG;Unit;;;;;;;;0;0;0;0;0;
+144;Leib Grenadiers;RU;RULGc.JPG;Unit;;;;;;;;0;0;0;0;0;
+145;Leib Grenadiers;RU;RULGd.JPG;Unit;;;;;;;;0;0;0;0;0;
+146;Moscow Regiment;RU;RUMRa.JPG;Unit;;;;;;;;0;0;0;0;0;
+147;Moscow Regiment;RU;RUMRa.JPG;Unit;;;;;;;;0;0;0;0;0;
+148;Moscow Regiment;RU;RUMRa.JPG;Unit;;;;;;;;0;0;0;0;0;
+149;Moscow Regiment;RU;RUMRb.JPG;Unit;;;;;;;;0;0;0;0;0;
+150;Moscow Regiment;RU;RUMRc.JPG;Unit;;;;;;;;0;0;0;0;0;
+151;Orlov Regiment;RU;RUORa.JPG;Unit;;;;;;;;0;0;0;0;0;
+152;Orlov Regiment;RU;RUORa.JPG;Unit;;;;;;;;0;0;0;0;0;
+153;Orlov Regiment;RU;RUORb.JPG;Unit;;;;;;;;0;0;0;0;0;
+154;Orlov Regiment;RU;RUORc.JPG;Unit;;;;;;;;0;0;0;0;0;
+155;Orlov Regiment;RU;RUORd.JPG;Unit;;;;;;;;0;0;0;0;0;
+156;Russian Guard;RU;RUGa.JPG;Unit;;;;;;;;0;0;0;0;0;
+157;Russian Guard;RU;RUGa.JPG;Unit;;;;;;;;0;0;0;0;0;
+158;Russian Guard;RU;RUGa.JPG;Unit;;;;;;;;0;0;0;0;0;
+159;Russian Guard;RU;RUGb.JPG;Unit;;;;;;;;0;0;0;0;0;
+160;Russian Guard;RU;RUGc.JPG;Unit;;;;;;;;0;0;0;0;0;
+161;Barclay de Tolly;RU;RUTolly.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+162;Committed Attack;RU;RUCattk.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+163;Committed Attack;RU;RUCattk.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+164;Committed Attack;RU;RUCattk.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+165;Count of Sayn-Wittgenstein;RU;RUWittgn.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+166;Friederich W. von Buxhoevden;RU;RUBuxhoevden.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+167;Guerrillas;RU;RUGuer.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+168;Guerillas;RU;RUGuer.JPG;Unit;;;;;;;;0;0;0;0;0;
+169;Levin August Count of Bennigsen;RU;RUBennigsen.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+170;Mikhail I. Kutuzov;RU;RUKutuzov.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+171;Pyotr I. Bagration;RU;RUBagration.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+172;Redoubt;RU;RURdbt.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+173;Redoubt;RU;RURdbt.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+174;Skirmish;RU;RUSkirm.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+175;Supply;RU;RUSuply.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+176;Supply;RU;RUSuply.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+177;Supply;RU;RUSuply.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+178;Supply;RU;RUSuply.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+179;Withdraw;RU;RUWdraw.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+180;Withdraw;RU;RUWdraw.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+181;1st Infantry Regiment;PR;PR1Ra.JPG;Unit;2d6;4;0;0;0;0;0;0;0;0;0;0;
+182;1st Infantry Regiment;PR;PR1Ra.JPG;Unit;2d7;4;0;0;0;0;0;0;0;0;0;0;
+183;1st Infantry Regiment;PR;PR1Rb.JPG;Unit;2d6;3;0;0;0;0;0;0;0;0;0;0;
+184;1st Infantry Regiment;PR;PR1Rc.JPG;Unit;1d8;6;1;0;2d8;0;0;0;0;0;0;0;
+185;1st Infantry Regiment;PR;PR1Rd.JPG;Unit;0;5;2;1d10;0;0;0;0;0;0;0;0;
+186;10th Dragoons;PR;PR10Da.JPG;Unit;;;;;;;;0;0;0;0;0;
+187;10th Dragoons;PR;PR10Da.JPG;Unit;;;;;;;;0;0;0;0;0;
+188;10th Dragoons;PR;PR10Db.JPG;Unit;;;;;;;;0;0;0;0;0;
+189;10th Dragoons;PR;PR10Dc.JPG;Unit;;;;;;;;0;0;0;0;0;
+190;10th Dragoons;PR;PR10Dd.JPG;Unit;;;;;;;;0;0;0;0;0;
+191;13th Infantry Regiment;PR;PR13Ra.JPG;Unit;;;;;;;;0;0;0;0;0;
+192;13th Infantry Regiment;PR;PR13Rb.JPG;Unit;;;;;;;;0;0;0;0;0;
+193;13th Infantry Regiment;PR;PR13Rc.JPG;Unit;;;;;;;;0;0;0;0;0;
+194;13th Infantry Regiment;PR;PR13Rd.JPG;Unit;;;;;;;;0;0;0;0;0;
+195;13th Infantry Regiment;PR;PR13Re.JPG;Unit;;;;;;;;0;0;0;0;0;
+196;25th Infantry Regiment;PR;PR25Ra.JPG;Unit;;;;;;;;0;0;0;0;0;
+197;25th Infantry Regiment;PR;PR25Rb.JPG;Unit;;;;;;;;0;0;0;0;0;
+198;25th Infantry Regiment;PR;PR25Rc.JPG;Unit;;;;;;;;0;0;0;0;0;
+199;25th Infantry Regiment;PR;PR25Rd.JPG;Unit;;;;;;;;0;0;0;0;0;
+200;25th Infantry Regiment;PR;PR25Re.JPG;Unit;;;;;;;;0;0;0;0;0;
+201;27th Infantry Regiment;PR;PR27Ra.JPG;Unit;;;;;;;;0;0;0;0;0;
+202;27th Infantry Regiment;PR;PR27Rb.JPG;Unit;;;;;;;;0;0;0;0;0;
+203;27th Infantry Regiment;PR;PR27Rb.JPG;Unit;;;;;;;;0;0;0;0;0;
+204;27th Infantry Regiment;PR;PR27Rc.JPG;Unit;;;;;;;;0;0;0;0;0;
+205;27th Infantry Regiment;PR;PR27Rd.JPG;Unit;;;;;;;;0;0;0;0;0;
+206;32nd Infantry Regiment;PR;PR32Ra.JPG;Unit;;;;;;;;0;0;0;0;0;
+207;32nd Infantry Regiment;PR;PR32Rb.JPG;Unit;;;;;;;;0;0;0;0;0;
+208;32nd Infantry Regiment;PR;PR32Rb.JPG;Unit;;;;;;;;0;0;0;0;0;
+209;32nd Infantry Regiment;PR;PR32Rc.JPG;Unit;;;;;;;;0;0;0;0;0;
+210;32nd Infantry Regiment;PR;PR32Rd.JPG;Unit;;;;;;;;0;0;0;0;0;
+211;Guard Grenadiers;PR;PRGGa.JPG;Unit;;;;;;;;0;0;0;0;0;
+212;Guard Grenadiers;PR;PRGGa.JPG;Unit;;;;;;;;0;0;0;0;0;
+213;Guard Grenadiers;PR;PRGGb.JPG;Unit;;;;;;;;0;0;0;0;0;
+214;Guard Grenadiers;PR;PRGGc.JPG;Unit;;;;;;;;0;0;0;0;0;
+215;Guard Grenadiers;PR;PRGGd.JPG;Unit;;;;;;;;0;0;0;0;0;
+216;Royal Escort;PR;PRREa.JPG;Unit;;;;;;;;0;0;0;0;0;
+217;Royal Escort;PR;PRREb.JPG;Unit;;;;;;;;0;0;0;0;0;
+218;Royal Escort;PR;PRREb.JPG;Unit;;;;;;;;0;0;0;0;0;
+219;Royal Escort;PR;PRREc.JPG;Unit;;;;;;;;0;0;0;0;0;
+220;Royal Escort;PR;PRREd.JPG;Unit;;;;;;;;0;0;0;0;0;
+221;Frederick Wilhelm Duke of Brunswick;PR;PRBrunswick.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+222;Johann Yorck von Wartenburg;PR;PRYorck.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+223;Count Kleist von Nollendorf;PR;PRKleist.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+224;Gebhard Lebrecht von Blucher;PR;PRBlucher.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+225;Committed Attack;PR;PRCattk.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+226;Forced March;PR;PRFMarch.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;Any one unit you moved this turn may move one additional space
+227;Forced March;PR;PRFMarch.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;Any one unit you moved this turn may move one additional space
+228;Forced March;PR;PRFMarch.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;Any one unit you moved this turn may move one additional space
+229;Guerrillas;PR;PRGuerillas.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+230;Redoubt;PR;PRRedbt.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+231;Redoubt;PR;PRRedbt.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+232;Redoubt;PR;PRRedbt.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+233;Skirmish;PR;PRskrm.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+234;Skirmish;PR;PRskrm.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+235;Supply;PR;PRsuply.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+236;Supply;PR;PRsuply.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+237;Supply;PR;PRsuply.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+238;Supply;PR;PRsuply.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+239;Withdraw;PR;PRWdraw.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+240;Withdraw;PR;PRWdraw.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+241;1st  Regiment;AU;AU1Ra.JPG;Unit;2d6;4;0;0;0;0;0;0;0;0;0;0;
+242;1st  Regiment;AU;AU1Rb.JPG;Unit;1d10;4;0;0;0;0;0;0;0;0;0;0;
+243;1st  Regiment;AU;AU1Rb.JPG;Unit;1d10;4;0;0;0;0;0;0;0;0;0;0;
+244;1st  Regiment;AU;AU1Rb.JPG;Unit;1d10;4;0;0;0;0;0;0;0;0;0;0;
+245;1st  Regiment;AU;AU1Rc.JPG;Unit;0;5;2;1d10;0;0;0;0;0;0;0;0;
+246;3rd  Regiment;AU;AU3Ra.JPG;Unit;2d8;5;0;0;0;0;0;0;0;0;0;0;
+247;3rd  Regiment;AU;AU3Rb.JPG;Unit;1d10;3;0;0;0;0;0;0;0;0;0;0;
+248;3rd  Regiment;AU;AU3Rb.JPG;Unit;1d10;3;0;0;0;0;0;0;0;0;0;0;
+249;3rd  Regiment;AU;AU3Rb.JPG;Unit;1d10;3;0;0;0;0;0;0;0;0;0;0;
+250;3rd  Regiment;AU;AU3Rc.JPG;Unit;0;5;2;1d10;0;0;0;0;0;0;0;0;
+251;4th  Regiment;AU;AU4Ra.JPG;Unit;2d6;3;0;0;0;0;0;0;0;0;0;0;
+252;4th  Regiment;AU;AU4Rb.JPG;Unit;1d10;4;0;0;0;0;0;0;0;0;0;0;
+253;4th  Regiment;AU;AU4Rc.JPG;Unit;1d10;5;1;0;2d6;0;0;0;0;0;0;0;
+254;4th  Regiment;AU;AU4Rd.JPG;Unit;1d10;4;1;0;2d6;0;0;0;0;0;0;0;
+255;4th  Regiment;AU;AU4Re.JPG;Unit;0;5;2;1d10;0;0;0;0;0;0;0;0;
+256;6th Grenzers;AU;AU6Ga.JPG;Unit;;;;;;;;0;0;0;0;0;
+257;6th Grenzers;AU;AU6Gb.JPG;Unit;;;;;;;;0;0;0;0;0;
+258;6th Grenzers;AU;AU6Gc.JPG;Unit;;;;;;;;0;0;0;0;0;
+259;6th Grenzers;AU;AU6Gd.JPG;Unit;;;;;;;;0;0;0;0;0;
+260;6th Grenzers;AU;AU6Ge.JPG;Unit;;;;;;;;0;0;0;0;0;
+261;9th Regiment;AU;AU9Ra.JPG;Unit;;;;;;;;0;0;0;0;0;
+262;9th Regiment;AU;AU9Rb.JPG;Unit;;;;;;;;0;0;0;0;0;
+263;9th Regiment;AU;AU9Rc.JPG;Unit;;;;;;;;0;0;0;0;0;
+264;9th Regiment;AU;AU9Rc.JPG;Unit;;;;;;;;0;0;0;0;0;
+265;9th Regiment;AU;AU9Rc.JPG;Unit;;;;;;;;0;0;0;0;0;
+266;14th Regiment;AU;AU14a.JPG;Unit;2d6;4;0;0;0;0;0;0;0;0;0;0;
+267;14th Regiment;AU;AU14b.JPG;Unit;1d10;3;0;0;0;0;0;0;0;0;0;0;
+268;14th Regiment;AU;AU14b.JPG;Unit;1d10;3;0;0;0;0;0;0;0;0;0;0;
+269;14th Regiment;AU;AU14c.JPG;Unit;1d10;5;1;0;2d6;0;0;0;0;0;0;0;
+270;14th Regiment;AU;AU14d.JPG;Unit;0;5;2;1d10;0;0;0;0;0;0;0;0;
+271;Johann Dragoons;AU;AUJDa.JPG;Unit;;;;;;;;0;0;0;0;0;
+272;Johann Dragoons;AU;AUJDa.JPG;Unit;;;;;;;;0;0;0;0;0;
+273;Johann Dragoons;AU;AUJDb.JPG;Unit;;;;;;;;0;0;0;0;0;
+274;Johann Dragoons;AU;AUJDc.JPG;Unit;;;;;;;;0;0;0;0;0;
+275;Johann Dragoons;AU;AUJDd.JPG;Unit;;;;;;;;0;0;0;0;0;
+276;O'Reilly Chevaulegers;AU;AUOCa.JPG;Unit;;;;;;;;0;0;0;0;0;
+277;O'Reilly Chevaulegers;AU;AUOCa.JPG;Unit;;;;;;;;0;0;0;0;0;
+278;O'Reilly Chevaulegers;AU;AUOCb.JPG;Unit;;;;;;;;0;0;0;0;0;
+279;O'Reilly Chevaulegers;AU;AUOCc.JPG;Unit;;;;;;;;0;0;0;0;0;
+280;O'Reilly Chevaulegers;AU;AUOCd.JPG;Unit;;;;;;;;0;0;0;0;0;
+281;Ambush;AU;AUAmbush.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+282;Ambush;AU;AUAmbush.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+283;Committed Attack;AU;AUCattk.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+284;Guerrillas;AU;AUGuer.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+285;Guerrillas;AU;AUGuer.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+286;Redoubt;AU;AURedbt.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+287;Redoubt;AU;AURedbt.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+288;Redoubt;AU;AURedbt.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+289;Skirmish;AU;AUSkirm.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+290;Skirmish;AU;AUSkirm.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+291;Supply;AU;AUSuply.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+292;Supply;AU;AUSuply.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+293;Supply;AU;AUSuply.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+294;Supply;AU;AUSuply.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+295;Withdraw;AU;AUWdraw.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+296;Withdraw;AU;AUWdraw.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+297;Archduke Charles;AU;AUCharles.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+298;Emperor Francis II;AU;AUFrancis.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+299;Karl Mack von Leiberich;AU;AUMack.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+300;Duke of Schwarzenberg;AU;AUSchwarz.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+301;1st  Line Regiment;SP;SP1La.JPG;Unit;2d6;6;0;0;0;0;0;0;0;0;0;0;
+302;1st  Line Regiment;SP;SP1Lb.JPG;Unit;1d10;6;0;0;0;0;0;0;0;0;0;0;
+303;1st  Line Regiment;SP;SP1Lb.JPG;Unit;1d10;7;0;0;0;0;0;0;0;0;0;0;
+304;1st  Line Regiment;SP;SP1Lc.JPG;Unit;1d10;3;0;0;0;0;0;0;0;0;0;0;
+305;1st  Line Regiment;SP;SP1Ld.JPG;Unit;0;6;2;1d10;0;0;0;0;0;0;0;0;
+306;3rd Hussars;SP;SP3Ha.JPG;Unit;;;;;;;;0;0;0;0;0;
+307;3rd Hussars;SP;SP3Hb.JPG;Unit;;;;;;;;0;0;0;0;0;
+308;3rd Hussars;SP;SP3Hb.JPG;Unit;;;;;;;;0;0;0;0;0;
+309;3rd Hussars;SP;SP3Hb.JPG;Unit;;;;;;;;0;0;0;0;0;
+310;3rd Hussars;SP;SP3Hc.JPG;Unit;;;;;;;;0;0;0;0;0;
+311;7th Navarrese Regiment;SP;SP7Na.JPG;Unit;;;;;;;;0;0;0;0;0;
+312;7th Navarrese Regiment;SP;SP7Nb.JPG;Unit;;;;;;;;0;0;0;0;0;
+313;7th Navarrese Regiment;SP;SP7Nb.JPG;Unit;;;;;;;;0;0;0;0;0;
+314;7th Navarrese Regiment;SP;SP7Nc.JPG;Unit;;;;;;;;0;0;0;0;0;
+315;7th Navarrese Regiment;SP;SP7Nd.JPG;Unit;;;;;;;;0;0;0;0;0;
+316;20th Line Regiment;SP;SP20a.JPG;Unit;;;;;;;;0;0;0;0;0;
+317;20th Line Regiment;SP;SP20b.JPG;Unit;;;;;;;;0;0;0;0;0;
+318;20th Line Regiment;SP;SP20c.JPG;Unit;;;;;;;;0;0;0;0;0;
+319;20th Line Regiment;SP;SP20d.JPG;Unit;;;;;;;;0;0;0;0;0;
+320;20th Line Regiment;SP;SP20e.JPG;Unit;;;;;;;;0;0;0;0;0;
+321;Regiment de Castille;SP;SPRCa.JPG;Unit;;;;;;;;0;0;0;0;0;
+322;Regiment de Castille;SP;SPRCb.JPG;Unit;;;;;;;;0;0;0;0;0;
+323;Regiment de Castille;SP;SPRCc.JPG;Unit;;;;;;;;0;0;0;0;0;
+324;Regiment de Castille;SP;SPRCc.JPG;Unit;;;;;;;;0;0;0;0;0;
+325;Regiment de Castille;SP;SPRCd.JPG;Unit;;;;;;;;0;0;0;0;0;
+326;Del Rey Dragoons;SP;SPDRa.JPG;Unit;;;;;;;;0;0;0;0;0;
+327;Del Rey Dragoons;SP;SPDRb.JPG;Unit;;;;;;;;0;0;0;0;0;
+328;Del Rey Dragoons;SP;SPDRc.JPG;Unit;;;;;;;;0;0;0;0;0;
+329;Del Rey Dragoons;SP;SPDRd.JPG;Unit;;;;;;;;0;0;0;0;0;
+330;Del Rey Dragoons;SP;SPDRe.JPG;Unit;;;;;;;;0;0;0;0;0;
+331;Infanteria Imperial;SP;SPIIa.JPG;Unit;;;;;;;;0;0;0;0;0;
+332;Infanteria Imperial;SP;SPiIb.JPG;Unit;;;;;;;;0;0;0;0;0;
+333;Infanteria Imperial;SP;SPiIb.JPG;Unit;;;;;;;;0;0;0;0;0;
+334;Infanteria Imperial;SP;SPiIb.JPG;Unit;;;;;;;;0;0;0;0;0;
+335;Infanteria Imperial;SP;SPiIc.JPG;Unit;;;;;;;;0;0;0;0;0;
+336;Walloon Guards;SP;SPWGb.JPG;Unit;;;;;;;;0;0;0;0;0;
+337;Walloon Guards;SP;SPWGa.JPG;Unit;;;;;;;;0;0;0;0;0;
+338;Walloon Guards;SP;SPWGd.JPG;Unit;;;;;;;;0;0;0;0;0;
+339;Walloon Guards;SP;SPWGd.JPG;Unit;;;;;;;;0;0;0;0;0;
+340;Walloon Guards;SP;SPWGc.JPG;Unit;;;;;;;;0;0;0;0;0;
+341;Joaquin Blake y Joyes;SP;SPBlake.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+342;Francisco Javier Castanos;SP;SPCastanos.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+343;Gregorio Garcia de la Cuesta;SP;SPCuesta.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+344;Pedro Caro y Sureda;SP;SPCaro.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+345;Guerrillas;SP;SPGuerr.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+346;Guerrillas;SP;SPGuerr.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+347;Guerrillas;SP;SPGuerr.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+348;Guerrillas;SP;SPGuerr.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+349;Guerrillas;SP;SPGuerr.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+350;Redoubt;SP;SPRedbt.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+351;Redoubt;SP;SPRedbt.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+352;Redoubt;SP;SPRedbt.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+353;Redoubt;SP;SPRedbt.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+354;Skirmish;SP;SPSkirm.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+355;Supply;SP;SPSupply.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+356;Supply;SP;SPSupply.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+357;Withdraw;SP;SPWdraw.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+358;Withdraw;SP;SPWdraw.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+359;Withdraw;SP;SPWdraw.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+360;Jose de Palafox y Melzi;SP;SPPalofax.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+361;1st Janissaries;OT;OT1Ja.JPG;Unit;2d8;4;0;0;0;0;0;0;0;0;0;0;Not required to advance
+362;1st Janissaries;OT;OT1Jb.JPG;Unit;2d6;3;0;0;0;0;0;0;0;0;0;0;
+363;1st Janissaries;OT;OT1Jb.JPG;Unit;2d6;4;0;0;0;0;0;0;0;0;0;0;
+364;1st Janissaries;OT;OT1Jc.JPG;Unit;1d10;4;0;0;0;0;0;0;0;0;0;0;
+365;1st Janissaries;OT;OT1Jd.JPG;Unit;0;5;2;1d10;0;0;0;0;0;0;0;0;
+366;2nd Janissaries;OT;OT2Ja.JPG;Unit;;;;;;;;0;0;0;0;0;
+367;2nd Janissaries;OT;OT2Jb.JPG;Unit;;;;;;;;0;0;0;0;0;
+368;2nd Janissaries;OT;OT2Jb.JPG;Unit;;;;;;;;0;0;0;0;0;
+369;2nd Janissaries;OT;OT2Jc.JPG;Unit;;;;;;;;0;0;0;0;0;
+370;2nd Janissaries;OT;OT2Jd.JPG;Unit;;;;;;;;0;0;0;0;0;
+371;Albanian Feudal Corps;OT;OTAFa.JPG;Unit;;;;;;;;0;0;0;0;0;
+372;Albanian Feudal Corps;OT;OTAFa.JPG;Unit;;;;;;;;0;0;0;0;0;
+373;Albanian Feudal Corps;OT;OTAFa.JPG;Unit;;;;;;;;0;0;0;0;0;
+374;Albanian Feudal Corps;OT;OTAFa.JPG;Unit;;;;;;;;0;0;0;0;0;
+375;Albanian Feudal Corps;OT;OTAFb.JPG;Unit;;;;;;;;0;0;0;0;0;
+376;Arab Cavalry;OT;OTACa.JPG;Unit;;;;;;;;0;0;0;0;0;
+377;Arab Cavalry;OT;OTACb.JPG;Unit;;;;;;;;0;0;0;0;0;
+378;Arab Cavalry;OT;OTACc.JPG;Unit;;;;;;;;0;0;0;0;0;
+379;Arab Cavalry;OT;OTACd.JPG;Unit;;;;;;;;0;0;0;0;0;
+380;Arab Cavalry;OT;OTACe.JPG;Unit;;;;;;;;0;0;0;0;0;
+381;Greek Feudal Corps;OT;OTGFa.JPG;Unit;;;;;;;;0;0;0;0;0;
+382;Greek Feudal Corps;OT;OTGFa.JPG;Unit;;;;;;;;0;0;0;0;0;
+383;Greek Feudal Corps;OT;OTGFa.JPG;Unit;;;;;;;;0;0;0;0;0;
+384;Greek Feudal Corps;OT;OTGFa.JPG;Unit;;;;;;;;0;0;0;0;0;
+385;Greek Feudal Corps;OT;OTGFb.JPG;Unit;;;;;;;;0;0;0;0;0;
+386;Irregular Cavalry;OT;OTICa.JPG;Unit;;;;;;;;0;0;0;0;0;
+387;Irregular Cavalry;OT;OTICa.JPG;Unit;;;;;;;;0;0;0;0;0;
+388;Irregular Cavalry;OT;OTICb.JPG;Unit;;;;;;;;0;0;0;0;0;
+389;Irregular Cavalry;OT;OTICb.JPG;Unit;;;;;;;;0;0;0;0;0;
+390;Irregular Cavalry;OT;OTICc.JPG;Unit;;;;;;;;0;0;0;0;0;
+391;Regular Cavalry;OT;OTRCa.JPG;Unit;;;;;;;;0;0;0;0;0;
+392;Regular Cavalry;OT;OTRCb.JPG;Unit;;;;;;;;0;0;0;0;0;
+393;Regular Cavalry;OT;OTRCc.JPG;Unit;;;;;;;;0;0;0;0;0;
+394;Regular Cavalry;OT;OTRCd.JPG;Unit;;;;;;;;0;0;0;0;0;
+395;Regular Cavalry;OT;OTRCe.JPG;Unit;;;;;;;;0;0;0;0;0;
+396;Grand Visier Pasha;OT;OTPasha.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+397;Muhammad Ali;OT;OTAli.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+398;Omar Agha;OT;OTAgha.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+399;Pechlivan Khan;OT;OTKhan.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+400;Committed Attack;OT;OTCattk.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+401;Committed Attack;OT;OTCattk.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+402;Committed Attack;OT;OTCattk.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+403;Committed Attack;OT;OTCattk.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+404;Withdraw;OT;OTWdraw.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+405;Withdraw;OT;OTWdraw.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+406;Withdraw;OT;OTWdraw.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+407;Withdraw;OT;OTWdraw.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+408;Withdraw;OT;OTWdraw.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+409;Regroup;OT;OTRegroup.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+410;Regroup;OT;OTRegroup.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+411;Regroup;OT;OTRegroup.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+412;Regroup;OT;OTRegroup.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+413;Regroup;OT;OTRegroup.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+414;Regroup;OT;OTRegroup.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+415;Regroup;OT;OTRegroup.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+416;Ali Pasha's Cavalry;OT;OTAPa.JPG;Unit;;;;;;;;0;0;0;0;0;
+417;Ali Pasha's Cavalry;OT;OTAPa.JPG;Unit;;;;;;;;0;0;0;0;0;
+418;Ali Pasha's Cavalry;OT;OTAPb.JPG;Unit;;;;;;;;0;0;0;0;0;
+419;Ali Pasha's Cavalry;OT;OTAPc.JPG;Unit;;;;;;;;0;0;0;0;0;
+420;Ali Pasha's Cavalry;OT;OTAPd.JPG;Unit;;;;;;;;0;0;0;0;0;
+421;1st Infantry Regiment;US;US1Ia.JPG;Unit;2d6;5;0;0;0;0;2;0;0;0;0;0;
+422;1st Infantry Regiment;US;US1Ia.JPG;Unit;2d7;5;0;0;0;0;2;0;0;0;0;0;
+423;1st Infantry Regiment;US;US1Ib.JPG;Unit;2d6;5;0;0;0;0;0;0;0;0;0;0;
+424;1st Infantry Regiment;US;US1Ib.JPG;Unit;2d7;5;0;0;0;0;0;0;0;0;0;0;
+425;1st Infantry Regiment;US;US1Ic.JPG;Unit;0;6;2;1d10;0;0;0;0;0;0;0;0;
+426;2nd Infantry Regiment;US;US2Ia.JPG;Unit;;;;;;;;0;0;0;0;0;
+427;2nd Infantry Regiment;US;US2Ia.JPG;Unit;;;;;;;;0;0;0;0;0;
+428;2nd Infantry Regiment;US;US2Ib.JPG;Unit;;;;;;;;0;0;0;0;0;
+429;2nd Infantry Regiment;US;US2Ib.JPG;Unit;;;;;;;;0;0;0;0;0;
+430;2nd Infantry Regiment;US;US2Ic.JPG;Unit;;;;;;;;0;0;0;0;0;
+431;4th Militia;US;US4Ma.JPG;Unit;;;;;;;;0;0;0;0;0;
+432;4th Militia;US;US4Mb.JPG;Unit;;;;;;;;0;0;0;0;0;
+433;4th Militia;US;US4Mc.JPG;Unit;;;;;;;;0;0;0;0;0;
+434;4th Militia;US;US4Md.JPG;Unit;;;;;;;;0;0;0;0;0;
+435;4th Militia;US;US4Me.JPG;Unit;;;;;;;;0;0;0;0;0;
+436;Volunteer Cavalry;US;USVCa.JPG;Unit;;;;;;;;0;0;0;0;0;
+437;Volunteer Cavalry;US;USVCa.JPG;Unit;;;;;;;;0;0;0;0;0;
+438;Volunteer Cavalry;US;USVCb.JPG;Unit;;;;;;;;0;0;0;0;0;
+439;Volunteer Cavalry;US;USVCb.JPG;Unit;;;;;;;;0;0;0;0;0;
+440;Volunteer Cavalry;US;USVCc.JPG;Unit;;;;;;;;0;0;0;0;0;
+441;3rd Infantry Regiment;US;US3Ia.JPG;Unit;;;;;;;;0;0;0;0;0;
+442;3rd Infantry Regiment;US;US3Ia.JPG;Unit;;;;;;;;0;0;0;0;0;
+443;3rd Infantry Regiment;US;US3Ib.JPG;Unit;;;;;;;;0;0;0;0;0;
+444;3rd Infantry Regiment;US;US3Ib.JPG;Unit;;;;;;;;0;0;0;0;0;
+445;3rd Infantry Regiment;US;US3Ic.JPG;Unit;;;;;;;;0;0;0;0;0;
+446;Henry Dearborn;US;USDearborn.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+447;William Henry Harrison;US;USHarrison.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+448;Andrew Jackson;US;USJackson.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+449;Alexander Macomb;US;USMacomb.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+450;Winfield Scott;US;USScott.JPG;HqLeader;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+451;10th Infantry Regiment;US;US10a.JPG;Unit;;;;;;;;0;0;0;0;0;
+452;10th Infantry Regiment;US;US10a.JPG;Unit;;;;;;;;0;0;0;0;0;
+453;10th Infantry Regiment;US;US10b.JPG;Unit;;;;;;;;0;0;0;0;0;
+454;10th Infantry Regiment;US;US10b.JPG;Unit;;;;;;;;0;0;0;0;0;
+455;10th Infantry Regiment;US;US10c.JPG;Unit;;;;;;;;0;0;0;0;0;
+456;13th Militia;US;US13a.JPG;Unit;;;;;;;;0;0;0;0;0;
+457;13th Militia;US;US13a.JPG;Unit;;;;;;;;0;0;0;0;0;
+458;13th Militia;US;US13a.JPG;Unit;;;;;;;;0;0;0;0;0;
+459;13th Militia;US;US13a.JPG;Unit;;;;;;;;0;0;0;0;0;
+460;13th Militia;US;US13b.JPG;Unit;;;;;;;;0;0;0;0;0;
+461;22nd Infantry Regiment;US;US22a.JPG;Unit;;;;;;;;0;0;0;0;0;
+462;22nd Infantry Regiment;US;US22b.JPG;Unit;;;;;;;;0;0;0;0;0;
+463;22nd Infantry Regiment;US;US22b.JPG;Unit;;;;;;;;0;0;0;0;0;
+464;22nd Infantry Regiment;US;US22c.JPG;Unit;;;;;;;;0;0;0;0;0;
+465;22nd Infantry Regiment;US;US22d.JPG;Unit;;;;;;;;0;0;0;0;0;
+466;Ambush;US;USAmbush.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+467;Ambush;US;USAmbush.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+468;Ambush;US;USAmbush.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+469;Ambush;US;USAmbush.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+470;Engineers;US;USEng.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+471;Redoubt;US;USRdbt.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+472;Redoubt;US;USRdbt.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+473;Redoubt;US;USRdbt.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+474;Scout;US;USScout.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+475;Skirmish;US;USSkirm.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+476;Supply;US;USSupply.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+477;Supply;US;USSupply.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+478;Supply;US;USSupply.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+479;Withdraw;US;USWdraw.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
+480;Withdraw;US;USWdraw.JPG;HqUnit;;;;;;;;HQ;HQ;HQ;HQ;HQ;
