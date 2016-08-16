@@ -32,11 +32,11 @@ public class MapGUI extends Map{
      public static final int BOARD_START_X = 0;
      public static final int BOARD_START_Y = 0;
 
-     public static final int SQUARE_WIDTH = 205;
-     public static final int SQUARE_HEIGHT = 205;
+     public static final int SQUARE_WIDTH = 60;
+     public static final int SQUARE_HEIGHT = 60;
 
-     public static final int PIECE_WIDTH = 205;
-     public static final int PIECE_HEIGHT = 205;
+     public static final int PIECE_WIDTH = 60;
+     public static final int PIECE_HEIGHT = 60;
 
      public static final int PIECES_START_X = BOARD_START_X + (int)(SQUARE_WIDTH/2.0 - PIECE_WIDTH/2.0);
      public static final int PIECES_START_Y = BOARD_START_Y + (int)(SQUARE_HEIGHT/2.0 - PIECE_HEIGHT/2.0);
@@ -58,19 +58,19 @@ public class MapGUI extends Map{
                        
                        var = rand.nextInt()%100;
                        Position pos = new Position(i, j);
-                       if (var < 40) 
+                       if (var < 42) 
                            terrains[i][j] = new TerrainGUI(Terrain.CLEAR, pos);
-                       else if ( (var >= 40) && (var <50) )
-                           terrains[i][j] = new TerrainGUI(Terrain.CITY, pos);
-                       else if ( (var >= 50) && (var <60) )
-                           terrains[i][j] = new TerrainGUI(Terrain.HILL, pos);
-                       else if ( (var >= 60) && (var <70) )
-                           terrains[i][j] = new TerrainGUI(Terrain.FIELDS, pos);
-                       else if ( (var >= 70) && (var <80) )
-                           terrains[i][j] = new TerrainGUI(Terrain.LAKE, pos);
-                       else if ( (var >= 80) && (var <90) )
+                       else if ( (var >= 42) && (var <55) )
                            terrains[i][j] = new TerrainGUI(Terrain.FOREST, pos);
-                       else if ( (var >= 90) && (var <100) )
+                       else if ( (var >= 55) && (var <70) )
+                           terrains[i][j] = new TerrainGUI(Terrain.HILL, pos);
+                       else if ( (var >= 70) && (var <80) )
+                           terrains[i][j] = new TerrainGUI(Terrain.CITY, pos);
+                       else if ( (var >= 80) && (var <85) )
+                           terrains[i][j] = new TerrainGUI(Terrain.LAKE, pos);
+                       else if ( (var >= 85) && (var <95) )
+                           terrains[i][j] = new TerrainGUI(Terrain.FIELDS, pos);
+                       else if ( (var >= 95) && (var <100) )
                            terrains[i][j] = new TerrainGUI(Terrain.MARSH,pos);
                        else   
                            terrains[i][j] = new TerrainGUI(Terrain.CLEAR, pos);   

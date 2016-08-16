@@ -34,7 +34,7 @@ public class Position implements PositionInterface{
     }
     
     
-     public  int convertColumnToX(int column){
+     public  int convertColumnToMouseX(int column){
 		return MapGUI.PIECES_START_X + MapGUI.SQUARE_WIDTH * column;
 	}
 	
@@ -43,9 +43,26 @@ public class Position implements PositionInterface{
 	 * @param row
 	 * @return y coordinate for row
 	 */
-	public  int convertRowToY(int row){
+	public  int convertRowToMouseY(int row){
 		return MapGUI.PIECES_START_Y + MapGUI.SQUARE_HEIGHT * (PositionInterface.ROW_8 - row);
 	}
         
-        
+        /**
+	 * calculate upper right corner of terrain
+	 * @param 
+	 * @return x coordinate for upper right corner  terrain	
+	 */
+       public  int getMouseX(){
+		return MapGUI.PIECES_START_X + MapGUI.SQUARE_WIDTH * column;
+	}
+	
+	/**
+	 * calculate upper right corner of terrain
+	 * @param 
+	 * @return y coordinate for  upper right corner  terrain
+	 */
+	public  int getMouseY(){
+		return MapGUI.PIECES_START_Y + MapGUI.SQUARE_HEIGHT * (PositionInterface.ROW_8 - row);
+	}
+         
 }
