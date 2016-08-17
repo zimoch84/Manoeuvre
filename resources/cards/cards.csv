@@ -420,9 +420,9 @@ CardID;CardName;CardFlag;CardImg;CardType;UnitAttack;UnitDeffense;UnitRange;Unit
 419;Ali Pasha's Cavalry;OT;OTAPc.JPG;Unit;;;;;;;;0;0;0;0;0;
 420;Ali Pasha's Cavalry;OT;OTAPd.JPG;Unit;;;;;;;;0;0;0;0;0;
 421;1st Infantry Regiment;US;US1Ia.JPG;Unit;2d6;5;0;0;0;0;2;0;0;0;0;0;
-422;1st Infantry Regiment;US;US1Ia.JPG;Unit;2d7;5;0;0;0;0;2;0;0;0;0;0;
+422;1st Infantry Regiment;US;US1Ia.JPG;Unit;2d6;5;0;0;0;0;2;0;0;0;0;0;
 423;1st Infantry Regiment;US;US1Ib.JPG;Unit;2d6;5;0;0;0;0;0;0;0;0;0;0;
-424;1st Infantry Regiment;US;US1Ib.JPG;Unit;2d7;5;0;0;0;0;0;0;0;0;0;0;
+424;1st Infantry Regiment;US;US1Ib.JPG;Unit;2d6;5;0;0;0;0;0;0;0;0;0;0;
 425;1st Infantry Regiment;US;US1Ic.JPG;Unit;0;6;2;1d10;0;0;0;0;0;0;0;0;
 426;2nd Infantry Regiment;US;US2Ia.JPG;Unit;;;;;;;;0;0;0;0;0;
 427;2nd Infantry Regiment;US;US2Ia.JPG;Unit;;;;;;;;0;0;0;0;0;

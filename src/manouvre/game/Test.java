@@ -13,10 +13,17 @@ public class Test {
     
     public static void main(String[] args) { 
         
-        CsvFileReader Card = new CsvFileReader(33);
-        String name=Card.getCardName();
+        Card Card = new Card(61);
+        int name=Card.getUnitDeffense();
         
-        System.out.println("Name:" + name);
+        System.out.println("ID"+61+"Deffense:" + name);
+        
+        Card Card1 = new Card(245);
+       
+        System.out.println("ID"+245+"UnitBombard:" + Card1.getUnitBombard());
+        
+        CardSet Bartek= new CardSet(6, 0);
+        Bartek.getAllCards();
         
         
     }
