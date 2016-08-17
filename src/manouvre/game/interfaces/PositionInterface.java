@@ -5,6 +5,8 @@
  */
 package manouvre.game.interfaces;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Piotr
@@ -45,6 +47,16 @@ public interface PositionInterface {
 	 * @return y coordinate for row
 	 */
 	abstract public int convertRowToMouseY(int row);
+        
+        
+        /*
+         Gets adjenced Posiotions
+        */
+        
+        abstract public ArrayList<? extends PositionInterface> getAdjencedPositions();
+        
+        
+        
 	
     
 }

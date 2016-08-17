@@ -91,7 +91,10 @@ public interface CardInterface {
     
     public boolean isCancelled();
     
-    public boolean setCancelled();
+    /**  
+    set card is cancelled by GUERRILLAS
+    */
+    public void setCancelled();
     
     
     

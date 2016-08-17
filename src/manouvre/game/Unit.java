@@ -5,17 +5,13 @@
  */
 package manouvre.game;
 
-import java.io.File;
+import com.csvreader.CsvReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import manouvre.game.interfaces.PositionInterface;
 import manouvre.game.interfaces.UnitInterface;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
 
 /**
  *
@@ -25,6 +21,14 @@ public class Unit implements UnitInterface{
 
     
     Position pos;
+
+    public Position getPos() {
+        return pos;
+    }
+
+    public void setPos(Position pos) {
+        this.pos = pos;
+    }
     boolean injured;
     boolean eliminated;
    
@@ -46,25 +50,28 @@ public class Unit implements UnitInterface{
         this.eliminated = false;
         
         try{
+            CsvReader csvReader = new CsvReader("resources\\units\\units.csv", ';');
+            csvReader.readHeaders();
             
-            FileReader fileReader = new FileReader(new File("resources\\units\\units.csv"));
-            CSVParser csvP = new CSVParser(fileReader, CSVFormat.EXCEL.withHeader("dent","Name","MaskFile","FrontFile","ID2"));
-
-            for (CSVRecord csvRecord : csvP) {
+           //FileReader fileReader = new FileReader(new File("resources\\units\\units.csv"));
+           // CSVParser csvP = new CSVParser(fileReader, CSVFormat.EXCEL.withHeader("dent","Name","MaskFile","FrontFile","ID2"));
                 
-                 if ( csvRecord.get("dent").equals(Integer.toString(ID)) ) 
-                 {
+           csvReader.readRecord();
+            while (  ID  !=   Integer.parseInt(csvReader.get("ID"))  )
+                
+            {
+            csvReader.readRecord();
+            }
                  
-                    name = csvRecord.get("name");
-                    imageReducedName= csvRecord.get("imageReduced");
-                    imageFullName = csvRecord.get("imageFull");
-                    strenght = new Integer(csvRecord.get("fullStrength") ) ;
-                    reducedStrength = new Integer (csvRecord.get("reducedStrength"));
-                    type = new Integer (csvRecord.get("type") ) ;
-                    army = csvRecord.get("country");
-                    break;
-                }
-            } 
+            name = csvReader.get("name");
+            imageReducedName= csvReader.get("imageReduced");
+            imageFullName = csvReader.get("imageFull");
+            strenght = new Integer(csvReader.get("fullStrength") ) ;
+            reducedStrength = new Integer (csvReader.get("reducedStrength"));
+            type = new Integer (csvReader.get("type") ) ;
+            army = csvReader.get("country");
+          
+          
         }
         catch (FileNotFoundException ex) { 
             Logger.getLogger(Unit.class.getName()).log(Level.SEVERE, null, ex);

@@ -15,7 +15,11 @@ public class Maneuvre {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Unit unit = new Unit(2);
+        Unit unit = new Unit(59);
+        
+        unit.setPos(new Position(1, 3));
+        
+        System.out.println( unit.getPosition().getAdjencedPositions() ) ;
         
        System.out.println(unit.toString());
                 
