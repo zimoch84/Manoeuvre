@@ -15,13 +15,14 @@ public interface CardInterface {
     colors
     */
     
-    public static int RED  = 0;
-    public static int BLUE  = 1;
-    public static int YELLOW  = 2;
-    public static int GREY  = 3;
-    public static int GREEN  = 4;
-    public static int LIGHTBLUE  = 5;
-    public static int LIGHTGREEN  = 6;
+    public static int BR  = 0; //GreatBritain
+    public static int FR  = 1; //France
+    public static int RU  = 2; //Russland
+    public static int PR  = 3; //Prussia
+    public static int AU  = 4; //Austria
+    public static int SP  = 5; //Spain
+    public static int OT  = 6; //Ottoman
+    public static int US  = 7; // USA
     
     /*
     Unit Types
