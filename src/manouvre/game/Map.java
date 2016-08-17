@@ -17,24 +17,19 @@ import manouvre.game.interfaces.TerrainInterface;
 public class Map implements MapInterface {
 
     
-    /*
-    Map is 8x8 Terrain square
-    
-    ArrayList index 0 = 0x0 point and lastIndex
-    */
-    
-    TerrainInterface[][] terrains = new TerrainInterface[8][8] ;
+    Terrain[][] terrains ;
 
     public Map() {
+        this.terrains = new Terrain[8][8];
         generateMap();
     }
     
     @Override
-    public TerrainInterface[][] getTerrains() {
+    public Terrain[][] getTerrains() {
         return terrains;
     }
 
-    public void setTerrains(TerrainInterface[][] terrains) {
+    public void setTerrains(Terrain[][] terrains) {
         this.terrains = terrains;
     }
     
@@ -79,12 +74,6 @@ public class Map implements MapInterface {
     @Override
     public TerrainInterface getTileAtIndex(int x, int y) {
         return terrains[x][y];
-    }
-    
-    
-    public void changeTerrainAtIndex(int x, int y , TerrainInterface finalTerrain){
-    
-        terrains[x][y] = finalTerrain;
     }
     
     

@@ -102,13 +102,13 @@ public class Terrain  implements TerrainInterface {
     private void calculateDefenceBonus() {
        
         switch (type){
-            case Terrain.CITY : defenceBonus= 3 ;
-            case Terrain.CLEAR: defenceBonus = 0;
-            case Terrain.FIELDS: defenceBonus =0;
-            case Terrain.FOREST : defenceBonus =  2 ;
-            case Terrain.HILL: defenceBonus = 2;
-            case Terrain.LAKE: defenceBonus = 0;
-            case Terrain.MARSH: defenceBonus = 1;
+            case Terrain.CITY : defenceBonus= 3 ; break;
+            case Terrain.CLEAR: defenceBonus = 0; break;
+            case Terrain.FIELDS: defenceBonus =0;break;
+            case Terrain.FOREST : defenceBonus =  2 ;break;
+            case Terrain.HILL: defenceBonus = 2;break;
+            case Terrain.LAKE: defenceBonus = 0;break;
+            case Terrain.MARSH: defenceBonus = 1;break;
             default: defenceBonus = 0;
         }
         

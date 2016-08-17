@@ -6,7 +6,10 @@
 package manouvre.gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import manouvre.game.Map;
 import manouvre.game.Position;
 import manouvre.game.Terrain;
@@ -18,16 +21,7 @@ import manouvre.game.interfaces.PositionInterface;
  */
 public class MapGUI extends Map{
     
-     TerrainGUI [][] terrains = new TerrainGUI[8][8];
-
-    public TerrainGUI[][] getTerrains() {
-        return terrains;
-    }
-
-    public void setTerrains(TerrainGUI[][] terrains) {
-        this.terrains = terrains;
-    }
-             
+     ArrayList<TerrainGUI> terrainsGUI;
     
      public static final int BOARD_START_X = 0;
      public static final int BOARD_START_Y = 0;
@@ -42,48 +36,58 @@ public class MapGUI extends Map{
      public static final int PIECES_START_Y = BOARD_START_Y + (int)(SQUARE_HEIGHT/2.0 - PIECE_HEIGHT/2.0);
     
     public MapGUI() throws IOException{
-            generateMap();
-            
-    }         
-     
-    
-        private void generateMap() throws IOException {
-      
-        Random rand = new Random();
-        int var;
+           
+        super();
+        terrainsGUI = new ArrayList<>();
+        loadTerrains();
         
-        for (int i=0;i<8;i++)
-            {
-                   for(int j=0;j<8;j++){
-                       
-                       var = rand.nextInt()%100;
-                       Position pos = new Position(i, j);
-                       if (var < 42) 
-                           terrains[i][j] = new TerrainGUI(Terrain.CLEAR, pos);
-                       else if ( (var >= 42) && (var <55) )
-                           terrains[i][j] = new TerrainGUI(Terrain.FOREST, pos);
-                       else if ( (var >= 55) && (var <70) )
-                           terrains[i][j] = new TerrainGUI(Terrain.HILL, pos);
-                       else if ( (var >= 70) && (var <80) )
-                           terrains[i][j] = new TerrainGUI(Terrain.CITY, pos);
-                       else if ( (var >= 80) && (var <85) )
-                           terrains[i][j] = new TerrainGUI(Terrain.LAKE, pos);
-                       else if ( (var >= 85) && (var <95) )
-                           terrains[i][j] = new TerrainGUI(Terrain.FIELDS, pos);
-                       else if ( (var >= 95) && (var <100) )
-                           terrains[i][j] = new TerrainGUI(Terrain.MARSH,pos);
-                       else   
-                           terrains[i][j] = new TerrainGUI(Terrain.CLEAR, pos);   
-                            
-                       
-                   }
-            }        
-             
+                    
+    }   
+    
+    public MapGUI(Map map) throws IOException{
+    
+    this.setTerrains(map.getTerrains());
+    terrainsGUI = new ArrayList<>();
+    loadTerrains();
+    
+    
     }
     
+    private void loadTerrains() throws IOException{
+    
+          for (int i=0;i<8;i++)
+            {
+                   for(int j=0;j<8;j++){
+                       TerrainGUI  tempTerain =  new TerrainGUI(
+                                       getTerrains()[i][j].getType(), 
+                                       getTerrains()[i][j].getPos()
+                       );
+                               
+                       terrainsGUI.add(
+                         tempTerain      
+                               );
+                       
+                   }
+            }
+         
+                 
+    
+    }
+
+    public ArrayList<TerrainGUI> getTerrainsGUI() {
+        return terrainsGUI;
+    }
+
+    public void setTerrainsGUI(ArrayList<TerrainGUI> terrainsGUI) {
+        this.terrainsGUI = terrainsGUI;
+    }
+         
+    
+   }
     
     
     
     
     
-}
+    
+
