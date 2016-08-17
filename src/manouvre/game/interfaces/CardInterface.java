@@ -44,7 +44,7 @@ public interface CardInterface {
     public static int SCOUT = 11;
     
     
-    public static int HQCARD  = 4;
+    public static int HQCARD  = 6;
     
     /*
     Return type of card
@@ -73,6 +73,25 @@ public interface CardInterface {
     */
     public boolean isHQCard();
     
+    /*
+    Is required to advance
+    */
+    public boolean isRequredToAdvanceAfterAttack();
+    
+    /*
+    checks if Leader Rally successfully resolve
+    true - test passed
+    
+    */
+    public boolean checkRally(int diceThrow);
+    
+    /*  
+    is card cancelled by GUERRILLAS
+    */
+    
+    public boolean isCancelled();
+    
+    public boolean setCancelled();
     
     
     
