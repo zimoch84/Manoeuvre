@@ -5,13 +5,6 @@ package manouvre.game.interfaces;
  * @author Piotr
  */
 public interface DeckInterface {
-/**
-   * Constructor.  Create an unshuffled deck of cards.
-   */
-   public void DeckInterface();
-
-
-
   /**
    * Put all the used cards back into the deck,
    * and shuffle it into a random order.

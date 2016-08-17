@@ -6,6 +6,12 @@
 package manouvre.gui;
 
 import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import manouvre.game.Unit;
 
 /**
@@ -14,19 +20,25 @@ import manouvre.game.Unit;
  */
 public class UnitGUI extends Unit {
     
-    Image img;
+    Image imgFull;
+    Image imgReduced;
 
     public Image getImg() {
-        return img;
+        if(isInjured())
+                return imgReduced;
+        else return imgFull;
+                        
     }
 
-    public void setImg(Image img) {
-        this.img = img;
-    }
     
     public UnitGUI(int ID) {
         super(ID);
-        
+        try {
+            imgFull = ImageIO.read(new File("resources\\units\\"+  getImageFullName()   ));
+            imgReduced = ImageIO.read(new File("resources\\units\\"+  getImageReducedName()   ));
+        } catch (IOException ex) {
+            Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
     

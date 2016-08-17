@@ -38,12 +38,12 @@ public class Unit implements UnitInterface{
     int type;
     int strenght;
     int reducedStrength;
-    
-    
+
+
     String imageReducedName ;
     String imageFullName;
 
-    
+     
      public Unit(int ID)  {
         this.ID  = ID;
         this.injured = false;
@@ -116,11 +116,18 @@ public class Unit implements UnitInterface{
     
     @Override
     public String toString(){
-    return "Unit ID:[" + ID +"] Name: "  + name + " Army "+ army + " type "  + type + "Strenght [" + strenght +"/" + reducedStrength +"]";
+    return "Unit ID:[" + ID +"] Name: "  + name + " Army "+ army + " type "  + type + " Strenght [" + strenght +"/" + reducedStrength +"]";
       
             
     }
     
+    public String getImageReducedName() {
+        return imageReducedName;
+    }
+
+    public String getImageFullName() {
+        return imageFullName;
+    }
     
     
 }

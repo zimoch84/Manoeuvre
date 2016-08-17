@@ -34,11 +34,6 @@ public class CardSet implements DeckInterface{
         shuffle();
     }
    
-    @Override
-    public void DeckInterface() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     public void shuffle() {
         for(int i=0; i<cardSetSize; i++){
             int randomCard=randomGener.nextInt(80);
