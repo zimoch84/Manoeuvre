@@ -5,12 +5,15 @@
  */
 package manouvre.gui;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import manouvre.game.Map;
+import manouvre.game.Position;
 import manouvre.game.Terrain;
 import manouvre.game.interfaces.TerrainInterface;
 
@@ -22,7 +25,7 @@ public class ClientUI extends javax.swing.JFrame {
 
     MapGUI map ;
     
-    
+    ArrayList<UnitGUI> units = new ArrayList<UnitGUI>();
     
     /**
      * Creates new form ClientUI
@@ -30,11 +33,119 @@ public class ClientUI extends javax.swing.JFrame {
     public ClientUI() throws IOException {
         initComponents();
         map = new MapGUI();
-        drawMap();
+       generateUnits();
+        
         //map.generateMap();
     }
 
+    private void generateUnits()
+    {
+    for (int i=0;i<8;i++)
+    {
+        UnitGUI unit = new UnitGUI(i+1);
+        unit.setPos(new Position (i,1));
+        units.add(unit);
+        
+    }
+    
+    }
+    
+    
+    private void drawMap(Graphics g )
+                      
+    {
+        int gap = 5;
+        // draw background
+        //g.drawImage(this.imgBackground, 0, 0, null);
+        
+        
+        
+        // draw pieces
+        for (int i=0;i < map.getTerrains().length ;i++)
+        {
+           
+            for (int j=0;j< map.getTerrains()[i].length;j++)
+            {
+                
+                
+               g.drawImage(map.getTerrains()[i][j].getImg(),
+                    map.getTerrains()[i][j].getPos().convertColumnToMouseX(i),
+                   map.getTerrains()[i][j].getPos().convertRowToMouseY(j), null);
+                
+            }
+        }
+        
+        
+        /*
+        Draws selection
+        */
+        for (int i=0;i < map.getTerrains().length ;i++)
+        {
+           
+            for (int j=0;j< map.getTerrains()[i].length;j++)
+            {
+            if(map.getTerrains()[i][j].isSelected()){
+                    TerrainGUI terrainTemp = map.getTerrains()[i][j];
+                    
+                    g.drawRoundRect(
+                        terrainTemp.getPos().convertColumnToMouseX(i) + gap
+                        ,terrainTemp.getPos().convertRowToMouseY(j) + gap
+                        , MapGUI.SQUARE_WIDTH - 2*gap , MapGUI.SQUARE_HEIGHT - 2*gap,
+                        10,10);
+                /*
+                Draw AdjencedSpace
+                */
+                    ArrayList<Position> adjencedPositions = terrainTemp.getPos().getAdjencedPositions();
+                    
+                    System.out.println(terrainTemp.getPos().toString());
+                    
+                    g.setColor(Color.red);
+                    
+                    
+                    for(int k = 0 ;k < adjencedPositions.size();k++)
+                    {
+                        System.out.println("Adj : " + adjencedPositions.get(k).toString());
+                        int tempx = adjencedPositions.get(k).getMouseX() + gap;
+                        int tempy = adjencedPositions.get(k).getMouseY() + gap;
+                        System.out.println("tempx " + tempx);
+                        System.out.println("tempy " + tempy);
+                    g.drawRoundRect(
+                        adjencedPositions.get(k).getMouseX() + gap 
+                        ,adjencedPositions.get(k).getMouseY() + gap
+                        , MapGUI.SQUARE_WIDTH - 2*gap , MapGUI.SQUARE_HEIGHT - 2*gap,
+                        10,10);
+                                        
+                                        
+                    
+                    }
+                    
+                    
+                }
 
+            }
+        }
+       
+        
+       /*
+        Draw units
+        */
+        int gapUnit = 7;
+        for (int i=0;i < units.size() ;i++)
+        {
+            g.drawImage(units.get(i).getImg(),
+                units.get(i).getPos().getMouseX() + gapUnit,
+                units.get(i).getPos().getMouseY() + gapUnit,
+                46,
+                46,
+                null);
+
+        }
+        
+        
+        
+    }
+    
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -50,34 +161,7 @@ public class ClientUI extends javax.swing.JFrame {
         {
             @Override
             public void paintComponent(Graphics g) {
-                int gap = 5;
-                // draw background
-                //g.drawImage(this.imgBackground, 0, 0, null);
-                System.out.println(map.getTerrains().length) ;
-                // draw pieces
-                for (int i=0;i < map.getTerrains().length ;i++)
-                {
-                    System.out.println(i);
-                    for (int j=0;j< map.getTerrains()[i].length;j++)
-                    {
-                        System.out.println(map.getTerrains()[i][j].toString());
-                        // g.drawImage(map.getTerrains()[i][j].getImg(), 0, 0, null);
-                        g.drawImage(map.getTerrains()[i][j].getImg(),
-                            map.getTerrains()[i][j].getPos().convertColumnToMouseX(i),
-                            map.getTerrains()[i][j].getPos().convertRowToMouseY(j), null);
-
-                        if(map.getTerrains()[i][j].isSelected()){
-
-                            g.drawRoundRect(
-                                map.getTerrains()[i][j].getPos().convertColumnToMouseX(i) + gap
-                                ,map.getTerrains()[i][j].getPos().convertRowToMouseY(j) + gap
-                                , MapGUI.SQUARE_WIDTH - 2*gap , MapGUI.SQUARE_HEIGHT - 2*gap,
-                                10,10);
-
-                        }
-
-                    }
-                }
+                drawMap(g);
 
             }
         }
@@ -250,7 +334,7 @@ public class ClientUI extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addGap(42, 42, 42)))
+                        .addGap(18, 18, 18)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(discardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(playerHandPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -279,11 +363,10 @@ public class ClientUI extends javax.swing.JFrame {
                     {
                    for(int j=0;j<8;j++){
                        TerrainGUI guiTerrain = this.map.getTerrains()[i][j];
+                       guiTerrain.setSelected(false);
      			if(mouseOverPiece(guiTerrain,x,y))
                         {   
-                            if(!guiTerrain.isSelected())
-				guiTerrain.setSelected(true);
-                            else guiTerrain.setSelected(false);
+  				guiTerrain.setSelected(true);
                                 this.repaint();
 				
                         }
@@ -304,10 +387,10 @@ public class ClientUI extends javax.swing.JFrame {
 	
         private boolean mouseOverPiece(TerrainGUI guiTerrain, int x, int y) {
 
-		return guiTerrain.getPos().getMouseX() <= x 
-			&& guiTerrain.getPos().getMouseX() +guiTerrain.getWidth() >= x
-			&& guiTerrain.getPos().getMouseY() <= y
-			&& guiTerrain.getPos().getMouseY()+guiTerrain.getHeight() >= y;
+		return guiTerrain.getPos().getMouseX() < x 
+			&& guiTerrain.getPos().getMouseX() +guiTerrain.getWidth() > x
+			&& guiTerrain.getPos().getMouseY() < y
+			&& guiTerrain.getPos().getMouseY()+guiTerrain.getHeight() > y;
 	
         }
         

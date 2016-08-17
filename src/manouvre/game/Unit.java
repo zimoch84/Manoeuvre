@@ -79,6 +79,9 @@ public class Unit implements UnitInterface{
         catch (IOException ex) {
             Logger.getLogger(Unit.class.getName()).log(Level.SEVERE, null, ex);
         } 
+         catch (NumberFormatException ex) {
+            System.out.println("Exception in Contructor Unit.java ID: " +ID);
+        } 
     }
         
    

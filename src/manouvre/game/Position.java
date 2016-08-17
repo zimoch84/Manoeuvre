@@ -16,22 +16,22 @@ import manouvre.gui.MapGUI;
 public class Position implements PositionInterface{
 
     
-    private int column;
-    private int row;
+    private int x;
+    private int y;
     
     public int getX() {
-        return column;
+        return x;
     }
 
     public int getY() {
-        return row;
+        return y;
     }
     
     
     
-    public Position(int column, int row) {
-        this.column = column;
-        this.row = row;
+    public Position(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
     
     
@@ -40,9 +40,9 @@ public class Position implements PositionInterface{
 	}
 	
 	/**
-	 * convert logical row into y coordinate
+	 * convert logical y into y coordinate
 	 * @param row
-	 * @return y coordinate for row
+	 * @return y coordinate for y
 	 */
 	public  int convertRowToMouseY(int row){
 		return MapGUI.PIECES_START_Y + MapGUI.SQUARE_HEIGHT * (PositionInterface.ROW_8 - row);
@@ -54,7 +54,7 @@ public class Position implements PositionInterface{
 	 * @return x coordinate for upper right corner  terrain	
 	 */
        public  int getMouseX(){
-		return MapGUI.PIECES_START_X + MapGUI.SQUARE_WIDTH * column;
+		return MapGUI.PIECES_START_X + MapGUI.SQUARE_WIDTH * x;
 	}
 	
 	/**
@@ -63,7 +63,7 @@ public class Position implements PositionInterface{
 	 * @return y coordinate for  upper right corner  terrain
 	 */
 	public  int getMouseY(){
-		return MapGUI.PIECES_START_Y + MapGUI.SQUARE_HEIGHT * (PositionInterface.ROW_8 - row);
+		return MapGUI.PIECES_START_Y + MapGUI.SQUARE_HEIGHT * (PositionInterface.ROW_8 - y);
 	}
         /**
          * 
@@ -76,14 +76,16 @@ public class Position implements PositionInterface{
     public ArrayList<Position> getAdjencedPositions() {
        
       ArrayList<Position>  adjencedPositions = new ArrayList<Position>();
-          if (this.getX()-1  >0 ) {
+          if (this.getX()-1  >= 0 ) {
                 adjencedPositions.add(new Position(this.getX()-1, this.getY()));
-          if (this.getY()-1 > 0){      
+          }
+          if (this.getY()-1 >= 0){      
                 adjencedPositions.add(new Position(this.getX(), this.getY()-1 ));
           }
-          if (this.getY()+1 < ROW_8)
+          if (this.getY()+1 <= ROW_8){
                 adjencedPositions.add(new Position(this.getX(), this.getY()+1));
-          if (this.getX()+1 < COLUMN_H)
+          }
+          if (this.getX()+1 <= COLUMN_H){
                 adjencedPositions.add(new Position(this.getX()+1, this.getY()));
           }
      return adjencedPositions;
@@ -91,6 +93,13 @@ public class Position implements PositionInterface{
         
         
         
+    }
+    
+    @Override
+    public String toString(){
+    return "Position X: " + getX() + " Position Y: " + getY() ;
+    
+    
     }
          
 }

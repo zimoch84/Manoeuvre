@@ -5,6 +5,8 @@
  */
 package manouvre.game;
 
+import manouvre.game.interfaces.PositionInterface;
+
 /**
  *
  * @author Piotr
@@ -16,12 +18,17 @@ public class Maneuvre {
      */
     public static void main(String[] args) {
         Unit unit = new Unit(59);
-        
+        System.out.println(unit.toString());
+       
         unit.setPos(new Position(1, 3));
         
-        System.out.println( unit.getPosition().getAdjencedPositions() ) ;
+       for(PositionInterface pos :  unit.getPosition().getAdjencedPositions()   ) 
+           
+       {
+           System.out.println(pos.toString());
+       }
         
-       System.out.println(unit.toString());
+       
                 
     }
     
