@@ -19,7 +19,9 @@ import manouvre.game.interfaces.UnitInterface;
  */
 public class Unit implements UnitInterface{
 
-    
+    Player owner;
+
+   
     Position pos;
 
     public Position getPos() {
@@ -40,8 +42,8 @@ public class Unit implements UnitInterface{
     int reducedStrength;
 
 
-    String imageReducedName ;
-    String imageFullName;
+    static String  imageReducedName ;
+    static String imageFullName;
 
      
      public Unit(int ID)  {
@@ -124,13 +126,22 @@ public class Unit implements UnitInterface{
             
     }
     
-    public String getImageReducedName() {
+    public static String getImageReducedName() {
         return imageReducedName;
     }
 
-    public String getImageFullName() {
+    public static String getImageFullName() {
         return imageFullName;
     }
+    
+    public Player getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Player owner) {
+        this.owner = owner;
+    }
+    
     
     
 }

@@ -101,5 +101,16 @@ public class Position implements PositionInterface{
     
     
     }
+    
+    @Override
+    public boolean equals(Object in){
+    
+        Position p = (Position) in;
+        if (getX() == p.getX() && getY()==p.getY()) return true;
+        
+        else return false;
+        
+        
+    }
          
 }

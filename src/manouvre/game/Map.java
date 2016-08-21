@@ -28,6 +28,24 @@ public class Map implements MapInterface {
     public Terrain[][] getTerrains() {
         return terrains;
     }
+    
+    
+    public ArrayList<Terrain> getTerrainz() {
+        
+        ArrayList<Terrain> terrains = new ArrayList<Terrain>();
+        
+        for (int i=0;i<8;i++)
+            {
+                   for(int j=0;j<8;j++){
+                       
+                       terrains.add(this.terrains[i][j]);
+                       
+                   }
+            }
+                
+        
+        return terrains;
+    }
 
     public void setTerrains(Terrain[][] terrains) {
         this.terrains = terrains;
@@ -72,7 +90,7 @@ public class Map implements MapInterface {
     }
 
     @Override
-    public TerrainInterface getTileAtIndex(int x, int y) {
+    public Terrain getTileAtIndex(int x, int y) {
         return terrains[x][y];
     }
     

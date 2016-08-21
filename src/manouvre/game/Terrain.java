@@ -20,12 +20,15 @@ public class Terrain  implements TerrainInterface {
     
     boolean ispassable;
     boolean endsMove;
+
+
     boolean noAssaultOut;
     
     boolean isRedoubt;
     boolean isOccupiedByUnit;
     
     Position pos;
+    boolean selected;
 
     public Position getPos() {
         return pos;
@@ -186,6 +189,21 @@ public class Terrain  implements TerrainInterface {
         
     }
 
+    public boolean isEndsMove() {
+        return endsMove;
+    }
+
+    public void setEndsMove(boolean endsMove) {
+        this.endsMove = endsMove;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
    
     
     

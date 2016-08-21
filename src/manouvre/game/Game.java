@@ -6,6 +6,8 @@
 package manouvre.game;
 
 import java.util.ArrayList;
+import static manouvre.game.interfaces.PositionInterface.COLUMN_H;
+import static manouvre.game.interfaces.PositionInterface.ROW_8;
 
 /**
  *
@@ -15,7 +17,17 @@ public class Game {
     
     Map map;
 
-   
+    ArrayList<Unit> units;
+
+    public Game(ArrayList<Unit> units) {
+        this.units = units;
+    }
+    public Game() {
+        units = new ArrayList<>();
+    }
+
+    
+    
     Player playerOne;
     Player playerTwo;
     
@@ -30,9 +42,85 @@ public class Game {
         return null;
         
     };
-    
+     /**
+         Firstly get adjenced tiles then check on terrain restrictions then check if another tile is occupied
+     * @param unit
+     * @return Position
+     */ 
+    private ArrayList<Position> getPossibleMovements(Position unitPosition){
+        
+        ArrayList<Position> moves;
+        moves = new ArrayList<>();
+            /*
+            Firstly get adjenced tiles then check on terrain restrictions then check if another tile is occupied
+            */ 
+          if (unitPosition.getX()-1  >= 0 ) {
+                
+              if (map.getTileAtIndex(unitPosition.getX()-1, unitPosition.getY()).isPassable()
+                      )
+                        moves.add(new Position(unitPosition.getX()-1, unitPosition.getY()));
+          }
+          if (unitPosition.getY()-1 >= 0){      
+              if (map.getTileAtIndex(unitPosition.getX(), unitPosition.getY()-1).isPassable()
+                      
+                      )
+                moves.add(new Position(unitPosition.getX(), unitPosition.getY()-1 ));
+          }
+          if (unitPosition.getY()+1 <= ROW_8){
+              if (map.getTileAtIndex(unitPosition.getX(), unitPosition.getY()+1).isPassable()
+                     
+                      )
+                                moves.add(new Position(unitPosition.getX(), unitPosition.getY()+1));
+          }
+          if (unitPosition.getX()+1 <= COLUMN_H){
+              if (map.getTileAtIndex(unitPosition.getX()+1, unitPosition.getY()).isPassable()
+                     
+                      )
+              moves.add(new Position(unitPosition.getX()+1, unitPosition.getY()));
+          }
+            
+        
+        
+        return moves;
+    }
     public ArrayList<Position> getPossibleMovement(Unit unit){
-    return null;
+        
+        ArrayList<Position> moves;
+          
+        /*
+        get Infantry Moves
+        */
+        moves = getPossibleMovements(unit.getPos());
+       
+        /*
+        If calvary do check of every infantry move considering Terrain.MARSH which ends move
+        */
+        if(unit.type == Unit.CALVARY){
+        
+        ArrayList<Position> tempMoves;
+        
+            
+        for(Position move : moves ){
+        
+                if(! map.getTileAtIndex(move.getX(), move.getY()).isEndsMove() ){
+                
+                    tempMoves = getPossibleMovements(move);
+                    
+                        for(Position addPosition: tempMoves){
+                        
+                            if (!moves.contains(addPosition))
+                                    moves.add(addPosition);
+                                    
+                        }
+      
+                }            
+            
+            }
+        }
+        
+        return moves;
+        
+        
     };
     
     public ArrayList<Position> getPossibleSupportingUnits(Unit unit){
@@ -51,6 +139,53 @@ public class Game {
         return map;
         
     }
+    /**
+     * Places unit on map
+     * @param player
+     * @param unit
+     * @param placePosition 
+     *
+     */
+    public void placeUnit(Player player, Unit unit){
     
+      map.getTileAtIndex(unit.getPos().getX(), unit.getPos().getY()).setIsOccupiedByUnit(true);
+      units.add(unit);
     
+    }
+    
+    public void moveUnit(Unit unit, Position newPosition){
+    
+      map.getTileAtIndex(unit.getPos().getX(), unit.getPos().getY()).setIsOccupiedByUnit(false);
+      map.getTileAtIndex(newPosition.getX(), newPosition.getY()).setIsOccupiedByUnit(true);
+
+      unit.setPos(newPosition);
+      ;
+          
+    }
+    
+    public Unit getUnitAtPosition(Position position){
+    
+        for(Unit unitSearch: units){
+        
+            if(unitSearch.getPos().equals(position))
+            {
+                return unitSearch;
+              }
+            
+        
+        }
+              
+        return null;
+        
+     
+    }
+    
+    public ArrayList<Unit> getUnits() {
+        return units;
+    }
+
+    public void setUnits(ArrayList<Unit> units) {
+        this.units = units;
+    }
 }
+

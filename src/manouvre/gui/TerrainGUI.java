@@ -23,7 +23,6 @@ public class TerrainGUI extends Terrain{
     
         private Image img;
         
-        boolean selected;
 
     
 
@@ -81,11 +80,4 @@ public class TerrainGUI extends Terrain{
     public int getHeight() {
 		return img.getHeight(null);
 	}
-    public boolean isSelected() {
-            return selected;
-        }
-
-    public void setSelected(boolean selected) {
-            this.selected = selected;
-     }
 }

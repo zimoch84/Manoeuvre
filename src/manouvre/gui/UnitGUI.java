@@ -30,6 +30,25 @@ public class UnitGUI extends Unit {
                         
     }
 
+    static Image getImage(Unit unit){
+    Image img ;
+    try {
+        
+            if( unit.isInjured() )
+               img = ImageIO.read(new File("resources\\units\\"+  getImageReducedName()   ));
+            else         
+                img = ImageIO.read(new File("resources\\units\\"+  getImageFullName()   ));
+              
+            return img;
+            
+        } catch (IOException ex) {
+            Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    return null;
+    
+    }
+    
     
     public UnitGUI(int ID) {
         super(ID);

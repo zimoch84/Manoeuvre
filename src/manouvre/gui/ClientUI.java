@@ -14,8 +14,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import manouvre.game.Game;
 import manouvre.game.Map;
+import manouvre.game.Player;
 import manouvre.game.Position;
 import manouvre.game.Terrain;
+import manouvre.game.Unit;
 import manouvre.game.interfaces.TerrainInterface;
 
 /**
@@ -26,7 +28,7 @@ public class ClientUI extends javax.swing.JFrame {
 
     MapGUI map ;
     
-    ArrayList<UnitGUI> units = new ArrayList<UnitGUI>();  //tymczasowo
+    ArrayList<UnitGUI> unitsGUI = new ArrayList<UnitGUI>();  //tymczasowo
     
     Game game;
     
@@ -46,15 +48,24 @@ public class ClientUI extends javax.swing.JFrame {
 
     private void generateUnits()
     {
+        
     for (int i=0;i<8;i++)
     {
-        UnitGUI unit = new UnitGUI(i+1);
+        
+        Unit unit = new Unit(i+1);
         unit.setPos(new Position (i,1));
-        units.add(unit);
+        
+       // unitsGUI.add(new UnitGUI(i+1));
+        
+        game.placeUnit(new Player("Piotr"), unit);
+        
+        
         
     }
     
     }
+    
+ 
     
     
     private void drawMap(Graphics g )
@@ -66,8 +77,8 @@ public class ClientUI extends javax.swing.JFrame {
         
         
         
-        // draw pieces
-        for(TerrainGUI terrainGUI: map.getTerrainsGUI())        
+        // draw terrain
+        for(TerrainGUI terrainGUI: this.map.getTerrainsGUI())        
         {
                g.drawImage(terrainGUI.getImg(),
                     terrainGUI.getPos().getMouseX(),
@@ -79,21 +90,26 @@ public class ClientUI extends javax.swing.JFrame {
         /*
         Draws selection
         */
-        for(TerrainGUI terrainGUI: map.getTerrainsGUI() )  
+        for(Terrain terrain : game.getMap().getTerrainz()  )  
         {
  
-            if(terrainGUI.isSelected()){
+            if(terrain.isSelected()){
                     g.drawRoundRect(
-                        terrainGUI.getPos().getMouseX() + gap
-                        ,terrainGUI.getPos().getMouseY() + gap
+                        terrain.getPos().getMouseX() + gap
+                        ,terrain.getPos().getMouseY() + gap
                         , MapGUI.SQUARE_WIDTH - 2*gap , MapGUI.SQUARE_HEIGHT - 2*gap,
                         10,10);
-                /*
-                Draw AdjencedSpace
-                */
-                    ArrayList<Position> adjencedPositions = terrainGUI.getPos().getAdjencedPositions();
                     
-                    System.out.println(terrainGUI.getPos().toString());
+                    System.out.println("Position " + terrain.getPos());
+                /*
+                Draw AdjencedSpace /Move
+                */
+                
+                    if(! terrain.getIsOccupiedByUnit() )
+                    {
+                    ArrayList<Position> adjencedPositions = terrain.getPos().getAdjencedPositions();
+                    
+                    System.out.println(terrain.getPos().toString());
                     
                     g.setColor(Color.red);
                     
@@ -110,6 +126,28 @@ public class ClientUI extends javax.swing.JFrame {
                                         
                     
                     }
+                    }
+                    else 
+                    
+                    {
+                        System.out.println("manouvre.gui.ClientUI.drawMap() : " + game.getUnitAtPosition(terrain.getPos()).toString()  );
+                        ArrayList<Position> movePositions = 
+                                game.getPossibleMovement(
+                                game.getUnitAtPosition(terrain.getPos())
+                                );
+                        
+                        for(Position drawMovePosion: movePositions){
+                        g.setColor(Color.blue);
+                          g.drawRoundRect(
+                        drawMovePosion.getMouseX() + gap 
+                        ,drawMovePosion.getMouseY() + gap
+                        , MapGUI.SQUARE_WIDTH - 2*gap , MapGUI.SQUARE_HEIGHT - 2*gap,
+                        10,10);
+                                    
+                        
+                        }
+                        
+                    }
                     
                     
                 }
@@ -122,11 +160,12 @@ public class ClientUI extends javax.swing.JFrame {
         Draw units
         */
         int gapUnit = 7;
-        for (int i=0;i < units.size() ;i++)
+        for (Unit drawUnit: game.getUnits())
         {
-            g.drawImage(units.get(i).getImg(),
-                units.get(i).getPos().getMouseX() + gapUnit,
-                units.get(i).getPos().getMouseY() + gapUnit,
+            g.drawImage(
+                UnitGUI.getImage(drawUnit),
+                drawUnit.getPos().getMouseX() + gapUnit,
+                drawUnit.getPos().getMouseY() + gapUnit,
                 46,
                 46,
                 null);
@@ -171,7 +210,7 @@ public class ClientUI extends javax.swing.JFrame {
         chatTextArea = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        moveButton = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
@@ -184,7 +223,6 @@ public class ClientUI extends javax.swing.JFrame {
         jButton11 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
-        opponentHand = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
@@ -225,7 +263,7 @@ public class ClientUI extends javax.swing.JFrame {
             mainMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainMapPanelLayout.createSequentialGroup()
                 .addComponent(jLabel4)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 573, Short.MAX_VALUE))
         );
 
         jLabel1.setText("Hand");
@@ -307,14 +345,16 @@ public class ClientUI extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Move");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        moveButton.setText("Move");
+        moveButton.setEnabled(false);
+        moveButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                moveButtonActionPerformed(evt);
             }
         });
 
         jButton3.setText("Assault");
+        jButton3.setEnabled(false);
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -322,16 +362,22 @@ public class ClientUI extends javax.swing.JFrame {
         });
 
         jButton4.setText("Ambush");
+        jButton4.setEnabled(false);
 
         jButton5.setText("Volley");
+        jButton5.setEnabled(false);
 
         jButton6.setText("Bombard");
+        jButton6.setEnabled(false);
 
         jButton7.setText("Draw");
+        jButton7.setEnabled(false);
 
         jButton8.setText("Discard");
+        jButton8.setEnabled(false);
 
         jButton9.setText("Restore");
+        jButton9.setEnabled(false);
 
         jButton10.setText("Yes");
 
@@ -346,21 +392,6 @@ public class ClientUI extends javax.swing.JFrame {
 
         jLabel9.setText("Opponent Hand");
 
-        javax.swing.GroupLayout opponentHandLayout = new javax.swing.GroupLayout(opponentHand);
-        opponentHand.setLayout(opponentHandLayout);
-        opponentHandLayout.setHorizontalGroup(
-            opponentHandLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(opponentHandLayout.createSequentialGroup()
-                .addComponent(jLabel9)
-                .addGap(0, 343, Short.MAX_VALUE))
-        );
-        opponentHandLayout.setVerticalGroup(
-            opponentHandLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(opponentHandLayout.createSequentialGroup()
-                .addComponent(jLabel9)
-                .addGap(0, 86, Short.MAX_VALUE))
-        );
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -369,14 +400,11 @@ public class ClientUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(playerHandPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(44, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(mainMapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(opponentHand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(180, 180, 180)))
+                        .addComponent(playerHandPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(mainMapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(discardPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -385,17 +413,15 @@ public class ClientUI extends javax.swing.JFrame {
                             .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE))
+                        .addComponent(jTextField1)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel5)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel3)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 388, Short.MAX_VALUE))
-                                .addGroup(layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(moveButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(jButton7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(jButton8, javax.swing.GroupLayout.Alignment.LEADING))
                                         .addGroup(layout.createSequentialGroup()
@@ -408,8 +434,12 @@ public class ClientUI extends javax.swing.JFrame {
                                             .addComponent(jButton6))
                                         .addComponent(jButton9))
                                     .addGap(0, 0, Short.MAX_VALUE))
-                                .addComponent(gameLogPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addComponent(jTextField1))
+                                .addComponent(gameLogPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel9)
+                                        .addComponent(jLabel3))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -419,10 +449,11 @@ public class ClientUI extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(opponentHand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel9)
+                        .addGap(81, 81, 81)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(gameLogPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -433,7 +464,7 @@ public class ClientUI extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButton7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton2)
+                                .addComponent(moveButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jButton3)
@@ -449,12 +480,15 @@ public class ClientUI extends javax.swing.JFrame {
                             .addComponent(jButton10)
                             .addComponent(jButton11))
                         .addGap(9, 9, 9)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(mainMapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(mainMapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
@@ -483,12 +517,14 @@ public class ClientUI extends javax.swing.JFrame {
 		// we check the list from top to buttom
 		// (therefore we itereate in reverse order)
 		//
-		for(TerrainGUI terrainGUI: map.getTerrainsGUI() )  
+		for(TerrainGUI terrainGUI: map.getTerrainsGUI())  
                 {
                        terrainGUI.setSelected(false);
+                       game.getMap().getTileAtIndex(terrainGUI.getPos().getX(), terrainGUI.getPos().getY()).setSelected(false);
      			if(mouseOverPiece(terrainGUI,x,y))
                         {   
   				terrainGUI.setSelected(true);
+                                game.getMap().getTileAtIndex(terrainGUI.getPos().getX(), terrainGUI.getPos().getY()).setSelected(true);
                                 this.repaint();
 				
                         }
@@ -499,9 +535,9 @@ public class ClientUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_mainMapPanelMouseClicked
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void moveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moveButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_moveButtonActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
@@ -567,11 +603,6 @@ public class ClientUI extends javax.swing.JFrame {
         });
     }
 
-    void drawMap(){
-    
-     
-    }
-    
    
     
     
@@ -582,7 +613,6 @@ public class ClientUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
@@ -604,7 +634,7 @@ public class ClientUI extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JPanel mainMapPanel;
-    private javax.swing.JPanel opponentHand;
+    private javax.swing.JButton moveButton;
     private javax.swing.JPanel playerHandPanel;
     // End of variables declaration//GEN-END:variables
 
