@@ -99,6 +99,8 @@ public class Game {
         
         ArrayList<Position> tempMoves;
         
+        ArrayList<Position> tempMoves2 = new ArrayList<Position>();
+        
             
         for(Position move : moves ){
         
@@ -108,14 +110,18 @@ public class Game {
                     
                         for(Position addPosition: tempMoves){
                         
-                            if (!moves.contains(addPosition))
-                                    moves.add(addPosition);
+                            if (!moves.contains(addPosition) && !addPosition.equals(unit.getPos()))
+                                    
+                                
+                                tempMoves2.add(addPosition);
                                     
                         }
       
                 }            
             
             }
+        moves.addAll(tempMoves2);
+        
         }
         
         return moves;

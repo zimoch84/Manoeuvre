@@ -18,47 +18,53 @@ import manouvre.game.Unit;
  *
  * @author Piotr
  */
-public class UnitGUI extends Unit {
+public class UnitGUI  {
     
     Image imgFull;
     Image imgReduced;
+    
+    Unit unit;
 
+    
+    
+    
+    
     public Image getImg() {
-        if(isInjured())
+        if(unit.isInjured())
                 return imgReduced;
         else return imgFull;
                         
     }
 
-    static Image getImage(Unit unit){
-    Image img ;
-    try {
-        
-            if( unit.isInjured() )
-               img = ImageIO.read(new File("resources\\units\\"+  getImageReducedName()   ));
-            else         
-                img = ImageIO.read(new File("resources\\units\\"+  getImageFullName()   ));
-              
-            return img;
-            
-        } catch (IOException ex) {
-            Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    
-    return null;
-    
-    }
-    
-    
     public UnitGUI(int ID) {
-        super(ID);
+        unit = new Unit(ID);
         try {
-            imgFull = ImageIO.read(new File("resources\\units\\"+  getImageFullName()   ));
-            imgReduced = ImageIO.read(new File("resources\\units\\"+  getImageReducedName()   ));
+            imgFull = ImageIO.read(new File("resources\\units\\"+  unit.getImageFullName()   ));
+            imgReduced = ImageIO.read(new File("resources\\units\\"+  unit.getImageReducedName()   ));
         } catch (IOException ex) {
             Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
     
+    public UnitGUI(Unit unit) {
+        this.unit = unit;
+        try {
+            imgFull = ImageIO.read(new File("resources\\units\\"+  unit.getImageFullName()   ));
+            imgReduced = ImageIO.read(new File("resources\\units\\"+  unit.getImageReducedName()   ));
+        } catch (IOException ex) {
+            Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+    
+        
 }

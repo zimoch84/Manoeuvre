@@ -7,18 +7,15 @@ package manouvre.gui;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import manouvre.game.Game;
-import manouvre.game.Map;
 import manouvre.game.Player;
 import manouvre.game.Position;
 import manouvre.game.Terrain;
 import manouvre.game.Unit;
-import manouvre.game.interfaces.TerrainInterface;
 
 /**
  *
@@ -26,10 +23,14 @@ import manouvre.game.interfaces.TerrainInterface;
  */
 public class ClientUI extends javax.swing.JFrame {
 
+    /**
+     * Gui objects
+     */
     MapGUI map ;
-    
-    ArrayList<UnitGUI> unitsGUI = new ArrayList<UnitGUI>();  //tymczasowo
-    
+    ArrayList<UnitGUI> unitsGUI = new ArrayList<UnitGUI>();  
+    /*
+    Game object
+    */
     Game game;
     
     /**
@@ -55,7 +56,7 @@ public class ClientUI extends javax.swing.JFrame {
         Unit unit = new Unit(i+1);
         unit.setPos(new Position (i,1));
         
-       // unitsGUI.add(new UnitGUI(i+1));
+        unitsGUI.add(new UnitGUI(unit));
         
         game.placeUnit(new Player("Piotr"), unit);
         
@@ -160,12 +161,12 @@ public class ClientUI extends javax.swing.JFrame {
         Draw units
         */
         int gapUnit = 7;
-        for (Unit drawUnit: game.getUnits())
+        for (UnitGUI drawUnit: unitsGUI)
         {
             g.drawImage(
-                UnitGUI.getImage(drawUnit),
-                drawUnit.getPos().getMouseX() + gapUnit,
-                drawUnit.getPos().getMouseY() + gapUnit,
+                drawUnit.getImg(),
+                drawUnit.getUnit().getPos().getMouseX() + gapUnit,
+                drawUnit.getUnit().getPos().getMouseY() + gapUnit,
                 46,
                 46,
                 null);
