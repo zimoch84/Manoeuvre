@@ -122,13 +122,13 @@ public class Terrain  implements TerrainInterface {
     private void calculateBlockLOS() {
     
         switch (type){
-            case Terrain.CITY : blockingLOS= true ;
-            case Terrain.CLEAR: blockingLOS= false;
-            case Terrain.FIELDS: blockingLOS= false;
-            case Terrain.FOREST : blockingLOS= true ;
-            case Terrain.HILL: blockingLOS= true;
-            case Terrain.LAKE: blockingLOS= true;
-            case Terrain.MARSH: blockingLOS= true;
+            case Terrain.CITY : blockingLOS= true ;break;
+            case Terrain.CLEAR: blockingLOS= false;break;
+            case Terrain.FIELDS: blockingLOS= false;break;
+            case Terrain.FOREST : blockingLOS= true ;break;
+            case Terrain.HILL: blockingLOS= true;break;
+            case Terrain.LAKE: blockingLOS= true;break;
+            case Terrain.MARSH: blockingLOS= true;break;
             default: blockingLOS = false;
         }
     
@@ -140,13 +140,13 @@ public class Terrain  implements TerrainInterface {
     private void calculatePassable() {
     
         switch (type){
-            case Terrain.CITY : ispassable= true ;
-            case Terrain.CLEAR: ispassable= true;
-            case Terrain.FIELDS: ispassable= true;
-            case Terrain.FOREST : ispassable= true ;
-            case Terrain.HILL: ispassable= true;
-            case Terrain.LAKE: ispassable= false;
-            case Terrain.MARSH: ispassable= true;
+            case Terrain.CITY : ispassable= true ; break;
+            case Terrain.CLEAR: ispassable= true;break;
+            case Terrain.FIELDS: ispassable= true;break;
+            case Terrain.FOREST : ispassable= true ;break;
+            case Terrain.HILL: ispassable= true;break;
+            case Terrain.LAKE: ispassable= false;break;
+            case Terrain.MARSH: ispassable= true;break;
             default: ispassable = true;
         }
     
