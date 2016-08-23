@@ -18,11 +18,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import manouvre.game.Game;
-import manouvre.game.Map;
 import manouvre.game.Player;
 import manouvre.game.Position;
 import manouvre.game.Terrain;
 import manouvre.game.Unit;
+import manouvre.game.interfaces.PositionInterface;
 import manouvre.game.interfaces.TerrainInterface;
 import manouvre.network.client.SocketClient;
 
@@ -103,7 +103,7 @@ public class ClientUI extends javax.swing.JFrame {
         Unit unit = new Unit(i+1);
         unit.setPos(new Position (i,1));
         
-       // unitsGUI.add(new UnitGUI(i+1));
+        unitsGUI.add(new UnitGUI(unit));
         
         game.placeUnit(new Player("Piotr"), unit);
         
@@ -138,6 +138,7 @@ public class ClientUI extends javax.swing.JFrame {
         /*
         Draws selection
         */
+        if (map.isUnitSelected())
         for(Terrain terrain : game.getMap().getTerrainz()  )  
         {
  
@@ -178,6 +179,7 @@ public class ClientUI extends javax.swing.JFrame {
                     else 
                     
                     {
+                        
                         System.out.println("manouvre.gui.ClientUI.drawMap() : " + game.getUnitAtPosition(terrain.getPos()).toString()  );
                         ArrayList<Position> movePositions = 
                                 game.getPossibleMovement(
@@ -208,12 +210,12 @@ public class ClientUI extends javax.swing.JFrame {
         Draw units
         */
         int gapUnit = 7;
-        for (Unit drawUnit: game.getUnits())
+        for (UnitGUI drawUnit: unitsGUI)
         {
             g.drawImage(
-                UnitGUI.getImage(drawUnit),
-                drawUnit.getPos().getMouseX() + gapUnit,
-                drawUnit.getPos().getMouseY() + gapUnit,
+                drawUnit.getImg(),
+                drawUnit.getUnit().getPos().getMouseX() + gapUnit,
+                drawUnit.getUnit().getPos().getMouseY() + gapUnit,
                 46,
                 46,
                 null);
@@ -310,13 +312,13 @@ public class ClientUI extends javax.swing.JFrame {
             mainMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainMapPanelLayout.createSequentialGroup()
                 .addComponent(jLabel4)
-                .addGap(0, 616, Short.MAX_VALUE))
+                .addGap(0, 500, Short.MAX_VALUE))
         );
         mainMapPanelLayout.setVerticalGroup(
             mainMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainMapPanelLayout.createSequentialGroup()
                 .addComponent(jLabel4)
-                .addGap(0, 573, Short.MAX_VALUE))
+                .addGap(0, 505, Short.MAX_VALUE))
         );
 
         jLabel1.setText("Hand");
@@ -381,7 +383,7 @@ public class ClientUI extends javax.swing.JFrame {
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel8)
-                .addGap(0, 22, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jLabel3.setText("Players");
@@ -571,30 +573,127 @@ public class ClientUI extends javax.swing.JFrame {
     }//GEN-LAST:event_formComponentHidden
 
     private void mainMapPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainMapPanelMouseClicked
-        int x = evt.getPoint().x;
+                int x = evt.getPoint().x;
 		int y = evt.getPoint().y;
-		// find out which piece to move.
-		// we check the list from top to buttom
-		// (therefore we itereate in reverse order)
-		//
+		                
+                if(! map.isUnitSelected() )
 		for(TerrainGUI terrainGUI: map.getTerrainsGUI())  
                 {
+                       
                        terrainGUI.setSelected(false);
                        game.getMap().getTileAtIndex(terrainGUI.getPos().getX(), terrainGUI.getPos().getY()).setSelected(false);
      			if(mouseOverPiece(terrainGUI,x,y))
                         {   
   				terrainGUI.setSelected(true);
+                                Position selectedPosition = terrainGUI.getPos();
+                                
+                                if(game.checkUnitAtPosition(selectedPosition) ) {
+                                  
+                                    map.setUnitSelected(true);
+                                    getUnitGuiOnMapGui(selectedPosition).setSelected(true);
+                                    
+                                }
+                                
                                 game.getMap().getTileAtIndex(terrainGUI.getPos().getX(), terrainGUI.getPos().getY()).setSelected(true);
                                 this.repaint();
 				
                         }
                    
+                    }
+                /*
+                If unit is selected find which unit to move and move into 
+                */
+                else  {
+                    Unit selectedUnit = getSelectedUnit().getUnit();
+                    Position clickedPosition = new Position(  PositionInterface.convertMouseXToX(x)   , PositionInterface.convertMouseYToY(y)) ;
+                    
+                    if(!selectedUnit.getPosition().equals(clickedPosition))
+                    {
+                    System.out.println("manouvre.gui.ClientUI.mainMapPanelMouseClicked().clickedPosition :" + clickedPosition) ;
+                    
+                    ArrayList<Position> movePositions =                 
+                    game.getPossibleMovement(selectedUnit);
+                    
+                    for(Position checkPosition: movePositions){
+                    
+                        if(checkPosition.equals(clickedPosition))
+                        {
+                        
+                            //Move in game and GUI
+                            game.moveUnit(selectedUnit, clickedPosition);
+                            
+                             selectedUnit.setPos(clickedPosition);
+                            //Unselect all
+                            unselectAllUnits();
+                            //exit loop
+                            repaint();
+                            break;
+                        }      
+                    }
+                    }
+                    /*
+                    Clicking on the same unit - deselects it.
+                    */
+                    else 
+                    {unselectAllUnits();
+                    repaint();
+                    }
+                    
+                    
+                    
+                    
+                   // game.moveUnit(  , newPosition);
+                    
                 }
+                    
+                    
         
         
         
     }//GEN-LAST:event_mainMapPanelMouseClicked
-
+    private UnitGUI getUnitGuiOnMapGui(Position position){
+    
+           for(UnitGUI unitSearch: this.unitsGUI){
+        
+            if(unitSearch.getUnit().getPos().equals(position))
+            {
+                return unitSearch;
+              }
+            
+        
+        }
+              
+        return null;
+    
+    }
+    
+    private UnitGUI getSelectedUnit(){
+    
+           for(UnitGUI unitSearch: this.unitsGUI){
+        
+            if(unitSearch.isSelected())
+            {
+                return unitSearch;
+              }
+            
+        
+        }
+              
+        return null;
+    
+    }
+    
+    private void unselectAllUnits()
+        
+    {
+        this.unitsGUI.stream().forEach((unit) -> {
+            unit.setSelected(false);
+        });
+        
+        map.setUnitSelected(false);
+    }
+    
+    
     private void moveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moveButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_moveButtonActionPerformed

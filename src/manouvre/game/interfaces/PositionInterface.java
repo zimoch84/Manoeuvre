@@ -6,6 +6,7 @@
 package manouvre.game.interfaces;
 
 import java.util.ArrayList;
+import manouvre.gui.MapGUI;
 
 /**
  *
@@ -38,15 +39,49 @@ public interface PositionInterface {
 	public static final int COLUMN_G = 6;
 	public static final int COLUMN_H = 7;
 	
-        
-        abstract public int convertColumnToMouseX(int column);
-	
-	/**
-	 * convert logical row into y coordinate
-	 * @param row
+        /**
+	 * convert logical X row into Mouse x coordinate
+        * @param x
 	 * @return y coordinate for row
 	 */
-	abstract public int convertRowToMouseY(int row);
+        public static  int convertXtoMouseX(int x){
+		return MapGUI.PIECES_START_X + MapGUI.SQUARE_WIDTH * x;
+	}
+	
+	
+	/**
+	 * convert logical y into Mouse y coordinate
+         * @param y
+	 * @param row
+	 * @return y coordinate for y
+	 */
+  
+	public static int convertYToMouseY(int y){
+		return MapGUI.PIECES_START_Y + MapGUI.SQUARE_HEIGHT * (PositionInterface.ROW_8 - y);
+	}
+        
+        /*
+        
+        Convert mouse position to x coordinate
+        */
+        public static int convertMouseXToX(int mouseX){
+        
+            return (int)  mouseX /MapGUI.SQUARE_WIDTH;
+            
+            
+        }
+        
+        /*
+        
+        Convert mouse position y to y coordinate on board
+        */
+        public static int convertMouseYToY(int mouseY){
+        
+            return  ROW_8  -  (int)  (mouseY / (MapGUI.SQUARE_HEIGHT))  ;
+            
+            
+        }
+        
         
         
         /*

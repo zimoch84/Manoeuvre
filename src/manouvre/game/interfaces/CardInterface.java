@@ -12,7 +12,7 @@ package manouvre.game.interfaces;
 public interface CardInterface {
     
     /*
-    colors
+    flags
     */
     
     public static int BR  = 0; //GreatBritain
@@ -23,6 +23,13 @@ public interface CardInterface {
     public static int SP  = 5; //Spain
     public static int OT  = 6; //Ottoman
     public static int US  = 7; // USA
+    
+    /*
+    Card Type
+    */
+    public static int UNIT=0;
+    public static int HQUNIT=0;
+    public static int HQLEADER=0;
     
     /*
     Unit Types
@@ -48,37 +55,92 @@ public interface CardInterface {
     public static int HQCARD  = 6;
     
     /*
-    Return type of card
+    Return CardID 
+    */  
+    public int getCardID();
+    /*
+    Return card name string
     */
-    public int getType();
-    
+    public String getCardName(); 
+    /*
+    Returns flag of card
+    */
+    public int getCardFlag(); 
+    /*
+    Returns card image String
+    */
+    public String getCardImg();    
     /*
     Return type of card
     */
-    public int getHQType();
-    
-    
+    public int getCardType();
     /*
-    Returns color of card
+    Returns unit attack value
     */
-    
-    public int getColor();
-    
+    public int getUnitAttack();
     /*
-    Returns defence value
+    Returns unit defence value
     */
-    public int getDefence();
+    public int getUnitDefence();  
+    /*
+    Returns unit range value
+    */
+    public int getUnitRange();   
+    /*
+    Returns unit bombard value
+    */
+    public int getUnitBombard();
+    /*
+    Returns unit volley value
+    */
+    public int getUnitVolley();
+    /*
+    Returns unit pursuit value
+    */
+    public int getUnitPursuit();
+    /*
+    Returns unit withdraw value
+    */
+    public int getUnitWithdraw();
+    /*
+    Returns leder command string
+    */
+    public String getLederCommand();
+    /*
+    Returns leder combat value
+    */
+    public int getLederCombat();
+    /*
+    Returns leder rally value
+    */
+    public int getLederRally();
+    /*
+    Returns leder pursuit value
+    */
+    public int getLederPursuit();
+    /*
+    Returns leder grand battery value
+    */
+    public String getLederGrandBatt();
+    /*
+    Returns unit description string
+    */
+    public String getUnitDescr();
     
+    
+    //--------------------------------------
     /*
     Checks if cards is HQ Card
     */
     public boolean isHQCard();
-    
+     /*
+    Return type of card
+    */
+    public int getHQType();   
     /*
     Is required to advance
     */
-    public boolean isRequredToAdvanceAfterAttack();
-    
+    public boolean isRequredToAdvanceAfterAttack();   
     /*
     checks if Leader Rally successfully resolve
     true - test passed
