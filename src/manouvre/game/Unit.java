@@ -142,6 +142,11 @@ public class Unit implements UnitInterface{
         this.owner = owner;
     }
     
+    public void move(Position newPosition){
+    
+        setPos(newPosition);
+    }
+    
     
     
 }

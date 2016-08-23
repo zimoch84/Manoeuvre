@@ -16,12 +16,37 @@ import manouvre.game.Terrain;
 import manouvre.game.interfaces.PositionInterface;
 
 /**
+ * /**
+ *Map looks like this
+
+| Y/X      | 0        | 1        | 2        | 3        | 4        | 5        | 6        | 7        |
++----------+----------+----------+----------+----------+----------+----------+----------+----------+
+| 7        |          |          |          |          |          |          |          |          |
+|          |          |          |          |          |          |          |          |          |
+| 6        |          |          |          |          |          |          |          |          |
+|          |          |          |          |          |          |          |          |          |
+| 5        |          |          |          |          |          |          |          |          |
+|          |          |          |          |          |          |          |          |          |
+| 4        |          |          |          |          |          |          |          |          |
+|          |          |          |          |          |          |          |          |          |
+| 3        |          |          |          |          |          |          |          |          |
+|          |          |          |          |          |          |          |          |          |
+| 2        |          |          |          |          |          |          |          |          |
+|          |          |          |          |          |          |          |          |          |
+| 1        |          |          |          |          |          |          |          |          |
+|          |          |          |          |          |          |          |          |          |
+| 0        |          |          |          |          |          |          |          |          |
++----------+----------+----------+----------+----------+----------+----------+----------+----------+
  *
  * @author Piotr
  */
 public class MapGUI extends Map{
     
      ArrayList<TerrainGUI> terrainsGUI;
+     
+     boolean unitSelected;
+
+    
     
      public static final int BOARD_START_X = 0;
      public static final int BOARD_START_Y = 0;
@@ -48,6 +73,7 @@ public class MapGUI extends Map{
     
     this.setTerrains(map.getTerrains());
     terrainsGUI = new ArrayList<>();
+    unitSelected = false;
     loadTerrains();
     
     
@@ -82,6 +108,14 @@ public class MapGUI extends Map{
         this.terrainsGUI = terrainsGUI;
     }
          
+    public boolean isUnitSelected() {
+        return unitSelected;
+    }
+
+    public void setUnitSelected(boolean unitSelected) {
+        this.unitSelected = unitSelected;
+    }
+    
     
    }
     
