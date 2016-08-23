@@ -72,12 +72,13 @@ import com.csvreader.CsvReader;
 
 public class Card implements CardInterface{
     int chosenID;
+    String CardID="";
     String CardName="";				
     String CardFlag="";
     String CardImg="";                            
     String CardType="";
     String UnitAttack="";				
-    String UnitDeffense ="";
+    String UnitDefense ="";
     String UnitRange="";                            
     String UnitBombard="";
     String UnitVolley="";				
@@ -89,7 +90,8 @@ public class Card implements CardInterface{
     String LederPursuit="";                           
     String LederGrandBatt="";                          
     String UnitDescr="";
-			
+ 			
+    
     public Card (int chosenID) { 
         try {		
             String strChosenId=Integer.toString(chosenID);
@@ -100,12 +102,13 @@ public class Card implements CardInterface{
             {
                 cards.readRecord();
             }
+            this.CardID = cards.get("CardID");
             this.CardName = cards.get("CardName");
             this.CardFlag = cards.get("CardFlag");
             this.CardImg = cards.get("CardImg");
             this.CardType = cards.get("CardType");
             this.UnitAttack = cards.get("UnitAttack");
-            this.UnitDeffense = cards.get("UnitDeffense");
+            this.UnitDefense = cards.get("UnitDeffense");
             this.UnitRange = cards.get("UnitRange");
             this.UnitBombard = cards.get("UnitBombard");
             this.UnitVolley = cards.get("UnitVolley");
@@ -118,8 +121,6 @@ public class Card implements CardInterface{
             this.LederGrandBatt = cards.get("LederGrandBatt");
             this.UnitDescr = cards.get("UnitDescr");
 
-          // System.out.println(chosenID + ":" + CardName + ", " + CardFlag + CardImg + ", " + CardType + UnitAttack + ", " + UnitDeffense + UnitRange + ", " + UnitBombard + UnitVolley + ", " + UnitPursuit + ", " + UnitWithdraw + ", " + LederCommand + ", " + LederCombat + ", " + LederRally + ", " + LederPursuit + ", " + LederGrandBatt + "," + UnitDescr);
-
             cards.close();
 
             } catch (FileNotFoundException e) {
@@ -131,6 +132,10 @@ public class Card implements CardInterface{
     
     public int getChosenID() {
         return chosenID;
+    }
+    
+    public int getCardID() {
+        return Integer.parseInt(CardID);
     }
 
     public String getCardName() {
@@ -161,22 +166,29 @@ public class Card implements CardInterface{
         return CardImg;
     }
 
-    public String getCardType() {
-        return CardType;
+    public int getCardType() {
+         switch (CardType){
+            case "Unit": 
+                return UNIT;
+            case "HqUnit":
+                return HQUNIT;
+            case "HqLeader":
+                return HQLEADER;
+           
+        }          
+        return 99; //if else return wrong value
     }
 
     public int getUnitAttack() {    
         return Dice.diceTypeToInt(UnitAttack); //if else return wrong value
     }
 
-    public int getUnitDeffense() {
-        int strToInt=Integer.parseInt(UnitDeffense);
-        return strToInt;
+    public int getUnitDefence() {
+        return Integer.parseInt(UnitDefense);
     }
 
     public int getUnitRange() {
-        int strToInt=Integer.parseInt(UnitRange);
-        return strToInt;
+        return Integer.parseInt(UnitRange);
     }
 
     public int getUnitBombard() {
@@ -188,13 +200,11 @@ public class Card implements CardInterface{
     }
 
     public int getUnitPursuit() {
-        int strToInt=Integer.parseInt(UnitPursuit);
-        return strToInt;
+        return Integer.parseInt(UnitPursuit);
     }
 
     public int getUnitWithdraw() {
-        int strToInt=Integer.parseInt(UnitWithdraw);
-        return strToInt;
+        return Integer.parseInt(UnitWithdraw);
     }
 
     public String getLederCommand() {
@@ -202,18 +212,15 @@ public class Card implements CardInterface{
     }
 
     public int getLederCombat() {
-        int strToInt=Integer.parseInt(LederCombat);
-        return strToInt;
+        return Integer.parseInt(LederCombat);
     }
 
     public int getLederRally() {
-        int strToInt=Integer.parseInt(LederRally);
-        return strToInt;
+        return Integer.parseInt(LederRally);
     }
 
     public int getLederPursuit() {
-        int strToInt=Integer.parseInt(LederPursuit);
-        return strToInt;
+        return Integer.parseInt(LederPursuit);
     }
 
     public String getLederGrandBatt() { //only Napoleon
@@ -224,25 +231,12 @@ public class Card implements CardInterface{
         return UnitDescr;
     }
 
-    @Override
-    public int getType() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public int getHQType() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    @Override
-    public int getColor() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public int getDefence() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+ 
 
     @Override
     public boolean isHQCard() {
