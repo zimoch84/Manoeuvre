@@ -15,10 +15,22 @@ import static manouvre.game.interfaces.PositionInterface.ROW_8;
  */
 public class Game {
     
+    /*
+    Game phases
+    */
+    public static int DISCARD = 0;
+    public static int DRAW = 1;
+    public static int MOVE = 2;
+    public static int COMBAT = 3;
+    public static int RESTORATION = 4;
+       
+    
     Map map;
 
     ArrayList<Unit> units;
 
+    int turn;
+    
     public Game(ArrayList<Unit> units) {
         this.units = units;
     }
@@ -164,8 +176,9 @@ public class Game {
       map.getTileAtIndex(unit.getPos().getX(), unit.getPos().getY()).setIsOccupiedByUnit(false);
       map.getTileAtIndex(newPosition.getX(), newPosition.getY()).setIsOccupiedByUnit(true);
 
-      unit.setPos(newPosition);
-      ;
+      getUnitAtPosition(unit.getPos()).setPos(newPosition);
+      
+      
           
     }
     
@@ -186,6 +199,24 @@ public class Game {
      
     }
     
+    public boolean checkUnitAtPosition(Position position){
+    
+        for(Unit unitSearch: units){
+        
+            if(unitSearch.getPos().equals(position))
+            {
+                return true;
+              }
+            
+        
+        }
+              
+        return false;
+        
+     
+    }
+    
+        
     public ArrayList<Unit> getUnits() {
         return units;
     }

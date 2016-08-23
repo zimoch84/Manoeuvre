@@ -10,7 +10,26 @@ import manouvre.game.interfaces.PositionInterface;
 import manouvre.gui.MapGUI;
 
 /**
- *
+ *Map looks like this
+
+| Y/X      | 0        | 1        | 2        | 3        | 4        | 5        | 6        | 7        |
++----------+----------+----------+----------+----------+----------+----------+----------+----------+
+| 7        |          |          |          |          |          |          |          |          |
+|          |          |          |          |          |          |          |          |          |
+| 6        |          |          |          |          |          |          |          |          |
+|          |          |          |          |          |          |          |          |          |
+| 5        |          |          |          |          |          |          |          |          |
+|          |          |          |          |          |          |          |          |          |
+| 4        |          |          |          |          |          |          |          |          |
+|          |          |          |          |          |          |          |          |          |
+| 3        |          |          |          |          |          |          |          |          |
+|          |          |          |          |          |          |          |          |          |
+| 2        |          |          |          |          |          |          |          |          |
+|          |          |          |          |          |          |          |          |          |
+| 1        |          |          |          |          |          |          |          |          |
+|          |          |          |          |          |          |          |          |          |
+| 0        |          |          |          |          |          |          |          |          |
++----------+----------+----------+----------+----------+----------+----------+----------+----------+
  * @author Piotr
  */
 public class Position implements PositionInterface{
@@ -35,21 +54,9 @@ public class Position implements PositionInterface{
     }
     
     
-     public  int convertColumnToMouseX(int column){
-		return MapGUI.PIECES_START_X + MapGUI.SQUARE_WIDTH * column;
-	}
-	
-	/**
-	 * convert logical y into y coordinate
-	 * @param row
-	 * @return y coordinate for y
-	 */
-	public  int convertRowToMouseY(int row){
-		return MapGUI.PIECES_START_Y + MapGUI.SQUARE_HEIGHT * (PositionInterface.ROW_8 - row);
-	}
         
         /**
-	 * calculate upper right corner of terrain
+	 * calculate upper left corner of terrain
 	 * @param 
 	 * @return x coordinate for upper right corner  terrain	
 	 */
@@ -58,7 +65,7 @@ public class Position implements PositionInterface{
 	}
 	
 	/**
-	 * calculate upper right corner of terrain
+	 * calculate upper left corner of terrain
 	 * @param 
 	 * @return y coordinate for  upper right corner  terrain
 	 */
@@ -112,5 +119,15 @@ public class Position implements PositionInterface{
         
         
     }
+    
+    public boolean checkIfMouseFitInPositon(int mouseX, int mouseY)
+    {
+        
+        return mouseX > getMouseX() && mouseX < getMouseX() + MapGUI.SQUARE_WIDTH  
+                 && mouseY > getMouseY() && mouseY < getMouseY() + MapGUI.SQUARE_HEIGHT;
+    }
+    
+    
+             
          
 }

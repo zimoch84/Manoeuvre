@@ -29,6 +29,12 @@ public class Maneuvre {
        }
         
        
+       int var;
+       
+       var = (int) 41/40;
+       
+        System.out.println("manouvre.game.Maneuvre.main()" + var);
+       
                 
     }
     
