@@ -108,7 +108,7 @@ public class Game {
                     
                         for(Position addPosition: tempMoves){
                         
-                            if (!moves.contains(addPosition))
+                            //if (!moves.contains(addPosition))
                                     moves.add(addPosition);
                                     
                         }
