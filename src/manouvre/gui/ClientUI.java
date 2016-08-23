@@ -545,6 +545,8 @@ public class ClientUI extends javax.swing.JFrame {
                     Unit selectedUnit = getSelectedUnit().getUnit();
                     Position clickedPosition = new Position(  PositionInterface.convertMouseXToX(x)   , PositionInterface.convertMouseYToY(y)) ;
                     
+                    if(!selectedUnit.getPosition().equals(clickedPosition))
+                    {
                     System.out.println("manouvre.gui.ClientUI.mainMapPanelMouseClicked().clickedPosition :" + clickedPosition) ;
                     
                     ArrayList<Position> movePositions =                 
@@ -565,6 +567,14 @@ public class ClientUI extends javax.swing.JFrame {
                             repaint();
                             break;
                         }      
+                    }
+                    }
+                    /*
+                    Clicking on the same unit - deselects it.
+                    */
+                    else 
+                    {unselectAllUnits();
+                    repaint();
                     }
                     
                     
