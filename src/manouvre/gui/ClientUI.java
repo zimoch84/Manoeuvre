@@ -133,6 +133,7 @@ public class ClientUI extends javax.swing.JFrame {
                     else 
                     
                     {
+                        
                         System.out.println("manouvre.gui.ClientUI.drawMap() : " + game.getUnitAtPosition(terrain.getPos()).toString()  );
                         ArrayList<Position> movePositions = 
                                 game.getPossibleMovement(
@@ -538,7 +539,7 @@ public class ClientUI extends javax.swing.JFrame {
                    
                     }
                 /*
-                If unit is selected find which unit to move and move to 
+                If unit is selected find which unit to move and move into 
                 */
                 else  {
                     Unit selectedUnit = getSelectedUnit().getUnit();
@@ -552,17 +553,18 @@ public class ClientUI extends javax.swing.JFrame {
                     for(Position checkPosition: movePositions){
                     
                         if(checkPosition.equals(clickedPosition))
+                        {
                         
                             //Move in game and GUI
-                            game.moveUnit(game.getUnitAtPosition(checkPosition), clickedPosition);
+                            game.moveUnit(selectedUnit, clickedPosition);
                             
-                             this.getSelectedUnit().getUnit().setPos(clickedPosition);
+                             selectedUnit.setPos(clickedPosition);
                             //Unselect all
                             unselectAllUnits();
                             //exit loop
                             repaint();
                             break;
-                               
+                        }      
                     }
                     
                     

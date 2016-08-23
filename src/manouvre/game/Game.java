@@ -176,8 +176,9 @@ public class Game {
       map.getTileAtIndex(unit.getPos().getX(), unit.getPos().getY()).setIsOccupiedByUnit(false);
       map.getTileAtIndex(newPosition.getX(), newPosition.getY()).setIsOccupiedByUnit(true);
 
-      unit.setPos(newPosition);
-      ;
+      getUnitAtPosition(unit.getPos()).setPos(newPosition);
+      
+      
           
     }
     

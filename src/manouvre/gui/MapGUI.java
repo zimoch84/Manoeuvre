@@ -7,13 +7,7 @@ package manouvre.gui;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import manouvre.game.Map;
-import manouvre.game.Position;
-import manouvre.game.Terrain;
-import manouvre.game.interfaces.PositionInterface;
 
 /**
  * /**

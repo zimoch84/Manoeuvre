@@ -41,7 +41,7 @@ public interface PositionInterface {
 	
         /**
 	 * convert logical X row into Mouse x coordinate
-	 * @param row
+        * @param x
 	 * @return y coordinate for row
 	 */
         public static  int convertXtoMouseX(int x){
@@ -51,6 +51,7 @@ public interface PositionInterface {
 	
 	/**
 	 * convert logical y into Mouse y coordinate
+         * @param y
 	 * @param row
 	 * @return y coordinate for y
 	 */
