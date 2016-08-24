@@ -10,7 +10,7 @@ public interface CardSetInterface {
    /**
    * Shhuffle DECK into a random order
    */
-   public void shuffleDeck(int range);
+   public void makeDeck(int range);
    
    /**
     * Add random cards from the DECK to HAND
