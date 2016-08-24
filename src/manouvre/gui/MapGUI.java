@@ -34,9 +34,11 @@ import manouvre.game.Map;
  *
  * @author Piotr
  */
-public class MapGUI extends Map{
+public class MapGUI{
     
      ArrayList<TerrainGUI> terrainsGUI;
+     
+     Map map;
      
      boolean unitSelected;
 
@@ -65,7 +67,8 @@ public class MapGUI extends Map{
     
     public MapGUI(Map map) throws IOException{
     
-    this.setTerrains(map.getTerrains());
+    this.map =  map;
+    
     terrainsGUI = new ArrayList<>();
     unitSelected = false;
     loadTerrains();
@@ -78,14 +81,7 @@ public class MapGUI extends Map{
           for (int i=0;i<8;i++)
             {
                    for(int j=0;j<8;j++){
-                       TerrainGUI  tempTerain =  new TerrainGUI(
-                                       getTerrains()[i][j].getType(), 
-                                       getTerrains()[i][j].getPos()
-                       );
-                               
-                       terrainsGUI.add(
-                         tempTerain      
-                               );
+                       terrainsGUI.add(new TerrainGUI(map.getTileAtIndex(i, j)) );
                        
                    }
             }

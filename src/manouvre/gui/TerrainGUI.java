@@ -19,21 +19,41 @@ import manouvre.game.Terrain;
  *
  * @author Piotr
  */
-public class TerrainGUI extends Terrain{
+public class TerrainGUI {
     
         private Image img;
         
+        boolean selected;
 
-    
+        public boolean isSelected() {
+            return selected;
+        }
 
-	public TerrainGUI(int terrainType, Position pos) throws IOException  {
-		
-                super(terrainType, pos);
-		
-                generateImageForPiece(terrainType);
+        public void setSelected(boolean selected) {
+            this.selected = selected;
+        }
+        
+        Terrain terrain;
 
-		//this.resetToUnderlyingPiecePosition();
-	}
+        public Terrain getTerrain() {
+            return terrain;
+        }
+
+        public void setTerrain(Terrain terrain) {
+            this.terrain = terrain;
+        }
+
+        public TerrainGUI(Terrain terrain) throws IOException {
+            
+            this.terrain = terrain;
+            generateImageForPiece(terrain.getType());
+            
+            
+        }
+
+        public Position getPos(){
+        return terrain.getPos();
+        }
         
         
         public void generateImageForPiece(int terrainType) throws IOException {
