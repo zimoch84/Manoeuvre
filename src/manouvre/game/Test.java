@@ -33,6 +33,7 @@ public class Test {
         System.out.println("USED:");
         BarteksUsedCardsDeck.getAllCardsIDFromSet();
         
+        System.out.println("add 6 RandomCardsFromOtherSet :");
         BarteksHand.addRandomCardsFromOtherSet(6, BarteksDeck);
          
         System.out.println("DECK:");
@@ -42,7 +43,15 @@ public class Test {
         System.out.println("USED:");
         BarteksUsedCardsDeck.getAllCardsIDFromSet();
         
-        
+         System.out.println("Deal 3rd card:");
+        BarteksHand.dealCardByPosInSetToOtherSet(3, BarteksUsedCardsDeck);
+         
+        System.out.println("DECK:");
+        BarteksDeck.getAllCardsIDFromSet();
+        System.out.println("HAND:");
+        BarteksHand.getAllCardsIDFromSet();
+        System.out.println("USED:");
+        BarteksUsedCardsDeck.getAllCardsIDFromSet();
         
          } 
         

@@ -37,8 +37,7 @@ public class CardSet implements CardSetInterface{
     public CardSet(int size, int nation){ 
         this.cardSetSize=size;
         this.nation=nation;
-        System.out.println("211");
-        shuffleDeck(size); 
+        makeDeck(size); 
     }
     /**
      * Establish object for HAND 
@@ -55,39 +54,37 @@ public class CardSet implements CardSetInterface{
     
     //-----------------DECK------------------------------------------------
     /**
-     * shuffle all the possible cards (480) to get the right ones for specific nation
+     * Get cards for specific nation out of all (480) 
      * @param range 
      */
-    public void shuffleDeck(int range) {   
-         //System.out.println("range= " + range);
+    public void makeDeck(int range) {   
         for (int i=0; i<=range; i++){
-        int randomCardID=randomGener.nextInt(range);
         switch (nation){
             case 0:
-                cardID=randomCardID; 
+                cardID=i; 
                 break;
             case 1:
-                cardID=randomCardID+80;
+                cardID=i+80;
                 break;
             case 2:
-                cardID=randomCardID+2*80;
+                cardID=i+2*80;
                 break;
             case 3:
-                cardID=randomCardID+3*80;
+                cardID=i+3*80;
                 break;
             case 4:
-                cardID=randomCardID+4*80;    
+                cardID=i+4*80;    
                 break;
             case 5:
-                cardID=randomCardID+5*80;
+                cardID=i+5*80;
                 break;
             case 6:
-                cardID=randomCardID+6*80;  
+                cardID=i+6*80;  
                 break;
             case 7:
-                cardID=randomCardID+7*80;   
+                cardID=i+7*80;   
                 break;
-        }     
+        } 
         cardList.add(i, new Card(cardID));
         }
      
@@ -112,8 +109,8 @@ public class CardSet implements CardSetInterface{
        }
     }
     /**
-     * Dealing a card to another set. F.ex. from HAND to USED CARDS
-     * @param cardToDeal - card to be given away
+     * Dealing a card to another set based on Object. F.ex. from HAND to USED CARDS
+     * @param cardToDeal - card object to be given away
      * @param otherCardSet - where this card should go
      */
      public void dealCardToOtherSet(CardInterface cardToDeal, CardSetInterface otherCardSet) {
@@ -121,6 +118,16 @@ public class CardSet implements CardSetInterface{
         otherCardSet.addCardToThisSet(temp);
         cardList.remove(cardToDeal);
         
+    }
+      /**
+     * Dealing a card to another set based on position in set. F.ex. from HAND to USED CARDS
+     * @param cardToDeal - card object to be given away
+     * @param otherCardSet - where this card should go
+     */
+     public void dealCardByPosInSetToOtherSet(int cardPosition, CardSetInterface otherCardSet) {
+        CardInterface temp=cardList.get(cardPosition);
+        otherCardSet.addCardToThisSet(temp);
+        cardList.remove(cardPosition);   
     }
     
     //--------------GENERAL FOR ALL----------------------------
