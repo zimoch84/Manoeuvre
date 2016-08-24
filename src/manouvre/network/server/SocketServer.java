@@ -2,6 +2,9 @@ package manouvre.network.server;
 
 import java.io.*;
 import java.net.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import manouvre.network.client.Message;
 
 class ServerThread extends Thread { 
 	
@@ -41,14 +44,22 @@ class ServerThread extends Thread {
         while (true){  
     	    try{  
                 Message msg;
+                          
+                           
                 msg= (Message) streamIn.readObject();
     	    	server.handle(ID, msg);
             }
-            catch(Exception ioe){  
+            catch(ClassCastException ioe){  
             	System.out.println(ID + " ERROR reading: " + ioe.getMessage());
-                server.remove(ID);
-                stop();
-            }
+                ioe.printStackTrace();
+                
+               //server.remove(ID);
+               // stop();
+            }   catch (IOException ex) {
+                    Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex);
+                }
         }
     }
     
@@ -284,4 +295,11 @@ public class SocketServer implements Runnable {
             ui.jTextArea1.append("\nClient refused: maximum " + clients.length + " reached.");
 	}
     }
+    
+    public static String getStackTrace(final Throwable throwable) {
+     final StringWriter sw = new StringWriter();
+     final PrintWriter pw = new PrintWriter(sw, true);
+     throwable.printStackTrace(pw);
+     return sw.getBuffer().toString();
+}
 }

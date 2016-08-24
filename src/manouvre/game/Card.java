@@ -262,7 +262,7 @@ public class Card implements CardInterface{
     public void setCancelled() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-	
+
 }
 
 
