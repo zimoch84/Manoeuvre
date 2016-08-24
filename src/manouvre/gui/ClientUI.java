@@ -105,25 +105,7 @@ public class ClientUI extends javax.swing.JFrame {
         
         unitsGUI.add(new UnitGUI(unit));
         
-        game.placeUnit(new Player(getUserName()), unit);
-        
-        
-        
-        
-        
-    }
-    
-    for (int i=8;i<16;i++)
-    {
-        
-        Unit unit = new Unit(i+1);
-        unit.setPos(new Position (i-8,6));
-        
-        unitsGUI.add(new UnitGUI(unit));
-        
-        game.placeUnit(new Player(getUserName()), unit);
-        
-        
+        game.placeUnit(new Player("Piotr"), unit);
         
         
         
@@ -693,6 +675,8 @@ public class ClientUI extends javax.swing.JFrame {
             {
                 return unitSearch;
               }
+            
+        
         }
               
         return null;
