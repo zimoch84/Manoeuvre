@@ -30,7 +30,7 @@ public class CardGUI {
     public CardGUI(int ID) {
         Card card = new Card(ID);
         try {
-            imgFull = ImageIO.read(new File("resources\\units\\"+card.getCardName()));
+            imgFull = ImageIO.read(new File("resources\\cards\\"+card.getCardName()));
         } catch (IOException ex) {
             Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -43,7 +43,7 @@ public class CardGUI {
      */
     public CardGUI(Card card) {
         try {
-            imgFull = ImageIO.read(new File("resources\\units\\"+  card.getCardName()   ));
+            imgFull = ImageIO.read(new File("resources\\cards\\"+  card.getCardName()   ));
         } catch (IOException ex) {
             Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
         }                   
