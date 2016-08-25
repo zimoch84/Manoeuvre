@@ -2,14 +2,20 @@ package manouvre.network.client;
 
 import java.io.*;
 import java.net.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import manouvre.game.Player;
 import manouvre.gui.ClientUI;
+import manouvre.gui.LoginWindow;
 
 public class SocketClient implements Runnable{
     
-    public int port;
-    public String serverAddr;
+    public static int port = 5002;
+    public static String serverAddr= "localhost";
     public Socket socket;
     public ClientUI ui;
+    public LoginWindow welcome;
     public ObjectInputStream In;
     public ObjectOutputStream Out;
     
@@ -17,8 +23,18 @@ public class SocketClient implements Runnable{
     public SocketClient(ClientUI frame) throws IOException{
         ui = frame; 
         //this.serverAddr = "zimoch.insomnia247.nl"; 
-        this.serverAddr = "localhost"; 
-        this.port = 5002;
+        socket = new Socket(InetAddress.getByName(serverAddr), port);
+            
+        Out = new ObjectOutputStream(socket.getOutputStream());
+        Out.flush();
+        In = new ObjectInputStream(socket.getInputStream());
+        
+       
+    }
+    
+    public SocketClient(LoginWindow frame) throws IOException{
+        welcome = frame; 
+        //this.serverAddr = "zimoch.insomnia247.nl"; 
         socket = new Socket(InetAddress.getByName(serverAddr), port);
             
         Out = new ObjectOutputStream(socket.getOutputStream());
@@ -37,25 +53,46 @@ public class SocketClient implements Runnable{
                 System.out.println("Incoming : "+msg.toString());
                 
                 if(msg.type.equals("message")){
-                    if(msg.recipient.equals(ui.getUserName())){
-                        ui.chatTextArea.append("["+msg.sender +" > Me] : " + msg.content + "\n");
+                    if(msg.recipient.equals(ui.getGame().getCurrentPlayer().getName())){
+                        ui.printOnChat(msg.sender + " : " + msg.content) ;
                     }
                     else{
-                        ui.chatTextArea.append("["+ msg.sender +" > "+ msg.recipient +"] : " + msg.content + "\n");
+                        ui.printOnChat(msg.sender +" : " + msg.content);
                     }
                                            
                
                 }
-//                else if(msg.type.equals("login")){
-//                    if(msg.content.equals("TRUE")){
-//                        ui.jButton2.setEnabled(false); ui.jButton3.setEnabled(false);                        
-//                        ui.jButton4.setEnabled(true); ui.jButton5.setEnabled(true);
-//                        ui.chatTextArea.append("[SERVER > Me] : Login Successful\n");
-//                        ui.jTextField3.setEnabled(false); ui.jPasswordField1.setEnabled(false);
-//                    }
-//                    else{
-//                        ui.chatTextArea.append("[SERVER > Me] : Login Failed\n");
-//                    }
+                else if(msg.type.equals("login"))
+                {
+                    if(msg.content.equals("TRUE")){
+                        
+                        welcome.setVisible(false);
+                        
+                        /*
+                        Run main window
+                        */
+                        java.awt.EventQueue.invokeLater(new Runnable() {
+                            public void run() {
+                                try {
+                                    ui = new ClientUI(SocketClient.this, new Player(msg.recipient));
+                                    ui.setVisible(true);
+                                } catch (IOException ex) {
+                                    Logger.getLogger(ClientUI.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                        });
+                        
+                    }
+                    else{
+                       
+                        JOptionPane.showMessageDialog(welcome,
+                    "No such user or bad password",
+                    "Login Failed",
+                    JOptionPane.ERROR_MESSAGE);
+                       
+                        
+                    }
+                }
 //                }
 //                else if(msg.type.equals("test")){
 //                    ui.jButton1.setEnabled(false);
@@ -105,12 +142,13 @@ public class SocketClient implements Runnable{
                 
                 
                 else{
-                    ui.chatTextArea.append("[SERVER > Me] : Unknown message type\n");
+                    //ui.printOnChat("SERVER : Unknown message type\n");
+                    System.out.println("manouvre.network.client.SocketClient.run() Unknown msg type" + msg.toString()) ;
                 }
             }
             catch(Exception ex) {
                 keepRunning = false;
-                ui.chatTextArea.append("[Application > Me] : Connection Failure \n" + ex.getMessage());
+                ui.printOnChat("Aplication : Connection Failure \n" + ex.getMessage());
 //                ui.jButton1.setEnabled(true); 
 //                ui.jTextField1.setEditable(true); 
 //                ui.jTextField2.setEditable(true);
@@ -122,7 +160,7 @@ public class SocketClient implements Runnable{
 //                    ui.model.removeElementAt(i);
 //                }
                 
-                ui.clientThread.stop();
+                //ui.clientThread.stop();
                 
                 System.out.println("Exception SocketClient run()");
                 ex.printStackTrace();

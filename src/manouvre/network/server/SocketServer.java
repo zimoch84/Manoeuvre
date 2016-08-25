@@ -44,9 +44,8 @@ class ServerThread extends Thread {
         while (true){  
     	    try{  
                 Message msg;
-                          
-                           
                 msg= (Message) streamIn.readObject();
+                
     	    	server.handle(ID, msg);
             }
             catch(ClassCastException ioe){  
@@ -163,7 +162,13 @@ public class SocketServer implements Runnable {
     }
 	
     public synchronized void handle(int ID, Message msg){  
-	if (msg.content.equals(".bye")){
+	
+        System.out.println("manouvre.network.server.SocketServer.handle()" + msg.toString());
+        
+        ui.jTextArea1.append("\n"+msg.toString()+"\n" );
+        
+        
+        if (msg.content.equals(".bye")){
             Announce("signout", "SERVER", msg.sender);
             remove(ID); 
 	}

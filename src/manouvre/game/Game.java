@@ -38,10 +38,26 @@ public class Game {
         units = new ArrayList<>();
     }
 
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    public Player getOpponent() {
+        return opponent;
+    }
+
+    public void setOpponent(Player opponent) {
+        this.opponent = opponent;
+    }
+
     
     
-    Player playerOne;
-    Player playerTwo;
+    Player currentPlayer;
+    Player opponent;
     
     int phase; 
     
@@ -224,5 +240,8 @@ public class Game {
     public void setUnits(ArrayList<Unit> units) {
         this.units = units;
     }
+    
+    
+    
 }
 
