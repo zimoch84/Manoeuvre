@@ -28,7 +28,7 @@ public class Terrain  implements TerrainInterface {
     boolean isOccupiedByUnit;
     
     Position pos;
-    boolean selected;
+   
 
     public Position getPos() {
         return pos;
@@ -197,14 +197,7 @@ public class Terrain  implements TerrainInterface {
         this.endsMove = endsMove;
     }
 
-    public boolean isSelected() {
-        return selected;
-    }
-
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-    }
-   
+    
     
     
 }

@@ -139,7 +139,7 @@ public class ClientUI extends javax.swing.JFrame {
         Draws selection
         */
         if (map.isUnitSelected())
-        for(Terrain terrain : game.getMap().getTerrainz()  )  
+        for(TerrainGUI terrain :  map.getTerrainsGUI() )  
         {
  
             if(terrain.isSelected()){
@@ -154,7 +154,7 @@ public class ClientUI extends javax.swing.JFrame {
                 Draw AdjencedSpace /Move
                 */
                 
-                    if(! terrain.getIsOccupiedByUnit() )
+                    if(! terrain.getTerrain().getIsOccupiedByUnit() )
                     {
                     ArrayList<Position> adjencedPositions = terrain.getPos().getAdjencedPositions();
                     
@@ -562,7 +562,7 @@ public class ClientUI extends javax.swing.JFrame {
                 {
                        
                        terrainGUI.setSelected(false);
-                       game.getMap().getTileAtIndex(terrainGUI.getPos().getX(), terrainGUI.getPos().getY()).setSelected(false);
+                       //game.getMap().getTileAtIndex( terrainGUI.getPos().getX(), terrainGUI.getPos().getY() ).setSelected(false);
      			if(mouseOverPiece(terrainGUI,x,y))
                         {   
   				terrainGUI.setSelected(true);
@@ -575,7 +575,7 @@ public class ClientUI extends javax.swing.JFrame {
                                     
                                 }
                                 
-                                game.getMap().getTileAtIndex(terrainGUI.getPos().getX(), terrainGUI.getPos().getY()).setSelected(true);
+                                //game.getMap().getTileAtIndex(terrainGUI.getPos().getX(), terrainGUI.getPos().getY()).setSelected(true);
                                 this.repaint();
 				
                         }
