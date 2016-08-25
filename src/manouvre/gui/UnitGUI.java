@@ -36,8 +36,7 @@ public class UnitGUI  {
     }
 
     
-    
-    
+ 
     
     public Image getImg() {
         if(unit.isInjured())

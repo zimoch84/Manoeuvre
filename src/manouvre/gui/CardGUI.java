@@ -12,16 +12,21 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import manouvre.game.Card;
-import manouvre.game.Unit;
+
 //import java.awt.image.BufferedImage;
+
 /**
- *
+ * Retrives card picture/image
  * @author Bartosz
  */
 public class CardGUI {
     
     Image imgFull;
-    
+    /**
+     * Gets the card image based on its ID in cards.csv 
+     * @param ID    cardID
+     * @see resources.cards
+     */
     public CardGUI(int ID) {
         Card card = new Card(ID);
         try {
@@ -31,7 +36,11 @@ public class CardGUI {
         }
         
     }
-    
+    /**
+     * Gets the card image based on its object 
+     * @param card    Card Object
+     * @see game.Card.java
+     */
     public CardGUI(Card card) {
         try {
             imgFull = ImageIO.read(new File("resources\\units\\"+  card.getCardName()   ));
@@ -39,7 +48,10 @@ public class CardGUI {
             Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
         }                   
     }   
-    
+    /**
+     * Returns card image to be used in GUI
+     * @return card image
+     */
     public Image getImgFull() {
         return imgFull;
     }
