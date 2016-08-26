@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import manouvre.game.Player;
 import manouvre.network.client.Message;
 import manouvre.network.client.SocketClient;
 
@@ -31,8 +32,9 @@ public class LoginWindow extends javax.swing.JFrame {
     public int port;
     public String serverAddr, username, password;
     public Thread clientThread;
-    
-    
+    public Player player;
+
+   
     
      
     /**
@@ -41,7 +43,14 @@ public class LoginWindow extends javax.swing.JFrame {
     public LoginWindow() {
         initComponents();
     }
+    public Player getPlayer() {
+           return player;
+       }
 
+       public void setPlayer(Player player) {
+           this.player = player;
+       }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -163,11 +172,15 @@ public class LoginWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginToServer(ActionEvent evt){
-    username = jUserTextField.getText();
+        username = jUserTextField.getText();
+        
         password = Arrays.toString(jPasswordField.getPassword());
-         
+        
+        Player player = new Player(username);
+        
+        
         try {
-             client = new SocketClient(this);
+            client = new SocketClient(this);
             clientThread = new Thread(client);
             clientThread.start();
             

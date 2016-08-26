@@ -2,25 +2,34 @@ package manouvre.network.server;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import manouvre.game.Player;
 import manouvre.network.client.Message;
 
-class ServerThread extends Thread { 
+/**
+ * 
+ * @author Piotr
+ * Wątek serwera posiada send(Message msg) 
+ */
+
+class ClientServerThread extends Thread { 
 	
-    public SocketServer server = null;
-    public Socket socket = null;
-    public int ID = -1;
+    public ManouvreServer server = null;
+    public Socket clientServerSocket = null;
+    public int socketClientServerPortID = -1;
     public String username = "";
     public ObjectInputStream streamIn  =  null;
     public ObjectOutputStream streamOut = null;
     public ServerFrame ui;
+    
 
-    public ServerThread(SocketServer _server, Socket _socket){  
+    public ClientServerThread(ManouvreServer _server, Socket _socket){  
     	super();
         server = _server;
-        socket = _socket;
-        ID     = socket.getPort();
+        clientServerSocket = _socket;
+        socketClientServerPortID     = clientServerSocket.getPort();
         ui = _server.ui;
     }
     
@@ -34,127 +43,156 @@ class ServerThread extends Thread {
         }
     }
     
-    public int getID(){  
-	    return ID;
+    public int getSocketClientServerPortID(){  
+	    return socketClientServerPortID;
     }
    
+    public Socket getSocket() {
+        return clientServerSocket;
+    }
+
+       
     @SuppressWarnings("deprecation")
 	public void run(){  
-    	ui.jTextArea1.append("\nServer Thread " + ID + " running.");
+    	ui.jTextArea1.append("\nServer Thread " + socketClientServerPortID + " running.");
         while (true){  
     	    try{  
                 Message msg;
                 msg= (Message) streamIn.readObject();
                 
-    	    	server.handle(ID, msg);
+    	    	server.handle(socketClientServerPortID, msg);
             }
             catch(ClassCastException ioe){  
-            	System.out.println(ID + " ERROR reading: " + ioe.getMessage());
+            	System.out.println(socketClientServerPortID + " ERROR reading: " + ioe.getMessage());
                 ioe.printStackTrace();
                 
-               //server.remove(ID);
+               //server.remove(socketClientServerPortID);
                // stop();
             }   catch (IOException ex) {
-                    Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ClientServerThread.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ClientServerThread.class.getName()).log(Level.SEVERE, null, ex);
                 }
         }
     }
-    
+    /**
+     * Otwiera komunikacje w sockecie
+     * @throws IOException 
+     */
     public void open() throws IOException {  
-        streamOut = new ObjectOutputStream(socket.getOutputStream());
+        streamOut = new ObjectOutputStream(clientServerSocket.getOutputStream());
         streamOut.flush();
-        streamIn = new ObjectInputStream(socket.getInputStream());
+        streamIn = new ObjectInputStream(clientServerSocket.getInputStream());
     }
-    
+    /**
+     * Zamyka streamy w sockecie 
+     * @throws IOException 
+     */
     public void close() throws IOException {  
-    	if (socket != null)    socket.close();
+    	if (clientServerSocket != null)    clientServerSocket.close();
         if (streamIn != null)  streamIn.close();
         if (streamOut != null) streamOut.close();
     }
 }
 
 
+/**
+ * Klasa serwera uruchamia wątki ClientServerThread
+ * @author Piotr
+ */
 
 
-
-public class SocketServer implements Runnable {
+public class ManouvreServer implements Runnable {
+    /**
+     * ClientServerThread clients[];
     
-    public ServerThread clients[];
+    */
+    public ClientServerThread clients[];
+    public ArrayList<Channel> channels;
+    
     public ServerSocket server = null;
-    public Thread       thread = null;
+    public Thread       serverThread = null;
     public int clientCount = 0, port = 5002;
     public ServerFrame ui;
     public Database db;
+    
+    
 
-    public SocketServer(ServerFrame frame){
+    public ManouvreServer(ServerFrame frame){
        
-        clients = new ServerThread[50];
+        clients = new ClientServerThread[50];
         ui = frame;
         db = new Database(ui.filePath);
         
 	try{  
+            /*
+            Create server clientServerSocket
+            */
 	    server = new ServerSocket(port);
             port = server.getLocalPort();
 	    ui.jTextArea1.append("Server startet. IP : " + InetAddress.getLocalHost() + ", Port : " + server.getLocalPort());
-	    start(); 
+            /*
+            Invoke run();
+            */
+            start(); 
         }
 	catch(IOException ioe){  
             ui.jTextArea1.append("Can not bind to port : " + port + "\nRetrying"); 
-            ui.RetryStart(0);
+            ui.RetryStart();
 	}
     }
     
-    public SocketServer(ServerFrame frame, int Port){
-       
-        clients = new ServerThread[50];
-        ui = frame;
-        port = Port;
-        db = new Database(ui.filePath);
-        
-	try{  
-	    server = new ServerSocket(port);
-            port = server.getLocalPort();
-	    ui.jTextArea1.append("Server startet. IP : " + InetAddress.getLocalHost() + ", Port : " + server.getLocalPort());
-	    start(); 
-        }
-	catch(IOException ioe){  
-            ui.jTextArea1.append("\nCan not bind to port " + port + ": " + ioe.getMessage()); 
-	}
-    }
-	
+    
     public void run(){  
-	while (thread != null){  
+        /*
+        Jezeli watek serwera istnieje 
+        */
+	while (serverThread != null){  
             try{  
 		ui.jTextArea1.append("\nWaiting for a client ..."); 
+                /*
+                Funkcja servera accept zwraca clientServerSocket klienta;
+                addThead dodaje do tablicy socketow 
+                */
 	        addThread(server.accept()); 
 	    }
 	    catch(Exception ioe){ 
                 ui.jTextArea1.append("\nServer accept error: \n");
-                ui.RetryStart(0);
+                ui.RetryStart();
 	    }
+
         }
     }
 	
     public void start(){  
-    	if (thread == null){  
-            thread = new Thread(this); 
-	    thread.start();
+        /*
+        Klasa runnable nie odpala automatycznie run trzeba stworzyc watek zeby odpalił run() klasy Runnable
+        */
+        
+    	if (serverThread == null){  
+            serverThread = new Thread(this); 
+            /*
+            Odpala ManouvreServer.run(); i tworzy wątek
+            */
+	    serverThread.start();
 	}
     }
     
     @SuppressWarnings("deprecation")
     public void stop(){  
-        if (thread != null){  
-            thread.stop(); 
-	    thread = null;
+        if (serverThread != null){  
+            serverThread.stop(); 
+	    serverThread = null;
 	}
     }
-    
+    /**
+     * 
+     * @param ID
+     * @return clientServerSocketPortid to find thread
+     */
     private int findClient(int ID){  
     	for (int i = 0; i < clientCount; i++){
-        	if (clients[i].getID() == ID){
+        	if (clients[i].getSocketClientServerPortID() == ID){
                     return i;
                 }
 	}
@@ -229,7 +267,7 @@ public class SocketServer implements Runnable {
             }
             else if(msg.type.equals("upload_res")){
                 if(!msg.content.equals("NO")){
-                    String IP = findUserThread(msg.sender).socket.getInetAddress().getHostAddress();
+                    String IP = findUserThread(msg.sender).clientServerSocket.getInetAddress().getHostAddress();
                     findUserThread(msg.recipient).send(new Message("upload_res", IP, msg.content, msg.recipient));
                 }
                 else{
@@ -252,7 +290,7 @@ public class SocketServer implements Runnable {
         }
     }
     
-    public ServerThread findUserThread(String usr){
+    public ClientServerThread findUserThread(String usr){
         for(int i = 0; i < clientCount; i++){
             if(clients[i].username.equals(usr)){
                 return clients[i];
@@ -265,7 +303,7 @@ public class SocketServer implements Runnable {
     public synchronized void remove(int ID){  
     int pos = findClient(ID);
         if (pos >= 0){  
-            ServerThread toTerminate = clients[pos];
+            ClientServerThread toTerminate = clients[pos];
             ui.jTextArea1.append("\nRemoving client thread " + ID + " at " + pos);
 	    if (pos < clientCount-1){
                 for (int i = pos+1; i < clientCount; i++){
@@ -282,11 +320,23 @@ public class SocketServer implements Runnable {
 	    toTerminate.stop(); 
 	}
     }
-    
-    private void addThread(Socket socket){  
+    /**
+     *  @param  Socket - client clientServerSocket
+ 
+ Tworzy na podstawie Socketa klienta obiekt ClientServerThread i Dodaje do tablicy clients trzymających wątki klientów
+       
+    */
+    private void addThread(Socket incomingClientSocket){  
 	if (clientCount < clients.length){  
-            ui.jTextArea1.append("\nClient accepted: " + socket);
-	    clients[clientCount] = new ServerThread(this, socket);
+            ui.jTextArea1.append("\nClient accepted: " + incomingClientSocket);
+            /*
+            Tworzymy nowy obsługujący komunikacje Client <-> Server
+            Obiekt posiada Socket klienta i Socket serwera
+            */
+	    clients[clientCount] = new ClientServerThread(this, incomingClientSocket);
+            /*
+            Odpalamy nowy wątek dla klienta ,który będize obsługiwał komunikacje
+            */
 	    try{  
 	      	clients[clientCount].open(); 
 	        clients[clientCount].start();  
@@ -300,7 +350,21 @@ public class SocketServer implements Runnable {
             ui.jTextArea1.append("\nClient refused: maximum " + clients.length + " reached.");
 	}
     }
-    
+     public void createChannel(String username, String password, ClientServerThread thread){
+         Channel channel = new Channel(username, password, thread.getSocket(), new Player(username));
+         channels.add(channel);
+        
+     }
+     public boolean destroyChannel(Channel channel)
+     {
+         boolean remove= false;
+         if(channels.contains(channel)) 
+         {
+              remove = channels.remove(channel);
+         }
+         return remove;
+     }
+     
     public static String getStackTrace(final Throwable throwable) {
      final StringWriter sw = new StringWriter();
      final PrintWriter pw = new PrintWriter(sw, true);

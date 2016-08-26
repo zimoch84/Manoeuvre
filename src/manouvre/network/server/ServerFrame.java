@@ -9,7 +9,7 @@ import javax.swing.UIManager;
 
 public class ServerFrame extends javax.swing.JFrame {
 
-    public SocketServer server;
+    public ManouvreServer server;
     public Thread serverThread;
     public String filePath = "Data.xml";
     public JFileChooser fileChooser;
@@ -76,13 +76,13 @@ public class ServerFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        server = new SocketServer(this);
+        server = new ManouvreServer(this);
         jButton1.setEnabled(false); 
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    public void RetryStart(int port){
+    public void RetryStart(){
         if(server != null){ server.stop(); }
-        server = new SocketServer(this, port);
+        server = new ManouvreServer(this);
     }
     
     public static void main(String args[]) {
