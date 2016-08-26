@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import manouvre.game.Player;
 import manouvre.gui.ClientUI;
 import manouvre.gui.LoginWindow;
+import manouvre.gui.MainChatWindow;
 
 public class SocketClient implements Runnable{
     
@@ -16,6 +17,8 @@ public class SocketClient implements Runnable{
     public Socket socket;
     public ClientUI ui;
     public LoginWindow welcome;
+    public MainChatWindow mainChat;
+    
     public ObjectInputStream In;
     public ObjectOutputStream Out;
     
@@ -43,6 +46,7 @@ public class SocketClient implements Runnable{
         
        
     }
+     
 
     @Override
     public void run() {
@@ -69,18 +73,33 @@ public class SocketClient implements Runnable{
                         welcome.setVisible(false);
                         
                         /*
-                        Run main window
+                        Run chat window
                         */
                         java.awt.EventQueue.invokeLater(new Runnable() {
                             public void run() {
                                 try {
-                                    ui = new ClientUI(SocketClient.this, new Player(msg.recipient));
-                                    ui.setVisible(true);
+                                    mainChat = new MainChatWindow(SocketClient.this, new Player(msg.recipient));
+                                    mainChat.setVisible(true);
                                 } catch (IOException ex) {
                                     Logger.getLogger(ClientUI.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                             }
                         });
+                        
+                        
+                        /*
+                        Run main window
+                        */
+//                        java.awt.EventQueue.invokeLater(new Runnable() {
+//                            public void run() {
+//                                try {
+//                                    ui = new ClientUI(SocketClient.this, new Player(msg.recipient));
+//                                    ui.setVisible(true);
+//                                } catch (IOException ex) {
+//                                    Logger.getLogger(ClientUI.class.getName()).log(Level.SEVERE, null, ex);
+//                                }
+//                            }
+//                        });
                         
                     }
                     else{
