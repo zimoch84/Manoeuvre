@@ -5,11 +5,15 @@
  */
 package manouvre.gui;
 
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import manouvre.network.client.Message;
 import manouvre.network.client.SocketClient;
 
@@ -48,6 +52,25 @@ public class LoginWindow extends javax.swing.JFrame {
     private void initComponents() {
 
         jDialogBadLogin = new javax.swing.JDialog();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel(){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                try{
+                    Image bgImage =
+                    ImageIO.read(
+                        new File("resources\\backgrounds\\Manouvre.jpg"));
+
+                    g.drawImage(bgImage, 0, 0, null);
+
+                }
+                catch(IOException ex)
+                {
+                    System.out.println(ex.getMessage());
+                }
+            }
+        };
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jUserTextField = new javax.swing.JTextField();
@@ -70,33 +93,59 @@ public class LoginWindow extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(250, 120));
+        setPreferredSize(new java.awt.Dimension(500, 500));
         setResizable(false);
-        getContentPane().setLayout(new java.awt.GridLayout(3, 1, 5, 5));
+        getContentPane().setLayout(new java.awt.FlowLayout());
 
-        jPanel1.setLayout(new java.awt.GridLayout(1, 0, 5, 5));
+        jPanel4.setLayout(new java.awt.GridLayout(4, 1));
+
+        jPanel5.setPreferredSize(new java.awt.Dimension(366, 100));
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 366, Short.MAX_VALUE)
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        jPanel4.add(jPanel5);
+
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jLabel1.setText("Username");
-        jPanel1.add(jLabel1);
-        jPanel1.add(jUserTextField);
+        jPanel1.add(jLabel1, new java.awt.GridBagConstraints());
 
-        getContentPane().add(jPanel1);
+        jUserTextField.setColumns(20);
+        jUserTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jUserTextFieldActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jUserTextField, new java.awt.GridBagConstraints());
 
-        jPanel2.setLayout(new java.awt.GridLayout(1, 0, 5, 5));
+        jPanel4.add(jPanel1);
+
+        jPanel2.setLayout(new java.awt.GridBagLayout());
 
         jLabel2.setText("Password");
-        jPanel2.add(jLabel2);
+        jPanel2.add(jLabel2, new java.awt.GridBagConstraints());
 
+        jPasswordField.setColumns(20);
         jPasswordField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jPasswordFieldActionPerformed(evt);
             }
         });
-        jPanel2.add(jPasswordField);
+        jPanel2.add(jPasswordField, new java.awt.GridBagConstraints());
 
-        getContentPane().add(jPanel2);
+        jPanel4.add(jPanel2);
 
         jCancelButton.setText("Cancel");
+        jPanel3.add(jCancelButton);
 
         jOKButton.setText("OK");
         jOKButton.addActionListener(new java.awt.event.ActionListener() {
@@ -104,28 +153,11 @@ public class LoginWindow extends javax.swing.JFrame {
                 jOKButtonActionPerformed(evt);
             }
         });
+        jPanel3.add(jOKButton);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jCancelButton)
-                .addGap(18, 18, Short.MAX_VALUE)
-                .addComponent(jOKButton)
-                .addGap(29, 29, 29))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCancelButton)
-                    .addComponent(jOKButton))
-                .addGap(0, 7, Short.MAX_VALUE))
-        );
+        jPanel4.add(jPanel3);
 
-        getContentPane().add(jPanel3);
+        getContentPane().add(jPanel4);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -165,6 +197,10 @@ public class LoginWindow extends javax.swing.JFrame {
     private void jOKButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jOKButtonActionPerformed
           loginToServer(evt);
     }//GEN-LAST:event_jOKButtonActionPerformed
+
+    private void jUserTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jUserTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jUserTextFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -211,6 +247,8 @@ public class LoginWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JPasswordField jPasswordField;
     private javax.swing.JTextField jUserTextField;
     // End of variables declaration//GEN-END:variables
