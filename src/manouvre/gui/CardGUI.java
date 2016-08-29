@@ -29,8 +29,11 @@ public class CardGUI {
      */
     public CardGUI(int ID) {
         Card card = new Card(ID);
+        System.out.println(card.getCardName());
+         System.out.println("resources\\cards\\"+card.getCardImg());
+        
         try {
-            imgFull = ImageIO.read(new File("resources\\cards\\"+card.getCardName()));
+            imgFull = ImageIO.read(new File("resources\\cards\\"+card.getCardImg()));
         } catch (IOException ex) {
             Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -43,7 +46,7 @@ public class CardGUI {
      */
     public CardGUI(Card card) {
         try {
-            imgFull = ImageIO.read(new File("resources\\cards\\"+  card.getCardName()   ));
+            imgFull = ImageIO.read(new File("resources\\cards\\"+  card.getCardImg()   ));
         } catch (IOException ex) {
             Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
         }                   
