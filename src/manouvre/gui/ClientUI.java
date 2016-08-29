@@ -376,6 +376,12 @@ public class ClientUI extends javax.swing.JFrame {
                 .addGap(0, 505, Short.MAX_VALUE))
         );
 
+        playerHandPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                playerHandPanelMouseClicked(evt);
+            }
+        });
+
         jLabel1.setText("Hand");
 
         javax.swing.GroupLayout playerHandPanelLayout = new javax.swing.GroupLayout(playerHandPanel);
@@ -760,6 +766,14 @@ public class ClientUI extends javax.swing.JFrame {
             client.send(new Message("message", game.getCurrentPlayer().getName(), msg, target));
         }
     }//GEN-LAST:event_sendMessageButtonActionPerformed
+
+    private void playerHandPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseClicked
+
+                int x = evt.getPoint().x;
+		int y = evt.getPoint().y;
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_playerHandPanelMouseClicked
     
     /**
 	 * check whether the mouse is currently over this piece
