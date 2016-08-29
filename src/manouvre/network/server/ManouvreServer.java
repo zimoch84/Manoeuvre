@@ -290,6 +290,7 @@ public class ManouvreServer implements Runnable {
         }
     }
     
+      
     public ClientServerThread findUserThread(String usr){
         for(int i = 0; i < clientCount; i++){
             if(clients[i].username.equals(usr)){
@@ -297,6 +298,10 @@ public class ManouvreServer implements Runnable {
             }
         }
         return null;
+    }
+    
+    public ArrayList<Channel> getChannelList(){
+    return channels;
     }
 	
     @SuppressWarnings("deprecation")
