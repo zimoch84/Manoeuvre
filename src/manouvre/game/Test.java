@@ -5,7 +5,11 @@
  */
 package manouvre.game;
 
+import java.io.IOException;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import manouvre.gui.ClientUI;
 
 /**
  *
@@ -14,19 +18,20 @@ import java.util.Random;
 public class Test {
    
     public static void main(String[] args) { 
-        System.out.println("1");
+       // ClientUI.main(null);
+        System.out.println("I am in Test.java!");
         Random randomGenerator = new Random();
-        System.out.println("2");
+       
         CardSet BarteksDeck = new CardSet(80,0);
-        System.out.println("3");
+       
         CardSet BarteksHand = new CardSet(6);
-        System.out.println("4");
+        
         CardSet BarteksUsedCardsDeck = new CardSet();
-        System.out.println("5");
+       
+        BarteksHand.addRandomCardsFromOtherSet(6, BarteksDeck);
         
         
-        
-        System.out.println("DECK:");
+      /*  System.out.println("DECK:");
         BarteksDeck.getAllCardsIDFromSet();
         System.out.println("HAND:");
         BarteksHand.getAllCardsIDFromSet();
@@ -51,7 +56,7 @@ public class Test {
         System.out.println("HAND:");
         BarteksHand.getAllCardsIDFromSet();
         System.out.println("USED:");
-        BarteksUsedCardsDeck.getAllCardsIDFromSet();
+        BarteksUsedCardsDeck.getAllCardsIDFromSet();*/
         
          } 
         

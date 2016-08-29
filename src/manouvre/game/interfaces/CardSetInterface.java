@@ -1,5 +1,7 @@
 package manouvre.game.interfaces;
 
+import manouvre.game.Card;
+
 /**
  *
  * @author Piotr
@@ -24,19 +26,19 @@ public interface CardSetInterface {
     * @param cardToDeal
     * @param otherCardSet 
     */
-   public void dealCardToOtherSet(CardInterface cardToDeal, CardSetInterface otherCardSet);
+   public void dealCardToOtherSet(Card cardToDeal, CardSetInterface otherCardSet);
    
    /**
     * Add specyfic card to this set
     * @param newCard 
     */
-   public void addCardToThisSet(CardInterface newCard);
+   public void addCardToThisSet(Card newCard);
    
    /**
     * Deal random card from this set
     * @return 
     */
-   public CardInterface dealRandomCardFromThisSet();
+   public Card dealRandomCardFromThisSet();
    
    /**
     * Show all the Card Names in the set
@@ -48,7 +50,7 @@ public interface CardSetInterface {
     * @param cardPosition
     * @return 
     */
-   public CardInterface getCardByPosInSet(int cardPosition);
+   public Card getCardByPosInSet(int cardPosition);
    
   /**
    * As cards are dealt from the deck, the number of 

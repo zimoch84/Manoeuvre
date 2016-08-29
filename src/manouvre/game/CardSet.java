@@ -8,7 +8,6 @@ package manouvre.game;
 import java.util.Random;
 import java.util.ArrayList;
 
-import manouvre.game.interfaces.CardInterface;
 import manouvre.game.interfaces.CardSetInterface;
 
 
@@ -26,7 +25,7 @@ public class CardSet implements CardSetInterface{
    
     private Random randomGener = new Random();
 
-    public ArrayList<CardInterface> cardList = new ArrayList<CardInterface>();
+    public ArrayList<Card> cardList = new ArrayList<Card>();
 
     /**
      * Establish object for CARD DECK 
@@ -49,7 +48,7 @@ public class CardSet implements CardSetInterface{
     * Establish empty object for USED CARDS 
     */
     public CardSet(){ 
-        this.cardSetSize=80;
+        this.cardSetSize=60;
     }
     
     //-----------------DECK------------------------------------------------
@@ -97,7 +96,7 @@ public class CardSet implements CardSetInterface{
      *  
      */
     public void addRandomCardsFromOtherSet(int range, CardSetInterface otherCardSet){ //add the card from another Set (f.ex. Deck)
-       CardInterface randomCard;
+       Card randomCard;
        for(int i=0; i<=range; i++){
            randomCard=otherCardSet.dealRandomCardFromThisSet();
        if (cardList.size()<cardSetSize){  //if it is possible to add the card  
@@ -113,8 +112,8 @@ public class CardSet implements CardSetInterface{
      * @param cardToDeal - card object to be given away
      * @param otherCardSet - where this card should go
      */
-     public void dealCardToOtherSet(CardInterface cardToDeal, CardSetInterface otherCardSet) {
-        CardInterface temp=cardList.get(cardList.indexOf(cardToDeal));
+     public void dealCardToOtherSet(Card cardToDeal, CardSetInterface otherCardSet) {
+        Card temp=cardList.get(cardList.indexOf(cardToDeal));
         otherCardSet.addCardToThisSet(temp);
         cardList.remove(cardToDeal);
         
@@ -125,13 +124,13 @@ public class CardSet implements CardSetInterface{
      * @param otherCardSet - where this card should go
      */
      public void dealCardByPosInSetToOtherSet(int cardPosition, CardSetInterface otherCardSet) {
-        CardInterface temp=cardList.get(cardPosition);
+        Card temp=cardList.get(cardPosition);
         otherCardSet.addCardToThisSet(temp);
         cardList.remove(cardPosition);   
     }
     
     //--------------GENERAL FOR ALL----------------------------
-    public void addCardToThisSet(CardInterface newCard){
+    public void addCardToThisSet(Card newCard){
         if (cardList.size()<cardSetSize){  //if it is possible to add the card  
            cardList.add(newCard);  //add the card
         }
@@ -139,9 +138,9 @@ public class CardSet implements CardSetInterface{
            System.out.println("CardSet is Full. No more cards allowed");
         }          
     }  
-    public CardInterface dealRandomCardFromThisSet(){
+    public Card dealRandomCardFromThisSet(){
          int randomCard=randomGener.nextInt(cardList.size());
-         CardInterface tempCard=cardList.get(randomCard);
+         Card tempCard=cardList.get(randomCard);
          cardList.remove(randomCard);
          return  tempCard;  
      }
@@ -157,7 +156,7 @@ public class CardSet implements CardSetInterface{
     }
     }  
     
-    public CardInterface getCardByPosInSet(int cardPosition){
+    public Card getCardByPosInSet(int cardPosition){
        return cardList.get(cardPosition);     
     }
 

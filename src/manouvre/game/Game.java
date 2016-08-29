@@ -26,10 +26,17 @@ public class Game {
        
     
     Map map;
-
-    ArrayList<Unit> units;
+//TO BE DELETED FROM HEREv!!
+    ArrayList<Unit> units = new ArrayList<>();
 
     int turn;
+        
+    Player currentPlayer;
+    Player opponent;
+    
+    int phase; 
+    
+    
     
     public Game(ArrayList<Unit> units) {
         this.units = units;
@@ -38,38 +45,34 @@ public class Game {
         units = new ArrayList<>();
     }
 
+    public Game(Player newPlayer) {
+        this.currentPlayer = newPlayer;
+    }
+     
+    /*public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    } */
+    
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
-    public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    }
-
+    /*public void setOpponent(Player opponent) {
+        this.opponent = opponent;
+    }*/
+    
     public Player getOpponent() {
         return opponent;
     }
-
-    public void setOpponent(Player opponent) {
-        this.opponent = opponent;
-    }
-
-    
-    
-    Player currentPlayer;
-    Player opponent;
-    
-    int phase; 
-    
     
     public ArrayList<Position> getPossibleBombard(Unit unit){
     return null;
     };
     
     public ArrayList<Position> getPossibleVolley(Unit unit){
-        return null;
-        
+        return null;   
     };
+    
      /**
          Firstly get adjenced tiles then check on terrain restrictions then check if another tile is occupied
      * @param unit
@@ -111,10 +114,9 @@ public class Game {
         
         return moves;
     }
-    public ArrayList<Position> getPossibleMovement(Unit unit){
-        
-        ArrayList<Position> moves;
-          
+    
+    public ArrayList<Position> getPossibleMovement(Unit unit){      
+        ArrayList<Position> moves;         
         /*
         get Infantry Moves
         */
@@ -123,38 +125,22 @@ public class Game {
         /*
         If calvary do check of every infantry move considering Terrain.MARSH which ends move
         */
-        if(unit.type == Unit.CALVARY){
-        
-        ArrayList<Position> tempMoves;
-        
+        if(unit.type == Unit.CALVARY){       
+        ArrayList<Position> tempMoves;       
         ArrayList<Position> tempMoves2 = new ArrayList<Position>();
-        
-            
-        for(Position move : moves ){
-        
-                if(! map.getTileAtIndex(move.getX(), move.getY()).isEndsMove() ){
-                
-                    tempMoves = getPossibleMovements(move);
                     
-                        for(Position addPosition: tempMoves){
-                        
-                            if (!moves.contains(addPosition) && !addPosition.equals(unit.getPos()))
-                                    
-                                
-                                tempMoves2.add(addPosition);
-                                    
-                        }
-      
-                }            
-            
+        for(Position move : moves ){       
+                if(! map.getTileAtIndex(move.getX(), move.getY()).isEndsMove() ){              
+                    tempMoves = getPossibleMovements(move);                    
+                        for(Position addPosition: tempMoves){                        
+                            if (!moves.contains(addPosition) && !addPosition.equals(unit.getPos()))                                                                  
+                                tempMoves2.add(addPosition);                                   
+                        }     
+                }                      
             }
-        moves.addAll(tempMoves2);
-        
-        }
-        
-        return moves;
-        
-        
+        moves.addAll(tempMoves2);        
+        }       
+        return moves; 
     };
     
     public ArrayList<Position> getPossibleSupportingUnits(Unit unit){
@@ -232,7 +218,7 @@ public class Game {
      
     }
     
-        
+      //TO BE DELETED FROM  HERE
     public ArrayList<Unit> getUnits() {
         return units;
     }
