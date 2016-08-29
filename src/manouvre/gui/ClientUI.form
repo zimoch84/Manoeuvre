@@ -208,6 +208,9 @@
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="playerHandPanel">
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="playerHandPanelMouseClicked"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JPanel()&#xa;{&#xa;    @Override&#xa;    public void paintComponent(Graphics g) {&#xa;        drawCard(g);&#xa;&#xa;    }&#xa;}&#xa;"/>
       </AuxValues>
