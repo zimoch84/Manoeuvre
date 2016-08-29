@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.text.DefaultCaret;
+import manouvre.game.CardSet;
 import manouvre.game.Game;
 import manouvre.game.Player;
 import manouvre.game.Position;
@@ -28,6 +29,7 @@ import manouvre.game.Unit;
 import manouvre.game.interfaces.PositionInterface;
 import manouvre.game.interfaces.TerrainInterface;
 import manouvre.network.client.SocketClient;
+import static java.lang.Math.round;
 
 /**
  *
@@ -43,6 +45,10 @@ public class ClientUI extends javax.swing.JFrame {
     public int port;
     public String serverAddr,  password;
     public Thread clientThread;
+    public Player player;
+    
+    private int handMouseCoorX,handMouseCoorY;
+    private int handMouseOverCard=0; //if mouse is over first card handMouseOverCard=1, Zero means no mouse over card
     
     
     /*
@@ -64,13 +70,12 @@ public class ClientUI extends javax.swing.JFrame {
     
    
     public ClientUI(SocketClient passSocket, Player player) throws IOException{
-        
         client = passSocket;
         initComponents();
-        game = new Game();
+        game = new Game(player);
         game.generateMap();
         map = new MapGUI(game.getMap());
-        game.setCurrentPlayer(player);
+       // game.setCurrentPlayer(player);
         
         jPlayer.setText("Player : " + player.getName());
         
@@ -96,11 +101,16 @@ public class ClientUI extends javax.swing.JFrame {
      */
     public ClientUI() throws IOException {
         initComponents();
-        game = new Game();
+        player=new Player("Bartek");//TEMP
+        player.setNation(1);  //TEMP
+        player.setCards();  //TEMP
+        // System.out.println("cards left in hand"+player.getHand().cardsLeftInSet());
+        game = new Game(player); //TEMP
         game.generateMap();
         map = new MapGUI(game.getMap());
           
         generateUnits();
+        generateCards();
         
         this.addWindowListener(new WindowListener() {
 
@@ -129,38 +139,39 @@ public class ClientUI extends javax.swing.JFrame {
     Temporary
     */
     
+    
+    private void generateCards(){
+        
+       // game.placeUnit(new Player("Piotr"), unit);
+        
+        
+    }
+    
+    
+    
   
     private void generateUnits()
-    {
-        
-    for (int i=0;i<8;i++)
-    {
-        
-        Unit unit = new Unit(i+1);
-        unit.setPos(new Position (i,1));
-        
-        unitsGUI.add(new UnitGUI(unit));
-        
-        game.placeUnit(new Player("Piotr"), unit);
-        
-        
-        
-    }
+    {       
+        for (int i=0;i<8;i++)
+        {
+
+            Unit unit = new Unit(i+1);
+            unit.setPos(new Position (i,1));
+
+            unitsGUI.add(new UnitGUI(unit));
+
+            game.placeUnit(player, unit);       
+        }
     
     }
     
- 
-    
-    
-    private void drawMap(Graphics g )
-                      
+  
+    private void drawMap(Graphics g )                   
     {
         int gap = 5;
         // draw background
         //g.drawImage(this.imgBackground, 0, 0, null);
-        
-        
-        
+     
         // draw terrain
         for(TerrainGUI terrainGUI: this.map.getTerrainsGUI())        
         {
@@ -169,15 +180,13 @@ public class ClientUI extends javax.swing.JFrame {
                    terrainGUI.getPos().getMouseY(), null);
                 
             }
-          
-        
+                 
         /*
         Draws selection
         */
         if (map.isUnitSelected())
         for(TerrainGUI terrain :  map.getTerrainsGUI() )  
         {
- 
             if(terrain.isSelected()){
                     g.drawRoundRect(
                         terrain.getPos().getMouseX() + gap
@@ -207,9 +216,7 @@ public class ClientUI extends javax.swing.JFrame {
                         ,adjencedPositions.get(k).getMouseY() + gap
                         , MapGUI.SQUARE_WIDTH - 2*gap , MapGUI.SQUARE_HEIGHT - 2*gap,
                         10,10);
-                                        
-                                        
-                    
+                                                                    
                     }
                     }
                     else 
@@ -229,19 +236,15 @@ public class ClientUI extends javax.swing.JFrame {
                         ,drawMovePosion.getMouseY() + gap
                         , MapGUI.SQUARE_WIDTH - 2*gap , MapGUI.SQUARE_HEIGHT - 2*gap,
                         10,10);
-                                    
-                        
+                                                            
                         }
                         
                     }
-                    
-                    
+                   
                 }
-
-            
+           
         }
        
-        
        /*
         Draw units
         */
@@ -257,26 +260,41 @@ public class ClientUI extends javax.swing.JFrame {
                 null);
 
         }
-        
-        
-        
+     
     }
     
     
     private void drawCard(Graphics g )                 
-    {
-    g.drawRect(10,20, 637, 229); //drawRect(int x, int y, int width, int height)
-    CardGUI Card=new CardGUI(1);
-    //Cards has 260x375 pixels
-    float f=0.5f; //scale factor
-    int width=round(260*f);
-    int height=round(375*f);
-    int notSelYPos=50;
-    int selYPos=30;
-    for (int i=0; i<=6; i++){
-        g.drawImage(Card.getImgFull(), 20+(width+10)*i, 50, width, height, null);
-    }
-   
+    {   
+        int handObjectWidth=getPreferredSize().width;
+        int handObjectHeight=getPreferredSize().height;
+        g.drawRect(10,20, handObjectWidth-370, handObjectHeight-740); //drawRect(int x, int y, int width, int height)
+        CardGUI Card; //Declaration of the Image Type variable
+        
+        float f=0.5f; //scale factor //Normally cards has 260x375 pixels
+        int width=round(260*f);
+        int height=round(375*f);
+        int cardPaddingTop=50;
+        int cardPaddingLeft=20;
+        int cardPaddingTopTemp;
+        int gap = 5;
+
+        for (int i=0; i<player.getHand().cardsLeftInSet(); i++){
+           cardPaddingTopTemp=cardPaddingTop;
+         
+            if(handMouseCoorY>cardPaddingTop && handMouseCoorY<(cardPaddingTop+height)){ // if mouse is in row with cards
+                if ((handMouseCoorX>cardPaddingLeft+(gap*i)+width*(i)) && handMouseCoorX<(cardPaddingLeft+(gap*i)+width*(i+1))){
+                   cardPaddingTopTemp=cardPaddingTop-20;
+                }
+                
+                else{
+                   cardPaddingTopTemp=cardPaddingTop;
+                }
+            }
+            Card=new CardGUI(player.getHand().getCardByPosInSet(i));
+            g.drawImage(Card.getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTopTemp, width, height, null);
+        }  
+        
     }
     
     
@@ -586,6 +604,23 @@ public class ClientUI extends javax.swing.JFrame {
                     .addContainerGap(318, Short.MAX_VALUE)))
         );
 
+        playerHandPanel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                playerHandPanelMouseMoved(evt);
+            }
+        });
+        playerHandPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                playerHandPanelMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                playerHandPanelMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                playerHandPanelMouseExited(evt);
+            }
+        });
+
         jLabel1.setText("Hand");
 
         javax.swing.GroupLayout playerHandPanelLayout = new javax.swing.GroupLayout(playerHandPanel);
@@ -595,7 +630,7 @@ public class ClientUI extends javax.swing.JFrame {
             .addGroup(playerHandPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(835, Short.MAX_VALUE))
+                .addContainerGap(826, Short.MAX_VALUE))
         );
         playerHandPanelLayout.setVerticalGroup(
             playerHandPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -635,7 +670,7 @@ public class ClientUI extends javax.swing.JFrame {
                 .addGroup(bottomPanelLayout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(playerHandPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(187, Short.MAX_VALUE)))
+                    .addContainerGap(196, Short.MAX_VALUE)))
         );
         bottomPanelLayout.setVerticalGroup(
             bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -647,7 +682,7 @@ public class ClientUI extends javax.swing.JFrame {
                 .addGroup(bottomPanelLayout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(playerHandPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addContainerGap(14, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -832,6 +867,33 @@ public class ClientUI extends javax.swing.JFrame {
             client.send(new Message("message", game.getCurrentPlayer().getName(), msg, target));
         }
     }//GEN-LAST:event_sendMessageButtonActionPerformed
+
+    private void playerHandPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseClicked
+
+               int x = evt.getPoint().x;
+		int y = evt.getPoint().y;
+                    
+                System.out.println("x:" + x + " y:"+y);
+               
+        // TODO add your handling code here:
+    }//GEN-LAST:event_playerHandPanelMouseClicked
+
+    private void playerHandPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseEntered
+         // TODO add your handling code here:
+    }//GEN-LAST:event_playerHandPanelMouseEntered
+
+    private void playerHandPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseExited
+         // TODO add your handling code here:
+    }//GEN-LAST:event_playerHandPanelMouseExited
+
+    private void playerHandPanelMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseMoved
+                handMouseCoorX = evt.getPoint().x;
+		handMouseCoorY = evt.getPoint().y;
+                    
+                System.out.println("x:" + handMouseCoorX + " y:"+handMouseCoorY);
+                
+                repaint();
+    }//GEN-LAST:event_playerHandPanelMouseMoved
     
     /**
 	 * check whether the mouse is currently over this piece
