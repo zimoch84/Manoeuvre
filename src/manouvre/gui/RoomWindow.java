@@ -5,18 +5,41 @@
  */
 package manouvre.gui;
 
+import javax.swing.DefaultListModel;
+import manouvre.game.Player;
+import manouvre.network.client.SocketClient;
+
 /**
  *
  * @author Piotr
  */
 public class RoomWindow extends javax.swing.JFrame {
 
+    public SocketClient client;
+    public int port;
+    public String serverAddr, username, password;
+    public Thread clientThread;
+    public DefaultListModel model;
+
+    Player player;
     /**
      * Creates new form RoomWindow
      */
     public RoomWindow() {
         initComponents();
     }
+    
+       /**
+     * Creates new form RoomWindow
+     */
+    public RoomWindow(SocketClient passSocket, Player player) {
+        this.client = passSocket;
+        this.player = player;
+       
+        
+        initComponents();
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
