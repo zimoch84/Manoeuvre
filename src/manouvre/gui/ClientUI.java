@@ -282,15 +282,16 @@ public class ClientUI extends javax.swing.JFrame {
         
         for (int i=0; i<player.getHand().cardsLeftInSet(); i++){
             Card=new CardGUI(player.getHand().getCardByPosInSet(i));    
-                  
-            if(handMouseCoorY>(cardPaddingTop-20*mouseOverCard[i]) && handMouseCoorY<(cardPaddingTop+height-20*mouseOverCard[i])){ // if mouse is in row with cards
+               
+            if(handMouseCoorY>(cardPaddingTop-20*mouseOverCard[i]-20*selectedCard[i]) && handMouseCoorY<(cardPaddingTop+height)){ // if mouse is in row with cards
                 if ((handMouseCoorX>cardPaddingLeft+(gap*i)+width*(i)) && handMouseCoorX<(cardPaddingLeft+(gap*i)+width*(i+1))){ //if mouse is in th collon with card
                    mouseOverCard[i]=1;
                 } 
                 else{
                    mouseOverCard[i]=0;
                 }
-            }         
+            }  
+            else mouseOverCard[i]=0;
             if(mouseClickedOnHand==1&&mouseOverCard[i]==1){
                 if(selectedCard[i]==0) selectedCard[i]=1;   
                 else selectedCard[i]=0;           
