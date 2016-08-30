@@ -272,23 +272,16 @@ public class ClientUI extends javax.swing.JFrame {
     
     private void drawCard(Graphics g )                 
     {   
-        int handObjectWidth=getPreferredSize().width;
-        int handObjectHeight=getPreferredSize().height;
-        g.drawRect(10,20, handObjectWidth-370, handObjectHeight-740); //drawRect(int x, int y, int width, int height)
         CardGUI Card; //Declaration of the Image Type variable
         
         float f=0.5f; //scale factor //Normally cards has 260x375 pixels
-        int width=round(260*f);
-        int height=round(375*f);
+        int width=round(260*f), height=round(375*f);
         int cardPaddingTop=70;
         int cardPaddingLeft=20;
         int gap = 5;
         
-       
-        
         for (int i=0; i<player.getHand().cardsLeftInSet(); i++){
-            Card=new CardGUI(player.getHand().getCardByPosInSet(i));
-            //cardPaddingTopTemp=cardPaddingTop;
+            Card=new CardGUI(player.getHand().getCardByPosInSet(i));    
                   
             if(handMouseCoorY>(cardPaddingTop-20*mouseOverCard[i]) && handMouseCoorY<(cardPaddingTop+height-20*mouseOverCard[i])){ // if mouse is in row with cards
                 if ((handMouseCoorX>cardPaddingLeft+(gap*i)+width*(i)) && handMouseCoorX<(cardPaddingLeft+(gap*i)+width*(i+1))){ //if mouse is in th collon with card
@@ -305,7 +298,6 @@ public class ClientUI extends javax.swing.JFrame {
             g.drawImage(Card.getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTop-20*mouseOverCard[i]-20*selectedCard[i], width, height, null);       
         }  
     mouseClickedOnHand=0;
-     
     }
     
     
@@ -615,6 +607,7 @@ public class ClientUI extends javax.swing.JFrame {
                     .addContainerGap(318, Short.MAX_VALUE)))
         );
 
+        playerHandPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         playerHandPanel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
                 playerHandPanelMouseMoved(evt);
@@ -666,7 +659,7 @@ public class ClientUI extends javax.swing.JFrame {
             .addGroup(discardPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addContainerGap(242, Short.MAX_VALUE))
+                .addContainerGap(243, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout bottomPanelLayout = new javax.swing.GroupLayout(bottomPanel);
@@ -674,7 +667,7 @@ public class ClientUI extends javax.swing.JFrame {
         bottomPanelLayout.setHorizontalGroup(
             bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bottomPanelLayout.createSequentialGroup()
-                .addContainerGap(898, Short.MAX_VALUE)
+                .addContainerGap(900, Short.MAX_VALUE)
                 .addComponent(discardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -693,7 +686,7 @@ public class ClientUI extends javax.swing.JFrame {
                 .addGroup(bottomPanelLayout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(playerHandPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(14, Short.MAX_VALUE)))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -880,17 +873,9 @@ public class ClientUI extends javax.swing.JFrame {
     }//GEN-LAST:event_sendMessageButtonActionPerformed
 
     private void playerHandPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseClicked
-
-         /*      int x = evt.getPoint().x;
-		int y = evt.getPoint().y;
-                    */
-                
-                mouseClickedOnHand=1;
-           
+     
+                mouseClickedOnHand=1;       
                 this.repaint();
-                
-               
-        // TODO add your handling code here:
     }//GEN-LAST:event_playerHandPanelMouseClicked
 
     private void playerHandPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseEntered
@@ -898,11 +883,7 @@ public class ClientUI extends javax.swing.JFrame {
     }//GEN-LAST:event_playerHandPanelMouseEntered
 
     private void playerHandPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseExited
-        for (int i=0; i<5; i++){
-             mouseOverCard[i]=0;
-        } 
-       
-        this.repaint();
+         // TODO add your handling code here:
     }//GEN-LAST:event_playerHandPanelMouseExited
 
     private void playerHandPanelMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseMoved
