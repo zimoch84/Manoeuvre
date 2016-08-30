@@ -14,7 +14,7 @@ import manouvre.network.client.SocketClient;
  *
  * @author Piotr
  */
-public class Channel {
+public class GameRoom {
     
     ArrayList<Socket> sockets;
     ArrayList<Player> players;
@@ -26,7 +26,7 @@ public class Channel {
     
     boolean locked;
 
-    public Channel(String name, String password, Socket socket, Player player) {
+    public GameRoom(String name, String password, Socket socket, Player player) {
         this.name = name;
         this.password = password;
         sockets = new ArrayList<>();
@@ -49,10 +49,23 @@ public class Channel {
     
     @Override
     public boolean equals(Object o){
-     Channel c = (Channel)    o;
+     GameRoom c = (GameRoom)    o;
    
      return this.name == c.name;
     }
+    
+    @Override
+    public String toString(){
+    
+        if (password == null)        
+        return name ;
+        else 
+        return name + " password protected";
+    
+    }
+    
+ 
+    
     
     
     

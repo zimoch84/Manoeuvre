@@ -1,6 +1,7 @@
 package manouvre.network.server;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -108,7 +109,7 @@ public class ManouvreServer implements Runnable {
     
     */
     public ClientServerThread clients[];
-    public ArrayList<Channel> channels;
+    public ArrayList<GameRoom> channels;
     
     public ServerSocket server = null;
     public Thread       serverThread = null;
@@ -239,6 +240,39 @@ public class ManouvreServer implements Runnable {
             else if(msg.type.equals("test")){
                 clients[findClient(ID)].send(new Message("test", "SERVER", "OK", msg.sender));
             }
+            else if(msg.type.equals("create_room")){
+                
+                String[] parts = msg.content.split("|");
+                String name = parts[0];
+                String password = parts[1];
+                GameRoom newRoom = new GameRoom( name, password, clients[findClient(ID)].clientServerSocket, new Player (msg.sender) );
+                this.channels.add(newRoom);
+           
+                /*
+                Wysylamy do klienta ze udalo sie doda kanal
+                */
+                clients[findClient(ID)].send(new Message("create_channel", "SERVER", "OK", msg.sender));
+                
+                
+                /*
+                Wysylamy do wszystkich liste kanalow
+                */
+                ArrayList<String> channelList = new ArrayList<>();
+                for (GameRoom room: getChannelList()){
+                channelList.add(room.toString());
+                }
+                
+                Message msgOut = new Message("room_list", "inClass", "SERVER", "All");
+                msgOut.setChannelList(channelList);
+                Announce(msgOut);
+                
+                
+                
+                
+                
+                
+            }
+            
             else if(msg.type.equals("signup")){
                 if(findUserThread(msg.sender) == null){
                     if(!db.userExists(msg.sender)){
@@ -284,6 +318,12 @@ public class ManouvreServer implements Runnable {
         }
     }
     
+    public void Announce(Message inMessage){
+       for(int i = 0; i < clientCount; i++){
+            clients[i].send(inMessage);
+        }
+    }
+    
     public void SendUserList(String toWhom){
         for(int i = 0; i < clientCount; i++){
             findUserThread(toWhom).send(new Message("newuser", "SERVER", clients[i].username, toWhom));
@@ -300,7 +340,7 @@ public class ManouvreServer implements Runnable {
         return null;
     }
     
-    public ArrayList<Channel> getChannelList(){
+    public ArrayList<GameRoom> getChannelList(){
     return channels;
     }
 	
@@ -356,11 +396,11 @@ public class ManouvreServer implements Runnable {
 	}
     }
      public void createChannel(String username, String password, ClientServerThread thread){
-         Channel channel = new Channel(username, password, thread.getSocket(), new Player(username));
+         GameRoom channel = new GameRoom(username, password, thread.getSocket(), new Player(username));
          channels.add(channel);
         
      }
-     public boolean destroyChannel(Channel channel)
+     public boolean destroyChannel(GameRoom channel)
      {
          boolean remove= false;
          if(channels.contains(channel)) 

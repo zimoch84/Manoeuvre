@@ -9,6 +9,7 @@ import manouvre.game.Player;
 import manouvre.gui.ClientUI;
 import manouvre.gui.LoginWindow;
 import manouvre.gui.MainChatWindow;
+import manouvre.gui.RoomWindow;
 
 public class SocketClient implements Runnable{
     
@@ -18,6 +19,8 @@ public class SocketClient implements Runnable{
     public ClientUI ui;
     public LoginWindow welcome;
     public MainChatWindow mainChat;
+    public RoomWindow roomWindow;
+    
     
     public ObjectInputStream In;
     public ObjectOutputStream Out;
@@ -75,7 +78,7 @@ public class SocketClient implements Runnable{
                         /*
                         Run chat window
                         */
-                        java.awt.EventQueue.invokeLater(new Runnable() {
+                         java.awt.EventQueue.invokeLater(new Runnable() {
                             public void run() {
                                 try {
                                     mainChat = new MainChatWindow(SocketClient.this, new Player(msg.recipient));
@@ -104,7 +107,7 @@ public class SocketClient implements Runnable{
                     }
                     else{
                        
-                        JOptionPane.showMessageDialog(welcome,
+                     JOptionPane.showMessageDialog(welcome,
                     "No such user or bad password",
                     "Login Failed",
                     JOptionPane.ERROR_MESSAGE);
@@ -112,6 +115,40 @@ public class SocketClient implements Runnable{
                         
                     }
                 }
+                
+                else if(msg.type.equals("create_room"))
+                {
+                         if(msg.content.equals("OK"))
+                      /*
+                           
+                        Run room window
+                        */
+                             java.awt.EventQueue.invokeLater(new Runnable() {
+                            public void run() {
+                                roomWindow = new RoomWindow(SocketClient.this, new Player(msg.recipient));
+                                roomWindow.setVisible(true);
+                            }
+                        });
+                             
+                       
+                             
+                }  
+                
+                else if(msg.type.equals("room_list"))
+                {
+                         /*
+                     
+                        add channels to list
+                        */
+                          mainChat.setRoomList(msg.getChannelList());
+                             
+                       
+                             
+                }  
+                           
+                             
+                
+                                 
 //                }
 //                else if(msg.type.equals("test")){
 //                    ui.jButton1.setEnabled(false);
