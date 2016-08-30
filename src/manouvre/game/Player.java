@@ -46,11 +46,13 @@ public class Player {
     }
     
     public void setCards() {
-        this.drawPile = new CardSet(60,nation);
-        this.hand = new CardSet(5);       
+        this.drawPile = new CardSet(60,nation); 
+        this.hand = new CardSet(5);     
+        
         this.discardPile = new CardSet();
        
         hand.addRandomCardsFromOtherSet(5, drawPile);
+        hand.getAllCardsIDFromSet();
         // hand.getAllCardsIDFromSet();
     // System.out.println("cards left in hand"+hand.cardsLeftInSet());
     }

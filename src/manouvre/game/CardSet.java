@@ -63,25 +63,25 @@ public class CardSet implements CardSetInterface{
                 cardID=i; 
                 break;
             case 1:
-                cardID=i+80;
+                cardID=i+60;
                 break;
             case 2:
-                cardID=i+2*80;
+                cardID=i+2*60;
                 break;
             case 3:
-                cardID=i+3*80;
+                cardID=i+3*60;
                 break;
             case 4:
-                cardID=i+4*80;    
+                cardID=i+4*60;    
                 break;
             case 5:
-                cardID=i+5*80;
+                cardID=i+5*60;
                 break;
             case 6:
-                cardID=i+6*80;  
+                cardID=i+6*60;  
                 break;
             case 7:
-                cardID=i+7*80;   
+                cardID=i+7*60;   
                 break;
         } 
         cardList.add(i, new Card(cardID));
@@ -97,15 +97,40 @@ public class CardSet implements CardSetInterface{
      */
     public void addRandomCardsFromOtherSet(int range, CardSetInterface otherCardSet){ //add the card from another Set (f.ex. Deck)
        Card randomCard;
+       Card temp;
+       boolean sorted=false;
        for(int i=0; i<=range; i++){
            randomCard=otherCardSet.dealRandomCardFromThisSet();
        if (cardList.size()<cardSetSize){  //if it is possible to add the card  
            cardList.add(randomCard);  //add the card
        }
-       else{
-           System.out.println("CardSet is Full. No more cards allowed");
-       } 
+       /*else{
+          // System.out.println("CardSet is Full. No more cards allowed");
+       } */
        }
+       for (int i=0; i<(cardList.size()) ; i++){
+           System.out.println("Card ID Przed:"+cardList.get(i).getCardID());
+       }
+       //sort the cards by ID nummber
+       while(!sorted){
+           for (int i=0; i<(cardList.size()-1) ; i++){
+               if (cardList.get(i).getCardID()>cardList.get(i+1).getCardID()){
+                   temp=cardList.get(i);
+                   cardList.set(i, cardList.get(i+1));
+                   cardList.set(i+1, temp);
+                  
+                   for (int j=0; j<(cardList.size()) ; j++){
+                      System.out.println("i="+i+" Card"+i+" ID W trakcie:"+cardList.get(j).getCardID());
+                      }
+                    i=-1; //if this was performed we have to be sure that the numbers are correct start from begining
+               }
+               else sorted=true;   
+           }  
+       }
+       for (int i=0; i<(cardList.size()) ; i++){
+           System.out.println("Card ID Po:"+cardList.get(i).getCardID());
+       }
+       
     }
     /**
      * Dealing a card to another set based on Object. F.ex. from HAND to USED CARDS

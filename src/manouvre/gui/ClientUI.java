@@ -294,7 +294,7 @@ public class ClientUI extends javax.swing.JFrame {
             Card=new CardGUI(player.getHand().getCardByPosInSet(i));
             g.drawImage(Card.getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTopTemp, width, height, null);
         }  
-        
+       
     }
     
     
@@ -890,7 +890,7 @@ public class ClientUI extends javax.swing.JFrame {
                 handMouseCoorX = evt.getPoint().x;
 		handMouseCoorY = evt.getPoint().y;
                     
-                System.out.println("x:" + handMouseCoorX + " y:"+handMouseCoorY);
+               // System.out.println("x:" + handMouseCoorX + " y:"+handMouseCoorY);
                 
                 repaint();
     }//GEN-LAST:event_playerHandPanelMouseMoved
