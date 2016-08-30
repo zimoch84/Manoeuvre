@@ -108,9 +108,7 @@ public class CardSet implements CardSetInterface{
           // System.out.println("CardSet is Full. No more cards allowed");
        } */
        }
-       for (int i=0; i<(cardList.size()) ; i++){
-           System.out.println("Card ID Przed:"+cardList.get(i).getCardID());
-       }
+      
        //sort the cards by ID nummber
        while(!sorted){
            for (int i=0; i<(cardList.size()-1) ; i++){
@@ -119,17 +117,13 @@ public class CardSet implements CardSetInterface{
                    cardList.set(i, cardList.get(i+1));
                    cardList.set(i+1, temp);
                   
-                   for (int j=0; j<(cardList.size()) ; j++){
-                      System.out.println("i="+i+" Card"+i+" ID W trakcie:"+cardList.get(j).getCardID());
-                      }
+                
                     i=-1; //if this was performed we have to be sure that the numbers are correct start from begining
                }
                else sorted=true;   
            }  
        }
-       for (int i=0; i<(cardList.size()) ; i++){
-           System.out.println("Card ID Po:"+cardList.get(i).getCardID());
-       }
+       
        
     }
     /**

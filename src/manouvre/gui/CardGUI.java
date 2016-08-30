@@ -22,6 +22,8 @@ import manouvre.game.Card;
 public class CardGUI {
     
     Image imgFull;
+    boolean OverCard=false;
+    boolean Selected=false;
     /**
      * Gets the card image based on its ID in cards.csv 
      * @param ID    cardID
@@ -59,6 +61,31 @@ public class CardGUI {
         return imgFull;
     }
     
+    public void setOverCard(boolean isOverCard) {
+        this.OverCard = isOverCard;
+    }
+     public boolean isOverCard() {
+        return OverCard;
+    }
+
+    public void setSelected(boolean isSelected) {
+        this.Selected = isSelected;
+    }
+    
+    public boolean isSelected() {
+        return Selected;
+    }
+
+    public void printSelect(){
+        System.out.println("Card Selection Status:"+Selected);
+        
+    }
+    
+    public void printOverCard(){
+        System.out.println("Mouse Over Card Status: "+OverCard);
+        
+    }
+
 
      
     

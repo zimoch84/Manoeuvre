@@ -30,6 +30,8 @@ import manouvre.game.interfaces.PositionInterface;
 import manouvre.game.interfaces.TerrainInterface;
 import manouvre.network.client.SocketClient;
 import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
 
 /**
  *
@@ -48,7 +50,6 @@ public class ClientUI extends javax.swing.JFrame {
     public Player player;
     
     private int handMouseCoorX,handMouseCoorY;
-    private int handMouseOverCard=0; //if mouse is over first card handMouseOverCard=1, Zero means no mouse over card
     
     
     /*
@@ -56,6 +57,10 @@ public class ClientUI extends javax.swing.JFrame {
     */
     MapGUI map ;
     ArrayList<UnitGUI> unitsGUI = new ArrayList<UnitGUI>();  //tymczasowo
+   
+    byte[] mouseOverCard={0,0,0,0,0};
+    byte[] selectedCard={0,0,0,0,0};
+    byte mouseClickedOnHand=0;
     
     Game game;
 
@@ -142,7 +147,7 @@ public class ClientUI extends javax.swing.JFrame {
     
     private void generateCards(){
         
-       // game.placeUnit(new Player("Piotr"), unit);
+     
         
         
     }
@@ -274,27 +279,36 @@ public class ClientUI extends javax.swing.JFrame {
         float f=0.5f; //scale factor //Normally cards has 260x375 pixels
         int width=round(260*f);
         int height=round(375*f);
-        int cardPaddingTop=50;
+        int cardPaddingTop=70;
         int cardPaddingLeft=20;
         int cardPaddingTopTemp;
         int gap = 5;
-
+        
+       
+        
         for (int i=0; i<player.getHand().cardsLeftInSet(); i++){
-           cardPaddingTopTemp=cardPaddingTop;
-         
-            if(handMouseCoorY>cardPaddingTop && handMouseCoorY<(cardPaddingTop+height)){ // if mouse is in row with cards
+            Card=new CardGUI(player.getHand().getCardByPosInSet(i));
+            cardPaddingTopTemp=cardPaddingTop;
+                  
+            if(handMouseCoorY>(cardPaddingTop-20*mouseOverCard[i]) && handMouseCoorY<(cardPaddingTop+height-20*mouseOverCard[i])){ // if mouse is in row with cards
                 if ((handMouseCoorX>cardPaddingLeft+(gap*i)+width*(i)) && handMouseCoorX<(cardPaddingLeft+(gap*i)+width*(i+1))){
                    cardPaddingTopTemp=cardPaddingTop-20;
-                }
-                
+                   mouseOverCard[i]=1;
+                } 
                 else{
                    cardPaddingTopTemp=cardPaddingTop;
+                   mouseOverCard[i]=0;
                 }
+            }         
+            if(mouseClickedOnHand==1&&mouseOverCard[i]==1){
+                if(selectedCard[i]==0) selectedCard[i]=1;   
+                else selectedCard[i]=0;
+                
             }
-            Card=new CardGUI(player.getHand().getCardByPosInSet(i));
-            g.drawImage(Card.getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTopTemp, width, height, null);
+            g.drawImage(Card.getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTopTemp-20*selectedCard[i], width, height, null);       
         }  
-       
+    mouseClickedOnHand=0;
+     
     }
     
     
@@ -870,10 +884,13 @@ public class ClientUI extends javax.swing.JFrame {
 
     private void playerHandPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseClicked
 
-               int x = evt.getPoint().x;
+         /*      int x = evt.getPoint().x;
 		int y = evt.getPoint().y;
                     
-                System.out.println("x:" + x + " y:"+y);
+                System.out.println("mouse Clicked!");*/
+                mouseClickedOnHand=1;
+                this.repaint();
+                
                
         // TODO add your handling code here:
     }//GEN-LAST:event_playerHandPanelMouseClicked
@@ -883,7 +900,11 @@ public class ClientUI extends javax.swing.JFrame {
     }//GEN-LAST:event_playerHandPanelMouseEntered
 
     private void playerHandPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseExited
-         // TODO add your handling code here:
+        for (int i=0; i<5; i++){
+             mouseOverCard[i]=0;
+        } 
+       
+        this.repaint();
     }//GEN-LAST:event_playerHandPanelMouseExited
 
     private void playerHandPanelMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseMoved
@@ -892,7 +913,7 @@ public class ClientUI extends javax.swing.JFrame {
                     
                // System.out.println("x:" + handMouseCoorX + " y:"+handMouseCoorY);
                 
-                repaint();
+                this.repaint();
     }//GEN-LAST:event_playerHandPanelMouseMoved
     
     /**
