@@ -61,6 +61,7 @@ public class ClientUI extends javax.swing.JFrame {
     byte[] mouseOverCard={0,0,0,0,0};
     byte[] selectedCard={0,0,0,0,0};
     byte mouseClickedOnHand=0;
+    int temp=0;
     
     Game game;
 
@@ -281,31 +282,27 @@ public class ClientUI extends javax.swing.JFrame {
         int height=round(375*f);
         int cardPaddingTop=70;
         int cardPaddingLeft=20;
-        int cardPaddingTopTemp;
         int gap = 5;
         
        
         
         for (int i=0; i<player.getHand().cardsLeftInSet(); i++){
             Card=new CardGUI(player.getHand().getCardByPosInSet(i));
-            cardPaddingTopTemp=cardPaddingTop;
+            //cardPaddingTopTemp=cardPaddingTop;
                   
             if(handMouseCoorY>(cardPaddingTop-20*mouseOverCard[i]) && handMouseCoorY<(cardPaddingTop+height-20*mouseOverCard[i])){ // if mouse is in row with cards
-                if ((handMouseCoorX>cardPaddingLeft+(gap*i)+width*(i)) && handMouseCoorX<(cardPaddingLeft+(gap*i)+width*(i+1))){
-                   cardPaddingTopTemp=cardPaddingTop-20;
+                if ((handMouseCoorX>cardPaddingLeft+(gap*i)+width*(i)) && handMouseCoorX<(cardPaddingLeft+(gap*i)+width*(i+1))){ //if mouse is in th collon with card
                    mouseOverCard[i]=1;
                 } 
                 else{
-                   cardPaddingTopTemp=cardPaddingTop;
                    mouseOverCard[i]=0;
                 }
             }         
             if(mouseClickedOnHand==1&&mouseOverCard[i]==1){
                 if(selectedCard[i]==0) selectedCard[i]=1;   
-                else selectedCard[i]=0;
-                
+                else selectedCard[i]=0;           
             }
-            g.drawImage(Card.getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTopTemp-20*selectedCard[i], width, height, null);       
+            g.drawImage(Card.getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTop-20*mouseOverCard[i]-20*selectedCard[i], width, height, null);       
         }  
     mouseClickedOnHand=0;
      
@@ -886,9 +883,10 @@ public class ClientUI extends javax.swing.JFrame {
 
          /*      int x = evt.getPoint().x;
 		int y = evt.getPoint().y;
-                    
-                System.out.println("mouse Clicked!");*/
+                    */
+                
                 mouseClickedOnHand=1;
+           
                 this.repaint();
                 
                
