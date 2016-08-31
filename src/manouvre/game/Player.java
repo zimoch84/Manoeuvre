@@ -6,9 +6,18 @@
 package manouvre.game;
 
 import java.util.ArrayList;
+import manouvre.gui.UnitGUI;
 
 /**
- *
+ *  Nation
+ *  int BR  = 0; //GreatBritain
+    int FR  = 2; //France
+    int RU  = 5; //Russland
+    int PR  = 4; //Prussia
+    int AU  = 1; //Austria
+    int SP  = 6; //Spain
+    int OT  = 3; //Ottoman
+    int US  = 7; //USA
  * @author Piotr
  */
 public class Player {
@@ -88,6 +97,25 @@ public class Player {
         return active;
     }
 
+    public void generateUnits(){
+     
+        army = new ArrayList<Unit>();
+      for (int i=getNation()*8  ;i<getNation()*8+8;i++)
+        {
+
+            
+            Unit unit =  new Unit(i+1);
+          /*
+            Pozycja tymczasowo - bedzie tworzona w setupie
+            */
+            unit.setPos(new Position (  i- ( getNation()*8)    ,1));
+            army.add(   unit     ) ;      
+                   
+              
+       
+        }
+    
+    }
   
     
 }

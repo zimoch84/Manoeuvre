@@ -73,6 +73,13 @@ public class UnitGUI  {
 
     public void setUnit(Unit unit) {
         this.unit = unit;
+        try {
+               imgFull = ImageIO.read(new File("resources\\units\\"+  unit.getImageFullName()   ));
+               imgReduced = ImageIO.read(new File("resources\\units\\"+  unit.getImageReducedName()   ));
+           } catch (IOException ex) {
+               Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
+           }   
+        
     }
     
         
