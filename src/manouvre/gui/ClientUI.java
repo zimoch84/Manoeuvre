@@ -296,7 +296,7 @@ public class ClientUI extends javax.swing.JFrame {
                 if(selectedCard[i]==0) selectedCard[i]=1;   
                 else selectedCard[i]=0;           
             }
-            g.drawImage(Card.getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTop-20*mouseOverCard[i]-20*selectedCard[i], width, height, null);       
+            g.drawImage(Card.getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTop-20*mouseOverCard[i]-20*selectedCard[i], width+20*mouseOverCard[i], height+20*mouseOverCard[i], null);       
         }  
     mouseClickedOnHand=0;
     }
