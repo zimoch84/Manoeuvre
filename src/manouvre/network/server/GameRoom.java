@@ -20,6 +20,12 @@ public class GameRoom {
     ArrayList<Player> players;
     
     String name, password;
+
+   
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
     
     int ID;
     
@@ -47,6 +53,17 @@ public class GameRoom {
         
     }
     
+    public void addPlayer(Player inPlayer){
+        
+        if(!locked){
+        this.players.add(inPlayer);
+        if (players.size() == 2) locked = true;
+        }
+        
+        //players.add(inSocket.welcome.getPlayer());
+        
+    }
+    
     @Override
     public boolean equals(Object o){
      GameRoom c = (GameRoom)    o;
@@ -62,6 +79,18 @@ public class GameRoom {
         else 
         return name + " password protected";
     
+    }
+    
+     public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
     }
     
  

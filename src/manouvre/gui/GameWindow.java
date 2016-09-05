@@ -172,7 +172,7 @@ public class GameWindow extends javax.swing.JFrame {
     @Deprecated
     private void drawMap(Graphics g )                   
     {
-        gameGui.drawMap(g, this);
+        gameGui.drawMap(g);
      
     }
     
