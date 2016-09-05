@@ -20,7 +20,10 @@ public class SocketClient implements Runnable{
     public LoginWindow welcome;
     public MainChatWindow mainChat;
     public RoomWindow roomWindow;
-    
+    /*
+    Player na poziomie socketu z założenia ma conajmniej swoją nazwę
+    */
+    public Player player;
     
     public ObjectInputStream In;
     public ObjectOutputStream Out;

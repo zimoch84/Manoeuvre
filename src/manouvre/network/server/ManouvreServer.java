@@ -8,11 +8,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import manouvre.game.Player;
 import manouvre.network.client.Message;
+import manouvre.network.client.SocketClient;
 
 /**
  * 
  * @author Piotr
- * Wątek serwera posiada send(Message msg) 
+ * Wątek serwera posiada send(Message msg) i trzyma socket klienta 
+ * i odpowiedzialna jest za komunikacje 1 klienta z serwerem
  */
 
 class ClientServerThread extends Thread { 
@@ -24,6 +26,10 @@ class ClientServerThread extends Thread {
     public ObjectInputStream streamIn  =  null;
     public ObjectOutputStream streamOut = null;
     public ServerFrame ui;
+
+    
+    
+    Player player;
     
 
     public ClientServerThread(ManouvreServer _server, Socket _socket){  
@@ -34,6 +40,10 @@ class ClientServerThread extends Thread {
         ui = _server.ui;
     }
     
+    /**
+     *  Message( type,  sender,  content,  recipient)
+    
+    */
     public void send(Message msg){
         try {
             streamOut.writeObject(msg);
@@ -53,6 +63,14 @@ class ClientServerThread extends Thread {
     }
 
        
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+    
     @SuppressWarnings("deprecation")
 	public void run(){  
     	ui.jTextArea1.append("\nServer Thread " + socketClientServerPortID + " running.");
@@ -98,7 +116,7 @@ class ClientServerThread extends Thread {
 
 
 /**
- * Klasa serwera uruchamia wątki ClientServerThread
+ * Klasa serwera uruchamia i trzyma wątki ClientServerThread i trzyma kanały
  * @author Piotr
  */
 
@@ -287,12 +305,31 @@ public class ManouvreServer implements Runnable {
                 for(GameRoom checkRoom : getRooms())
                     
                 {
-                    if(checkRoom.getName().equals(name) && checkRoom.getPassword().equals(password) )
+                    if(checkRoom.getName().equals(name) && checkRoom.getPassword().equals(password) && !checkRoom.isLocked())
                     {
                         checkRoom.addSocket(this.clients[findClient(ID)].getSocket());
+                        checkRoom.addPlayer(this.clients[findClient(ID)].getPlayer());
                         
-                        checkRoom.addPlayer(new Player(msg.sender));
-                                
+                        clients[findClient(ID)].send (new Message (Message.JOIN_ROOM,"SERVER", Message.OK, msg.sender)  );
+                        
+                        announceInRoom(checkRoom, new Message (Message.IN_ROOM_CHAT, "SERVER", "Player " + msg.sender + " joined the room", "All") );
+                        break;
+                    }
+                    else if (!checkRoom.getName().equals(name))
+                    {
+                        clients[findClient(ID)].send(new Message (Message.JOIN_ROOM, "SERVER", Message.BAD_CHANNEL_NAME, msg.sender));
+                        break;
+                    }
+                    else if (checkRoom.getName().equals(name) && !checkRoom.getPassword().equals(password))
+                    {
+                        clients[findClient(ID)].send(new Message (Message.JOIN_ROOM, "SERVER", Message.BAD_PASSWORD, msg.sender));
+                        break;
+                    }
+                    else if (checkRoom.isLocked())
+                        clients[findClient(ID)].send(new Message (Message.JOIN_ROOM, "SERVER", Message.IS_ROOM_LOCKED, msg.sender));
+                    else {
+                        System.out.println("manouvre.network.server.ManouvreServer.handle() Something goes wrong" );
+                    
                     }
                 
                 }
@@ -377,6 +414,25 @@ public class ManouvreServer implements Runnable {
         }
     }
     
+    public void announceInRoom(GameRoom room , Message msg){
+    
+        if (channels.contains(room)) 
+        {
+               for(GameRoom checkRoom: getRooms())
+               {
+                   if(checkRoom.equals(room))
+                   {
+                       for(Socket sockets: checkRoom.getSockets() )
+                           
+                           clients[findClient(sockets.getPort())].send(msg);
+                           
+                   }
+               }
+            
+        }
+            
+    }
+    
     public void SendUserList(String toWhom){
         for(int i = 0; i < clientCount; i++){
             findUserThread(toWhom).send(new Message("newuser", "SERVER", clients[i].username, toWhom));
@@ -448,12 +504,12 @@ public class ManouvreServer implements Runnable {
             ui.jTextArea1.append("\nClient refused: maximum " + clients.length + " reached.");
 	}
     }
-     public void createChannel(String username, String password, ClientServerThread thread){
+     public void createRoom(String username, String password, ClientServerThread thread){
          GameRoom channel = new GameRoom(username, password, thread.getSocket(), new Player(username));
          channels.add(channel);
         
      }
-     public boolean destroyChannel(GameRoom channel)
+     public boolean destroyRoom(GameRoom channel)
      {
          boolean remove= false;
          if(channels.contains(channel)) 
@@ -462,6 +518,11 @@ public class ManouvreServer implements Runnable {
          }
          return remove;
      }
+     
+     
+ 
+     
+     
      
     public static String getStackTrace(final Throwable throwable) {
      final StringWriter sw = new StringWriter();

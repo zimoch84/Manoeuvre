@@ -7,6 +7,7 @@ package manouvre.network.server;
 
 import java.net.Socket;
 import java.util.ArrayList;
+import manouvre.game.Game;
 import manouvre.game.Player;
 import manouvre.network.client.SocketClient;
 
@@ -17,11 +18,12 @@ import manouvre.network.client.SocketClient;
 public class GameRoom {
     
     ArrayList<Socket> sockets;
+
     ArrayList<Player> players;
     
     String name, password;
 
-   
+    Game game;
 
     public void setPassword(String password) {
         this.password = password;
@@ -31,6 +33,8 @@ public class GameRoom {
     
     
     boolean locked;
+
+    
 
     public GameRoom(String name, String password, Socket socket, Player player) {
         this.name = name;
@@ -51,6 +55,9 @@ public class GameRoom {
         
         //players.add(inSocket.welcome.getPlayer());
         
+    }
+    public ArrayList<Socket> getSockets() {
+        return sockets;
     }
     
     public void addPlayer(Player inPlayer){
@@ -92,7 +99,14 @@ public class GameRoom {
     public String getPassword() {
         return password;
     }
-    
+   
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
+    }
  
     
     
