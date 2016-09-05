@@ -120,7 +120,7 @@ public class GameWindow extends javax.swing.JFrame {
         initComponents();
         game = new Game(player);
         game.generateMap();
-        map = new MapGUI(game.getMap());
+        map = gameGui.getMapGui();
        // game.setCurrentPlayer(player);
         
         jPlayer.setText("Player : " + player.getName());
@@ -157,6 +157,7 @@ public class GameWindow extends javax.swing.JFrame {
         generateUnitsUI();
         generateCards();
         map = new MapGUI(game.getMap());
+        
         this.addWindowListener(new WindowListener() {
 
             @Override public void windowOpened(WindowEvent e) {}
