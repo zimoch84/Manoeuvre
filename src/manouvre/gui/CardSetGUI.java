@@ -8,10 +8,12 @@ package manouvre.gui;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import manouvre.game.Card;
+import manouvre.game.CardSet;
 
 //import java.awt.image.BufferedImage;
 
@@ -19,21 +21,21 @@ import manouvre.game.Card;
  * Retrives card picture/image
  * @author Bartosz
  */
-public class CardGUI {
+public class CardSetGUI {
     
     Image imgFull;
     boolean OverCard=false;
     boolean Selected=false;
+    CardSet cardSet;
+    public ArrayList<CardSet> cardListGui = new ArrayList<CardSet>();
+
     /**
      * Gets the card image based on its ID in cards.csv 
      * @param ID    cardID
      * @see resources.cards
      */
-    public CardGUI(int ID) {
-        Card card = new Card(ID);
-        System.out.println(card.getCardName());
-         System.out.println("resources\\cards\\"+card.getCardImg());
-        
+    public CardSetGUI(CardSet newCardSet) {
+        this.cardSet=newCardSet;       
         try {
             imgFull = ImageIO.read(new File("resources\\cards\\"+card.getCardImg()));
         } catch (IOException ex) {
@@ -41,12 +43,20 @@ public class CardGUI {
         }
         
     }
+    
+    private void setImg(){
+        for (int i=0; i<=cardSet.cardsLeftInSet(); i++){
+            
+        }
+    }
+    
+    
     /**
      * Gets the card image based on its object 
      * @param card    Card Object
      * @see game.Card.java
      */
-    public CardGUI(Card card) {
+    public CardSetGUI(Card card) {
         try {
             imgFull = ImageIO.read(new File("resources\\cards\\"+  card.getCardImg()   ));
         } catch (IOException ex) {

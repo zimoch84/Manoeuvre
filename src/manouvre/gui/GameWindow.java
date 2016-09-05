@@ -44,6 +44,22 @@ import static java.lang.Math.round;
 import static java.lang.Math.round;
 import static java.lang.Math.round;
 import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
 
 /**
  *
@@ -64,7 +80,7 @@ public class GameWindow extends javax.swing.JFrame {
     private int handMouseCoorX,handMouseCoorY;
     
     
-    CardGUI cardSetsGUI;
+    CardSetGUI cardSetsGUI;
     
 
     /*
@@ -179,7 +195,7 @@ public class GameWindow extends javax.swing.JFrame {
     
     private void drawCard(Graphics g )                 
     {   
-//        CardGUI Card; //Declaration of the Image Type variable
+//        CardSetGUI Card; //Declaration of the Image Type variable
 //        
 //        float f=0.5f; //scale factor //Normally cards has 260x375 pixels
 //        int width=round(260*f), height=round(375*f);
@@ -188,7 +204,7 @@ public class GameWindow extends javax.swing.JFrame {
 //        int gap = 5;
 //        
 //        for (int i=0; i<player.getHand().cardsLeftInSet(); i++){
-//            Card=new CardGUI(player.getHand().getCardByPosInSet(i));    
+//            Card=new CardSetGUI(player.getHand().getCardByPosInSet(i));    
 //               
 //            if(handMouseCoorY>(cardPaddingTop-20*mouseOverCard[i]-20*selectedCard[i]) && handMouseCoorY<(cardPaddingTop+height)){ // if mouse is in row with cards
 //                if ((handMouseCoorX>cardPaddingLeft+(gap*i)+width*(i)) && handMouseCoorX<(cardPaddingLeft+(gap*i)+width*(i+1))){ //if mouse is in th collon with card

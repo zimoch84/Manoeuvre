@@ -31,14 +31,6 @@ public class GameGUI {
         this.generateUnitsUI();
         
     }
-   
-    public Game getGame() {
-        return game;
-    }
-
-    public MapGUI getMapGui() {
-        return mapGUI;
-    }
 
     void drawMap(Graphics g, GameWindow gameWindow) {
         int gap = 5;
@@ -108,4 +100,11 @@ public class GameGUI {
         mapGUI.setUnitSelected(false);
     }
     
+    public Game getGame() {
+        return game;
+    }
+
+    public MapGUI getMapGui() {
+        return mapGUI;
+    }
 }
