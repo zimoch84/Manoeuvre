@@ -21,82 +21,45 @@ import manouvre.game.CardSet;
  * Retrives card picture/image
  * @author Bartosz
  */
+
 public class CardSetGUI {
+   
     
-    Image imgFull;
-    boolean OverCard=false;
-    boolean Selected=false;
-    CardSet cardSet;
-    public ArrayList<CardSet> cardListGui = new ArrayList<CardSet>();
+    ArrayList<CardGUI> cardListGui = new ArrayList<CardGUI>();  
+    CardSet cardSet;  //decide which cardSet shall be processed
 
-    /**
-     * Gets the card image based on its ID in cards.csv 
-     * @param ID    cardID
-     * @see resources.cards
-     */
-    public CardSetGUI(CardSet newCardSet) {
-        this.cardSet=newCardSet;       
-        try {
-            imgFull = ImageIO.read(new File("resources\\cards\\"+card.getCardImg()));
-        } catch (IOException ex) {
-            Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
+    public CardSetGUI (CardSet newCardSet){
+       this.cardSet = newCardSet;
+       reSet();
+    }
+    
+    public void reSet(){ 
+       cardListGui.clear(); //clear the list
+     //  System.out.println("cardSet.cardsLeftInSet():"+cardSet.cardsLeftInSet());
+       for(int i=0; i<cardSet.cardsLeftInSet(); i++){
+        cardListGui.add(i, new CardGUI(cardSet.getCardByPosInSet(i)));
+       }
+    }
+    public void getAllCardsImg(){
+        for(int i=0; i<cardListGui.size(); i++){
+           System.out.println("Card " +i+": " + cardListGui.get(i).imgFull);     
         }
-        
+    }  
+   
+    public int cardsLeftInSet() {
+        return cardListGui.size();    
+    }
+    public CardGUI getCardByPosInSet(int cardPosition){
+       return cardListGui.get(cardPosition);     
     }
     
-    private void setImg(){
-        for (int i=0; i<=cardSet.cardsLeftInSet(); i++){
-            
-        }
+    public void removeCardBySetID(int CardSetIdToRemove){
+       cardListGui.remove(CardSetIdToRemove); 
     }
     
-    
-    /**
-     * Gets the card image based on its object 
-     * @param card    Card Object
-     * @see game.Card.java
-     */
-    public CardSetGUI(Card card) {
-        try {
-            imgFull = ImageIO.read(new File("resources\\cards\\"+  card.getCardImg()   ));
-        } catch (IOException ex) {
-            Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
-        }                   
-    }   
-    /**
-     * Returns card image to be used in GUI
-     * @return card image
-     */
-    public Image getImgFull() {
-        return imgFull;
+    public int getCardIDBySetID(int CardSetId){
+       return cardListGui.get(CardSetId).card.getCardID(); 
     }
-    
-    public void setOverCard(boolean isOverCard) {
-        this.OverCard = isOverCard;
-    }
-     public boolean isOverCard() {
-        return OverCard;
-    }
-
-    public void setSelected(boolean isSelected) {
-        this.Selected = isSelected;
-    }
-    
-    public boolean isSelected() {
-        return Selected;
-    }
-
-    public void printSelect(){
-        System.out.println("Card Selection Status:"+Selected);
-        
-    }
-    
-    public void printOverCard(){
-        System.out.println("Mouse Over Card Status: "+OverCard);
-        
-    }
-
-
      
     
 }

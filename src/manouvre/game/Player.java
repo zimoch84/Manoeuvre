@@ -47,7 +47,7 @@ public class Player {
     }
  
     public void setNation(int nation) {
-        System.out.println("Nation Set to:"+nation);
+      //  System.out.println("Nation Set to:"+nation);
         this.nation = nation;
     }
     
@@ -58,13 +58,12 @@ public class Player {
     public void setCards() {
         this.drawPile = new CardSet(60,nation); 
         this.hand = new CardSet(5);     
-        
+             
         this.discardPile = new CardSet();
+
        
         hand.addRandomCardsFromOtherSet(5, drawPile);
-        hand.getAllCardsIDFromSet();
-        // hand.getAllCardsIDFromSet();
-    // System.out.println("cards left in hand"+hand.cardsLeftInSet());
+        hand.sortCard();  
     }
 
     public void generateUnits(){
@@ -84,7 +83,7 @@ public class Player {
               
        
         }
-     System.out.println("Units Generated:");
+    // System.out.println("Units Generated:");
     }
     
     

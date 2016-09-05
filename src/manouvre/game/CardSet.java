@@ -22,7 +22,7 @@ public class CardSet implements CardSetInterface{
     private int cardSetSize=0;           // each army includes an Action Deck of 80 cards. 
     private int nation;
     private int cardID;
-   
+    
     private Random randomGener = new Random();
 
     public ArrayList<Card> cardList = new ArrayList<Card>();
@@ -97,8 +97,8 @@ public class CardSet implements CardSetInterface{
      */
     public void addRandomCardsFromOtherSet(int range, CardSetInterface otherCardSet){ //add the card from another Set (f.ex. Deck)
        Card randomCard;
-       Card temp;
-       boolean sorted=false;
+      
+       
        for(int i=0; i<=range; i++){
            randomCard=otherCardSet.dealRandomCardFromThisSet();
        if (cardList.size()<cardSetSize){  //if it is possible to add the card  
@@ -110,21 +110,7 @@ public class CardSet implements CardSetInterface{
        }
       
        //sort the cards by ID nummber
-       while(!sorted){
-           for (int i=0; i<(cardList.size()-1) ; i++){
-               if (cardList.get(i).getCardID()>cardList.get(i+1).getCardID()){
-                   temp=cardList.get(i);
-                   cardList.set(i, cardList.get(i+1));
-                   cardList.set(i+1, temp);
-                  
-                
-                    i=-1; //if this was performed we have to be sure that the numbers are correct start from begining
-               }
-               else sorted=true;   
-           }  
-       }
-       
-       
+  
     }
     /**
      * Dealing a card to another set based on Object. F.ex. from HAND to USED CARDS
@@ -135,6 +121,17 @@ public class CardSet implements CardSetInterface{
         Card temp=cardList.get(cardList.indexOf(cardToDeal));
         otherCardSet.addCardToThisSet(temp);
         cardList.remove(cardToDeal);
+        
+    }
+     /**
+     * Dealing a card to another set based on Object. F.ex. from HAND to USED CARDS
+     * @param cardToDeal - card object to be given away
+     * @param otherCardSet - where this card should go
+     */
+     public void dealCardToOtherSetByHandPos(int cardID, CardSetInterface otherCardSet) {
+        Card temp=cardList.get(cardID);
+        otherCardSet.addCardToThisSet(temp);
+        cardList.remove(cardID);
         
     }
       /**
@@ -178,12 +175,41 @@ public class CardSet implements CardSetInterface{
     public Card getCardByPosInSet(int cardPosition){
        return cardList.get(cardPosition);     
     }
+    
+     public int getCardIDByPosInSet(int cardPosition){
+       return cardList.get(cardPosition).getCardID();     
+    }
 
     public int cardsLeftInSet() {
         return cardList.size();    
     }
 
-
+    public void sortCard(){
+        Card temp;
+        boolean sorted=false;
+        int time=0; 
+        
+        while(!sorted){
+           for (int i=0; i<(cardList.size()-1) ; i++){
+               if (cardList.get(i).getCardID()>cardList.get(i+1).getCardID()){
+                   temp=cardList.get(i);
+                   cardList.set(i, cardList.get(i+1));
+                   cardList.set(i+1, temp);
+                  
+                    time++;
+                    i=-1; //if this was performed we have to be sure that the numbers are correct start from begining
+                    if (time>500){    
+                        sorted=true;
+                        System.err.println("SORTING LOOP FAILURE");
+                        break;
+                    }//stop the loop if failure
+               }
+               else sorted=true;   
+           }  
+       }
+       
+     getAllCardsIDFromSet();
+    }
     
 
    }
