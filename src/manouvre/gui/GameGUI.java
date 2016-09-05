@@ -19,11 +19,13 @@ import manouvre.game.Unit;
 public class GameGUI {
     
     Game game;
-    ArrayList<UnitGUI> unitsGUI = new ArrayList<UnitGUI>(); //tymczasowo
-    /*
-    GUI variables
-     */
+    ArrayList<UnitGUI> unitsGUI = new ArrayList<UnitGUI>(); 
     MapGUI mapGUI;
+    
+    
+    
+    
+    
     
     public GameGUI (Game newGame) throws IOException{
         this.game=newGame;
@@ -32,12 +34,12 @@ public class GameGUI {
         
     }
 
-    void drawMap(Graphics g, GameWindow gameWindow) {
+    void drawMap(Graphics g) {
         int gap = 5;
         // draw background
         //g.drawImage(this.imgBackground, 0, 0, null);
         // draw terrain
-        for (TerrainGUI terrainGUI : this.mapGUI.getTerrainsGUI()) {
+        for (TerrainGUI terrainGUI : mapGUI.getTerrainsGUI()) {
             g.drawImage(terrainGUI.getImg(), terrainGUI.getPos().getMouseX(), terrainGUI.getPos().getMouseY(), null);
         }
         /*
@@ -59,8 +61,8 @@ public class GameGUI {
                             g.drawRoundRect(adjencedPositions.get(k).getMouseX() + gap, adjencedPositions.get(k).getMouseY() + gap, MapGUI.SQUARE_WIDTH - 2 * gap, MapGUI.SQUARE_HEIGHT - 2 * gap, 10, 10);
                         }
                     } else {
-                        System.out.println("manouvre.gui.ClientUI.drawMap() : " + gameWindow.game.getUnitAtPosition(terrain.getPos()).toString());
-                        ArrayList<Position> movePositions = gameWindow.game.getPossibleMovement(gameWindow.game.getUnitAtPosition(terrain.getPos()));
+                        System.out.println("manouvre.gui.ClientUI.drawMap() : " + game.getUnitAtPosition(terrain.getPos()).toString());
+                        ArrayList<Position> movePositions = game.getPossibleMovement(game.getUnitAtPosition(terrain.getPos()));
                         for (Position drawMovePosion : movePositions) {
                             g.setColor(Color.blue);
                             g.drawRoundRect(drawMovePosion.getMouseX() + gap, drawMovePosion.getMouseY() + gap, MapGUI.SQUARE_WIDTH - 2 * gap, MapGUI.SQUARE_HEIGHT - 2 * gap, 10, 10);
