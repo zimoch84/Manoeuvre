@@ -8,51 +8,46 @@ package manouvre.gui;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import manouvre.game.Card;
-
-//import java.awt.image.BufferedImage;
+import manouvre.game.CardSet;
 
 /**
- * Retrives card picture/image
+ *
  * @author Bartosz
  */
 public class CardGUI {
-    
     Image imgFull;
-    boolean OverCard=false;
-    boolean Selected=false;
+    int OverCard=0;
+    int Selected=0;
+    Card card;
+    
+//    int posX;
+//    int posY;
+    
+   
     /**
      * Gets the card image based on its ID in cards.csv 
      * @param ID    cardID
      * @see resources.cards
      */
-    public CardGUI(int ID) {
-        Card card = new Card(ID);
-        System.out.println(card.getCardName());
-         System.out.println("resources\\cards\\"+card.getCardImg());
-        
+    public CardGUI(Card newCard) {
+        this.card=newCard;    
+        setImg();        
+    }
+    
+    private void setImg(){
         try {
             imgFull = ImageIO.read(new File("resources\\cards\\"+card.getCardImg()));
         } catch (IOException ex) {
             Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
-    /**
-     * Gets the card image based on its object 
-     * @param card    Card Object
-     * @see game.Card.java
-     */
-    public CardGUI(Card card) {
-        try {
-            imgFull = ImageIO.read(new File("resources\\cards\\"+  card.getCardImg()   ));
-        } catch (IOException ex) {
-            Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
-        }                   
-    }   
+    
+   
     /**
      * Returns card image to be used in GUI
      * @return card image
@@ -61,32 +56,32 @@ public class CardGUI {
         return imgFull;
     }
     
-    public void setOverCard(boolean isOverCard) {
+    public void setOverCard(int isOverCard) {
         this.OverCard = isOverCard;
     }
-     public boolean isOverCard() {
+    
+     public int isOverCard() {
         return OverCard;
     }
 
-    public void setSelected(boolean isSelected) {
+    public void setSelected(int isSelected) {
         this.Selected = isSelected;
     }
     
-    public boolean isSelected() {
+    public int isSelected() {
         return Selected;
     }
 
     public void printSelect(){
-        System.out.println("Card Selection Status:"+Selected);
+        System.out.println(card.getCardName()+" Card Selection Status:"+Selected);
         
     }
     
     public void printOverCard(){
-        System.out.println("Mouse Over Card Status: "+OverCard);
+        System.out.println("Mouse Over "+card.getCardName()+" Card Status: "+OverCard);
         
     }
 
 
-     
     
 }

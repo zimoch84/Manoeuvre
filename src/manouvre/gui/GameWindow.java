@@ -12,6 +12,7 @@ import java.awt.Graphics2D;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.IOException;
+import static java.lang.Math.abs;
 import static java.lang.Math.round;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -29,6 +30,118 @@ import manouvre.game.Unit;
 import manouvre.game.interfaces.PositionInterface;
 import manouvre.game.interfaces.TerrainInterface;
 import manouvre.network.client.SocketClient;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
 import static java.lang.Math.round;
 import static java.lang.Math.round;
 import static java.lang.Math.round;
@@ -62,9 +175,11 @@ public class GameWindow extends javax.swing.JFrame {
     public Player player;
     
     private int handMouseCoorX,handMouseCoorY;
+    private int handMouseCoorXdeaf=0;
+    private int handMouseCoorYdeaf=0;
+    int mouseClickedOnHand=0;
     
-    
-    CardGUI cardSetsGUI;
+    CardSetGUI cardSetsGUI;
     
 
     /*
@@ -89,9 +204,6 @@ public class GameWindow extends javax.swing.JFrame {
         game.setCurrentPlayer(player);
         */
    
-      
-        
-        
         initComponents();
         
         jPlayer.setText("Player : " + player.getName());
@@ -118,13 +230,11 @@ public class GameWindow extends javax.swing.JFrame {
     public GameWindow() throws IOException {
         initComponents();
         game=new Game(new Player("Bartek"));
-        this.gameGui = new GameGUI(game); //TEMP
+        gameGui = new GameGUI(game); //TEMP
         
         gameGui.getGame().getMap(); //TEMP
        
-        
-        generateCards();
-        gameGui.mapGUI = new MapGUI(game.getMap());
+        gameGui.mapGui = new MapGUI(game.getMap());
         this.addWindowListener(new WindowListener() {
 
             @Override public void windowOpened(WindowEvent e) {}
@@ -148,20 +258,7 @@ public class GameWindow extends javax.swing.JFrame {
 
     }
 
-    /*
-    Temporary
-    */
-    
-    
-    private void generateCards(){
-        
-     
-       System.out.println("Generate CCards Called");
-        
-    }
-    
-    
-      
+
     public Game getGame() {
          return game;
      }
@@ -169,46 +266,28 @@ public class GameWindow extends javax.swing.JFrame {
      public void setGame(Game game) {
          this.game = game;
      }
-    @Deprecated
+
     private void drawMap(Graphics g )                   
     {
         gameGui.drawMap(g);
      
     }
-    
-    
+ 
     private void drawCard(Graphics g )                 
     {   
-//        CardGUI Card; //Declaration of the Image Type variable
-//        
-//        float f=0.5f; //scale factor //Normally cards has 260x375 pixels
-//        int width=round(260*f), height=round(375*f);
-//        int cardPaddingTop=70;
-//        int cardPaddingLeft=20;
-//        int gap = 5;
-//        
-//        for (int i=0; i<player.getHand().cardsLeftInSet(); i++){
-//            Card=new CardGUI(player.getHand().getCardByPosInSet(i));    
-//               
-//            if(handMouseCoorY>(cardPaddingTop-20*mouseOverCard[i]-20*selectedCard[i]) && handMouseCoorY<(cardPaddingTop+height)){ // if mouse is in row with cards
-//                if ((handMouseCoorX>cardPaddingLeft+(gap*i)+width*(i)) && handMouseCoorX<(cardPaddingLeft+(gap*i)+width*(i+1))){ //if mouse is in th collon with card
-//                   mouseOverCard[i]=1;
-//                } 
-//                else{
-//                   mouseOverCard[i]=0;
-//                }
-//            }  
-//            else mouseOverCard[i]=0;
-//            if(mouseClickedOnHand==1&&mouseOverCard[i]==1){
-//                if(selectedCard[i]==0) selectedCard[i]=1;   
-//                else selectedCard[i]=0;           
-//            }
-//            g.drawImage(Card.getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTop-20*mouseOverCard[i]-20*selectedCard[i], width, height, null);       
-//        }  
-//    mouseClickedOnHand=0;
+        gameGui.drawCard(g,  handMouseCoorX, handMouseCoorY, mouseClickedOnHand); 
+        mouseClickedOnHand=0; 
     }
     
+    private void drawDiscard(Graphics g )                 
+    {   
+        gameGui.drawDiscard(g); 
+      
+    }
     
+    private void drawDrawLeft(Graphics g ) {
+        gameGui.drawDrawLeft(g); 
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -262,8 +341,25 @@ public class GameWindow extends javax.swing.JFrame {
         }
         ;
         jLabel1 = new javax.swing.JLabel();
-        discardPanel = new javax.swing.JPanel();
+        discardPanel = new javax.swing.JPanel()
+        {
+            @Override
+            public void paintComponent(Graphics g) {
+                drawDiscard(g);
+
+            }
+        }
+        ;
         jLabel2 = new javax.swing.JLabel();
+        playerDrawLeftPanel = new javax.swing.JPanel(){
+            @Override
+            public void paintComponent(Graphics g) {
+                drawDrawLeft(g);
+
+            }
+        }
+        ;
+        jLabel3 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -363,7 +459,11 @@ public class GameWindow extends javax.swing.JFrame {
         );
 
         jButton8.setText("Discard");
-        jButton8.setEnabled(false);
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         jButton9.setText("Restore");
         jButton9.setEnabled(false);
@@ -541,16 +641,19 @@ public class GameWindow extends javax.swing.JFrame {
             .addGroup(playerHandPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(826, Short.MAX_VALUE))
+                .addContainerGap(705, Short.MAX_VALUE))
         );
         playerHandPanelLayout.setVerticalGroup(
             playerHandPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(playerHandPanelLayout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(0, 254, Short.MAX_VALUE))
+                .addContainerGap(241, Short.MAX_VALUE))
         );
 
-        jLabel2.setText("Cards");
+        discardPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jLabel2.setText("Discard");
 
         javax.swing.GroupLayout discardPanelLayout = new javax.swing.GroupLayout(discardPanel);
         discardPanel.setLayout(discardPanelLayout);
@@ -569,31 +672,51 @@ public class GameWindow extends javax.swing.JFrame {
                 .addContainerGap(245, Short.MAX_VALUE))
         );
 
+        playerDrawLeftPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jLabel3.setText("Draw left");
+
+        javax.swing.GroupLayout playerDrawLeftPanelLayout = new javax.swing.GroupLayout(playerDrawLeftPanel);
+        playerDrawLeftPanel.setLayout(playerDrawLeftPanelLayout);
+        playerDrawLeftPanelLayout.setHorizontalGroup(
+            playerDrawLeftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(playerDrawLeftPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addContainerGap(59, Short.MAX_VALUE))
+        );
+        playerDrawLeftPanelLayout.setVerticalGroup(
+            playerDrawLeftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(playerDrawLeftPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addContainerGap(245, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout bottomPanelLayout = new javax.swing.GroupLayout(bottomPanel);
         bottomPanel.setLayout(bottomPanelLayout);
         bottomPanelLayout.setHorizontalGroup(
             bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bottomPanelLayout.createSequentialGroup()
-                .addContainerGap(901, Short.MAX_VALUE)
+                .addContainerGap(21, Short.MAX_VALUE)
+                .addComponent(playerHandPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(discardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(playerDrawLeftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addGroup(bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(bottomPanelLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(playerHandPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(196, Short.MAX_VALUE)))
         );
         bottomPanelLayout.setVerticalGroup(
             bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(bottomPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(discardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(bottomPanelLayout.createSequentialGroup()
+                        .addComponent(playerHandPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(discardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(playerDrawLeftPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addGroup(bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(bottomPanelLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(playerHandPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -610,7 +733,7 @@ public class GameWindow extends javax.swing.JFrame {
                         .addComponent(mainMapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(rightSidePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -643,8 +766,8 @@ public class GameWindow extends javax.swing.JFrame {
                 int x = evt.getPoint().x;
 		int y = evt.getPoint().y;
 		                
-                if(! gameGui.mapGUI.isUnitSelected() )
-		for(TerrainGUI terrainGUI: gameGui.mapGUI.getTerrainsGUI())  
+                if(! gameGui.mapGui.isUnitSelected() )
+		for(TerrainGUI terrainGUI: gameGui.mapGui.getTerrainsGUI())  
                 {
                        
                        terrainGUI.setSelected(false);
@@ -656,7 +779,7 @@ public class GameWindow extends javax.swing.JFrame {
                                 
                                 if(game.checkUnitAtPosition(selectedPosition) ) {
                                   
-                                    gameGui.mapGUI.setUnitSelected(true);
+                                    gameGui.mapGui.setUnitSelected(true);
                                     getUnitGuiOnMapGui(selectedPosition).setSelected(true);
                                     
                                 }
@@ -667,6 +790,10 @@ public class GameWindow extends javax.swing.JFrame {
                         }
                    
                     }
+                /*
+                If unit is selected find which unit to move and move into 
+                /*
+                If unit is selected find which unit to move and move into 
                 /*
                 If unit is selected find which unit to move and move into 
                 /*
@@ -723,7 +850,7 @@ public class GameWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_mainMapPanelMouseClicked
     private UnitGUI getUnitGuiOnMapGui(Position position){
     
-           for(UnitGUI unitSearch: gameGui.unitsGUI){
+           for(UnitGUI unitSearch: gameGui.unitsGui){
         
             if(unitSearch.getUnit().getPos().equals(position))
             {
@@ -760,8 +887,9 @@ public class GameWindow extends javax.swing.JFrame {
 
     private void playerHandPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseClicked
      
-                //mouseClickedOnHand=1;       
+                mouseClickedOnHand=1;       
                 this.repaint();
+                  
     }//GEN-LAST:event_playerHandPanelMouseClicked
 
     private void playerHandPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseEntered
@@ -773,13 +901,31 @@ public class GameWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_playerHandPanelMouseExited
 
     private void playerHandPanelMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseMoved
+                int deafband=20; //repaint after mouse change of
+                
                 handMouseCoorX = evt.getPoint().x;
 		handMouseCoorY = evt.getPoint().y;
-                    
-               // System.out.println("x:" + handMouseCoorX + " y:"+handMouseCoorY);
+                if(abs(handMouseCoorX-handMouseCoorXdeaf)>deafband){
+                    handMouseCoorXdeaf=handMouseCoorX;
+                    this.repaint();
+                }
+              
+                if(abs(handMouseCoorY-handMouseCoorYdeaf)>deafband){
+                    handMouseCoorYdeaf=handMouseCoorY; 
+                    this.repaint();
+                }
                 
-                this.repaint();
+                
+                //System.out.println("x:" + handMouseCoorX + " y:"+handMouseCoorY);
+                
+                
     }//GEN-LAST:event_playerHandPanelMouseMoved
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+       gameGui.discardSelCards();
+        this.repaint();
+        // TODO add your hadgdndling code here:
+    }//GEN-LAST:event_jButton8ActionPerformed
     
     /**
 	 * check whether the mouse is currently over this piece
@@ -864,6 +1010,7 @@ public class GameWindow extends javax.swing.JFrame {
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -873,6 +1020,7 @@ public class GameWindow extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel mainMapPanel;
     private javax.swing.JButton moveButton;
+    private javax.swing.JPanel playerDrawLeftPanel;
     private javax.swing.JPanel playerHandPanel;
     private javax.swing.JPanel rightSidePanel;
     private javax.swing.JButton sendMessageButton;
