@@ -156,7 +156,7 @@ public class GameWindow extends javax.swing.JFrame {
         gameGui.getGame().getMap(); //TEMP
         generateUnitsUI();
         generateCards();
-        
+        map = new MapGUI(game.getMap());
         this.addWindowListener(new WindowListener() {
 
             @Override public void windowOpened(WindowEvent e) {}
