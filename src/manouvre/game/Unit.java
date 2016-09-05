@@ -42,8 +42,8 @@ public class Unit implements UnitInterface{
     int reducedStrength;
 
 
-    static String  imageReducedName ;
-    static String imageFullName;
+     String  imageReducedName ;
+     String imageFullName;
 
      
      public Unit(int ID)  {
@@ -126,11 +126,11 @@ public class Unit implements UnitInterface{
             
     }
     
-    public static String getImageReducedName() {
+    public  String getImageReducedName() {
         return imageReducedName;
     }
 
-    public static String getImageFullName() {
+    public  String getImageFullName() {
         return imageFullName;
     }
     

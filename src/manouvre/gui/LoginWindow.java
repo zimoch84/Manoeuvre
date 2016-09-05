@@ -176,7 +176,7 @@ public class LoginWindow extends javax.swing.JFrame {
         
         password = Arrays.toString(jPasswordField.getPassword());
         
-        Player player = new Player(username);
+        player = new Player(username);
         
         
         try {

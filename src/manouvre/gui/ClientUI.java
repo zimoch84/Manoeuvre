@@ -58,23 +58,58 @@ public class ClientUI extends javax.swing.JFrame {
     MapGUI map ;
     ArrayList<UnitGUI> unitsGUI = new ArrayList<UnitGUI>();  //tymczasowo
    
-    byte[] mouseOverCard={0,0,0,0,0};
-    byte[] selectedCard={0,0,0,0,0};
-    byte mouseClickedOnHand=0;
-    int temp=0;
+    /*
+    Dla Bartka
     
+    Podobnie jak MapGUI - niech klasa CardSetsGUI trzyma wszystkie karty gracza i umie je rysować
+    
+    Czyli 
+    
+    class CardGUI
+    
+    stałe (pozniej zmienne)
+    patrz klasa Position
+    
+    pola
+    CardSet hand, discard, draw ;
+    
+    boolean selected;
+    ..
+    
+    metody
+    boolean mouseOverCard - patrz klasa Position
+    .. i inne wspierajce rysowanie reki discardu i draw;
+    
+    
+    w ClientUI
+    
+    do przepisania drawMap(g) 
+        
+    metody w Player do napisania na obiektach CardSet hand, discard, draw:
+    
+    draw(int i);
+    discard(int i);
+    playCard(int stack);
+    
+    
+    
+    */
+    CardGUI cardSetsGUI;
+    
+//    byte[] mouseOverCard={0,0,0,0,0};
+//    byte[] selectedCard={0,0,0,0,0};
+//    byte mouseClickedOnHand=0;
+//    int temp=0;
+    /*
+    Object hold whole game logically
+    */
     Game game;
 
-    public Game getGame() {
-        return game;
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
-    }
-    
-    
    
+   
+    
+    
+ 
     public ClientUI(SocketClient passSocket, Player player) throws IOException{
         client = passSocket;
         initComponents();
@@ -84,8 +119,11 @@ public class ClientUI extends javax.swing.JFrame {
        // game.setCurrentPlayer(player);
         
         jPlayer.setText("Player : " + player.getName());
-        
-         generateUnits();
+        /*
+        Generujemy unity
+        */
+         game.getCurrentPlayer().generateUnits();
+        generateUnitsUI();
         
         this.addWindowListener(new WindowListener() {
 
@@ -115,7 +153,7 @@ public class ClientUI extends javax.swing.JFrame {
         game.generateMap();
         map = new MapGUI(game.getMap());
           
-        generateUnits();
+        generateUnitsUI();
         generateCards();
         
         this.addWindowListener(new WindowListener() {
@@ -156,22 +194,26 @@ public class ClientUI extends javax.swing.JFrame {
     
     
   
-    private void generateUnits()
+    private void generateUnitsUI()
     {       
-        for (int i=0;i<8;i++)
+        for (Unit unit: game.getCurrentPlayer().getArmy())
         {
 
-            Unit unit = new Unit(i+1);
-            unit.setPos(new Position (i,1));
+          
 
             unitsGUI.add(new UnitGUI(unit));
-
-            game.placeUnit(player, unit);       
+ 
         }
     
     }
     
-  
+    public Game getGame() {
+         return game;
+     }
+
+     public void setGame(Game game) {
+         this.game = game;
+     }
     private void drawMap(Graphics g )                   
     {
         int gap = 5;
@@ -272,34 +314,33 @@ public class ClientUI extends javax.swing.JFrame {
     
     private void drawCard(Graphics g )                 
     {   
-        CardGUI Card; //Declaration of the Image Type variable
-        
-        float f=0.5f; //scale factor //Normally cards has 260x375 pixels
-        int width=round(260*f), height=round(375*f);
-        int cardPaddingTop=70;
-        int cardPaddingLeft=20;
-        int gap = 5;
-        int zoom=60;
-        
-        for (int i=0; i<player.getHand().cardsLeftInSet(); i++){
-            Card=new CardGUI(player.getHand().getCardByPosInSet(i));    
-               
-            if(handMouseCoorY>(cardPaddingTop-20*mouseOverCard[i]-20*selectedCard[i]) && handMouseCoorY<(cardPaddingTop+height)){ // if mouse is in row with cards
-                if ((handMouseCoorX>cardPaddingLeft+(gap*i)+width*(i)) && handMouseCoorX<(cardPaddingLeft+(gap*i)+width*(i+1))){ //if mouse is in th collon with card
-                   mouseOverCard[i]=1;
-                } 
-                else{
-                   mouseOverCard[i]=0;
-                }
-            }  
-            else mouseOverCard[i]=0;
-            if(mouseClickedOnHand==1&&mouseOverCard[i]==1){
-                if(selectedCard[i]==0) selectedCard[i]=1;   
-                else selectedCard[i]=0;           
-            }
-            g.drawImage(Card.getImgFull(), cardPaddingLeft+(width+gap)*i-zoom/10*7/2*mouseOverCard[i], cardPaddingTop-zoom/3*2*mouseOverCard[i]-20*selectedCard[i], width+zoom/10*7*mouseOverCard[i], height+zoom*mouseOverCard[i], null);       
-        }  
-    mouseClickedOnHand=0;
+//        CardGUI Card; //Declaration of the Image Type variable
+//        
+//        float f=0.5f; //scale factor //Normally cards has 260x375 pixels
+//        int width=round(260*f), height=round(375*f);
+//        int cardPaddingTop=70;
+//        int cardPaddingLeft=20;
+//        int gap = 5;
+//        
+//        for (int i=0; i<player.getHand().cardsLeftInSet(); i++){
+//            Card=new CardGUI(player.getHand().getCardByPosInSet(i));    
+//               
+//            if(handMouseCoorY>(cardPaddingTop-20*mouseOverCard[i]-20*selectedCard[i]) && handMouseCoorY<(cardPaddingTop+height)){ // if mouse is in row with cards
+//                if ((handMouseCoorX>cardPaddingLeft+(gap*i)+width*(i)) && handMouseCoorX<(cardPaddingLeft+(gap*i)+width*(i+1))){ //if mouse is in th collon with card
+//                   mouseOverCard[i]=1;
+//                } 
+//                else{
+//                   mouseOverCard[i]=0;
+//                }
+//            }  
+//            else mouseOverCard[i]=0;
+//            if(mouseClickedOnHand==1&&mouseOverCard[i]==1){
+//                if(selectedCard[i]==0) selectedCard[i]=1;   
+//                else selectedCard[i]=0;           
+//            }
+//            g.drawImage(Card.getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTop-20*mouseOverCard[i]-20*selectedCard[i], width, height, null);       
+//        }  
+//    mouseClickedOnHand=0;
     }
     
     
@@ -447,9 +488,8 @@ public class ClientUI extends javax.swing.JFrame {
         currentPlayerPanelLayout.setVerticalGroup(
             currentPlayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(currentPlayerPanelLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
                 .addComponent(jPlayer)
-                .addContainerGap(65, Short.MAX_VALUE))
+                .addGap(0, 85, Short.MAX_VALUE))
             .addGroup(currentPlayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(currentPlayerPanelLayout.createSequentialGroup()
                     .addGap(21, 21, 21)
@@ -661,7 +701,7 @@ public class ClientUI extends javax.swing.JFrame {
             .addGroup(discardPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addContainerGap(243, Short.MAX_VALUE))
+                .addContainerGap(245, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout bottomPanelLayout = new javax.swing.GroupLayout(bottomPanel);
@@ -669,7 +709,7 @@ public class ClientUI extends javax.swing.JFrame {
         bottomPanelLayout.setHorizontalGroup(
             bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bottomPanelLayout.createSequentialGroup()
-                .addContainerGap(900, Short.MAX_VALUE)
+                .addContainerGap(901, Short.MAX_VALUE)
                 .addComponent(discardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -876,7 +916,7 @@ public class ClientUI extends javax.swing.JFrame {
 
     private void playerHandPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseClicked
      
-                mouseClickedOnHand=1;       
+                //mouseClickedOnHand=1;       
                 this.repaint();
     }//GEN-LAST:event_playerHandPanelMouseClicked
 

@@ -26,8 +26,8 @@ public class Game {
        
     
     Map map;
-//TO BE DELETED FROM HEREv!!
-    ArrayList<Unit> units = new ArrayList<>();
+
+    //ArrayList<Unit> units = new ArrayList<>();
 
     int turn;
         
@@ -38,15 +38,18 @@ public class Game {
     
     
     
-    public Game(ArrayList<Unit> units) {
-        this.units = units;
-    }
+  
     public Game() {
-        units = new ArrayList<>();
+        
     }
 
     public Game(Player newPlayer) {
         this.currentPlayer = newPlayer;
+    }
+    
+    public Game(Player[] newPlayers) {
+        this.currentPlayer = newPlayers[0];
+        this.opponent = newPlayers[1];
     }
      
     /*public void setCurrentPlayer(Player currentPlayer) {
@@ -169,7 +172,7 @@ public class Game {
     public void placeUnit(Player player, Unit unit){
     
       map.getTileAtIndex(unit.getPos().getX(), unit.getPos().getY()).setIsOccupiedByUnit(true);
-      units.add(unit);
+      
     
     }
     
@@ -186,7 +189,7 @@ public class Game {
     
     public Unit getUnitAtPosition(Position position){
     
-        for(Unit unitSearch: units){
+        for(Unit unitSearch: currentPlayer.getArmy()){
         
             if(unitSearch.getPos().equals(position))
             {
@@ -203,7 +206,7 @@ public class Game {
     
     public boolean checkUnitAtPosition(Position position){
     
-        for(Unit unitSearch: units){
+        for(Unit unitSearch: currentPlayer.getArmy()){
         
             if(unitSearch.getPos().equals(position))
             {
@@ -218,16 +221,7 @@ public class Game {
      
     }
     
-      //TO BE DELETED FROM  HERE
-    public ArrayList<Unit> getUnits() {
-        return units;
-    }
-
-    public void setUnits(ArrayList<Unit> units) {
-        this.units = units;
-    }
-    
-    
+      
     
 }
 

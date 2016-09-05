@@ -23,12 +23,8 @@ import manouvre.network.client.SocketClient;
 public class MainChatWindow extends javax.swing.JFrame {
 
     public SocketClient client;
-    public int port;
-    public String serverAddr, username, password;
-    public Thread clientThread;
     public DefaultListModel model;
-    public File file;
-    public String historyFile = "History.xml";
+
     
     Player player;
     
@@ -52,7 +48,7 @@ public class MainChatWindow extends javax.swing.JFrame {
           this.addWindowListener(new WindowListener() {
 
             @Override public void windowOpened(WindowEvent e) {}
-            @Override public void windowClosing(WindowEvent e) { try{ client.send(new Message("message", username, ".bye", "SERVER")); clientThread.stop();  }catch(Exception ex){} }
+            @Override public void windowClosing(WindowEvent e) { try{ client.send(new Message("message", player.getName(), ".bye", "SERVER"));  }catch(Exception ex){} }
             @Override public void windowClosed(WindowEvent e) {}
             @Override public void windowIconified(WindowEvent e) {}
             @Override public void windowDeiconified(WindowEvent e) {}
@@ -72,7 +68,7 @@ public class MainChatWindow extends javax.swing.JFrame {
         this.addWindowListener(new WindowListener() {
 
             @Override public void windowOpened(WindowEvent e) {}
-            @Override public void windowClosing(WindowEvent e) { try{ client.send(new Message("message", username, ".bye", "SERVER")); clientThread.stop();  }catch(Exception ex){} }
+            @Override public void windowClosing(WindowEvent e) { try{ client.send(new Message("message", player.getName(), ".bye", "SERVER"));}catch(Exception ex){} }
             @Override public void windowClosed(WindowEvent e) {}
             @Override public void windowIconified(WindowEvent e) {}
             @Override public void windowDeiconified(WindowEvent e) {}
@@ -110,12 +106,6 @@ public class MainChatWindow extends javax.swing.JFrame {
     private void initComponents() {
 
         jSeparator3 = new javax.swing.JSeparator();
-        createRoomPanel = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        roomNameFieldText = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        passwordRoomFieldText = new javax.swing.JPasswordField();
-        createChannelButton = new javax.swing.JButton();
         mainPanel = new javax.swing.JPanel()
         {
             @Override
@@ -156,61 +146,6 @@ public class MainChatWindow extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         roomList = new javax.swing.JList<>();
 
-        jLabel6.setText("Room Name");
-
-        roomNameFieldText.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                roomNameFieldTextActionPerformed(evt);
-            }
-        });
-
-        jLabel7.setText("Password (optional)");
-
-        createChannelButton.setText("OK");
-        createChannelButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                createChannelButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout createRoomPanelLayout = new javax.swing.GroupLayout(createRoomPanel);
-        createRoomPanel.setLayout(createRoomPanelLayout);
-        createRoomPanelLayout.setHorizontalGroup(
-            createRoomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, createRoomPanelLayout.createSequentialGroup()
-                .addGap(0, 49, Short.MAX_VALUE)
-                .addGroup(createRoomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(createChannelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(createRoomPanelLayout.createSequentialGroup()
-                        .addGroup(createRoomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(createRoomPanelLayout.createSequentialGroup()
-                                .addGap(2, 2, 2)
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, createRoomPanelLayout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addGap(20, 20, 20)))
-                        .addGroup(createRoomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(roomNameFieldText, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
-                            .addComponent(passwordRoomFieldText))))
-                .addGap(33, 33, 33))
-        );
-        createRoomPanelLayout.setVerticalGroup(
-            createRoomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(createRoomPanelLayout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addGroup(createRoomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(roomNameFieldText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addGroup(createRoomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(passwordRoomFieldText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
-                .addComponent(createChannelButton)
-                .addContainerGap())
-        );
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Host Address : ");
@@ -229,11 +164,6 @@ public class MainChatWindow extends javax.swing.JFrame {
         jTextField2.setText("5002");
 
         reconnectButton.setText("Reconnect");
-        reconnectButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                reconnectButtonActionPerformed(evt);
-            }
-        });
 
         jPlayerTextField.setText("zimoch");
         jPlayerTextField.setEnabled(false);
@@ -247,11 +177,6 @@ public class MainChatWindow extends javax.swing.JFrame {
 
         jButton2.setText("Login");
         jButton2.setEnabled(false);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
 
         jButton1.setText("Create Room");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -457,31 +382,6 @@ public class MainChatWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void reconnectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reconnectButtonActionPerformed
-        serverAddr = jTextField1.getText(); port = Integer.parseInt(jTextField2.getText());
-        
-        if(!serverAddr.isEmpty() && !jTextField2.getText().isEmpty()){
-            try{
-//                client = new SocketClient(this);
-//                clientThread = new Thread(client);
-//                clientThread.start();
-//                client.send(new Message("test", "testUser", "testContent", "SERVER"));
-            }
-            catch(Exception ex){
-                mainChat.append("[Application > Me] : Server not found\n");
-            }
-        }
-    }//GEN-LAST:event_reconnectButtonActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        username = jPlayerTextField.getText();
-        password = jPasswordField1.getText();
-        
-        if(!username.isEmpty() && !password.isEmpty()){
-            client.send(new Message("login", username, password, "SERVER"));
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
@@ -492,7 +392,7 @@ public class MainChatWindow extends javax.swing.JFrame {
 
         if(!msg.isEmpty() && !target.isEmpty()){
             messageTextField.setText("");
-            client.send(new Message("message", username, msg, target));
+            client.send(new Message("message", player.getName(), msg, target));
         }
     }//GEN-LAST:event_sendButtonActionPerformed
 
@@ -502,25 +402,25 @@ public class MainChatWindow extends javax.swing.JFrame {
 
         if(!msg.isEmpty() && !target.isEmpty()){
             messageTextField.setText("");
-            client.send(new Message("message", username, msg, target));
+            client.send(new Message("message", player.getName(), msg, target));
         }
     }//GEN-LAST:event_messageTextFieldActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
            
-        JOptionPane.showMessageDialog(this, createRoomPanel, "Create Room", JOptionPane.QUESTION_MESSAGE);
-        //createRoomPanel.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void roomNameFieldTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomNameFieldTextActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_roomNameFieldTextActionPerformed
-
-    private void createChannelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createChannelButtonActionPerformed
        
-        String channel = roomNameFieldText.getText() + "|" + passwordRoomFieldText.getText();
-        client.send(new Message("create_room", player.getName(), channel , "SERVER" ));
-    }//GEN-LAST:event_createChannelButtonActionPerformed
+          /*
+                           
+                        Run room window
+                        */
+                             java.awt.EventQueue.invokeLater(new Runnable() {
+                            public void run() {
+                                CreateRoomWindow createRoom = new CreateRoomWindow(client, player);
+                                createRoom.setVisible(true);
+                            }
+                        });
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     public static void main(String args[]) {
         try {
@@ -541,8 +441,6 @@ public class MainChatWindow extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton createChannelButton;
-    private javax.swing.JPanel createRoomPanel;
     private javax.swing.JButton jButton1;
     public javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
@@ -551,8 +449,6 @@ public class MainChatWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -572,10 +468,8 @@ public class MainChatWindow extends javax.swing.JFrame {
     public javax.swing.JTextArea mainChat;
     private javax.swing.JPanel mainPanel;
     public javax.swing.JTextField messageTextField;
-    private javax.swing.JPasswordField passwordRoomFieldText;
     public javax.swing.JButton reconnectButton;
     private javax.swing.JList<String> roomList;
-    private javax.swing.JTextField roomNameFieldText;
     public javax.swing.JButton sendButton;
     public javax.swing.JList userList;
     // End of variables declaration//GEN-END:variables

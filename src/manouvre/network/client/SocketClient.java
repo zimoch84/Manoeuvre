@@ -81,7 +81,7 @@ public class SocketClient implements Runnable{
                          java.awt.EventQueue.invokeLater(new Runnable() {
                             public void run() {
                                 try {
-                                    mainChat = new MainChatWindow(SocketClient.this, new Player(msg.recipient));
+                                    mainChat = new MainChatWindow(SocketClient.this, welcome.getPlayer());
                                     mainChat.setVisible(true);
                                 } catch (IOException ex) {
                                     Logger.getLogger(ClientUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -125,7 +125,7 @@ public class SocketClient implements Runnable{
                         */
                              java.awt.EventQueue.invokeLater(new Runnable() {
                             public void run() {
-                                roomWindow = new RoomWindow(SocketClient.this, new Player(msg.recipient));
+                                roomWindow = new RoomWindow(SocketClient.this, welcome.getPlayer());
                                 roomWindow.setVisible(true);
                             }
                         });

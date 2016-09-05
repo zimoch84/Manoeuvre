@@ -5,8 +5,14 @@
  */
 package manouvre.gui;
 
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.AbstractButton;
 import javax.swing.DefaultListModel;
 import manouvre.game.Player;
+import manouvre.game.interfaces.CardInterface;
 import manouvre.network.client.SocketClient;
 
 /**
@@ -139,6 +145,7 @@ public class RoomWindow extends javax.swing.JFrame {
         USARB1.setText("USA");
 
         player1Group.add(AustriaRB1);
+        AustriaRB1.setSelected(true);
         AustriaRB1.setText("Austria");
         AustriaRB1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -153,7 +160,7 @@ public class RoomWindow extends javax.swing.JFrame {
         OttomanRB1.setText("Ottoman");
 
         player1Group.add(BritainRB1);
-        BritainRB1.setText("Great Britain");
+        BritainRB1.setText("Britain");
         BritainRB1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BritainRB1ActionPerformed(evt);
@@ -188,13 +195,10 @@ public class RoomWindow extends javax.swing.JFrame {
                 .addGroup(player1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(PrussiaRB1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(FranceRB1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(player1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(player1PanelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(SpainRB1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(player1PanelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(RussiaRB1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(SpainRB1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(RussiaRB1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
         player1PanelLayout.setVerticalGroup(
@@ -219,6 +223,7 @@ public class RoomWindow extends javax.swing.JFrame {
         FranceRB2.setText("France");
 
         player2Group.add(USARB2);
+        USARB2.setSelected(true);
         USARB2.setText("USA");
 
         player2Group.add(AustriaRB2);
@@ -236,7 +241,7 @@ public class RoomWindow extends javax.swing.JFrame {
         OttomanRB2.setText("Ottoman");
 
         player2Group.add(BritainRB2);
-        BritainRB2.setText("Great Britain");
+        BritainRB2.setText("Britain");
         BritainRB2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BritainRB2ActionPerformed(evt);
@@ -266,13 +271,10 @@ public class RoomWindow extends javax.swing.JFrame {
                 .addGroup(player1Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(PrussiaRB2, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(FranceRB2, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(player1Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(player1Panel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(SpainRB2, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(player1Panel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(RussiaRB2, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(SpainRB2, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(RussiaRB2, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(9, Short.MAX_VALUE))
         );
         player1Panel1Layout.setVerticalGroup(
@@ -314,13 +316,18 @@ public class RoomWindow extends javax.swing.JFrame {
         );
 
         jButton1.setText("Start Game");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(261, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -385,6 +392,58 @@ public class RoomWindow extends javax.swing.JFrame {
     private void SpainRB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SpainRB1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_SpainRB1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+         
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    
+                        for (Enumeration<AbstractButton> buttons = player1Group.getElements(); buttons.hasMoreElements();) {
+                                AbstractButton button = buttons.nextElement();
+                                if (button.isSelected()) {
+                                    switch(button.getText()){
+                                        case "Austria": 
+                                            
+                                            player.setNation(CardInterface.AU);
+                                            break;
+                                        case "France" :
+                                            player.setNation(CardInterface.FR);
+                                            break;
+                                        case "Russia": 
+                                            
+                                            player.setNation(CardInterface.RU);
+                                            break;
+                                        case "Prussia" :
+                                            player.setNation(CardInterface.PR);
+                                            break;
+                                        case "Britain": 
+                                            
+                                            player.setNation(CardInterface.BR);
+                                            break;
+                                        case "Spain" :
+                                            player.setNation(CardInterface.SP);
+                                            break;
+                                        case "Ottoman": 
+                                            
+                                            player.setNation(CardInterface.OT);
+                                            break;
+                                        case "USA" :
+                                            player.setNation(CardInterface.US);
+                                            break;
+                                                }
+                                    break;
+                                }
+                      }
+                   new ClientUI(client, player).setVisible(true);
+                    setVisible(false);
+                   
+                } catch (IOException ex) {
+                    Logger.getLogger(ClientUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

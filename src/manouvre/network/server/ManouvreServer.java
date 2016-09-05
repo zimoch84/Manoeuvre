@@ -129,6 +129,7 @@ public class ManouvreServer implements Runnable {
             /*
             Create server clientServerSocket
             */
+            channels = new ArrayList<>();
 	    server = new ServerSocket(port);
             port = server.getLocalPort();
 	    ui.jTextArea1.append("Server startet. IP : " + InetAddress.getLocalHost() + ", Port : " + server.getLocalPort());

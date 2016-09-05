@@ -14,15 +14,14 @@ public interface CardInterface {
     /*
     flags
     */
-    
     public static int BR  = 0; //GreatBritain
-    public static int FR  = 1; //France
-    public static int RU  = 2; //Russland
-    public static int PR  = 3; //Prussia
-    public static int AU  = 4; //Austria
-    public static int SP  = 5; //Spain
-    public static int OT  = 6; //Ottoman
-    public static int US  = 7; // USA
+    public static int AU  = 1; //Austria
+    public static int FR  = 2; //France
+    public static int OT  = 3; //Ottoman
+    public static int PR  = 4; //Prussia
+    public static int RU  = 5; //Russland
+    public static int SP  = 6; //Spain
+    public static int US  = 7; //USA
     
     /*
     Card Type
