@@ -435,6 +435,7 @@ public class RoomWindow extends javax.swing.JFrame {
                                     break;
                                 }
                       }
+                                player.generateUnits();
                    new GameWindow(client, player).setVisible(true);
                     setVisible(false);
                    

@@ -36,6 +36,14 @@ import static java.lang.Math.round;
 import static java.lang.Math.round;
 import static java.lang.Math.round;
 import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
 
 /**
  *
@@ -56,80 +64,39 @@ public class GameWindow extends javax.swing.JFrame {
     private int handMouseCoorX,handMouseCoorY;
     
     
-    /*
-    GUI variables
-    */
-    MapGUI map ;
-    ArrayList<UnitGUI> unitsGUI = new ArrayList<UnitGUI>();  //tymczasowo
-    
-    GameGUI gameGui;
-    /*
-    Dla Bartka
-    
-    Podobnie jak MapGUI - niech klasa CardSetsGUI trzyma wszystkie karty gracza i umie je rysować
-    
-    Czyli 
-    
-    class CardGUI
-    
-    stałe (pozniej zmienne)
-    patrz klasa Position
-    
-    pola
-    CardSet hand, discard, draw ;
-    
-    boolean selected;
-    ..
-    
-    metody
-    boolean mouseOverCard - patrz klasa Position
-    .. i inne wspierajce rysowanie reki discardu i draw;
-    
-    
-    w GameWindow
-    
-    do przepisania drawMap(g) 
-        
-    metody w Player do napisania na obiektach CardSet hand, discard, draw:
-    
-    draw(int i);
-    discard(int i);
-    playCard(int stack);
-    
-    
-    
-    */
     CardGUI cardSetsGUI;
     
-//    byte[] mouseOverCard={0,0,0,0,0};
-//    byte[] selectedCard={0,0,0,0,0};
-//    byte mouseClickedOnHand=0;
-//    int temp=0;
+
     /*
     Object hold whole game logically
     */
     Game game;
 
-   
+    GameGUI gameGui;
    
     
     
  
     public GameWindow(SocketClient passSocket, Player player) throws IOException{
+        
+        
         client = passSocket;
-        initComponents();
         game = new Game(player);
+        gameGui = new GameGUI(game);
+        
+        /*
         game.generateMap();
-        map = gameGui.getMapGui();
-       // game.setCurrentPlayer(player);
+        game.setCurrentPlayer(player);
+        */
+   
+      
+        
+        
+        initComponents();
         
         jPlayer.setText("Player : " + player.getName());
-        /*
-        Generujemy unity
-        */
-         game.getCurrentPlayer().generateUnits(); // INFO: to powinno byc zrobione na poziomie payera
-        generateUnitsUI();
-        
+      
+
         this.addWindowListener(new WindowListener() {
 
             @Override public void windowOpened(WindowEvent e) {}
@@ -154,10 +121,10 @@ public class GameWindow extends javax.swing.JFrame {
         this.gameGui = new GameGUI(game); //TEMP
         
         gameGui.getGame().getMap(); //TEMP
-        generateUnitsUI();
-        generateCards();
-        map = new MapGUI(game.getMap());
+       
         
+        generateCards();
+        gameGui.mapGUI = new MapGUI(game.getMap());
         this.addWindowListener(new WindowListener() {
 
             @Override public void windowOpened(WindowEvent e) {}
@@ -194,21 +161,7 @@ public class GameWindow extends javax.swing.JFrame {
     }
     
     
-    
-  
-    private void generateUnitsUI()
-    {       
-        for (Unit unit: game.getCurrentPlayer().getArmy())
-        {
-
-          
-
-            unitsGUI.add(new UnitGUI(unit));
- 
-        }
-    
-    }
-    
+      
     public Game getGame() {
          return game;
      }
@@ -216,100 +169,10 @@ public class GameWindow extends javax.swing.JFrame {
      public void setGame(Game game) {
          this.game = game;
      }
+    @Deprecated
     private void drawMap(Graphics g )                   
     {
-        int gap = 5;
-        // draw background
-        //g.drawImage(this.imgBackground, 0, 0, null);
-     
-        // draw terrain
-        for(TerrainGUI terrainGUI: this.map.getTerrainsGUI())        
-        {
-               g.drawImage(terrainGUI.getImg(),
-                    terrainGUI.getPos().getMouseX(),
-                   terrainGUI.getPos().getMouseY(), null);
-                
-            }
-                 
-        /*
-        Draws selection
-        */
-        if (map.isUnitSelected())
-        for(TerrainGUI terrain :  map.getTerrainsGUI() )  
-        {
-            if(terrain.isSelected()){
-                    g.drawRoundRect(
-                        terrain.getPos().getMouseX() + gap
-                        ,terrain.getPos().getMouseY() + gap
-                        , MapGUI.SQUARE_WIDTH - 2*gap , MapGUI.SQUARE_HEIGHT - 2*gap,
-                        10,10);
-                    
-                    System.out.println("Position " + terrain.getPos());
-                /*
-                Draw AdjencedSpace /Move
-                */
-                
-                    if(! terrain.getTerrain().getIsOccupiedByUnit() )
-                    {
-                    ArrayList<Position> adjencedPositions = terrain.getPos().getAdjencedPositions();
-                    
-                    System.out.println(terrain.getPos().toString());
-                    
-                    g.setColor(Color.red);
-                    
-                    
-                    for(int k = 0 ;k < adjencedPositions.size();k++)
-                    {
-                  
-                    g.drawRoundRect(
-                        adjencedPositions.get(k).getMouseX() + gap 
-                        ,adjencedPositions.get(k).getMouseY() + gap
-                        , MapGUI.SQUARE_WIDTH - 2*gap , MapGUI.SQUARE_HEIGHT - 2*gap,
-                        10,10);
-                                                                    
-                    }
-                    }
-                    else 
-                    
-                    {
-                        
-                        System.out.println("manouvre.gui.ClientUI.drawMap() : " + game.getUnitAtPosition(terrain.getPos()).toString()  );
-                        ArrayList<Position> movePositions = 
-                                game.getPossibleMovement(
-                                game.getUnitAtPosition(terrain.getPos())
-                                );
-                        
-                        for(Position drawMovePosion: movePositions){
-                        g.setColor(Color.blue);
-                          g.drawRoundRect(
-                        drawMovePosion.getMouseX() + gap 
-                        ,drawMovePosion.getMouseY() + gap
-                        , MapGUI.SQUARE_WIDTH - 2*gap , MapGUI.SQUARE_HEIGHT - 2*gap,
-                        10,10);
-                                                            
-                        }
-                        
-                    }
-                   
-                }
-           
-        }
-       
-       /*
-        Draw units
-        */
-        int gapUnit = 7;
-        for (UnitGUI drawUnit: unitsGUI)
-        {
-            g.drawImage(
-                drawUnit.getImg(),
-                drawUnit.getUnit().getPos().getMouseX() + gapUnit,
-                drawUnit.getUnit().getPos().getMouseY() + gapUnit,
-                46,
-                46,
-                null);
-
-        }
+        gameGui.drawMap(g, this);
      
     }
     
@@ -780,8 +643,8 @@ public class GameWindow extends javax.swing.JFrame {
                 int x = evt.getPoint().x;
 		int y = evt.getPoint().y;
 		                
-                if(! map.isUnitSelected() )
-		for(TerrainGUI terrainGUI: map.getTerrainsGUI())  
+                if(! gameGui.mapGUI.isUnitSelected() )
+		for(TerrainGUI terrainGUI: gameGui.mapGUI.getTerrainsGUI())  
                 {
                        
                        terrainGUI.setSelected(false);
@@ -793,7 +656,7 @@ public class GameWindow extends javax.swing.JFrame {
                                 
                                 if(game.checkUnitAtPosition(selectedPosition) ) {
                                   
-                                    map.setUnitSelected(true);
+                                    gameGui.mapGUI.setUnitSelected(true);
                                     getUnitGuiOnMapGui(selectedPosition).setSelected(true);
                                     
                                 }
@@ -806,9 +669,11 @@ public class GameWindow extends javax.swing.JFrame {
                     }
                 /*
                 If unit is selected find which unit to move and move into 
+                /*
+                If unit is selected find which unit to move and move into 
                 */
                 else  {
-                    Unit selectedUnit = getSelectedUnit().getUnit();
+                    Unit selectedUnit = gameGui.getSelectedUnit().getUnit();
                     Position clickedPosition = new Position(  PositionInterface.convertMouseXToX(x)   , PositionInterface.convertMouseYToY(y)) ;
                     
                     if(!selectedUnit.getPosition().equals(clickedPosition))
@@ -828,7 +693,7 @@ public class GameWindow extends javax.swing.JFrame {
                             
                              selectedUnit.setPos(clickedPosition);
                             //Unselect all
-                            unselectAllUnits();
+                            gameGui.unselectAllUnits();
                             //exit loop
                             repaint();
                             break;
@@ -839,7 +704,8 @@ public class GameWindow extends javax.swing.JFrame {
                     Clicking on the same unit - deselects it.
                     */
                     else 
-                    {unselectAllUnits();
+                    {
+                        gameGui.unselectAllUnits();
                     repaint();
                     }
                     
@@ -857,7 +723,7 @@ public class GameWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_mainMapPanelMouseClicked
     private UnitGUI getUnitGuiOnMapGui(Position position){
     
-           for(UnitGUI unitSearch: this.unitsGUI){
+           for(UnitGUI unitSearch: gameGui.unitsGUI){
         
             if(unitSearch.getUnit().getPos().equals(position))
             {
@@ -871,31 +737,7 @@ public class GameWindow extends javax.swing.JFrame {
     
     }
     
-    private UnitGUI getSelectedUnit(){
     
-           for(UnitGUI unitSearch: this.unitsGUI){
-        
-            if(unitSearch.isSelected())
-            {
-                return unitSearch;
-              }
-            
-        
-        }
-              
-        return null;
-    
-    }
-    
-    private void unselectAllUnits()
-        
-    {
-        this.unitsGUI.stream().forEach((unit) -> {
-            unit.setSelected(false);
-        });
-        
-        map.setUnitSelected(false);
-    }
     
     
     private void moveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moveButtonActionPerformed
