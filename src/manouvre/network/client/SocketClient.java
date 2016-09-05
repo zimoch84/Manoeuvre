@@ -6,7 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import manouvre.game.Player;
-import manouvre.gui.ClientUI;
+import manouvre.gui.GameWindow;
 import manouvre.gui.LoginWindow;
 import manouvre.gui.MainChatWindow;
 import manouvre.gui.RoomWindow;
@@ -16,7 +16,7 @@ public class SocketClient implements Runnable{
     public static int port = 5002;
     public static String serverAddr= "localhost";
     public Socket socket;
-    public ClientUI ui;
+    public GameWindow ui;
     public LoginWindow welcome;
     public MainChatWindow mainChat;
     public RoomWindow roomWindow;
@@ -26,7 +26,7 @@ public class SocketClient implements Runnable{
     public ObjectOutputStream Out;
     
     
-    public SocketClient(ClientUI frame) throws IOException{
+    public SocketClient(GameWindow frame) throws IOException{
         ui = frame; 
         //this.serverAddr = "zimoch.insomnia247.nl"; 
         socket = new Socket(InetAddress.getByName(serverAddr), port);
@@ -84,7 +84,7 @@ public class SocketClient implements Runnable{
                                     mainChat = new MainChatWindow(SocketClient.this, welcome.getPlayer());
                                     mainChat.setVisible(true);
                                 } catch (IOException ex) {
-                                    Logger.getLogger(ClientUI.class.getName()).log(Level.SEVERE, null, ex);
+                                    Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                             }
                         });
@@ -96,10 +96,10 @@ public class SocketClient implements Runnable{
 //                        java.awt.EventQueue.invokeLater(new Runnable() {
 //                            public void run() {
 //                                try {
-//                                    ui = new ClientUI(SocketClient.this, new Player(msg.recipient));
+//                                    ui = new GameWindow(SocketClient.this, new Player(msg.recipient));
 //                                    ui.setVisible(true);
 //                                } catch (IOException ex) {
-//                                    Logger.getLogger(ClientUI.class.getName()).log(Level.SEVERE, null, ex);
+//                                    Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
 //                                }
 //                            }
 //                        });

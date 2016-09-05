@@ -435,11 +435,11 @@ public class RoomWindow extends javax.swing.JFrame {
                                     break;
                                 }
                       }
-                   new ClientUI(client, player).setVisible(true);
+                   new GameWindow(client, player).setVisible(true);
                     setVisible(false);
                    
                 } catch (IOException ex) {
-                    Logger.getLogger(ClientUI.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });

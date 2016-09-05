@@ -32,12 +32,16 @@ import manouvre.network.client.SocketClient;
 import static java.lang.Math.round;
 import static java.lang.Math.round;
 import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
 
 /**
  *
  * @author Piotr
  */
-public class ClientUI extends javax.swing.JFrame {
+public class GameWindow extends javax.swing.JFrame {
 
     /*
     Network variables
@@ -57,7 +61,8 @@ public class ClientUI extends javax.swing.JFrame {
     */
     MapGUI map ;
     ArrayList<UnitGUI> unitsGUI = new ArrayList<UnitGUI>();  //tymczasowo
-   
+    
+    GameGUI gameGui;
     /*
     Dla Bartka
     
@@ -81,7 +86,7 @@ public class ClientUI extends javax.swing.JFrame {
     .. i inne wspierajce rysowanie reki discardu i draw;
     
     
-    w ClientUI
+    w GameWindow
     
     do przepisania drawMap(g) 
         
@@ -110,7 +115,7 @@ public class ClientUI extends javax.swing.JFrame {
     
     
  
-    public ClientUI(SocketClient passSocket, Player player) throws IOException{
+    public GameWindow(SocketClient passSocket, Player player) throws IOException{
         client = passSocket;
         initComponents();
         game = new Game(player);
@@ -122,7 +127,7 @@ public class ClientUI extends javax.swing.JFrame {
         /*
         Generujemy unity
         */
-         game.getCurrentPlayer().generateUnits();
+         game.getCurrentPlayer().generateUnits(); // INFO: to powinno byc zrobione na poziomie payera
         generateUnitsUI();
         
         this.addWindowListener(new WindowListener() {
@@ -143,16 +148,12 @@ public class ClientUI extends javax.swing.JFrame {
     /**
      * Creates new form ClientUI
      */
-    public ClientUI() throws IOException {
+    public GameWindow() throws IOException {
         initComponents();
-        player=new Player("Bartek");//TEMP
-        player.setNation(1);  //TEMP
-        player.setCards();  //TEMP
-        // System.out.println("cards left in hand"+player.getHand().cardsLeftInSet());
-        game = new Game(player); //TEMP
-        game.generateMap();
-        map = new MapGUI(game.getMap());
-          
+        game=new Game(new Player("Bartek"));
+        this.gameGui = new GameGUI(game); //TEMP
+        
+        gameGui.getGame().getMap(); //TEMP
         generateUnitsUI();
         generateCards();
         
@@ -187,7 +188,7 @@ public class ClientUI extends javax.swing.JFrame {
     private void generateCards(){
         
      
-        
+       System.out.println("Generate CCards Called");
         
     }
     
@@ -976,23 +977,24 @@ public class ClientUI extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ClientUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GameWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ClientUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GameWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ClientUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GameWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ClientUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GameWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new ClientUI().setVisible(true);
+                    new GameWindow().setVisible(true);
                 } catch (IOException ex) {
-                    Logger.getLogger(ClientUI.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });

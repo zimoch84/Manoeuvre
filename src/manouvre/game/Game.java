@@ -5,9 +5,11 @@
  */
 package manouvre.game;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import static manouvre.game.interfaces.PositionInterface.COLUMN_H;
 import static manouvre.game.interfaces.PositionInterface.ROW_8;
+import manouvre.gui.MapGUI;
 
 /**
  *
@@ -37,14 +39,29 @@ public class Game {
     int phase; 
     
     
-    
+    /*
+    GUI variables
+    */
+    MapGUI mapGui ;
+    Game game;
   
     public Game() {
         
     }
 
-    public Game(Player newPlayer) {
+    public Game(Player newPlayer) throws IOException {
         this.currentPlayer = newPlayer;
+        
+        //All this here is TEMP and should be deleted when using "correct" creation of Player (thru server)
+       
+        currentPlayer.setNation(1);  //TEMP
+        currentPlayer.setCards();  //TEMP
+        currentPlayer.generateUnits(); //TEMP
+        //System.out.println("GameWindowKrutki");
+      
+        generateMap(); //TEMP
+        
+        //-----------------------------------------
     }
     
     public Game(Player[] newPlayers) {
@@ -157,6 +174,7 @@ public class Game {
     
     public void generateMap(){
         this.map = new Map();
+         System.out.println("Map Generated");
     }
      public Map getMap() {
         return map;

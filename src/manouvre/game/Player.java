@@ -47,6 +47,7 @@ public class Player {
     }
  
     public void setNation(int nation) {
+        System.out.println("Nation Set to:"+nation);
         this.nation = nation;
     }
     
@@ -66,6 +67,27 @@ public class Player {
     // System.out.println("cards left in hand"+hand.cardsLeftInSet());
     }
 
+    public void generateUnits(){
+     
+        army = new ArrayList<Unit>();
+      for (int i=getNation()*8  ;i<getNation()*8+8;i++)
+        {
+
+            
+            Unit unit =  new Unit(i+1);
+          /*
+            Pozycja tymczasowo - bedzie tworzona w setupie
+            */
+            unit.setPos(new Position (  i- ( getNation()*8)    ,1));
+            army.add(   unit     ) ;      
+                   
+              
+       
+        }
+     System.out.println("Units Generated:");
+    }
+    
+    
     public CardSet getDrawPile() {
         return drawPile;
     }
@@ -97,25 +119,7 @@ public class Player {
         return active;
     }
 
-    public void generateUnits(){
-     
-        army = new ArrayList<Unit>();
-      for (int i=getNation()*8  ;i<getNation()*8+8;i++)
-        {
 
-            
-            Unit unit =  new Unit(i+1);
-          /*
-            Pozycja tymczasowo - bedzie tworzona w setupie
-            */
-            unit.setPos(new Position (  i- ( getNation()*8)    ,1));
-            army.add(   unit     ) ;      
-                   
-              
-       
-        }
-    
-    }
   
     
 }

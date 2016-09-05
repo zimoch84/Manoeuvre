@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import manouvre.gui.ClientUI;
+import manouvre.gui.GameWindow;
 
 /**
  *
@@ -18,7 +18,7 @@ import manouvre.gui.ClientUI;
 public class Test {
    
     public static void main(String[] args) { 
-       // ClientUI.main(null);
+       // GameWindow.main(null);
         System.out.println("I am in Test.java!");
         Random randomGenerator = new Random();
        
