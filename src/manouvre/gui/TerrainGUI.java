@@ -21,6 +21,8 @@ import manouvre.game.Terrain;
  */
 public class TerrainGUI {
     
+        final private int SQUARE_WIDTH = 100;
+        final private int SQUARE_HEIGHT = 100;
         private Image img;
         
         boolean selected;
@@ -58,32 +60,32 @@ public class TerrainGUI {
         
         public void generateImageForPiece(int terrainType) throws IOException {
 
-		String filename = "resources\\terrain\\TerrainMap240.png";
+		String filename = "resources\\terrain\\TerrainMap400.png";
                
                 BufferedImage bigImage = ImageIO.read(new File(filename));
                 BufferedImage cutImage;
   
                 switch (terrainType) {
 			case Terrain.CITY:
-                            cutImage = bigImage.getSubimage(0, 0, MapGUI.SQUARE_WIDTH, MapGUI.SQUARE_HEIGHT);
+                            cutImage = bigImage.getSubimage(0, 0, SQUARE_WIDTH, SQUARE_WIDTH);
  				break;
 			case Terrain.CLEAR:
-                            cutImage = bigImage.getSubimage(MapGUI.SQUARE_WIDTH*1, MapGUI.SQUARE_HEIGHT*3, MapGUI.SQUARE_WIDTH, MapGUI.SQUARE_HEIGHT);
+                            cutImage = bigImage.getSubimage(SQUARE_WIDTH*1, SQUARE_WIDTH*3, SQUARE_WIDTH, SQUARE_WIDTH);
 				break;
 			case Terrain.FIELDS:
-                            cutImage = bigImage.getSubimage(MapGUI.SQUARE_WIDTH*0, MapGUI.SQUARE_HEIGHT*3, MapGUI.SQUARE_WIDTH, MapGUI.SQUARE_HEIGHT);
+                            cutImage = bigImage.getSubimage(SQUARE_WIDTH*0, SQUARE_WIDTH*3, SQUARE_WIDTH, SQUARE_WIDTH);
 				break;
 			case Terrain.FOREST:
-                            cutImage = bigImage.getSubimage(MapGUI.SQUARE_WIDTH*3, MapGUI.SQUARE_HEIGHT*0, MapGUI.SQUARE_WIDTH, MapGUI.SQUARE_HEIGHT);
+                            cutImage = bigImage.getSubimage(SQUARE_WIDTH*3, SQUARE_WIDTH*0, SQUARE_WIDTH, SQUARE_WIDTH);
 				break;
 			case Terrain.HILL:
-                            cutImage = bigImage.getSubimage(MapGUI.SQUARE_WIDTH*2, MapGUI.SQUARE_HEIGHT*0, MapGUI.SQUARE_WIDTH, MapGUI.SQUARE_HEIGHT);
+                            cutImage = bigImage.getSubimage(SQUARE_WIDTH*2, SQUARE_WIDTH*0, SQUARE_WIDTH, SQUARE_WIDTH);
 				break;
 			case Terrain.LAKE:
-                            cutImage = bigImage.getSubimage(MapGUI.SQUARE_WIDTH*1, MapGUI.SQUARE_HEIGHT*0, MapGUI.SQUARE_WIDTH, MapGUI.SQUARE_HEIGHT);	
+                            cutImage = bigImage.getSubimage(SQUARE_WIDTH*1, SQUARE_WIDTH*0, SQUARE_WIDTH, SQUARE_WIDTH);	
 				break;
                         case Terrain.MARSH:
-                            cutImage = bigImage.getSubimage(MapGUI.SQUARE_WIDTH*1, MapGUI.SQUARE_HEIGHT*1, MapGUI.SQUARE_WIDTH, MapGUI.SQUARE_HEIGHT);	
+                            cutImage = bigImage.getSubimage(SQUARE_WIDTH*1, SQUARE_WIDTH*1, SQUARE_WIDTH, SQUARE_WIDTH);	
 				break;
                         default: throw new IOException("No such terrain");
 		}

@@ -57,9 +57,12 @@ public class Game {
         currentPlayer.setNation(1);  //TEMP
         currentPlayer.setCards();  //TEMP
         currentPlayer.generateUnits(); //TEMP
+        
+        
         //System.out.println("GameWindowKrutki");
       
         generateMap(); //TEMP
+        placeUnitsOnMap(newPlayer);
         
         //-----------------------------------------
     }
@@ -175,11 +178,19 @@ public class Game {
     public void generateMap(){
         this.map = new Map();
          System.out.println("Map Generated");
-    }
+             }
      public Map getMap() {
         return map;
         
     }
+     
+     void placeUnitsOnMap(Player player){
+     
+         for(Unit unit: player.getArmy())
+         
+             map.getTileAtIndex(unit.getPos().getX(), unit.getPos().getY()).setIsOccupiedByUnit(true);
+         
+     }
     /**
      * Places unit on map
      * @param player
