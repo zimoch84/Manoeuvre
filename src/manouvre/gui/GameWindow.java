@@ -155,12 +155,13 @@ public class GameWindow extends javax.swing.JFrame {
     {   
         gameGui.drawCard(g,  handMouseCoorX, handMouseCoorY, mouseClickedOnHand); 
         mouseClickedOnHand=0; 
+        jButton8.setEnabled(!gameGui.getSelectionSeqIsEmpty());
     }
     
     private void drawDiscard(Graphics g )                 
     {   
         gameGui.drawDiscard(g); 
-      
+        
     }
     
     private void drawDrawLeft(Graphics g ) {
@@ -287,7 +288,6 @@ public class GameWindow extends javax.swing.JFrame {
             }
         });
 
-        rightSidePanel.setForeground(new java.awt.Color(0, 0, 0));
         rightSidePanel.setOpaque(false);
 
         currentPlayerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Player Me"));

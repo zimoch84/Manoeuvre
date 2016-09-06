@@ -117,9 +117,6 @@
       <SubComponents>
         <Container class="javax.swing.JPanel" name="rightSidePanel">
           <Properties>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="0" green="0" red="0" type="rgb"/>
-            </Property>
             <Property name="opaque" type="boolean" value="false"/>
           </Properties>
 

@@ -35,6 +35,8 @@ public class GameGUI {
     final int BACKGRNDTABLE = 678;
     
     ArrayList<Integer> selectionSeq = new ArrayList<Integer>();
+
+
   
     
     
@@ -194,7 +196,8 @@ public class GameGUI {
             g.drawImage(cardSetGui.getCardByPosInSet(i).getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTopTemp, width, height, null);       
         }
                 Integer j=0;
-                if(!selectionSeq.isEmpty()){        
+                if(!selectionSeq.isEmpty()){ 
+                   
                     j=selectionSeq.get(selectionSeq.size()-1);              
 
                     System.out.println("selectionSeq Last:" + j); 
@@ -237,17 +240,20 @@ public class GameGUI {
         }
         else{
             g.setColor(Color.LIGHT_GRAY);
-            g.setFont(new Font("Bookman Old Style", 1, 11));
-            g.drawString("No Card",20,60);  
+            g.setFont(new Font("Bookman Old Style", 1, 20));
+            g.drawString("No Card",20,100);  
         }
     }
     
     public void drawDrawLeft(Graphics g){
         Integer drawLeft=game.getCurrentPlayer().getDrawPile().cardsLeftInSet();
             g.setColor(Color.LIGHT_GRAY);
-            g.setFont(new Font("Bookman Old Style", 1, 11));        
-            g.drawString(drawLeft.toString(),20,60); 
+            g.setFont(new Font("Bookman Old Style", 1, 50));        
+            g.drawString(drawLeft.toString(),20,110); 
     }
     
+    public boolean getSelectionSeqIsEmpty() {
+        return selectionSeq.isEmpty();
+    }
     
 }
