@@ -5,8 +5,11 @@
  */
 package manouvre.gui;
 
+import java.awt.Image;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
 import manouvre.game.Map;
 
 /**
@@ -44,23 +47,27 @@ public class MapGUI{
 
     
     
-     public static final int BOARD_START_X = 0;
-     public static final int BOARD_START_Y = 0;
+     public static final int BOARD_START_X = 60;
+     public static final int BOARD_START_Y = 60;
 
-     public static final int SQUARE_WIDTH = 60;
-     public static final int SQUARE_HEIGHT = 60;
+     public static final int SQUARE_WIDTH = 70;
+     public static final int SQUARE_HEIGHT = 70;
 
-     public static final int PIECE_WIDTH = 60;
-     public static final int PIECE_HEIGHT = 60;
+     public static final int PIECE_WIDTH = 65;
+     public static final int PIECE_HEIGHT = 65;
 
-     public static final int PIECES_START_X = BOARD_START_X + (int)(SQUARE_WIDTH/2.0 - PIECE_WIDTH/2.0);
-     public static final int PIECES_START_Y = BOARD_START_Y + (int)(SQUARE_HEIGHT/2.0 - PIECE_HEIGHT/2.0);
+     public static final int PIECES_START_X =  (int)((SQUARE_WIDTH - PIECE_WIDTH)/2.0);
+     public static final int PIECES_START_Y =  (int)((SQUARE_HEIGHT - PIECE_HEIGHT)/2.0);
     
-    public MapGUI() throws IOException{
+     
+     Image background ;
+    
+     public MapGUI() throws IOException{
            
         super();
         terrainsGUI = new ArrayList<>();
         loadTerrains();
+        background= ImageIO.read( new File("resources\\backgrounds\\table800_800.jpg" ));
         
                     
     }   
@@ -72,7 +79,7 @@ public class MapGUI{
     terrainsGUI = new ArrayList<>();
     unitSelected = false;
     loadTerrains();
-    
+    background= ImageIO.read( new File("resources\\backgrounds\\table800_800.jpg" ));
     
     }
     

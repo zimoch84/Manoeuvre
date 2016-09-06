@@ -61,7 +61,7 @@ public class Position implements PositionInterface{
 	 * @return x coordinate for upper right corner  terrain	
 	 */
        public  int getMouseX(){
-		return MapGUI.PIECES_START_X + MapGUI.SQUARE_WIDTH * x;
+		return MapGUI.BOARD_START_X+  MapGUI.SQUARE_WIDTH * x;
 	}
 	
 	/**
@@ -70,7 +70,7 @@ public class Position implements PositionInterface{
 	 * @return y coordinate for  upper right corner  terrain
 	 */
 	public  int getMouseY(){
-		return MapGUI.PIECES_START_Y + MapGUI.SQUARE_HEIGHT * (PositionInterface.ROW_8 - y);
+		return  MapGUI.SQUARE_HEIGHT * (PositionInterface.ROW_8 - y) + MapGUI.BOARD_START_Y ;
 	}
         /**
          * 
@@ -127,7 +127,51 @@ public class Position implements PositionInterface{
                  && mouseY > getMouseY() && mouseY < getMouseY() + MapGUI.SQUARE_HEIGHT;
     }
     
-    
+     /**
+	 * convert logical X row into Mouse x coordinate
+        * @param x
+	 * @return y coordinate for row
+	 */
+        public static  int convertXtoMouseX(int x){
+		return MapGUI.BOARD_START_X + MapGUI.SQUARE_WIDTH * x;
+	}
+	
+	
+	/**
+	 * convert logical y into Mouse y coordinate
+         * @param y
+	 * @param row
+	 * @return y coordinate for y
+	 */
+  
+	public static int convertYToMouseY(int y){
+            
+           
+		return MapGUI.BOARD_START_Y + MapGUI.SQUARE_HEIGHT * (PositionInterface.ROW_8 - y);
+	}
+        
+        /*
+        
+        Convert mouse position to x coordinate
+        */
+        public static int convertMouseXToX(int mouseX){
+        
+            
+            return (int)  (mouseX - MapGUI.BOARD_START_X)  /MapGUI.SQUARE_WIDTH;
+            
+            
+        }
+        
+        /*
+        
+        Convert mouse position y to y coordinate on board
+        */
+        public static int convertMouseYToY(int mouseY){
+        
+            return  ROW_8  -  (int)  ((mouseY - MapGUI.BOARD_START_X)  / (MapGUI.SQUARE_HEIGHT))  ;
+            
+            
+        }
              
          
 }

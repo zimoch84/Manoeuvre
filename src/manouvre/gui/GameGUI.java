@@ -27,8 +27,10 @@ public class GameGUI {
     MapGUI mapGui;
     CardSetGUI cardSetGui;
     CardSetGUI discardSetGui;
-    
-    
+    /*
+    Wielkosc ramki stolu w kwadracie w pikselach
+    */
+    final int BACKGRNDTABLE = 678;
     
     
     public GameGUI (Game newGame) throws IOException{
@@ -43,10 +45,20 @@ public class GameGUI {
     void drawMap(Graphics g) {
         int gap = 5;
         // draw background
-        //g.drawImage(this.imgBackground, 0, 0, null);
+        
+        g.drawImage(mapGui.background, 0, 0,BACKGRNDTABLE,BACKGRNDTABLE, null);
         // draw terrain
         for (TerrainGUI terrainGUI : mapGui.getTerrainsGUI()) {
-            g.drawImage(terrainGUI.getImg(), terrainGUI.getPos().getMouseX(), terrainGUI.getPos().getMouseY(), null);
+                        
+            
+            g.drawImage(
+                    terrainGUI.getImg(), 
+                    terrainGUI.getPos().getMouseX(), 
+                    terrainGUI.getPos().getMouseY(), 
+                    MapGUI.SQUARE_WIDTH,
+                    MapGUI.SQUARE_HEIGHT,
+                    
+                    null);
         }
         /*
         Draws selection
@@ -54,7 +66,13 @@ public class GameGUI {
         if (mapGui.isUnitSelected()) {
             for (TerrainGUI terrain : mapGui.getTerrainsGUI()) {
                 if (terrain.isSelected()) {
-                    g.drawRoundRect(terrain.getPos().getMouseX() + gap, terrain.getPos().getMouseY() + gap, MapGUI.SQUARE_WIDTH - 2 * gap, MapGUI.SQUARE_HEIGHT - 2 * gap, 10, 10);
+                    g.drawRoundRect(
+                            terrain.getPos().getMouseX() + gap, 
+                            terrain.getPos().getMouseY() + gap, 
+                            MapGUI.SQUARE_WIDTH - 2 * gap, 
+                            MapGUI.SQUARE_HEIGHT - 2 * gap, 
+                            10, 10
+                    );
                     System.out.println("Position " + terrain.getPos());
                     /*
                     Draw AdjencedSpace /Move
@@ -64,14 +82,24 @@ public class GameGUI {
                         System.out.println(terrain.getPos().toString());
                         g.setColor(Color.red);
                         for (int k = 0; k < adjencedPositions.size(); k++) {
-                            g.drawRoundRect(adjencedPositions.get(k).getMouseX() + gap, adjencedPositions.get(k).getMouseY() + gap, MapGUI.SQUARE_WIDTH - 2 * gap, MapGUI.SQUARE_HEIGHT - 2 * gap, 10, 10);
+                            g.drawRoundRect(
+                                    adjencedPositions.get(k).getMouseX() + gap, 
+                                    adjencedPositions.get(k).getMouseY() + gap, 
+                                    MapGUI.SQUARE_WIDTH - 2 * gap, 
+                                    MapGUI.SQUARE_HEIGHT - 2 * gap, 
+                                    10, 10);
                         }
                     } else {
                         System.out.println("manouvre.gui.ClientUI.drawMap() : " + game.getUnitAtPosition(terrain.getPos()).toString());
                         ArrayList<Position> movePositions = game.getPossibleMovement(game.getUnitAtPosition(terrain.getPos()));
                         for (Position drawMovePosion : movePositions) {
                             g.setColor(Color.blue);
-                            g.drawRoundRect(drawMovePosion.getMouseX() + gap, drawMovePosion.getMouseY() + gap, MapGUI.SQUARE_WIDTH - 2 * gap, MapGUI.SQUARE_HEIGHT - 2 * gap, 10, 10);
+                            g.drawRoundRect(
+                                    drawMovePosion.getMouseX() + gap, 
+                                    drawMovePosion.getMouseY() + gap, 
+                                    MapGUI.SQUARE_WIDTH - 2 * gap, 
+                                    MapGUI.SQUARE_HEIGHT - 2 * gap, 
+                                    10, 10);
                         }
                     }
                 }
@@ -82,7 +110,13 @@ public class GameGUI {
          */
         int gapUnit = 7;
         for (UnitGUI drawUnit : unitsGui) {
-            g.drawImage(drawUnit.getImg(), drawUnit.getUnit().getPos().getMouseX() + gapUnit, drawUnit.getUnit().getPos().getMouseY() + gapUnit, 46, 46, null);
+            g.drawImage(
+                    drawUnit.getImg(), 
+                    drawUnit.getUnit().getPos().getMouseX() + MapGUI.PIECES_START_X,
+                    drawUnit.getUnit().getPos().getMouseY() + MapGUI.PIECES_START_Y,
+                    MapGUI.PIECE_WIDTH, 
+                    MapGUI.PIECE_HEIGHT
+                    , null);
         }
     }
 
