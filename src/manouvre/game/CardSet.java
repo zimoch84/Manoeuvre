@@ -7,6 +7,7 @@ package manouvre.game;
 
 import java.util.Random;
 import java.util.ArrayList;
+import manouvre.game.interfaces.CardInterface;
 
 import manouvre.game.interfaces.CardSetInterface;
 
@@ -57,7 +58,7 @@ public class CardSet implements CardSetInterface{
      * @param range 
      */
     public void makeDeck(int range) {   
-        for (int i=0; i<=range; i++){
+        for (int i=0; i<range; i++){
         switch (nation){
             case 0:
                 cardID=i; 
@@ -99,7 +100,7 @@ public class CardSet implements CardSetInterface{
        Card randomCard;
       
        
-       for(int i=0; i<=range; i++){
+       for(int i=0; i<range; i++){
            randomCard=otherCardSet.dealRandomCardFromThisSet();
        if (cardList.size()<cardSetSize){  //if it is possible to add the card  
            cardList.add(randomCard);  //add the card
@@ -123,27 +124,28 @@ public class CardSet implements CardSetInterface{
         cardList.remove(cardToDeal);
         
     }
+    public void dealCardToOtherSetByCardID(int cardIDToDeal, CardSetInterface otherCardSet) { 
+        for (int i=0; i<cardList.size(); i++){
+                if(cardList.get(i).getCardID()==cardIDToDeal){
+                    Card temp=cardList.get(i);
+                    otherCardSet.addCardToThisSet(temp);
+                    cardList.remove(i);
+                }
+            }       
+    }
+    
      /**
      * Dealing a card to another set based on Object. F.ex. from HAND to USED CARDS
-     * @param cardToDeal - card object to be given away
+     * @param cardHandPos - position in the hand
      * @param otherCardSet - where this card should go
      */
-     public void dealCardToOtherSetByHandPos(int cardID, CardSetInterface otherCardSet) {
-        Card temp=cardList.get(cardID);
+     public void dealCardToOtherSetByHandPos(int cardHandPos, CardSetInterface otherCardSet) {
+        Card temp=cardList.get(cardHandPos);
         otherCardSet.addCardToThisSet(temp);
-        cardList.remove(cardID);
+        cardList.remove(cardHandPos);
         
     }
-      /**
-     * Dealing a card to another set based on position in set. F.ex. from HAND to USED CARDS
-     * @param cardToDeal - card object to be given away
-     * @param otherCardSet - where this card should go
-     */
-     public void dealCardByPosInSetToOtherSet(int cardPosition, CardSetInterface otherCardSet) {
-        Card temp=cardList.get(cardPosition);
-        otherCardSet.addCardToThisSet(temp);
-        cardList.remove(cardPosition);   
-    }
+     
     
     //--------------GENERAL FOR ALL----------------------------
     public void addCardToThisSet(Card newCard){
@@ -210,7 +212,15 @@ public class CardSet implements CardSetInterface{
        
      getAllCardsIDFromSet();
     }
-    
+ 
+     public int getPositionInSetByCardID(int cardID) {
+        for (int i=0; i<cardList.size(); i++){
+            if(cardList.get(i).getCardID()==cardID){
+                return i;
+            }
+        }
+        return 99;
+     }
 
    }
  

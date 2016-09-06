@@ -24,9 +24,11 @@ public class CardGUI {
     int OverCard=0;
     int Selected=0;
     Card card;
-    
+    int selectionSeq=0; //card was selected as selectionSeq in the row
 //    int posX;
 //    int posY;
+
+    
     
    
     /**
@@ -82,6 +84,12 @@ public class CardGUI {
         
     }
 
-
+    public void setSelectionSeq(int selectionSeq) {
+        this.selectionSeq = selectionSeq;
+    }
     
+    public int getSelectionSeq() {
+        return selectionSeq;
+    }
+  
 }
