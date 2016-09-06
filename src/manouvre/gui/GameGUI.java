@@ -228,10 +228,10 @@ public class GameGUI {
     }
     
     public void drawDiscard(Graphics g){
-        float f=0.5f; //scale factor //Normally cards has 260x375 pixels
+        float f=0.41f; //scale factor //Normally cards has 260x375 pixels
         int width=round(260*f), height=round(375*f);
-        int cardPaddingTop=70;
-        int cardPaddingLeft=20;
+        int cardPaddingTop=16;
+        int cardPaddingLeft=5;
         if(discardSetGui.cardsLeftInSet()>0){
          g.drawImage(discardSetGui.getCardByPosInSet(discardSetGui.cardsLeftInSet()-1).getImgFull(), cardPaddingLeft, cardPaddingTop, width, height, null);           
         }
