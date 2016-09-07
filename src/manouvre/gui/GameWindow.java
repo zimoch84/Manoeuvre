@@ -83,7 +83,7 @@ public class GameWindow extends javax.swing.JFrame {
         this.addWindowListener(new WindowListener() {
 
             @Override public void windowOpened(WindowEvent e) {}
-            @Override public void windowClosing(WindowEvent e) { try{ client.send(new Message("message", game.getCurrentPlayer().getName(), ".bye", "SERVER")); clientThread.stop();  }catch(Exception ex){} }
+            @Override public void windowClosing(WindowEvent e) { try{ client.send(new Message(Message.CHAT, game.getCurrentPlayer().getName(), ".bye", "SERVER")); clientThread.stop();  }catch(Exception ex){} }
             @Override public void windowClosed(WindowEvent e) {}
             @Override public void windowIconified(WindowEvent e) {}
             @Override public void windowDeiconified(WindowEvent e) {}
@@ -111,7 +111,7 @@ public class GameWindow extends javax.swing.JFrame {
         this.addWindowListener(new WindowListener() {
 
             @Override public void windowOpened(WindowEvent e) {}
-            @Override public void windowClosing(WindowEvent e) { try{ client.send(new Message("message",game.getCurrentPlayer().getName(), ".bye", "SERVER")); clientThread.stop();  }catch(Exception ex){} }
+            @Override public void windowClosing(WindowEvent e) { try{ client.send(new Message(Message.CHAT,game.getCurrentPlayer().getName(), ".bye", "SERVER")); clientThread.stop();  }catch(Exception ex){} }
             @Override public void windowClosed(WindowEvent e) {}
             @Override public void windowIconified(WindowEvent e) {}
             @Override public void windowDeiconified(WindowEvent e) {}
@@ -819,7 +819,7 @@ public class GameWindow extends javax.swing.JFrame {
 
         if(!msg.isEmpty() && !target.isEmpty()){
             sendText.setText("");
-            client.send(new Message("message", game.getCurrentPlayer().getName(), msg, target));
+            client.send(new Message(Message.CHAT, game.getCurrentPlayer().getName(), msg, target));
         }
     }//GEN-LAST:event_sendMessageButtonActionPerformed
 

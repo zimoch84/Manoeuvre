@@ -154,16 +154,9 @@ public class CreateRoomWindow extends javax.swing.JFrame {
 
         String channel = roomNameFieldText.getText() + "|" + passwordRoomFieldText.getText();
         client.send(new Message(Message.CREATE_ROOM, player.getName(), channel , "SERVER" ));
-      
-        
+  
         this.setVisible(false);
-        
-          /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new RoomWindow(client, player, windowMode).setVisible(true);
-            }
-        });
+      
         
         
     }//GEN-LAST:event_createChannelButtonActionPerformed

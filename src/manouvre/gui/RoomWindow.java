@@ -45,9 +45,20 @@ public class RoomWindow extends javax.swing.JFrame {
         this.player = player;
         this.windowMode = mode;
                
-        setEditableButtons(windowMode);
+       
         
         initComponents();
+        
+        setEditableButtons(windowMode);
+        
+        String modeString;
+                
+                if(mode == CreateRoomWindow.AS_HOST )
+                    modeString = " as Host";
+                else 
+                    modeString = " as Quest";
+                      
+        this.setTitle(username + modeString);
     }
     
 

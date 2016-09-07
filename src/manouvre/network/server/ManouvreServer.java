@@ -226,7 +226,6 @@ public class ManouvreServer implements Runnable {
         ui.jTextArea1.append("\n"+msg.toString()+"\n" );
         
         Message msgOut;
-        ArrayList<String> channelList;
         
         switch( msg.getMessageType() ){
             
@@ -235,8 +234,8 @@ public class ManouvreServer implements Runnable {
                     if(db.checkLogin(msg.sender, msg.content)){
                         clients[findClient(ID)].username = msg.sender;
                         clients[findClient(ID)].send(new Message(Message.LOGIN, "SERVER", Message.OK, msg.sender));
-                        Announce("newuser", "SERVER", msg.sender);
-                        SendUserList(msg.sender);
+                        Announce(new Message (Message.USER_LOGGED, "SERVER",Message.OK , msg.sender));
+                        //SendUserList(msg.sender);
                     }
                     else{
                         clients[findClient(ID)].send(new Message(Message.LOGIN, "SERVER", Message.NOT_OK, msg.sender));
@@ -247,6 +246,17 @@ public class ManouvreServer implements Runnable {
                 }
             break;
             
+            case Message.CHAT :
+                if(msg.recipient.equals("All")){
+                    Announce(new Message(Message.CHAT, msg.sender, "SERVER", msg.content));
+                    
+                }
+                else{
+                    findUserThread(msg.recipient).send(new Message(Message.CHAT, msg.sender, msg.content, msg.recipient));
+                    clients[findClient(ID)].send(new Message(Message.CHAT, msg.sender, msg.content, msg.recipient));
+                }    
+                
+                break;
             case Message.CREATE_ROOM:
                 
                 String[] parts = msg.content.split("|");
@@ -258,30 +268,30 @@ public class ManouvreServer implements Runnable {
                 /*
                 Wysylamy do klienta ze udalo sie dodac kanal
                 */
-                clients[findClient(ID)].send(new Message("create_channel", "SERVER", "OK", msg.sender));
+                clients[findClient(ID)].send(new Message(Message.CREATE_ROOM, "SERVER", Message.OK, msg.sender));
                 
                 
                 /*
                 Wysylamy do wszystkich userow liste kanalow
                 */
-                channelList = new ArrayList<>();
-                for (GameRoom room: getRooms()){
-                channelList.add(room.toString());
-                }
-                
                 msgOut = new Message(Message.GET_ROOM_LIST, "inClass", "SERVER", "All");
-                msgOut.setChannelList(channelList);
+                msgOut.setChannelList(getRooms());
                 Announce(msgOut);
                 break;
             
             
             case Message.JOIN_ROOM :
                 /*
-                Szukamy pokoju
+                Szukamy pokoju w 
                 */
                 String channel = msg.content;
                 int channelIndex;
                
+                for (int i = 0; i < getRooms().size(); i++) {
+			System.out.println(getRooms().get(i));
+		}
+
+                
                 for (GameRoom room: getRooms()) // to be continued
                 
                 
@@ -293,13 +303,8 @@ public class ManouvreServer implements Runnable {
                 /*
                 Wysylamy do wszystkich userow liste kanalow
                 */
-                channelList = new ArrayList<>();
-                for (GameRoom room: getRooms()){
-                channelList.add(room.toString());
-                }
-                
                 msgOut = new Message(Message.GET_ROOM_LIST,  "SERVER", "inClass",  msg.sender);
-                msgOut.setChannelList(channelList);
+                msgOut.setChannelList(getRooms());
                 clients[findClient(ID)].send(msgOut);
                 break;
                 
@@ -308,152 +313,133 @@ public class ManouvreServer implements Runnable {
                   remove(ID); 
                   break;
             
+            default: 
+                System.out.println("manouvre.network.server.ManouvreServer.handle() No type handled" + msg.getType());
             
             
         }
         
         
-        if (msg.content.equals(".bye")){
-            Announce("signout", "SERVER", msg.sender);
-            remove(ID); 
-	}
-	else{
-            if(msg.type.equals("login")){
-                if(findUserThread(msg.sender) == null){
-                    if(db.checkLogin(msg.sender, msg.content)){
-                        clients[findClient(ID)].username = msg.sender;
-                        clients[findClient(ID)].send(new Message("login", "SERVER", "TRUE", msg.sender));
-                        Announce("newuser", "SERVER", msg.sender);
-                        SendUserList(msg.sender);
-                    }
-                    else{
-                        clients[findClient(ID)].send(new Message("login", "SERVER", "FALSE", msg.sender));
-                    } 
-                }
-                else{
-                    clients[findClient(ID)].send(new Message("login", "SERVER", "FALSE", msg.sender));
-                }
-            }
-            else if(msg.type.equals("message")){
-                if(msg.recipient.equals("All")){
-                    Announce("message", msg.sender, msg.content);
-                }
-                else{
-                    findUserThread(msg.recipient).send(new Message(msg.type, msg.sender, msg.content, msg.recipient));
-                    clients[findClient(ID)].send(new Message(msg.type, msg.sender, msg.content, msg.recipient));
-                }
-            }
-            else if(msg.type.equals("test")){
-                clients[findClient(ID)].send(new Message("test", "SERVER", "OK", msg.sender));
-            }
-            
-            else if(msg.type.equals("join_room")){
-                
-                String[] parts = msg.content.split("|");
-                String name = parts[0];
-                String password = parts[1];
-                
-                /*
-                Szukaj czy jest taki pokoj i dodajemy usera (socket) 
-                */
-                
-                for(GameRoom checkRoom : getRooms())
-                    
-                {
-                    if(checkRoom.getName().equals(name) && checkRoom.getPassword().equals(password) && !checkRoom.isLocked())
-                    {
-                        checkRoom.addSocket(this.clients[findClient(ID)].getSocket());
-                        checkRoom.addPlayer(this.clients[findClient(ID)].getPlayer());
-                        
-                        clients[findClient(ID)].send (new Message (Message.JOIN_ROOM,"SERVER", Message.OK, msg.sender)  );
-                        
-                        announceInRoom(checkRoom, new Message (Message.IN_ROOM_CHAT, "SERVER", "Player " + msg.sender + " joined the room", "All") );
-                        break;
-                    }
-                    else if (!checkRoom.getName().equals(name))
-                    {
-                        clients[findClient(ID)].send(new Message (Message.JOIN_ROOM, "SERVER", Message.BAD_CHANNEL_NAME, msg.sender));
-                        break;
-                    }
-                    else if (checkRoom.getName().equals(name) && !checkRoom.getPassword().equals(password))
-                    {
-                        clients[findClient(ID)].send(new Message (Message.JOIN_ROOM, "SERVER", Message.BAD_PASSWORD, msg.sender));
-                        break;
-                    }
-                    else if (checkRoom.isLocked())
-                        clients[findClient(ID)].send(new Message (Message.JOIN_ROOM, "SERVER", Message.IS_ROOM_LOCKED, msg.sender));
-                    else {
-                        System.out.println("manouvre.network.server.ManouvreServer.handle() Something goes wrong" );
-                    
-                    }
-                
-                }
-                
-                GameRoom newRoom = new GameRoom( name, password, clients[findClient(ID)].clientServerSocket, new Player (msg.sender) );
-                this.channels.add(newRoom);
-           
-                /*
-                Wysylamy do klienta ze udalo sie doda kanal
-                */
-                clients[findClient(ID)].send(new Message("create_channel", "SERVER", "OK", msg.sender));
-                
-                
-                /*
-                Wysylamy do wszystkich liste kanalow
-                */
-                channelList = new ArrayList<>();
-                for (GameRoom room: getRooms()){
-                channelList.add(room.toString());
-                }
-                
-                msgOut = new Message("room_list", "inClass", "SERVER", "All");
-                msgOut.setChannelList(channelList);
-                Announce(msgOut);
-                
-                
-                
-                
-                
-                
-            }
-            
-            
-            else if(msg.type.equals("signup")){
-                if(findUserThread(msg.sender) == null){
-                    if(!db.userExists(msg.sender)){
-                        db.addUser(msg.sender, msg.content);
-                        clients[findClient(ID)].username = msg.sender;
-                        clients[findClient(ID)].send(new Message("signup", "SERVER", "TRUE", msg.sender));
-                        clients[findClient(ID)].send(new Message("login", "SERVER", "TRUE", msg.sender));
-                        Announce("newuser", "SERVER", msg.sender);
-                        SendUserList(msg.sender);
-                    }
-                    else{
-                        clients[findClient(ID)].send(new Message("signup", "SERVER", "FALSE", msg.sender));
-                    }
-                }
-                else{
-                    clients[findClient(ID)].send(new Message("signup", "SERVER", "FALSE", msg.sender));
-                }
-            }
-            else if(msg.type.equals("upload_req")){
-                if(msg.recipient.equals("All")){
-                    clients[findClient(ID)].send(new Message("message", "SERVER", "Uploading to 'All' forbidden", msg.sender));
-                }
-                else{
-                    findUserThread(msg.recipient).send(new Message("upload_req", msg.sender, msg.content, msg.recipient));
-                }
-            }
-            else if(msg.type.equals("upload_res")){
-                if(!msg.content.equals("NO")){
-                    String IP = findUserThread(msg.sender).clientServerSocket.getInetAddress().getHostAddress();
-                    findUserThread(msg.recipient).send(new Message("upload_res", IP, msg.content, msg.recipient));
-                }
-                else{
-                    findUserThread(msg.recipient).send(new Message("upload_res", msg.sender, msg.content, msg.recipient));
-                }
-            }
-	}
+//        if (msg.content.equals(".bye")){
+//            Announce("signout", "SERVER", msg.sender);
+//            remove(ID); 
+//	}
+//	else{
+//            if(msg.getType().equals("login")){
+//                if(findUserThread(msg.sender) == null){
+//                    if(db.checkLogin(msg.sender, msg.content)){
+//                        clients[findClient(ID)].username = msg.sender;
+//                        clients[findClient(ID)].send(new Message("login", "SERVER", "TRUE", msg.sender));
+//                        Announce("newuser", "SERVER", msg.sender);
+//                        SendUserList(msg.sender);
+//                    }
+//                    else{
+//                        clients[findClient(ID)].send(new Message("login", "SERVER", "FALSE", msg.sender));
+//                    } 
+//                }
+//                else{
+//                    clients[findClient(ID)].send(new Message("login", "SERVER", "FALSE", msg.sender));
+//                }
+//            }
+//            else if(msg.getType().equals("message")){
+//                if(msg.recipient.equals("All")){
+//                    Announce("message", msg.sender, msg.content);
+//                }
+//                else{
+//                    findUserThread(msg.recipient).send(new Message(msg.type, msg.sender, msg.content, msg.recipient));
+//                    clients[findClient(ID)].send(new Message(msg.type, msg.sender, msg.content, msg.recipient));
+//                }
+//            }
+//            else if(msg.getType().equals("test")){
+//                clients[findClient(ID)].send(new Message("test", "SERVER", "OK", msg.sender));
+//            }
+//            
+//            else if(msg.getType().equals("join_room")){
+//                
+//                String[] parts = msg.content.split("|");
+//                String name = parts[0];
+//                String password = parts[1];
+//                
+//                /*
+//                Szukaj czy jest taki pokoj i dodajemy usera (socket) 
+//                */
+//                
+//                for(GameRoom checkRoom : getRooms())
+//                    
+//                {
+//                    if(checkRoom.getName().equals(name) && checkRoom.getPassword().equals(password) && !checkRoom.isLocked())
+//                    {
+//                        checkRoom.addSocket(this.clients[findClient(ID)].getSocket());
+//                        checkRoom.addPlayer(this.clients[findClient(ID)].getPlayer());
+//                        
+//                        clients[findClient(ID)].send (new Message (Message.JOIN_ROOM,"SERVER", Message.OK, msg.sender)  );
+//                        
+//                        announceInRoom(checkRoom, new Message (Message.IN_ROOM_CHAT, "SERVER", "Player " + msg.sender + " joined the room", "All") );
+//                        break;
+//                    }
+//                    else if (!checkRoom.getName().equals(name))
+//                    {
+//                        clients[findClient(ID)].send(new Message (Message.JOIN_ROOM, "SERVER", Message.BAD_CHANNEL_NAME, msg.sender));
+//                        break;
+//                    }
+//                    else if (checkRoom.getName().equals(name) && !checkRoom.getPassword().equals(password))
+//                    {
+//                        clients[findClient(ID)].send(new Message (Message.JOIN_ROOM, "SERVER", Message.BAD_PASSWORD, msg.sender));
+//                        break;
+//                    }
+//                    else if (checkRoom.isLocked())
+//                        clients[findClient(ID)].send(new Message (Message.JOIN_ROOM, "SERVER", Message.IS_ROOM_LOCKED, msg.sender));
+//                    else {
+//                        System.out.println("manouvre.network.server.ManouvreServer.handle() Something goes wrong" );
+//                    
+//                    }
+//                
+//                }
+//                
+//                GameRoom newRoom = new GameRoom( name, password, clients[findClient(ID)].clientServerSocket, new Player (msg.sender) );
+//                this.channels.add(newRoom);
+//           
+//                /*
+//                Wysylamy do klienta ze udalo sie doda kanal
+//                */
+//                clients[findClient(ID)].send(new Message(Message.CREATE_ROOM, "SERVER", Message.OK, msg.sender));
+//                
+//                
+//                /*
+//                Wysylamy do wszystkich liste kanalow
+//                */
+//                msgOut = new Message("room_list", "inClass", "SERVER", "All");
+//                msgOut.setChannelList(getRooms());
+//                Announce(msgOut);
+//                
+//                
+//                
+//                
+//                
+//                
+//            }
+//            
+//            
+//            else if(msg.getType().equals("signup")){
+//                if(findUserThread(msg.sender) == null){
+//                    if(!db.userExists(msg.sender)){
+//                        db.addUser(msg.sender, msg.content);
+//                        clients[findClient(ID)].username = msg.sender;
+//                        clients[findClient(ID)].send(new Message("signup", "SERVER", "TRUE", msg.sender));
+//                        clients[findClient(ID)].send(new Message("login", "SERVER", "TRUE", msg.sender));
+//                        Announce("newuser", "SERVER", msg.sender);
+//                        SendUserList(msg.sender);
+//                    }
+//                    else{
+//                        clients[findClient(ID)].send(new Message("signup", "SERVER", "FALSE", msg.sender));
+//                    }
+//                }
+//                else{
+//                    clients[findClient(ID)].send(new Message("signup", "SERVER", "FALSE", msg.sender));
+//                }
+//            }
+//           
+//	}
     }
     
     public void Announce(String type, String sender, String content){

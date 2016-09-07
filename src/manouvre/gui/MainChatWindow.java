@@ -1,6 +1,7 @@
 package manouvre.gui;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -10,17 +11,76 @@ import java.io.File;
 import java.io.IOException;
 import static java.lang.Thread.sleep;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.ListCellRenderer;
 import javax.swing.UIManager;
 import manouvre.game.Player;
 import manouvre.network.client.Message;
 import manouvre.network.client.SocketClient;
+import manouvre.network.server.GameRoom;
 
+class GameRoomRenderer extends JLabel implements ListCellRenderer<GameRoom> {
+ 
+    @Override
+    public Component getListCellRendererComponent(JList<? extends GameRoom> list, GameRoom room, int index,
+        boolean isSelected, boolean cellHasFocus) {
+          
+        String code = room.toString();
+        ImageIcon imageIcon = new ImageIcon("resources\\icons\\AUicon.jpg");
+         
+        setIcon(imageIcon);
+        setText(code);
+         
+        return this;
+    }
+     
+}
+class GameRoomListModel extends AbstractListModel{
+    private  ArrayList<GameRoom> list;
+
+    public GameRoomListModel(ArrayList<GameRoom> list) {
+        this.list = list;
+    }
+
+    public GameRoomListModel() {
+        super();
+        list = new ArrayList<GameRoom>();
+    }
+    
+    @Override
+    public int getSize() {
+        return list.size();
+    }
+
+    @Override
+    public Object getElementAt(int index) {
+        return list.get(index);
+    }
+    
+    public void setList(ArrayList<GameRoom> list){
+    
+    this.list = list;
+    
+    fireContentsChanged(this, 0, getSize());
+    }
+    
+    public void nullList()
+            
+    {
+    this.list = null;
+    }
+    
+
+}
 
 
 
@@ -37,26 +97,35 @@ public class MainChatWindow extends javax.swing.JFrame {
     Thread roomListenerThread = null;
     RoomListener roomListener = null;
     
+    //DefaultListModel<GameRoom> roomListModel;
+    GameRoomListModel  gameRoomListModel;
+    GameRoomRenderer gameRoomListRenderer;
         
     public MainChatWindow(SocketClient passSocket, Player player) throws IOException{
+       
      
         
         client = passSocket;
         this.player  = player;
-               
+        gameRoomListModel = new GameRoomListModel();
+        gameRoomListRenderer = new GameRoomRenderer();
+        
         
         
         initComponents();
+       
+        roomList.setCellRenderer(gameRoomListRenderer);
+        
         jPlayerTextField.setText(player.getName());
         this.setTitle("Manouvre");
-        model.addElement("All");
-        model.addElement(player.getName());
+            model.addElement("All");
+            model.addElement(player.getName());
         userList.setSelectedIndex(0);
         bgImage = ImageIO.read( new File("resources\\backgrounds\\cossaks.jpg"));
           this.addWindowListener(new WindowListener() {
 
             @Override public void windowOpened(WindowEvent e) {}
-            @Override public void windowClosing(WindowEvent e) { try{ client.send(new Message("message", player.getName(), ".bye", "SERVER"));  }catch(Exception ex){} }
+            @Override public void windowClosing(WindowEvent e) { try{ client.send(new Message(Message.CHAT, player.getName(), ".bye", "SERVER"));  }catch(Exception ex){} }
             @Override public void windowClosed(WindowEvent e) {}
             @Override public void windowIconified(WindowEvent e) {}
             @Override public void windowDeiconified(WindowEvent e) {}
@@ -67,6 +136,7 @@ public class MainChatWindow extends javax.swing.JFrame {
     
 
     public MainChatWindow() throws IOException {
+        //this.roomListModel = new DefaultListModel<>();
         initComponents();
         this.setTitle("Manouvre");
         model.addElement("All");
@@ -76,7 +146,7 @@ public class MainChatWindow extends javax.swing.JFrame {
         this.addWindowListener(new WindowListener() {
 
             @Override public void windowOpened(WindowEvent e) {}
-            @Override public void windowClosing(WindowEvent e) { try{ client.send(new Message("message", player.getName(), ".bye", "SERVER"));}catch(Exception ex){} }
+            @Override public void windowClosing(WindowEvent e) { try{ client.send(new Message(Message.CHAT, player.getName(), ".bye", "SERVER"));}catch(Exception ex){} }
             @Override public void windowClosed(WindowEvent e) {}
             @Override public void windowIconified(WindowEvent e) {}
             @Override public void windowDeiconified(WindowEvent e) {}
@@ -95,17 +165,10 @@ public class MainChatWindow extends javax.swing.JFrame {
     
     }
     
-    public void setRoomList(ArrayList<String> roomListString)
+    public void setRoomList(ArrayList<GameRoom> inList)
     {
-        
-       DefaultListModel  listModel = new DefaultListModel();
- 
-       for(String channel : roomListString)
-       {
-           listModel.addElement(channel);      
-       }
-       
-       roomList.setModel(listModel);
+     gameRoomListModel.setList(inList);      
+     roomList.setModel(gameRoomListModel);
            
     }
     
@@ -279,6 +342,7 @@ public class MainChatWindow extends javax.swing.JFrame {
 
         chatRoomTabbedPanel.addTab("Chat", jPanel2);
 
+        roomList.setModel(gameRoomListModel);
         roomList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         roomList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -418,7 +482,7 @@ public class MainChatWindow extends javax.swing.JFrame {
 
         if(!msg.isEmpty() && !target.isEmpty()){
             messageTextField.setText("");
-            client.send(new Message("message", player.getName(), msg, target));
+            client.send(new Message(Message.CHAT, player.getName(), msg, target));
         }
     }//GEN-LAST:event_sendButtonActionPerformed
 
@@ -428,7 +492,7 @@ public class MainChatWindow extends javax.swing.JFrame {
 
         if(!msg.isEmpty() && !target.isEmpty()){
             messageTextField.setText("");
-            client.send(new Message("message", player.getName(), msg, target));
+            client.send(new Message(Message.CHAT, player.getName(), msg, target));
         }
     }//GEN-LAST:event_messageTextFieldActionPerformed
 
@@ -436,15 +500,16 @@ public class MainChatWindow extends javax.swing.JFrame {
            
        
           /*
-                           
-                        Run room window
-                        */
-                             java.awt.EventQueue.invokeLater(new Runnable() {
-                            public void run() {
-                                CreateRoomWindow createRoom = new CreateRoomWindow(client, player, CreateRoomWindow.AS_HOST);
-                                createRoom.setVisible(true);
-                            }
-                        });
+        Run CreateRoomWindow (name + password) 
+          */
+               java.awt.EventQueue.invokeLater(new Runnable() {
+              public void run() {
+                  CreateRoomWindow createRoom = new CreateRoomWindow(client, player, CreateRoomWindow.AS_HOST);
+                  createRoom.setVisible(true);
+              }
+          });
+               
+               
         
     }//GEN-LAST:event_createRoomButtonActionPerformed
 
@@ -491,8 +556,8 @@ public class MainChatWindow extends javax.swing.JFrame {
     private void joinButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_joinButtonActionPerformed
    
         
-                      String selected = roomList.getSelectedValue(); 
-                      client.send(new Message (Message.JOIN_ROOM, player.getName(), selected, "SERVER" ));
+                      GameRoom selected = roomList.getSelectedValue(); 
+                      client.send(new Message (Message.JOIN_ROOM, player.getName(), selected.toString(), "SERVER" ));
         
       
     }//GEN-LAST:event_joinButtonActionPerformed
@@ -543,9 +608,9 @@ public class MainChatWindow extends javax.swing.JFrame {
             try {
                 client.send(msg);
                 /*
-                Pause for 5 sec.
+                Pause for 10 sec.
                 */
-                sleep(5000);
+                sleep(10000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(MainChatWindow.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -589,7 +654,7 @@ public class MainChatWindow extends javax.swing.JFrame {
     private javax.swing.JPanel mainPanel;
     public javax.swing.JTextField messageTextField;
     public javax.swing.JButton reconnectButton;
-    private javax.swing.JList<String> roomList;
+    private javax.swing.JList<GameRoom> roomList;
     public javax.swing.JButton sendButton;
     public javax.swing.JList userList;
     // End of variables declaration//GEN-END:variables

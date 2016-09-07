@@ -5,6 +5,7 @@
  */
 package manouvre.network.server;
 
+import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
 import manouvre.game.Game;
@@ -15,9 +16,9 @@ import manouvre.network.client.SocketClient;
  *
  * @author Piotr
  */
-public class GameRoom {
+public class GameRoom implements Serializable {
     
-    ArrayList<Socket> sockets;
+    transient ArrayList<Socket> sockets;
 
     ArrayList<Player> players;
     

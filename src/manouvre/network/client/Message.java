@@ -2,6 +2,7 @@ package manouvre.network.client;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import manouvre.network.server.GameRoom;
 /**
  * 
  * @author Piotr
@@ -11,11 +12,11 @@ public class Message implements Serializable{
     /*
     Set of messages used in protocol
     */
-    public static int NOT_OK = 0;
-    public static int OK = 1;
-    public static int BAD_CHANNEL_NAME = 2;
-    public static int BAD_PASSWORD = 3;
-    public static int IS_ROOM_LOCKED = 4;
+    public final static int NOT_OK = 0;
+    public final static int OK = 1;
+    public final static int BAD_CHANNEL_NAME = 2;
+    public final static int BAD_PASSWORD = 3;
+    public final static int IS_ROOM_LOCKED = 4;
     
     
     
@@ -30,6 +31,9 @@ public class Message implements Serializable{
     public final static int LOGIN = 14;
     public final static int BYE = 15;
     public final static int SIGNOUT = 16;
+    public final static int USER_LOGGED = 17;
+    
+    public final static int CHAT = 99;
     
     
     
@@ -48,8 +52,10 @@ public class Message implements Serializable{
     public int messageType, contentP;
 
     
+
     
-    ArrayList<String> channelList; 
+    
+    ArrayList<GameRoom> channelList; 
 
       
     public Message(String type, String sender, String content, String recipient){
@@ -67,19 +73,9 @@ public class Message implements Serializable{
     @Override
     public String toString(){
         
-        if(type != null)
-        return "{type='"+type+"', sender='"+sender+"', content='"+content+"', recipient='"+recipient+"'}";
-        else 
-        return "{type='"+messageType+"', sender='"+sender+"', content='"+content+"', recipient='"+recipient+"'}";
+        return "{type='"+getType()+"', sender='"+sender+"', content='"+getContent()+"', recipient='"+recipient+"'}";
     }
     
-    public ArrayList<String> getChannelList() {
-        return channelList;
-    }
-
-    public void setChannelList(ArrayList<String> channelList) {
-        this.channelList = channelList;
-    }
     
     boolean isType(int messageType)
     {
@@ -96,7 +92,32 @@ public class Message implements Serializable{
         this.messageType = messageType;
     }
 
+     public String getContent() {
+        if(content == null) 
+        {
+            String out = null;
+        
+        
+            switch(getContentP())
+                {
+                 case OK : out = "OK"; break;
+                 case NOT_OK : out  = "NOT_OK"; break;
+                 case BAD_CHANNEL_NAME : out  = "BAD_CHANNEL_NAME";break;
+                 case BAD_PASSWORD : out = "BAD_PASSWORD" ;break;
+                 case IS_ROOM_LOCKED: out = "IS_ROOM_LOCKED"; break;
+                 
+                 default : Integer.toString(getContentP());
+                }            
+
+         return out;
+        }
+        else  return content;
+    }
+
+    
     public int getContentP() {
+        
+        
         return contentP;
     }
 
@@ -106,13 +127,38 @@ public class Message implements Serializable{
     
      public String getType() {
          if (type==null)
-             
-             return Integer.toString(getMessageType());
+         {
+             String out;
+             switch (getMessageType())
+             {
+                    case CREATE_ROOM: out = "CREATE_ROOM"; break;
+                    case JOIN_ROOM : out  = "JOIN_ROOM"; break;
+                    case IN_ROOM_CHAT : out  = "IN_ROOM_CHAT";break;
+                    case GET_ROOM_LIST : out  = "GET_ROOM_LIST";break;
+                    case LOGIN : out  = "LOGIN";break;
+                    case BYE : out  = "BYE" ;break;
+                    case SIGNOUT : out  = "SIGNOUT";break;
+                    case USER_LOGGED : out  = "USER_LOGGED" ;break;
+                    case CHAT : out  = "CHAT"; break;
+                    
+                    default: out = Integer.toString(getMessageType()) ;
+                    
+             }
+          return out;   
+         }
          else 
         return type;
     }
 
     public void setType(String type) {
         this.type = type;
+    }
+    
+    public ArrayList<GameRoom> getChannelList() {
+        return channelList;
+    }
+
+    public void setChannelList(ArrayList<GameRoom> channelList) {
+        this.channelList = channelList;
     }
 }

@@ -5,6 +5,7 @@
  */
 package manouvre.game;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import manouvre.gui.UnitGUI;
 
@@ -20,7 +21,7 @@ import manouvre.gui.UnitGUI;
     int US  = 7; //USA
  * @author Piotr
  */
-public class Player {
+public class Player  implements Serializable{
     
     String name;
     int nation; //for nation description see CardInterface
