@@ -8,16 +8,20 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
+import static java.lang.Thread.sleep;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import manouvre.game.Player;
 import manouvre.network.client.Message;
 import manouvre.network.client.SocketClient;
+
+
 
 
 public class MainChatWindow extends javax.swing.JFrame {
@@ -29,6 +33,10 @@ public class MainChatWindow extends javax.swing.JFrame {
     Player player;
     
     Image bgImage;
+    
+    Thread roomListenerThread = null;
+    RoomListener roomListener = null;
+    
         
     public MainChatWindow(SocketClient passSocket, Player player) throws IOException{
      
@@ -127,10 +135,10 @@ public class MainChatWindow extends javax.swing.JFrame {
         jPasswordField1 = new javax.swing.JPasswordField();
         jSeparator1 = new javax.swing.JSeparator();
         jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        createRoomButton = new javax.swing.JButton();
+        joinButton = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JSeparator();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        chatRoomTabbedPanel = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         mainChat = new javax.swing.JTextArea();
@@ -178,14 +186,26 @@ public class MainChatWindow extends javax.swing.JFrame {
         jButton2.setText("Login");
         jButton2.setEnabled(false);
 
-        jButton1.setText("Create Room");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        createRoomButton.setText("Create Room");
+        createRoomButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                createRoomButtonActionPerformed(evt);
             }
         });
 
-        jButton4.setText("Join Room");
+        joinButton.setText("Join Room");
+        joinButton.setEnabled(false);
+        joinButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                joinButtonActionPerformed(evt);
+            }
+        });
+
+        chatRoomTabbedPanel.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                chatRoomTabbedPanelStateChanged(evt);
+            }
+        });
 
         jPanel2.setOpaque(false);
 
@@ -257,8 +277,14 @@ public class MainChatWindow extends javax.swing.JFrame {
             .addComponent(jSeparator6)
         );
 
-        jTabbedPane1.addTab("Chat", jPanel2);
+        chatRoomTabbedPanel.addTab("Chat", jPanel2);
 
+        roomList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        roomList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                roomListValueChanged(evt);
+            }
+        });
         jScrollPane3.setViewportView(roomList);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -283,7 +309,7 @@ public class MainChatWindow extends javax.swing.JFrame {
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Rooms", jPanel3);
+        chatRoomTabbedPanel.addTab("Rooms", jPanel3);
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
@@ -295,10 +321,10 @@ public class MainChatWindow extends javax.swing.JFrame {
                     .addComponent(jSeparator4, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
                         .addGap(0, 428, Short.MAX_VALUE)
-                        .addComponent(jButton1)
+                        .addComponent(createRoomButton)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton4))
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 629, Short.MAX_VALUE))
+                        .addComponent(joinButton))
+                    .addComponent(chatRoomTabbedPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 629, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(mainPanelLayout.createSequentialGroup()
@@ -334,12 +360,12 @@ public class MainChatWindow extends javax.swing.JFrame {
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addGap(106, 106, 106)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton4))
+                    .addComponent(createRoomButton)
+                    .addComponent(joinButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(chatRoomTabbedPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(19, Short.MAX_VALUE))
             .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(mainPanelLayout.createSequentialGroup()
@@ -406,7 +432,7 @@ public class MainChatWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_messageTextFieldActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void createRoomButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createRoomButtonActionPerformed
            
        
           /*
@@ -415,12 +441,61 @@ public class MainChatWindow extends javax.swing.JFrame {
                         */
                              java.awt.EventQueue.invokeLater(new Runnable() {
                             public void run() {
-                                CreateRoomWindow createRoom = new CreateRoomWindow(client, player);
+                                CreateRoomWindow createRoom = new CreateRoomWindow(client, player, CreateRoomWindow.AS_HOST);
                                 createRoom.setVisible(true);
                             }
                         });
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_createRoomButtonActionPerformed
+
+    private void roomListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_roomListValueChanged
+        
+        JList roomList = (JList)evt.getSource();
+        
+        String roomSelected = roomList.getSelectedValue().toString();
+        
+        if(roomSelected != null)
+            
+            joinButton.setEnabled(true);
+        
+        else
+            joinButton.setEnabled(false);
+            
+        
+    }//GEN-LAST:event_roomListValueChanged
+
+    private void chatRoomTabbedPanelStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_chatRoomTabbedPanelStateChanged
+        
+        if ( chatRoomTabbedPanel.getSelectedIndex() == 1 )
+        {
+                if(roomListenerThread == null)
+                {
+                    roomListener = new  RoomListener();
+                    roomListenerThread = new Thread (roomListener);
+                    roomListenerThread.start();
+                   System.out.println("manouvre.gui.MainChatWindow.chatRoomTabbedPanelStateChanged() Thread successfully started.");
+                }   
+                
+        }       
+         
+        else 
+             if(roomListenerThread != null)
+            {   roomListener.terminate();
+                roomListenerThread = null;
+            System.out.println("manouvre.gui.MainChatWindow.chatRoomTabbedPanelStateChanged() Thread successfully stopped.");
+              }
+        
+        
+    }//GEN-LAST:event_chatRoomTabbedPanelStateChanged
+
+    private void joinButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_joinButtonActionPerformed
+   
+        
+                      String selected = roomList.getSelectedValue(); 
+                      client.send(new Message (Message.JOIN_ROOM, player.getName(), selected, "SERVER" ));
+        
+      
+    }//GEN-LAST:event_joinButtonActionPerformed
 
     public static void main(String args[]) {
         try {
@@ -440,10 +515,55 @@ public class MainChatWindow extends javax.swing.JFrame {
             }
         });
     }
+    
+    class RoomListener implements Runnable{
+
+        private volatile boolean running = true;    
+        
+        public void terminate() {
+            running = false;
+        } 
+        
+        public void resume() {
+            running = true;
+        }
+        
+    @Override
+    public void run() {
+        Message msg = new Message (Message.GET_ROOM_LIST, player.getName(), "inClass", "SERVER");
+         
+        /*
+        While we are selecting room tab send room list reqest to server 
+        
+        */
+        while (running)
+        {
+       
+            
+            try {
+                client.send(msg);
+                /*
+                Pause for 5 sec.
+                */
+                sleep(5000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(MainChatWindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        
+        }
+            
+            
+        
+    }
+
+
+}
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JTabbedPane chatRoomTabbedPanel;
+    private javax.swing.JButton createRoomButton;
     public javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -462,9 +582,9 @@ public class MainChatWindow extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
-    private javax.swing.JTabbedPane jTabbedPane1;
     public javax.swing.JTextField jTextField1;
     public javax.swing.JTextField jTextField2;
+    private javax.swing.JButton joinButton;
     public javax.swing.JTextArea mainChat;
     private javax.swing.JPanel mainPanel;
     public javax.swing.JTextField messageTextField;

@@ -23,9 +23,16 @@ public class Message implements Serializable{
     Message types
     */
     
-    public static int CREATE_ROOM = 10;
-    public static int JOIN_ROOM = 11;
-    public static int IN_ROOM_CHAT = 12;
+    public final static int CREATE_ROOM = 10;
+    public final static int JOIN_ROOM = 11;
+    public final static int IN_ROOM_CHAT = 12;
+    public final static int GET_ROOM_LIST = 13;
+    public final static int LOGIN = 14;
+    public final static int BYE = 15;
+    public final static int SIGNOUT = 16;
+    
+    
+    
     
     
     
@@ -35,8 +42,12 @@ public class Message implements Serializable{
      * type login, .bye, message, signup, create_room, room_list
      */
     public String type, sender, content, recipient;
+
+   
     
-    int messageType, contentP;
+    public int messageType, contentP;
+
+    
     
     ArrayList<String> channelList; 
 
@@ -55,7 +66,11 @@ public class Message implements Serializable{
     
     @Override
     public String toString(){
+        
+        if(type != null)
         return "{type='"+type+"', sender='"+sender+"', content='"+content+"', recipient='"+recipient+"'}";
+        else 
+        return "{type='"+messageType+"', sender='"+sender+"', content='"+content+"', recipient='"+recipient+"'}";
     }
     
     public ArrayList<String> getChannelList() {
@@ -73,4 +88,31 @@ public class Message implements Serializable{
         else return false;
     }
     
+    public int getMessageType() {
+        return messageType;
+    }
+
+    public void setMessageType(int messageType) {
+        this.messageType = messageType;
+    }
+
+    public int getContentP() {
+        return contentP;
+    }
+
+    public void setContentP(int contentP) {
+        this.contentP = contentP;
+    }
+    
+     public String getType() {
+         if (type==null)
+             
+             return Integer.toString(getMessageType());
+         else 
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }

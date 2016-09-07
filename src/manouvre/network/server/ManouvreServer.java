@@ -225,6 +225,93 @@ public class ManouvreServer implements Runnable {
         
         ui.jTextArea1.append("\n"+msg.toString()+"\n" );
         
+        Message msgOut;
+        ArrayList<String> channelList;
+        
+        switch( msg.getMessageType() ){
+            
+            case Message.LOGIN : 
+                 if(findUserThread(msg.sender) == null){
+                    if(db.checkLogin(msg.sender, msg.content)){
+                        clients[findClient(ID)].username = msg.sender;
+                        clients[findClient(ID)].send(new Message(Message.LOGIN, "SERVER", Message.OK, msg.sender));
+                        Announce("newuser", "SERVER", msg.sender);
+                        SendUserList(msg.sender);
+                    }
+                    else{
+                        clients[findClient(ID)].send(new Message(Message.LOGIN, "SERVER", Message.NOT_OK, msg.sender));
+                    } 
+                }
+                else{
+                    clients[findClient(ID)].send(new Message(Message.LOGIN, "SERVER", Message.NOT_OK, msg.sender));
+                }
+            break;
+            
+            case Message.CREATE_ROOM:
+                
+                String[] parts = msg.content.split("|");
+                String name = parts[0];
+                String password = parts[1];
+                GameRoom newRoom = new GameRoom( name, password, clients[findClient(ID)].clientServerSocket, new Player (msg.sender) );
+                this.channels.add(newRoom);
+           
+                /*
+                Wysylamy do klienta ze udalo sie dodac kanal
+                */
+                clients[findClient(ID)].send(new Message("create_channel", "SERVER", "OK", msg.sender));
+                
+                
+                /*
+                Wysylamy do wszystkich userow liste kanalow
+                */
+                channelList = new ArrayList<>();
+                for (GameRoom room: getRooms()){
+                channelList.add(room.toString());
+                }
+                
+                msgOut = new Message(Message.GET_ROOM_LIST, "inClass", "SERVER", "All");
+                msgOut.setChannelList(channelList);
+                Announce(msgOut);
+                break;
+            
+            
+            case Message.JOIN_ROOM :
+                /*
+                Szukamy pokoju
+                */
+                String channel = msg.content;
+                int channelIndex;
+               
+                for (GameRoom room: getRooms()) // to be continued
+                
+                
+                
+                
+            break;
+            
+            case Message.GET_ROOM_LIST :
+                /*
+                Wysylamy do wszystkich userow liste kanalow
+                */
+                channelList = new ArrayList<>();
+                for (GameRoom room: getRooms()){
+                channelList.add(room.toString());
+                }
+                
+                msgOut = new Message(Message.GET_ROOM_LIST,  "SERVER", "inClass",  msg.sender);
+                msgOut.setChannelList(channelList);
+                clients[findClient(ID)].send(msgOut);
+                break;
+                
+            case Message.BYE :   
+                  Announce("signout", "SERVER", msg.sender);
+                  remove(ID); 
+                  break;
+            
+            
+            
+        }
+        
         
         if (msg.content.equals(".bye")){
             Announce("signout", "SERVER", msg.sender);
@@ -258,38 +345,6 @@ public class ManouvreServer implements Runnable {
             }
             else if(msg.type.equals("test")){
                 clients[findClient(ID)].send(new Message("test", "SERVER", "OK", msg.sender));
-            }
-            else if(msg.type.equals("create_room")){
-                
-                String[] parts = msg.content.split("|");
-                String name = parts[0];
-                String password = parts[1];
-                GameRoom newRoom = new GameRoom( name, password, clients[findClient(ID)].clientServerSocket, new Player (msg.sender) );
-                this.channels.add(newRoom);
-           
-                /*
-                Wysylamy do klienta ze udalo sie doda kanal
-                */
-                clients[findClient(ID)].send(new Message("create_channel", "SERVER", "OK", msg.sender));
-                
-                
-                /*
-                Wysylamy do wszystkich liste kanalow
-                */
-                ArrayList<String> channelList = new ArrayList<>();
-                for (GameRoom room: getRooms()){
-                channelList.add(room.toString());
-                }
-                
-                Message msgOut = new Message("room_list", "inClass", "SERVER", "All");
-                msgOut.setChannelList(channelList);
-                Announce(msgOut);
-                
-                
-                
-                
-                
-                
             }
             
             else if(msg.type.equals("join_room")){
@@ -346,12 +401,12 @@ public class ManouvreServer implements Runnable {
                 /*
                 Wysylamy do wszystkich liste kanalow
                 */
-                ArrayList<String> channelList = new ArrayList<>();
+                channelList = new ArrayList<>();
                 for (GameRoom room: getRooms()){
                 channelList.add(room.toString());
                 }
                 
-                Message msgOut = new Message("room_list", "inClass", "SERVER", "All");
+                msgOut = new Message("room_list", "inClass", "SERVER", "All");
                 msgOut.setChannelList(channelList);
                 Announce(msgOut);
                 

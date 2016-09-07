@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import manouvre.game.Player;
+import manouvre.gui.CreateRoomWindow;
 import manouvre.gui.GameWindow;
 import manouvre.gui.LoginWindow;
 import manouvre.gui.MainChatWindow;
@@ -49,11 +50,9 @@ public class SocketClient implements Runnable{
         Out = new ObjectOutputStream(socket.getOutputStream());
         Out.flush();
         In = new ObjectInputStream(socket.getInputStream());
-        
-       
+      
     }
-     
-
+ 
     @Override
     public void run() {
         boolean keepRunning = true;
@@ -62,7 +61,46 @@ public class SocketClient implements Runnable{
                 Message msg = (Message) In.readObject();
                 System.out.println("Incoming : "+msg.toString());
                 
-                if(msg.type.equals("message")){
+                 switch( msg.getMessageType() ){
+            
+                  case Message.GET_ROOM_LIST : 
+                      /*
+                        add channels to list
+                        */
+                  mainChat.setRoomList(msg.getChannelList());
+                  
+                  case Message.CREATE_ROOM:
+                      
+                       if(msg.getContentP() == Message.OK)
+                      /*
+                        Run room window
+                        */
+                             java.awt.EventQueue.invokeLater(new Runnable() {
+                            public void run() {
+                                roomWindow = new RoomWindow(SocketClient.this, welcome.getPlayer(), CreateRoomWindow.AS_HOST);
+                                roomWindow.setVisible(true);
+                            }
+                        });
+                       
+                   case Message.JOIN_ROOM:
+                      
+                       if(msg.getContentP() == Message.OK)
+                      /*
+                        Run room window
+                        */
+                             java.awt.EventQueue.invokeLater(new Runnable() {
+                            public void run() {
+                                roomWindow = new RoomWindow(SocketClient.this, welcome.getPlayer(), CreateRoomWindow.AS_GUEST);
+                                roomWindow.setVisible(true);
+                            }
+                        });
+                      
+                  
+                 }
+                
+                
+                
+                if(msg.getType().equals("message")){
                     if(msg.recipient.equals(ui.getGame().getCurrentPlayer().getName())){
                         ui.printOnChat(msg.sender + " : " + msg.content) ;
                     }
@@ -72,12 +110,10 @@ public class SocketClient implements Runnable{
                                            
                
                 }
-                else if(msg.type.equals("login"))
+                else if(msg.getType().equals("login"))
                 {
                     if(msg.content.equals("TRUE")){
-                        
                         welcome.setVisible(false);
-                        
                         /*
                         Run chat window
                         */
@@ -85,6 +121,7 @@ public class SocketClient implements Runnable{
                             public void run() {
                                 try {
                                     mainChat = new MainChatWindow(SocketClient.this, welcome.getPlayer());
+                                    send(new Message(serverAddr, serverAddr, serverAddr, serverAddr));
                                     mainChat.setVisible(true);
                                 } catch (IOException ex) {
                                     Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
@@ -119,25 +156,12 @@ public class SocketClient implements Runnable{
                     }
                 }
                 
-                else if(msg.type.equals("create_room"))
+                else if(msg.getType().equals("create_room"))
                 {
-                         if(msg.content.equals("OK"))
-                      /*
-                           
-                        Run room window
-                        */
-                             java.awt.EventQueue.invokeLater(new Runnable() {
-                            public void run() {
-                                roomWindow = new RoomWindow(SocketClient.this, welcome.getPlayer());
-                                roomWindow.setVisible(true);
-                            }
-                        });
-                             
-                       
-                             
+                   
                 }  
                 
-                else if(msg.type.equals("room_list"))
+                else if(msg.getType().equals("room_list"))
                 {
                          /*
                      
@@ -207,7 +231,10 @@ public class SocketClient implements Runnable{
             }
             catch(Exception ex) {
                 keepRunning = false;
-                ui.printOnChat("Aplication : Connection Failure \n" + ex.getMessage());
+                
+                System.out.println("manouvre.network.client.SocketClient.run()" + ex);
+                
+                //ui.printOnChat("Aplication : Connection Failure \n" + ex.getMessage());
 //                ui.jButton1.setEnabled(true); 
 //                ui.jTextField1.setEditable(true); 
 //                ui.jTextField2.setEditable(true);

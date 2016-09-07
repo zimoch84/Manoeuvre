@@ -81,10 +81,17 @@ public class GameRoom {
     @Override
     public String toString(){
     
-        if (password == null)        
-        return name ;
-        else 
-        return name + " password protected";
+        String out = "";
+        if(players.size() > 0 )
+            
+            out = out +  name + " Players " ; 
+            for (Player player: players)
+            out = out + player.getName() + " ";
+            
+            if (password == null)        
+             return out ;
+            else 
+             return out  +   " password protected";
     
     }
     
