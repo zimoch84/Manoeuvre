@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import manouvre.game.Player;
+import manouvre.gui.CreateRoomWindow;
 import manouvre.gui.GameWindow;
 import manouvre.gui.LoginWindow;
 import manouvre.gui.MainChatWindow;
@@ -20,6 +21,7 @@ public class SocketClient implements Runnable{
     public LoginWindow welcome;
     public MainChatWindow mainChat;
     public RoomWindow roomWindow;
+    
     /*
     Player na poziomie socketu z założenia ma conajmniej swoją nazwę
     */
@@ -49,11 +51,9 @@ public class SocketClient implements Runnable{
         Out = new ObjectOutputStream(socket.getOutputStream());
         Out.flush();
         In = new ObjectInputStream(socket.getInputStream());
-        
-       
+      
     }
-     
-
+ 
     @Override
     public void run() {
         boolean keepRunning = true;
@@ -62,152 +62,99 @@ public class SocketClient implements Runnable{
                 Message msg = (Message) In.readObject();
                 System.out.println("Incoming : "+msg.toString());
                 
-                if(msg.type.equals("message")){
+                switch( msg.getMessageType() ){
+            
+                    case Message.LOGIN :
+                 
+                         if(msg.getContentP() == Message.OK){
+                        
+                             player = welcome.getPlayer();
+                             welcome.setVisible(false);
+                                /*
+                                Run chat window
+                                */
+                                 java.awt.EventQueue.invokeLater(new Runnable() {
+                                    public void run() {
+                                        try {
+                                            mainChat = new MainChatWindow(SocketClient.this, player);
+                                            mainChat.setVisible(true);
+                                        } catch (IOException ex) {
+                                            Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+                                    }
+                                }); 
+                         }
+                         break;
+                    
+                    case Message.CHAT:
+                    
+                        /*
+                        To repair - send to only active windows
+                        */
+                        
                     if(msg.recipient.equals(ui.getGame().getCurrentPlayer().getName())){
-                        ui.printOnChat(msg.sender + " : " + msg.content) ;
+                        if(ui != null)
+                             ui.printOnChat(msg.sender + " : " + msg.content) ;
+                        
                     }
                     else{
-                        ui.printOnChat(msg.sender +" : " + msg.content);
-                    }
-                                           
-               
-                }
-                else if(msg.type.equals("login"))
-                {
-                    if(msg.content.equals("TRUE")){
+                        if(ui != null)
+                            ui.printOnChat(msg.sender +" : " + msg.content);
+                    }   
                         
-                        welcome.setVisible(false);
-                        
-                        /*
-                        Run chat window
+                        break;
+                            
+                            
+                    case Message.GET_ROOM_LIST : 
+                      /*
+                        add channels to list
                         */
-                         java.awt.EventQueue.invokeLater(new Runnable() {
+                    mainChat.setRoomList(msg.getChannelList());
+                    
+                      break;
+                  
+                    case Message.CREATE_ROOM:
+                      
+                       if(msg.getContentP() == Message.OK)
+                      /*
+                        Run room window
+                        */
+                        java.awt.EventQueue.invokeLater(new Runnable() {
                             public void run() {
-                                try {
-                                    mainChat = new MainChatWindow(SocketClient.this, welcome.getPlayer());
-                                    mainChat.setVisible(true);
-                                } catch (IOException ex) {
-                                    Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
-                                }
+                                roomWindow = new RoomWindow(SocketClient.this, player, CreateRoomWindow.AS_HOST);
+                                roomWindow.setVisible(true);
                             }
                         });
-                        
-                        
-                        /*
-                        Run main window
-                        */
-//                        java.awt.EventQueue.invokeLater(new Runnable() {
-//                            public void run() {
-//                                try {
-//                                    ui = new GameWindow(SocketClient.this, new Player(msg.recipient));
-//                                    ui.setVisible(true);
-//                                } catch (IOException ex) {
-//                                    Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
-//                                }
-//                            }
-//                        });
-                        
-                    }
-                    else{
-                       
-                     JOptionPane.showMessageDialog(welcome,
-                    "No such user or bad password",
-                    "Login Failed",
-                    JOptionPane.ERROR_MESSAGE);
-                       
-                        
-                    }
-                }
-                
-                else if(msg.type.equals("create_room"))
-                {
-                         if(msg.content.equals("OK"))
+                     break;  
+                   
+                  case Message.JOIN_ROOM:
+                      
+                       if(msg.getContentP() == Message.OK)
                       /*
-                           
                         Run room window
                         */
                              java.awt.EventQueue.invokeLater(new Runnable() {
                             public void run() {
-                                roomWindow = new RoomWindow(SocketClient.this, welcome.getPlayer());
+                                roomWindow = new RoomWindow(SocketClient.this, welcome.getPlayer(), CreateRoomWindow.AS_GUEST);
                                 roomWindow.setVisible(true);
                             }
                         });
-                             
-                       
-                             
-                }  
+                      break;
+                  
+                  default:
+                       System.out.println("manouvre.network.client.SocketClient.run() Unknown msg type" + msg.toString()) ;
+              
+                 }
                 
-                else if(msg.type.equals("room_list"))
-                {
-                         /*
-                     
-                        add channels to list
-                        */
-                          mainChat.setRoomList(msg.getChannelList());
-                             
-                       
-                             
-                }  
-                           
-                             
-                
-                                 
-//                }
-//                else if(msg.type.equals("test")){
-//                    ui.jButton1.setEnabled(false);
-//                    ui.jButton2.setEnabled(true); ui.jButton3.setEnabled(true);
-//                    ui.jTextField3.setEnabled(true); ui.jPasswordField1.setEnabled(true);
-//                    ui.jTextField1.setEditable(false); ui.jTextField2.setEditable(false);
-//                    ui.jButton7.setEnabled(true);
-//                }
-//                else if(msg.type.equals("newuser")){
-//                    if(!msg.content.equals(ui.username)){
-//                        boolean exists = false;
-//                        for(int i = 0; i < ui.model.getSize(); i++){
-//                            if(ui.model.getElementAt(i).equals(msg.content)){
-//                                exists = true; break;
-//                            }
-//                        }
-//                        if(!exists){ ui.model.addElement(msg.content); }
-//                    }
-//                }
-//                else if(msg.type.equals("signup")){
-//                    if(msg.content.equals("TRUE")){
-//                        ui.jButton2.setEnabled(false); ui.jButton3.setEnabled(false);
-//                        ui.jButton4.setEnabled(true); ui.jButton5.setEnabled(true);
-//                        ui.chatTextArea.append("[SERVER > Me] : Singup Successful\n");
-//                    }
-//                    else{
-//                        ui.chatTextArea.append("[SERVER > Me] : Signup Failed\n");
-//                    }
-//               }
-//                else if(msg.type.equals("signout")){
-//                    if(msg.content.equals(ui.username)){
-//                        ui.chatTextArea.append("["+ msg.sender +" > Me] : Bye\n");
-//                        ui.jButton1.setEnabled(true); ui.jButton4.setEnabled(false); 
-//                        ui.jTextField1.setEditable(true); ui.jTextField2.setEditable(true);
-//                        
-//                        for(int i = 1; i < ui.model.size(); i++){
-//                            ui.model.removeElementAt(i);
-//                        }
-//                        
-//                        ui.clientThread.stop();
-//                    }
-//                    else{
-//                        ui.model.removeElement(msg.content);
-//                        ui.chatTextArea.append("["+ msg.sender +" > All] : "+ msg.content +" has signed out\n");
-//                    }
-//                }
-                
-                
-                else{
-                    //ui.printOnChat("SERVER : Unknown message type\n");
-                    System.out.println("manouvre.network.client.SocketClient.run() Unknown msg type" + msg.toString()) ;
-                }
+    
+  
             }
             catch(Exception ex) {
                 keepRunning = false;
-                ui.printOnChat("Aplication : Connection Failure \n" + ex.getMessage());
+                
+                System.out.println("manouvre.network.client.SocketClient.run()" + ex);
+                
+                //ui.printOnChat("Aplication : Connection Failure \n" + ex.getMessage());
 //                ui.jButton1.setEnabled(true); 
 //                ui.jTextField1.setEditable(true); 
 //                ui.jTextField2.setEditable(true);

@@ -184,7 +184,7 @@ public class LoginWindow extends javax.swing.JFrame {
             clientThread = new Thread(client);
             clientThread.start();
             
-            Message msg = new Message("login", username, password, "SERVER");
+            Message msg = new Message(Message.LOGIN, username, password, "SERVER");
             
             client.send(msg);
             

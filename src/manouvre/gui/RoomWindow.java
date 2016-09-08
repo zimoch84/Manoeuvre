@@ -27,6 +27,8 @@ public class RoomWindow extends javax.swing.JFrame {
     public Thread clientThread;
     public DefaultListModel model;
 
+    int windowMode ;
+    
     Player player;
     /**
      * Creates new form RoomWindow
@@ -38,15 +40,65 @@ public class RoomWindow extends javax.swing.JFrame {
        /**
      * Creates new form RoomWindow
      */
-    public RoomWindow(SocketClient passSocket, Player player) {
+    public RoomWindow(SocketClient passSocket, Player player, int mode ) {
         this.client = passSocket;
         this.player = player;
+        this.windowMode = mode;
+               
        
         
         initComponents();
+        
+        setEditableButtons(windowMode);
+        
+        String modeString;
+                
+                if(mode == CreateRoomWindow.AS_HOST )
+                    modeString = " as Host";
+                else 
+                    modeString = " as Quest";
+                      
+        this.setTitle(username + modeString);
     }
     
 
+     private void setEditableButtons(int mode){
+     
+         switch(mode)
+         {
+             case CreateRoomWindow.AS_HOST :
+                 
+               AustriaRB2.setEnabled(false);
+               BritainRB2.setEnabled(false);
+               FranceRB2.setEnabled(false);
+               OttomanRB2.setEnabled(false);
+               PrussiaRB2.setEnabled(false);
+               RussiaRB2.setEnabled(false);
+               SpainRB2.setEnabled(false);
+               USARB2.setEnabled(false);
+
+               
+                       
+             
+             break;
+             case CreateRoomWindow.AS_GUEST :
+               
+               AustriaRB1.setEnabled(false);
+               BritainRB1.setEnabled(false);
+               FranceRB1.setEnabled(false);
+               OttomanRB1.setEnabled(false);
+               PrussiaRB1.setEnabled(false);
+               RussiaRB1.setEnabled(false);
+               SpainRB1.setEnabled(false);
+               USARB1.setEnabled(false);
+               
+               startButton.setEnabled(false);
+                 
+             break;    
+                 
+     
+     }}
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -85,7 +137,7 @@ public class RoomWindow extends javax.swing.JFrame {
         SpainRB2 = new javax.swing.JRadioButton();
         RussiaRB2 = new javax.swing.JRadioButton();
         jPanel3 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        startButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -315,10 +367,10 @@ public class RoomWindow extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton1.setText("Start Game");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        startButton.setText("Start Game");
+        startButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                startButtonActionPerformed(evt);
             }
         });
 
@@ -328,14 +380,14 @@ public class RoomWindow extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(startButton, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(85, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(startButton, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -393,7 +445,7 @@ public class RoomWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_SpainRB1ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
          
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -436,15 +488,21 @@ public class RoomWindow extends javax.swing.JFrame {
                                 }
                       }
                                 player.generateUnits();
-                   new GameWindow(client, player).setVisible(true);
-                    setVisible(false);
+                                if(windowMode == CreateRoomWindow.AS_HOST)
+                                    player.setHost(true);
+                                else 
+                                    player.setHost(false);
+                                
+                                 new GameWindow(client, player).setVisible(true);
+                            
+                                setVisible(false);
                    
                 } catch (IOException ex) {
                     Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_startButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -499,7 +557,6 @@ public class RoomWindow extends javax.swing.JFrame {
     private javax.swing.JRadioButton USARB1;
     private javax.swing.JRadioButton USARB2;
     private javax.swing.ButtonGroup austriaSel;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
@@ -512,5 +569,6 @@ public class RoomWindow extends javax.swing.JFrame {
     private javax.swing.ButtonGroup player2Group;
     private javax.swing.JPanel playersPanel;
     public javax.swing.JButton sendButton;
+    private javax.swing.JButton startButton;
     // End of variables declaration//GEN-END:variables
 }

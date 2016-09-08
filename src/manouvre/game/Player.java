@@ -5,6 +5,7 @@
  */
 package manouvre.game;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import manouvre.gui.UnitGUI;
 
@@ -20,7 +21,7 @@ import manouvre.gui.UnitGUI;
     int US  = 7; //USA
  * @author Piotr
  */
-public class Player {
+public class Player  implements Serializable{
     
     String name;
     int nation; //for nation description see CardInterface
@@ -33,6 +34,11 @@ public class Player {
     ArrayList<Unit> army;
     
     boolean active;
+
+ 
+    boolean host;
+
+    
 
     public Player(String name) {
         this.name = name;
@@ -69,6 +75,11 @@ public class Player {
     public void generateUnits(){
      
         army = new ArrayList<Unit>();
+        /*
+        If its host then place units on B row else place unit on G row
+        */
+        
+        if(isHost())
       for (int i=getNation()*8  ;i<getNation()*8+8;i++)
         {
 
@@ -83,6 +94,22 @@ public class Player {
               
        
         }
+        else 
+      for (int i=getNation()*8  ;i<getNation()*8+8;i++)
+        {
+
+            
+            Unit unit =  new Unit(i+1);
+          /*
+            Pozycja tymczasowo - bedzie tworzona w setupie
+            */
+            unit.setPos(new Position (  i- ( getNation()*8)    ,7));
+            army.add(   unit     ) ;      
+                   
+              
+       
+        }      
+            
     // System.out.println("Units Generated:");
     }
     
@@ -120,5 +147,12 @@ public class Player {
 
 
   
+    public boolean isHost() {
+        return host;
+    }
+
+    public void setHost(boolean host) {
+        this.host = host;
+    }
     
 }

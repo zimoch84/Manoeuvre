@@ -23,14 +23,27 @@ public class CreateRoomWindow extends javax.swing.JFrame {
     /**
      * Creates new form CreateRoomWindow
      */
+     
+     int windowMode;
     public CreateRoomWindow() {
         initComponents();
     }
+    public final static int AS_HOST = 0;
+    public final static int AS_GUEST = 1;
     
-     public CreateRoomWindow(SocketClient passSocket, Player player) {
+    
+    
+    /**
+     * Creates room window - mod
+     * @param passSocket
+     * @param player
+     * @param mode 
+     */
+     public CreateRoomWindow(SocketClient passSocket, Player player, int mode) {
          
          client = passSocket;
          this.player = player;
+         this.windowMode = mode;
          
          initComponents();
         
@@ -140,17 +153,10 @@ public class CreateRoomWindow extends javax.swing.JFrame {
     private void createChannelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createChannelButtonActionPerformed
 
         String channel = roomNameFieldText.getText() + "|" + passwordRoomFieldText.getText();
-        client.send(new Message("create_room", player.getName(), channel , "SERVER" ));
-      
-        
+        client.send(new Message(Message.CREATE_ROOM, player.getName(), channel , "SERVER" ));
+  
         this.setVisible(false);
-        
-          /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new RoomWindow(client, player).setVisible(true);
-            }
-        });
+      
         
         
     }//GEN-LAST:event_createChannelButtonActionPerformed

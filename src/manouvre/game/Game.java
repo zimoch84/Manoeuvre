@@ -20,6 +20,7 @@ public class Game {
     /*
     Game phases
     */
+    public static int SETUP = -1;
     public static int DISCARD = 0;
     public static int DRAW = 1;
     public static int MOVE = 2;
@@ -27,7 +28,7 @@ public class Game {
     public static int RESTORATION = 4;
        
     
-    Map map;
+    Map map;    
 
     //ArrayList<Unit> units = new ArrayList<>();
 

@@ -5,6 +5,7 @@
  */
 package manouvre.network.server;
 
+import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
 import manouvre.game.Game;
@@ -15,15 +16,19 @@ import manouvre.network.client.SocketClient;
  *
  * @author Piotr
  */
-public class GameRoom {
+public class GameRoom implements Serializable {
     
-    ArrayList<Socket> sockets;
+    transient ArrayList<Socket> sockets;
 
     ArrayList<Player> players;
     
     String name, password;
 
     Game game;
+
+    
+    
+    int hostSocketPortId, questSocketPortId;
 
     public void setPassword(String password) {
         this.password = password;
@@ -41,6 +46,9 @@ public class GameRoom {
         this.password = password;
         sockets = new ArrayList<>();
         players = new ArrayList<>();
+        
+        hostSocketPortId = socket.getPort();
+        
         players.add(player);
         sockets.add(socket);
         
@@ -81,10 +89,17 @@ public class GameRoom {
     @Override
     public String toString(){
     
-        if (password == null)        
-        return name ;
-        else 
-        return name + " password protected";
+        String out = "";
+        if(players.size() > 0 )
+            
+            out = out +  name + " hosted by : " ; 
+            for (Player player: players)
+            out = out + player.getName() + " ";
+            
+            if (password == null || password.equals("") )        
+             return out ;
+            else 
+             return out  +   " password protected";
     
     }
     
@@ -109,7 +124,21 @@ public class GameRoom {
     }
  
     
-    
+    public int getHostSocketPortId() {
+        return hostSocketPortId;
+    }
+
+    public void setHostSocketPortId(int hostSocketPortId) {
+        this.hostSocketPortId = hostSocketPortId;
+    }
+
+    public int getQuestSocketPortId() {
+        return questSocketPortId;
+    }
+
+    public void setQuestSocketPortId(int questSocketPortId) {
+        this.questSocketPortId = questSocketPortId;
+    }
     
     
     
