@@ -27,6 +27,7 @@ public class CardSetGUI {
     
     ArrayList<CardGUI> cardListGui = new ArrayList<CardGUI>();  
     CardSet cardSet;  //decide which cardSet shall be processed
+   // CardGUI backCover;
 
     public CardSetGUI (CardSet newCardSet){
        this.cardSet = newCardSet;
@@ -35,7 +36,6 @@ public class CardSetGUI {
     
     public void reSet(){ 
        cardListGui.clear(); //clear the list
-     //  System.out.println("cardSet.cardsLeftInSet():"+cardSet.cardsLeftInSet());
        for(int i=0; i<cardSet.cardsLeftInSet(); i++){
         cardListGui.add(i, new CardGUI(cardSet.getCardByPosInSet(i)));
        }
@@ -57,9 +57,19 @@ public class CardSetGUI {
        cardListGui.remove(CardSetIdToRemove); 
     }
     
-    public int getCardIDBySetID(int CardSetId){
+    public int getCardIDByPosInSet(int CardSetId){
        return cardListGui.get(CardSetId).card.getCardID(); 
     }
-     
+    
+    public int getPositionInSetByCardID(int cardID) {
+        for (int i=0; i<cardListGui.size(); i++){
+            if(cardListGui.get(i).getCardID()==cardID){
+                return i;
+            }
+        }
+        return 99;
+     }
+    
+    
     
 }

@@ -7,15 +7,16 @@ package manouvre.gui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.io.File;
 import java.io.IOException;
 import static java.lang.Math.round;
 import java.util.ArrayList;
 import manouvre.game.Game;
 import manouvre.game.Position;
 import manouvre.game.Unit;
+import javax.imageio.ImageIO;
 import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
+
 
 
 /**
@@ -27,12 +28,14 @@ public class GameGUI {
     Game game;
     ArrayList<UnitGUI> unitsGui = new ArrayList<UnitGUI>(); 
     MapGUI mapGui;
-    CardSetGUI cardSetGui;
+    CardSetGUI handSetGui;
     CardSetGUI discardSetGui;
+    CardSetGUI drawSetGui;
     /*
     Wielkosc ramki stolu w kwadracie w pikselach
     */
     final int BACKGRNDTABLE = 678;
+    int numberOfDiscardedCards=0;
     
     ArrayList<Integer> selectionSeq = new ArrayList<Integer>();
 
@@ -44,8 +47,9 @@ public class GameGUI {
         this.game=newGame;
         this.mapGui = new MapGUI(game.getMap());
         this.generateUnitsUI();
-        this.cardSetGui = new CardSetGUI(game.getCurrentPlayer().getHand());
+        this.handSetGui = new CardSetGUI(game.getCurrentPlayer().getHand());
         this.discardSetGui = new CardSetGUI(game.getCurrentPlayer().getDiscardPile());
+        this.drawSetGui = new CardSetGUI(game.getCurrentPlayer().getDrawPile());//empty
        
     }
 //------------- MAP - RIGHT UPPER CORNER OF THE SCREEN -----------------------------------
@@ -161,7 +165,7 @@ public class GameGUI {
     
  //-------- CARDS - BOTTOM OF THE SCREEN -----------------------------------
 
-    public void drawCard(Graphics g, int mouseCoorX, int mouseCoorY, int mouseClick)                 
+    public void paintHand(Graphics g, int mouseCoorX, int mouseCoorY, int mouseClick)                 
     {   
         float f=0.5f; //scale factor //Normally cards has 260x375 pixels
         int width=round(260*f), height=round(375*f);
@@ -169,31 +173,31 @@ public class GameGUI {
         int cardPaddingLeft=20;
         int cardPaddingTopTemp=cardPaddingTop;
         int gap = 5;    
-        for (int i=0; i<cardSetGui.cardsLeftInSet(); i++){  
+        for (int i=0; i<handSetGui.cardsLeftInSet(); i++){  
             
-           if(mouseCoorY>(cardPaddingTop-20*cardSetGui.getCardByPosInSet(i).isOverCard()-20*cardSetGui.getCardByPosInSet(i).isSelected()) && mouseCoorY<(cardPaddingTop+height)){ // if mouse is in row with cards
+           if(mouseCoorY>(cardPaddingTop-20*handSetGui.getCardByPosInSet(i).isOverCard()-20*handSetGui.getCardByPosInSet(i).isSelected()) && mouseCoorY<(cardPaddingTop+height)){ // if mouse is in row with cards
                 if ((mouseCoorX>cardPaddingLeft+(gap*i)+width*(i)) && mouseCoorX<(cardPaddingLeft+(gap*i)+width*(i+1))){ //if mouse is in th collon with card
-                    cardSetGui.getCardByPosInSet(i).setOverCard(1);
+                    handSetGui.getCardByPosInSet(i).setOverCard(1);
                 } 
                 else{
-                    cardSetGui.getCardByPosInSet(i).setOverCard(0);
+                    handSetGui.getCardByPosInSet(i).setOverCard(0);
                 }
             }  
-            else  cardSetGui.getCardByPosInSet(i).setOverCard(0);
-            if(mouseClick==1&&cardSetGui.getCardByPosInSet(i).isOverCard()==1){
-                if(cardSetGui.getCardByPosInSet(i).isSelected()==0) {
-                    cardSetGui.getCardByPosInSet(i).setSelected(1);
-                    selectionSeq.add(cardSetGui.getCardIDBySetID(i)); 
+            else  handSetGui.getCardByPosInSet(i).setOverCard(0);
+            if(mouseClick==1&&handSetGui.getCardByPosInSet(i).isOverCard()==1){
+                if(handSetGui.getCardByPosInSet(i).isSelected()==0) {
+                    handSetGui.getCardByPosInSet(i).setSelected(1);
+                    selectionSeq.add(handSetGui.getCardIDByPosInSet(i)); 
                 }   
                 else {
-                    cardSetGui.getCardByPosInSet(i).setSelected(0);
-                    Integer j=cardSetGui.getCardIDBySetID(i);
+                    handSetGui.getCardByPosInSet(i).setSelected(0);
+                    Integer j=handSetGui.getCardIDByPosInSet(i);
                     selectionSeq.remove(j); //remove number Integer j, not position int i
                 }           
             }
-            if(cardSetGui.getCardByPosInSet(i).isOverCard()==1 || cardSetGui.getCardByPosInSet(i).isSelected()==1) cardPaddingTopTemp=cardPaddingTop-20;
+            if(handSetGui.getCardByPosInSet(i).isOverCard()==1 || handSetGui.getCardByPosInSet(i).isSelected()==1) cardPaddingTopTemp=cardPaddingTop-20;
             else cardPaddingTopTemp=cardPaddingTop;
-            g.drawImage(cardSetGui.getCardByPosInSet(i).getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTopTemp, width, height, null);       
+            g.drawImage(handSetGui.getCardByPosInSet(i).getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTopTemp, width, height, null);       
         }
                 Integer j=0;
                 if(!selectionSeq.isEmpty()){ 
@@ -201,11 +205,11 @@ public class GameGUI {
                     j=selectionSeq.get(selectionSeq.size()-1);              
 
                     System.out.println("selectionSeq Last:" + j); 
-                    System.out.println("selectionSeq Last Position in hand:" + game.getCurrentPlayer().getHand().getPositionInSetByCardID(j)); 
-                    j=game.getCurrentPlayer().getHand().getPositionInSetByCardID(j); 
+                    System.out.println("selectionSeq Last Position in hand:" + handSetGui.getPositionInSetByCardID(j)); 
+                    j=handSetGui.getPositionInSetByCardID(j); 
                     int[] xPoints={cardPaddingLeft+35+width*j+(gap*j),cardPaddingLeft+95+width*j+(gap*j),cardPaddingLeft+35+(95-35)/2+width*j+(gap*j)};
                     int[] yPoints={cardPaddingTop-18,cardPaddingTop-18,cardPaddingTop-8};
-                    g.setColor(Color.LIGHT_GRAY);
+                    g.setColor(Color.white);
                     g.setFont(new Font("Bookman Old Style", 1, 11));
                     g.drawString("This card will be visible",cardPaddingLeft+width*j+(gap*j)+0,31);
                     g.drawString("on the Discard Pile",cardPaddingLeft+width*j+(gap*j)+10,44);  
@@ -213,24 +217,38 @@ public class GameGUI {
                 }                         
         }
 
-    public void discardSelCards(){
+    public void discardSelCards(){ //done on hand itseld not on HandGui
         //get all selected cards
-        int numberOfDiscardedCards=0;
-          for (int i=0; i<selectionSeq.size(); i++){   
-                game.getCurrentPlayer().getHand().dealCardToOtherSetByCardID(selectionSeq.get(i),  game.getCurrentPlayer().getDiscardPile());
-                numberOfDiscardedCards++;  
-          }
-          if(numberOfDiscardedCards!=0){
+        
+        for (int i=0; i<selectionSeq.size(); i++){   
+            game.getCurrentPlayer().getHand().dealCardToOtherSetByCardID(selectionSeq.get(i),  game.getCurrentPlayer().getDiscardPile());
+            numberOfDiscardedCards++;  
+           }
+          /*if(numberOfDiscardedCards!=0){
             game.getCurrentPlayer().getHand().addRandomCardsFromOtherSet(numberOfDiscardedCards, game.getCurrentPlayer().getDrawPile());
             game.getCurrentPlayer().getHand().sortCard();
-            cardSetGui.reSet();
-            discardSetGui.reSet();
+            handSetGui.reSet(); //reset GUI
+            discardSetGui.reSet(); //reset GUI
+            drawSetGui.reSet(); //reset GUI
             numberOfDiscardedCards=0; 
-          }
-          selectionSeq.clear();
+          }*/
+            selectionSeq.clear();
+            handSetGui.reSet(); //reset GUI
+            discardSetGui.reSet(); //reset GUI
+            drawSetGui.reSet(); //reset GUI
     }
     
-    public void drawDiscard(Graphics g){
+    public void drawCards(){
+        game.getCurrentPlayer().getHand().addRandomCardsFromOtherSet(numberOfDiscardedCards, game.getCurrentPlayer().getDrawPile());
+        game.getCurrentPlayer().getHand().sortCard();
+        handSetGui.reSet(); //reset GUI
+        discardSetGui.reSet(); //reset GUI
+        drawSetGui.reSet(); //reset GUI
+        numberOfDiscardedCards=0; 
+       
+    }
+            
+    public void paintDiscard(Graphics g){
         float f=0.41f; //scale factor //Normally cards has 260x375 pixels
         int width=round(260*f), height=round(375*f);
         int cardPaddingTop=16;
@@ -239,21 +257,33 @@ public class GameGUI {
          g.drawImage(discardSetGui.getCardByPosInSet(discardSetGui.cardsLeftInSet()-1).getImgFull(), cardPaddingLeft, cardPaddingTop, width, height, null);           
         }
         else{
-            g.setColor(Color.LIGHT_GRAY);
+            g.setColor(Color.white);
             g.setFont(new Font("Bookman Old Style", 1, 20));
             g.drawString("No Card",20,100);  
         }
     }
     
-    public void drawDrawLeft(Graphics g){
-        Integer drawLeft=game.getCurrentPlayer().getDrawPile().cardsLeftInSet();
-            g.setColor(Color.LIGHT_GRAY);
-            g.setFont(new Font("Bookman Old Style", 1, 50));        
-            g.drawString(drawLeft.toString(),20,110); 
+    public void paintDrawLeft(Graphics g){
+        float f=0.41f; //scale factor //Normally cards has 260x375 pixels
+        int width=round(260*f), height=round(375*f);
+        int cardPaddingTop=16;
+        int cardPaddingLeft=5;
+        Integer drawLeft=drawSetGui.cardsLeftInSet();
+        
+        if(drawLeft>0) {
+            g.drawImage(drawSetGui.getCardByPosInSet(drawLeft-1).getImgBackCover(), cardPaddingLeft, cardPaddingTop, width, height, null);           
+        } 
+        g.setColor(Color.white);
+        g.setFont(new Font("Bookman Old Style", 1, 50));        
+        g.drawString(drawLeft.toString(),20,110); 
     }
     
     public boolean getSelectionSeqIsEmpty() {
         return selectionSeq.isEmpty();
+    }
+    
+    public void paintCombatPanel(Graphics g){
+        //empty for now
     }
     
 }

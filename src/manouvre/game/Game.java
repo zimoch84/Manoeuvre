@@ -37,6 +37,8 @@ public class Game {
     Player opponent;
     
     int phase; 
+
+   
     
     
     /*
@@ -249,7 +251,24 @@ public class Game {
         
      
     }
-    
+    //-----------phases-----------
+//   DISCARD = 0;
+//   DRAW = 1;
+//   MOVE = 2;
+//   COMBAT = 3;
+//   RESTORATION = 4;
+       
+    public int getPhase() {
+        return phase;
+    }
+
+    public void setPhase(int phase) {
+        this.phase = phase;
+    } 
+    public void nextPhase() {
+        if(phase<4) phase++;
+        else phase=0;
+    } 
       
     
 }

@@ -26,6 +26,37 @@ import manouvre.game.Position;
 import manouvre.game.Unit;
 import manouvre.game.interfaces.PositionInterface;
 import manouvre.network.client.SocketClient;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
 
 /**
  *
@@ -127,18 +158,16 @@ public class GameWindow extends javax.swing.JFrame {
             }
             catch(Exception ex){
                 chatTextArea.append("[Application > Me] : Server not found\n");
-            }
-
+            }       
     }
-
 
     public Game getGame() {
          return game;
-     }
+    }
 
      public void setGame(Game game) {
          this.game = game;
-     }
+    }
 
     public void drawMainBackground(Graphics g){
     
@@ -153,19 +182,26 @@ public class GameWindow extends javax.swing.JFrame {
  
     private void drawCard(Graphics g )                 
     {   
-        gameGui.drawCard(g,  handMouseCoorX, handMouseCoorY, mouseClickedOnHand); 
+        gameGui.paintHand(g,  handMouseCoorX, handMouseCoorY, mouseClickedOnHand); 
         mouseClickedOnHand=0; 
-        jButton8.setEnabled(!gameGui.getSelectionSeqIsEmpty());
+        jButton8.setEnabled(!gameGui.getSelectionSeqIsEmpty()&&game.getPhase()==0);
+        jButton7.setEnabled(gameGui.numberOfDiscardedCards>0&&game.getPhase()==1);
+         moveButton.setEnabled(game.getPhase()==2);
     }
     
     private void drawDiscard(Graphics g )                 
     {   
-        gameGui.drawDiscard(g); 
+        gameGui.paintDiscard(g); 
         
     }
     
     private void drawDrawLeft(Graphics g ) {
-        gameGui.drawDrawLeft(g); 
+        gameGui.paintDrawLeft(g); 
+    }
+    
+    private void drawCombatPanel(Graphics g){
+        gameGui.paintCombatPanel(g);
+        
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -248,7 +284,14 @@ public class GameWindow extends javax.swing.JFrame {
         ;
         jLabel13 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        combatPanel = new javax.swing.JPanel();
+        combatPanel = new javax.swing.JPanel(){
+            @Override
+            public void paintComponent(Graphics g) {
+                drawCombatPanel(g);
+
+            }
+        }
+        ;
         mainMapPanel = new javax.swing.JPanel()
         {
             @Override
@@ -384,6 +427,11 @@ public class GameWindow extends javax.swing.JFrame {
 
         jButton7.setText("Draw");
         jButton7.setEnabled(false);
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jButton6.setText("Bombard");
         jButton6.setEnabled(false);
@@ -816,7 +864,8 @@ public class GameWindow extends javax.swing.JFrame {
     
     
     private void moveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moveButtonActionPerformed
-        // TODO add your handling code here:
+        game.nextPhase();        // TODO add your handling code here:
+         this.repaint();
     }//GEN-LAST:event_moveButtonActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -871,12 +920,14 @@ public class GameWindow extends javax.swing.JFrame {
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
        gameGui.discardSelCards();
+       game.nextPhase();
         this.repaint();
         // TODO add your hadgdndling code here:
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+    game.nextPhase();        // TODO add your handling code here:
+     this.repaint();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void mainMapPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainMapPanelMouseClicked
@@ -952,6 +1003,12 @@ public class GameWindow extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_mainMapPanelMouseClicked
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+     gameGui.drawCards();
+     game.nextPhase();
+      this.repaint();
+    }//GEN-LAST:event_jButton7ActionPerformed
     
     /**
 	 * check whether the mouse is currently over this piece

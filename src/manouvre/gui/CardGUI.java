@@ -27,9 +27,7 @@ public class CardGUI {
     int selectionSeq=0; //card was selected as selectionSeq in the row
 //    int posX;
 //    int posY;
-
-    
-    
+    Image imgBackCover;
    
     /**
      * Gets the card image based on its ID in cards.csv 
@@ -38,8 +36,10 @@ public class CardGUI {
      */
     public CardGUI(Card newCard) {
         this.card=newCard;    
-        setImg();        
+        setImg();  
+        setBackCoverImg();
     }
+    
     
     private void setImg(){
         try {
@@ -49,7 +49,37 @@ public class CardGUI {
         }
     }
     
+    private String getBackCoverImgName(){
+        switch (card.getCardFlag()){ //check first card in the list for flag
+            case 0: //"BR": 
+                return "BRMask.JPG";      
+            case 1: //"FR":
+                return "FRMask.JPG";    
+            case 2: //"RU":
+                return "RUMask.JPG";    
+            case 3: //"PR":
+                return "PRMask.JPG";    
+            case 4: //"AU":
+                return "AUMask.JPG";    
+            case 5: //"SP":
+                return "SPMask.JPG";    
+            case 6: //"OT":
+                return "OTMask.JPG";    
+        }   
+        return "FRNapoleon.JPG";
+    }
    
+    private void setBackCoverImg(){
+        try {
+            imgBackCover = ImageIO.read(new File("resources\\cards\\"+getBackCoverImgName()));
+        } catch (IOException ex) {
+            Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public Image getImgBackCover() {
+        return imgBackCover;
+    }
     /**
      * Returns card image to be used in GUI
      * @return card image
@@ -90,6 +120,12 @@ public class CardGUI {
     
     public int getSelectionSeq() {
         return selectionSeq;
+    }
+    public int getFlag() {
+        return card.getCardFlag();
+    }
+    public int getCardID() {
+        return card.getCardID();
     }
   
 }
