@@ -67,13 +67,16 @@ public class Message implements Serializable{
       
     public Message(String type, String sender, String content, String recipient){
         this.type = type; this.sender = sender; this.content = content; this.recipient = recipient;
+        channelList = new ArrayList<GameRoom> ();
     }
     
     public Message(int type, String sender, int content, String recipient){
         this.messageType = type; this.sender = sender; this.contentP = content; this.recipient = recipient;
+        channelList = new ArrayList<GameRoom> ();
     }
     
     public Message(int type, String sender, String content, String recipient){
+        channelList = new ArrayList<GameRoom> ();
         this.messageType = type; this.sender = sender; this.content = content; this.recipient = recipient;
     }
     
