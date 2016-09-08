@@ -488,8 +488,14 @@ public class RoomWindow extends javax.swing.JFrame {
                                 }
                       }
                                 player.generateUnits();
-                   new GameWindow(client, player).setVisible(true);
-                    setVisible(false);
+                                if(windowMode == CreateRoomWindow.AS_HOST)
+                                    player.setHost(true);
+                                else 
+                                    player.setHost(false);
+                                
+                                 new GameWindow(client, player).setVisible(true);
+                            
+                                setVisible(false);
                    
                 } catch (IOException ex) {
                     Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);

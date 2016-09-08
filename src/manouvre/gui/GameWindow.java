@@ -59,10 +59,12 @@ public class GameWindow extends javax.swing.JFrame {
     GameGUI gameGui;
     
     private Image bgImage;
+    /*
+    CreateRoomWindow
+    public final static int AS_HOST = 0;
+    public final static int AS_GUEST = 1;
+    */
    
-    
-    
- 
     public GameWindow(SocketClient passSocket, Player player) throws IOException{
         
         bgImage = ImageIO.read( new File("resources\\backgrounds\\24209cb208yezho.jpg"));
