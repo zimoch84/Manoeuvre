@@ -28,7 +28,7 @@ public class Game {
     public static int RESTORATION = 4;
        
     
-    Map map;
+    Map map;    
 
     //ArrayList<Unit> units = new ArrayList<>();
 

@@ -48,9 +48,10 @@ class ClientServerThread extends Thread {
         try {
             streamOut.writeObject(msg);
             streamOut.flush();
+            System.out.println("manouvre.network.server.ClientServerThread.send() "  + msg.toString());
         } 
         catch (IOException ex) {
-            System.out.println("Exception [SocketClient : send(...)]");
+            System.out.println("Exception [SocketClient : send(...)]" + ex.toString());
         }
     }
     
@@ -85,13 +86,25 @@ class ClientServerThread extends Thread {
             	System.out.println(socketClientServerPortID + " ERROR reading: " + ioe.getMessage());
                 ioe.printStackTrace();
                 
-               //server.remove(socketClientServerPortID);
+               //
                // stop();
-            }   catch (IOException ex) {
+            }
+            catch (SocketException ex){
+                System.out.println("manouvre.network.server.ClientServerThread.run()");
+                
+                server.destroyRoom( server.findGameRoom(socketClientServerPortID)  );
+                server.remove(socketClientServerPortID);
+                
+                
+                
+            }
+            catch (IOException ex) {
                     Logger.getLogger(ClientServerThread.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ClassNotFoundException ex) {
+                } 
+            catch (ClassNotFoundException ex) {
                     Logger.getLogger(ClientServerThread.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            
         }
     }
     /**
@@ -227,12 +240,16 @@ public class ManouvreServer implements Runnable {
         
         Message msgOut;
         
+        try
+        {
         switch( msg.getMessageType() ){
             
             case Message.LOGIN : 
                  if(findUserThread(msg.sender) == null){
                     if(db.checkLogin(msg.sender, msg.content)){
                         clients[findClient(ID)].username = msg.sender;
+                        clients[findClient(ID)].setPlayer(new Player(msg.sender)) ;
+                        
                         clients[findClient(ID)].send(new Message(Message.LOGIN, "SERVER", Message.OK, msg.sender));
                         Announce(new Message (Message.USER_LOGGED, "SERVER",Message.OK , msg.sender));
                         //SendUserList(msg.sender);
@@ -262,7 +279,9 @@ public class ManouvreServer implements Runnable {
                 String[] parts = msg.content.split("|");
                 String name = parts[0];
                 String password = parts[1];
-                GameRoom newRoom = new GameRoom( name, password, clients[findClient(ID)].clientServerSocket, new Player (msg.sender) );
+                GameRoom newRoom = new GameRoom( name, password, clients[findClient(ID)].clientServerSocket, clients[findClient(ID)].getPlayer() );
+                newRoom.setHostSocketPortId(ID);
+                
                 this.channels.add(newRoom);
            
                 /*
@@ -274,27 +293,39 @@ public class ManouvreServer implements Runnable {
                 /*
                 Wysylamy do wszystkich userow liste kanalow
                 */
-                msgOut = new Message(Message.GET_ROOM_LIST, "inClass", "SERVER", "All");
+                msgOut = new Message(Message.GET_ROOM_LIST,  "SERVER", "serverAnnounce" ,"All");
                 msgOut.setChannelList(getRooms());
+                msgOut.setContent("Channels size " + Integer.toString(getRooms().size())  );
                 Announce(msgOut);
                 break;
             
             
             case Message.JOIN_ROOM :
                 /*
-                Szukamy pokoju w 
+                Szukamy pokoju 
                 */
-                String channel = msg.content;
-                int channelIndex;
-               
-                for (int i = 0; i < getRooms().size(); i++) {
-			System.out.println(getRooms().get(i));
-		}
-
-                
-                for (GameRoom room: getRooms()) // to be continued
+                GameRoom requestRoom = msg.getChannelList().get(0);
                 
                 
+               if(isGameRoom(requestRoom)) 
+               {
+                   GameRoom room = findGameRoom(requestRoom.getHostSocketPortId());
+                            
+                    if (!room.isLocked())
+                    {       room.setQuestSocketPortId(ID);
+                            room.addPlayer( clients[findClient(ID) ].getPlayer() )  ;
+                            msgOut = new Message(Message.JOIN_ROOM,  "SERVER", Message.OK,  msg.sender);
+                    }         
+                     else 
+                    {
+                         msgOut = new Message(Message.JOIN_ROOM,  "SERVER", Message.IS_ROOM_LOCKED,  msg.sender);
+                    }
+                      }
+               else 
+                        {
+                        msgOut = new Message(Message.JOIN_ROOM,  "SERVER", Message.ROOM_NOT_FOUND,  msg.sender);
+                       }
+               clients[findClient(ID)].send(msgOut); 
                 
                 
             break;
@@ -303,8 +334,9 @@ public class ManouvreServer implements Runnable {
                 /*
                 Wysylamy do wszystkich userow liste kanalow
                 */
-                msgOut = new Message(Message.GET_ROOM_LIST,  "SERVER", "inClass",  msg.sender);
+                msgOut = new Message(Message.GET_ROOM_LIST,  "SERVER", "serverResponse",  msg.sender);
                 msgOut.setChannelList(getRooms());
+                msgOut.setContent("Channels size " + Integer.toString(getRooms().size())  );
                 clients[findClient(ID)].send(msgOut);
                 break;
                 
@@ -318,7 +350,13 @@ public class ManouvreServer implements Runnable {
             
             
         }
+        }
         
+        catch (NullPointerException ex)
+        {
+            System.out.println("manouvre.network.server.ManouvreServer.handle()" + ex.toString());
+            
+        }
         
 //        if (msg.content.equals(".bye")){
 //            Announce("signout", "SERVER", msg.sender);
@@ -545,14 +583,31 @@ public class ManouvreServer implements Runnable {
             ui.jTextArea1.append("\nClient refused: maximum " + clients.length + " reached.");
 	}
     }
-     public void createRoom(String username, String password, ClientServerThread thread){
-         GameRoom channel = new GameRoom(username, password, thread.getSocket(), new Player(username));
+     public void createRoom(String chuannelName, String password, ClientServerThread thread){
+        
+         
+         GameRoom channel = new GameRoom(chuannelName, password, thread.getSocket(), thread.getPlayer());
+         
+         
          channels.add(channel);
         
      }
      public boolean destroyRoom(GameRoom channel)
      {
+         
          boolean remove= false;
+         for(GameRoom room : getRooms())
+         {
+             if (room.getHostSocketPortId() == channel.getHostSocketPortId())
+             {
+                 /*
+                    TODO 
+                 send to all GAME_ROOM_DESTROYED
+                     */                 
+                 remove = channels.remove(channel);
+                 break;
+             }
+         }
          if(channels.contains(channel)) 
          {
               remove = channels.remove(channel);
@@ -561,7 +616,32 @@ public class ManouvreServer implements Runnable {
      }
      
      
- 
+     public GameRoom findGameRoom(int hostClientSocket){
+     
+     for(GameRoom room : getRooms())
+         {
+             if (room.getHostSocketPortId() == hostClientSocket)
+             {
+                 return room;
+              }
+         }
+     return null;
+     
+     }
+     
+     
+  public boolean isGameRoom(GameRoom ingameroom){
+     
+     for(GameRoom room : getRooms())
+         {
+             if (room.getHostSocketPortId() == ingameroom.getHostSocketPortId())
+             {
+                 return true;
+              }
+         }
+     return false;
+     
+     }
      
      
      

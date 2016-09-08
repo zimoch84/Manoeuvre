@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.AbstractListModel;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -23,6 +24,8 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.ListCellRenderer;
 import javax.swing.UIManager;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 import manouvre.game.Player;
 import manouvre.network.client.Message;
 import manouvre.network.client.SocketClient;
@@ -30,6 +33,11 @@ import manouvre.network.server.GameRoom;
 
 class GameRoomRenderer extends JLabel implements ListCellRenderer<GameRoom> {
  
+    protected static TitledBorder focusBorder = new TitledBorder(LineBorder.createGrayLineBorder(),
+      "title");
+
+    protected DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
+    
     @Override
     public Component getListCellRendererComponent(JList<? extends GameRoom> list, GameRoom room, int index,
         boolean isSelected, boolean cellHasFocus) {
@@ -39,7 +47,13 @@ class GameRoomRenderer extends JLabel implements ListCellRenderer<GameRoom> {
          
         setIcon(imageIcon);
         setText(code);
-         
+               
+        if(cellHasFocus)
+            setBackground(Color.BLUE) ;
+                    else 
+            setBackground(defaultRenderer.getBackground()) ;
+               
+        
         return this;
     }
      
@@ -125,7 +139,7 @@ public class MainChatWindow extends javax.swing.JFrame {
           this.addWindowListener(new WindowListener() {
 
             @Override public void windowOpened(WindowEvent e) {}
-            @Override public void windowClosing(WindowEvent e) { try{ client.send(new Message(Message.CHAT, player.getName(), ".bye", "SERVER"));  }catch(Exception ex){} }
+            @Override public void windowClosing(WindowEvent e) { try{ client.send(new Message(Message.BYE, player.getName(), ".bye", "SERVER"));  }catch(Exception ex){} }
             @Override public void windowClosed(WindowEvent e) {}
             @Override public void windowIconified(WindowEvent e) {}
             @Override public void windowDeiconified(WindowEvent e) {}
@@ -146,7 +160,7 @@ public class MainChatWindow extends javax.swing.JFrame {
         this.addWindowListener(new WindowListener() {
 
             @Override public void windowOpened(WindowEvent e) {}
-            @Override public void windowClosing(WindowEvent e) { try{ client.send(new Message(Message.CHAT, player.getName(), ".bye", "SERVER"));}catch(Exception ex){} }
+            @Override public void windowClosing(WindowEvent e) { try{ client.send(new Message(Message.BYE, player.getName(), ".bye", "SERVER"));}catch(Exception ex){} }
             @Override public void windowClosed(WindowEvent e) {}
             @Override public void windowIconified(WindowEvent e) {}
             @Override public void windowDeiconified(WindowEvent e) {}
@@ -515,9 +529,9 @@ public class MainChatWindow extends javax.swing.JFrame {
 
     private void roomListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_roomListValueChanged
         
-        JList roomList = (JList)evt.getSource();
+        JList<GameRoom> roomList = (JList<GameRoom>) evt.getSource();
         
-        String roomSelected = roomList.getSelectedValue().toString();
+        GameRoom roomSelected = (GameRoom)roomList.getSelectedValue();
         
         if(roomSelected != null)
             
@@ -557,6 +571,11 @@ public class MainChatWindow extends javax.swing.JFrame {
    
         
                       GameRoom selected = roomList.getSelectedValue(); 
+                      Message msg = new  Message (Message.JOIN_ROOM, player.getName(), selected.toString(), "SERVER" );
+                      
+                      msg.addGameRoom(selected);
+                      msg.setQuestSocketPortId(client.socket.getPort());
+                      
                       client.send(new Message (Message.JOIN_ROOM, player.getName(), selected.toString(), "SERVER" ));
         
       
@@ -595,7 +614,7 @@ public class MainChatWindow extends javax.swing.JFrame {
         
     @Override
     public void run() {
-        Message msg = new Message (Message.GET_ROOM_LIST, player.getName(), "inClass", "SERVER");
+        Message msg = new Message (Message.GET_ROOM_LIST, player.getName(), "clientRequest", "SERVER");
          
         /*
         While we are selecting room tab send room list reqest to server 
@@ -610,7 +629,7 @@ public class MainChatWindow extends javax.swing.JFrame {
                 /*
                 Pause for 10 sec.
                 */
-                sleep(10000);
+                sleep(20000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(MainChatWindow.class.getName()).log(Level.SEVERE, null, ex);
             }

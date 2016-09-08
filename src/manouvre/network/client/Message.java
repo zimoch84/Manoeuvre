@@ -17,6 +17,7 @@ public class Message implements Serializable{
     public final static int BAD_CHANNEL_NAME = 2;
     public final static int BAD_PASSWORD = 3;
     public final static int IS_ROOM_LOCKED = 4;
+    public final static int ROOM_NOT_FOUND = 5; 
     
     
     
@@ -47,6 +48,8 @@ public class Message implements Serializable{
      */
     public String type, sender, content, recipient;
 
+  
+
    
     
     public int messageType, contentP;
@@ -56,6 +59,10 @@ public class Message implements Serializable{
     
     
     ArrayList<GameRoom> channelList; 
+    
+    int questSocketPortId;
+
+    
 
       
     public Message(String type, String sender, String content, String recipient){
@@ -154,11 +161,28 @@ public class Message implements Serializable{
         this.type = type;
     }
     
+    public void addGameRoom(GameRoom gameRoom)
+    {
+        channelList.add(gameRoom);
+    }
+    
     public ArrayList<GameRoom> getChannelList() {
         return channelList;
     }
 
     public void setChannelList(ArrayList<GameRoom> channelList) {
         this.channelList = channelList;
+    }
+    
+      public void setContent(String content) {
+        this.content = content;
+    }
+      
+    public int getQuestSocketPortId() {
+        return questSocketPortId;
+    }
+
+    public void setQuestSocketPortId(int questSocketPortId) {
+        this.questSocketPortId = questSocketPortId;
     }
 }

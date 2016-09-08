@@ -26,6 +26,10 @@ public class GameRoom implements Serializable {
 
     Game game;
 
+    
+    
+    int hostSocketPortId, questSocketPortId;
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -42,6 +46,9 @@ public class GameRoom implements Serializable {
         this.password = password;
         sockets = new ArrayList<>();
         players = new ArrayList<>();
+        
+        hostSocketPortId = socket.getPort();
+        
         players.add(player);
         sockets.add(socket);
         
@@ -85,11 +92,11 @@ public class GameRoom implements Serializable {
         String out = "";
         if(players.size() > 0 )
             
-            out = out +  name + " Players " ; 
+            out = out +  name + " hosted by : " ; 
             for (Player player: players)
             out = out + player.getName() + " ";
             
-            if (password == null)        
+            if (password == null || password.equals("") )        
              return out ;
             else 
              return out  +   " password protected";
@@ -117,7 +124,21 @@ public class GameRoom implements Serializable {
     }
  
     
-    
+    public int getHostSocketPortId() {
+        return hostSocketPortId;
+    }
+
+    public void setHostSocketPortId(int hostSocketPortId) {
+        this.hostSocketPortId = hostSocketPortId;
+    }
+
+    public int getQuestSocketPortId() {
+        return questSocketPortId;
+    }
+
+    public void setQuestSocketPortId(int questSocketPortId) {
+        this.questSocketPortId = questSocketPortId;
+    }
     
     
     
