@@ -28,6 +28,7 @@ public class GameGUI {
     CardSetGUI handSetGui;
     CardSetGUI discardSetGui;
     CardSetGUI drawSetGui;
+    CardSetGUI tableSetGui;
     /*
     Wielkosc ramki stolu w kwadracie w pikselach
     */
@@ -47,7 +48,7 @@ public class GameGUI {
         this.handSetGui = new CardSetGUI(game.getCurrentPlayer().getHand());
         this.discardSetGui = new CardSetGUI(game.getCurrentPlayer().getDiscardPile());
         this.drawSetGui = new CardSetGUI(game.getCurrentPlayer().getDrawPile());//empty
-       
+        this.tableSetGui = new CardSetGUI(game.getCurrentPlayer().getTablePile());//empty
     }
 //------------- MAP - LEFT UPPER CORNER OF THE SCREEN -----------------------------------
     void drawMap(Graphics g) {
@@ -205,11 +206,11 @@ public class GameGUI {
                     System.out.println("selectionSeq Last Position in hand:" + handSetGui.getPositionInSetByCardID(j)); 
                     j=handSetGui.getPositionInSetByCardID(j); 
                     int[] xPoints={cardPaddingLeft+35+width*j+(gap*j),cardPaddingLeft+95+width*j+(gap*j),cardPaddingLeft+35+(95-35)/2+width*j+(gap*j)};
-                    int[] yPoints={cardPaddingTop-18,cardPaddingTop-18,cardPaddingTop-8};
+                    int[] yPoints={cardPaddingTop+190,cardPaddingTop+190,cardPaddingTop+178};
                     g.setColor(Color.white);
                     g.setFont(new Font("Bookman Old Style", 1, 11));
-                    g.drawString("This card will be visible",cardPaddingLeft+width*j+(gap*j)+0,31);
-                    g.drawString("on the Discard Pile",cardPaddingLeft+width*j+(gap*j)+10,44);  
+                    g.drawString("This card will be visible",cardPaddingLeft+width*j+(gap*j)-10,31+190);
+                    g.drawString("on the Discard Pile",cardPaddingLeft+width*j+(gap*j)+0,44+190);  
                     g.fillPolygon(xPoints, yPoints, 3);
                 }                         
         }
@@ -235,6 +236,18 @@ public class GameGUI {
             drawSetGui.reSet(); //reset GUI
     }
     
+    public void playSelectedCard(){
+         for (int i=0; i<selectionSeq.size(); i++){   
+            game.getCurrentPlayer().getHand().dealCardToOtherSetByCardID(selectionSeq.get(i),  game.getCurrentPlayer().getTablePile());
+            numberOfDiscardedCards++;  
+            }
+            selectionSeq.clear();
+            handSetGui.reSet(); //reset GUI
+            discardSetGui.reSet(); //reset GUI
+            drawSetGui.reSet(); //reset GUI
+            tableSetGui.reSet();
+    
+    }
     public void drawCards(){
         game.getCurrentPlayer().getHand().addRandomCardsFromOtherSet(numberOfDiscardedCards, game.getCurrentPlayer().getDrawPile());
         game.getCurrentPlayer().getHand().sortCard();
@@ -275,12 +288,66 @@ public class GameGUI {
         g.drawString(drawLeft.toString(),20,110); 
     }
     
+    public void paintTablePanel(Graphics g){
+        int gap=5;
+        float f=0.41f; //scale factor //Normally cards has 260x375 pixels
+        int width=round(260*f), height=round(375*f);
+        int cardPaddingTop=16;
+        int cardPaddingLeft=10;
+         int cardPaddingTopText=138;
+        for (int i=0; i<tableSetGui.cardsLeftInSet(); i++){  
+            if(tableSetGui.cardsLeftInSet()>0){
+             g.drawImage(tableSetGui.getCardByPosInSet(i).getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTop, width, height, null);   
+             
+             
+                g.setColor(Color.white);
+                g.setFont(new Font("Bookman Old Style", 1, 11));
+                
+                Integer tempInt=tableSetGui.getCardByPosInSet(i).card.getUnitAttack();
+                String tempString=tempInt.toString();
+                g.drawString("Attack",cardPaddingLeft+width*i+(gap*i)+0,44+cardPaddingTopText); g.drawString(tempString, cardPaddingLeft+width*i+(gap*i)+55,44+cardPaddingTopText);
+                
+                tempInt=tableSetGui.getCardByPosInSet(i).card.getUnitDefence();
+                tempString=tempInt.toString();
+                g.drawString("Defence",cardPaddingLeft+width*i+(gap*i)+0,54+cardPaddingTopText); g.drawString(tempString, cardPaddingLeft+width*i+(gap*i)+55,54+cardPaddingTopText);
+                
+                tempInt=tableSetGui.getCardByPosInSet(i).card.getUnitPursuit();
+                tempString=tempInt.toString();
+                g.drawString("Pursuit",cardPaddingLeft+width*i+(gap*i)+0,64+cardPaddingTopText); g.drawString(tempString, cardPaddingLeft+width*i+(gap*i)+55,64+cardPaddingTopText);
+                
+                tempInt=tableSetGui.getCardByPosInSet(i).card.getUnitRange();
+                tempString=tempInt.toString();
+                g.drawString("Range",cardPaddingLeft+width*i+(gap*i)+0,74+cardPaddingTopText); g.drawString(tempString, cardPaddingLeft+width*i+(gap*i)+55,74+cardPaddingTopText);
+                
+                tempInt=tableSetGui.getCardByPosInSet(i).card.getUnitVolley();
+                tempString=tempInt.toString();
+                g.drawString("Volley",cardPaddingLeft+width*i+(gap*i)+0,84+cardPaddingTopText); g.drawString(tempString, cardPaddingLeft+width*i+(gap*i)+55,84+cardPaddingTopText);
+                
+                 
+               tempInt=tableSetGui.getCardByPosInSet(i).card.getUnitBombard();
+                tempString=tempInt.toString();
+                g.drawString("Bombard",cardPaddingLeft+width*i+(gap*i)+0,94+cardPaddingTopText); g.drawString(tempString, cardPaddingLeft+width*i+(gap*i)+55,94+cardPaddingTopText);
+    
+            }
+            else{
+                g.setColor(Color.white);
+                g.setFont(new Font("Bookman Old Style", 1, 20));
+                g.drawString("No Card",20,100);  
+            }
+        }
+    }
+   
     public boolean getSelectionSeqIsEmpty() {
         return selectionSeq.isEmpty();
     }
     
-    public void paintCombatPanel(Graphics g){
-        //empty for now
+    public void paintCombatPanel(Graphics g){ //paint all the details of the cards and units on the table
+        
+        
+        
+        
+        
     }
     
+     
 }

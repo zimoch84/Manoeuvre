@@ -30,6 +30,7 @@ public class Player  implements Serializable{
     CardSet hand;
     CardSet drawPile;
     CardSet discardPile;
+    CardSet tablePile;
     
     ArrayList<Unit> army;
     
@@ -66,6 +67,7 @@ public class Player  implements Serializable{
         this.hand = new CardSet(5);     
              
         this.discardPile = new CardSet();
+        this.tablePile = new CardSet();
 
        
         hand.addRandomCardsFromOtherSet(5, drawPile);
@@ -125,6 +127,10 @@ public class Player  implements Serializable{
      
     public CardSet getDiscardPile() {
         return discardPile;
+    }
+    
+     public CardSet getTablePile() {
+        return tablePile;
     }
 
 
