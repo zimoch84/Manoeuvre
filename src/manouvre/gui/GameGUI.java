@@ -52,7 +52,7 @@ public class GameGUI {
         this.drawSetGui = new CardSetGUI(game.getCurrentPlayer().getDrawPile());//empty
        
     }
-//------------- MAP - RIGHT UPPER CORNER OF THE SCREEN -----------------------------------
+//------------- MAP - LEFT UPPER CORNER OF THE SCREEN -----------------------------------
     void drawMap(Graphics g) {
         int gap = 5;
         // draw background

@@ -27,36 +27,6 @@ import manouvre.game.Unit;
 import manouvre.game.interfaces.PositionInterface;
 import manouvre.network.client.SocketClient;
 import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
 
 /**
  *
@@ -135,7 +105,7 @@ public class GameWindow extends javax.swing.JFrame {
         initComponents();
         game=new Game(new Player("Bartek"));
         gameGui = new GameGUI(game); //TEMP
-        
+      
         gameGui.getGame().getMap(); //TEMP
        
         gameGui.mapGui = new MapGUI(game.getMap());
@@ -563,7 +533,7 @@ public class GameWindow extends javax.swing.JFrame {
                 .addGroup(buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton9)
                     .addComponent(jButton1))
-                .addGap(18, 21, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(chatPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -727,6 +697,9 @@ public class GameWindow extends javax.swing.JFrame {
         mainMapPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 mainMapPanelMouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                mainMapPanelMouseReleased(evt);
             }
         });
 
@@ -933,7 +906,10 @@ public class GameWindow extends javax.swing.JFrame {
     private void mainMapPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainMapPanelMouseClicked
         int x = evt.getPoint().x;
         int y = evt.getPoint().y;
-
+       
+        if(game.getPhase()==2){ //player must be in phase 2 to be able to move units
+            
+        
         if(! gameGui.mapGui.isUnitSelected() )
         for(TerrainGUI terrainGUI: gameGui.mapGui.getTerrainsGUI())
         {
@@ -1001,7 +977,11 @@ public class GameWindow extends javax.swing.JFrame {
             // game.moveUnit(  , newPosition);
 
         }
-
+        
+        }
+        //else
+       
+        
     }//GEN-LAST:event_mainMapPanelMouseClicked
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
@@ -1009,6 +989,10 @@ public class GameWindow extends javax.swing.JFrame {
      game.nextPhase();
       this.repaint();
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void mainMapPanelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainMapPanelMouseReleased
+  //nothing
+    }//GEN-LAST:event_mainMapPanelMouseReleased
     
     /**
 	 * check whether the mouse is currently over this piece
