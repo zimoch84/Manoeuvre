@@ -802,21 +802,7 @@ public class GameWindow extends javax.swing.JFrame {
     private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden
         // TODO add your handling code here:
     }//GEN-LAST:event_formComponentHidden
-    private UnitGUI getUnitGuiOnMapGui(Position position){
     
-           for(UnitGUI unitSearch: gameGui.unitsGui){
-        
-            if(unitSearch.getUnit().getPos().equals(position))
-            {
-                return unitSearch;
-              }
-            
-        
-        }
-              
-        return null;
-    
-    }
     
     
     
@@ -906,7 +892,7 @@ public class GameWindow extends javax.swing.JFrame {
                 if(game.checkUnitAtPosition(selectedPosition) ) {
 
                     gameGui.mapGui.setUnitSelected(true);
-                    getUnitGuiOnMapGui(selectedPosition).setSelected(true);
+                    gameGui.getUnitGuiOnMapGui(selectedPosition).setSelected(true);
 
                 }
 
