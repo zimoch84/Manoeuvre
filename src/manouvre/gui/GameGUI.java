@@ -7,14 +7,11 @@ package manouvre.gui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.io.File;
 import java.io.IOException;
-import static java.lang.Math.round;
 import java.util.ArrayList;
 import manouvre.game.Game;
 import manouvre.game.Position;
 import manouvre.game.Unit;
-import javax.imageio.ImageIO;
 import static java.lang.Math.round;
 
 
@@ -169,7 +166,7 @@ public class GameGUI {
     {   
         float f=0.5f; //scale factor //Normally cards has 260x375 pixels
         int width=round(260*f), height=round(375*f);
-        int cardPaddingTop=70;
+        int cardPaddingTop=20;
         int cardPaddingLeft=20;
         int cardPaddingTopTemp=cardPaddingTop;
         int gap = 5;    
