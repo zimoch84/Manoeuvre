@@ -717,7 +717,7 @@ public class GameWindow extends javax.swing.JFrame {
             mainMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainMapPanelLayout.createSequentialGroup()
                 .addComponent(jLabel4)
-                .addContainerGap(661, Short.MAX_VALUE))
+                .addContainerGap(611, Short.MAX_VALUE))
         );
 
         playerHandPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -754,7 +754,7 @@ public class GameWindow extends javax.swing.JFrame {
             .addGroup(playerHandPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(232, Short.MAX_VALUE))
+                .addContainerGap(292, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout mainWindowPanelLayout = new javax.swing.GroupLayout(mainWindowPanel);
@@ -771,7 +771,7 @@ public class GameWindow extends javax.swing.JFrame {
                 .addGroup(mainWindowPanelLayout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(mainMapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(609, Short.MAX_VALUE)))
+                    .addContainerGap(628, Short.MAX_VALUE)))
         );
         mainWindowPanelLayout.setVerticalGroup(
             mainWindowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -787,7 +787,7 @@ public class GameWindow extends javax.swing.JFrame {
                 .addGroup(mainWindowPanelLayout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(mainMapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(431, Short.MAX_VALUE)))
+                    .addContainerGap(518, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -805,8 +805,8 @@ public class GameWindow extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(mainWindowPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(mainWindowPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1091, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addComponent(jLabel5)
                 .addContainerGap())
         );
