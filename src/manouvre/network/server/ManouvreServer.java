@@ -194,7 +194,7 @@ public class ManouvreServer implements Runnable {
                 ui.RetryStart();
 	    }
 
-        }
+        } 
     }
 	
     public void start(){  
@@ -630,7 +630,7 @@ public class ManouvreServer implements Runnable {
      }
      
      
-  public boolean isGameRoom(GameRoom ingameroom){
+    public boolean isGameRoom(GameRoom ingameroom){
      
      for(GameRoom room : getRooms())
          {
@@ -642,7 +642,6 @@ public class ManouvreServer implements Runnable {
      return false;
      
      }
-     
      
      
     public static String getStackTrace(final Throwable throwable) {

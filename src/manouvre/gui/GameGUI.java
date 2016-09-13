@@ -349,5 +349,30 @@ public class GameGUI {
         
     }
     
+    public UnitGUI getUnitGuiOnMapGui(Position position){
+    
+           for(UnitGUI unitSearch: getUnitsGui()){
+        
+            if(unitSearch.getUnit().getPos().equals(position))
+            {
+                return unitSearch;
+              }
+            
+        
+        }
+              
+        return null;
+    
+    }
+    
+    
+    public ArrayList<UnitGUI> getUnitsGui() {
+        return unitsGui;
+    }
+
+    public void setUnitsGui(ArrayList<UnitGUI> unitsGui) {
+        this.unitsGui = unitsGui;
+    }
+    
      
 }
