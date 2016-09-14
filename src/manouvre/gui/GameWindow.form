@@ -337,11 +337,7 @@
                                           <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                                           <Component id="buttonToNextPhase" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <Group type="102" attributes="0">
-                                          <Component id="moveButton" min="-2" pref="71" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="79" max="-2" attributes="0"/>
-                                          <Component id="playCardButton" min="-2" max="-2" attributes="0"/>
-                                      </Group>
+                                      <Component id="playCardButton" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -359,10 +355,7 @@
                               <Component id="buttonToNextPhase" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="playCardButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="moveButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="playCardButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace pref="21" max="32767" attributes="0"/>
                           <Component id="chatPanel" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -371,15 +364,6 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JButton" name="moveButton">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Move"/>
-                    <Property name="enabled" type="boolean" value="false"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="moveButtonActionPerformed"/>
-                  </Events>
-                </Component>
                 <Component class="javax.swing.JLabel" name="jLabel7">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Phase"/>
@@ -476,7 +460,7 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="buttonPhaseName">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Phasse Name"/>
+                    <Property name="text" type="java.lang.String" value="Phase Name"/>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>

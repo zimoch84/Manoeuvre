@@ -70,7 +70,7 @@ public class Player  implements Serializable{
         this.tablePile = new CardSet();
 
        
-        hand.addRandomCardsFromOtherSet(5, drawPile);
+        hand.addRandomCardsFromOtherSet(5, drawPile, true);
         hand.sortCard();  
     }
 

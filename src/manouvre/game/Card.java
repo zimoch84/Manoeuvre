@@ -92,7 +92,7 @@ public class Card implements CardInterface{
     String UnitDescr="";
  			
     boolean canceled=false;
-    boolean playable=true;
+    boolean playable=false;
 
    
     

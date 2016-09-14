@@ -96,12 +96,13 @@ public class CardSet implements CardSetInterface{
      * @param otherCardSet - other set of Cards
      *  
      */
-    public void addRandomCardsFromOtherSet(int range, CardSetInterface otherCardSet){ //add the card from another Set (f.ex. Deck)
+    public void addRandomCardsFromOtherSet(int range, CardSetInterface otherCardSet, boolean setPlayable){ //add the card from another Set (f.ex. Deck)
        Card randomCard;
       
        
        for(int i=0; i<range; i++){
            randomCard=otherCardSet.dealRandomCardFromThisSet();
+       if(setPlayable==true) randomCard.setPlayable(true);//false by 
        if (cardList.size()<cardSetSize){  //if it is possible to add the card  
            cardList.add(randomCard);  //add the card
        }
@@ -176,6 +177,12 @@ public class CardSet implements CardSetInterface{
     
     public Card getCardByPosInSet(int cardPosition){
        return cardList.get(cardPosition);     
+    }
+    public String getCardNameByPosInSet(int cardPosition){
+       return cardList.get(cardPosition).getCardName();     
+    }
+    public int getCardTypeByPosInSet(int cardPosition){
+       return cardList.get(cardPosition).getCardType();     
     }
     
      public int getCardIDByPosInSet(int cardPosition){

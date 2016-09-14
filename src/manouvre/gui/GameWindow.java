@@ -153,12 +153,44 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
  
     private void drawCard(Graphics g )                 
     {   
+        playCardButton.setEnabled(!gameGui.getSelectionSeqIsEmpty()&&game.getPhase()!=0&&game.getPhase()!=1);         
         gameGui.paintHand(g,  handMouseCoorX, handMouseCoorY, mouseClickedOnHand); 
         mouseClickedOnHand=0; 
-      //  jButton8.setEnabled(!gameGui.getSelectionSeqIsEmpty()&&game.getPhase()==0);
-      //  jButton7.setEnabled(gameGui.numberOfDiscardedCards>0&&game.getPhase()==1);
-        playCardButton.setEnabled(!gameGui.getSelectionSeqIsEmpty()&&game.getPhase()!=0&&game.getPhase()!=1);
-        moveButton.setEnabled(game.getPhase()==2);
+         //set switches
+         buttonPhaseName.setEnabled(false);
+         switch(game.getPhase()){
+           case 0:
+           {
+            buttonPhaseName.setEnabled(!gameGui.getSelectionSeqIsEmpty());
+            buttonPhaseName.setText("Discard");
+            return;
+           }
+           case 1:
+           {
+             buttonPhaseName.setEnabled(gameGui.numberOfDiscardedCards>0);
+             buttonPhaseName.setText("Draw");
+              return;
+           }
+           case 2:
+           {
+            buttonPhaseName.setEnabled(true);  
+            buttonPhaseName.setText("Move");
+             return;
+           }
+           case 3:
+           {
+            buttonPhaseName.setEnabled(true);  
+            buttonPhaseName.setText("Combat");
+             return;
+           }
+            case 4:
+           {
+            buttonPhaseName.setEnabled(true);  
+            buttonPhaseName.setText("Restoration");
+             return;
+           }
+         }
+        
     }
     
     private void drawDiscard(Graphics g )                 
@@ -222,7 +254,6 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         jLabel8 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         buttonsPanel = new javax.swing.JPanel();
-        moveButton = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         chatPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -394,14 +425,6 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         buttonsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Phase Panel"));
         buttonsPanel.setOpaque(false);
 
-        moveButton.setText("Move");
-        moveButton.setEnabled(false);
-        moveButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                moveButtonActionPerformed(evt);
-            }
-        });
-
         jLabel7.setText("Phase");
 
         chatPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Chat / Game Log"));
@@ -460,7 +483,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             }
         });
 
-        buttonPhaseName.setText("Phasse Name");
+        buttonPhaseName.setText("Phase Name");
         buttonPhaseName.setEnabled(false);
         buttonPhaseName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -486,10 +509,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                                 .addComponent(buttonPhaseName)
                                 .addGap(29, 29, 29)
                                 .addComponent(buttonToNextPhase))
-                            .addGroup(buttonsPanelLayout.createSequentialGroup()
-                                .addComponent(moveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(79, 79, 79)
-                                .addComponent(playCardButton)))))
+                            .addComponent(playCardButton))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         buttonsPanelLayout.setVerticalGroup(
@@ -501,9 +521,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                     .addComponent(buttonPhaseName)
                     .addComponent(buttonToNextPhase))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(playCardButton)
-                    .addComponent(moveButton))
+                .addComponent(playCardButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(chatPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -807,9 +825,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         // TODO add your handling code here:
     }//GEN-LAST:event_formComponentHidden
     
-    
-    
-    
+
     
     private void playerHandPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseClicked
      
@@ -859,7 +875,6 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         {
 
             terrainGUI.setSelected(false);
-            //game.getMap().getTileAtIndex( terrainGUI.getPos().getX(), terrainGUI.getPos().getY() ).setSelected(false);
             if(mouseOverPiece(terrainGUI,x,y))
             {
                 terrainGUI.setSelected(true);
@@ -933,7 +948,31 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
     }//GEN-LAST:event_mainMapPanelMouseReleased
 
     private void buttonPhaseNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPhaseNameActionPerformed
-        // TODO add your handling code here:
+       switch(game.getPhase()){
+           case 0:
+           {
+               gameGui.discardSelCards();
+               this.repaint();
+               return;
+           }
+           case 1:
+           {
+               gameGui.drawCards();
+               this.repaint();
+               return;
+           }
+           case 2:
+           {
+                game.nextPhase();  //move
+                this.repaint();
+                return;
+           }
+           case 3:
+                game.nextPhase();   //restoration
+                this.repaint();
+                return;
+       }
+           
     }//GEN-LAST:event_buttonPhaseNameActionPerformed
 
     private void playCardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playCardButtonActionPerformed
@@ -955,11 +994,6 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             client.send(new Message("message", game.getCurrentPlayer().getName(), msg, target));
         }
     }//GEN-LAST:event_sendMessageButtonActionPerformed
-
-    private void moveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moveButtonActionPerformed
-        game.nextPhase();        // TODO add your handling code here:
-        this.repaint();
-    }//GEN-LAST:event_moveButtonActionPerformed
     
     /**
 	 * check whether the mouse is currently over this piece
@@ -1053,7 +1087,6 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel mainMapPanel;
     private javax.swing.JPanel mainWindowPanel;
-    private javax.swing.JButton moveButton;
     private javax.swing.JPanel opponentPlayerPanel;
     private javax.swing.JButton playCardButton;
     private javax.swing.JPanel playerDrawLeftPanel;

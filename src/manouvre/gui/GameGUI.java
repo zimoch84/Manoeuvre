@@ -173,7 +173,6 @@ public class GameGUI {
         int cardPaddingTopTemp=cardPaddingTop;
         int gap = 5;    
         for (int i=0; i<handSetGui.cardsLeftInSet(); i++){  
-            
            if(mouseCoorY>(cardPaddingTop-20*handSetGui.getCardByPosInSet(i).isOverCard()-20*handSetGui.getCardByPosInSet(i).isSelected()) && mouseCoorY<(cardPaddingTop+height)){ // if mouse is in row with cards
                 if ((mouseCoorX>cardPaddingLeft+(gap*i)+width*(i)) && mouseCoorX<(cardPaddingLeft+(gap*i)+width*(i+1))){ //if mouse is in th collon with card
                     handSetGui.getCardByPosInSet(i).setOverCard(1);
@@ -184,19 +183,21 @@ public class GameGUI {
             }  
             else  handSetGui.getCardByPosInSet(i).setOverCard(0);
             if(mouseClick==1&&handSetGui.getCardByPosInSet(i).isOverCard()==1){
-                if(handSetGui.getCardByPosInSet(i).isSelected()==0) {
-                    handSetGui.getCardByPosInSet(i).setSelected(1);
-                    selectionSeq.add(handSetGui.getCardIDByPosInSet(i)); 
-                }   
-                else {
-                    handSetGui.getCardByPosInSet(i).setSelected(0);
-                    Integer j=handSetGui.getCardIDByPosInSet(i);
-                    selectionSeq.remove(j); //remove number Integer j, not position int i
-                }           
+                if(game.getCurrentPlayer().getHand().getCardByPosInSet(i).isPlayable()){ //select card if it is playable
+                    if(handSetGui.getCardByPosInSet(i).isSelected()==0) {
+                        handSetGui.getCardByPosInSet(i).setSelected(1);
+                        selectionSeq.add(handSetGui.getCardIDByPosInSet(i)); 
+                    }   
+                    else {
+                        handSetGui.getCardByPosInSet(i).setSelected(0);
+                        Integer j=handSetGui.getCardIDByPosInSet(i);
+                        selectionSeq.remove(j); //remove number Integer j, not position int i
+                    }  
+                }
             }
-            if(handSetGui.getCardByPosInSet(i).isOverCard()==1 || handSetGui.getCardByPosInSet(i).isSelected()==1) cardPaddingTopTemp=cardPaddingTop-20;
-            else cardPaddingTopTemp=cardPaddingTop;
-            g.drawImage(handSetGui.getCardByPosInSet(i).getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTopTemp, width, height, null);       
+                if((handSetGui.getCardByPosInSet(i).isOverCard()==1 || handSetGui.getCardByPosInSet(i).isSelected()==1)&&game.getCurrentPlayer().getHand().getCardByPosInSet(i).isPlayable()) cardPaddingTopTemp=cardPaddingTop-20;
+                else cardPaddingTopTemp=cardPaddingTop;
+                g.drawImage(handSetGui.getCardByPosInSet(i).getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTopTemp, width, height, null);       
         }
                 Integer j=0;
                 if(!selectionSeq.isEmpty()){ 
@@ -233,22 +234,16 @@ public class GameGUI {
             discardSetGui.reSet(); //reset GUI
             drawSetGui.reSet(); //reset GUI
     }
-    public void setCardsInHandAsPlayableDueToPhase(boolean isDiscard, boolean isMove){
-      
-        for(int i=0; i<handSetGui.cardsLeftInSet(); i++){
-              if (game.getPhase()==0){
-                  game.getCurrentPlayer().getHand().getCardByPosInSet(i).setPlayable(true);
-              }
-              if (game.getPhase()==1){
-                 // if(handSetGui.getCardIDByPosInSet(i))
-
-              }
-         }
-       
-        
-//all playable in discard
-        //Supply and Forced March in Move Phase
+    
+    public void drawCards(){
+        game.getCurrentPlayer().getHand().addRandomCardsFromOtherSet(numberOfDiscardedCards, game.getCurrentPlayer().getDrawPile(), false);
+        game.getCurrentPlayer().getHand().sortCard();
+        handSetGui.reSet(); //reset GUI
+        discardSetGui.reSet(); //reset GUI
+        drawSetGui.reSet(); //reset GUI
+        numberOfDiscardedCards=0; 
     }
+    
     
     public void setCardInHandAsPlayableBasedOnHandPos(int cardInHandPos){
         
@@ -281,15 +276,7 @@ public class GameGUI {
         return selectionSeq.isEmpty();
     }
     
-    public void drawCards(){
-        game.getCurrentPlayer().getHand().addRandomCardsFromOtherSet(numberOfDiscardedCards, game.getCurrentPlayer().getDrawPile());
-        game.getCurrentPlayer().getHand().sortCard();
-        handSetGui.reSet(); //reset GUI
-        discardSetGui.reSet(); //reset GUI
-        drawSetGui.reSet(); //reset GUI
-        numberOfDiscardedCards=0; 
-       
-    }
+   
             
     public void paintDiscard(Graphics g){
         float f=0.41f; //scale factor //Normally cards has 260x375 pixels
