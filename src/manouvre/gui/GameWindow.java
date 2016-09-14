@@ -154,8 +154,8 @@ public class GameWindow extends javax.swing.JFrame {
     {   
         gameGui.paintHand(g,  handMouseCoorX, handMouseCoorY, mouseClickedOnHand); 
         mouseClickedOnHand=0; 
-        jButton8.setEnabled(!gameGui.getSelectionSeqIsEmpty()&&game.getPhase()==0);
-        jButton7.setEnabled(gameGui.numberOfDiscardedCards>0&&game.getPhase()==1);
+      //  jButton8.setEnabled(!gameGui.getSelectionSeqIsEmpty()&&game.getPhase()==0);
+      //  jButton7.setEnabled(gameGui.numberOfDiscardedCards>0&&game.getPhase()==1);
         playCardButton.setEnabled(!gameGui.getSelectionSeqIsEmpty()&&game.getPhase()!=0&&game.getPhase()!=1);
         moveButton.setEnabled(game.getPhase()==2);
     }
@@ -221,13 +221,6 @@ public class GameWindow extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         buttonsPanel = new javax.swing.JPanel();
-        jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         moveButton = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         chatPanel = new javax.swing.JPanel();
@@ -235,8 +228,9 @@ public class GameWindow extends javax.swing.JFrame {
         chatTextArea = new javax.swing.JTextArea();
         sendMessageButton = new javax.swing.JButton();
         sendText = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        buttonToNextPhase = new javax.swing.JButton();
         playCardButton = new javax.swing.JButton();
+        buttonPhaseName = new javax.swing.JButton();
         dicePanel = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         opponentPlayerPanel = new javax.swing.JPanel();
@@ -399,42 +393,6 @@ public class GameWindow extends javax.swing.JFrame {
         buttonsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Phase Panel"));
         buttonsPanel.setOpaque(false);
 
-        jButton8.setText("Discard");
-        jButton8.setEnabled(false);
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
-            }
-        });
-
-        jButton9.setText("Restore");
-        jButton9.setEnabled(false);
-
-        jButton7.setText("Draw");
-        jButton7.setEnabled(false);
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
-            }
-        });
-
-        jButton6.setText("Bombard");
-        jButton6.setEnabled(false);
-
-        jButton5.setText("Volley");
-        jButton5.setEnabled(false);
-
-        jButton4.setText("Ambush");
-        jButton4.setEnabled(false);
-
-        jButton3.setText("Assault");
-        jButton3.setEnabled(false);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
         moveButton.setText("Move");
         moveButton.setEnabled(false);
         moveButton.addActionListener(new java.awt.event.ActionListener() {
@@ -486,10 +444,10 @@ public class GameWindow extends javax.swing.JFrame {
                     .addComponent(sendMessageButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        jButton1.setText("Skip");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        buttonToNextPhase.setText("to Next Phase");
+        buttonToNextPhase.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                buttonToNextPhaseActionPerformed(evt);
             }
         });
 
@@ -501,64 +459,50 @@ public class GameWindow extends javax.swing.JFrame {
             }
         });
 
+        buttonPhaseName.setText("Phasse Name");
+        buttonPhaseName.setEnabled(false);
+        buttonPhaseName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonPhaseNameActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout buttonsPanelLayout = new javax.swing.GroupLayout(buttonsPanel);
         buttonsPanel.setLayout(buttonsPanelLayout);
         buttonsPanelLayout.setHorizontalGroup(
             buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(buttonsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(chatPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
-            .addGroup(buttonsPanelLayout.createSequentialGroup()
-                .addGap(1, 1, 1)
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(buttonsPanelLayout.createSequentialGroup()
-                        .addComponent(jButton9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
-                        .addGap(45, 45, 45)
-                        .addComponent(playCardButton))
+                        .addContainerGap()
+                        .addComponent(chatPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(buttonsPanelLayout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(buttonsPanelLayout.createSequentialGroup()
-                                .addComponent(jButton8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(moveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(buttonPhaseName)
+                                .addGap(29, 29, 29)
+                                .addComponent(buttonToNextPhase))
                             .addGroup(buttonsPanelLayout.createSequentialGroup()
-                                .addComponent(jButton3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton6)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(moveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(79, 79, 79)
+                                .addComponent(playCardButton)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         buttonsPanelLayout.setVerticalGroup(
             buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, buttonsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton8)
-                        .addComponent(jButton7)
-                        .addComponent(moveButton))
-                    .addComponent(jLabel7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jLabel7)
+                    .addComponent(buttonPhaseName)
+                    .addComponent(buttonToNextPhase))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton9)
-                    .addComponent(jButton1)
-                    .addComponent(playCardButton))
+                    .addComponent(playCardButton)
+                    .addComponent(moveButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(chatPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -713,7 +657,7 @@ public class GameWindow extends javax.swing.JFrame {
                     .addComponent(tablePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(combatPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(dicePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 13, Short.MAX_VALUE))
+                .addGap(0, 15, Short.MAX_VALUE))
             .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(rightSidePanelLayout.createSequentialGroup()
                     .addContainerGap()
@@ -868,25 +812,6 @@ public class GameWindow extends javax.swing.JFrame {
     
     
     
-    private void moveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moveButtonActionPerformed
-        game.nextPhase();        // TODO add your handling code here:
-         this.repaint();
-    }//GEN-LAST:event_moveButtonActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void sendMessageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendMessageButtonActionPerformed
-        String msg = sendText.getText();
-        String target = "All";
-
-        if(!msg.isEmpty() && !target.isEmpty()){
-            sendText.setText("");
-            client.send(new Message("message", game.getCurrentPlayer().getName(), msg, target));
-        }
-    }//GEN-LAST:event_sendMessageButtonActionPerformed
-
     private void playerHandPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseClicked
      
                 mouseClickedOnHand=1;       
@@ -922,18 +847,6 @@ public class GameWindow extends javax.swing.JFrame {
                 
                 
     }//GEN-LAST:event_playerHandPanelMouseMoved
-
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-       gameGui.discardSelCards();
-       game.nextPhase();
-        this.repaint();
-        // TODO add your hadgdndling code here:
-    }//GEN-LAST:event_jButton8ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-    game.nextPhase();        // TODO add your handling code here:
-     this.repaint();
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void mainMapPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainMapPanelMouseClicked
         int x = evt.getPoint().x;
@@ -1016,20 +929,38 @@ public class GameWindow extends javax.swing.JFrame {
         
     }//GEN-LAST:event_mainMapPanelMouseClicked
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-     gameGui.drawCards();
-     game.nextPhase();
-      this.repaint();
-    }//GEN-LAST:event_jButton7ActionPerformed
-
     private void mainMapPanelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainMapPanelMouseReleased
   //nothing
     }//GEN-LAST:event_mainMapPanelMouseReleased
 
+    private void buttonPhaseNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPhaseNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonPhaseNameActionPerformed
+
     private void playCardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playCardButtonActionPerformed
-    gameGui.playSelectedCard();
-      this.repaint();
+        gameGui.playSelectedCard();
+        this.repaint();
     }//GEN-LAST:event_playCardButtonActionPerformed
+
+    private void buttonToNextPhaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonToNextPhaseActionPerformed
+        game.nextPhase();        // TODO add your handling code here:
+        this.repaint();
+    }//GEN-LAST:event_buttonToNextPhaseActionPerformed
+
+    private void sendMessageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendMessageButtonActionPerformed
+        String msg = sendText.getText();
+        String target = "All";
+
+        if(!msg.isEmpty() && !target.isEmpty()){
+            sendText.setText("");
+            client.send(new Message("message", game.getCurrentPlayer().getName(), msg, target));
+        }
+    }//GEN-LAST:event_sendMessageButtonActionPerformed
+
+    private void moveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moveButtonActionPerformed
+        game.nextPhase();        // TODO add your handling code here:
+        this.repaint();
+    }//GEN-LAST:event_moveButtonActionPerformed
     
     /**
 	 * check whether the mouse is currently over this piece
@@ -1097,6 +1028,8 @@ public class GameWindow extends javax.swing.JFrame {
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonPhaseName;
+    private javax.swing.JButton buttonToNextPhase;
     private javax.swing.JPanel buttonsPanel;
     private javax.swing.JPanel chatPanel;
     private javax.swing.JTextArea chatTextArea;
@@ -1105,14 +1038,6 @@ public class GameWindow extends javax.swing.JFrame {
     private javax.swing.JPanel dicePanel;
     private javax.swing.JPanel discardPanel;
     private javax.swing.JPanel discardPanel1;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
