@@ -180,7 +180,6 @@ public class Game {
     
     public void generateMap(){
         this.map = new Map();
-         System.out.println("Map Generated");
              }
      public Map getMap() {
         return map;

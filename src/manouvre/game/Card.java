@@ -91,6 +91,10 @@ public class Card implements CardInterface{
     String LederGrandBatt="";                          
     String UnitDescr="";
  			
+    boolean canceled=false;
+    boolean playable=true;
+
+   
     
     public Card (int chosenID) { 
         try {		
@@ -169,11 +173,11 @@ public class Card implements CardInterface{
     public int getCardType() {
          switch (CardType){
             case "Unit": 
-                return UNIT;
+                return 0;
             case "HqUnit":
-                return HQUNIT;
+                return 1;
             case "HqLeader":
-                return HQLEADER;
+                return 2;
            
         }          
         return 99; //if else return wrong value
@@ -262,6 +266,15 @@ public class Card implements CardInterface{
     public void setCancelled() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    public void setPlayable(boolean playable) {
+        this.playable = playable;
+    }
+    
+    public boolean isPlayable() {
+        return playable;
+    }
+
 
 }
 

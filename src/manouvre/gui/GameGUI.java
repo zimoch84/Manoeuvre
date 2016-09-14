@@ -6,6 +6,7 @@
 package manouvre.gui;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -201,9 +202,6 @@ public class GameGUI {
                 if(!selectionSeq.isEmpty()){ 
                    
                     j=selectionSeq.get(selectionSeq.size()-1);              
-
-                    System.out.println("selectionSeq Last:" + j); 
-                    System.out.println("selectionSeq Last Position in hand:" + handSetGui.getPositionInSetByCardID(j)); 
                     j=handSetGui.getPositionInSetByCardID(j); 
                     int[] xPoints={cardPaddingLeft+35+width*j+(gap*j),cardPaddingLeft+95+width*j+(gap*j),cardPaddingLeft+35+(95-35)/2+width*j+(gap*j)};
                     int[] yPoints={cardPaddingTop+190,cardPaddingTop+190,cardPaddingTop+178};
@@ -235,6 +233,35 @@ public class GameGUI {
             discardSetGui.reSet(); //reset GUI
             drawSetGui.reSet(); //reset GUI
     }
+    public void setCardsInHandAsPlayableDueToPhase(boolean isDiscard, boolean isMove){
+      
+        for(int i=0; i<handSetGui.cardsLeftInSet(); i++){
+              if (game.getPhase()==0){
+                  game.getCurrentPlayer().getHand().getCardByPosInSet(i).setPlayable(true);
+              }
+              if (game.getPhase()==1){
+                 // if(handSetGui.getCardIDByPosInSet(i))
+
+              }
+         }
+       
+        
+//all playable in discard
+        //Supply and Forced March in Move Phase
+    }
+    
+    public void setCardInHandAsPlayableBasedOnHandPos(int cardInHandPos){
+        
+    }
+    
+
+    
+    public boolean oneSelectedCardCanBePlayed(){
+        for (int i=0; i<selectionSeq.size(); i++){   
+            
+        }
+        return false;
+    }
     
     public void playSelectedCard(){
          for (int i=0; i<selectionSeq.size(); i++){   
@@ -248,6 +275,12 @@ public class GameGUI {
             tableSetGui.reSet();
     
     }
+    
+
+    public boolean getSelectionSeqIsEmpty() {
+        return selectionSeq.isEmpty();
+    }
+    
     public void drawCards(){
         game.getCurrentPlayer().getHand().addRandomCardsFromOtherSet(numberOfDiscardedCards, game.getCurrentPlayer().getDrawPile());
         game.getCurrentPlayer().getHand().sortCard();
@@ -288,23 +321,46 @@ public class GameGUI {
         g.drawString(drawLeft.toString(),20,110); 
     }
     
+   public static void drawStringMultiLine(Graphics g, String text, int lineWidth, int x, int y) {
+    FontMetrics m = g.getFontMetrics();
+    if(m.stringWidth(text) < lineWidth) {
+        g.drawString(text, x, y);
+    } else {
+        String[] words = text.split(" ");
+        String currentLine = words[0];
+        for(int i = 1; i < words.length; i++) {
+            if(m.stringWidth(currentLine+words[i]) < lineWidth) {
+                currentLine += " "+words[i];
+            } else {
+                g.drawString(currentLine, x, y);
+                y += m.getHeight();
+                currentLine = words[i];
+            }
+        }
+        if(currentLine.trim().length() > 0) {
+            g.drawString(currentLine, x, y);
+        }
+    }
+}
+    
     public void paintTablePanel(Graphics g){
+        Integer tempInt;
+        String tempString;
         int gap=5;
         float f=0.41f; //scale factor //Normally cards has 260x375 pixels
         int width=round(260*f), height=round(375*f);
         int cardPaddingTop=16;
         int cardPaddingLeft=10;
-         int cardPaddingTopText=138;
+        int cardPaddingTopText=138;
         for (int i=0; i<tableSetGui.cardsLeftInSet(); i++){  
             if(tableSetGui.cardsLeftInSet()>0){
              g.drawImage(tableSetGui.getCardByPosInSet(i).getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTop, width, height, null);   
-             
-             
+             if(tableSetGui.getCardByPosInSet(i).card.getCardType()==0){ //if UNIT card selected
                 g.setColor(Color.white);
                 g.setFont(new Font("Bookman Old Style", 1, 11));
                 
-                Integer tempInt=tableSetGui.getCardByPosInSet(i).card.getUnitAttack();
-                String tempString=tempInt.toString();
+                tempInt=tableSetGui.getCardByPosInSet(i).card.getUnitAttack();
+                tempString=tempInt.toString();
                 g.drawString("Attack",cardPaddingLeft+width*i+(gap*i)+0,44+cardPaddingTopText); g.drawString(tempString, cardPaddingLeft+width*i+(gap*i)+55,44+cardPaddingTopText);
                 
                 tempInt=tableSetGui.getCardByPosInSet(i).card.getUnitDefence();
@@ -327,7 +383,36 @@ public class GameGUI {
                tempInt=tableSetGui.getCardByPosInSet(i).card.getUnitBombard();
                 tempString=tempInt.toString();
                 g.drawString("Bombard",cardPaddingLeft+width*i+(gap*i)+0,94+cardPaddingTopText); g.drawString(tempString, cardPaddingLeft+width*i+(gap*i)+55,94+cardPaddingTopText);
-    
+             }
+             if(tableSetGui.getCardByPosInSet(i).card.getCardType()==1){//if HQUNIT card selected
+                g.setColor(Color.white);
+                g.setFont(new Font("Bookman Old Style", 1, 11));
+
+                tempString=tableSetGui.getCardByPosInSet(i).card.getUnitDescr();
+                drawStringMultiLine(g, tempString, 100, cardPaddingLeft+width*i+(gap*i)+5,44+cardPaddingTopText); 
+             }
+             
+             if(tableSetGui.getCardByPosInSet(i).card.getCardType()==2){//if HQLeader card selected
+                g.setColor(Color.white);
+                g.setFont(new Font("Bookman Old Style", 1, 11));
+                
+                tempString=tableSetGui.getCardByPosInSet(i).card.getLederCommand();
+                g.drawString("Command",cardPaddingLeft+width*i+(gap*i)+0,44+cardPaddingTopText); g.drawString(tempString, cardPaddingLeft+width*i+(gap*i)+55,44+cardPaddingTopText);
+                
+                tempInt=tableSetGui.getCardByPosInSet(i).card.getLederCombat();
+                tempString=tempInt.toString();
+                g.drawString("Defence",cardPaddingLeft+width*i+(gap*i)+0,54+cardPaddingTopText); g.drawString(tempString, cardPaddingLeft+width*i+(gap*i)+55,54+cardPaddingTopText);
+                
+                tempInt=tableSetGui.getCardByPosInSet(i).card.getLederRally();
+                tempString=tempInt.toString();
+                g.drawString("Pursuit",cardPaddingLeft+width*i+(gap*i)+0,64+cardPaddingTopText); g.drawString(tempString, cardPaddingLeft+width*i+(gap*i)+55,64+cardPaddingTopText);
+                
+                tempString=tableSetGui.getCardByPosInSet(i).card.getLederGrandBatt();
+                g.drawString("Range",cardPaddingLeft+width*i+(gap*i)+0,74+cardPaddingTopText); g.drawString(tempString, cardPaddingLeft+width*i+(gap*i)+55,74+cardPaddingTopText);
+                
+                tempString=tableSetGui.getCardByPosInSet(i).card.getUnitDescr();
+                drawStringMultiLine(g, tempString, 100, cardPaddingLeft+width*i+(gap*i)+5,84+cardPaddingTopText);
+             }
             }
             else{
                 g.setColor(Color.white);
@@ -337,15 +422,9 @@ public class GameGUI {
         }
     }
    
-    public boolean getSelectionSeqIsEmpty() {
-        return selectionSeq.isEmpty();
-    }
-    
+   
     public void paintCombatPanel(Graphics g){ //paint all the details of the cards and units on the table
-        
-        
-        
-        
+      
         
     }
     
