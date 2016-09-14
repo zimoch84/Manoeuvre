@@ -18,15 +18,28 @@ import manouvre.network.client.SocketClient;
  */
 public class GameRoom implements Serializable {
     
-    transient ArrayList<Socket> sockets;
-
     ArrayList<Player> players;
     
     String name, password;
 
+    
+
     Game game;
 
+   /*
+        Port nasluchujacy serwera =  Port socketa klienta 
+        Port wynegocjowany z serwerem to localPort socketa klienta
+        
+        czyli client.socket.Port = server.liteningsocket.port = server.socket.localport
+        
+        client.socket.Localport = server.socket.port
+                
+        */
+    /**
+     * hostSocketPortId = server.host.socket.localPort = host.socket.port
+     * questSocketPortId = = server.quest.socket.localPort = quest.socket.port
     
+    */
     
     int hostSocketPortId, questSocketPortId;
 
@@ -40,34 +53,19 @@ public class GameRoom implements Serializable {
     boolean locked;
 
     
-
-    public GameRoom(String name, String password, Socket socket, Player player) {
+ 
+    
+    public GameRoom(String name, String password, int hostSocketPortId, Player player) {
         this.name = name;
         this.password = password;
-        sockets = new ArrayList<>();
+        
         players = new ArrayList<>();
         
-        hostSocketPortId = socket.getPort();
-        
-        players.add(player);
-        sockets.add(socket);
+        this.hostSocketPortId = hostSocketPortId;
+         players.add(player);
         
     }
-    
-    public void addSocket(Socket inSocket){
-        
-        if(!locked){
-        this.sockets.add(inSocket);
-        if (sockets.size() == 2) locked = true;
-        }
-        
-        //players.add(inSocket.welcome.getPlayer());
-        
-    }
-    public ArrayList<Socket> getSockets() {
-        return sockets;
-    }
-    
+     
     public void addPlayer(Player inPlayer){
         
         if(!locked){
@@ -139,10 +137,14 @@ public class GameRoom implements Serializable {
     public void setQuestSocketPortId(int questSocketPortId) {
         this.questSocketPortId = questSocketPortId;
     }
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
     
     
-    
-    
-    
-    
+
 }

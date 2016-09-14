@@ -2,6 +2,8 @@ package manouvre.network.client;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import manouvre.game.Game;
+import manouvre.game.Player;
 import manouvre.network.server.GameRoom;
 /**
  * 
@@ -33,6 +35,9 @@ public class Message implements Serializable{
     public final static int BYE = 15;
     public final static int SIGNOUT = 16;
     public final static int USER_LOGGED = 17;
+    public final static int CHAT_IN_ROOM = 18; 
+    public final static int START_GAME = 19; 
+    
     
     public final static int CHAT = 99;
     
@@ -54,15 +59,18 @@ public class Message implements Serializable{
     
     public int messageType, contentP;
 
+    Player[] players;
+
+    Game game;
+
+    
     
 
     
     
     ArrayList<GameRoom> channelList; 
     
-    int questSocketPortId;
-
-    
+   
 
       
     public Message(String type, String sender, String content, String recipient){
@@ -150,6 +158,8 @@ public class Message implements Serializable{
                     case SIGNOUT : out  = "SIGNOUT";break;
                     case USER_LOGGED : out  = "USER_LOGGED" ;break;
                     case CHAT : out  = "CHAT"; break;
+                    case CHAT_IN_ROOM : out  = "CHAT_IN_ROOM"; break;
+                    case START_GAME : out  = "START_GAME"; break;
                     
                     default: out = Integer.toString(getMessageType()) ;
                     
@@ -180,12 +190,19 @@ public class Message implements Serializable{
       public void setContent(String content) {
         this.content = content;
     }
-      
-    public int getQuestSocketPortId() {
-        return questSocketPortId;
+    
+    public Player[] getPlayers() {
+        return players;
     }
 
-    public void setQuestSocketPortId(int questSocketPortId) {
-        this.questSocketPortId = questSocketPortId;
+    public void setPlayers(Player[] players) {
+        this.players = players;
+    } 
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
     }
 }

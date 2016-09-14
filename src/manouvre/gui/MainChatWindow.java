@@ -30,6 +30,8 @@ import manouvre.game.Player;
 import manouvre.network.client.Message;
 import manouvre.network.client.SocketClient;
 import manouvre.network.server.GameRoom;
+import static java.lang.Thread.sleep;
+import manouvre.game.interfaces.FrameInterface;
 
 class GameRoomRenderer extends JLabel implements ListCellRenderer<GameRoom> {
  
@@ -98,7 +100,7 @@ class GameRoomListModel extends AbstractListModel{
 
 
 
-public class MainChatWindow extends javax.swing.JFrame {
+public class MainChatWindow extends javax.swing.JFrame implements FrameInterface{
 
     public SocketClient client;
     public DefaultListModel model;
@@ -574,13 +576,21 @@ public class MainChatWindow extends javax.swing.JFrame {
                       Message msg = new  Message (Message.JOIN_ROOM, player.getName(), selected.toString(), "SERVER" );
                       
                       msg.addGameRoom(selected);
-                      msg.setQuestSocketPortId(client.socket.getPort());
+                      selected.setQuestSocketPortId(client.socket.getPort());
+                     
                       
-                      client.send(new Message (Message.JOIN_ROOM, player.getName(), selected.toString(), "SERVER" ));
+                      client.send(msg);
         
       
     }//GEN-LAST:event_joinButtonActionPerformed
 
+    @Override
+    public void printOnChat(String inString)    {
+    
+    mainChat.append(inString+ "\n");
+    }
+    
+    
     public static void main(String args[]) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
