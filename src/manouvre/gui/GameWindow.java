@@ -27,12 +27,13 @@ import manouvre.game.Unit;
 import manouvre.game.interfaces.PositionInterface;
 import manouvre.network.client.SocketClient;
 import static java.lang.Math.abs;
+import manouvre.game.interfaces.FrameInterface;
 
 /**
  *
  * @author Piotr
  */
-public class GameWindow extends javax.swing.JFrame {
+public class GameWindow extends javax.swing.JFrame implements FrameInterface{
 
     /*
     Network variables
@@ -979,6 +980,7 @@ public class GameWindow extends javax.swing.JFrame {
 	
         }
         
+    @Override
     public void printOnChat(String inString)    {
     
     chatTextArea.append(inString+ "\n");

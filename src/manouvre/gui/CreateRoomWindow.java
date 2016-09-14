@@ -5,10 +5,10 @@
  */
 package manouvre.gui;
 
-import javax.swing.DefaultListModel;
 import manouvre.game.Player;
 import manouvre.network.client.Message;
 import manouvre.network.client.SocketClient;
+import manouvre.network.server.GameRoom;
 
 /**
  *
@@ -153,7 +153,20 @@ public class CreateRoomWindow extends javax.swing.JFrame {
     private void createChannelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createChannelButtonActionPerformed
 
         String channel = roomNameFieldText.getText() + "|" + passwordRoomFieldText.getText();
-        client.send(new Message(Message.CREATE_ROOM, player.getName(), channel , "SERVER" ));
+        /*
+        Port nasluchujacy serwera =  Port socketa klienta 
+        Port wynegocjowany z serwerem to localPort socketa klienta
+        czyli client.socket.Port = server.liteningsocket.port = server.socket.localport
+        client.socket.Localport = server.socket.port
+                
+        */
+        GameRoom room = new GameRoom(roomNameFieldText.getText(), passwordRoomFieldText.getText(), client.getSocket().getLocalPort(), player);
+        Message msg = new Message(Message.CREATE_ROOM, player.getName(), channel , "SERVER" );
+        msg.addGameRoom(room);
+        
+        client.send(msg);
+        
+        
   
         this.setVisible(false);
       
