@@ -96,10 +96,10 @@ public class TerrainGUI {
     }
      
      public int getWidth() {
-		return img.getWidth(null);
+		return MapGUI.SQUARE_WIDTH;
 	}
 
     public int getHeight() {
-		return img.getHeight(null);
+		return MapGUI.SQUARE_HEIGHT;
 	}
 }

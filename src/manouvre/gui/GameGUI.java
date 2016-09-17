@@ -14,6 +14,9 @@ import manouvre.game.Game;
 import manouvre.game.Position;
 import manouvre.game.Unit;
 import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
 
 
 
@@ -74,34 +77,35 @@ public class GameGUI {
         Draws selection
          */
         if (mapGui.isUnitSelected()) {
-            for (TerrainGUI terrain : mapGui.getTerrainsGUI()) {
-                if (terrain.isSelected()) {
+            for (TerrainGUI terrainGUI : mapGui.getTerrainsGUI()) {
+                if (terrainGUI.isSelected()) {
                     g.drawRoundRect(
-                            terrain.getPos().getMouseX() + gap, 
-                            terrain.getPos().getMouseY() + gap, 
+                            terrainGUI.getPos().getMouseX() + gap, 
+                            terrainGUI.getPos().getMouseY() + gap, 
                             MapGUI.SQUARE_WIDTH - 2 * gap, 
                             MapGUI.SQUARE_HEIGHT - 2 * gap, 
                             10, 10
                     );
-                    System.out.println("Position " + terrain.getPos());
+                    System.out.println("manouvre.gui.GameGUI.drawMap() " + terrainGUI.getPos().toString());
                     /*
                     Draw AdjencedSpace /Move
                      */
-                    if (!terrain.getTerrain().getIsOccupiedByUnit()) {
-                        ArrayList<Position> adjencedPositions = terrain.getPos().getAdjencedPositions();
-                        System.out.println(terrain.getPos().toString());
-                        g.setColor(Color.red);
-                        for (int k = 0; k < adjencedPositions.size(); k++) {
-                            g.drawRoundRect(
-                                    adjencedPositions.get(k).getMouseX() + gap, 
-                                    adjencedPositions.get(k).getMouseY() + gap, 
-                                    MapGUI.SQUARE_WIDTH - 2 * gap, 
-                                    MapGUI.SQUARE_HEIGHT - 2 * gap, 
-                                    10, 10);
-                        }
+                    if (!terrainGUI.getTerrain().getIsOccupiedByUnit()) {
+//                        ArrayList<Position> adjencedPositions = terrainGUI.getPos().getAdjencedPositions();
+//                        
+//                                               
+//                        g.setColor(Color.red);
+//                        for (int k = 0; k < adjencedPositions.size(); k++) {
+//                            g.drawRoundRect(
+//                                    adjencedPositions.get(k).getMouseX() + gap, 
+//                                    adjencedPositions.get(k).getMouseY() + gap, 
+//                                    MapGUI.SQUARE_WIDTH - 2 * gap, 
+//                                    MapGUI.SQUARE_HEIGHT - 2 * gap, 
+//                                    10, 10);
+//                        }
                     } else {
-                        System.out.println("manouvre.gui.ClientUI.drawMap() : " + game.getUnitAtPosition(terrain.getPos()).toString());
-                        ArrayList<Position> movePositions = game.getPossibleMovement(game.getUnitAtPosition(terrain.getPos()));
+                        System.out.println("manouvre.gui.ClientUI.drawMap() : " + game.getCurrentPlayerUnitAtPosition(terrainGUI.getPos()).toString());
+                        ArrayList<Position> movePositions = game.getPossibleMovement(game.getCurrentPlayerUnitAtPosition(terrainGUI.getPos()));
                         for (Position drawMovePosion : movePositions) {
                             g.setColor(Color.blue);
                             g.drawRoundRect(

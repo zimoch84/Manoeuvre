@@ -19,6 +19,7 @@ import manouvre.network.client.SocketClient;
 public class GameRoom implements Serializable {
     
     ArrayList<Player> players;
+
     
     String name, password;
 
@@ -62,7 +63,7 @@ public class GameRoom implements Serializable {
         players = new ArrayList<>();
         
         this.hostSocketPortId = hostSocketPortId;
-         players.add(player);
+        players.add(player);
         
     }
      
@@ -72,9 +73,15 @@ public class GameRoom implements Serializable {
         this.players.add(inPlayer);
         if (players.size() == 2) locked = true;
         }
-        
-        //players.add(inSocket.welcome.getPlayer());
-        
+               
+    }
+    
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(ArrayList<Player> players) {
+        this.players = players;
     }
     
     @Override

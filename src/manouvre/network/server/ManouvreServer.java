@@ -328,17 +328,28 @@ public class ManouvreServer implements Runnable {
                     {       room.setQuestSocketPortId(ID);
                             room.addPlayer( clients[findClient(ID) ].getPlayer() )  ;
                             msgOut = new Message(Message.JOIN_ROOM,  "SERVER", Message.OK,  msg.sender);
+                            msgOut.setPlayers(room.getPlayers());
+                                
+                            //Send message to host of the room
+                            Message msgToHost = new Message(Message.JOIN_ROOM, "SERVER", Message.USER_JOINED_IN_ROOM, msg.sender);
+                             msgToHost.setPlayers(room.getPlayers());
+                            clients[findClient(room.getHostSocketPortId())].send(msgToHost); 
+                            //send to client msg
+                            clients[findClient(ID)].send(msgOut); 
                     }         
-                     else 
+                    else 
                     {
                          msgOut = new Message(Message.JOIN_ROOM,  "SERVER", Message.IS_ROOM_LOCKED,  msg.sender);
+                          clients[findClient(ID)].send(msgOut); 
                     }
-                      }
-               else 
-                        {
-                        msgOut = new Message(Message.JOIN_ROOM,  "SERVER", Message.ROOM_NOT_FOUND,  msg.sender);
-                       }
-               clients[findClient(ID)].send(msgOut); 
+                }
+                else 
+                    {
+                    msgOut = new Message(Message.JOIN_ROOM,  "SERVER", Message.ROOM_NOT_FOUND,  msg.sender);
+                     clients[findClient(ID)].send(msgOut); 
+                    }
+               
+               
                 
                 
             break;
@@ -375,7 +386,7 @@ public class ManouvreServer implements Runnable {
                 */
                 
                 //Assiging players
-                Player[] players = msg.getPlayers();
+                ArrayList<Player> players = msg.getPlayers();
                 //Creating game - generate map, deal cards - setup army etc.
                 Game game = new Game(players);
                 

@@ -35,7 +35,8 @@ public class Game {
     int turn;
         
     Player currentPlayer;
-    Player opponent;
+    Player hostPlayer;
+    Player questPlayer;
     
     int phase; 
 
@@ -70,26 +71,27 @@ public class Game {
         //-----------------------------------------
     }
     
-    public Game(Player[] newPlayers) {
-        this.currentPlayer = newPlayers[0];
-        this.opponent = newPlayers[1];
+    public Game(ArrayList<Player> players) {
+        this.hostPlayer = players.get(0);
+        this.questPlayer = players.get(1);
+        
+        
+        hostPlayer.setCards();  
+        hostPlayer.generateUnits(); 
+        
+        questPlayer.setCards();  
+        questPlayer.generateUnits(); 
+        /*
+        Temporary - first player should be randomly chosen
+        */
+        this.currentPlayer = hostPlayer;
     }
      
-    /*public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    } */
     
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
-    /*public void setOpponent(Player opponent) {
-        this.opponent = opponent;
-    }*/
-    
-    public Player getOpponent() {
-        return opponent;
-    }
     
     public ArrayList<Position> getPossibleBombard(Unit unit){
     return null;
@@ -212,13 +214,13 @@ public class Game {
       map.getTileAtIndex(unit.getPos().getX(), unit.getPos().getY()).setIsOccupiedByUnit(false);
       map.getTileAtIndex(newPosition.getX(), newPosition.getY()).setIsOccupiedByUnit(true);
 
-      getUnitAtPosition(unit.getPos()).setPos(newPosition);
+      getCurrentPlayerUnitAtPosition(unit.getPos()).setPos(newPosition);
       
       
           
     }
     
-    public Unit getUnitAtPosition(Position position){
+    public Unit getCurrentPlayerUnitAtPosition(Position position){
     
         for(Unit unitSearch: currentPlayer.getArmy()){
         
@@ -235,7 +237,7 @@ public class Game {
      
     }
     
-    public boolean checkUnitAtPosition(Position position){
+    public boolean checkCurrentPlayerUnitAtPosition(Position position){
     
         for(Unit unitSearch: currentPlayer.getArmy()){
         

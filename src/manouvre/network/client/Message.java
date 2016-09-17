@@ -20,6 +20,7 @@ public class Message implements Serializable{
     public final static int BAD_PASSWORD = 3;
     public final static int IS_ROOM_LOCKED = 4;
     public final static int ROOM_NOT_FOUND = 5; 
+    public final static int USER_JOINED_IN_ROOM = 6; 
     
     
     
@@ -59,7 +60,7 @@ public class Message implements Serializable{
     
     public int messageType, contentP;
 
-    Player[] players;
+    ArrayList<Player> players;
 
     Game game;
 
@@ -191,15 +192,16 @@ public class Message implements Serializable{
         this.content = content;
     }
     
-    public Player[] getPlayers() {
+    public Game getGame() {
+        return game;
+    }
+
+    public ArrayList<Player> getPlayers() {
         return players;
     }
 
-    public void setPlayers(Player[] players) {
+    public void setPlayers(ArrayList<Player> players) {
         this.players = players;
-    } 
-    public Game getGame() {
-        return game;
     }
 
     public void setGame(Game game) {

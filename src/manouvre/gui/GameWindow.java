@@ -24,9 +24,13 @@ import manouvre.game.Position;
 import manouvre.game.Unit;
 import manouvre.network.client.SocketClient;
 import static java.lang.Math.abs;
+import manouvre.game.MoveUnitCommand;
 
 
 import manouvre.game.interfaces.FrameInterface;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
 
 
 /**
@@ -78,12 +82,36 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         */
    
         initComponents();
-        
-     
-      
-
+    
         this.addWindowListener(new WindowListener() {
-
+            @Override public void windowOpened(WindowEvent e) {}
+            @Override public void windowClosing(WindowEvent e) { try{ client.send(new Message("message", game.getCurrentPlayer().getName(), ".bye", "SERVER")); clientThread.stop();  }catch(Exception ex){} }
+            @Override public void windowClosed(WindowEvent e) {}
+            @Override public void windowIconified(WindowEvent e) {}
+            @Override public void windowDeiconified(WindowEvent e) {}
+            @Override public void windowActivated(WindowEvent e) {}
+            @Override public void windowDeactivated(WindowEvent e) {}
+        });
+        
+     DefaultCaret caret = (DefaultCaret)chatTextArea.getCaret();
+     caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+    }
+    
+     public GameWindow(SocketClient passSocket, ArrayList<Player> players) throws IOException{
+        
+        bgImage = ImageIO.read( new File("resources\\backgrounds\\24209cb208yezho.jpg"));
+        client = passSocket;
+        game = new Game(players);
+        gameGui = new GameGUI(game);
+        
+        /*
+        game.generateMap();
+        game.setCurrentPlayer(player);
+        */
+   
+        initComponents();
+    
+        this.addWindowListener(new WindowListener() {
             @Override public void windowOpened(WindowEvent e) {}
             @Override public void windowClosing(WindowEvent e) { try{ client.send(new Message("message", game.getCurrentPlayer().getName(), ".bye", "SERVER")); clientThread.stop();  }catch(Exception ex){} }
             @Override public void windowClosed(WindowEvent e) {}
@@ -871,27 +899,33 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             
         
         if(! gameGui.mapGui.isUnitSelected() )
-        for(TerrainGUI terrainGUI: gameGui.mapGui.getTerrainsGUI())
         {
-
-            terrainGUI.setSelected(false);
-            if(mouseOverPiece(terrainGUI,x,y))
+            //Position clickedPosition = new Position(  Position.convertMouseXToX(x)   , Position.convertMouseYToY(y)) ;
+            //gameGui.mapGui.
+            
+            
+            for(TerrainGUI terrainGUI: gameGui.mapGui.getTerrainsGUI())
             {
-                terrainGUI.setSelected(true);
-                Position selectedPosition = terrainGUI.getPos();
 
-                if(game.checkUnitAtPosition(selectedPosition) ) {
+                terrainGUI.setSelected(false);
+                if(terrainGUI.getPos().checkIfMouseFitInPositon(x, y))
+                {
+                    terrainGUI.setSelected(true);
+                    Position selectedPosition = terrainGUI.getPos();
+                    System.out.println("manouvre.gui.GameWindow.mainMapPanelMouseClicked() " + terrainGUI.getPos());
+                    if(game.checkCurrentPlayerUnitAtPosition(selectedPosition) ) {
 
-                    gameGui.mapGui.setUnitSelected(true);
-                    gameGui.getUnitGuiOnMapGui(selectedPosition).setSelected(true);
+                        gameGui.mapGui.setUnitSelected(true);
+                        gameGui.getUnitGuiOnMapGui(selectedPosition).setSelected(true);
+
+                    }
+
+                    //game.getMap().getTileAtIndex(terrainGUI.getPos().getX(), terrainGUI.getPos().getY()).setSelected(true);
+                    this.repaint();
 
                 }
 
-                //game.getMap().getTileAtIndex(terrainGUI.getPos().getX(), terrainGUI.getPos().getY()).setSelected(true);
-                this.repaint();
-
             }
-
         }
         /*
         If unit is selected find which unit to move and move into
@@ -912,10 +946,12 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                     if(checkPosition.equals(clickedPosition))
                     {
 
+                        MoveUnitCommand moveUnit = new MoveUnitCommand(selectedUnit, game.getMap(), clickedPosition);
+                        moveUnit.execute();
+                        
                         //Move in game and GUI
-                        game.moveUnit(selectedUnit, clickedPosition);
-
-                        selectedUnit.setPos(clickedPosition);
+                      // game.moveUnit(selectedUnit, clickedPosition);
+                       //selectedUnit.setPos(clickedPosition);
                         //Unselect all
                         gameGui.unselectAllUnits();
                         //exit loop

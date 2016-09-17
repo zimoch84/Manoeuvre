@@ -177,11 +177,29 @@ public class SocketClient implements Runnable{
                                 setActiveWindow(roomWindow);
                             }
                         });
+                       if(msg.getContentP() == Message.USER_JOINED_IN_ROOM)
+                           roomWindow.setPlayers(msg.getPlayers());
+                       
+                            
+                           
                       break;
                   case Message.START_GAME:
-                      
-                      
-                      
+                      if(msg.getContentP() == Message.OK)
+                      {
+
+                     /* Create and display the form */
+                     java.awt.EventQueue.invokeLater(new Runnable() {
+                         public void run() {
+                             try {
+                                 clientGame = new GameWindow(SocketClient.this, roomWindow.getPlayers());
+                                 clientGame.setVisible(true);
+                                 roomWindow.setVisible(false);
+                             } catch (Exception ex) {
+                                 Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
+                             }
+                         }
+                     });
+                      }
                       
                   default:
                        System.out.println("manouvre.network.client.SocketClient.run() Unknown msg type" + msg.toString()) ;
