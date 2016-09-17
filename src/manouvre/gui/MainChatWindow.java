@@ -576,7 +576,7 @@ public class MainChatWindow extends javax.swing.JFrame {
                       msg.addGameRoom(selected);
                       msg.setQuestSocketPortId(client.socket.getPort());
                       
-                      client.send(new Message (Message.JOIN_ROOM, player.getName(), selected.toString(), "SERVER" ));
+                      client.send(msg);
         
       
     }//GEN-LAST:event_joinButtonActionPerformed

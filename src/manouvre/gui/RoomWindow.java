@@ -58,7 +58,7 @@ public class RoomWindow extends javax.swing.JFrame {
                 else 
                     modeString = " as Quest";
                       
-        this.setTitle(username + modeString);
+        this.setTitle(player.getName()  + modeString);
     }
     
 
