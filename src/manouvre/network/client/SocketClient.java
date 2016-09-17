@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import manouvre.game.Player;
+import manouvre.game.interfaces.FrameInterface;
 import manouvre.gui.CreateRoomWindow;
 import manouvre.gui.GameWindow;
 import manouvre.gui.LoginWindow;
@@ -16,24 +17,44 @@ public class SocketClient implements Runnable{
     
     public static int port = 5002;
     public static String serverAddr= "localhost";
+    /*
+        Port nasluchujacy serwera =  Port socketa klienta 
+        Port wynegocjowany z serwerem to localPort socketa klienta
+        
+        czyli client.socket.Port = server.liteningsocket.port = server.socket.localport
+        
+        client.socket.Localport = server.socket.port
+                
+        */
     public Socket socket;
-    public GameWindow ui;
+
+       /*
+    User GUI 
+    */
+    public GameWindow clientGame;
     public LoginWindow welcome;
     public MainChatWindow mainChat;
     public RoomWindow roomWindow;
-    
+    /*
+    Active window is set from frames above
+    */
+    private FrameInterface activeWindow = null ;
     /*
     Player na poziomie socketu z założenia ma conajmniej swoją nazwę
     */
     public Player player;
-    
+    /*
+    Streamy do czytania i pisania w sockecie
+    */
     public ObjectInputStream In;
     public ObjectOutputStream Out;
     
     
     public SocketClient(GameWindow frame) throws IOException{
-        ui = frame; 
+        clientGame = frame; 
         //this.serverAddr = "zimoch.insomnia247.nl"; 
+        
+        
         socket = new Socket(InetAddress.getByName(serverAddr), port);
             
         Out = new ObjectOutputStream(socket.getOutputStream());
@@ -51,9 +72,22 @@ public class SocketClient implements Runnable{
         Out = new ObjectOutputStream(socket.getOutputStream());
         Out.flush();
         In = new ObjectInputStream(socket.getInputStream());
+        
+        System.out.println("manouvre.network.client.SocketClient.<init>() : LocalPort " + socket.getLocalPort() + " Port " + socket.getPort()) ;
       
     }
- 
+    
+    public Socket getSocket() {
+        return socket;
+    }
+
+    public void setSocket(Socket socket) {
+        this.socket = socket;
+    }
+ /*
+    Klient w run nasłuchuje co otrzyma od serwera i steruje GUI
+    
+    */
     @Override
     public void run() {
         boolean keepRunning = true;
@@ -70,6 +104,8 @@ public class SocketClient implements Runnable{
                         
                              player = welcome.getPlayer();
                              welcome.setVisible(false);
+                             
+                             
                                 /*
                                 Run chat window
                                 */
@@ -78,6 +114,7 @@ public class SocketClient implements Runnable{
                                         try {
                                             mainChat = new MainChatWindow(SocketClient.this, player);
                                             mainChat.setVisible(true);
+                                            setActiveWindow(mainChat);
                                         } catch (IOException ex) {
                                             Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
                                         }
@@ -88,21 +125,19 @@ public class SocketClient implements Runnable{
                     
                     case Message.CHAT:
                     
-                        /*
-                        To repair - send to only active windows
-                        */
                         
-                    if(msg.recipient.equals(ui.getGame().getCurrentPlayer().getName())){
-                        if(ui != null)
-                             ui.printOnChat(msg.sender + " : " + msg.content) ;
-                        
-                    }
-                    else{
-                        if(ui != null)
-                            ui.printOnChat(msg.sender +" : " + msg.content);
-                    }   
-                        
+                        mainChat.printOnChat(msg.sender + " : " + msg.content) ;
+
                         break;
+                        
+                    case Message.CHAT_IN_ROOM:
+                    
+                       /*
+                        Either roomwindow chat or gamewindow chat
+                        */
+                        activeWindow.printOnChat(msg.sender + " : " + msg.content) ;
+
+                        break;    
                             
                             
                     case Message.GET_ROOM_LIST : 
@@ -122,7 +157,9 @@ public class SocketClient implements Runnable{
                         java.awt.EventQueue.invokeLater(new Runnable() {
                             public void run() {
                                 roomWindow = new RoomWindow(SocketClient.this, player, CreateRoomWindow.AS_HOST);
+                                
                                 roomWindow.setVisible(true);
+                                 setActiveWindow(roomWindow);
                             }
                         });
                      break;  
@@ -137,10 +174,15 @@ public class SocketClient implements Runnable{
                             public void run() {
                                 roomWindow = new RoomWindow(SocketClient.this, welcome.getPlayer(), CreateRoomWindow.AS_GUEST);
                                 roomWindow.setVisible(true);
+                                setActiveWindow(roomWindow);
                             }
                         });
                       break;
-                  
+                  case Message.START_GAME:
+                      
+                      
+                      
+                      
                   default:
                        System.out.println("manouvre.network.client.SocketClient.run() Unknown msg type" + msg.toString()) ;
               
@@ -155,15 +197,15 @@ public class SocketClient implements Runnable{
                 System.out.println("manouvre.network.client.SocketClient.run()" + ex);
                 
                 //ui.printOnChat("Aplication : Connection Failure \n" + ex.getMessage());
-//                ui.jButton1.setEnabled(true); 
-//                ui.jTextField1.setEditable(true); 
-//                ui.jTextField2.setEditable(true);
-//                ui.jButton4.setEnabled(false); 
-//                ui.jButton5.setEnabled(false); 
-//                ui.jButton5.setEnabled(false);
+//                clientGame.jButton1.setEnabled(true); 
+//                clientGame.jTextField1.setEditable(true); 
+//                clientGame.jTextField2.setEditable(true);
+//                clientGame.jButton4.setEnabled(false); 
+//                clientGame.jButton5.setEnabled(false); 
+//                clientGame.jButton5.setEnabled(false);
                 
-//                for(int i = 1; i < ui.model.size(); i++){
-//                    ui.model.removeElementAt(i);
+//                for(int i = 1; i < clientGame.model.size(); i++){
+//                    clientGame.model.removeElementAt(i);
 //                }
                 
                 //ui.clientThread.stop();
@@ -188,4 +230,29 @@ public class SocketClient implements Runnable{
     public void closeThread(Thread t){
         t = null;
     }
+    
+    public void setActiveWindow(FrameInterface frame)
+            
+    {
+            
+        activeWindow = frame ;
+//                        if(mainChat != null)
+//                        {
+//                            if(mainChat.isActive())
+//                                activeWindow = mainChat;
+//                        } 
+//                        if(roomWindow != null)
+//                        {
+//                             if(roomWindow.isActive())
+//                                activeWindow = roomWindow;
+//                         }
+//                        if(clientGame != null)
+//                        {
+//                            if(clientGame.isActive())
+//                                activeWindow = clientGame;
+//                        
+//                        }  
+                        
+    }
+    
 }

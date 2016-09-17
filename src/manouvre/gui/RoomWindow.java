@@ -13,13 +13,15 @@ import javax.swing.AbstractButton;
 import javax.swing.DefaultListModel;
 import manouvre.game.Player;
 import manouvre.game.interfaces.CardInterface;
+import manouvre.game.interfaces.FrameInterface;
+import manouvre.network.client.Message;
 import manouvre.network.client.SocketClient;
 
 /**
  *
  * @author Piotr
  */
-public class RoomWindow extends javax.swing.JFrame {
+public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
 
     public SocketClient client;
     public int port;
@@ -141,6 +143,7 @@ public class RoomWindow extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        mainChat.setEditable(false);
         mainChat.setColumns(20);
         mainChat.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
         mainChat.setRows(5);
@@ -148,6 +151,12 @@ public class RoomWindow extends javax.swing.JFrame {
 
         jLabel5.setForeground(new java.awt.Color(255, 51, 0));
         jLabel5.setText("Message : ");
+
+        messageTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                messageTextFieldActionPerformed(evt);
+            }
+        });
 
         sendButton.setText("Send Message ");
         sendButton.addActionListener(new java.awt.event.ActionListener() {
@@ -422,7 +431,14 @@ public class RoomWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
-        // TODO add your handling code here:
+       
+        Message msg = new Message (Message.CHAT_IN_ROOM, player.getName(), messageTextField.getText(), "CHAT_IN_ROOM");
+        
+        
+        messageTextField.setText("");
+        client.send(msg);
+        
+        
     }//GEN-LAST:event_sendButtonActionPerformed
 
     private void BritainRB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BritainRB1ActionPerformed
@@ -447,11 +463,8 @@ public class RoomWindow extends javax.swing.JFrame {
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
          
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    
-                        for (Enumeration<AbstractButton> buttons = player1Group.getElements(); buttons.hasMoreElements();) {
+        
+        for (Enumeration<AbstractButton> buttons = player1Group.getElements(); buttons.hasMoreElements();) {
                                 AbstractButton button = buttons.nextElement();
                                 if (button.isSelected()) {
                                     switch(button.getText()){
@@ -487,11 +500,26 @@ public class RoomWindow extends javax.swing.JFrame {
                                     break;
                                 }
                       }
+        Player[] players  = new Player[2];
+        players[0] = player;
+        
+        
+        Message msg = new Message(Message.START_GAME,player.getName(), "Start Game", "SERVER");
+        
+        
+        
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    
+                        
                                 player.generateUnits();
                                 if(windowMode == CreateRoomWindow.AS_HOST)
                                     player.setHost(true);
                                 else 
                                     player.setHost(false);
+                                
+                                
                                 
                                  new GameWindow(client, player).setVisible(true);
                             
@@ -504,6 +532,25 @@ public class RoomWindow extends javax.swing.JFrame {
         });
     }//GEN-LAST:event_startButtonActionPerformed
 
+    private void messageTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_messageTextFieldActionPerformed
+       
+        Message msg = new Message (Message.CHAT_IN_ROOM, player.getName(), messageTextField.getText(), "CHAT_IN_ROOM");
+        
+        
+        messageTextField.setText("");
+        client.send(msg);
+        
+        
+        
+    }//GEN-LAST:event_messageTextFieldActionPerformed
+    @Override
+    public void printOnChat(String inString)    {
+    
+    mainChat.append(inString+ "\n");
+    }
+    
+    
+    
     /**
      * @param args the command line arguments
      */

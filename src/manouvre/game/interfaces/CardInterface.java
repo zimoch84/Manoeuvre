@@ -27,8 +27,8 @@ public interface CardInterface {
     Card Type
     */
     public static int UNIT=0;
-    public static int HQUNIT=0;
-    public static int HQLEADER=0;
+    public static int HQUNIT=1;
+    public static int HQLEADER=2;
     
     /*
     Unit Types

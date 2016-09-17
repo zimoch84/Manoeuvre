@@ -180,7 +180,6 @@ public class Game {
     
     public void generateMap(){
         this.map = new Map();
-         System.out.println("Map Generated");
              }
      public Map getMap() {
         return map;
@@ -269,8 +268,40 @@ public class Game {
     public void nextPhase() {
         if(phase<4) phase++;
         else phase=0;
+        setCardsInHandAsPlayableDueToPhase();
     } 
-      
+   
+    public void setCardsInHandAsPlayableDueToPhase(){ 
+        //all playable in discard
+        //Supply and Forced March in Move Phase
+    for(int i=0; i<getCurrentPlayer().getHand().cardsLeftInSet(); i++){
+        getCurrentPlayer().getHand().getCardByPosInSet(i).setPlayable(false);
+        if (getPhase()==0){
+           getCurrentPlayer().getHand().getCardByPosInSet(i).setPlayable(true);
+        }
+        if (getPhase()==1){
+                getCurrentPlayer().getHand().getCardByPosInSet(i).setPlayable(false);  
+        } 
+        if (getPhase()==2){
+            if(getCurrentPlayer().getHand().getCardByPosInSet(i).getCardName().equals("Supply")||getCurrentPlayer().getHand().getCardNameByPosInSet(i).equals("Forced March")){
+                getCurrentPlayer().getHand().getCardByPosInSet(i).setPlayable(true); 
+            }
+        } 
+        if (getPhase()==3){
+           getCurrentPlayer().getHand().getCardByPosInSet(i).setPlayable(true);  
+           }
+        if (getPhase()==4){
+            if(getCurrentPlayer().getHand().getCardNameByPosInSet(i).equals("Supply")||
+                   getCurrentPlayer().getHand().getCardNameByPosInSet(i).equals("Regroup")||
+                   getCurrentPlayer().getHand().getCardTypeByPosInSet(i)==0||
+                   getCurrentPlayer().getHand().getCardTypeByPosInSet(i)==2)
+            {
+                getCurrentPlayer().getHand().getCardByPosInSet(i).setPlayable(true);  
+            }
+           }
+        } 
+     }
+    
     
 }
 

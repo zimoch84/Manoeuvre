@@ -70,6 +70,10 @@ public class CardSetGUI {
         return 99;
      }
     
+    public String getCardNameByPosInSet(int cardPosition){
+       return cardListGui.get(cardPosition).card.getCardName();     
+    }
+    
     
     
 }
