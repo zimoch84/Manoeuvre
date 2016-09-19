@@ -69,8 +69,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import com.csvreader.CsvReader;
+import java.io.Serializable;
 
-public class Card implements CardInterface{
+public class Card implements CardInterface, Serializable{
     int chosenID;
     String CardID="";
     String CardName="";				

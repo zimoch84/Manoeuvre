@@ -152,7 +152,6 @@ public class CreateRoomWindow extends javax.swing.JFrame {
 
     private void createChannelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createChannelButtonActionPerformed
 
-        String channel = roomNameFieldText.getText() + "|" + passwordRoomFieldText.getText();
         /*
         Port nasluchujacy serwera =  Port socketa klienta 
         Port wynegocjowany z serwerem to localPort socketa klienta
@@ -161,12 +160,14 @@ public class CreateRoomWindow extends javax.swing.JFrame {
                 
         */
         GameRoom room = new GameRoom(roomNameFieldText.getText(), passwordRoomFieldText.getText(), client.getSocket().getLocalPort(), player);
-        Message msg = new Message(Message.CREATE_ROOM, player.getName(), channel , "SERVER" );
+        
+        Message msg = new Message(Message.CREATE_ROOM, player.getName(), roomNameFieldText.getText() , "SERVER" );
+        
+        msg.addPlayer(player);
         msg.addGameRoom(room);
         
         client.send(msg);
-        
-        
+              
   
         this.setVisible(false);
       

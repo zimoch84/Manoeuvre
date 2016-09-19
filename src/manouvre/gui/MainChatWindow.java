@@ -32,6 +32,16 @@ import manouvre.network.client.SocketClient;
 import manouvre.network.server.GameRoom;
 import static java.lang.Thread.sleep;
 import manouvre.game.interfaces.FrameInterface;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
 
 class GameRoomRenderer extends JLabel implements ListCellRenderer<GameRoom> {
  
@@ -107,6 +117,8 @@ public class MainChatWindow extends javax.swing.JFrame implements FrameInterface
 
     
     Player player;
+    
+    
     
     Image bgImage;
     
@@ -518,6 +530,7 @@ public class MainChatWindow extends javax.swing.JFrame implements FrameInterface
           /*
         Run CreateRoomWindow (name + password) 
           */
+               player.setHost(true);
                java.awt.EventQueue.invokeLater(new Runnable() {
               public void run() {
                   CreateRoomWindow createRoom = new CreateRoomWindow(client, player, CreateRoomWindow.AS_HOST);
@@ -571,12 +584,20 @@ public class MainChatWindow extends javax.swing.JFrame implements FrameInterface
 
     private void joinButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_joinButtonActionPerformed
    
+                        /*
+                            Sending guestPlayer object to server to join room 
+                            as return we expect HostPlayer object from server
+                         */
         
                       GameRoom selected = roomList.getSelectedValue(); 
                       Message msg = new  Message (Message.JOIN_ROOM, player.getName(), selected.toString(), "SERVER" );
+                       //Addind currentPlayer to the list as first
+                      player.setHost(false);
+                      
+                      msg.addPlayer(player);
                       
                       msg.addGameRoom(selected);
-                      selected.setQuestSocketPortId(client.socket.getPort());
+                      selected.setGuestSocketPortId(client.socket.getPort());
                      
                       
                       client.send(msg);

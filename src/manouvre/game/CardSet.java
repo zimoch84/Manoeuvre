@@ -5,6 +5,7 @@
  */
 package manouvre.game;
 
+import java.io.Serializable;
 import java.util.Random;
 import java.util.ArrayList;
 import manouvre.game.interfaces.CardInterface;
@@ -18,7 +19,7 @@ import manouvre.game.interfaces.CardSetInterface;
  */
 
 
-public class CardSet implements CardSetInterface{
+public class CardSet implements CardSetInterface, Serializable{
     
     private int cardSetSize=0;           // each army includes an Action Deck of 80 cards. 
     private int nation;

@@ -34,8 +34,11 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
     int windowMode ;
     
     
-    ArrayList<Player> players;
-    Player player;
+    Player hostPlayer;
+    Player guestPlayer;
+    
+    Player currentPlayer;
+    
     /**
      * Creates new form RoomWindow
      */
@@ -48,21 +51,19 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
      */
     public RoomWindow(SocketClient passSocket, Player player, int mode ) {
         
-        players = new ArrayList<>();
+       this.client = passSocket;
+       this.windowMode = mode;
+       setPlayer(player);
+                   
+      
+       initComponents();
+       setEditableButtons(windowMode);
         
-        setPlayers(new ArrayList<Player>(Arrays.asList(player)) );
-        this.client = passSocket;
-        this.player = player;
-        
-        this.windowMode = mode;
-               
-       
-        
-        initComponents();
-        
-        setEditableButtons(windowMode);
-        
-        String modeString;
+        /*
+        Setting player 1 buttons border
+        */
+         
+       String modeString;
                 
                 if(mode == CreateRoomWindow.AS_HOST )
                     modeString = " as Host";
@@ -72,7 +73,18 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
         this.setTitle(player.getName()  + modeString);
     }
     
-
+           /*
+       Setting player either as host or guest
+       */
+    public void setPlayer(Player player){
+        if(player.isHost())
+           hostPlayer = player;
+       else
+           guestPlayer = player;
+       
+        currentPlayer = player;
+    }
+    
      private void setEditableButtons(int mode){
      
          switch(mode)
@@ -88,7 +100,7 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
                SpainRB2.setEnabled(false);
                USARB2.setEnabled(false);
 
-               
+                player1Panel.setBorder(javax.swing.BorderFactory.createTitledBorder( currentPlayer.getName()  ));
                        
              
              break;
@@ -105,6 +117,8 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
                
                startButton.setEnabled(false);
                  
+                player2Panel.setBorder(javax.swing.BorderFactory.createTitledBorder( "Guest"  ));
+               
              break;    
                  
      
@@ -444,7 +458,7 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
 
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
        
-        Message msg = new Message (Message.CHAT_IN_ROOM, player.getName(), messageTextField.getText(), "CHAT_IN_ROOM");
+        Message msg = new Message (Message.CHAT_IN_ROOM, currentPlayer.getName(), messageTextField.getText(), "CHAT_IN_ROOM");
         
         
         messageTextField.setText("");
@@ -484,31 +498,31 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
                                     switch(button.getText()){
                                         case "Austria": 
                                             
-                                            players.get(0).setNation(CardInterface.AU);
+                                            hostPlayer.setNation(CardInterface.AU);
                                             break;
                                         case "France" :
-                                            players.get(0).setNation(CardInterface.FR);
+                                            hostPlayer.setNation(CardInterface.FR);
                                             break;
                                         case "Russia": 
                                             
-                                            players.get(0).setNation(CardInterface.RU);
+                                            hostPlayer.setNation(CardInterface.RU);
                                             break;
                                         case "Prussia" :
-                                            players.get(0).setNation(CardInterface.PR);
+                                            hostPlayer.setNation(CardInterface.PR);
                                             break;
                                         case "Britain": 
                                             
-                                            players.get(0).setNation(CardInterface.BR);
+                                            hostPlayer.setNation(CardInterface.BR);
                                             break;
                                         case "Spain" :
-                                            players.get(0).setNation(CardInterface.SP);
+                                            hostPlayer.setNation(CardInterface.SP);
                                             break;
                                         case "Ottoman": 
                                             
-                                            players.get(0).setNation(CardInterface.OT);
+                                            hostPlayer.setNation(CardInterface.OT);
                                             break;
                                         case "USA" :
-                                            players.get(0).setNation(CardInterface.US);
+                                            hostPlayer.setNation(CardInterface.US);
                                             break;
                                                 }
                                     break;
@@ -518,7 +532,7 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
         
         
         //Quest Player choice
-       
+       if(guestPlayer != null)
         
         for (Enumeration<AbstractButton> buttons = player2Group.getElements(); buttons.hasMoreElements();) {
                                 AbstractButton button = buttons.nextElement();
@@ -526,31 +540,31 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
                                     switch(button.getText()){
                                         case "Austria": 
                                             
-                                            players.get(1).setNation(CardInterface.AU);
+                                            guestPlayer.setNation(CardInterface.AU);
                                             break;
                                         case "France" :
-                                            players.get(1).setNation(CardInterface.FR);
+                                            guestPlayer.setNation(CardInterface.FR);
                                             break;
                                         case "Russia": 
                                             
-                                            players.get(1).setNation(CardInterface.RU);
+                                            guestPlayer.setNation(CardInterface.RU);
                                             break;
                                         case "Prussia" :
-                                            players.get(1).setNation(CardInterface.PR);
+                                            guestPlayer.setNation(CardInterface.PR);
                                             break;
                                         case "Britain": 
                                             
-                                            players.get(1).setNation(CardInterface.BR);
+                                            guestPlayer.setNation(CardInterface.BR);
                                             break;
                                         case "Spain" :
-                                            players.get(1).setNation(CardInterface.SP);
+                                            guestPlayer.setNation(CardInterface.SP);
                                             break;
                                         case "Ottoman": 
                                             
-                                            players.get(1).setNation(CardInterface.OT);
+                                            guestPlayer.setNation(CardInterface.OT);
                                             break;
                                         case "USA" :
-                                            players.get(1).setNation(CardInterface.US);
+                                            guestPlayer.setNation(CardInterface.US);
                                             break;
                                                 }
                                     break;
@@ -559,8 +573,7 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
         
         
         
-        Message msg = new Message(Message.START_GAME,players.get(0).getName(), "Start Game", "SERVER");
-        
+        Message msg = new Message(Message.START_GAME,currentPlayer.getName(), "Start Game", "SERVER");
         client.send(msg);
         
 //        java.awt.EventQueue.invokeLater(new Runnable() {
@@ -589,7 +602,7 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
 
     private void messageTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_messageTextFieldActionPerformed
        
-        Message msg = new Message (Message.CHAT_IN_ROOM, player.getName(), messageTextField.getText(), "CHAT_IN_ROOM");
+        Message msg = new Message (Message.CHAT_IN_ROOM, currentPlayer.getName(), messageTextField.getText(), "CHAT_IN_ROOM");
         
         
         messageTextField.setText("");
@@ -604,23 +617,32 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
     mainChat.append(inString+ "\n");
     }
 
-    public ArrayList<Player> getPlayers() {
-        return players;
+    public Player getHostPlayer() {
+        return hostPlayer;
     }
 
-    public void setPlayers(ArrayList<Player> players) {
+    public void setHostPlayer(Player hostPlayer) {
+        this.hostPlayer = hostPlayer;
+    }
+
+    public Player getGuestPlayer() {
+        return guestPlayer;
+    }
+
+    public void setGuestPlayer(Player guestPlayer) {
+        this.guestPlayer = guestPlayer;
+    }
+
+     public ArrayList<Player> getPlayers() {
         
+        ArrayList<Player> players = new ArrayList<>();
         
-        this.players = players;
-        if(players.size() == 2)
-        {   player1Panel.setBorder(javax.swing.BorderFactory.createTitledBorder( players.get(0).getName()  ));
-            player2Panel.setBorder(javax.swing.BorderFactory.createTitledBorder( players.get(1).getName() ));
-        }
-        repaint();
+        players.add(hostPlayer);
+        players.add(guestPlayer);
+        
+        return players;
         
     }
-    
-    
     
     /**
      * @param args the command line arguments

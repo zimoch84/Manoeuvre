@@ -42,20 +42,12 @@ public class Message implements Serializable{
     
     public final static int CHAT = 99;
     
-    
-    
-    
-    
-    
-    
+  
     private static final long serialVersionUID = 1L;
     /**
      * type login, .bye, message, signup, create_room, room_list
      */
     public String type, sender, content, recipient;
-
-  
-
    
     
     public int messageType, contentP;
@@ -63,12 +55,7 @@ public class Message implements Serializable{
     ArrayList<Player> players;
 
     Game game;
-
-    
-    
-
-    
-    
+  
     ArrayList<GameRoom> channelList; 
     
    
@@ -77,15 +64,18 @@ public class Message implements Serializable{
     public Message(String type, String sender, String content, String recipient){
         this.type = type; this.sender = sender; this.content = content; this.recipient = recipient;
         channelList = new ArrayList<GameRoom> ();
+         players = new ArrayList<>();
     }
     
     public Message(int type, String sender, int content, String recipient){
         this.messageType = type; this.sender = sender; this.contentP = content; this.recipient = recipient;
         channelList = new ArrayList<GameRoom> ();
+        players = new ArrayList<>();
     }
     
     public Message(int type, String sender, String content, String recipient){
         channelList = new ArrayList<GameRoom> ();
+        players = new ArrayList<>();
         this.messageType = type; this.sender = sender; this.content = content; this.recipient = recipient;
     }
     
@@ -196,9 +186,21 @@ public class Message implements Serializable{
         return game;
     }
 
+    public void addPlayer(Player player)
+    {
+        players.add(player);
+    }
+    
+    public Player getPlayer()
+    {
+        return  players.get(0);
+    }
+    
+    
     public ArrayList<Player> getPlayers() {
         return players;
     }
+    
 
     public void setPlayers(ArrayList<Player> players) {
         this.players = players;

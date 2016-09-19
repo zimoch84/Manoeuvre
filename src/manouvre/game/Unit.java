@@ -8,6 +8,7 @@ package manouvre.game;
 import com.csvreader.CsvReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import manouvre.game.interfaces.PositionInterface;
@@ -17,7 +18,7 @@ import manouvre.game.interfaces.UnitInterface;
  *
  * @author Piotr
  */
-public class Unit implements UnitInterface{
+public class Unit implements UnitInterface, Serializable{
 
     Player owner;
 

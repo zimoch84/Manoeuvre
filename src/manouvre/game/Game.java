@@ -6,6 +6,7 @@
 package manouvre.game;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import static manouvre.game.interfaces.PositionInterface.COLUMN_H;
 import static manouvre.game.interfaces.PositionInterface.ROW_8;
@@ -15,7 +16,7 @@ import manouvre.gui.MapGUI;
  *
  * @author Piotr
  */
-public class Game {
+public class Game implements Serializable{
     
     /*
     Game phases
@@ -36,7 +37,7 @@ public class Game {
         
     Player currentPlayer;
     Player hostPlayer;
-    Player questPlayer;
+    Player guestPlayer;
     
     int phase; 
 
@@ -73,18 +74,23 @@ public class Game {
     
     public Game(ArrayList<Player> players) {
         this.hostPlayer = players.get(0);
-        this.questPlayer = players.get(1);
+        this.guestPlayer = players.get(1);
         
         
         hostPlayer.setCards();  
         hostPlayer.generateUnits(); 
         
-        questPlayer.setCards();  
-        questPlayer.generateUnits(); 
+        guestPlayer.setCards();  
+        guestPlayer.generateUnits(); 
         /*
         Temporary - first player should be randomly chosen
         */
         this.currentPlayer = hostPlayer;
+        
+        generateMap(); 
+        
+        placeUnitsOnMap(hostPlayer);
+        placeUnitsOnMap(guestPlayer);
     }
      
     

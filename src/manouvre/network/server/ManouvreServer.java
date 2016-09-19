@@ -290,13 +290,17 @@ public class ManouvreServer implements Runnable {
                 String name = parts[0];
                 String password = parts[1];
                 GameRoom newRoom = msg.getChannelList().get(0);
+                
                 /*
                 Check if socket client localport  = server port 
                 */
                 if( ID == newRoom.getHostSocketPortId()  )
                     
-                                    this.channels.add(newRoom);
-           
+                {
+                    
+                    this.channels.add(newRoom);
+                }
+                
                 /*
                 Wysylamy do klienta ze udalo sie dodac kanal
                 */
@@ -319,23 +323,29 @@ public class ManouvreServer implements Runnable {
                 */
                 GameRoom requestRoom = msg.getChannelList().get(0);
                 
-                
+                /*
+                If room exists
+                */
                if(isGameRoom(requestRoom)) 
                {
                    GameRoom room = findGameRoom(requestRoom.getHostSocketPortId());
                             
                     if (!room.isLocked())
-                    {       room.setQuestSocketPortId(ID);
-                            room.addPlayer( clients[findClient(ID) ].getPlayer() )  ;
+                    {       room.setGuestSocketPortId(ID);
+                            room.setGuestPlayer( msg.getPlayer() )  ;
+                            System.out.println("manouvre.network.server.ManouvreServer.handle() " + msg.getPlayer().getName()+ " has joined room" );
+                            /*
+                            Send to guest player - OK and host player object
+                            */
                             msgOut = new Message(Message.JOIN_ROOM,  "SERVER", Message.OK,  msg.sender);
-                            msgOut.setPlayers(room.getPlayers());
-                                
-                            //Send message to host of the room
-                            Message msgToHost = new Message(Message.JOIN_ROOM, "SERVER", Message.USER_JOINED_IN_ROOM, msg.sender);
-                             msgToHost.setPlayers(room.getPlayers());
+                            msgOut.addPlayer(room.getHostPlayer());
+                            clients[findClient(ID)].send(msgOut);     
+                            
+                            //Send message to host of the room and guest player object
+                            Message msgToHost = new Message(Message.JOIN_ROOM, "SERVER", Message.USER_JOINED_IN_ROOM, room.getHostPlayer().getName());
+                            msgToHost.addPlayer(room.getGuestPlayer());
                             clients[findClient(room.getHostSocketPortId())].send(msgToHost); 
-                            //send to client msg
-                            clients[findClient(ID)].send(msgOut); 
+                            
                     }         
                     else 
                     {
@@ -384,9 +394,9 @@ public class ManouvreServer implements Runnable {
                 /*
                 Creating a game
                 */
-                
+                ArrayList<Player> players = gameRoom.getPlayers();
                 //Assiging players
-                ArrayList<Player> players = msg.getPlayers();
+                //ArrayList<Player> players = msg.getPlayers();
                 //Creating game - generate map, deal cards - setup army etc.
                 Game game = new Game(players);
                 
@@ -560,8 +570,8 @@ public class ManouvreServer implements Runnable {
         if (channels.contains(room)) 
         {
            clients[findClient(room.getHostSocketPortId())].send(msg);
-            if(room.questSocketPortId > 0)
-                  clients[findClient(room.getQuestSocketPortId())].send(msg);
+            if(room.guestSocketPortId > 0)
+                  clients[findClient(room.getGuestSocketPortId())].send(msg);
            
         }
             
@@ -675,7 +685,7 @@ public class ManouvreServer implements Runnable {
      
      for(GameRoom room : getRooms())
          {
-             if (room.getHostSocketPortId() == socketPort || room.getQuestSocketPortId() == socketPort )
+             if (room.getHostSocketPortId() == socketPort || room.getGuestSocketPortId() == socketPort )
              {
                  return room;
               }

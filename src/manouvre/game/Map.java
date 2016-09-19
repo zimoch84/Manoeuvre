@@ -5,6 +5,7 @@
  */
 package manouvre.game;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 import manouvre.game.interfaces.MapInterface;
@@ -14,7 +15,7 @@ import manouvre.game.interfaces.TerrainInterface;
  *
  * @author Piotr
  */
-public class Map implements MapInterface {
+public class Map implements MapInterface, Serializable{
 
     
     Terrain[][] terrains ;

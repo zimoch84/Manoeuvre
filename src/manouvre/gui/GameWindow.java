@@ -55,8 +55,8 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
     int mouseClickedOnHand=0;
     
     CardSetGUI cardSetsGUI;
+    int windowMode;
     
-
     /*
     Object hold whole game logically
     */
@@ -97,12 +97,14 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
      caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
     }
     
-     public GameWindow(SocketClient passSocket, ArrayList<Player> players) throws IOException{
+     public GameWindow(SocketClient passSocket, ArrayList<Player> players, int windowMode) throws IOException{
         
         bgImage = ImageIO.read( new File("resources\\backgrounds\\24209cb208yezho.jpg"));
         client = passSocket;
         game = new Game(players);
         gameGui = new GameGUI(game);
+        
+        this.windowMode = windowMode;
         
         /*
         game.generateMap();
@@ -149,15 +151,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             @Override public void windowDeactivated(WindowEvent e) {}
         });
         
-        try{
-                client = new SocketClient(this);
-                clientThread = new Thread(client);
-                clientThread.start();
-                //client.send(new Message("test", "testUser", "testContent", "SERVER"));
-            }
-            catch(Exception ex){
-                chatTextArea.append("[Application > Me] : Server not found\n");
-            }       
+            
     }
 
     public Game getGame() {
