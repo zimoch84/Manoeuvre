@@ -23,13 +23,8 @@ import manouvre.game.Player;
 import manouvre.game.Position;
 import manouvre.game.Unit;
 import manouvre.network.client.SocketClient;
-import static java.lang.Math.abs;
 import manouvre.game.MoveUnitCommand;
-
-
 import manouvre.game.interfaces.FrameInterface;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
 import static java.lang.Math.abs;
 
 
@@ -74,7 +69,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         bgImage = ImageIO.read( new File("resources\\backgrounds\\24209cb208yezho.jpg"));
         client = passSocket;
         game = new Game(player);
-        gameGui = new GameGUI(game);
+        gameGui = new GameGUI(game, CreateRoomWindow.AS_HOST);
         
         /*
         game.generateMap();
@@ -97,20 +92,26 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
      caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
     }
     
-     public GameWindow(SocketClient passSocket, ArrayList<Player> players, int windowMode) throws IOException{
-        
-        bgImage = ImageIO.read( new File("resources\\backgrounds\\24209cb208yezho.jpg"));
-        client = passSocket;
-        game = new Game(players);
-        gameGui = new GameGUI(game);
-        
-        this.windowMode = windowMode;
+     public GameWindow(Game game, SocketClient passSocket, ArrayList<Player> players, int windowMode) throws IOException{
         
         /*
-        game.generateMap();
-        game.setCurrentPlayer(player);
+         Game has generated players army , hand and comes from serwver
+         */
+        this.game = game;
+        this.windowMode = windowMode;
+        client = passSocket;
+        
+        /*
+        Sets current Player based on HOST/GUEST settings
         */
-   
+        game.setCurrentPlayer(windowMode);
+
+        /*
+        Creates new GUI respects HOST/GUEST settings
+        */
+        gameGui = new GameGUI(game, windowMode);
+        
+        bgImage = ImageIO.read( new File("resources\\backgrounds\\24209cb208yezho.jpg"));
         initComponents();
     
         this.addWindowListener(new WindowListener() {
@@ -135,11 +136,11 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         bgImage = ImageIO.read( new File("resources\\backgrounds\\24209cb208yezho.jpg"));
         initComponents();
         game=new Game(new Player("Bartek"));
-        gameGui = new GameGUI(game); //TEMP
+        gameGui = new GameGUI(game, CreateRoomWindow.AS_HOST ); //TEMP
       
         gameGui.getGame().getMap(); //TEMP
        
-        gameGui.mapGui = new MapGUI(game.getMap());
+        gameGui.mapGui = new MapGUI(game.getMap(), CreateRoomWindow.AS_HOST);
         this.addWindowListener(new WindowListener() {
 
             @Override public void windowOpened(WindowEvent e) {}
@@ -169,7 +170,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
      
     private void drawMap(Graphics g )                   
     {
-        gameGui.drawMap(g);
+        gameGui.drawMap(g,windowMode );
      
     }
  

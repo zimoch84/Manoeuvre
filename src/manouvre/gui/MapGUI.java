@@ -45,7 +45,7 @@ public class MapGUI{
      
      boolean unitSelected;
 
-    
+     int windowMode;
     
      public static final int BOARD_START_X = 60;
      public static final int BOARD_START_Y = 60;
@@ -72,9 +72,10 @@ public class MapGUI{
                     
     }   
     
-    public MapGUI(Map map) throws IOException{
+    public MapGUI(Map map, int windowMode) throws IOException{
     
     this.map =  map;
+    this.windowMode = windowMode;
     
     terrainsGUI = new ArrayList<>();
     unitSelected = false;
@@ -88,7 +89,16 @@ public class MapGUI{
           for (int i=0;i<8;i++)
             {
                    for(int j=0;j<8;j++){
+                       if(windowMode == CreateRoomWindow.AS_HOST)
                        terrainsGUI.add(new TerrainGUI(map.getTileAtIndex(i, j)) );
+                       else
+                           /*
+                           Rotate map 180 degreees
+                           */
+                       terrainsGUI.add(new TerrainGUI(map.getTileAtIndex(7-i, 7-j)) );
+                           
+                           
+                           
                        
                    }
             }

@@ -381,16 +381,18 @@ public class ManouvreServer implements Runnable {
             
            case Message.START_GAME :      
                
-               /*
-               Only Host can start game.
-               Message carry on info about players and their choices about army.
                
-               */
-                msgOut = new Message(Message.START_GAME,  "SERVER", Message.OK,   "IN_ROOM");
                /*
                 Searching for host Room
                 */
                 GameRoom gameRoom = findGameRoom(ID);
+                /*
+               Only Host can start game.
+               Message carry on info about players and their choices about army.
+               
+               */
+                msgOut = new Message(Message.START_GAME,  "SERVER", Message.OK,  "ROOM: " + gameRoom.getName());
+                
                 /*
                 Creating a game
                 */

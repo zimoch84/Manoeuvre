@@ -14,9 +14,6 @@ import manouvre.game.Game;
 import manouvre.game.Position;
 import manouvre.game.Unit;
 import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
 
 
 
@@ -45,9 +42,9 @@ public class GameGUI {
   
     
     
-    public GameGUI (Game newGame) throws IOException{
+    public GameGUI (Game newGame, int windowMode) throws IOException{
         this.game=newGame;
-        this.mapGui = new MapGUI(game.getMap());
+        this.mapGui = new MapGUI(game.getMap(), windowMode);
         this.generateUnitsUI();
         this.handSetGui = new CardSetGUI(game.getCurrentPlayer().getHand());
         this.discardSetGui = new CardSetGUI(game.getCurrentPlayer().getDiscardPile());
@@ -55,12 +52,13 @@ public class GameGUI {
         this.tableSetGui = new CardSetGUI(game.getCurrentPlayer().getTablePile());//empty
     }
 //------------- MAP - LEFT UPPER CORNER OF THE SCREEN -----------------------------------
-    void drawMap(Graphics g) {
+    void drawMap( Graphics g, int windowMode) {
         int gap = 5;
         // draw background
         
         g.drawImage(mapGui.background, 0, 0,BACKGRNDTABLE,BACKGRNDTABLE, null);
-        // draw terrain
+        // draw 
+        if(windowMode == CreateRoomWindow.AS_HOST)
         for (TerrainGUI terrainGUI : mapGui.getTerrainsGUI()) {
                         
             

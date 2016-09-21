@@ -5,6 +5,7 @@ import java.net.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import manouvre.game.Game;
 import manouvre.game.Player;
 import manouvre.game.interfaces.FrameInterface;
 import manouvre.gui.CreateRoomWindow;
@@ -183,15 +184,17 @@ public class SocketClient implements Runnable{
                   case Message.START_GAME:
                       if(msg.getContentP() == Message.OK)
                       {
+                          
+                          Game game = msg.getGame();
 
                      /* Create and display the form */
                      java.awt.EventQueue.invokeLater(new Runnable() {
                          public void run() {
                              try {
-                                 if(currentPlayer.isHost())
-                                     clientGame = new GameWindow(SocketClient.this, roomWindow.getPlayers(), CreateRoomWindow.AS_HOST );
+                                 if(currentPlayer.isHost() )
+                                     clientGame = new GameWindow( game , SocketClient.this, roomWindow.getPlayers(), CreateRoomWindow.AS_HOST );
                                  else 
-                                     clientGame = new GameWindow(SocketClient.this, roomWindow.getPlayers(), CreateRoomWindow.AS_GUEST );
+                                     clientGame = new GameWindow( game, SocketClient.this, roomWindow.getPlayers(), CreateRoomWindow.AS_GUEST );
                                  
                                  clientGame.setVisible(true);
                                  roomWindow.setVisible(false);

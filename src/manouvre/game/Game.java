@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import static manouvre.game.interfaces.PositionInterface.COLUMN_H;
 import static manouvre.game.interfaces.PositionInterface.ROW_8;
+import manouvre.gui.CreateRoomWindow;
 import manouvre.gui.MapGUI;
 
 /**
@@ -82,11 +83,7 @@ public class Game implements Serializable{
         
         guestPlayer.setCards();  
         guestPlayer.generateUnits(); 
-        /*
-        Temporary - first player should be randomly chosen
-        */
-        this.currentPlayer = hostPlayer;
-        
+                
         generateMap(); 
         
         placeUnitsOnMap(hostPlayer);
@@ -97,6 +94,20 @@ public class Game implements Serializable{
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+    
+    public void setCurrentPlayer(int windowMode) {
+        if (windowMode == CreateRoomWindow.AS_HOST)
+            currentPlayer = hostPlayer;
+        else 
+            currentPlayer = guestPlayer;
+        
+    }
+    
+    
 
     
     public ArrayList<Position> getPossibleBombard(Unit unit){
