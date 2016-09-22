@@ -192,9 +192,9 @@ public class SocketClient implements Runnable{
                          public void run() {
                              try {
                                  if(currentPlayer.isHost() )
-                                     clientGame = new GameWindow( game , SocketClient.this, roomWindow.getPlayers(), CreateRoomWindow.AS_HOST );
+                                     clientGame = new GameWindow( game , SocketClient.this, game.getPlayers(), CreateRoomWindow.AS_HOST );
                                  else 
-                                     clientGame = new GameWindow( game, SocketClient.this, roomWindow.getPlayers(), CreateRoomWindow.AS_GUEST );
+                                     clientGame = new GameWindow( game, SocketClient.this, game.getPlayers(), CreateRoomWindow.AS_GUEST );
                                  
                                  clientGame.setVisible(true);
                                  roomWindow.setVisible(false);
@@ -205,6 +205,17 @@ public class SocketClient implements Runnable{
                      });
                       }
                       break;
+                   case Message.SET_NATION:
+                       
+                       /*
+                       Setting opponent choice of nation
+                       */
+                       roomWindow.setButtonFromNation(msg.getContentP());
+                       
+                       break;
+                       
+                       
+                      
                   default:
                        System.out.println("manouvre.network.client.SocketClient.run() Unknown msg type" + msg.toString()) ;
               

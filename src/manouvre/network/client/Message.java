@@ -38,6 +38,7 @@ public class Message implements Serializable{
     public final static int USER_LOGGED = 17;
     public final static int CHAT_IN_ROOM = 18; 
     public final static int START_GAME = 19; 
+    public final static int SET_NATION = 20;
     
     
     public final static int CHAT = 99;

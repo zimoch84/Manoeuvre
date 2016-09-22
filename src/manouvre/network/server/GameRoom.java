@@ -194,4 +194,23 @@ public class GameRoom implements Serializable {
         this.guestPlayer = guestPlayer;
     }
 
+    public Player getCurrentPlayer(int socketPortID){
+        if (getHostSocketPortId() == socketPortID)
+            return getHostPlayer();
+                    
+        else return getGuestPlayer();
+        
+        
+    }
+    
+    public int getOpponentPortSocket(int socketPortID){
+        if (getHostSocketPortId() == socketPortID)
+            return getGuestSocketPortId();
+                    
+        else return getHostSocketPortId();
+        
+        
+    }
+            
+            
 }

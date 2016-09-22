@@ -109,7 +109,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         /*
         Creates new GUI respects HOST/GUEST settings
         */
-        gameGui = new GameGUI(game, windowMode);
+        gameGui = new GameGUI(this.game, windowMode);
         
         bgImage = ImageIO.read( new File("resources\\backgrounds\\24209cb208yezho.jpg"));
         initComponents();

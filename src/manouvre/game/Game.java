@@ -91,6 +91,17 @@ public class Game implements Serializable{
     }
      
     
+    public ArrayList<Player> getPlayers() {
+        
+        ArrayList<Player> players = new ArrayList<>();
+        
+        players.add(hostPlayer);
+        players.add(guestPlayer);
+        
+        return players;
+        
+    }
+    
     public Player getCurrentPlayer() {
         return currentPlayer;
     }

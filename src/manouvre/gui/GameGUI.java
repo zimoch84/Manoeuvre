@@ -38,12 +38,15 @@ public class GameGUI {
     
     ArrayList<Integer> selectionSeq = new ArrayList<Integer>();
 
+    
+    int windowMode;
 
   
     
     
     public GameGUI (Game newGame, int windowMode) throws IOException{
         this.game=newGame;
+        this.windowMode = windowMode;
         this.mapGui = new MapGUI(game.getMap(), windowMode);
         this.generateUnitsUI();
         this.handSetGui = new CardSetGUI(game.getCurrentPlayer().getHand());

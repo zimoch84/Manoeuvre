@@ -165,7 +165,7 @@
               <Group type="102" attributes="0">
                   <EmptySpace min="0" pref="26" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="player1Panel" max="32767" attributes="0"/>
+                      <Component id="player1Panel" pref="332" max="32767" attributes="0"/>
                       <Component id="player2Panel" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -212,12 +212,12 @@
                           <Component id="PrussiaRB1" min="-2" pref="64" max="-2" attributes="0"/>
                           <Component id="FranceRB1" min="-2" pref="64" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="SpainRB1" min="-2" pref="64" max="-2" attributes="0"/>
                           <Component id="RussiaRB1" alignment="0" min="-2" pref="64" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="15" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -251,6 +251,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="France"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="FranceRB1ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JRadioButton" name="USARB1">
               <Properties>
@@ -259,6 +262,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="USA"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="USARB1ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JRadioButton" name="AustriaRB1">
               <Properties>
@@ -279,6 +285,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Prussia"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PrussiaRB1ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JRadioButton" name="OttomanRB1">
               <Properties>
@@ -287,6 +296,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Ottoman"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="OttomanRB1ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JRadioButton" name="BritainRB1">
               <Properties>
@@ -317,6 +329,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Russia"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RussiaRB1ActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -387,6 +402,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="France"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="FranceRB2ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JRadioButton" name="USARB2">
               <Properties>
@@ -396,6 +414,9 @@
                 <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="USA"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="USARB2ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JRadioButton" name="AustriaRB2">
               <Properties>
@@ -415,6 +436,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Prussia"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PrussiaRB2ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JRadioButton" name="OttomanRB2">
               <Properties>
@@ -423,6 +447,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Ottoman"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="OttomanRB2ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JRadioButton" name="BritainRB2">
               <Properties>
@@ -442,6 +469,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Spain"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SpainRB2ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JRadioButton" name="RussiaRB2">
               <Properties>
@@ -450,6 +480,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Russia"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RussiaRB2ActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
