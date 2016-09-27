@@ -34,8 +34,18 @@ public class Unit implements UnitInterface{
     boolean injured;
     boolean eliminated;
    
+    //Must be done Bart
+    boolean isSelected; 
+    boolean hasMoved;
+    boolean hasAttacked=true;
+    boolean canRetrive;
+    //
+   
+    
     int ID;
     String name;
+
+   
     String army;
     int type;
     int strenght;
@@ -147,6 +157,43 @@ public class Unit implements UnitInterface{
         setPos(newPosition);
     }
     
+    //Bart
+    public boolean isHasMoved() {
+        return hasMoved;
+    }
+
+    public void setHasMoved(boolean hasMoved) {
+        this.hasMoved = hasMoved;
+    }
+
+    public boolean isCanRetrive() {
+        return canRetrive;
+    }
+
+    public void setCanRetrive(boolean canRetrive) {
+        this.canRetrive = canRetrive;
+    }
+    
+     public boolean isIsSelected() {
+        return isSelected;
+    }
+
+    public void setIsSelected(boolean isSelected) {
+        this.isSelected = isSelected;
+    }
+    
+    public boolean isHasAttacked() {
+        return hasAttacked;
+    }
+
+    public void setHasAttacked(boolean hasAttacked) {
+        this.hasAttacked = hasAttacked;
+    }
+    //Bart
+    
+    public String getName() {
+        return name;
+    }
     
     
 }

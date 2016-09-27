@@ -221,14 +221,6 @@ public class GameGUI {
             game.getCurrentPlayer().getHand().dealCardToOtherSetByCardID(selectionSeq.get(i),  game.getCurrentPlayer().getDiscardPile());
             numberOfDiscardedCards++;  
            }
-          /*if(numberOfDiscardedCards!=0){
-            game.getCurrentPlayer().getHand().addRandomCardsFromOtherSet(numberOfDiscardedCards, game.getCurrentPlayer().getDrawPile());
-            game.getCurrentPlayer().getHand().sortCard();
-            handSetGui.reSet(); //reset GUI
-            discardSetGui.reSet(); //reset GUI
-            drawSetGui.reSet(); //reset GUI
-            numberOfDiscardedCards=0; 
-          }*/
             selectionSeq.clear();
             handSetGui.reSet(); //reset GUI
             discardSetGui.reSet(); //reset GUI
@@ -245,18 +237,11 @@ public class GameGUI {
     }
     
     
-    public void setCardInHandAsPlayableBasedOnHandPos(int cardInHandPos){
-        
-    }
+
     
 
     
-    public boolean oneSelectedCardCanBePlayed(){
-        for (int i=0; i<selectionSeq.size(); i++){   
-            
-        }
-        return false;
-    }
+  
     
     public void playSelectedCard(){
          for (int i=0; i<selectionSeq.size(); i++){   

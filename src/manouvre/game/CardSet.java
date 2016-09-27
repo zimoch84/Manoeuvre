@@ -178,6 +178,16 @@ public class CardSet implements CardSetInterface{
     public Card getCardByPosInSet(int cardPosition){
        return cardList.get(cardPosition);     
     }
+    
+    public Card getCardByName(String name){
+        for (int i=0; i<cardList.size(); i++){
+            if(cardList.get(i).getCardName().equals(name)){
+                return cardList.get(i);
+            }
+        }  
+        return cardList.get(0);
+    }
+     
     public String getCardNameByPosInSet(int cardPosition){
        return cardList.get(cardPosition).getCardName();     
     }

@@ -287,9 +287,15 @@ public class Game {
                 getCurrentPlayer().getHand().getCardByPosInSet(i).setPlayable(true); 
             }
         } 
-        if (getPhase()==3){
-           getCurrentPlayer().getHand().getCardByPosInSet(i).setPlayable(true);  
+        if (getPhase()==3){ //unit card available only when unit has attacked  
+          if(getCurrentPlayer().getArmy().get(i).isHasAttacked()==true)
+          {
+              String tempString=getCurrentPlayer().getArmy().get(i).getName();
+               getCurrentPlayer().getHand().getCardByName(tempString).setPlayable(true);              
+          }
+
            }
+        
         if (getPhase()==4){
             if(getCurrentPlayer().getHand().getCardNameByPosInSet(i).equals("Supply")||
                    getCurrentPlayer().getHand().getCardNameByPosInSet(i).equals("Regroup")||
