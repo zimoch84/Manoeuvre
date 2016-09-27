@@ -5,6 +5,7 @@
  */
 package manouvre.game;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import manouvre.game.interfaces.PositionInterface;
 import manouvre.gui.MapGUI;
@@ -32,7 +33,7 @@ import manouvre.gui.MapGUI;
 +----------+----------+----------+----------+----------+----------+----------+----------+----------+
  * @author Piotr
  */
-public class Position implements PositionInterface{
+public class Position implements PositionInterface, Serializable{
 
     
     private int x;

@@ -5,10 +5,9 @@
  */
 package manouvre.gui;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javafx.scene.control.RadioButton;
 import javax.swing.AbstractButton;
 import javax.swing.DefaultListModel;
 import manouvre.game.Player;
@@ -31,7 +30,12 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
 
     int windowMode ;
     
-    Player player;
+    
+    Player hostPlayer;
+    Player guestPlayer;
+    
+    Player currentPlayer;
+    
     /**
      * Creates new form RoomWindow
      */
@@ -43,33 +47,63 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
      * Creates new form RoomWindow
      */
     public RoomWindow(SocketClient passSocket, Player player, int mode ) {
-        this.client = passSocket;
-        this.player = player;
-        this.windowMode = mode;
-               
+        
+       this.client = passSocket;
+       this.windowMode = mode;
+       /*
+       Setting player as currentPlayer and host or guest 
+       */
+       setPlayer(player);
+   
+       initComponents();
+       setEditableButtons();
+       setBorders();
+       setTitleBar();
+      
+       
+      
+       
+    }
+    
+           /*
+       Setting player either as host or guest
+       */
+    public void setPlayer(Player player){
+        
+        currentPlayer = player;
+        if(windowMode == CreateRoomWindow.AS_HOST)
+           hostPlayer = player;
+        else
+           guestPlayer = player;
        
         
-        initComponents();
-        
-        setEditableButtons(windowMode);
-        
-        String modeString;
+    }
+    
+    public void setBorders(){
+    
+    if(hostPlayer != null)
+        player1Panel.setBorder(javax.swing.BorderFactory.createTitledBorder( hostPlayer.getName() ));
+    if(guestPlayer != null)
+        player2Panel.setBorder(javax.swing.BorderFactory.createTitledBorder( guestPlayer.getName() ));
+    }
+    
+    private void setTitleBar(){
+    
+    String modeString;
                 
-                if(mode == CreateRoomWindow.AS_HOST )
+                if(windowMode == CreateRoomWindow.AS_HOST )
                     modeString = " as Host";
                 else 
                     modeString = " as Quest";
                       
-        this.setTitle(player.getName() + modeString);
+        this.setTitle(currentPlayer.getName()  + modeString);
     }
     
-
-     private void setEditableButtons(int mode){
+     private void setEditableButtons(){
      
-         switch(mode)
+         switch(windowMode)
          {
              case CreateRoomWindow.AS_HOST :
-                 
                AustriaRB2.setEnabled(false);
                BritainRB2.setEnabled(false);
                FranceRB2.setEnabled(false);
@@ -78,13 +112,9 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
                RussiaRB2.setEnabled(false);
                SpainRB2.setEnabled(false);
                USARB2.setEnabled(false);
-
-               
-                       
              
              break;
              case CreateRoomWindow.AS_GUEST :
-               
                AustriaRB1.setEnabled(false);
                BritainRB1.setEnabled(false);
                FranceRB1.setEnabled(false);
@@ -94,11 +124,8 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
                SpainRB1.setEnabled(false);
                USARB1.setEnabled(false);
                
-               startButton.setEnabled(false);
-                 
-             break;    
-                 
-     
+              startButton.setEnabled(false);
+              break;    
      }}
     
     /**
@@ -129,7 +156,7 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
         BritainRB1 = new javax.swing.JRadioButton();
         SpainRB1 = new javax.swing.JRadioButton();
         RussiaRB1 = new javax.swing.JRadioButton();
-        player1Panel1 = new javax.swing.JPanel();
+        player2Panel = new javax.swing.JPanel();
         FranceRB2 = new javax.swing.JRadioButton();
         USARB2 = new javax.swing.JRadioButton();
         AustriaRB2 = new javax.swing.JRadioButton();
@@ -199,11 +226,23 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
                     .addContainerGap(72, Short.MAX_VALUE)))
         );
 
+        player1Panel.setBorder(javax.swing.BorderFactory.createTitledBorder("HostPlayer"));
+
         player1Group.add(FranceRB1);
         FranceRB1.setText("France");
+        FranceRB1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FranceRB1ActionPerformed(evt);
+            }
+        });
 
         player1Group.add(USARB1);
         USARB1.setText("USA");
+        USARB1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                USARB1ActionPerformed(evt);
+            }
+        });
 
         player1Group.add(AustriaRB1);
         AustriaRB1.setSelected(true);
@@ -216,9 +255,19 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
 
         player1Group.add(PrussiaRB1);
         PrussiaRB1.setText("Prussia");
+        PrussiaRB1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PrussiaRB1ActionPerformed(evt);
+            }
+        });
 
         player1Group.add(OttomanRB1);
         OttomanRB1.setText("Ottoman");
+        OttomanRB1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OttomanRB1ActionPerformed(evt);
+            }
+        });
 
         player1Group.add(BritainRB1);
         BritainRB1.setText("Britain");
@@ -238,6 +287,11 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
 
         player1Group.add(RussiaRB1);
         RussiaRB1.setText("Russia");
+        RussiaRB1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RussiaRB1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout player1PanelLayout = new javax.swing.GroupLayout(player1Panel);
         player1Panel.setLayout(player1PanelLayout);
@@ -256,22 +310,22 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
                 .addGroup(player1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(PrussiaRB1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(FranceRB1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(24, 24, 24)
                 .addGroup(player1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(SpainRB1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(RussiaRB1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         player1PanelLayout.setVerticalGroup(
             player1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, player1PanelLayout.createSequentialGroup()
-                .addGap(38, 38, 38)
+                .addContainerGap()
                 .addGroup(player1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(RussiaRB1)
                     .addComponent(FranceRB1)
                     .addComponent(USARB1)
                     .addComponent(AustriaRB1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addGroup(player1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BritainRB1)
                     .addComponent(OttomanRB1)
@@ -280,12 +334,24 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
                 .addContainerGap())
         );
 
+        player2Panel.setBorder(javax.swing.BorderFactory.createTitledBorder("QuestPlayer"));
+
         player2Group.add(FranceRB2);
         FranceRB2.setText("France");
+        FranceRB2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FranceRB2ActionPerformed(evt);
+            }
+        });
 
         player2Group.add(USARB2);
         USARB2.setSelected(true);
         USARB2.setText("USA");
+        USARB2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                USARB2ActionPerformed(evt);
+            }
+        });
 
         player2Group.add(AustriaRB2);
         AustriaRB2.setText("Austria");
@@ -297,9 +363,19 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
 
         player2Group.add(PrussiaRB2);
         PrussiaRB2.setText("Prussia");
+        PrussiaRB2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PrussiaRB2ActionPerformed(evt);
+            }
+        });
 
         player2Group.add(OttomanRB2);
         OttomanRB2.setText("Ottoman");
+        OttomanRB2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OttomanRB2ActionPerformed(evt);
+            }
+        });
 
         player2Group.add(BritainRB2);
         BritainRB2.setText("Britain");
@@ -311,44 +387,54 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
 
         player2Group.add(SpainRB2);
         SpainRB2.setText("Spain");
+        SpainRB2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SpainRB2ActionPerformed(evt);
+            }
+        });
 
         player2Group.add(RussiaRB2);
         RussiaRB2.setText("Russia");
+        RussiaRB2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RussiaRB2ActionPerformed(evt);
+            }
+        });
 
-        javax.swing.GroupLayout player1Panel1Layout = new javax.swing.GroupLayout(player1Panel1);
-        player1Panel1.setLayout(player1Panel1Layout);
-        player1Panel1Layout.setHorizontalGroup(
-            player1Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(player1Panel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout player2PanelLayout = new javax.swing.GroupLayout(player2Panel);
+        player2Panel.setLayout(player2PanelLayout);
+        player2PanelLayout.setHorizontalGroup(
+            player2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(player2PanelLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(player1Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(player2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(BritainRB2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(AustriaRB2, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(player1Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(player2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(OttomanRB2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(USARB2, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(player1Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(player2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(PrussiaRB2, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(FranceRB2, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(player1Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(player2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(SpainRB2, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(RussiaRB2, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        player1Panel1Layout.setVerticalGroup(
-            player1Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, player1Panel1Layout.createSequentialGroup()
-                .addGap(56, 56, 56)
-                .addGroup(player1Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        player2PanelLayout.setVerticalGroup(
+            player2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, player2PanelLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(player2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(RussiaRB2)
                     .addComponent(FranceRB2)
                     .addComponent(USARB2)
                     .addComponent(AustriaRB2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
-                .addGroup(player1Panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addGroup(player2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BritainRB2)
                     .addComponent(OttomanRB2)
                     .addComponent(PrussiaRB2)
@@ -361,10 +447,10 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
         playersPanelLayout.setHorizontalGroup(
             playersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(playersPanelLayout.createSequentialGroup()
-                .addGap(0, 38, Short.MAX_VALUE)
-                .addGroup(playersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(player1Panel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(player1Panel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 26, Short.MAX_VALUE)
+                .addGroup(playersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(player1Panel, javax.swing.GroupLayout.PREFERRED_SIZE, 332, Short.MAX_VALUE)
+                    .addComponent(player2Panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         playersPanelLayout.setVerticalGroup(
             playersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -372,7 +458,7 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
                 .addContainerGap()
                 .addComponent(player1Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(player1Panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(player2Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -395,7 +481,7 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(85, Short.MAX_VALUE)
+                .addContainerGap(40, Short.MAX_VALUE)
                 .addComponent(startButton, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -417,124 +503,205 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(playersPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 13, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
-       
-        Message msg = new Message (Message.CHAT_IN_ROOM, player.getName(), messageTextField.getText(), "CHAT_IN_ROOM");
-        
-        
+      
+        Message msg = new Message (Message.CHAT_IN_ROOM, currentPlayer.getName(), messageTextField.getText(), "CHAT_IN_ROOM");
         messageTextField.setText("");
         client.send(msg);
         
-        
     }//GEN-LAST:event_sendButtonActionPerformed
-
+        
     private void BritainRB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BritainRB1ActionPerformed
-        // TODO add your handling code here:
+        buttonActionPerformed(evt);
     }//GEN-LAST:event_BritainRB1ActionPerformed
 
     private void AustriaRB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AustriaRB1ActionPerformed
-        // TODO add your handling code here:
+       buttonActionPerformed(evt);
+        
     }//GEN-LAST:event_AustriaRB1ActionPerformed
 
     private void AustriaRB2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AustriaRB2ActionPerformed
-        // TODO add your handling code here:
+        buttonActionPerformed(evt);
     }//GEN-LAST:event_AustriaRB2ActionPerformed
 
     private void BritainRB2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BritainRB2ActionPerformed
-        // TODO add your handling code here:
+       buttonActionPerformed(evt);
     }//GEN-LAST:event_BritainRB2ActionPerformed
 
     private void SpainRB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SpainRB1ActionPerformed
-        // TODO add your handling code here:
+        buttonActionPerformed(evt);
     }//GEN-LAST:event_SpainRB1ActionPerformed
 
+    
+    private void buttonActionPerformed (java.awt.event.ActionEvent evt) {
+        AbstractButton button = (AbstractButton) evt.getSource();
+        setNationFromButton(button, currentPlayer);
+        
+        Message msg = new Message (Message.SET_NATION, currentPlayer.getName(), currentPlayer.getNation(), "IN_ROOM");
+        client.send(msg);
+        
+    }
+    
+    private void setNationFromButton(AbstractButton button, Player player){
+    
+        switch(button.getText()){
+        case "Austria": 
+           player.setNation(CardInterface.AU);
+            break;
+        case "France" :
+            player.setNation(CardInterface.FR);
+            break;
+        case "Russia": 
+           player.setNation(CardInterface.RU);
+            break;
+        case "Prussia" :
+            player.setNation(CardInterface.PR);
+            break;
+        case "Britain": 
+           player.setNation(CardInterface.BR);
+            break;
+        case "Spain" :
+            player.setNation(CardInterface.SP);
+            break;
+        case "Ottoman": 
+           player.setNation(CardInterface.OT);
+            break;
+        case "USA" :
+            player.setNation(CardInterface.US);
+            break;
+                }
+    
+    }
+    
+    public void setButtonFromNation (int nation){
+        if(currentPlayer == guestPlayer)
+        switch(nation){
+            case CardInterface.AU: 
+                AustriaRB1.setSelected(true);
+                break;
+            case CardInterface.BR: 
+                BritainRB1.setSelected(true);
+                break;
+            case CardInterface.FR: 
+                FranceRB1.setSelected(true);
+                break;
+            case CardInterface.OT: 
+                OttomanRB1.setSelected(true);
+                break;
+            case CardInterface.PR: 
+                PrussiaRB1.setSelected(true);
+                break;
+            case CardInterface.RU: 
+                RussiaRB1.setSelected(true);
+                break;
+            case CardInterface.SP: 
+                SpainRB1.setSelected(true);
+                break;
+            case CardInterface.US: 
+                USARB1.setSelected(true);
+                break;
+         }
+        else 
+        {
+            switch(nation){
+            case CardInterface.AU: 
+                AustriaRB2.setSelected(true);
+                break;
+            case CardInterface.BR: 
+                BritainRB2.setSelected(true);
+                break;
+            case CardInterface.FR: 
+                FranceRB2.setSelected(true);
+                break;
+            case CardInterface.OT: 
+                OttomanRB2.setSelected(true);
+                break;
+            case CardInterface.PR: 
+                PrussiaRB2.setSelected(true);
+                break;
+            case CardInterface.RU: 
+                RussiaRB2.setSelected(true);
+                break;
+            case CardInterface.SP: 
+                SpainRB2.setSelected(true);
+                break;
+            case CardInterface.US: 
+                USARB2.setSelected(true);
+                break;
+        }
+        
+        }
+            
+    }
+    
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
          
+                   
         
+        //HostPlayer choice
         for (Enumeration<AbstractButton> buttons = player1Group.getElements(); buttons.hasMoreElements();) {
                                 AbstractButton button = buttons.nextElement();
                                 if (button.isSelected()) {
-                                    switch(button.getText()){
-                                        case "Austria": 
-                                            
-                                            player.setNation(CardInterface.AU);
-                                            break;
-                                        case "France" :
-                                            player.setNation(CardInterface.FR);
-                                            break;
-                                        case "Russia": 
-                                            
-                                            player.setNation(CardInterface.RU);
-                                            break;
-                                        case "Prussia" :
-                                            player.setNation(CardInterface.PR);
-                                            break;
-                                        case "Britain": 
-                                            
-                                            player.setNation(CardInterface.BR);
-                                            break;
-                                        case "Spain" :
-                                            player.setNation(CardInterface.SP);
-                                            break;
-                                        case "Ottoman": 
-                                            
-                                            player.setNation(CardInterface.OT);
-                                            break;
-                                        case "USA" :
-                                            player.setNation(CardInterface.US);
-                                            break;
-                                                }
+                                    setNationFromButton(button, hostPlayer);
                                     break;
                                 }
                       }
-        Player[] players  = new Player[2];
-        players[0] = player;
+         
+        //Quest Player choice
+       if(guestPlayer != null)
+        
+        for (Enumeration<AbstractButton> buttons = player2Group.getElements(); buttons.hasMoreElements();) {
+                                AbstractButton button = buttons.nextElement();
+                                if (button.isSelected()) {
+                                     setNationFromButton(button, guestPlayer);
+                                    break;
+                                }
+                      }
         
         
-        Message msg = new Message(Message.START_GAME,player.getName(), "Start Game", "SERVER");
         
+        Message msg = new Message(Message.START_GAME,currentPlayer.getName(), "Start Game", "SERVER");
+        client.send(msg);
         
-        
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    
-                        
-                                player.generateUnits();
-                                if(windowMode == CreateRoomWindow.AS_HOST)
-                                    player.setHost(true);
-                                else 
-                                    player.setHost(false);
-                                
-                                
-                                
-                                 new GameWindow(client, player).setVisible(true);
-                            
-                                setVisible(false);
-                   
-                } catch (IOException ex) {
-                    Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                try {
+//                    
+//                        
+//                                player.generateUnits();
+//                                if(windowMode == CreateRoomWindow.AS_HOST)
+//                                    player.setHost(true);
+//                                else 
+//                                    player.setHost(false);
+//                                
+//                                
+//                                
+//                                 new GameWindow(client, player).setVisible(true);
+//                            
+//                                setVisible(false);
+//                   
+//                } catch (IOException ex) {
+//                    Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
+//        });
     }//GEN-LAST:event_startButtonActionPerformed
 
     private void messageTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_messageTextFieldActionPerformed
        
-        Message msg = new Message (Message.CHAT_IN_ROOM, player.getName(), messageTextField.getText(), "CHAT_IN_ROOM");
+        Message msg = new Message (Message.CHAT_IN_ROOM, currentPlayer.getName(), messageTextField.getText(), "CHAT_IN_ROOM");
         
         
         messageTextField.setText("");
@@ -543,13 +710,88 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
         
         
     }//GEN-LAST:event_messageTextFieldActionPerformed
+
+    private void USARB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_USARB1ActionPerformed
+    buttonActionPerformed(evt);
+    }//GEN-LAST:event_USARB1ActionPerformed
+
+    private void FranceRB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FranceRB1ActionPerformed
+    buttonActionPerformed(evt);
+    }//GEN-LAST:event_FranceRB1ActionPerformed
+
+    private void RussiaRB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RussiaRB1ActionPerformed
+    buttonActionPerformed(evt);
+    }//GEN-LAST:event_RussiaRB1ActionPerformed
+
+    private void OttomanRB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OttomanRB1ActionPerformed
+    buttonActionPerformed(evt);
+    }//GEN-LAST:event_OttomanRB1ActionPerformed
+
+    private void USARB2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_USARB2ActionPerformed
+    buttonActionPerformed(evt);
+    }//GEN-LAST:event_USARB2ActionPerformed
+
+    private void FranceRB2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FranceRB2ActionPerformed
+    buttonActionPerformed(evt);
+    }//GEN-LAST:event_FranceRB2ActionPerformed
+
+    private void RussiaRB2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RussiaRB2ActionPerformed
+    buttonActionPerformed(evt);
+    }//GEN-LAST:event_RussiaRB2ActionPerformed
+
+    private void OttomanRB2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OttomanRB2ActionPerformed
+    buttonActionPerformed(evt);
+    }//GEN-LAST:event_OttomanRB2ActionPerformed
+
+    private void PrussiaRB2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrussiaRB2ActionPerformed
+    buttonActionPerformed(evt);
+    }//GEN-LAST:event_PrussiaRB2ActionPerformed
+
+    private void SpainRB2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SpainRB2ActionPerformed
+    buttonActionPerformed(evt);
+    }//GEN-LAST:event_SpainRB2ActionPerformed
+
+    private void PrussiaRB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrussiaRB1ActionPerformed
+    buttonActionPerformed(evt);
+    }//GEN-LAST:event_PrussiaRB1ActionPerformed
     @Override
     public void printOnChat(String inString)    {
     
     mainChat.append(inString+ "\n");
     }
-    
-    
+
+    public Player getHostPlayer() {
+        return hostPlayer;
+    }
+
+    public void setHostPlayer(Player hostPlayer) {
+        this.hostPlayer = hostPlayer;
+        setBorders();
+        setButtonFromNation(hostPlayer.getNation());
+    }
+
+    public Player getGuestPlayer() {
+        return guestPlayer;
+        
+    }
+
+    public void setGuestPlayer(Player guestPlayer) {
+        this.guestPlayer = guestPlayer;
+         setBorders();
+         setButtonFromNation(guestPlayer.getNation());
+          
+    }
+
+     public ArrayList<Player> getPlayers() {
+        
+        ArrayList<Player> players = new ArrayList<>();
+        
+        players.add(hostPlayer);
+        players.add(guestPlayer);
+        
+        return players;
+        
+    }
     
     /**
      * @param args the command line arguments
@@ -612,8 +854,8 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
     public javax.swing.JTextField messageTextField;
     private javax.swing.ButtonGroup player1Group;
     private javax.swing.JPanel player1Panel;
-    private javax.swing.JPanel player1Panel1;
     private javax.swing.ButtonGroup player2Group;
+    private javax.swing.JPanel player2Panel;
     private javax.swing.JPanel playersPanel;
     public javax.swing.JButton sendButton;
     private javax.swing.JButton startButton;

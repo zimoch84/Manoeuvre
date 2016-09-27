@@ -5,6 +5,7 @@
  */
 package manouvre.game;
 
+import java.io.Serializable;
 import manouvre.game.interfaces.TerrainInterface;
 import manouvre.game.interfaces.UnitInterface;
 
@@ -12,7 +13,7 @@ import manouvre.game.interfaces.UnitInterface;
  *
  * @author Piotr
  */
-public class Terrain  implements TerrainInterface {
+public class Terrain  implements TerrainInterface, Serializable {
 
     private int type;
     private int defenceBonus;

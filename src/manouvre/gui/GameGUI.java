@@ -38,13 +38,16 @@ public class GameGUI {
     
     ArrayList<Integer> selectionSeq = new ArrayList<Integer>();
 
+    
+    int windowMode;
 
   
     
     
-    public GameGUI (Game newGame) throws IOException{
+    public GameGUI (Game newGame, int windowMode) throws IOException{
         this.game=newGame;
-        this.mapGui = new MapGUI(game.getMap());
+        this.windowMode = windowMode;
+        this.mapGui = new MapGUI(game.getMap(), windowMode);
         this.generateUnitsUI();
         this.handSetGui = new CardSetGUI(game.getCurrentPlayer().getHand());
         this.discardSetGui = new CardSetGUI(game.getCurrentPlayer().getDiscardPile());
@@ -52,12 +55,13 @@ public class GameGUI {
         this.tableSetGui = new CardSetGUI(game.getCurrentPlayer().getTablePile());//empty
     }
 //------------- MAP - LEFT UPPER CORNER OF THE SCREEN -----------------------------------
-    void drawMap(Graphics g) {
+    void drawMap( Graphics g, int windowMode) {
         int gap = 5;
         // draw background
         
         g.drawImage(mapGui.background, 0, 0,BACKGRNDTABLE,BACKGRNDTABLE, null);
-        // draw terrain
+        // draw 
+        if(windowMode == CreateRoomWindow.AS_HOST)
         for (TerrainGUI terrainGUI : mapGui.getTerrainsGUI()) {
                         
             
@@ -74,34 +78,35 @@ public class GameGUI {
         Draws selection
          */
         if (mapGui.isUnitSelected()) {
-            for (TerrainGUI terrain : mapGui.getTerrainsGUI()) {
-                if (terrain.isSelected()) {
+            for (TerrainGUI terrainGUI : mapGui.getTerrainsGUI()) {
+                if (terrainGUI.isSelected()) {
                     g.drawRoundRect(
-                            terrain.getPos().getMouseX() + gap, 
-                            terrain.getPos().getMouseY() + gap, 
+                            terrainGUI.getPos().getMouseX() + gap, 
+                            terrainGUI.getPos().getMouseY() + gap, 
                             MapGUI.SQUARE_WIDTH - 2 * gap, 
                             MapGUI.SQUARE_HEIGHT - 2 * gap, 
                             10, 10
                     );
-                    System.out.println("Position " + terrain.getPos());
+                    System.out.println("manouvre.gui.GameGUI.drawMap() " + terrainGUI.getPos().toString());
                     /*
                     Draw AdjencedSpace /Move
                      */
-                    if (!terrain.getTerrain().getIsOccupiedByUnit()) {
-                        ArrayList<Position> adjencedPositions = terrain.getPos().getAdjencedPositions();
-                        System.out.println(terrain.getPos().toString());
-                        g.setColor(Color.red);
-                        for (int k = 0; k < adjencedPositions.size(); k++) {
-                            g.drawRoundRect(
-                                    adjencedPositions.get(k).getMouseX() + gap, 
-                                    adjencedPositions.get(k).getMouseY() + gap, 
-                                    MapGUI.SQUARE_WIDTH - 2 * gap, 
-                                    MapGUI.SQUARE_HEIGHT - 2 * gap, 
-                                    10, 10);
-                        }
+                    if (!terrainGUI.getTerrain().getIsOccupiedByUnit()) {
+//                        ArrayList<Position> adjencedPositions = terrainGUI.getPos().getAdjencedPositions();
+//                        
+//                                               
+//                        g.setColor(Color.red);
+//                        for (int k = 0; k < adjencedPositions.size(); k++) {
+//                            g.drawRoundRect(
+//                                    adjencedPositions.get(k).getMouseX() + gap, 
+//                                    adjencedPositions.get(k).getMouseY() + gap, 
+//                                    MapGUI.SQUARE_WIDTH - 2 * gap, 
+//                                    MapGUI.SQUARE_HEIGHT - 2 * gap, 
+//                                    10, 10);
+//                        }
                     } else {
-                        System.out.println("manouvre.gui.ClientUI.drawMap() : " + game.getUnitAtPosition(terrain.getPos()).toString());
-                        ArrayList<Position> movePositions = game.getPossibleMovement(game.getUnitAtPosition(terrain.getPos()));
+                        System.out.println("manouvre.gui.ClientUI.drawMap() : " + game.getCurrentPlayerUnitAtPosition(terrainGUI.getPos()).toString());
+                        ArrayList<Position> movePositions = game.getPossibleMovement(game.getCurrentPlayerUnitAtPosition(terrainGUI.getPos()));
                         for (Position drawMovePosion : movePositions) {
                             g.setColor(Color.blue);
                             g.drawRoundRect(

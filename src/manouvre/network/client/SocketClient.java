@@ -5,6 +5,7 @@ import java.net.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import manouvre.game.Game;
 import manouvre.game.Player;
 import manouvre.game.interfaces.FrameInterface;
 import manouvre.gui.CreateRoomWindow;
@@ -42,27 +43,13 @@ public class SocketClient implements Runnable{
     /*
     Player na poziomie socketu z założenia ma conajmniej swoją nazwę
     */
-    public Player player;
+    public Player currentPlayer;
     /*
     Streamy do czytania i pisania w sockecie
     */
     public ObjectInputStream In;
     public ObjectOutputStream Out;
-    
-    
-    public SocketClient(GameWindow frame) throws IOException{
-        clientGame = frame; 
-        //this.serverAddr = "zimoch.insomnia247.nl"; 
-        
-        
-        socket = new Socket(InetAddress.getByName(serverAddr), port);
-            
-        Out = new ObjectOutputStream(socket.getOutputStream());
-        Out.flush();
-        In = new ObjectInputStream(socket.getInputStream());
-        
-       
-    }
+
     
     public SocketClient(LoginWindow frame) throws IOException{
         welcome = frame; 
@@ -102,7 +89,7 @@ public class SocketClient implements Runnable{
                  
                          if(msg.getContentP() == Message.OK){
                         
-                             player = welcome.getPlayer();
+                             currentPlayer = welcome.getPlayer();
                              welcome.setVisible(false);
                              
                              
@@ -112,7 +99,7 @@ public class SocketClient implements Runnable{
                                  java.awt.EventQueue.invokeLater(new Runnable() {
                                     public void run() {
                                         try {
-                                            mainChat = new MainChatWindow(SocketClient.this, player);
+                                            mainChat = new MainChatWindow(SocketClient.this, currentPlayer);
                                             mainChat.setVisible(true);
                                             setActiveWindow(mainChat);
                                         } catch (IOException ex) {
@@ -154,12 +141,16 @@ public class SocketClient implements Runnable{
                       /*
                         Run room window
                         */
+                        currentPlayer.setHost(true);
                         java.awt.EventQueue.invokeLater(new Runnable() {
                             public void run() {
-                                roomWindow = new RoomWindow(SocketClient.this, player, CreateRoomWindow.AS_HOST);
+                                roomWindow = new RoomWindow(SocketClient.this, currentPlayer, CreateRoomWindow.AS_HOST);
                                 
                                 roomWindow.setVisible(true);
-                                 setActiveWindow(roomWindow);
+                                /*
+                                Set focus to this window do recive comunication to
+                                */
+                                setActiveWindow(roomWindow);
                             }
                         });
                      break;  
@@ -167,6 +158,7 @@ public class SocketClient implements Runnable{
                   case Message.JOIN_ROOM:
                       
                        if(msg.getContentP() == Message.OK)
+                       {
                       /*
                         Run room window
                         */
@@ -174,14 +166,55 @@ public class SocketClient implements Runnable{
                             public void run() {
                                 roomWindow = new RoomWindow(SocketClient.this, welcome.getPlayer(), CreateRoomWindow.AS_GUEST);
                                 roomWindow.setVisible(true);
+                                roomWindow.setHostPlayer(msg.getPlayer());
+                                
                                 setActiveWindow(roomWindow);
+                                roomWindow.printOnChat("Player " +msg.getPlayer().getName() + " joined room" );
                             }
                         });
+                       }
+                      if(msg.getContentP() == Message.USER_JOINED_IN_ROOM)
+                      {   
+                           roomWindow.setGuestPlayer(msg.getPlayer());
+                           roomWindow.printOnChat("Player " +msg.getPlayer().getName() + " joined room" );
+                      }
+                            
+                           
                       break;
                   case Message.START_GAME:
-                      
-                      
-                      
+                      if(msg.getContentP() == Message.OK)
+                      {
+                          
+                          Game game = msg.getGame();
+
+                     /* Create and display the form */
+                     java.awt.EventQueue.invokeLater(new Runnable() {
+                         public void run() {
+                             try {
+                                 if(currentPlayer.isHost() )
+                                     clientGame = new GameWindow( game , SocketClient.this, game.getPlayers(), CreateRoomWindow.AS_HOST );
+                                 else 
+                                     clientGame = new GameWindow( game, SocketClient.this, game.getPlayers(), CreateRoomWindow.AS_GUEST );
+                                 
+                                 clientGame.setVisible(true);
+                                 roomWindow.setVisible(false);
+                             } catch (Exception ex) {
+                                 Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
+                             }
+                         }
+                     });
+                      }
+                      break;
+                   case Message.SET_NATION:
+                       
+                       /*
+                       Setting opponent choice of nation
+                       */
+                       roomWindow.setButtonFromNation(msg.getContentP());
+                       
+                       break;
+                       
+                       
                       
                   default:
                        System.out.println("manouvre.network.client.SocketClient.run() Unknown msg type" + msg.toString()) ;

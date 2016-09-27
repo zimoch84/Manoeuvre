@@ -6,16 +6,18 @@
 package manouvre.game;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import static manouvre.game.interfaces.PositionInterface.COLUMN_H;
 import static manouvre.game.interfaces.PositionInterface.ROW_8;
+import manouvre.gui.CreateRoomWindow;
 import manouvre.gui.MapGUI;
 
 /**
  *
  * @author Piotr
  */
-public class Game {
+public class Game implements Serializable{
     
     /*
     Game phases
@@ -35,7 +37,8 @@ public class Game {
     int turn;
         
     Player currentPlayer;
-    Player opponent;
+    Player hostPlayer;
+    Player guestPlayer;
     
     int phase; 
 
@@ -70,26 +73,53 @@ public class Game {
         //-----------------------------------------
     }
     
-    public Game(Player[] newPlayers) {
-        this.currentPlayer = newPlayers[0];
-        this.opponent = newPlayers[1];
+    public Game(ArrayList<Player> players) {
+        this.hostPlayer = players.get(0);
+        this.guestPlayer = players.get(1);
+        
+        
+        hostPlayer.setCards();  
+        hostPlayer.generateUnits(); 
+        
+        guestPlayer.setCards();  
+        guestPlayer.generateUnits(); 
+                
+        generateMap(); 
+        
+        placeUnitsOnMap(hostPlayer);
+        placeUnitsOnMap(guestPlayer);
     }
      
-    /*public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    } */
+    
+    public ArrayList<Player> getPlayers() {
+        
+        ArrayList<Player> players = new ArrayList<>();
+        
+        players.add(hostPlayer);
+        players.add(guestPlayer);
+        
+        return players;
+        
+    }
     
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
-    /*public void setOpponent(Player opponent) {
-        this.opponent = opponent;
-    }*/
-    
-    public Player getOpponent() {
-        return opponent;
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
+    
+    public void setCurrentPlayer(int windowMode) {
+        if (windowMode == CreateRoomWindow.AS_HOST)
+            currentPlayer = hostPlayer;
+        else 
+            currentPlayer = guestPlayer;
+        
+    }
+    
+    
+
     
     public ArrayList<Position> getPossibleBombard(Unit unit){
     return null;
@@ -212,13 +242,13 @@ public class Game {
       map.getTileAtIndex(unit.getPos().getX(), unit.getPos().getY()).setIsOccupiedByUnit(false);
       map.getTileAtIndex(newPosition.getX(), newPosition.getY()).setIsOccupiedByUnit(true);
 
-      getUnitAtPosition(unit.getPos()).setPos(newPosition);
+      getCurrentPlayerUnitAtPosition(unit.getPos()).setPos(newPosition);
       
       
           
     }
     
-    public Unit getUnitAtPosition(Position position){
+    public Unit getCurrentPlayerUnitAtPosition(Position position){
     
         for(Unit unitSearch: currentPlayer.getArmy()){
         
@@ -235,7 +265,7 @@ public class Game {
      
     }
     
-    public boolean checkUnitAtPosition(Position position){
+    public boolean checkCurrentPlayerUnitAtPosition(Position position){
     
         for(Unit unitSearch: currentPlayer.getArmy()){
         

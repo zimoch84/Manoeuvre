@@ -17,11 +17,14 @@ import manouvre.network.client.SocketClient;
  * @author Piotr
  */
 public class GameRoom implements Serializable {
+
     
-    ArrayList<Player> players;
+    
+    Player hostPlayer;
+    Player guestPlayer;
+    
     
     String name, password;
-
     
 
     Game game;
@@ -41,7 +44,13 @@ public class GameRoom implements Serializable {
     
     */
     
-    int hostSocketPortId, questSocketPortId;
+    int hostSocketPortId,
+
+    /**
+     * hostSocketPortId = server.host.socket.localPort = host.socket.port
+ guestSocketPortId = = server.quest.socket.localPort = quest.socket.port
+     */
+    guestSocketPortId;
 
     public void setPassword(String password) {
         this.password = password;
@@ -55,25 +64,45 @@ public class GameRoom implements Serializable {
     
  
     
-    public GameRoom(String name, String password, int hostSocketPortId, Player player) {
+    public GameRoom(String name, String password, int hostSocketPortId, Player hostPlayer) {
         this.name = name;
         this.password = password;
-        
-        players = new ArrayList<>();
-        
+      
+               
         this.hostSocketPortId = hostSocketPortId;
-         players.add(player);
+        this.hostPlayer = hostPlayer;
+        setLocked(false);
         
     }
      
-    public void addPlayer(Player inPlayer){
+    public void addPlayer(Player guestPlayer){
+        
         
         if(!locked){
-        this.players.add(inPlayer);
-        if (players.size() == 2) locked = true;
+            this.guestPlayer= guestPlayer;
+            setLocked(true);
+            
         }
+               
+    }
+    
+    public ArrayList<Player> getPlayers() {
         
-        //players.add(inSocket.welcome.getPlayer());
+        ArrayList<Player> players = new ArrayList<>();
+        
+        players.add(hostPlayer);
+        players.add(guestPlayer);
+        
+        return players;
+        
+    }
+
+    public void setPlayers(ArrayList<Player> players) {
+        
+        if(players.size() == 2)
+        {hostPlayer = players.get(0);
+        guestPlayer = players.get(1);
+        }
         
     }
     
@@ -82,22 +111,24 @@ public class GameRoom implements Serializable {
      GameRoom c = (GameRoom)    o;
    
      return this.name == c.name;
+        
+     
     }
     
     @Override
     public String toString(){
     
         String out = "";
-        if(players.size() > 0 )
             
-            out = out +  name + " hosted by : " ; 
-            for (Player player: players)
-            out = out + player.getName() + " ";
-            
-            if (password == null || password.equals("") )        
-             return out ;
-            else 
-             return out  +   " password protected";
+        out =   name + " hosted by : "  + getHostPlayer().getName() + " guest : " +
+                (guestPlayer != null ? getGuestPlayer().getName() : "noone")
+               ;
+        return out;   
+                       
+//            if (password == null || password.equals("") )        
+//              ;
+//            else 
+//             return out  +   " password protected";
     
     }
     
@@ -130,12 +161,12 @@ public class GameRoom implements Serializable {
         this.hostSocketPortId = hostSocketPortId;
     }
 
-    public int getQuestSocketPortId() {
-        return questSocketPortId;
+    public int getGuestSocketPortId() {
+        return guestSocketPortId;
     }
 
-    public void setQuestSocketPortId(int questSocketPortId) {
-        this.questSocketPortId = questSocketPortId;
+    public void setGuestSocketPortId(int guestSocketPortId) {
+        this.guestSocketPortId = guestSocketPortId;
     }
     public Game getGame() {
         return game;
@@ -145,6 +176,41 @@ public class GameRoom implements Serializable {
         this.game = game;
     }
     
-    
+    public Player getHostPlayer() {
+        return hostPlayer;
+    }
 
+    public void setHostPlayer(Player hostPlayer) {
+        this.hostPlayer = hostPlayer;
+    }
+
+    public Player getGuestPlayer() {
+       
+            return guestPlayer;
+        
+    }
+
+    public void setGuestPlayer(Player guestPlayer) {
+        this.guestPlayer = guestPlayer;
+    }
+
+    public Player getCurrentPlayer(int socketPortID){
+        if (getHostSocketPortId() == socketPortID)
+            return getHostPlayer();
+                    
+        else return getGuestPlayer();
+        
+        
+    }
+    
+    public int getOpponentPortSocket(int socketPortID){
+        if (getHostSocketPortId() == socketPortID)
+            return getGuestSocketPortId();
+                    
+        else return getHostSocketPortId();
+        
+        
+    }
+            
+            
 }
