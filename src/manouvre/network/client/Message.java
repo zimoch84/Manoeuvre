@@ -139,6 +139,8 @@ public class Message implements Serializable{
          if (type==null)
          {
              String out;
+            
+             
              switch (getMessageType())
              {
                     case CREATE_ROOM: out = "CREATE_ROOM"; break;
@@ -152,6 +154,8 @@ public class Message implements Serializable{
                     case CHAT : out  = "CHAT"; break;
                     case CHAT_IN_ROOM : out  = "CHAT_IN_ROOM"; break;
                     case START_GAME : out  = "START_GAME"; break;
+                    case SET_NATION : out  = "SET_NATION"; break;
+                    
                     
                     default: out = Integer.toString(getMessageType()) ;
                     

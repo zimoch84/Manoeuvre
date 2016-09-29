@@ -39,7 +39,7 @@ public class SocketClient implements Runnable{
     /*
     Active window is set from frames above
     */
-    private FrameInterface activeWindow = null ;
+    private FrameInterface activeWindow ;
     /*
     Player na poziomie socketu z założenia ma conajmniej swoją nazwę
     */
@@ -213,8 +213,6 @@ public class SocketClient implements Runnable{
                        roomWindow.setButtonFromNation(msg.getContentP());
                        
                        break;
-                       
-                       
                       
                   default:
                        System.out.println("manouvre.network.client.SocketClient.run() Unknown msg type" + msg.toString()) ;

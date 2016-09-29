@@ -7,7 +7,6 @@ package manouvre.gui;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
-import javafx.scene.control.RadioButton;
 import javax.swing.AbstractButton;
 import javax.swing.DefaultListModel;
 import manouvre.game.Player;
