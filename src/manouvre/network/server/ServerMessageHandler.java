@@ -15,7 +15,7 @@ import manouvre.network.client.Message;
  *
  * @author Piotr_Grudzien
  */
-public class MessageHandler {
+public class ServerMessageHandler {
     
     ManouvreServer server;
     
@@ -24,7 +24,7 @@ public class MessageHandler {
     private ServerFrame ui;
     private Database db ;
     
-    public MessageHandler(ManouvreServer server){
+    public ServerMessageHandler(ManouvreServer server){
        this.server = server;
        clients = server.clients;
        channels = server.channels;

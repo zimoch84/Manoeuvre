@@ -49,12 +49,8 @@ public class Game implements Serializable{
     GUI variables
     */
     MapGUI mapGui ;
-    Game game;
+    
   
-    public Game() {
-        
-    }
-
     public Game(Player newPlayer) throws IOException {
         this.currentPlayer = newPlayer;
         

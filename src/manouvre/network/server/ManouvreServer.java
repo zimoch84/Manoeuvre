@@ -151,7 +151,7 @@ public class ManouvreServer implements Runnable {
     public ServerFrame ui;
     public Database db;
     
-    MessageHandler handler;
+    ServerMessageHandler handler;
     
     
 
@@ -176,7 +176,7 @@ public class ManouvreServer implements Runnable {
             */
             start(); 
             
-            handler = new MessageHandler(this);
+            handler = new ServerMessageHandler(this);
         }
 	catch(IOException ioe){  
             ui.jTextArea1.append("Can not bind to port : " + port + "\nRetrying"); 

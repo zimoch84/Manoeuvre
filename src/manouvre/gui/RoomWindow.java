@@ -59,9 +59,6 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
        setBorders();
        setTitleBar();
       
-       
-      
-       
     }
     
            /*

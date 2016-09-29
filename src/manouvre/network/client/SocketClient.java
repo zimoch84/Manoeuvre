@@ -164,7 +164,7 @@ public class SocketClient implements Runnable{
                         */
                              java.awt.EventQueue.invokeLater(new Runnable() {
                             public void run() {
-                                roomWindow = new RoomWindow(SocketClient.this, welcome.getPlayer(), CreateRoomWindow.AS_GUEST);
+                                roomWindow = new RoomWindow(SocketClient.this, currentPlayer, CreateRoomWindow.AS_GUEST);
                                 roomWindow.setVisible(true);
                                 roomWindow.setHostPlayer(msg.getPlayer());
                                 
@@ -185,24 +185,28 @@ public class SocketClient implements Runnable{
                       if(msg.getContentP() == Message.OK)
                       {
                           
-                          Game game = msg.getGame();
+                        Game game = msg.getGame();
 
-                     /* Create and display the form */
-                     java.awt.EventQueue.invokeLater(new Runnable() {
-                         public void run() {
-                             try {
-                                 if(currentPlayer.isHost() )
-                                     clientGame = new GameWindow( game , SocketClient.this, game.getPlayers(), CreateRoomWindow.AS_HOST );
-                                 else 
-                                     clientGame = new GameWindow( game, SocketClient.this, game.getPlayers(), CreateRoomWindow.AS_GUEST );
-                                 
-                                 clientGame.setVisible(true);
-                                 roomWindow.setVisible(false);
-                             } catch (Exception ex) {
-                                 Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
-                             }
-                         }
-                     });
+                        /* Create and display the form */
+                        java.awt.EventQueue.invokeLater(new Runnable() {
+                            public void run() {
+                                try {
+                                    if(currentPlayer.isHost() )
+                                    { 
+                                        clientGame = new GameWindow( game , SocketClient.this, game.getPlayers(), CreateRoomWindow.AS_HOST );
+                                    }
+                                    else 
+                                    { 
+                                        clientGame = new GameWindow( game, SocketClient.this, game.getPlayers(), CreateRoomWindow.AS_GUEST );
+                                    }
+
+                                    clientGame.setVisible(true);
+                                    roomWindow.setVisible(false);
+                                } catch (Exception ex) {
+                                    Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                         });
                       }
                       break;
                    case Message.SET_NATION:
