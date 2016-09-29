@@ -83,7 +83,13 @@ public class Message implements Serializable{
     @Override
     public String toString(){
         
-        return "{type='"+getType()+"', sender='"+sender+"', content='"+getContent()+"', recipient='"+recipient+"'}";
+        return "{type='"+getType()+"', sender='"+sender+"', content='"+getContent()+"', recipient='"+recipient
+                
+                +   (game != null ? "Game:"+game.toString() : "")
+                +"'}"
+                
+                
+                ;
     }
     
     

@@ -51,7 +51,7 @@ class ClientServerThread extends Thread {
         try {
             streamOut.writeObject(msg);
             streamOut.flush();
-            System.out.println("manouvre.network.server.ClientServerThread.send() "  + msg.toString());
+            System.out.println("server.send() "  + msg.toString() + " " +  "PortID: " + socketClientServerPortID);
         } 
         catch (IOException ex) {
             System.out.println("Exception [SocketClient : send(...)]" + ex.toString());
@@ -95,7 +95,7 @@ class ClientServerThread extends Thread {
             catch (SocketException ex){
                 System.out.println("manouvre.network.server.ClientServerThread.run()");
                 
-                server.destroyRoom( server.findGameRoom(socketClientServerPortID)  );
+                server.destroyRoom( server.getRoomByPort(socketClientServerPortID)  );
                 server.remove(socketClientServerPortID);
               
                 
@@ -370,7 +370,7 @@ public class ManouvreServer implements Runnable {
      }
      
      
-     public GameRoom findGameRoom(int socketPort){
+     public GameRoom getRoomByPort(int socketPort){
      
      for(GameRoom room : getRooms())
          {
@@ -384,7 +384,7 @@ public class ManouvreServer implements Runnable {
      }
      
      
-    public boolean isGameRoom(GameRoom ingameroom){
+    public boolean isRoomExistsOnServer(GameRoom ingameroom){
      
      for(GameRoom room : getRooms())
          {

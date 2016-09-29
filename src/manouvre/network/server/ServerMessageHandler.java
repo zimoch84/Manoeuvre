@@ -64,7 +64,7 @@ public class ServerMessageHandler {
                     }
                     break;
                 case Message.CHAT_IN_ROOM:
-                    server.announceInRoom(server.findGameRoom(ID), msg);
+                    server.announceInRoom(server.getRoomByPort(ID), msg);
                     // clients[server.findClient(ID)].send(new Message(Message.CHAT, msg.sender, msg.content, msg.recipient));
                     break;
                 case Message.CREATE_ROOM:
@@ -102,8 +102,8 @@ public class ServerMessageHandler {
                     /*
                     If room exists
                      */
-                    if (server.isGameRoom(requestRoom)) {
-                        GameRoom room = server.findGameRoom(requestRoom.getHostSocketPortId());
+                    if (server.isRoomExistsOnServer(requestRoom)) {
+                        GameRoom room = server.getRoomByPort(requestRoom.getHostSocketPortId());
                         if (!room.isLocked()) {
                             room.setGuestSocketPortId(ID);
                             Player guestPlayer = msg.getPlayer();
@@ -112,7 +112,7 @@ public class ServerMessageHandler {
                             room.setGuestPlayer(guestPlayer);
                             System.out.println("manouvre.network.server.ManouvreServer.handle() " + msg.getPlayer().getName() + " has joined room");
                             /*
-                            Send to guest player - OK and host player object
+                            Send to guest player - OK  and host player object
                              */
                             msgOut = new Message(Message.JOIN_ROOM, "SERVER", Message.OK, msg.sender);
                             msgOut.addPlayer(room.getHostPlayer());
@@ -147,7 +147,7 @@ public class ServerMessageHandler {
                     /*
                     Searching for host Room
                      */
-                    gameRoom = server.findGameRoom(ID);
+                    gameRoom = server.getRoomByPort(ID);
                     /*
                     Only Host can start game.
                     Message carry on info about players and their choices about army.
@@ -173,7 +173,7 @@ public class ServerMessageHandler {
                     /*
                     Searching for host Room
                      */
-                    gameRoom = server.findGameRoom(ID);
+                    gameRoom = server.getRoomByPort(ID);
                     
                     /*
                     Setting Player Nation

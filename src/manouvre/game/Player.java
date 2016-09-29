@@ -160,5 +160,13 @@ public class Player  implements Serializable{
     public void setHost(boolean host) {
         this.host = host;
     }
+
+    @Override
+    public String toString() {
+    
+        return getName() +",Nation:" + getNation()+  ",Army size:" + (army != null ? getArmy().size() : "0") ;
+
+    }
+    
     
 }

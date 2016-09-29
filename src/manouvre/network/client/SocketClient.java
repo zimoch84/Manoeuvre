@@ -193,11 +193,11 @@ public class SocketClient implements Runnable{
                                 try {
                                     if(currentPlayer.isHost() )
                                     { 
-                                        clientGame = new GameWindow( game , SocketClient.this, game.getPlayers(), CreateRoomWindow.AS_HOST );
+                                        clientGame = new GameWindow( game , SocketClient.this,  CreateRoomWindow.AS_HOST );
                                     }
                                     else 
                                     { 
-                                        clientGame = new GameWindow( game, SocketClient.this, game.getPlayers(), CreateRoomWindow.AS_GUEST );
+                                        clientGame = new GameWindow( game, SocketClient.this,  CreateRoomWindow.AS_GUEST );
                                     }
 
                                     clientGame.setVisible(true);

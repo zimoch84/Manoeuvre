@@ -92,7 +92,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
      caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
     }
     
-     public GameWindow(Game game, SocketClient passSocket, ArrayList<Player> players, int windowMode) throws IOException{
+     public GameWindow(Game game, SocketClient passSocket,  int windowMode) throws IOException{
         
         /*
          Game has generated players army , hand and comes from serwver

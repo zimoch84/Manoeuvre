@@ -328,6 +328,13 @@ public class Game implements Serializable{
         } 
      }
     
+    public String toString(){
+    
+         return "Host Player:" + ( hostPlayer != null ? hostPlayer.toString() : "null") 
+              + " Guest Player:"  + ( guestPlayer != null ? guestPlayer.toString() : "null")
+                 + " Map: " +  map.toString();
+            
+    }
     
 }
 
