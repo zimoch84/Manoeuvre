@@ -23,6 +23,7 @@ import manouvre.gui.UnitGUI;
  */
 public class Player  implements Serializable{
     
+    private static final long serialVersionUID = 43211L;
     String name;
     int nation; //for nation description see CardInterface
 
@@ -32,7 +33,7 @@ public class Player  implements Serializable{
     CardSet discardPile;
     CardSet tablePile;
     
-    ArrayList<Unit> army;
+        ArrayList<Unit> army;
     
     boolean active;
 

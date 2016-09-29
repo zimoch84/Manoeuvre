@@ -35,7 +35,7 @@ import manouvre.gui.MapGUI;
  */
 public class Position implements PositionInterface, Serializable{
 
-    
+    private static final long serialVersionUID = 321L;
     private int x;
     private int y;
     

@@ -19,6 +19,7 @@ import manouvre.gui.MapGUI;
  */
 public class Game implements Serializable{
     
+    private static final long serialVersionUID = 42321L;
     /*
     Game phases
     */

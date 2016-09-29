@@ -17,7 +17,7 @@ import manouvre.game.interfaces.TerrainInterface;
  */
 public class Map implements MapInterface, Serializable{
 
-    
+    private static final long serialVersionUID = 4665321L;
     Terrain[][] terrains ;
 
     public Map() {

@@ -20,6 +20,8 @@ import manouvre.game.interfaces.UnitInterface;
  */
 public class Unit implements UnitInterface, Serializable{
 
+    private static final long serialVersionUID = 4321L;
+    
     Player owner;
 
    
