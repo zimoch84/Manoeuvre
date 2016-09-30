@@ -26,6 +26,7 @@ import manouvre.network.client.SocketClient;
 import manouvre.game.MoveUnitCommand;
 import manouvre.game.interfaces.FrameInterface;
 import static java.lang.Math.abs;
+import manouvre.game.interfaces.CardInterface;
 
 
 /**
@@ -1052,7 +1053,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) throws IOException {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -1077,16 +1078,56 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         //</editor-fold>
         //</editor-fold>
 
-        /* Create and display the form */
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                try {
+//                    new GameWindow().setVisible(true);
+//                } catch (Exception ex) {
+//                    Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
+//        });
+        
+        Player hostPlayer = new Player("Piotr");
+        hostPlayer.setHost(true);
+        hostPlayer.setNation(CardInterface.AU);
+        
+        Player guestPlayer = new Player("Bartek");
+        guestPlayer.setHost(false);
+        guestPlayer.setNation(CardInterface.FR);
+        
+        ArrayList<Player> players = new ArrayList<>();
+        
+        players.add(hostPlayer);
+        players.add(guestPlayer);
+        
+        
+        Game game = new Game(players);
+        
+        SocketClient socket = new SocketClient();
+        
+        //Host window
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new GameWindow().setVisible(true);
+                    new GameWindow(game, socket, 0 ).setVisible(true);
                 } catch (Exception ex) {
                     Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
+        //Guest window
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    new GameWindow(game, socket, 1 ).setVisible(true);
+                } catch (Exception ex) {
+                    Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        
     }
 
    

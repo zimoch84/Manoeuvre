@@ -161,13 +161,17 @@ public class ServerMessageHandler {
                     //ArrayList<Player> players = msg.getPlayers();
                     //Creating game - generate map, deal cards - setup army etc.
                     Game game = new Game(players);
-                    gameRoom.setGame(game);
+                    //gameRoom.setGame(game);
                     //Setting msg to carry whole game
+                    System.out.println("manouvre.network.server.ServerMessageHandler.handle() " + game.toString()); 
                     msgOut.setGame(game);
+                    System.out.println("manouvre.network.server.ServerMessageHandler.handle() " + game.toString()); 
                     //Sending response to Host;
-                    server.announceInRoom(gameRoom, msgOut);
-                    //clients[server.findClient(gameRoom.getHostSocketPortId())].send(msgOut);
-                    //clients[server.findClient(gameRoom.getQuestSocketPortId())].send(msgOut);
+                    //server.announceInRoom(gameRoom, msgOut);
+                    clients[server.findClient(gameRoom.getHostSocketPortId())].send(msgOut);
+                    System.out.println("manouvre.network.server.ServerMessageHandler.handle() " + game.toString()); 
+                    clients[server.findClient(gameRoom.getGuestSocketPortId())].send(msgOut);
+                    System.out.println("manouvre.network.server.ServerMessageHandler.handle() " + game.toString()); 
                     break;
                 case Message.SET_NATION:
                     /*

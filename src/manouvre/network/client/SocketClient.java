@@ -50,6 +50,7 @@ public class SocketClient implements Runnable{
     public ObjectInputStream In;
     public ObjectOutputStream Out;
 
+    boolean keepRunning = true;
     
     public SocketClient(LoginWindow frame) throws IOException{
         welcome = frame; 
@@ -60,6 +61,16 @@ public class SocketClient implements Runnable{
         Out.flush();
         In = new ObjectInputStream(socket.getInputStream());
         
+        System.out.println("manouvre.network.client.SocketClient.<init>() : LocalPort " + socket.getLocalPort() + " Port " + socket.getPort()) ;
+      
+    }
+    
+        public SocketClient() throws IOException{
+        socket = new Socket(InetAddress.getByName(serverAddr), port);
+            
+        Out = new ObjectOutputStream(socket.getOutputStream());
+        Out.flush();
+        In = new ObjectInputStream(socket.getInputStream());
         System.out.println("manouvre.network.client.SocketClient.<init>() : LocalPort " + socket.getLocalPort() + " Port " + socket.getPort()) ;
       
     }
@@ -77,13 +88,30 @@ public class SocketClient implements Runnable{
     */
     @Override
     public void run() {
-        boolean keepRunning = true;
+        
         while(keepRunning){
+            Message msg = null;
             try {
-                Message msg = (Message) In.readObject();
+                msg = (Message) In.readObject();
                 System.out.println("Incoming : "+msg.toString());
-                
-                switch( msg.getMessageType() ){
+                }
+            catch(ClassCastException ex) {
+                keepRunning = false;
+                System.out.println("SocketClient.run() ClassCastException " + ex);
+                ex.printStackTrace();
+            } 
+            catch (IOException ex) {  
+                keepRunning = false;
+                System.out.println("SocketClient.run() IOException" + ex);
+                ex.printStackTrace();
+            } 
+            catch (ClassNotFoundException ex) {
+                keepRunning = false;
+                System.out.println("SocketClient.run() ClassNotFoundException" + ex);
+                ex.printStackTrace();
+            }
+            
+            switch( msg.getMessageType() ){
             
                     case Message.LOGIN :
                  
@@ -91,23 +119,23 @@ public class SocketClient implements Runnable{
                         
                              currentPlayer = welcome.getPlayer();
                              welcome.setVisible(false);
-                             
-                             
-                                /*
-                                Run chat window
-                                */
-                                 java.awt.EventQueue.invokeLater(new Runnable() {
-                                    public void run() {
-                                        try {
-                                            mainChat = new MainChatWindow(SocketClient.this, currentPlayer);
-                                            mainChat.setVisible(true);
-                                            setActiveWindow(mainChat);
-                                        } catch (IOException ex) {
-                                            Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
-                                        }
+                            /*
+                            Run chat window
+                            */
+                             java.awt.EventQueue.invokeLater(new Runnable() {
+                                public void run() {
+                                    try {
+                                        mainChat = new MainChatWindow(SocketClient.this, currentPlayer);
+                                        mainChat.setVisible(true);
+                                        setActiveWindow(mainChat);
+                                    } catch (IOException ex) {
+                                        keepRunning = false;
+                                        System.out.println("SocketClient.run() invoke MainChat IOException" + ex);
+                                        ex.printStackTrace();
                                     }
-                                }); 
-                         }
+                                }
+                            }); 
+                     }
                          break;
                     
                     case Message.CHAT:
@@ -145,7 +173,6 @@ public class SocketClient implements Runnable{
                         java.awt.EventQueue.invokeLater(new Runnable() {
                             public void run() {
                                 roomWindow = new RoomWindow(SocketClient.this, currentPlayer, CreateRoomWindow.AS_HOST);
-                                
                                 roomWindow.setVisible(true);
                                 /*
                                 Set focus to this window do recive comunication to
@@ -159,17 +186,18 @@ public class SocketClient implements Runnable{
                       
                        if(msg.getContentP() == Message.OK)
                        {
-                      /*
+                           Player hostPlayer = msg.getPlayer();
+                          /*
                         Run room window
                         */
                              java.awt.EventQueue.invokeLater(new Runnable() {
                             public void run() {
                                 roomWindow = new RoomWindow(SocketClient.this, currentPlayer, CreateRoomWindow.AS_GUEST);
                                 roomWindow.setVisible(true);
-                                roomWindow.setHostPlayer(msg.getPlayer());
+                                roomWindow.setHostPlayer(hostPlayer);
                                 
                                 setActiveWindow(roomWindow);
-                                roomWindow.printOnChat("Player " +msg.getPlayer().getName() + " joined room" );
+                                roomWindow.printOnChat("Player " +hostPlayer.getName() + " joined room" );
                             }
                         });
                        }
@@ -178,14 +206,15 @@ public class SocketClient implements Runnable{
                            roomWindow.setGuestPlayer(msg.getPlayer());
                            roomWindow.printOnChat("Player " +msg.getPlayer().getName() + " joined room" );
                       }
-                            
-                           
                       break;
                   case Message.START_GAME:
                       if(msg.getContentP() == Message.OK)
                       {
                           
                         Game game = msg.getGame();
+                        System.out.println("SocketClient.run() Game: " + game.toString() );
+                        System.out.println("SocketClient.run() currentPlayer: " + currentPlayer.toString() );
+                       
 
                         /* Create and display the form */
                         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -202,54 +231,31 @@ public class SocketClient implements Runnable{
 
                                     clientGame.setVisible(true);
                                     roomWindow.setVisible(false);
-                                } catch (Exception ex) {
-                                    Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
+                                } catch (IOException  ex) {
+                                        keepRunning = false;
+                                        System.out.println("SocketClient.run() invoke GameWindow IOException" + ex);
+                                        ex.printStackTrace();
                                 }
                             }
                          });
                       }
                       break;
                    case Message.SET_NATION:
-                       
                        /*
                        Setting opponent choice of nation
                        */
                        roomWindow.setButtonFromNation(msg.getContentP());
-                       
                        break;
                       
                   default:
                        System.out.println("manouvre.network.client.SocketClient.run() Unknown msg type" + msg.toString()) ;
               
                  }
-                
-    
-  
+   
             }
-            catch(Exception ex) {
-                keepRunning = false;
-                
-                System.out.println("manouvre.network.client.SocketClient.run()" + ex);
-                
-                //ui.printOnChat("Aplication : Connection Failure \n" + ex.getMessage());
-//                clientGame.jButton1.setEnabled(true); 
-//                clientGame.jTextField1.setEditable(true); 
-//                clientGame.jTextField2.setEditable(true);
-//                clientGame.jButton4.setEnabled(false); 
-//                clientGame.jButton5.setEnabled(false); 
-//                clientGame.jButton5.setEnabled(false);
-                
-//                for(int i = 1; i < clientGame.model.size(); i++){
-//                    clientGame.model.removeElementAt(i);
-//                }
-                
-                //ui.clientThread.stop();
-                
-                System.out.println("Exception SocketClient run()");
-                ex.printStackTrace();
-            }
+
         }
-    }
+    
     
     public void send(Message msg){
         try {
