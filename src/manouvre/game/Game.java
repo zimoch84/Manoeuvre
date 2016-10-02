@@ -38,8 +38,8 @@ public final class Game implements Serializable{
     int turn;
         
     Player currentPlayer;
-    Player hostPlayer;
-    Player guestPlayer;
+    public Player hostPlayer;
+    public Player guestPlayer;
     
     int phase; 
 

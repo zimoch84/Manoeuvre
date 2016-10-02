@@ -165,7 +165,12 @@ public class ServerMessageHandler {
                     //Setting msg to carry whole game
                     System.out.println("manouvre.network.server.ServerMessageHandler.handle() " + game.toString()); 
                     msgOut.setGame(game);
-                    System.out.println("manouvre.network.server.ServerMessageHandler.handle() " + game.toString()); 
+                    players.get(0).setArmy(game.hostPlayer.getArmy());
+                    players.get(1).setArmy(game.guestPlayer.getArmy());
+                    
+                    msgOut.hostPlayer = players.get(0);
+                    msgOut.guestPlayer = players.get(1);
+                      
                     //Sending response to Host;
                     //server.announceInRoom(gameRoom, msgOut);
                     clients[server.findClient(gameRoom.getHostSocketPortId())].send(msgOut);

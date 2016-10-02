@@ -215,6 +215,8 @@ public class SocketClient implements Runnable{
                         System.out.println("SocketClient.run() Game: " + game.toString() );
                         System.out.println("SocketClient.run() currentPlayer: " + currentPlayer.toString() );
                        
+                        Player hostPlayer = msg.hostPlayer;
+                        Player guestPlayer = msg.guestPlayer;
 
                         /* Create and display the form */
                         java.awt.EventQueue.invokeLater(new Runnable() {

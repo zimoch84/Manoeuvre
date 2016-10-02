@@ -59,6 +59,8 @@ public class Message implements Serializable{
   
     ArrayList<GameRoom> channelList; 
     
+    public Player hostPlayer, guestPlayer;
+    
    
 
       
