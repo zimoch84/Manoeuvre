@@ -157,19 +157,25 @@ public class ServerMessageHandler {
                     Creating a game
                      */
                     ArrayList<Player> players = gameRoom.getPlayers();
+                    
+                 
+                    ArrayList<Player> players2 = ( ArrayList<Player> ) UnoptimizedDeepCopy.copy (players); 
                     //Assiging players
                     //ArrayList<Player> players = msg.getPlayers();
                     //Creating game - generate map, deal cards - setup army etc.
-                    Game game = new Game(players);
+                    Game game = new Game(players2);
+                    
+                    Game game2 = (Game) UnoptimizedDeepCopy.copy (game);
+                    
                     //gameRoom.setGame(game);
                     //Setting msg to carry whole game
-                    System.out.println("manouvre.network.server.ServerMessageHandler.handle() " + game.toString()); 
-                    msgOut.setGame(game);
-                    players.get(0).setArmy(game.hostPlayer.getArmy());
-                    players.get(1).setArmy(game.guestPlayer.getArmy());
+                    System.out.println("manouvre.network.server.ServerMessageHandler.handle() " + game2.toString()); 
+                    msgOut.setGame(game2);
+                    players.get(0).setArmy(game2.hostPlayer.getArmy());
+                    players.get(1).setArmy(game2.guestPlayer.getArmy());
                     
-                    msgOut.hostPlayer = players.get(0);
-                    msgOut.guestPlayer = players.get(1);
+                    msgOut.hostPlayer = players2.get(0);
+                    msgOut.guestPlayer = players2.get(1);
                       
                     //Sending response to Host;
                     //server.announceInRoom(gameRoom, msgOut);
