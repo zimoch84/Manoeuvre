@@ -754,7 +754,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             mainMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainMapPanelLayout.createSequentialGroup()
                 .addComponent(jLabel4)
-                .addContainerGap(570, Short.MAX_VALUE))
+                .addContainerGap(606, Short.MAX_VALUE))
         );
 
         playerHandPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));

@@ -100,36 +100,17 @@ public class Player  implements Serializable{
         If its host then place units on B row else place unit on G row
         */
         int j=0;
-        if(isHost())
       for (int i=getNation()*8  ;i<getNation()*8+8;i++)
         {
-                
-            
             Unit unit =  new Unit(i+1);
           /*
-            Pozycja tymczasowo - bedzie tworzona w setupie
+            Startting position row B or G
             */
-            unit.setPos(new Position (  i- ( getNation()*8)    ,1));
+            unit.setPos(new Position (  i- ( getNation()*8)    , ( isHost() ? Position.ROW_2 : Position.ROW_7) ));
              army[j] =   unit  ;      
               j++;     
-              
-       
-        }
-        else 
-      for (int i=getNation()*8  ;i<getNation()*8+8;i++)
-        {
-
-            
-            Unit unit =  new Unit(i+1);
-          /*
-            Pozycja tymczasowo - bedzie tworzona w setupie
-            */
-            unit.setPos(new Position (  i- ( getNation()*8)    ,7));
-                army[j] =   unit   ;      
-                 j++;  
-              
-       
-        }      
+         }
+        
             
     // System.out.println("Units Generated:");
     }

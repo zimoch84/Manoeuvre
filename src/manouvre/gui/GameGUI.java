@@ -73,7 +73,41 @@ public class GameGUI {
                     MapGUI.SQUARE_HEIGHT,
                     
                     null);
+            
+            
         }
+        else if(windowMode == CreateRoomWindow.AS_GUEST)
+            for (TerrainGUI terrainGUI : mapGui.getTerrainsGUI()) {
+                        
+            
+            g.drawImage(
+                    terrainGUI.getImg(), 
+                    terrainGUI.getPos().transpoze().getMouseX(), 
+                    terrainGUI.getPos().transpoze().getMouseY(), 
+                    MapGUI.SQUARE_WIDTH,
+                    MapGUI.SQUARE_HEIGHT,
+                    
+                    null);
+        }
+           
+        /*
+        Draw border
+        */
+        for(int i=0;i<8;i++){
+        
+        g.setColor(Color.white);
+        
+                    g.drawString(Integer.toString(i),
+                    i* MapGUI.SQUARE_WIDTH + MapGUI.BOARD_START_X + (MapGUI.SQUARE_WIDTH/2), 
+                    MapGUI.SQUARE_WIDTH/2)
+                    ;
+                    
+                    g.drawString(Integer.toString(i),
+                    (MapGUI.SQUARE_WIDTH/2)
+                   ,  (7-i) * MapGUI.SQUARE_WIDTH + MapGUI.BOARD_START_Y + (MapGUI.SQUARE_WIDTH/2))
+                    ;
+        }
+        
         /*
         Draws selection
          */
@@ -124,6 +158,7 @@ public class GameGUI {
         Draw units
          */
         int gapUnit = 7;
+        if(windowMode == CreateRoomWindow.AS_HOST)
         for (UnitGUI drawUnit : unitsGui) {
             g.drawImage(
                     drawUnit.getImg(), 
@@ -133,9 +168,20 @@ public class GameGUI {
                     MapGUI.PIECE_HEIGHT
                     , null);
         }
+        else if(windowMode == CreateRoomWindow.AS_GUEST)
+           for (UnitGUI drawUnit : unitsGui) {
+            g.drawImage(
+                    drawUnit.getImg(), 
+                    drawUnit.getUnit().getPos().transpoze().getMouseX() + MapGUI.PIECES_START_X,
+                    drawUnit.getUnit().getPos().transpoze().getMouseY() + MapGUI.PIECES_START_Y,
+                    MapGUI.PIECE_WIDTH, 
+                    MapGUI.PIECE_HEIGHT
+                    , null);
+        } 
+            
     }
 
-    void generateUnitsUI() {
+    private void generateUnitsUI() {
         for (Unit unit : game.getCurrentPlayer().getArmy()) {
             unitsGui.add(new UnitGUI(unit));
         }

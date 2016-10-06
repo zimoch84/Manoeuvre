@@ -164,7 +164,9 @@ public class ServerMessageHandler {
                     //ArrayList<Player> players = msg.getPlayers();
                     //Creating game - generate map, deal cards - setup army etc.
                     Game game = new Game(players2);
-                    
+                    /*
+                    To avioid multi-threading problems with objecs
+                    */
                     Game game2 = (Game) UnoptimizedDeepCopy.copy (game);
                     
                     //gameRoom.setGame(game);

@@ -38,6 +38,7 @@ public class Position implements PositionInterface, Serializable{
     private static final long serialVersionUID = 321L;
     private int x;
     private int y;
+    private boolean transposed = false;
     
     public int getX() {
         return x;
@@ -46,15 +47,12 @@ public class Position implements PositionInterface, Serializable{
     public int getY() {
         return y;
     }
-    
-    
-    
+     
     public Position(int x, int y) {
         this.x = x;
         this.y = y;
+        
     }
-    
-    
         
         /**
 	 * calculate upper left corner of terrain
@@ -62,7 +60,9 @@ public class Position implements PositionInterface, Serializable{
 	 * @return x coordinate for upper right corner  terrain	
 	 */
        public  int getMouseX(){
+           
 		return MapGUI.BOARD_START_X+  MapGUI.SQUARE_WIDTH * x;
+         
 	}
 	
 	/**
@@ -71,8 +71,13 @@ public class Position implements PositionInterface, Serializable{
 	 * @return y coordinate for  upper right corner  terrain
 	 */
 	public  int getMouseY(){
+              
 		return  MapGUI.SQUARE_HEIGHT * (PositionInterface.ROW_8 - y) + MapGUI.BOARD_START_Y ;
+            
+           
 	}
+        	
+	        
         /**
          * 
          * @return Positions               
@@ -119,6 +124,12 @@ public class Position implements PositionInterface, Serializable{
         else return false;
         
         
+    }
+    
+    public Position transpoze(){
+    
+        return new Position(PositionInterface.ROW_8 - x, PositionInterface.COLUMN_H - y);
+    
     }
     
     public boolean checkIfMouseFitInPositon(int mouseX, int mouseY)
