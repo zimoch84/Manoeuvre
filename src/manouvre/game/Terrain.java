@@ -15,6 +15,7 @@ import manouvre.game.interfaces.UnitInterface;
  */
 public class Terrain  implements TerrainInterface, Serializable {
 
+    private static final long serialVersionUID = 432123L;
     private int type;
     private int defenceBonus;
     private boolean blockingLOS;

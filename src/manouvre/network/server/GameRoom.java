@@ -6,11 +6,9 @@
 package manouvre.network.server;
 
 import java.io.Serializable;
-import java.net.Socket;
 import java.util.ArrayList;
 import manouvre.game.Game;
 import manouvre.game.Player;
-import manouvre.network.client.SocketClient;
 
 /**
  *
@@ -192,6 +190,8 @@ public class GameRoom implements Serializable {
 
     public void setGuestPlayer(Player guestPlayer) {
         this.guestPlayer = guestPlayer;
+        if(guestPlayer != null)
+            setLocked(true);
     }
 
     public Player getCurrentPlayer(int socketPortID){

@@ -17,8 +17,9 @@ import manouvre.gui.MapGUI;
  *
  * @author Piotr
  */
-public class Game implements Serializable{
+public final class Game implements Serializable{
     
+    private static final long serialVersionUID = 42321L;
     /*
     Game phases
     */
@@ -37,8 +38,8 @@ public class Game implements Serializable{
     int turn;
         
     Player currentPlayer;
-    Player hostPlayer;
-    Player guestPlayer;
+    public Player hostPlayer;
+    public Player guestPlayer;
     
     int phase; 
 
@@ -49,12 +50,8 @@ public class Game implements Serializable{
     GUI variables
     */
     MapGUI mapGui ;
-    Game game;
+    
   
-    public Game() {
-        
-    }
-
     public Game(Player newPlayer) throws IOException {
         this.currentPlayer = newPlayer;
         
@@ -338,6 +335,13 @@ public class Game implements Serializable{
         } 
      }
     
+    public String toString(){
+    
+         return "Host Player:" + ( hostPlayer != null ? hostPlayer.toString() : "null") 
+              + " Guest Player:"  + ( guestPlayer != null ? guestPlayer.toString() : "null")
+                 + " Map: " +  map.toString();
+            
+    }
     
 }
 

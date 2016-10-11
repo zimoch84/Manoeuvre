@@ -15,7 +15,7 @@ import manouvre.network.client.Message;
  *
  * @author Piotr_Grudzien
  */
-public class MessageHandler {
+public class ServerMessageHandler {
     
     ManouvreServer server;
     
@@ -24,7 +24,7 @@ public class MessageHandler {
     private ServerFrame ui;
     private Database db ;
     
-    public MessageHandler(ManouvreServer server){
+    public ServerMessageHandler(ManouvreServer server){
        this.server = server;
        clients = server.clients;
        channels = server.channels;
@@ -64,7 +64,7 @@ public class MessageHandler {
                     }
                     break;
                 case Message.CHAT_IN_ROOM:
-                    server.announceInRoom(server.findGameRoom(ID), msg);
+                    server.announceInRoom(server.getRoomByPort(ID), msg);
                     // clients[server.findClient(ID)].send(new Message(Message.CHAT, msg.sender, msg.content, msg.recipient));
                     break;
                 case Message.CREATE_ROOM:
@@ -102,8 +102,8 @@ public class MessageHandler {
                     /*
                     If room exists
                      */
-                    if (server.isGameRoom(requestRoom)) {
-                        GameRoom room = server.findGameRoom(requestRoom.getHostSocketPortId());
+                    if (server.isRoomExistsOnServer(requestRoom)) {
+                        GameRoom room = server.getRoomByPort(requestRoom.getHostSocketPortId());
                         if (!room.isLocked()) {
                             room.setGuestSocketPortId(ID);
                             Player guestPlayer = msg.getPlayer();
@@ -112,7 +112,7 @@ public class MessageHandler {
                             room.setGuestPlayer(guestPlayer);
                             System.out.println("manouvre.network.server.ManouvreServer.handle() " + msg.getPlayer().getName() + " has joined room");
                             /*
-                            Send to guest player - OK and host player object
+                            Send to guest player - OK  and host player object
                              */
                             msgOut = new Message(Message.JOIN_ROOM, "SERVER", Message.OK, msg.sender);
                             msgOut.addPlayer(room.getHostPlayer());
@@ -147,7 +147,7 @@ public class MessageHandler {
                     /*
                     Searching for host Room
                      */
-                    gameRoom = server.findGameRoom(ID);
+                    gameRoom = server.getRoomByPort(ID);
                     /*
                     Only Host can start game.
                     Message carry on info about players and their choices about army.
@@ -157,23 +157,40 @@ public class MessageHandler {
                     Creating a game
                      */
                     ArrayList<Player> players = gameRoom.getPlayers();
+                    
+                 
+                    ArrayList<Player> players2 = ( ArrayList<Player> ) UnoptimizedDeepCopy.copy (players); 
                     //Assiging players
                     //ArrayList<Player> players = msg.getPlayers();
                     //Creating game - generate map, deal cards - setup army etc.
-                    Game game = new Game(players);
-                    gameRoom.setGame(game);
+                    Game game = new Game(players2);
+                    /*
+                    To avioid multi-threading problems with objecs
+                    */
+                    Game game2 = (Game) UnoptimizedDeepCopy.copy (game);
+                    
+                    //gameRoom.setGame(game);
                     //Setting msg to carry whole game
-                    msgOut.setGame(game);
+                    System.out.println("manouvre.network.server.ServerMessageHandler.handle() " + game2.toString()); 
+                    msgOut.setGame(game2);
+                    players.get(0).setArmy(game2.hostPlayer.getArmy());
+                    players.get(1).setArmy(game2.guestPlayer.getArmy());
+                    
+                    msgOut.hostPlayer = players2.get(0);
+                    msgOut.guestPlayer = players2.get(1);
+                      
                     //Sending response to Host;
-                    server.announceInRoom(gameRoom, msgOut);
-                    //clients[server.findClient(gameRoom.getHostSocketPortId())].send(msgOut);
-                    //clients[server.findClient(gameRoom.getQuestSocketPortId())].send(msgOut);
+                    //server.announceInRoom(gameRoom, msgOut);
+                    clients[server.findClient(gameRoom.getHostSocketPortId())].send(msgOut);
+                    System.out.println("manouvre.network.server.ServerMessageHandler.handle() " + game.toString()); 
+                    clients[server.findClient(gameRoom.getGuestSocketPortId())].send(msgOut);
+                    System.out.println("manouvre.network.server.ServerMessageHandler.handle() " + game.toString()); 
                     break;
                 case Message.SET_NATION:
                     /*
                     Searching for host Room
                      */
-                    gameRoom = server.findGameRoom(ID);
+                    gameRoom = server.getRoomByPort(ID);
                     
                     /*
                     Setting Player Nation

@@ -1,15 +1,12 @@
 package manouvre.network.server;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.net.*;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import manouvre.game.Game;
 import manouvre.game.Player;
+import manouvre.game.interfaces.CardInterface;
 import manouvre.network.client.Message;
-import manouvre.network.client.SocketClient;
 
 /**
  * 
@@ -18,29 +15,25 @@ import manouvre.network.client.SocketClient;
  * i odpowiedzialna jest za komunikacje 1 klienta z serwerem
  */
 
-class ClientServerThread extends Thread { 
+class SimpleClientServerThread extends Thread { 
 	
-    public ManouvreServer server = null;
+    public SimpleServer server = null;
     public Socket clientServerSocket = null;
     public int socketClientServerPortID = -1;
     public String username = "";
     public ObjectInputStream streamIn  =  null;
     public ObjectOutputStream streamOut = null;
-    public ServerFrame ui;
-    
-    
-
     
     
     Player player;
     
 
-    public ClientServerThread(ManouvreServer _server, Socket _socket){  
+    public SimpleClientServerThread(SimpleServer _server, Socket _socket){  
     	super();
         server = _server;
         clientServerSocket = _socket;
         socketClientServerPortID     = clientServerSocket.getPort();
-        ui = _server.ui;
+
     }
     
     /**
@@ -51,7 +44,7 @@ class ClientServerThread extends Thread {
         try {
             streamOut.writeObject(msg);
             streamOut.flush();
-            System.out.println("server.send() "  + msg.toString() + " " +  "PortID: " + socketClientServerPortID);
+            System.out.println("send() "  + msg.toString() + " " +  "PortID: " + socketClientServerPortID);
         } 
         catch (IOException ex) {
             System.out.println("Exception [SocketClient : send(...)]" + ex.toString());
@@ -77,13 +70,13 @@ class ClientServerThread extends Thread {
     
     @SuppressWarnings("deprecation")
 	public void run(){  
-    	ui.jTextArea1.append("\nServer Thread " + socketClientServerPortID + " running.");
+    	System.out.println("\nServer Thread " + socketClientServerPortID + " running.");
         while (true){  
     	    try{  
                 Message msg;
                 msg= (Message) streamIn.readObject();
                 
-    	    	server.handler.handle(socketClientServerPortID, msg);
+    	    	server.handle(socketClientServerPortID, msg);
             }
             catch(ClassCastException ioe){  
             	System.out.println(socketClientServerPortID + " ERROR reading: " + ioe.getMessage());
@@ -93,7 +86,7 @@ class ClientServerThread extends Thread {
                // stop();
             }
             catch (SocketException ex){
-                System.out.println("manouvre.network.server.ClientServerThread.run()");
+                System.out.println("manouvre.network.SimpleClientServerThread.run()");
                 
                 server.destroyRoom( server.getRoomByPort(socketClientServerPortID)  );
                 server.remove(socketClientServerPortID);
@@ -102,10 +95,10 @@ class ClientServerThread extends Thread {
                 
             }
             catch (IOException ex) {
-                    Logger.getLogger(ClientServerThread.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println("manouvre.network.SimpleSimpleClientServerThread.run()" + ex);
                 } 
             catch (ClassNotFoundException ex) {
-                    Logger.getLogger(ClientServerThread.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println("manouvre.network.SimpleSimpleClientServerThread.run()" + ex);
                 }
             
         }
@@ -128,59 +121,51 @@ class ClientServerThread extends Thread {
         if (streamIn != null)  streamIn.close();
         if (streamOut != null) streamOut.close();
     }
+    
+     
+    
 }
 
 
 /**
- * Klasa serwera uruchamia i trzyma wątki ClientServerThread i trzyma kanały
+ * Klasa serwera uruchamia i trzyma wątki SimpleClientServerThread i trzyma kanały
  * @author Piotr
  */
 
 
-public class ManouvreServer implements Runnable {
+public class SimpleServer implements Runnable {
     /**
-     * ClientServerThread clients[];
+     * SimpleClientServerThread clients[];
     
     */
-    public ClientServerThread clients[];
+    public SimpleClientServerThread clients[];
     public ArrayList<GameRoom> channels;
     
-    public ServerSocket server = null;
+    public ServerSocket serverSocket = null;
     public Thread       serverThread = null;
     public int clientCount = 0, port = 5002;
-    public ServerFrame ui;
-    public Database db;
-    
-    ServerMessageHandler handler;
-    
-    
+   
 
-    public ManouvreServer(ServerFrame frame){
+   public SimpleServer(ServerFrame frame){
        
-        clients = new ClientServerThread[50];
-        ui = frame;
-        db = new Database(ui.filePath);
-        
-        
+        clients = new SimpleClientServerThread[50];
         
 	try{  
             /*
             Create server clientServerSocket
             */
             channels = new ArrayList<>();
-	    server = new ServerSocket(port);
-            port = server.getLocalPort();
-	    ui.jTextArea1.append("Server startet. IP : " + InetAddress.getLocalHost() + ", Port : " + server.getLocalPort());
+	    serverSocket = new ServerSocket(port);
+            port = serverSocket.getLocalPort();
+	   
             /*
             Invoke run();
             */
             start(); 
-            
-            handler = new ServerMessageHandler(this);
+  
         }
 	catch(IOException ioe){  
-            ui.jTextArea1.append("Can not bind to port : " + port + "\nRetrying"); 
-            ui.RetryStart();
+                  System.out.println("manouvre.network.SimpleServer.<init>()" + ioe); 
 	}
     }
     
@@ -191,35 +176,28 @@ public class ManouvreServer implements Runnable {
         */
 	while (serverThread != null){  
             try{  
-		ui.jTextArea1.append("\nWaiting for a client ..."); 
+                
+             System.out.println("\nWaiting for a client ..."); 
                 /*
                 Funkcja servera accept zwraca clientServerSocket klienta;
                 addThead dodaje do tablicy socketow 
                 */
-	        addThread(server.accept()); 
+	        addThread(serverSocket.accept()); 
 	    }
 	    catch(Exception ioe){ 
-                ui.jTextArea1.append("\nServer accept error: \n");
-                ui.RetryStart();
+                System.out.println("\nServer accept error: \n"); 
 	    }
 
         } 
     }
 	
     public void start(){  
-        /*
-        Klasa runnable nie odpala automatycznie run trzeba stworzyc watek zeby odpalił run() klasy Runnable
-        */
-        
-    	if (serverThread == null){  
+     	if (serverThread == null){  
             serverThread = new Thread(this); 
-            /*
-            Odpala ManouvreServer.run(); i tworzy wątek
-            */
 	    serverThread.start();
 	}
     }
-    
+   
     @SuppressWarnings("deprecation")
     public void stop(){  
         if (serverThread != null){  
@@ -273,7 +251,7 @@ public class ManouvreServer implements Runnable {
     }
     
       
-    public ClientServerThread findUserThread(String usr){
+    public SimpleClientServerThread findUserThread(String usr){
         for(int i = 0; i < clientCount; i++){
             if(clients[i].username.equals(usr)){
                 return clients[i];
@@ -290,8 +268,8 @@ public class ManouvreServer implements Runnable {
     public synchronized void remove(int ID){  
     int pos = findClient(ID);
         if (pos >= 0){  
-            ClientServerThread toTerminate = clients[pos];
-            ui.jTextArea1.append("\nRemoving client thread " + ID + " at " + pos);
+            SimpleClientServerThread toTerminate = clients[pos];
+            System.err.println("\nRemoving client thread " + ID + " at " + pos);
 	    if (pos < clientCount-1){
                 for (int i = pos+1; i < clientCount; i++){
                     clients[i-1] = clients[i];
@@ -302,7 +280,7 @@ public class ManouvreServer implements Runnable {
 	      	toTerminate.close(); 
 	    }
 	    catch(IOException ioe){  
-	      	ui.jTextArea1.append("\nError closing thread: " + ioe); 
+	      	System.out.println("\nError closing thread: " + ioe); 
 	    }
 	    toTerminate.stop(); 
 	}
@@ -310,17 +288,17 @@ public class ManouvreServer implements Runnable {
     /**
      *  @param  Socket - client clientServerSocket
  
- Tworzy na podstawie Socketa klienta obiekt ClientServerThread i Dodaje do tablicy clients trzymających wątki klientów
+ Tworzy na podstawie Socketa klienta obiekt SimpleClientServerThread i Dodaje do tablicy clients trzymających wątki klientów
        
     */
     private void addThread(Socket incomingClientSocket){  
 	if (clientCount < clients.length){  
-            ui.jTextArea1.append("\nClient accepted: " + incomingClientSocket);
+            System.out.println("\nClient accepted: " + incomingClientSocket);
             /*
             Tworzymy nowy obsługujący komunikacje Client <-> Server
             Obiekt posiada Socket klienta i Socket serwera
             */
-	    clients[clientCount] = new ClientServerThread(this, incomingClientSocket);
+	    clients[clientCount] = new SimpleClientServerThread(this, incomingClientSocket);
             /*
             Odpalamy nowy wątek dla klienta ,który będize obsługiwał komunikacje
             */
@@ -330,14 +308,14 @@ public class ManouvreServer implements Runnable {
 	        clientCount++; 
 	    }
 	    catch(IOException ioe){  
-	      	ui.jTextArea1.append("\nError opening thread: " + ioe); 
+	      	System.out.println("\nError opening thread: " + ioe); 
 	    } 
 	}
 	else{
-            ui.jTextArea1.append("\nClient refused: maximum " + clients.length + " reached.");
+            System.out.println("\nClient refused: maximum " + clients.length + " reached.");
 	}
     }
-     public void createRoom(String chuannelName, String password, ClientServerThread thread){
+     public void createRoom(String chuannelName, String password, SimpleClientServerThread thread){
         
          
          GameRoom channel = new GameRoom(chuannelName, password, thread.getSocket().getPort(), thread.getPlayer());
@@ -397,11 +375,75 @@ public class ManouvreServer implements Runnable {
      
      }
      
-     
-    public static String getStackTrace(final Throwable throwable) {
-     final StringWriter sw = new StringWriter();
-     final PrintWriter pw = new PrintWriter(sw, true);
-     throwable.printStackTrace(pw);
-     return sw.getBuffer().toString();
-}
+  public synchronized void handle(int ID, Message msg) {
+        System.out.println("manouvre.network.SocketServer.handle()" + msg.toString());
+        System.out.println("\n" + msg.toString() + "\n");
+        Message msgOut;
+        GameRoom gameRoom;
+        try {
+            switch (msg.getMessageType()) {
+                case Message.START_GAME:
+                    /*
+                    Searching for host Room
+                     */
+                    gameRoom = getRoomByPort(ID);
+                    /*
+                    Only Host can start game.
+                    Message carry on info about players and their choices about army.
+                     */
+                    msgOut = new Message(Message.START_GAME, "SERVER", Message.OK, "ROOM: " + gameRoom.getName());
+                    /*
+                    Creating a game
+                     */
+                    ArrayList<Player> players = gameRoom.getPlayers();
+                    //Assiging players
+                    //ArrayList<Player> players = msg.getPlayers();
+                    //Creating game - generate map, deal cards - setup army etc.
+                    Game game = new Game(players);
+                    //gameRoom.setGame(game);
+                    //Setting msg to carry whole game
+                    System.out.println("manouvre.network.ServerMessageHandler.handle() " + game.toString()); 
+                    msgOut.setGame(game);
+                    players.get(0).setArmy(game.hostPlayer.getArmy());
+                    players.get(1).setArmy(game.guestPlayer.getArmy());
+                    
+                    msgOut.hostPlayer = players.get(0);
+                    msgOut.guestPlayer = players.get(1);
+                      
+                    //Sending response to Host;
+                    //announceInRoom(gameRoom, msgOut);
+                    clients[findClient(gameRoom.getHostSocketPortId())].send(msgOut);
+                    System.out.println("manouvre.network.ServerMessageHandler.handle() " + game.toString()); 
+                    clients[findClient(gameRoom.getGuestSocketPortId())].send(msgOut);
+                    System.out.println("manouvre.network.ServerMessageHandler.handle() " + game.toString()); 
+                    break;
+                case Message.SET_NATION:
+                    /*
+                    Searching for host Room
+                     */
+                    gameRoom = getRoomByPort(ID);
+                    
+                    /*
+                    Setting Player Nation
+                    */
+                    gameRoom.getCurrentPlayer(ID).setNation(msg.getContentP());
+                    /*
+                    Sending message to opponent if room is full
+                    */
+                    if(gameRoom.isLocked())       
+                    {
+                        msgOut = new Message(Message.SET_NATION, "SERVER", msg.getContentP(), "ROOM: " + gameRoom.getName());
+                        clients[findClient(gameRoom.getOpponentPortSocket(ID))].send(msgOut);
+                    }
+                    
+                    break;
+                default:
+                    System.out.println("manouvre.network.ManouvreServer.handle() No type handled" + msg.getType());
+            }
+        } catch (NullPointerException ex) {
+            System.out.println("manouvre.network.ManouvreServer.handle()" + ex.toString());
+        }
+        
+    }   
+
 }

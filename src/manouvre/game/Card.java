@@ -72,6 +72,8 @@ import com.csvreader.CsvReader;
 import java.io.Serializable;
 
 public class Card implements CardInterface, Serializable{
+    
+    private static final long serialVersionUID = 419321L;
     int chosenID;
     String CardID="";
     String CardName="";				

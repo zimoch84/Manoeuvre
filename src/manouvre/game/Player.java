@@ -23,6 +23,7 @@ import manouvre.gui.UnitGUI;
  */
 public class Player  implements Serializable{
     
+    private static final long serialVersionUID = 43211L;
     String name;
     int nation; //for nation description see CardInterface
 
@@ -32,10 +33,11 @@ public class Player  implements Serializable{
     CardSet discardPile;
     CardSet tablePile;
     
-    ArrayList<Unit> army;
+    //ArrayList<Unit> army;
     
     boolean active;
-
+    
+    Unit[] army;
  
     boolean host;
 
@@ -62,6 +64,24 @@ public class Player  implements Serializable{
         return nation;
     }
     
+    public String nationToString(int nation)
+        {
+    switch(getNation())
+    {
+    case 0: return "GreatBritain";
+    case 2: return "France"; 
+    case 5: return "Russland";
+    case 4: return "Prussia";
+    case 1: return "Austria";
+    case 6: return "Spain";
+    case 3: return "Ottoman";
+    case 7: return "Ottoman";
+    default : return "Unknown";
+    }
+    
+    }
+            
+    
     public void setCards() {
         this.drawPile = new CardSet(60,nation); 
         this.hand = new CardSet(5);     
@@ -73,47 +93,68 @@ public class Player  implements Serializable{
         hand.addRandomCardsFromOtherSet(5, drawPile, true);
         hand.sortCard();  
     }
-
     public void generateUnits(){
      
-        army = new ArrayList<Unit>();
+        army = new Unit[8];
         /*
         If its host then place units on B row else place unit on G row
         */
+        int j=0;
+      for (int i=getNation()*8  ;i<getNation()*8+8;i++)
+        {
+            Unit unit =  new Unit(i+1);
+          /*
+            Startting position row B or G
+            */
+            unit.setPos(new Position (  i- ( getNation()*8)    , ( isHost() ? Position.ROW_2 : Position.ROW_7) ));
+             army[j] =   unit  ;      
+              j++;     
+         }
         
-        if(isHost())
-      for (int i=getNation()*8  ;i<getNation()*8+8;i++)
-        {
-
-            
-            Unit unit =  new Unit(i+1);
-          /*
-            Pozycja tymczasowo - bedzie tworzona w setupie
-            */
-            unit.setPos(new Position (  i- ( getNation()*8)    ,1));
-            army.add(   unit     ) ;      
-                   
-              
-       
-        }
-        else 
-      for (int i=getNation()*8  ;i<getNation()*8+8;i++)
-        {
-
-            
-            Unit unit =  new Unit(i+1);
-          /*
-            Pozycja tymczasowo - bedzie tworzona w setupie
-            */
-            unit.setPos(new Position (  i- ( getNation()*8)    ,7));
-            army.add(   unit     ) ;      
-                   
-              
-       
-        }      
             
     // System.out.println("Units Generated:");
     }
+    
+//    public void generateUnits(){
+//     
+//        army = new ArrayList<Unit>();
+//        /*
+//        If its host then place units on B row else place unit on G row
+//        */
+//        
+//        if(isHost())
+//      for (int i=getNation()*8  ;i<getNation()*8+8;i++)
+//        {
+//
+//            
+//            Unit unit =  new Unit(i+1);
+//          /*
+//            Pozycja tymczasowo - bedzie tworzona w setupie
+//            */
+//            unit.setPos(new Position (  i- ( getNation()*8)    ,1));
+//            army.add(   unit     ) ;      
+//                   
+//              
+//       
+//        }
+//        else 
+//      for (int i=getNation()*8  ;i<getNation()*8+8;i++)
+//        {
+//
+//            
+//            Unit unit =  new Unit(i+1);
+//          /*
+//            Pozycja tymczasowo - bedzie tworzona w setupie
+//            */
+//            unit.setPos(new Position (  i- ( getNation()*8)    ,7));
+//            army.add(   unit     ) ;      
+//                   
+//              
+//       
+//        }      
+//            
+//    // System.out.println("Units Generated:");
+//    }
     
     
     public CardSet getDrawPile() {
@@ -124,6 +165,15 @@ public class Player  implements Serializable{
         return hand;
     }
 
+    public Unit[] getArmy() {
+        return army;
+    }
+
+    public void setArmy(Unit[] army) {
+        this.army = army;
+    }
+
+    
      
     public CardSet getDiscardPile() {
         return discardPile;
@@ -132,16 +182,6 @@ public class Player  implements Serializable{
      public CardSet getTablePile() {
         return tablePile;
     }
-
-
-    public void setArmy(ArrayList<Unit> army) {
-        this.army = army;
-    }
-    
-    public ArrayList<Unit> getArmy() {
-        return army;
-    }
-
 
     public void setActive(boolean active) {
         this.active = active;
@@ -160,5 +200,17 @@ public class Player  implements Serializable{
     public void setHost(boolean host) {
         this.host = host;
     }
+
+    @Override
+    public String toString() {
+    
+        return getName() +
+                ",Nation: " + nationToString(getNation())+  
+                ",Army size: " + (army != null ? getArmy().length  : "0"
+                +",Hand Size: "  + (hand != null ? getHand().cardList.size()  : "0") 
+                ) ;
+
+    }
+    
     
 }
