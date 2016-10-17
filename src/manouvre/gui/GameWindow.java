@@ -748,13 +748,13 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             mainMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainMapPanelLayout.createSequentialGroup()
                 .addComponent(jLabel4)
-                .addGap(0, 749, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         mainMapPanelLayout.setVerticalGroup(
             mainMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainMapPanelLayout.createSequentialGroup()
                 .addComponent(jLabel4)
-                .addContainerGap(606, Short.MAX_VALUE))
+                .addContainerGap(785, Short.MAX_VALUE))
         );
 
         playerHandPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -799,10 +799,13 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         mainWindowPanelLayout.setHorizontalGroup(
             mainWindowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainWindowPanelLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(mainWindowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(playerHandPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(mainMapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(mainWindowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(mainWindowPanelLayout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addComponent(playerHandPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(mainWindowPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(mainMapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(rightSidePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26))
@@ -815,7 +818,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                     .addComponent(rightSidePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 815, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(mainWindowPanelLayout.createSequentialGroup()
                         .addComponent(mainMapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(playerHandPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -942,8 +945,8 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                     if(checkPosition.equals(clickedPosition))
                     {
 
-                        MoveUnitCommand moveUnit = new MoveUnitCommand(selectedUnit, game.getMap(), clickedPosition);
-                        moveUnit.execute();
+                        MoveUnitCommand moveUnit = new MoveUnitCommand(selectedUnit,  clickedPosition);
+                        moveUnit.execute(game);
                         
                         //Move in game and GUI
                       // game.moveUnit(selectedUnit, clickedPosition);

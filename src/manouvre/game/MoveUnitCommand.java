@@ -13,37 +13,56 @@ public class MoveUnitCommand implements Command{
     int x,y,lastx, lasty;
     Position newPosition, lastPosition;
 
-    Unit unit;
-    Map map;
+    Unit storedUnit;
+    Map storedMap;
 	
-    public MoveUnitCommand(Unit unit, Map map,  Position newPosition) {
-	this.unit = unit;
+    Game game;
+    public MoveUnitCommand(Unit unit,  Position newPosition) {
+	this.storedUnit = unit;
         this.newPosition = newPosition;
-        this.map = map;
-
+       
 	}
 
     @Override
-    public void execute() {
+    public void execute(Game game) {
+        /*
+        Assign refence to game object no matter where its located (clients/server) 
+        */
+        this.game = game;
+        /*
+        Searching reference to unit based on storeUnit.
+        */
+        Unit movingUnit =  game.searchUnit(storedUnit);
+        /*
+        Store last position to undo be passible
+        */
+        lastPosition = storedUnit.getPos() ;
+        /*
+        Move unit on game 
+        */
+        movingUnit.move(newPosition);
+        /*
+        Setting map on current game object to set occupation on it.
+        */ 
         
-        lastPosition = unit.getPos() ;
-        unit.move(newPosition);
-         
-      map.getTileAtIndex(lastPosition.getX(), lastPosition.getY()).setIsOccupiedByUnit(false);
-      map.getTileAtIndex(newPosition.getX(), newPosition.getY()).setIsOccupiedByUnit(true);
+        game.getMap().getTileAtIndex(lastPosition.getX(), lastPosition.getY()).setIsOccupiedByUnit(false);
+        game.getMap().getTileAtIndex(newPosition.getX(), newPosition.getY()).setIsOccupiedByUnit(true);
         
         
     }
     
     @Override
-    public void undo(){
+    public void undo(Game game){
       
-      unit.move(lastPosition);
+      this.game = game;
         
-      map.getTileAtIndex(lastPosition.getX(), lastPosition.getY()).setIsOccupiedByUnit(true);
-      map.getTileAtIndex(newPosition.getX(), newPosition.getY()).setIsOccupiedByUnit(false);
+      Unit movingUnit =  game.searchUnit(storedUnit);
+      
+      movingUnit.move(lastPosition);
+        
+      game.getMap().getTileAtIndex(lastPosition.getX(), lastPosition.getY()).setIsOccupiedByUnit(true);
+      game.getMap().getTileAtIndex(newPosition.getX(), newPosition.getY()).setIsOccupiedByUnit(false);
       
     }
-
-
+    
 }
