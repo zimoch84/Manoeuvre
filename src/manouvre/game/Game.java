@@ -245,6 +245,24 @@ public final class Game implements Serializable{
           
     }
     
+    public Unit searchUnit(Unit unit){
+    
+        for(Unit unitSearch : hostPlayer.getArmy())
+        {if(unitSearch.equals(unit))
+            {
+                return unitSearch;
+              }
+        }
+        for(Unit unitSearch : guestPlayer.getArmy())
+        {   if(unitSearch.equals(unit))
+            {
+                return unitSearch;
+              }
+        }
+       throw new NullPointerException() ;
+             
+    }
+    
     public Unit getCurrentPlayerUnitAtPosition(Position position){
     
         for(Unit unitSearch: currentPlayer.getArmy()){

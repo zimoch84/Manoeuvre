@@ -5,12 +5,14 @@
  */
 package manouvre.game.interfaces;
 
+import manouvre.game.Game;
+
 /**
  *
  * @author Piotr
  */
 public interface Command {
     
-    public void execute();
-    public void undo();
+    public void execute(Game game);
+    public void undo(Game game);
 }
