@@ -150,6 +150,14 @@ public class Unit implements UnitInterface, Serializable{
         setPos(newPosition);
     }
     
+    public boolean equals(Unit inUnit){
+    
+        if(this.name == inUnit.name) return true;
+        
+        else return false;
+             
+    }
+    
     
     
 }
