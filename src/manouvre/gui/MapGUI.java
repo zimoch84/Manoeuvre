@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import manouvre.game.Map;
+import manouvre.game.Terrain;
 
 /**
  * /**
@@ -39,8 +40,11 @@ import manouvre.game.Map;
  */
 public class MapGUI{
     
-     ArrayList<TerrainGUI> terrainsGUI;
-     
+     TerrainGUI[][] terrainsGUI ;
+     /*
+     For convinience only
+     */
+     ArrayList<TerrainGUI> wrappingArrayOfTerrains = new ArrayList<>();
      Map map;
      
      boolean unitSelected;
@@ -65,7 +69,7 @@ public class MapGUI{
      public MapGUI() throws IOException{
            
         super();
-        terrainsGUI = new ArrayList<>();
+        this.terrainsGUI = new TerrainGUI[8][8];
         loadTerrains();
         background= ImageIO.read( new File("resources\\backgrounds\\table800_800.jpg" ));
         
@@ -77,7 +81,7 @@ public class MapGUI{
     this.map =  map;
     this.windowMode = windowMode;
     
-    terrainsGUI = new ArrayList<>();
+    this.terrainsGUI = new TerrainGUI[8][8];
     unitSelected = false;
     loadTerrains();
     background= ImageIO.read( new File("resources\\backgrounds\\table800_800.jpg" ));
@@ -86,19 +90,23 @@ public class MapGUI{
     
     private void loadTerrains() throws IOException{
     
-          for (int i=0;i<8;i++)
+          for (int x=0;x<8;x++)
             {
-                   for(int j=0;j<8;j++){
+                   for(int y=0;y<8;y++){
                        if(windowMode == CreateRoomWindow.AS_HOST)
-                       terrainsGUI.add(new TerrainGUI(map.getTileAtIndex(i, j)) );
+                       { terrainsGUI[x][y] = new TerrainGUI(map.getTileAtIndex(x, y));
+                        wrappingArrayOfTerrains.add(terrainsGUI[x][y]);
+                       }
                        else
+                       {
                            /*
-                           Rotate map 180 degreees
+                           Rotate map view 180 degreees
                            */
-                       terrainsGUI.add(new TerrainGUI(map.getTileAtIndex(7-i, 7-j)) );
-                           
-                           
-                           
+                       terrainsGUI[x][y] = new TerrainGUI(map.getTileAtIndex(7-x, 7-y));
+                       wrappingArrayOfTerrains.add(terrainsGUI[x][y]);
+                       }
+                       
+                          
                        
                    }
             }
@@ -106,14 +114,21 @@ public class MapGUI{
                  
     
     }
-
     public ArrayList<TerrainGUI> getTerrainsGUI() {
-        return terrainsGUI;
+        return wrappingArrayOfTerrains;
     }
 
     public void setTerrainsGUI(ArrayList<TerrainGUI> terrainsGUI) {
+        this.wrappingArrayOfTerrains = terrainsGUI;
+    }
+    public TerrainGUI[][] getTerrainsArrayGUI() {
+        return terrainsGUI;
+    }
+
+    public void getTerrainsArrayGUI(TerrainGUI[][] terrainsGUI) {
         this.terrainsGUI = terrainsGUI;
     }
+
          
     public boolean isUnitSelected() {
         return unitSelected;

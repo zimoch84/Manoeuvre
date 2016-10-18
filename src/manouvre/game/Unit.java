@@ -124,7 +124,7 @@ public class Unit implements UnitInterface, Serializable{
     
     @Override
     public String toString(){
-    return "Unit ID:[" + ID +"] Name: "  + name + " Army "+ army + " type "  + type + " Strenght [" + strenght +"/" + reducedStrength +"]";
+    return "Unit ID:[" + ID +"] Name: "  + name + " Army "+ army + " type "  + type + " Strenght [" + strenght +"/" + reducedStrength +"][Position:" + getPos().toString()+"]";
       
             
     }

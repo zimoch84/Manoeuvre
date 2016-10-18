@@ -74,10 +74,11 @@ public final class Game implements Serializable{
         this.hostPlayer = players.get(0);
         this.guestPlayer = players.get(1);
         
-        
+        hostPlayer.setHost(true);
         hostPlayer.setCards();  
         hostPlayer.generateUnits(); 
         
+        guestPlayer.setHost(false);
         guestPlayer.setCards();  
         guestPlayer.generateUnits(); 
                 
@@ -113,6 +114,14 @@ public final class Game implements Serializable{
         else 
             currentPlayer = guestPlayer;
         
+    }
+
+    public Player getHostPlayer() {
+        return hostPlayer;
+    }
+
+    public Player getGuestPlayer() {
+        return guestPlayer;
     }
     
     
