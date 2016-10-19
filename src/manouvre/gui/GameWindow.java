@@ -916,8 +916,12 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         */
         else  {
             Unit selectedUnit = gameGui.getSelectedUnit().getUnit();
+            
+            
             Position clickedPosition = new Position(  Position.convertMouseXToX(x)   , Position.convertMouseYToY(y)) ;
-
+            if(windowMode == CreateRoomWindow.AS_GUEST)
+                    clickedPosition = clickedPosition.transpoze();
+            
             if(!selectedUnit.getPosition().equals(clickedPosition))
             {
                 System.out.println("manouvre.gui.ClientUI.mainMapPanelMouseClicked().clickedPosition :" + clickedPosition) ;

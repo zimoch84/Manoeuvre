@@ -17,6 +17,7 @@ import manouvre.gui.GameGUI;
 import manouvre.gui.GameWindow;
 import manouvre.gui.LoginWindow;
 import manouvre.network.client.SocketClient;
+import manouvre.network.server.UnoptimizedDeepCopy;
 
 /**
  *
@@ -44,7 +45,9 @@ public class Maneuvre {
           
           GameWindow clientGameHost = new GameWindow( game , null,  CreateRoomWindow.AS_HOST );
           
-          GameWindow clientGameGuest = new GameWindow( game , null,  CreateRoomWindow.AS_GUEST );
+          Game game2 = (Game) UnoptimizedDeepCopy.copy (game);
+          
+          GameWindow clientGameGuest = new GameWindow( game2 , null,  CreateRoomWindow.AS_GUEST );
           
           try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -63,7 +66,7 @@ public class Maneuvre {
             java.util.logging.Logger.getLogger(LoginWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
           
-           clientGameHost.setVisible(true);
+         //  clientGameHost.setVisible(true);
            
           clientGameGuest.setVisible(true);
           
