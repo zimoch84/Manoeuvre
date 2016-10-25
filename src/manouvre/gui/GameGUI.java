@@ -128,6 +128,7 @@ public class GameGUI {
         Draws selection
          */
         if(windowMode == CreateRoomWindow.AS_HOST)
+        {
             if (mapGui.isUnitSelected()) {
                 for (TerrainGUI terrainGUI : mapGui.getTerrainsGUI()) {
                     if (terrainGUI.isSelected()) {
@@ -159,7 +160,9 @@ public class GameGUI {
                     }
                 }
             }
+        }
         else if(windowMode == CreateRoomWindow.AS_GUEST)
+        {
             if (mapGui.isUnitSelected()) {
                 for (TerrainGUI terrainGUI : mapGui.getTerrainsGUI()) {
                     if (terrainGUI.isSelected()) {
@@ -191,7 +194,7 @@ public class GameGUI {
                     }
                 }
             }
-            
+        }    
         /*
         Draw units
          */

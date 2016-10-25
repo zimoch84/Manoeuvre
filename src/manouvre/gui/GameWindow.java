@@ -890,7 +890,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                                 }
                             }
                     }
-                    else if(windowMode == CreateRoomWindow.AS_GUEST)
+                else if(windowMode == CreateRoomWindow.AS_GUEST)
                         {   
                         if(terrainGUI.getPos().transpoze().checkIfMouseFitInPositon(x, y))
                             {
