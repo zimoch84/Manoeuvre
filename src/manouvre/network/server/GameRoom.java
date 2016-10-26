@@ -213,4 +213,10 @@ public class GameRoom implements Serializable {
     }
             
             
+    public boolean isHost(int port){
+        
+        return (port == hostSocketPortId);
+        
+    
+    }
 }

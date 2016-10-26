@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import manouvre.game.Map;
-import manouvre.game.Terrain;
+
 
 /**
  * /**

@@ -5,13 +5,14 @@
  */
 package manouvre.game.interfaces;
 
+import java.io.Serializable;
 import manouvre.game.Game;
 
 /**
  *
  * @author Piotr
  */
-public interface Command {
+public interface Command extends  Serializable{
     
     public void execute(Game game);
     public void undo(Game game);

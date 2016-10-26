@@ -23,12 +23,12 @@ public final class Game implements Serializable{
     /*
     Game phases
     */
-    public static int SETUP = -1;
-    public static int DISCARD = 0;
-    public static int DRAW = 1;
-    public static int MOVE = 2;
-    public static int COMBAT = 3;
-    public static int RESTORATION = 4;
+    public static final int SETUP = -1;
+    public static final int DISCARD = 0;
+    public static final int DRAW = 1;
+    public static final int MOVE = 2;
+    public static final int COMBAT = 3;
+    public static final int RESTORATION = 4;
        
     
     Map map;    
@@ -37,7 +37,7 @@ public final class Game implements Serializable{
 
     int turn;
         
-    Player currentPlayer;
+    private Player currentPlayer, opponentPlayer;
     public Player hostPlayer;
     public Player guestPlayer;
     
@@ -86,6 +86,8 @@ public final class Game implements Serializable{
         
         placeUnitsOnMap(hostPlayer);
         placeUnitsOnMap(guestPlayer);
+        
+        setPhase(Game.SETUP);
     }
      
     
@@ -104,15 +106,25 @@ public final class Game implements Serializable{
         return currentPlayer;
     }
 
+    public Player getOpponentPlayer() {
+        return opponentPlayer;
+    }
+    
+    
+
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
     
     public void setCurrentPlayer(int windowMode) {
         if (windowMode == CreateRoomWindow.AS_HOST)
-            currentPlayer = hostPlayer;
+        { currentPlayer = hostPlayer;
+            opponentPlayer = guestPlayer;
+        }
         else 
-            currentPlayer = guestPlayer;
+        {   currentPlayer = guestPlayer;
+            opponentPlayer = hostPlayer;
+        }
         
     }
 
@@ -306,6 +318,7 @@ public final class Game implements Serializable{
      
     }
     //-----------phases-----------
+//   SETUP = -1    
 //   DISCARD = 0;
 //   DRAW = 1;
 //   MOVE = 2;
@@ -320,6 +333,7 @@ public final class Game implements Serializable{
         this.phase = phase;
     } 
     public void nextPhase() {
+          
         if(phase<4) phase++;
         else phase=0;
         setCardsInHandAsPlayableDueToPhase();
@@ -330,24 +344,26 @@ public final class Game implements Serializable{
         //Supply and Forced March in Move Phase
     for(int i=0; i<getCurrentPlayer().getHand().cardsLeftInSet(); i++){
         getCurrentPlayer().getHand().getCardByPosInSet(i).setPlayable(false);
-        if (getPhase()==0){
+        if (getPhase()==Game.DISCARD){
            getCurrentPlayer().getHand().getCardByPosInSet(i).setPlayable(true);
         }
-        if (getPhase()==1){
+        if (getPhase()==Game.DRAW){
                 getCurrentPlayer().getHand().getCardByPosInSet(i).setPlayable(false);  
         } 
-        if (getPhase()==2){
-            if(getCurrentPlayer().getHand().getCardByPosInSet(i).getCardName().equals("Supply")||getCurrentPlayer().getHand().getCardNameByPosInSet(i).equals("Forced March")){
+        if (getPhase()==Game.MOVE){
+            if(getCurrentPlayer().getHand().getCardByPosInSet(i).getCardName().equals("Supply")
+                    || getCurrentPlayer().getHand().getCardNameByPosInSet(i).equals("Forced March"))
+            {
                 getCurrentPlayer().getHand().getCardByPosInSet(i).setPlayable(true); 
             }
         } 
-        if (getPhase()==3){
+        if (getPhase()==Game.COMBAT){
            getCurrentPlayer().getHand().getCardByPosInSet(i).setPlayable(true);  
            }
-        if (getPhase()==4){
+        if (getPhase()==Game.RESTORATION){
             if(getCurrentPlayer().getHand().getCardNameByPosInSet(i).equals("Supply")||
                    getCurrentPlayer().getHand().getCardNameByPosInSet(i).equals("Regroup")||
-                   getCurrentPlayer().getHand().getCardTypeByPosInSet(i)==0||
+                   getCurrentPlayer().getHand().getCardTypeByPosInSet(i)==0 ||
                    getCurrentPlayer().getHand().getCardTypeByPosInSet(i)==2)
             {
                 getCurrentPlayer().getHand().getCardByPosInSet(i).setPlayable(true);  

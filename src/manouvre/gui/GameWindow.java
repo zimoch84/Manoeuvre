@@ -23,10 +23,11 @@ import manouvre.game.Player;
 import manouvre.game.Position;
 import manouvre.game.Unit;
 import manouvre.network.client.SocketClient;
-import manouvre.game.MoveUnitCommand;
+import manouvre.game.commands.MoveUnitCommand;
 import manouvre.game.interfaces.FrameInterface;
 import static java.lang.Math.abs;
 import manouvre.game.interfaces.CardInterface;
+import static java.lang.Math.abs;
 
 
 /**
@@ -62,8 +63,6 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
     
     private Image bgImage;
    
-    
-    
  
     public GameWindow(SocketClient passSocket, Player player) throws IOException{
         
@@ -121,7 +120,11 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                             : game.getGuestPlayer().getName() + " as GUEST" );
 
         setTitle(title);
+        
+        
         initComponents();
+        
+        setPhaseButtonLabel();
     
         this.addWindowListener(new WindowListener() {
             @Override public void windowOpened(WindowEvent e) {}
@@ -182,6 +185,47 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         gameGui.drawMap(g,windowMode );
      
     }
+    
+    private void setPhaseButtonLabel(){
+    
+           switch(game.getPhase()){
+           case Game.SETUP:
+           {
+            buttonPhaseName.setText("Setup");
+            break;
+           }    
+           case Game.DISCARD:
+           {
+            buttonPhaseName.setEnabled(!gameGui.getSelectionSeqIsEmpty());
+            buttonPhaseName.setText("Discard");
+            break;
+           }
+           case Game.DRAW:
+           {
+             buttonPhaseName.setEnabled(gameGui.numberOfDiscardedCards>0);
+             buttonPhaseName.setText("Draw");
+              break;
+           }
+           case Game.MOVE:
+           {
+            buttonPhaseName.setEnabled(true);  
+            buttonPhaseName.setText("Move");
+             break;
+           }
+           case Game.COMBAT:
+           {
+            buttonPhaseName.setEnabled(true);  
+            buttonPhaseName.setText("Combat");
+             break;
+           }
+            case Game.RESTORATION:
+           {
+            buttonPhaseName.setEnabled(true);  
+            buttonPhaseName.setText("Restoration");
+             break;
+           }
+         }
+    }
  
     private void drawCard(Graphics g )                 
     {   
@@ -190,38 +234,6 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         mouseClickedOnHand=0; 
          //set switches
          buttonPhaseName.setEnabled(false);
-         switch(game.getPhase()){
-           case 0:
-           {
-            buttonPhaseName.setEnabled(!gameGui.getSelectionSeqIsEmpty());
-            buttonPhaseName.setText("Discard");
-            return;
-           }
-           case 1:
-           {
-             buttonPhaseName.setEnabled(gameGui.numberOfDiscardedCards>0);
-             buttonPhaseName.setText("Draw");
-              return;
-           }
-           case 2:
-           {
-            buttonPhaseName.setEnabled(true);  
-            buttonPhaseName.setText("Move");
-             return;
-           }
-           case 3:
-           {
-            buttonPhaseName.setEnabled(true);  
-            buttonPhaseName.setText("Combat");
-             return;
-           }
-            case 4:
-           {
-            buttonPhaseName.setEnabled(true);  
-            buttonPhaseName.setText("Restoration");
-             return;
-           }
-         }
         
     }
     
@@ -935,11 +947,15 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                     {
 
                         MoveUnitCommand moveUnit = new MoveUnitCommand(selectedUnit,  clickedPosition);
+                        
                         moveUnit.execute(game);
                         
+                        Message moveMessage = new Message(Message.COMMAND, game.getCurrentPlayer().getName() , Message.MOVE_COMMAND, "IN_CHANNEL");
+                        moveMessage.setCommand(moveUnit);
+                        
+                        client.send(moveMessage);
+                        
                         //Move in game and GUI
-                      // game.moveUnit(selectedUnit, clickedPosition);
-                       //selectedUnit.setPos(clickedPosition);
                         //Unselect all
                         gameGui.unselectAllUnits();
                         //exit loop
@@ -975,29 +991,42 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
 
     private void buttonPhaseNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPhaseNameActionPerformed
        switch(game.getPhase()){
-           case 0:
+           case Game.DISCARD :
            {
                gameGui.discardSelCards();
+               setPhaseButtonLabel();
                this.repaint();
-               return;
+               break;
            }
-           case 1:
+           case Game.DRAW:
            {
                gameGui.drawCards();
+               setPhaseButtonLabel();
                this.repaint();
-               return;
+               break;
            }
-           case 2:
+           case Game.MOVE:
            {
                 game.nextPhase();  //move
+                setPhaseButtonLabel();
                 this.repaint();
-                return;
+                break;
            }
-           case 3:
-                game.nextPhase();   //restoration
+           case Game.COMBAT:
+           {
+                game.nextPhase();  //move
+                setPhaseButtonLabel();
                 this.repaint();
-                return;
+                break;
+           }
+           case Game.RESTORATION:
+                game.nextPhase();   //restoration
+                setPhaseButtonLabel();
+                this.repaint();
+                break;
        }
+       
+       
            
     }//GEN-LAST:event_buttonPhaseNameActionPerformed
 
@@ -1008,6 +1037,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
 
     private void buttonToNextPhaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonToNextPhaseActionPerformed
         game.nextPhase();        // TODO add your handling code here:
+        setPhaseButtonLabel();
         this.repaint();
     }//GEN-LAST:event_buttonToNextPhaseActionPerformed
 

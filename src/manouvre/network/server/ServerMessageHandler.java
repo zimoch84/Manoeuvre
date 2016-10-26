@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import manouvre.game.Game;
 import manouvre.game.Player;
 import manouvre.game.interfaces.CardInterface;
+import manouvre.game.interfaces.Command;
 import manouvre.network.client.Message;
 
 /**
@@ -33,7 +34,7 @@ public class ServerMessageHandler {
        
     }
 
-    public synchronized void handle(int ID, Message msg) {
+    public synchronized void handle(int portID, Message msg) {
         System.out.println("manouvre.network.server.SocketServer.handle()" + msg.toString());
         ui.jTextArea1.append("\n" + msg.toString() + "\n");
         Message msgOut;
@@ -43,16 +44,16 @@ public class ServerMessageHandler {
                 case Message.LOGIN:
                     if (server.findUserThread(msg.sender) == null) {
                         if (db.checkLogin(msg.sender, msg.content)) {
-                            clients[server.findClient(ID)].username = msg.sender;
-                            clients[server.findClient(ID)].setPlayer(new Player(msg.sender));
-                            clients[server.findClient(ID)].send(new Message(Message.LOGIN, "SERVER", Message.OK, msg.sender));
+                            clients[server.findClient(portID)].username = msg.sender;
+                            clients[server.findClient(portID)].setPlayer(new Player(msg.sender));
+                            clients[server.findClient(portID)].send(new Message(Message.LOGIN, "SERVER", Message.OK, msg.sender));
                             server.Announce(new Message(Message.USER_LOGGED, "SERVER", Message.OK, msg.sender));
                             //SendUserList(msg.sender);
                         } else {
-                            clients[server.findClient(ID)].send(new Message(Message.LOGIN, "SERVER", Message.NOT_OK, msg.sender));
+                            clients[server.findClient(portID)].send(new Message(Message.LOGIN, "SERVER", Message.NOT_OK, msg.sender));
                         }
                     } else {
-                        clients[server.findClient(ID)].send(new Message(Message.LOGIN, "SERVER", Message.NOT_OK, msg.sender));
+                        clients[server.findClient(portID)].send(new Message(Message.LOGIN, "SERVER", Message.NOT_OK, msg.sender));
                     }
                     break;
                 case Message.CHAT:
@@ -60,12 +61,12 @@ public class ServerMessageHandler {
                         server.Announce(new Message(Message.CHAT, msg.sender, msg.content, "SERVER"));
                     } else {
                         server.findUserThread(msg.recipient).send(new Message(Message.CHAT, msg.sender, msg.content, msg.recipient));
-                        clients[server.findClient(ID)].send(new Message(Message.CHAT, msg.sender, msg.content, msg.recipient));
+                        clients[server.findClient(portID)].send(new Message(Message.CHAT, msg.sender, msg.content, msg.recipient));
                     }
                     break;
                 case Message.CHAT_IN_ROOM:
-                    server.announceInRoom(server.getRoomByPort(ID), msg);
-                    // clients[server.findClient(ID)].send(new Message(Message.CHAT, msg.sender, msg.content, msg.recipient));
+                    server.announceInRoom(server.getRoomByPort(portID), msg);
+                    // clients[server.findClient(portID)].send(new Message(Message.CHAT, msg.sender, msg.content, msg.recipient));
                     break;
                 case Message.CREATE_ROOM:
                     String[] parts = msg.content.split("|");
@@ -79,13 +80,13 @@ public class ServerMessageHandler {
                     /*
                     Check if socket client localport  = server port
                      */
-                    if (ID == newRoom.getHostSocketPortId()) {
+                    if (portID == newRoom.getHostSocketPortId()) {
                         this.channels.add(newRoom);
                     }
                     /*
                     Wysylamy do klienta ze udalo sie dodac kanal
                      */
-                    clients[server.findClient(ID)].send(new Message(Message.CREATE_ROOM, "SERVER", Message.OK, msg.sender));
+                    clients[server.findClient(portID)].send(new Message(Message.CREATE_ROOM, "SERVER", Message.OK, msg.sender));
                     /*
                     Wysylamy do wszystkich userow liste kanalow
                      */
@@ -105,7 +106,7 @@ public class ServerMessageHandler {
                     if (server.isRoomExistsOnServer(requestRoom)) {
                         GameRoom room = server.getRoomByPort(requestRoom.getHostSocketPortId());
                         if (!room.isLocked()) {
-                            room.setGuestSocketPortId(ID);
+                            room.setGuestSocketPortId(portID);
                             Player guestPlayer = msg.getPlayer();
                             //Predefine choice if player would choose nothing                     
                             guestPlayer.setNation(CardInterface.US);
@@ -116,18 +117,18 @@ public class ServerMessageHandler {
                              */
                             msgOut = new Message(Message.JOIN_ROOM, "SERVER", Message.OK, msg.sender);
                             msgOut.addPlayer(room.getHostPlayer());
-                            clients[server.findClient(ID)].send(msgOut);
+                            clients[server.findClient(portID)].send(msgOut);
                             //Send message to host of the room and guest player object
                             Message msgToHost = new Message(Message.JOIN_ROOM, "SERVER", Message.USER_JOINED_IN_ROOM, room.getHostPlayer().getName());
                             msgToHost.addPlayer(room.getGuestPlayer());
                             clients[server.findClient(room.getHostSocketPortId())].send(msgToHost);
                         } else {
                             msgOut = new Message(Message.JOIN_ROOM, "SERVER", Message.IS_ROOM_LOCKED, msg.sender);
-                            clients[server.findClient(ID)].send(msgOut);
+                            clients[server.findClient(portID)].send(msgOut);
                         }
                     } else {
                         msgOut = new Message(Message.JOIN_ROOM, "SERVER", Message.ROOM_NOT_FOUND, msg.sender);
-                        clients[server.findClient(ID)].send(msgOut);
+                        clients[server.findClient(portID)].send(msgOut);
                     }
                     break;
                 case Message.GET_ROOM_LIST:
@@ -137,17 +138,17 @@ public class ServerMessageHandler {
                     msgOut = new Message(Message.GET_ROOM_LIST, "SERVER", "serverResponse", msg.sender);
                     msgOut.setChannelList(server.getRooms());
                     msgOut.setContent("Channels size " + Integer.toString(server.getRooms().size()));
-                    clients[server.findClient(ID)].send(msgOut);
+                    clients[server.findClient(portID)].send(msgOut);
                     break;
                 case Message.BYE:
                     server.Announce("signout", "SERVER", msg.sender);
-                    server.remove(ID);
+                    server.remove(portID);
                     break;
                 case Message.START_GAME:
                     /*
                     Searching for host Room
                      */
-                    gameRoom = server.getRoomByPort(ID);
+                    gameRoom = server.getRoomByPort(portID);
                     /*
                     Only Host can start game.
                     Message carry on info about players and their choices about army.
@@ -190,22 +191,44 @@ public class ServerMessageHandler {
                     /*
                     Searching for host Room
                      */
-                    gameRoom = server.getRoomByPort(ID);
+                    gameRoom = server.getRoomByPort(portID);
                     
                     /*
                     Setting Player Nation
                     */
-                    gameRoom.getCurrentPlayer(ID).setNation(msg.getContentP());
+                    gameRoom.getCurrentPlayer(portID).setNation(msg.getContentP());
                     /*
                     Sending message to opponent if room is full
                     */
                     if(gameRoom.isLocked())       
                     {
                         msgOut = new Message(Message.SET_NATION, "SERVER", msg.getContentP(), "ROOM: " + gameRoom.getName());
-                        clients[server.findClient(gameRoom.getOpponentPortSocket(ID))].send(msgOut);
+                        clients[server.findClient(gameRoom.getOpponentPortSocket(portID))].send(msgOut);
                     }
                     
                     break;
+                case Message.COMMAND:
+                    /*
+                    Searching for host Room
+                     */
+                    gameRoom = server.getRoomByPort(portID);
+                    
+                    //Command executeCommand = msg.getCommand();
+                    
+                    /*
+                    Executing command over game on server
+                    */
+                    //executeCommand.execute(gameRoom.getGame());
+                    
+                    /*
+                    Send command to opponent with the same message
+                    */
+                    Message messageOut = (Message) UnoptimizedDeepCopy.copy (msg);
+                    
+                    clients[server.findClient(gameRoom.getOpponentPortSocket(portID))].send(messageOut);
+                    break;
+                                        
+                    
                 default:
                     System.out.println("manouvre.network.server.ManouvreServer.handle() No type handled" + msg.getType());
             }
@@ -214,23 +237,23 @@ public class ServerMessageHandler {
         }
         //        if (msg.content.equals(".bye")){
         //            server.Announce("signout", "SERVER", msg.sender);
-        //            server.remove(ID);
+        //            server.remove(portID);
         //	}
         //	else{
         //            if(msg.getType().equals("login")){
         //                if(server.findUserThread(msg.sender) == null){
         //                    if(db.checkLogin(msg.sender, msg.content)){
-        //                        clients[server.findClient(ID)].username = msg.sender;
-        //                        clients[server.findClient(ID)].send(new Message("login", "SERVER", "TRUE", msg.sender));
+        //                        clients[server.findClient(portID)].username = msg.sender;
+        //                        clients[server.findClient(portID)].send(new Message("login", "SERVER", "TRUE", msg.sender));
         //                        server.Announce("newuser", "SERVER", msg.sender);
         //                        SendUserList(msg.sender);
         //                    }
         //                    else{
-        //                        clients[server.findClient(ID)].send(new Message("login", "SERVER", "FALSE", msg.sender));
+        //                        clients[server.findClient(portID)].send(new Message("login", "SERVER", "FALSE", msg.sender));
         //                    }
         //                }
         //                else{
-        //                    clients[server.findClient(ID)].send(new Message("login", "SERVER", "FALSE", msg.sender));
+        //                    clients[server.findClient(portID)].send(new Message("login", "SERVER", "FALSE", msg.sender));
         //                }
         //            }
         //            else if(msg.getType().equals("message")){
@@ -239,11 +262,11 @@ public class ServerMessageHandler {
         //                }
         //                else{
         //                    server.findUserThread(msg.recipient).send(new Message(msg.type, msg.sender, msg.content, msg.recipient));
-        //                    clients[server.findClient(ID)].send(new Message(msg.type, msg.sender, msg.content, msg.recipient));
+        //                    clients[server.findClient(portID)].send(new Message(msg.type, msg.sender, msg.content, msg.recipient));
         //                }
         //            }
         //            else if(msg.getType().equals("test")){
-        //                clients[server.findClient(ID)].send(new Message("test", "SERVER", "OK", msg.sender));
+        //                clients[server.findClient(portID)].send(new Message("test", "SERVER", "OK", msg.sender));
         //            }
         //
         //            else if(msg.getType().equals("join_room")){
@@ -261,26 +284,26 @@ public class ServerMessageHandler {
         //                {
         //                    if(checkRoom.getName().equals(name) && checkRoom.getPassword().equals(password) && !checkRoom.isLocked())
         //                    {
-        //                        checkRoom.addSocket(this.clients[server.findClient(ID)].getSocket());
-        //                        checkRoom.addPlayer(this.clients[server.findClient(ID)].getPlayer());
+        //                        checkRoom.addSocket(this.clients[server.findClient(portID)].getSocket());
+        //                        checkRoom.addPlayer(this.clients[server.findClient(portID)].getPlayer());
         //
-        //                        clients[server.findClient(ID)].send (new Message (Message.JOIN_ROOM,"SERVER", Message.OK, msg.sender)  );
+        //                        clients[server.findClient(portID)].send (new Message (Message.JOIN_ROOM,"SERVER", Message.OK, msg.sender)  );
         //
         //                        server.announceInRoom(checkRoom, new Message (Message.IN_ROOM_CHAT, "SERVER", "Player " + msg.sender + " joined the room", "All") );
         //                        break;
         //                    }
         //                    else if (!checkRoom.getName().equals(name))
         //                    {
-        //                        clients[server.findClient(ID)].send(new Message (Message.JOIN_ROOM, "SERVER", Message.BAD_CHANNEL_NAME, msg.sender));
+        //                        clients[server.findClient(portID)].send(new Message (Message.JOIN_ROOM, "SERVER", Message.BAD_CHANNEL_NAME, msg.sender));
         //                        break;
         //                    }
         //                    else if (checkRoom.getName().equals(name) && !checkRoom.getPassword().equals(password))
         //                    {
-        //                        clients[server.findClient(ID)].send(new Message (Message.JOIN_ROOM, "SERVER", Message.BAD_PASSWORD, msg.sender));
+        //                        clients[server.findClient(portID)].send(new Message (Message.JOIN_ROOM, "SERVER", Message.BAD_PASSWORD, msg.sender));
         //                        break;
         //                    }
         //                    else if (checkRoom.isLocked())
-        //                        clients[server.findClient(ID)].send(new Message (Message.JOIN_ROOM, "SERVER", Message.IS_ROOM_LOCKED, msg.sender));
+        //                        clients[server.findClient(portID)].send(new Message (Message.JOIN_ROOM, "SERVER", Message.IS_ROOM_LOCKED, msg.sender));
         //                    else {
         //                        System.out.println("manouvre.network.server.ManouvreServer.handler() Something goes wrong" );
         //
@@ -288,13 +311,13 @@ public class ServerMessageHandler {
         //
         //                }
         //
-        //                GameRoom newRoom = new GameRoom( name, password, clients[server.findClient(ID)].clientServerSocket, new Player (msg.sender) );
+        //                GameRoom newRoom = new GameRoom( name, password, clients[server.findClient(portID)].clientServerSocket, new Player (msg.sender) );
         //                this.channels.add(newRoom);
         //
         //                /*
         //                Wysylamy do klienta ze udalo sie doda kanal
         //                */
-        //                clients[server.findClient(ID)].send(new Message(Message.CREATE_ROOM, "SERVER", Message.OK, msg.sender));
+        //                clients[server.findClient(portID)].send(new Message(Message.CREATE_ROOM, "SERVER", Message.OK, msg.sender));
         //
         //
         //                /*
@@ -316,18 +339,18 @@ public class ServerMessageHandler {
         //                if(server.findUserThread(msg.sender) == null){
         //                    if(!db.userExists(msg.sender)){
         //                        db.addUser(msg.sender, msg.content);
-        //                        clients[server.findClient(ID)].username = msg.sender;
-        //                        clients[server.findClient(ID)].send(new Message("signup", "SERVER", "TRUE", msg.sender));
-        //                        clients[server.findClient(ID)].send(new Message("login", "SERVER", "TRUE", msg.sender));
+        //                        clients[server.findClient(portID)].username = msg.sender;
+        //                        clients[server.findClient(portID)].send(new Message("signup", "SERVER", "TRUE", msg.sender));
+        //                        clients[server.findClient(portID)].send(new Message("login", "SERVER", "TRUE", msg.sender));
         //                        server.Announce("newuser", "SERVER", msg.sender);
         //                        SendUserList(msg.sender);
         //                    }
         //                    else{
-        //                        clients[server.findClient(ID)].send(new Message("signup", "SERVER", "FALSE", msg.sender));
+        //                        clients[server.findClient(portID)].send(new Message("signup", "SERVER", "FALSE", msg.sender));
         //                    }
         //                }
         //                else{
-        //                    clients[server.findClient(ID)].send(new Message("signup", "SERVER", "FALSE", msg.sender));
+        //                    clients[server.findClient(portID)].send(new Message("signup", "SERVER", "FALSE", msg.sender));
         //                }
         //            }
         //

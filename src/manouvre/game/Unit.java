@@ -152,7 +152,7 @@ public class Unit implements UnitInterface, Serializable{
     
     public boolean equals(Unit inUnit){
     
-        if(this.name == inUnit.name) return true;
+        if(this.name.equals(inUnit.name)) return true;
         
         else return false;
              

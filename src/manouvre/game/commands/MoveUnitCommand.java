@@ -3,13 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package manouvre.game;
+package manouvre.game.commands;
 
+import manouvre.game.Game;
+import manouvre.game.Map;
+import manouvre.game.Position;
+import manouvre.game.Unit;
 import manouvre.game.interfaces.Command;
 
 
-public class MoveUnitCommand implements Command{
+public class MoveUnitCommand implements Command {
 
+    private static final long serialVersionUID = -1306760703066967345L;
     int x,y,lastx, lasty;
     Position newPosition, lastPosition;
 

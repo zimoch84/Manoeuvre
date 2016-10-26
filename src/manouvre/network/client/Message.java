@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import manouvre.game.Game;
 import manouvre.game.Player;
+import manouvre.game.interfaces.Command;
 import manouvre.network.server.GameRoom;
 /**
  * 
@@ -39,9 +40,12 @@ public class Message implements Serializable{
     public final static int CHAT_IN_ROOM = 18; 
     public final static int START_GAME = 19; 
     public final static int SET_NATION = 20;
-    
-    
+    public final static int COMMAND = 21;
     public final static int CHAT = 99;
+    /*
+    COMMAND TYPES
+    */
+    public final static int MOVE_COMMAND = 100;
     
   
     private static final long serialVersionUID = 1L;
@@ -61,7 +65,7 @@ public class Message implements Serializable{
     
     public Player hostPlayer, guestPlayer;
     
-   
+    public Command command;
 
       
     public Message(String type, String sender, String content, String recipient){
@@ -163,6 +167,7 @@ public class Message implements Serializable{
                     case CHAT_IN_ROOM : out  = "CHAT_IN_ROOM"; break;
                     case START_GAME : out  = "START_GAME"; break;
                     case SET_NATION : out  = "SET_NATION"; break;
+                    case COMMAND: out  = "COMMAND "  + getCommandType(getContentP())  ; break;
                     
                     
                     default: out = Integer.toString(getMessageType()) ;
@@ -173,7 +178,30 @@ public class Message implements Serializable{
          else 
         return type;
     }
+     
+    public String getCommandType(int command)
+    {
+        switch(command)
+        {
+            case MOVE_COMMAND: return "MOVE_COMMAND";
+            
+        } 
+        
+        return null;
+            
+    }
 
+    public void setCommand(Command command) {
+        this.command = command;
+    }
+
+    public Command getCommand() {
+        return command;
+    }
+      
+    
+   
+    
     public void setType(String type) {
         this.type = type;
     }
