@@ -28,6 +28,8 @@ import manouvre.game.interfaces.FrameInterface;
 import static java.lang.Math.abs;
 import manouvre.game.interfaces.CardInterface;
 import static java.lang.Math.abs;
+import java.util.Arrays;
+import manouvre.game.commands.SetupPositionCommand;
 
 
 /**
@@ -521,7 +523,6 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         });
 
         buttonPhaseName.setText("Phase Name");
-        buttonPhaseName.setEnabled(false);
         buttonPhaseName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonPhaseNameActionPerformed(evt);
@@ -699,7 +700,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                 .addContainerGap()
                 .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(opponentPlayerPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 342, Short.MAX_VALUE)
                     .addComponent(currentPlayerPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -991,6 +992,48 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
 
     private void buttonPhaseNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPhaseNameActionPerformed
        switch(game.getPhase()){
+           case Game.SETUP :
+           {
+               /*
+               If we havent received setup finished command from opponent 
+               and we are clicking to finish setup
+               */
+               if(!game.getOpponentPlayer().isFinishedSetup() )
+               {
+               game.getCurrentPlayer().setFinishedSetup(true);
+               SetupPositionCommand setupCommand = new SetupPositionCommand(
+                       new ArrayList<Unit>(
+                                        Arrays.asList(
+                                                    game.getCurrentPlayer().getArmy()
+                                                    )
+                                         )
+                                    );
+               
+                                       
+              
+               
+                Message setupMessage = new Message(Message.COMMAND, game.getCurrentPlayer().getName() , Message.MOVE_COMMAND, "IN_CHANNEL");
+                setupMessage.setCommand(setupCommand);
+                client.send(setupMessage);
+
+               }
+               /*
+               Else we did received finish setup command we start the game
+               */
+               else
+               {
+                   game.getCurrentPlayer().setFinishedSetup(true);
+               /*
+                   Here will be the code to start the game command
+                   */
+               } 
+                   
+                   
+               
+               
+               break;
+           }
+           
            case Game.DISCARD :
            {
                gameGui.discardSelCards();

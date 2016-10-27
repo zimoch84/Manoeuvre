@@ -39,7 +39,7 @@ public class Player  implements Serializable{
     
     Unit[] army;
  
-    boolean host;
+    boolean host, finishedSetup;
 
     
 
@@ -191,7 +191,15 @@ public class Player  implements Serializable{
         return active;
     }
 
+    public boolean isFinishedSetup() {
+        return finishedSetup;
+    }
 
+    public void setFinishedSetup(boolean finishedSetup) {
+        this.finishedSetup = finishedSetup;
+    }
+
+    
   
     public boolean isHost() {
         return host;
