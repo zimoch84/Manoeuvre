@@ -333,12 +333,12 @@ public final class Game implements Serializable{
             }
         } 
         if (getPhase()==3){ //unit card available only when unit has attacked  
-          if(getCurrentPlayer().getArmy().get(i).isHasAttacked()==true)
+         /* if(getCurrentPlayer().getArmy().get(i).isHasAttacked()==true)
           {
               String tempString=getCurrentPlayer().getArmy().get(i).getName();
                getCurrentPlayer().getHand().getCardByName(tempString).setPlayable(true);              
           }
-
+*/
            }
         
         if (getPhase()==4){
