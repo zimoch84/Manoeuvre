@@ -39,7 +39,7 @@ public class Player  implements Serializable{
     
     Unit[] army;
  
-    boolean host;
+    boolean host, finishedSetup;
 
     
 
@@ -90,7 +90,7 @@ public class Player  implements Serializable{
         this.tablePile = new CardSet();
 
        
-        hand.addRandomCardsFromOtherSet(5, drawPile, true);
+        hand.addCardsFromTheTopOfOtherSet(5, drawPile, true);
         hand.sortCard();  
     }
     public void generateUnits(){
@@ -99,16 +99,16 @@ public class Player  implements Serializable{
         /*
         If its host then place units on B row else place unit on G row
         */
-        int j=0;
-      for (int i=getNation()*8  ;i<getNation()*8+8;i++)
+        int y=0;
+      for (int x=getNation()*8  ;x<getNation()*8+8;x++)
         {
-            Unit unit =  new Unit(i+1);
+            Unit unit =  new Unit(x+1);
           /*
             Startting position row B or G
             */
-            unit.setPos(new Position (  i- ( getNation()*8)    , ( isHost() ? Position.ROW_2 : Position.ROW_7) ));
-             army[j] =   unit  ;      
-              j++;     
+            unit.setPos(new Position (  x- ( getNation()*8)    , ( isHost() ? Position.ROW_2 : Position.ROW_7) ));
+             army[y] =   unit  ;      
+              y++;     
          }
         
             
@@ -191,7 +191,15 @@ public class Player  implements Serializable{
         return active;
     }
 
+    public boolean isFinishedSetup() {
+        return finishedSetup;
+    }
 
+    public void setFinishedSetup(boolean finishedSetup) {
+        this.finishedSetup = finishedSetup;
+    }
+
+    
   
     public boolean isHost() {
         return host;

@@ -10,7 +10,7 @@ public interface CardSetInterface {
 
    
    /**
-   * Shhuffle DECK into a random order
+   * Shuffle DECK into a random order
    */
    public void makeDeck(int range);
    

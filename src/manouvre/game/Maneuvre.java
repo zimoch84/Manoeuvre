@@ -17,6 +17,7 @@ import manouvre.gui.GameGUI;
 import manouvre.gui.GameWindow;
 import manouvre.gui.LoginWindow;
 import manouvre.network.client.SocketClient;
+import manouvre.network.server.UnoptimizedDeepCopy;
 
 /**
  *
@@ -43,6 +44,8 @@ public class Maneuvre {
           
           
           GameWindow clientGameHost = new GameWindow( game , null,  CreateRoomWindow.AS_HOST );
+          
+          Game game2 = (Game) UnoptimizedDeepCopy.copy (game);
           
           GameWindow clientGameGuest = new GameWindow( game , null,  CreateRoomWindow.AS_GUEST );
           

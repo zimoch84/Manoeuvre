@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package manouvre.game.interfaces;
+package manouvre.game.commands;
 
 /**
  *
  * @author Piotr
  */
-public interface FrameInterface {
-    
-   public void printOnChat(String inString);
-   
+public class EndSetupCommand {
     
 }

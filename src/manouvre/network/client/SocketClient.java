@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import manouvre.game.Game;
 import manouvre.game.Player;
+import manouvre.game.interfaces.Command;
 import manouvre.game.interfaces.FrameInterface;
 import manouvre.gui.CreateRoomWindow;
 import manouvre.gui.GameWindow;
@@ -249,6 +250,16 @@ public class SocketClient implements Runnable{
                        roomWindow.setButtonFromNation(msg.getContentP());
                        break;
                       
+                   case Message.COMMAND:
+                        Command executeCommand = msg.getCommand();
+                    
+                    /*
+                    Executing command over game on server
+                    */
+                    executeCommand.execute(clientGame.getGame());
+                    clientGame.repaint();
+                    
+                       break;
                   default:
                        System.out.println("manouvre.network.client.SocketClient.run() Unknown msg type" + msg.toString()) ;
               

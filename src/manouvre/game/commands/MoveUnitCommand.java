@@ -3,20 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package manouvre.game;
+package manouvre.game.commands;
 
+import manouvre.game.Game;
+import manouvre.game.Position;
+import manouvre.game.Unit;
 import manouvre.game.interfaces.Command;
 
 
-public class MoveUnitCommand implements Command{
+public class MoveUnitCommand implements Command {
 
+    private static final long serialVersionUID = -1306760703066967345L;
     int x,y,lastx, lasty;
     Position newPosition, lastPosition;
 
     Unit storedUnit;
-    Map storedMap;
-	
-    Game game;
+
     public MoveUnitCommand(Unit unit,  Position newPosition) {
 	this.storedUnit = unit;
         this.newPosition = newPosition;
@@ -25,10 +27,6 @@ public class MoveUnitCommand implements Command{
 
     @Override
     public void execute(Game game) {
-        /*
-        Assign refence to game object no matter where its located (clients/server) 
-        */
-        this.game = game;
         /*
         Searching reference to unit based on storeUnit.
         */
@@ -54,7 +52,7 @@ public class MoveUnitCommand implements Command{
     @Override
     public void undo(Game game){
       
-      this.game = game;
+    
         
       Unit movingUnit =  game.searchUnit(storedUnit);
       
@@ -64,5 +62,5 @@ public class MoveUnitCommand implements Command{
       game.getMap().getTileAtIndex(newPosition.getX(), newPosition.getY()).setIsOccupiedByUnit(false);
       
     }
-    
+
 }

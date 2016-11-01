@@ -8,6 +8,7 @@ package manouvre.game;
 import java.io.Serializable;
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.Collections;
 import manouvre.game.interfaces.CardInterface;
 
 import manouvre.game.interfaces.CardSetInterface;
@@ -88,6 +89,7 @@ public class CardSet implements CardSetInterface, Serializable{
                 break;
         } 
         cardList.add(i, new Card(cardID));
+        randomizeCards(cardList);
         }
      
     }
@@ -99,23 +101,47 @@ public class CardSet implements CardSetInterface, Serializable{
      *  
      */
     public void addRandomCardsFromOtherSet(int range, CardSetInterface otherCardSet, boolean setPlayable){ //add the card from another Set (f.ex. Deck)
-       Card randomCard;
-      
-       
+       Card randomCard;     
        for(int i=0; i<range; i++){
            randomCard=otherCardSet.dealRandomCardFromThisSet();
        if(setPlayable==true) randomCard.setPlayable(true);//false by 
        if (cardList.size()<cardSetSize){  //if it is possible to add the card  
            cardList.add(randomCard);  //add the card
        }
-       /*else{
-          // System.out.println("CardSet is Full. No more cards allowed");
-       } */
-       }
-      
-       //sort the cards by ID nummber
+
+       }    
   
     }
+    /**
+     * Adds number of cards to this set, from the top of the sepecyfied other set
+     * @param range - number of cards to be moved
+     * @param otherCardSet - specyfy name of the other set
+     * @param setPlayable  - set as playable TRUE or not playable FALSE
+     */
+    public void addCardsFromTheTopOfOtherSet(int range, CardSet otherCardSet, boolean setPlayable){
+        Card temp;
+        for(int i=0; i<range; i++){   
+        temp=otherCardSet.lastCardFromThisSet(true);
+        temp.setPlayable(setPlayable);    
+       if (cardList.size()<cardSetSize){  //if it is possible to add the card  
+           cardList.add(temp);  //add the card
+       }
+       else System.err.println("Too many cards in:"+cardList.getClass().getName()+", sent from: "+ otherCardSet.getClass().getName());
+       }    
+    }
+    /**
+     * Returns the last card from the stack
+     * @param remove - if TRUE last card will be removed from the stack
+     * @return 
+     */
+    public Card lastCardFromThisSet(boolean remove){
+        int size=cardsLeftInSet();
+        Card temp = getCardByPosInSet(size-1);
+        if(remove)removeCardFromThisSet(getCardByPosInSet(size-1));
+        return temp;
+    }
+    
+    
     /**
      * Dealing a card to another set based on Object. F.ex. from HAND to USED CARDS
      * @param cardToDeal - card object to be given away
@@ -166,6 +192,11 @@ public class CardSet implements CardSetInterface, Serializable{
          return  tempCard;  
      }
     
+    public void removeCardFromThisSet(Card removedCard){
+         cardList.remove(removedCard);
+        
+     }
+    
     public void getAllCardsNamesFromSet(){
     for(int i=0; i<cardList.size(); i++){
        System.out.println("Card " +i+": " + cardList.get(i).getCardName());     
@@ -204,7 +235,9 @@ public class CardSet implements CardSetInterface, Serializable{
     public int cardsLeftInSet() {
         return cardList.size();    
     }
-
+    /**
+     * Sorts the card in set by ID
+     */
     public void sortCard(){
         Card temp;
         boolean sorted=false;
@@ -231,6 +264,13 @@ public class CardSet implements CardSetInterface, Serializable{
        
      getAllCardsIDFromSet();
     }
+    
+    public void randomizeCards(ArrayList<Card> cardset){
+        Collections.shuffle(cardset);
+       }
+       
+  
+    
  
      public int getPositionInSetByCardID(int cardID) {
         for (int i=0; i<cardList.size(); i++){
