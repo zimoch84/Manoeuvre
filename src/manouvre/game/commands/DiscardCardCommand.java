@@ -17,19 +17,21 @@ import manouvre.game.interfaces.Command;
 public class DiscardCardCommand implements Command {
    
     ArrayList<Integer> selectionSeq;
-
-    public DiscardCardCommand(ArrayList<Integer> selectionSeq) {
-       
+    String senderPlayerName;
+    
+    public DiscardCardCommand(ArrayList<Integer> selectionSeq, String senderPlayerName) {
        this.selectionSeq=selectionSeq;
-        
+       this.senderPlayerName=senderPlayerName;
     }
     
     @Override
-    public void execute(Game game) {  //fing opponent and draw the card
-        
+    public void execute(Game game) {  
+       if(!game.isServer())
+       game.getCurrentPlayer().getName(); //temp just for check where we are
+         
            for (int i=0; i<selectionSeq.size(); i++){   
-           game.getOpponentPlayer().getHand().dealCardToOtherSetByCardID(selectionSeq.get(i),  game.getOpponentPlayer().getDiscardPile());
-           }//check what happen wieht dealCardToOtherSetByCardID   btestfalse
+           game.getPlayerByName(senderPlayerName).getHand().dealCardToOtherSetByCardID(selectionSeq.get(i),  game.getPlayerByName(senderPlayerName).getDiscardPile());
+           }
        
     }
     

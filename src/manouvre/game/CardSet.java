@@ -24,6 +24,9 @@ public class CardSet implements CardSetInterface, Serializable{
     
     private static final long serialVersionUID = 455321L;
     private int cardSetSize=0;           // each army includes an Action Deck of 80 cards. 
+
+ 
+    
     private int nation;
     private int cardID;
     
@@ -280,6 +283,11 @@ public class CardSet implements CardSetInterface, Serializable{
         }
         return 99;
      }
+        
+     public int getCardSetSize() {
+        return cardSetSize;
+    }
+
 
    }
  

@@ -15,21 +15,24 @@ import manouvre.game.interfaces.Command;
 public class DrawCardCommand implements Command {
    
     int numberOfDrawnCards;
+    String senderPlayerName;
 
-    public DrawCardCommand(int numberOfDrawnCards) {
+    public DrawCardCommand(int numberOfDrawnCards, String senderPlayerName) {
        this.numberOfDrawnCards=numberOfDrawnCards;
-
-        
+       this.senderPlayerName=senderPlayerName;
+       
+       
     }
     
   
 
     @Override
-    public void execute(Game game) {  //fing opponent and draw the card
-        
-            game.getOpponentPlayer().getHand().addCardsFromTheTopOfOtherSet(numberOfDrawnCards, game.getOpponentPlayer().getDrawPile(), false);
-            game.getOpponentPlayer().getHand().sortCard();
-       
+    public void execute(Game game) {  
+         if(!game.isServer())
+         game.getCurrentPlayer().getName(); //temp just for check where we are
+            game.getPlayerByName(senderPlayerName).getHand().addCardsFromTheTopOfOtherSet(numberOfDrawnCards, game.getPlayerByName(senderPlayerName).getDrawPile(), false);
+            game.getPlayerByName(senderPlayerName).getHand().sortCard();
+     
     }
     
     @Override

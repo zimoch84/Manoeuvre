@@ -381,18 +381,25 @@ public class GameGUI {
         }
 
     public Message discardSelCards(){ //done on hand itseld not on HandGui
+        ArrayList<Integer> selectionSeqTemp=new ArrayList<Integer>();
+        selectionSeqTemp.clear();
+        for(Integer i: selectionSeq) { //make a copy to loose referance
+            selectionSeqTemp.add(i);
+        }
+        
         //execute externally
-        DiscardCardCommand discardCard = new DiscardCardCommand(selectionSeq);
+        DiscardCardCommand discardCard = new DiscardCardCommand(selectionSeqTemp, game.getCurrentPlayer().getName());
                         
         Message discardCardMessage = new Message(Message.COMMAND, game.getCurrentPlayer().getName() , Message.DISCARD_CARD_COMMAND, "IN_CHANNEL");
         discardCardMessage.setCommand(discardCard);
         
         //execute locally
-        for (int i=0; i<selectionSeq.size(); i++){   
-            game.getCurrentPlayer().getHand().dealCardToOtherSetByCardID(selectionSeq.get(i),  game.getCurrentPlayer().getDiscardPile());
-           }
+        discardCard.execute(game);
+//        for (int i=0; i<selectionSeq.size(); i++){   
+//            game.getCurrentPlayer().getHand().dealCardToOtherSetByCardID(selectionSeq.get(i),  game.getCurrentPlayer().getDiscardPile());
+//           }
         
-            numberOfDiscardedCards=selectionSeq.size();
+            
             selectionSeq.clear();
             handSetGui.reSet(); //reset GUI
             discardSetGui.reSet(); //reset GUI
@@ -403,28 +410,31 @@ public class GameGUI {
     
     public Message drawCards(){  //draw a card from a pile
         //execute externally
-        DrawCardCommand drawCard = new DrawCardCommand(numberOfDiscardedCards);
+        numberOfDiscardedCards=getNumberOfDiscardedCards();
+        DrawCardCommand drawCard = new DrawCardCommand(numberOfDiscardedCards, game.getCurrentPlayer().getName());
                         
         Message drawCardMessage = new Message(Message.COMMAND, game.getCurrentPlayer().getName() , Message.DRAW_CARD_COMMAND, "IN_CHANNEL");
         drawCardMessage.setCommand(drawCard);
-                      
-       //execute locally
-        game.getCurrentPlayer().getHand().addCardsFromTheTopOfOtherSet(numberOfDiscardedCards, game.getCurrentPlayer().getDrawPile(), false);
-        game.getCurrentPlayer().getHand().sortCard();
+        
+        //execute locally
+        drawCard.execute(game);
+  
         handSetGui.reSet(); //reset GUI
         discardSetGui.reSet(); //reset GUI
         drawSetGui.reSet(); //reset GUI
-        numberOfDiscardedCards=0; 
+        
         
         return  drawCardMessage;
         
     }
     
+    public int getNumberOfDiscardedCards(){
+    return game.getCurrentPlayer().getHand().getCardSetSize()-game.getCurrentPlayer().getHand().cardsLeftInSet();
+    }
     
     public void playSelectedCard(){
          for (int i=0; i<selectionSeq.size(); i++){   
             game.getCurrentPlayer().getHand().dealCardToOtherSetByCardID(selectionSeq.get(i),  game.getCurrentPlayer().getTablePile());
-            numberOfDiscardedCards++;  
             }
             selectionSeq.clear();
             handSetGui.reSet(); //reset GUI

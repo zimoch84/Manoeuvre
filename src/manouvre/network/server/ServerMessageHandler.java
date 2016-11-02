@@ -170,7 +170,7 @@ public class ServerMessageHandler {
                     */
                     Game game2 = (Game) UnoptimizedDeepCopy.copy (game);
                     
-                    //gameRoom.setGame(game);
+                    gameRoom.setGame(game);
                     //Setting msg to carry whole game
                     System.out.println("manouvre.network.server.ServerMessageHandler.handle() " + game2.toString()); 
                     msgOut.setGame(game2);
@@ -213,12 +213,12 @@ public class ServerMessageHandler {
                      */
                     gameRoom = server.getRoomByPort(portID);
                     
-                    //Command executeCommand = msg.getCommand();
+                    Command executeCommand = msg.getCommand();
                     
                     /*
                     Executing command over game on server
                     */
-                    //executeCommand.execute(gameRoom.getGame());
+                    executeCommand.execute(gameRoom.getGame());
                     
                     /*
                     Send command to opponent with the same message

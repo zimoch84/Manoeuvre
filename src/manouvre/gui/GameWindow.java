@@ -267,7 +267,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
            }
            case Game.DRAW:
            {
-             buttonPhaseName.setEnabled(gameGui.numberOfDiscardedCards>0);
+             buttonPhaseName.setEnabled(gameGui.getNumberOfDiscardedCards()>0);
              buttonPhaseName.setText("Draw");
               break;
            }
@@ -1105,6 +1105,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
            case Game.DISCARD :
            {
                client.send(gameGui.discardSelCards());
+               
                setPhaseButtonLabel();
                this.repaint();
                break;

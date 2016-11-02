@@ -40,7 +40,7 @@ public final class Game implements Serializable{
     private Player currentPlayer, opponentPlayer;
     private Player hostPlayer;
     private Player guestPlayer;
-    
+    boolean isServer=true;  //if this will not change game is set on Server
     int phase; 
 
   
@@ -101,22 +101,39 @@ public final class Game implements Serializable{
         return opponentPlayer;
     }
     
+    public Player getPlayerByName(String playerName) {
+        Player tempPlayer=new Player("EMPTY PLAYER");
+        if (hostPlayer.getName().equals(playerName))
+            tempPlayer=hostPlayer;
+        if (guestPlayer.getName().equals(playerName))
+            tempPlayer=guestPlayer;
+        return tempPlayer;
+    }
     
 
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
+        isServer=false;
+    }
+
+    public boolean isServer() {
+        return isServer;
     }
     
+    
+    
     public void setCurrentPlayer(int windowMode) {
-        if (windowMode == CreateRoomWindow.AS_HOST)
-        { currentPlayer = hostPlayer;
-            opponentPlayer = guestPlayer;
-        }
-        else 
-        {   currentPlayer = guestPlayer;
-            opponentPlayer = hostPlayer;
-        }
-        
+        switch(windowMode)
+        {
+            case CreateRoomWindow.AS_HOST:
+                currentPlayer = hostPlayer;
+                opponentPlayer = guestPlayer;
+                break;
+            case CreateRoomWindow.AS_GUEST:
+                currentPlayer = guestPlayer;
+                opponentPlayer = hostPlayer; 
+                break;
+        }       
     }
 
     public Player getHostPlayer() {
