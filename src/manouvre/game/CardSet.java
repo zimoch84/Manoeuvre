@@ -66,28 +66,28 @@ public class CardSet implements CardSetInterface, Serializable{
     public void makeDeck(int range) {   
         for (int i=0; i<range; i++){
         switch (nation){
-            case 0:
+            case CardInterface.BR:
                 cardID=i; 
                 break;
-            case 1:
+            case CardInterface.AU:  //1
                 cardID=i+60;
                 break;
-            case 2:
+            case CardInterface.FR:
                 cardID=i+2*60;
                 break;
-            case 3:
+            case CardInterface.OT:
                 cardID=i+3*60;
                 break;
-            case 4:
+            case CardInterface.PR:
                 cardID=i+4*60;    
                 break;
-            case 5:
+            case CardInterface.RU:
                 cardID=i+5*60;
                 break;
-            case 6:
+            case CardInterface.SP:
                 cardID=i+6*60;  
                 break;
-            case 7:
+            case CardInterface.US:
                 cardID=i+7*60;   
                 break;
         } 
