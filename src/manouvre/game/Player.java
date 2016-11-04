@@ -91,7 +91,7 @@ public class Player  implements Serializable{
         this.tablePile = new CardSet();
 
        
-        hand.addCardsFromTheTopOfOtherSet(5, drawPile, true);
+        hand.addCardsFromTheTopOfOtherSet(5, drawPile, false);
         hand.sortCard();  
     }
     public void generateUnits(){
@@ -174,8 +174,7 @@ public class Player  implements Serializable{
         this.army = army;
     }
 
-    
-     
+   
     public CardSet getDiscardPile() {
         return discardPile;
     }
@@ -200,8 +199,7 @@ public class Player  implements Serializable{
         this.finishedSetup = finishedSetup;
     }
 
-    
-  
+
     public boolean isHost() {
         return host;
     }
@@ -219,6 +217,10 @@ public class Player  implements Serializable{
                 +",Hand Size: "  + (hand != null ? getHand().cardList.size()  : "0") 
                 ) ;
 
+    }
+      
+    public void setHandPlayableByPhaseAndPosition(int position, int phase) {
+        this.getHand().getCardByPosInSet(position).setAvailableForPhase(phase);
     }
     
     

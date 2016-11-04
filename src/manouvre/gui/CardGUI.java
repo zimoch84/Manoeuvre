@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import manouvre.game.Card;
 import manouvre.game.CardSet;
+import manouvre.game.interfaces.CardInterface;
 
 /**
  *
@@ -51,20 +52,23 @@ public class CardGUI {
     
     private String getBackCoverImgName(){
         switch (card.getCardFlag()){ //check first card in the list for flag
-            case 0: //"BR": 
+            case CardInterface.BR:  
                 return "BRMask.JPG";      
-            case 1: //"FR":
+            case CardInterface.FR: 
                 return "FRMask.JPG";    
-            case 2: //"RU":
+            case CardInterface.RU: 
                 return "RUMask.JPG";    
-            case 3: //"PR":
+            case CardInterface.PR: 
                 return "PRMask.JPG";    
-            case 4: //"AU":
+            case CardInterface.AU: 
                 return "AUMask.JPG";    
-            case 5: //"SP":
+            case CardInterface.SP: 
                 return "SPMask.JPG";    
-            case 6: //"OT":
-                return "OTMask.JPG";    
+            case CardInterface.OT: 
+                return "OTMask.JPG";  
+            case CardInterface.US: 
+                return "USMask.JPG"; 
+                
         }   
         return "FRNapoleon.JPG";
     }

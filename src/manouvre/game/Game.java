@@ -347,38 +347,11 @@ public final class Game implements Serializable{
         setCardsInHandAsPlayableDueToPhase();
     } 
    
-    public void setCardsInHandAsPlayableDueToPhase(){ 
-        //all playable in discard
-        //Supply and Forced March in Move Phase
-    for(int i=0; i<getCurrentPlayer().getHand().cardsLeftInSet(); i++){
-        getCurrentPlayer().getHand().getCardByPosInSet(i).setPlayable(false);
-        if (getPhase()==Game.DISCARD){
-           getCurrentPlayer().getHand().getCardByPosInSet(i).setPlayable(true);
-        }
-        if (getPhase()==Game.DRAW){
-                getCurrentPlayer().getHand().getCardByPosInSet(i).setPlayable(false);  
-        } 
-        if (getPhase()==Game.MOVE){
-            if(getCurrentPlayer().getHand().getCardByPosInSet(i).getCardName().equals("Supply")
-                    || getCurrentPlayer().getHand().getCardNameByPosInSet(i).equals("Forced March"))
-            {
-                getCurrentPlayer().getHand().getCardByPosInSet(i).setPlayable(true); 
-            }
-        } 
-        if (getPhase()==Game.COMBAT){
-           getCurrentPlayer().getHand().getCardByPosInSet(i).setPlayable(true);  
-           }
-        if (getPhase()==Game.RESTORATION){
-            if(getCurrentPlayer().getHand().getCardNameByPosInSet(i).equals("Supply")||
-                   getCurrentPlayer().getHand().getCardNameByPosInSet(i).equals("Regroup")||
-                   getCurrentPlayer().getHand().getCardTypeByPosInSet(i)==0 ||
-                   getCurrentPlayer().getHand().getCardTypeByPosInSet(i)==2)
-            {
-                getCurrentPlayer().getHand().getCardByPosInSet(i).setPlayable(true);  
-            }
-           }
-        } 
-     }
+    public void setCardsInHandAsPlayableDueToPhase(){
+        for(int i=0; i<getCurrentPlayer().getHand().cardsLeftInSet(); i++){
+            currentPlayer.setHandPlayableByPhaseAndPosition(i, phase);    
+         }
+    }
     
     public String toString(){
     

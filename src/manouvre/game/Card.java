@@ -96,9 +96,8 @@ public class Card implements CardInterface, Serializable{
  			
     boolean canceled=false;
     boolean playable=false;
-
+ 
    
-    
     public Card (int chosenID) { 
         try {		
             String strChosenId=Integer.toString(chosenID);
@@ -152,19 +151,19 @@ public class Card implements CardInterface, Serializable{
     public int getCardFlag() {
         switch (CardFlag){
             case "BR": 
-                return 0;
+                return CardInterface.BR;
             case "FR":
-                return 1;
+                return CardInterface.FR;
             case "RU":
-                return 2;
+                return CardInterface.RU;
             case "PR":
-                return 3;
+                return CardInterface.PR;
             case "AU":
-                return 4;
+                return CardInterface.AU;
             case "SP":
-                return 5;
+                return CardInterface.SP;
             case "OT":
-                return 6;
+                return CardInterface.OT;
         }          
         return 99; //if else return wrong value
     }
@@ -176,11 +175,11 @@ public class Card implements CardInterface, Serializable{
     public int getCardType() {
          switch (CardType){
             case "Unit": 
-                return 0;
+                return CardInterface.UNIT;
             case "HqUnit":
-                return 1;
+                return CardInterface.HQUNIT;
             case "HqLeader":
-                return 2;
+                return CardInterface.HQLEADER;
            
         }          
         return 99; //if else return wrong value
@@ -277,6 +276,41 @@ public class Card implements CardInterface, Serializable{
     public boolean isPlayable() {
         return playable;
     }
+    
+    public void setAvailableForPhase(int phase){
+        switch(phase){
+            case Game.SETUP:
+                 this.setPlayable(false);
+                 break;
+            case Game.DISCARD:
+                this.setPlayable(true);
+                break;
+            case Game.DRAW:
+                this.setPlayable(false);
+                break;
+            case Game.MOVE:
+                if(this.CardName.equals("Supply")||
+                        this.CardName.equals("Forced March"))
+                    
+                   this.setPlayable(true);
+                break;
+            case Game.COMBAT:
+                this.setPlayable(true);//btestfalse 
+                break;
+            case Game.RESTORATION:
+                if(this.CardName.equals("Supply")||
+                        this.CardName.equals("Regroup"))
+                       // this.getCardType()==CardInterface.UNIT||
+                       // this.getCardType()==CardInterface.HQLEADER) btestfalse
+                    
+                   this.setPlayable(true);
+                break;
+                
+        }
+       // if(this.CardName.equals("Supply"))
+            
+    }
+            
 
 
 }
