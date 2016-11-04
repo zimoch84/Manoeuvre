@@ -47,7 +47,7 @@ public class Maneuvre {
           
           Game game2 = (Game) UnoptimizedDeepCopy.copy (game);
           
-          GameWindow clientGameGuest = new GameWindow( game , null,  CreateRoomWindow.AS_GUEST );
+          GameWindow clientGameGuest = new GameWindow( game2 , null,  CreateRoomWindow.AS_GUEST );
           
           try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

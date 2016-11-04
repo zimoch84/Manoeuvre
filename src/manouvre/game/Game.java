@@ -169,24 +169,24 @@ public final class Game implements Serializable{
             */ 
           if (unitPosition.getX()-1  >= 0 ) {
                 
-              if (map.getTileAtIndex(unitPosition.getX()-1, unitPosition.getY()).isPassable()
+              if (map.getTerrainAtXY(unitPosition.getX()-1, unitPosition.getY()).isPassable()
                       )
                         moves.add(new Position(unitPosition.getX()-1, unitPosition.getY()));
           }
           if (unitPosition.getY()-1 >= 0){      
-              if (map.getTileAtIndex(unitPosition.getX(), unitPosition.getY()-1).isPassable()
+              if (map.getTerrainAtXY(unitPosition.getX(), unitPosition.getY()-1).isPassable()
                       
                       )
                 moves.add(new Position(unitPosition.getX(), unitPosition.getY()-1 ));
           }
           if (unitPosition.getY()+1 <= ROW_8){
-              if (map.getTileAtIndex(unitPosition.getX(), unitPosition.getY()+1).isPassable()
+              if (map.getTerrainAtXY(unitPosition.getX(), unitPosition.getY()+1).isPassable()
                      
                       )
                                 moves.add(new Position(unitPosition.getX(), unitPosition.getY()+1));
           }
           if (unitPosition.getX()+1 <= COLUMN_H){
-              if (map.getTileAtIndex(unitPosition.getX()+1, unitPosition.getY()).isPassable()
+              if (map.getTerrainAtXY(unitPosition.getX()+1, unitPosition.getY()).isPassable()
                      
                       )
               moves.add(new Position(unitPosition.getX()+1, unitPosition.getY()));
@@ -212,7 +212,7 @@ public final class Game implements Serializable{
         ArrayList<Position> tempMoves2 = new ArrayList<Position>();
                     
         for(Position move : moves ){       
-                if(! map.getTileAtIndex(move.getX(), move.getY()).isEndsMove() ){              
+                if(! map.getTerrainAtXY(move.getX(), move.getY()).isEndsMove() ){              
                     tempMoves = getPossibleMovements(move);                    
                         for(Position addPosition: tempMoves){                        
                             if (!moves.contains(addPosition) && !addPosition.equals(unit.getPos()))                                                                  
@@ -246,7 +246,7 @@ public final class Game implements Serializable{
      
          for(Unit unit: player.getArmy())
          
-             map.getTileAtIndex(unit.getPos().getX(), unit.getPos().getY()).setIsOccupiedByUnit(true);
+             map.getTerrainAtXY(unit.getPos().getX(), unit.getPos().getY()).setIsOccupiedByUnit(true);
          
      }
     /**
@@ -258,15 +258,15 @@ public final class Game implements Serializable{
      */
     public void placeUnit(Player player, Unit unit){
     
-      map.getTileAtIndex(unit.getPos().getX(), unit.getPos().getY()).setIsOccupiedByUnit(true);
+      map.getTerrainAtXY(unit.getPos().getX(), unit.getPos().getY()).setIsOccupiedByUnit(true);
       
     
     }
     
     public void moveUnit(Unit unit, Position newPosition){
     
-      map.getTileAtIndex(unit.getPos().getX(), unit.getPos().getY()).setIsOccupiedByUnit(false);
-      map.getTileAtIndex(newPosition.getX(), newPosition.getY()).setIsOccupiedByUnit(true);
+      map.getTerrainAtXY(unit.getPos().getX(), unit.getPos().getY()).setIsOccupiedByUnit(false);
+      map.getTerrainAtXY(newPosition.getX(), newPosition.getY()).setIsOccupiedByUnit(true);
 
       getCurrentPlayerUnitAtPosition(unit.getPos()).setPos(newPosition);
       

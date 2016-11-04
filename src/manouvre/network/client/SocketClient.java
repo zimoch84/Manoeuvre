@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import manouvre.game.Game;
 import manouvre.game.Player;
+import manouvre.game.interfaces.ClientInterface;
 import manouvre.game.interfaces.Command;
 import manouvre.game.interfaces.FrameInterface;
 import manouvre.gui.CreateRoomWindow;
@@ -15,7 +16,7 @@ import manouvre.gui.LoginWindow;
 import manouvre.gui.MainChatWindow;
 import manouvre.gui.RoomWindow;
 
-public class SocketClient implements Runnable{
+public class SocketClient implements Runnable, ClientInterface{
     
     public static int port = 5002;
     public static String serverAddr= "localhost";
@@ -112,7 +113,16 @@ public class SocketClient implements Runnable{
                 ex.printStackTrace();
             }
             
-            switch( msg.getMessageType() ){
+            handle(msg);
+   
+            }
+
+        }
+    
+    @Override
+    public void handle (Message msg){
+    
+    switch( msg.getMessageType() ){
             
                     case Message.LOGIN :
                  
@@ -264,12 +274,9 @@ public class SocketClient implements Runnable{
                        System.out.println("manouvre.network.client.SocketClient.run() Unknown msg type" + msg.toString()) ;
               
                  }
-   
-            }
-
-        }
+    }
     
-    
+    @Override
     public void send(Message msg){
         try {
             Out.writeObject(msg);

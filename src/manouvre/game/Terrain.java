@@ -172,6 +172,11 @@ public class Terrain  implements TerrainInterface, Serializable {
             return false;
     }
 
+    public boolean isTerrainPassable() {
+        return ispassable;
+        
+    }
+
     
     
     @Override

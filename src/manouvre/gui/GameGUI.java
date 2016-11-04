@@ -13,10 +13,6 @@ import java.util.ArrayList;
 import manouvre.game.Game;
 import manouvre.game.Position;
 import manouvre.game.Unit;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
 import manouvre.game.commands.DiscardCardCommand;
 import manouvre.game.commands.DrawCardCommand;
 import manouvre.network.client.Message;
@@ -228,7 +224,9 @@ public class GameGUI {
         In setup draw only self army
         */
         if(game.getPhase()== Game.SETUP)
-        {if(windowMode == CreateRoomWindow.AS_HOST)
+        {
+            if(windowMode == CreateRoomWindow.AS_HOST)
+            {
             for (UnitGUI drawUnit : currentPlayerArmy) {
                 g.drawImage(
                         drawUnit.getImg(), 
@@ -237,8 +235,33 @@ public class GameGUI {
                         MapGUI.PIECE_WIDTH, 
                         MapGUI.PIECE_HEIGHT
                         , null);
+                /*
+                Draw bad position rectangle
+                */
+                if( !game.getMap().getTerrainAtPosition(
+                        drawUnit.getUnit().getPosition()).isTerrainPassable()
+                         || 
+                         drawUnit.getUnit().getPosition().getY()  >  Position.ROW_2 
+                         
+                      )
+                {
+                    g.setColor(Color.red);
+                    
+                    g.drawRoundRect(
+                                drawUnit.getUnit().getPosition().getMouseX() + gapSelection, 
+                                drawUnit.getUnit().getPosition().getMouseY() + gapSelection, 
+                                MapGUI.SQUARE_WIDTH - 2 * gapSelection, 
+                                MapGUI.SQUARE_HEIGHT - 2 * gapSelection, 
+                                10, 10
+                        ); 
+                }        
+                   
+            }
+                
+                
             }
             else if(windowMode == CreateRoomWindow.AS_GUEST)
+            {
                for (UnitGUI drawUnit : currentPlayerArmy) {
                 g.drawImage(
                         drawUnit.getImg(), 
@@ -247,7 +270,29 @@ public class GameGUI {
                         MapGUI.PIECE_WIDTH, 
                         MapGUI.PIECE_HEIGHT
                         , null);
-            } 
+                
+                /*
+                Draw bad position rectangle
+                */
+                if( !game.getMap().getTerrainAtPosition(
+                        drawUnit.getUnit().getPosition()
+                                                    ).isTerrainPassable()
+                         || drawUnit.getUnit().getPosition().getY()  <  Position.ROW_7
+                       
+                        )
+                {
+                    g.setColor(Color.red);
+                    
+                    g.drawRoundRect(
+                                drawUnit.getUnit().getPosition().transpoze().getMouseX() + gapSelection, 
+                                drawUnit.getUnit().getPosition().transpoze().getMouseY() + gapSelection, 
+                                MapGUI.SQUARE_WIDTH - 2 * gapSelection, 
+                                MapGUI.SQUARE_HEIGHT - 2 * gapSelection, 
+                                10, 10
+                        ); 
+                }        
+                } 
+            }
         }
             /*
             On rest phases paint both players army

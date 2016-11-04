@@ -91,8 +91,13 @@ public class Map implements MapInterface, Serializable{
     }
 
     @Override
-    public Terrain getTileAtIndex(int x, int y) {
+    public Terrain getTerrainAtXY(int x, int y) {
         return terrains[x][y];
+    }
+    
+    
+    public Terrain getTerrainAtPosition(Position pos) {
+        return terrains[pos.getX()][pos.getY()];
     }
     
     

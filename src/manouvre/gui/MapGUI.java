@@ -94,7 +94,7 @@ public class MapGUI{
             {
                    for(int y=0;y<8;y++){
                        if(windowMode == CreateRoomWindow.AS_HOST)
-                       { terrainsGUI[x][y] = new TerrainGUI(map.getTileAtIndex(x, y));
+                       { terrainsGUI[x][y] = new TerrainGUI(map.getTerrainAtXY(x, y));
                         wrappingArrayOfTerrains.add(terrainsGUI[x][y]);
                        }
                        else
@@ -102,7 +102,7 @@ public class MapGUI{
                            /*
                            Rotate map view 180 degreees
                            */
-                       terrainsGUI[x][y] = new TerrainGUI(map.getTileAtIndex(7-x, 7-y));
+                       terrainsGUI[x][y] = new TerrainGUI(map.getTerrainAtXY(7-x, 7-y));
                        wrappingArrayOfTerrains.add(terrainsGUI[x][y]);
                        }
                        

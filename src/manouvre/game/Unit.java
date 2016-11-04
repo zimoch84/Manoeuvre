@@ -106,7 +106,7 @@ public class Unit implements UnitInterface, Serializable{
     }
 
     @Override
-    public PositionInterface getPosition() {
+    public Position getPosition() {
         return pos;
     }
 

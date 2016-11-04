@@ -43,8 +43,8 @@ public class MoveUnitCommand implements Command {
         Setting map on current game object to set occupation on it.
         */ 
         
-        game.getMap().getTileAtIndex(lastPosition.getX(), lastPosition.getY()).setIsOccupiedByUnit(false);
-        game.getMap().getTileAtIndex(newPosition.getX(), newPosition.getY()).setIsOccupiedByUnit(true);
+        game.getMap().getTerrainAtXY(lastPosition.getX(), lastPosition.getY()).setIsOccupiedByUnit(false);
+        game.getMap().getTerrainAtXY(newPosition.getX(), newPosition.getY()).setIsOccupiedByUnit(true);
         
         
     }
@@ -58,8 +58,8 @@ public class MoveUnitCommand implements Command {
       
       movingUnit.move(lastPosition);
         
-      game.getMap().getTileAtIndex(lastPosition.getX(), lastPosition.getY()).setIsOccupiedByUnit(true);
-      game.getMap().getTileAtIndex(newPosition.getX(), newPosition.getY()).setIsOccupiedByUnit(false);
+      game.getMap().getTerrainAtXY(lastPosition.getX(), lastPosition.getY()).setIsOccupiedByUnit(true);
+      game.getMap().getTerrainAtXY(newPosition.getX(), newPosition.getY()).setIsOccupiedByUnit(false);
       
     }
 

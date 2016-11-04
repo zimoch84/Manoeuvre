@@ -5,16 +5,16 @@
  */
 package manouvre.game.interfaces;
 
+import manouvre.network.client.Message;
+
 /**
  *
  * @author Piotr
  */
-public interface MapInterface {
+public interface ClientInterface {
     
-    public TerrainInterface[][] getTerrains();
+    public void send(Message msgOut);
     
-    TerrainInterface getTerrainAtXY(int x, int y);
-    
-    
+    public void handle(Message msgIn);
     
 }
