@@ -7,6 +7,7 @@ package manouvre.game;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import manouvre.game.interfaces.CardInterface;
 import manouvre.gui.UnitGUI;
 
 /**
@@ -68,14 +69,14 @@ public class Player  implements Serializable{
         {
     switch(getNation())
     {
-    case 0: return "GreatBritain";
-    case 2: return "France"; 
-    case 5: return "Russland";
-    case 4: return "Prussia";
-    case 1: return "Austria";
-    case 6: return "Spain";
-    case 3: return "Ottoman";
-    case 7: return "Ottoman";
+    case CardInterface.BR: return "GreatBritain";
+    case CardInterface.AU: return "Austria";
+    case CardInterface.FR: return "France"; 
+    case CardInterface.OT: return "Ottoman";
+    case CardInterface.PR: return "Prussia";
+    case CardInterface.RU: return "Russland";
+    case CardInterface.SP: return "Spain";
+    case CardInterface.US: return "USA";
     default : return "Unknown";
     }
     
