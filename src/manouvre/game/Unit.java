@@ -39,8 +39,8 @@ public class Unit implements UnitInterface, Serializable{
    
     //Must be done Bart
     boolean isSelected; 
-    boolean hasMoved;
-    boolean hasAttacked=true;
+    boolean hasMoved = false;
+    boolean hasAttacked =false;
     boolean canRetrive;
     //
    
@@ -158,6 +158,7 @@ public class Unit implements UnitInterface, Serializable{
     public void move(Position newPosition){
     
         setPos(newPosition);
+        hasMoved = true;
     }
     
     public boolean equals(Unit inUnit){

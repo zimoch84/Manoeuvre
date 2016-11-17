@@ -5,18 +5,13 @@
  */
 package manouvre.game;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import manouvre.game.interfaces.CardInterface;
 import manouvre.gui.CreateRoomWindow;
-import manouvre.gui.GameGUI;
 import manouvre.gui.GameWindow;
 import manouvre.gui.LoginWindow;
-import manouvre.network.client.SocketClient;
+import manouvre.network.client.MockClient;
 import manouvre.network.server.UnoptimizedDeepCopy;
 
 /**
@@ -42,12 +37,20 @@ public class Maneuvre {
           
           System.out.println("manouvre.game.Maneuvre.main()"+ game.toString());
           
+          MockClient fakeClient = new MockClient();
           
-          GameWindow clientGameHost = new GameWindow( game , null,  CreateRoomWindow.AS_HOST );
+                   
+          GameWindow clientGameHost = new GameWindow( game ,fakeClient.hostClient ,  CreateRoomWindow.AS_HOST );
           
           Game game2 = (Game) UnoptimizedDeepCopy.copy (game);
           
-          GameWindow clientGameGuest = new GameWindow( game2 , null,  CreateRoomWindow.AS_GUEST );
+          GameWindow clientGameGuest = new GameWindow( game2 , fakeClient.guestClient,  CreateRoomWindow.AS_GUEST );
+          
+          
+          fakeClient.clientGameGuest = clientGameGuest;
+          fakeClient.clientGameHost = clientGameHost;
+          
+          
           
           try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -66,7 +69,7 @@ public class Maneuvre {
             java.util.logging.Logger.getLogger(LoginWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
           
-           clientGameHost.setVisible(true);
+          clientGameHost.setVisible(true);
            
           clientGameGuest.setVisible(true);
           

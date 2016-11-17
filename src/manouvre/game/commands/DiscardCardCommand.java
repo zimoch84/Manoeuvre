@@ -30,7 +30,11 @@ public class DiscardCardCommand implements Command {
        game.getCurrentPlayer().getName(); //temp just for check where we are
          
            for (int i=0; i<selectionSeq.size(); i++){   
-           game.getPlayerByName(senderPlayerName).getHand().dealCardToOtherSetByCardID(selectionSeq.get(i),  game.getPlayerByName(senderPlayerName).getDiscardPile());
+           game.getPlayerByName(senderPlayerName).
+                   getHand().dealCardToOtherSetByCardID(
+                           selectionSeq.get(i),  
+                           game.getPlayerByName(senderPlayerName).
+                                   getDiscardPile());
            }
        
     }

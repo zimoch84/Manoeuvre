@@ -36,16 +36,19 @@ public final class Game implements Serializable{
     //ArrayList<Unit> units = new ArrayList<>();
 
     int turn;
-        
+    int phase;
+    
     private Player currentPlayer, opponentPlayer;
     private Player hostPlayer;
     private Player guestPlayer;
     boolean isServer=true;  //if this will not change game is set on Server
-    int phase; 
+    
 
   
     public Game(Player newPlayer) throws IOException {
         this.currentPlayer = newPlayer;
+        
+        turn = 1;
         
         //All this here is TEMP and should be deleted when using "correct" creation of Player (thru server)
        
@@ -102,13 +105,15 @@ public final class Game implements Serializable{
     }
     
     public Player getPlayerByName(String playerName) {
-        Player tempPlayer=new Player("EMPTY PLAYER");
+      
         if (hostPlayer.getName().equals(playerName))
-            tempPlayer=hostPlayer;
+            return hostPlayer;
         if (guestPlayer.getName().equals(playerName))
-            tempPlayer=guestPlayer;
-        return tempPlayer;
-    }
+            return guestPlayer;
+        
+        throw new NullPointerException() ;
+        
+       }
     
 
     public void setCurrentPlayer(Player currentPlayer) {
@@ -343,14 +348,33 @@ public final class Game implements Serializable{
     public void nextPhase() {
           
         if(phase<4) phase++;
-        else phase=0;
+        
+        else 
+            /*
+            Next turn
+            */
+        {
+            turn++;
+            resetCurrentPlayer();
+            phase=0;
+        }
         setCardsInHandAsPlayableDueToPhase();
+        
     } 
    
     public void setCardsInHandAsPlayableDueToPhase(){
         for(int i=0; i<getCurrentPlayer().getHand().cardsLeftInSet(); i++){
             currentPlayer.setHandPlayableByPhaseAndPosition(i, phase);    
          }
+    }
+    
+    private void resetCurrentPlayer(){
+    
+    for(Unit unit : getCurrentPlayer().getArmy()) {
+        
+        unit.hasMoved = false;
+    
+    }
     }
     
     public String toString(){

@@ -2,9 +2,6 @@ package manouvre.network.client;
 
 import java.io.*;
 import java.net.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import manouvre.game.Game;
 import manouvre.game.Player;
 import manouvre.game.interfaces.ClientInterface;
