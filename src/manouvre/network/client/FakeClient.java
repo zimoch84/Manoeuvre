@@ -8,8 +8,12 @@ package manouvre.network.client;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -70,36 +74,43 @@ class PipedClient extends Thread
 
   public void run()
   {
-    // Wrap a data stream around the input and output streams
-    DataInputStream din = new DataInputStream(pin);
-    DataOutputStream dout = new DataOutputStream(pout);
-
-    // Say hello to the server...
+    
     try
       {
-        System.out.println("PipedClient: Writing greeting to server...");
-        dout.writeChars("hello from PipedClient\n");
+        // Wrap a data stream around the input and output streams
+          
+          ObjectOutputStream dout = new ObjectOutputStream(pout);
+          ObjectInputStream din = new ObjectInputStream(pin);
+          // Say hello to the server...
+          try
+          {
+              System.out.println("PipedClient: Writing greeting to server...");
+              dout.writeChars("hello from PipedClient\n");
+          }
+          catch (IOException e)
+          {
+              System.out.println("PipedClient: Couldn't get response.");
+              System.exit(1);
+          }
+          // See if it says hello back...
+          try
+          {
+              System.out.println("PipedClient: Reading response from server...");
+              String response = din.readLine();
+              System.out.println("PipedClient: Server said: \""
+                      + response + "\"");
+          }
+          catch (IOException e)
+          {
+              System.out.println("PipedClient: Failed to connect to peer.");
+          }
+          stop();
       }
-    catch (IOException e)
+    catch (IOException ex)
       {
-        System.out.println("PipedClient: Couldn't get response.");
-        System.exit(1);
-      }
-
-    // See if it says hello back...
-    try
-      {
-        System.out.println("PipedClient: Reading response from server...");
-        String response = din.readLine();
-        System.out.println("PipedClient: Server said: \"" 
-                           + response + "\"");
-      }
-    catch (IOException e)
-      {
-        System.out.println("PipedClient: Failed to connect to peer.");
-      }
-
-    stop();
+          Logger.getLogger(PipedClient.class.getName()).log(Level.SEVERE, null, ex);
+      } 
+      
   }
 
 }
@@ -117,38 +128,51 @@ class PipedServer extends Thread
 
   public void run()
   {
-    // Wrap a data stream around the input and output streams
-    DataInputStream din = new DataInputStream(pin);
-    DataOutputStream dout = new DataOutputStream(pout);
-
-    // Wait for the client to say hello...
-    try
-      {
-        System.out.println("PipedServer: Reading from client...");
-        String clientHello = din.readLine();
-        System.out.println("PipedServer: Client said: \""
-                           + clientHello + "\"");
-      }
-    catch (IOException e)
-      {
-        System.out.println("PipedServer: Couldn't get hello from client.");
-        stop();
-      }
-
-    // ...and say hello back.
-    try
-      {
-        System.out.println("PipedServer: Writing response to client...");
-        dout.writeChars("hello I am the server.\n");
-      }
-    catch (IOException e)
-      {
-        System.out.println("PipedServer: Failed to connect to client.");
-      }
-    stop();
-  }
-}  
     
+    try
+      {
+        ObjectOutputStream dout = new ObjectOutputStream(pout);
+        dout.flush();
+         ObjectInputStream din = new ObjectInputStream(pin);
+          
+          // Wait for the client to say hello...
+          try
+          {
+              System.out.println("PipedServer: Reading from client...");
+              String clientHello;
+              try {
+                  clientHello = (String) din.readObject();
+                   System.out.println("PipedServer: Client said: \""
+                      + clientHello + "\"");
+              } catch (ClassNotFoundException ex) {
+                  Logger.getLogger(PipedServer.class.getName()).log(Level.SEVERE, null, ex);
+              }
+             
+          }
+          catch (IOException e)
+          {
+              System.out.println("PipedServer: Couldn't get hello from client.");
+              stop();
+          }
+          // ...and say hello back.
+          try
+          {
+              System.out.println("PipedServer: Writing response to client...");
+              dout.writeChars("hello I am the server.\n");
+          }
+          catch (IOException e)
+          {
+              System.out.println("PipedServer: Failed to connect to client.");
+          }
+          stop();
+      }
+    catch (IOException ex)
+      {
+          Logger.getLogger(PipedServer.class.getName()).log(Level.SEVERE, null, ex);
+      } 
+      }
+  }
+ 
 
 
     

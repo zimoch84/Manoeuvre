@@ -34,17 +34,15 @@ public class MockClient {
     
     public MockClient() throws IOException {
         
-        hostIn = new PipedInputStream();
-        guestIn = new  PipedInputStream();
-        
         hostOut = new PipedOutputStream();
-        hostOut.connect(guestIn);
-        hostOut.flush();
-        
         guestOut = new PipedOutputStream();
-        guestOut.connect(hostIn);
+        hostOut.flush();
         guestOut.flush();
         
+        hostIn = new PipedInputStream();
+        guestIn = new  PipedInputStream();
+        hostOut.connect(guestIn);
+        guestOut.connect(hostIn);
         hostClient = new HostClient(hostIn, hostOut);
         hostThread = new Thread(hostClient);
         hostThread.start();
@@ -172,7 +170,6 @@ class GuestClient implements ClientInterface , Runnable{
         
         objectGuestOut = new ObjectOutputStream(guestOut);
         objectGuestOut.flush();
-        
         objectGuestIn = new ObjectInputStream(guestIn);
         
         
