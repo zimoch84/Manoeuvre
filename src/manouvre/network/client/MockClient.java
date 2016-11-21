@@ -16,7 +16,7 @@ import manouvre.gui.GameWindow;
  *
  * @author Piotr
  */
-public class MockClient {
+public class MockClient extends Thread{
 
 
     public HostClient hostClient;
@@ -29,28 +29,65 @@ public class MockClient {
     PipedInputStream guestIn;
     PipedOutputStream guestOut;
     
+    ObjectInputStream objectHostIn; 
+    ObjectOutputStream objectHostOut;
+    
+    ObjectInputStream objectGuestIn; 
+    ObjectOutputStream objectGuestOut;
+    
     public GameWindow clientGameHost;
     public GameWindow clientGameGuest;
+    
+    
+    Thread mockThread;
     
     public MockClient() throws IOException {
         
         hostOut = new PipedOutputStream();
         guestOut = new PipedOutputStream();
-        hostOut.flush();
-        guestOut.flush();
         
         hostIn = new PipedInputStream();
         guestIn = new  PipedInputStream();
         hostOut.connect(guestIn);
         guestOut.connect(hostIn);
-        hostClient = new HostClient(hostIn, hostOut);
-        hostThread = new Thread(hostClient);
-        hostThread.start();
-       
-        guestClient = new GuestClient(guestIn, guestOut);
-        guestThread = new Thread(guestClient);
-        guestThread.start();
+        
+        mockThread = new Thread(this);
+        mockThread.start();  
+        
+        
+        hostOut.flush();
+        guestOut.flush();
+              
+                hostClient = new HostClient(objectHostIn, objectHostOut);
+                hostThread = new Thread(hostClient);
+                hostThread.start();
+
+                guestClient = new GuestClient(objectGuestIn, objectGuestOut);
+                guestThread = new Thread(guestClient);
+                guestThread.start();
+        
+
+        
+        
     }
+    
+    @Override
+    public void run() {
+        try {
+            
+            objectHostIn  = new ObjectInputStream(hostIn);
+            objectHostOut = new ObjectOutputStream(hostOut);
+            objectGuestOut = new ObjectOutputStream(guestOut);
+            objectGuestIn = new ObjectInputStream(guestIn);
+            
+               
+            
+        } catch (IOException ex) {
+            Logger.getLogger(MockClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    }
+    
         public static void main(String[] args) throws IOException{
             
                 MockClient mock = new MockClient();
@@ -62,27 +99,15 @@ public class MockClient {
     
     
     class HostClient implements ClientInterface , Runnable{
-
-
-    PipedInputStream hostIn;
-    PipedOutputStream hostOut;
-
     ObjectInputStream objectHostIn; 
     ObjectOutputStream objectHostOut;
     
-    boolean keepRunning = true;
-    public HostClient(PipedInputStream hostIn, PipedOutputStream hostOut) throws IOException {
-        this.hostIn = hostIn;
-        this.hostOut = hostOut;
-        
-        objectHostOut = new ObjectOutputStream(hostOut);
-        objectHostOut.flush();
-        objectHostIn = new ObjectInputStream(hostIn);
-       
-        
-    }
-    
-
+    boolean keepRunning;
+    public HostClient(ObjectInputStream objectHostIn, ObjectOutputStream objectHostOut) throws IOException {
+        this.objectHostIn = objectHostIn;
+        this.objectHostOut = objectHostOut;
+        keepRunning = true;
+    }   
     @Override
     synchronized public void send(Message msgOut) {
         try {
@@ -92,7 +117,6 @@ public class MockClient {
             ex.printStackTrace();
         }
     }
-
     @Override
     synchronized public void handle(Message msgIn) {
         
@@ -109,15 +133,12 @@ public class MockClient {
                        System.out.println("Host Client" + msgIn.toString()) ;
               
                  }
-        
-       
     }
 
    @Override
     public void run() {
         System.out.println("Starting host client");
         while(keepRunning){
-            
             Message msg = null;
             try {
                 msg = (Message) objectHostIn.readObject();
@@ -136,43 +157,30 @@ public class MockClient {
                 System.out.println("ClassNotFoundException" + ex);
             }
             finally {
-            
                 try {
                     objectHostIn.close();
                     objectHostOut.close();
                 } catch (IOException ex) {
                     Logger.getLogger(MockClient.class.getName()).log(Level.SEVERE, null, ex);
                 }
-               
-            
-            }
-       
+             }
+     
             handle(msg);
             }
-
         }
-
 
 }
 
 class GuestClient implements ClientInterface , Runnable{
 
-    PipedInputStream guestIn;
-    PipedOutputStream guestOut;
-
-    boolean keepRunning = true;
+           boolean keepRunning = true;
     
     ObjectInputStream objectGuestIn; 
     ObjectOutputStream objectGuestOut;
-    public GuestClient(PipedInputStream guestIn, PipedOutputStream guestOut) throws IOException {
-        this.guestIn = guestIn;
-        this.guestOut = guestOut;
-        
-        objectGuestOut = new ObjectOutputStream(guestOut);
-        objectGuestOut.flush();
-        objectGuestIn = new ObjectInputStream(guestIn);
-        
-        
+    public GuestClient(ObjectInputStream objectGuestIn, ObjectOutputStream objectGuestOut) throws IOException {
+        this.objectGuestIn = objectGuestIn;
+        this.objectGuestOut = objectGuestOut;
+      
         
     }
 
