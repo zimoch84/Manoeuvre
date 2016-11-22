@@ -12,6 +12,7 @@ import manouvre.gui.CreateRoomWindow;
 import manouvre.gui.GameWindow;
 import manouvre.gui.LoginWindow;
 import manouvre.network.client.MockClient;
+import manouvre.network.client.QueueClient;
 import manouvre.network.server.UnoptimizedDeepCopy;
 
 /**
@@ -30,28 +31,29 @@ public class Maneuvre {
           player1.setNation(CardInterface.AU);
           player2.setNation(CardInterface.FR);
    
+          /*
+          Setting who is active
+          */
+          //player1.setActive(true);
+          //player2.setActive(false);
+          
           ArrayList<Player> players = new ArrayList<Player>();
           players.add(player1);
           players.add(player2);
           Game game = new Game(players);
           
+          
+          
           System.out.println("manouvre.game.Maneuvre.main()"+ game.toString());
           
-          MockClient fakeClient = new MockClient();
-          
-                   
+          QueueClient fakeClient = new QueueClient();
           GameWindow clientGameHost = new GameWindow( game ,fakeClient.hostClient ,  CreateRoomWindow.AS_HOST );
-          
           Game game2 = (Game) UnoptimizedDeepCopy.copy (game);
-          
           GameWindow clientGameGuest = new GameWindow( game2 , fakeClient.guestClient,  CreateRoomWindow.AS_GUEST );
-          
           
           fakeClient.clientGameGuest = clientGameGuest;
           fakeClient.clientGameHost = clientGameHost;
-          
-          
-          
+                 
           try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {

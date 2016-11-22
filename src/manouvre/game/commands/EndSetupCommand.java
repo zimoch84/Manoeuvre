@@ -5,10 +5,43 @@
  */
 package manouvre.game.commands;
 
+import manouvre.game.Game;
+import manouvre.game.interfaces.Command;
+
 /**
  *
  * @author Piotr
  */
-public class EndSetupCommand {
+public class EndSetupCommand implements Command{
+
+    String playerName;
+    
+    public EndSetupCommand(String playerName) {
+
+    this.playerName = playerName;
+
+    }
+
+    @Override
+    public void execute(Game game) {
+        
+        game.getPlayerByName(playerName).setFinishedSetup(true);
+        game.nextPhase(); 
+        
+    }
+
+    @Override
+    public void undo(Game game) {
+        game.getPlayerByName(playerName).setFinishedSetup(false);
+        
+    }
+    
+    @Override
+    public String toString(){
+    return "END_SETUP_COMMAND";
+    
+    }
+    
+    
     
 }

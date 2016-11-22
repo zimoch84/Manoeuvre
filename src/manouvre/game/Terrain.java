@@ -32,11 +32,11 @@ public class Terrain  implements TerrainInterface, Serializable {
     Position pos;
    
 
-    public Position getPos() {
+    public Position getPosition() {
         return pos;
     }
 
-    public void setPos(Position pos) {
+    public void setPosition(Position pos) {
         this.pos = pos;
     }
 

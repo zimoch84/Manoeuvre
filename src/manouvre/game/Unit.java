@@ -25,14 +25,15 @@ public class Unit implements UnitInterface, Serializable{
     Player owner;
 
    
-    Position pos;
+    Position position;
 
-    public Position getPos() {
-        return pos;
+    @Override
+    public Position getPosition() {
+        return position;
     }
 
-    public void setPos(Position pos) {
-        this.pos = pos;
+    public void setPosition(Position pos) {
+        this.position = pos;
     }
     boolean injured;
     boolean eliminated;
@@ -106,11 +107,6 @@ public class Unit implements UnitInterface, Serializable{
     }
 
     @Override
-    public Position getPosition() {
-        return pos;
-    }
-
-    @Override
     public boolean isEliminated() {
        return eliminated;
     }
@@ -134,7 +130,7 @@ public class Unit implements UnitInterface, Serializable{
     
     @Override
     public String toString(){
-    return "Unit ID:[" + ID +"] Name: "  + name + " Army "+ army + " type "  + type + " Strenght [" + strenght +"/" + reducedStrength +"][Position:" + getPos().toString()+"]";
+    return "Unit ID:[" + ID +"] Name: "  + name + " Army "+ army + " type "  + type + " Strenght [" + strenght +"/" + reducedStrength +"][Position:" + getPosition().toString()+"]";
       
             
     }
@@ -157,7 +153,7 @@ public class Unit implements UnitInterface, Serializable{
     
     public void move(Position newPosition){
     
-        setPos(newPosition);
+        setPosition(newPosition);
         hasMoved = true;
     }
     

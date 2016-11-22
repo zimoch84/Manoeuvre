@@ -54,7 +54,7 @@ public class TerrainGUI {
         }
 
         public Position getPos(){
-        return terrain.getPos();
+        return terrain.getPosition();
         }
         
         

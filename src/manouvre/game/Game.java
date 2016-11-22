@@ -207,7 +207,7 @@ public final class Game implements Serializable{
         /*
         get Infantry Moves
         */
-        moves = getPossibleMovements(unit.getPos());
+        moves = getPossibleMovements(unit.getPosition());
        
         /*
         If calvary do check of every infantry move considering Terrain.MARSH which ends move
@@ -220,7 +220,7 @@ public final class Game implements Serializable{
                 if(! map.getTerrainAtXY(move.getX(), move.getY()).isEndsMove() ){              
                     tempMoves = getPossibleMovements(move);                    
                         for(Position addPosition: tempMoves){                        
-                            if (!moves.contains(addPosition) && !addPosition.equals(unit.getPos()))                                                                  
+                            if (!moves.contains(addPosition) && !addPosition.equals(unit.getPosition()))                                                                  
                                 tempMoves2.add(addPosition);                                   
                         }     
                 }                      
@@ -251,7 +251,7 @@ public final class Game implements Serializable{
      
          for(Unit unit: player.getArmy())
          
-             map.getTerrainAtXY(unit.getPos().getX(), unit.getPos().getY()).setIsOccupiedByUnit(true);
+             map.getTerrainAtXY(unit.getPosition().getX(), unit.getPosition().getY()).setIsOccupiedByUnit(true);
          
      }
     /**
@@ -263,17 +263,17 @@ public final class Game implements Serializable{
      */
     public void placeUnit(Player player, Unit unit){
     
-      map.getTerrainAtXY(unit.getPos().getX(), unit.getPos().getY()).setIsOccupiedByUnit(true);
+      map.getTerrainAtXY(unit.getPosition().getX(), unit.getPosition().getY()).setIsOccupiedByUnit(true);
       
     
     }
     
     public void moveUnit(Unit unit, Position newPosition){
     
-      map.getTerrainAtXY(unit.getPos().getX(), unit.getPos().getY()).setIsOccupiedByUnit(false);
+      map.getTerrainAtXY(unit.getPosition().getX(), unit.getPosition().getY()).setIsOccupiedByUnit(false);
       map.getTerrainAtXY(newPosition.getX(), newPosition.getY()).setIsOccupiedByUnit(true);
 
-      getCurrentPlayerUnitAtPosition(unit.getPos()).setPos(newPosition);
+      getCurrentPlayerUnitAtPosition(unit.getPosition()).setPosition(newPosition);
       
       
           
@@ -301,7 +301,7 @@ public final class Game implements Serializable{
     
         for(Unit unitSearch: currentPlayer.getArmy()){
         
-            if(unitSearch.getPos().equals(position))
+            if(unitSearch.getPosition().equals(position))
             {
                 return unitSearch;
               }
@@ -318,7 +318,7 @@ public final class Game implements Serializable{
     
         for(Unit unitSearch: currentPlayer.getArmy()){
         
-            if(unitSearch.getPos().equals(position))
+            if(unitSearch.getPosition().equals(position))
             {
                 return true;
               }
@@ -356,6 +356,7 @@ public final class Game implements Serializable{
         {
             turn++;
             resetCurrentPlayer();
+            swapActivePlayer();
             phase=0;
         }
         setCardsInHandAsPlayableDueToPhase();
@@ -366,6 +367,48 @@ public final class Game implements Serializable{
         for(int i=0; i<getCurrentPlayer().getHand().cardsLeftInSet(); i++){
             currentPlayer.setHandPlayableByPhaseAndPosition(i, phase);    
          }
+    }
+    
+    /*
+    Returns true if starting position of army is OK.
+    */
+    public Unit validateArmySetup(Player checkPlayer){
+    
+        for(Unit unit:checkPlayer.getArmy()){
+            /*
+            Check if unit is on lake
+            */
+            if(!getMap().getTerrainAtPosition(unit.getPosition()).isTerrainPassable()) 
+                return unit;    
+            /*
+            Check if unit fits in first 2 rows
+            */
+            if(getCurrentPlayer().isHost() && unit.getPosition().getY() > Position.COLUMN_B
+                    ||
+                 !getCurrentPlayer().isHost()   && unit.getPosition().getY() < Position.COLUMN_G
+           )
+                return unit;
+           }
+        
+        return null;
+    }
+    
+    
+    private void swapActivePlayer(){
+    
+        if(getCurrentPlayer().isActive())
+        {
+        getCurrentPlayer().setActive(false);
+        getOpponentPlayer().setActive(true);
+        }
+        else {
+        getCurrentPlayer().setActive(true);
+        getOpponentPlayer().setActive(false);
+        }
+            
+            
+        
+    
     }
     
     private void resetCurrentPlayer(){

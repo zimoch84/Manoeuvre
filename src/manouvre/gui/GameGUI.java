@@ -20,6 +20,66 @@ import static java.lang.Math.round;
 import static java.lang.Math.round;
 import static java.lang.Math.round;
 import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
 
 
 
@@ -228,10 +288,9 @@ public class GameGUI {
             if(windowMode == CreateRoomWindow.AS_HOST)
             {
             for (UnitGUI drawUnit : currentPlayerArmy) {
-                g.drawImage(
-                        drawUnit.getImg(), 
-                        drawUnit.getUnit().getPos().getMouseX() + MapGUI.PIECES_START_X,
-                        drawUnit.getUnit().getPos().getMouseY() + MapGUI.PIECES_START_Y,
+                g.drawImage(drawUnit.getImg(), 
+                        drawUnit.getUnit().getPosition().getMouseX() + MapGUI.PIECES_START_X,
+                        drawUnit.getUnit().getPosition().getMouseY() + MapGUI.PIECES_START_Y,
                         MapGUI.PIECE_WIDTH, 
                         MapGUI.PIECE_HEIGHT
                         , null);
@@ -263,10 +322,9 @@ public class GameGUI {
             else if(windowMode == CreateRoomWindow.AS_GUEST)
             {
                for (UnitGUI drawUnit : currentPlayerArmy) {
-                g.drawImage(
-                        drawUnit.getImg(), 
-                        drawUnit.getUnit().getPos().transpoze().getMouseX() + MapGUI.PIECES_START_X,
-                        drawUnit.getUnit().getPos().transpoze().getMouseY() + MapGUI.PIECES_START_Y,
+                g.drawImage(drawUnit.getImg(), 
+                        drawUnit.getUnit().getPosition().transpoze().getMouseX() + MapGUI.PIECES_START_X,
+                        drawUnit.getUnit().getPosition().transpoze().getMouseY() + MapGUI.PIECES_START_Y,
                         MapGUI.PIECE_WIDTH, 
                         MapGUI.PIECE_HEIGHT
                         , null);
@@ -300,19 +358,17 @@ public class GameGUI {
         else     
           if(windowMode == CreateRoomWindow.AS_HOST){
             for (UnitGUI drawUnit : currentPlayerArmy) {
-                g.drawImage(
-                        drawUnit.getImg(), 
-                        drawUnit.getUnit().getPos().getMouseX() + MapGUI.PIECES_START_X,
-                        drawUnit.getUnit().getPos().getMouseY() + MapGUI.PIECES_START_Y,
+                g.drawImage(drawUnit.getImg(), 
+                        drawUnit.getUnit().getPosition().getMouseX() + MapGUI.PIECES_START_X,
+                        drawUnit.getUnit().getPosition().getMouseY() + MapGUI.PIECES_START_Y,
                         MapGUI.PIECE_WIDTH, 
                         MapGUI.PIECE_HEIGHT
                         , null);
             }
             for (UnitGUI drawUnit : opponnetPlayerArmy) {
-                g.drawImage(
-                        drawUnit.getImg(), 
-                        drawUnit.getUnit().getPos().getMouseX() + MapGUI.PIECES_START_X,
-                        drawUnit.getUnit().getPos().getMouseY() + MapGUI.PIECES_START_Y,
+                g.drawImage(drawUnit.getImg(), 
+                        drawUnit.getUnit().getPosition().getMouseX() + MapGUI.PIECES_START_X,
+                        drawUnit.getUnit().getPosition().getMouseY() + MapGUI.PIECES_START_Y,
                         MapGUI.PIECE_WIDTH, 
                         MapGUI.PIECE_HEIGHT
                         , null);
@@ -321,19 +377,17 @@ public class GameGUI {
             else if(windowMode == CreateRoomWindow.AS_GUEST)
             {
                for (UnitGUI drawUnit : currentPlayerArmy) {
-                g.drawImage(
-                        drawUnit.getImg(), 
-                        drawUnit.getUnit().getPos().transpoze().getMouseX() + MapGUI.PIECES_START_X,
-                        drawUnit.getUnit().getPos().transpoze().getMouseY() + MapGUI.PIECES_START_Y,
+                g.drawImage(drawUnit.getImg(), 
+                        drawUnit.getUnit().getPosition().transpoze().getMouseX() + MapGUI.PIECES_START_X,
+                        drawUnit.getUnit().getPosition().transpoze().getMouseY() + MapGUI.PIECES_START_Y,
                         MapGUI.PIECE_WIDTH, 
                         MapGUI.PIECE_HEIGHT
                         , null);
                 }
             for (UnitGUI drawUnit : opponnetPlayerArmy) {
-                g.drawImage(
-                        drawUnit.getImg(), 
-                        drawUnit.getUnit().getPos().transpoze().getMouseX() + MapGUI.PIECES_START_X,
-                        drawUnit.getUnit().getPos().transpoze().getMouseY() + MapGUI.PIECES_START_Y,
+                g.drawImage(drawUnit.getImg(), 
+                        drawUnit.getUnit().getPosition().transpoze().getMouseX() + MapGUI.PIECES_START_X,
+                        drawUnit.getUnit().getPosition().transpoze().getMouseY() + MapGUI.PIECES_START_Y,
                         MapGUI.PIECE_WIDTH, 
                         MapGUI.PIECE_HEIGHT
                         , null);
@@ -658,7 +712,7 @@ public class GameGUI {
     
            for(UnitGUI unitSearch: getUnitsGui()){
         
-            if(unitSearch.getUnit().getPos().equals(position))
+            if(unitSearch.getUnit().getPosition().equals(position))
             {
                 return unitSearch;
               }

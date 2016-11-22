@@ -34,7 +34,7 @@ public class MoveUnitCommand implements Command {
         /*
         Store last position to undo be passible
         */
-        lastPosition = storedUnit.getPos() ;
+        lastPosition = storedUnit.getPosition() ;
         /*
         Move unit on game 
         */

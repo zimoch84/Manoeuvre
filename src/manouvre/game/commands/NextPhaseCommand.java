@@ -5,40 +5,27 @@
  */
 package manouvre.game.commands;
 
-import java.util.ArrayList;
 import manouvre.game.Game;
-import manouvre.game.Unit;
 import manouvre.game.interfaces.Command;
 
 /**
  *
  * @author Piotr
- * Sets up player army posision 
- * Set flag setupFinished
- *       
  */
-public class SetupPositionCommand implements Command{
+public class NextPhaseCommand implements Command{
 
-    ArrayList<Unit> units;
+    String activePlayerName;
+    int phase;
+    public NextPhaseCommand(String playerName, int phase) {
+        activePlayerName = playerName;
     
-  
-    
-    public SetupPositionCommand(ArrayList<Unit> units ) {
-    
-        this.units = units;
-        
     }
-   
+    
+    
+    
     @Override
     public void execute(Game game) {
-       
-        for(Unit searchUnit: units)
-        {
-            game.searchUnit(searchUnit).move(searchUnit.getPosition());
-        }
-        
-        game.getOpponentPlayer().setFinishedSetup(true);
-              
+        game.setPhase(phase);
         
     }
 
@@ -46,5 +33,6 @@ public class SetupPositionCommand implements Command{
     public void undo(Game game) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
     
 }

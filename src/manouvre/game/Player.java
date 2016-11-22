@@ -107,7 +107,7 @@ public class Player  implements Serializable{
           /*
             Startting position row B or G
             */
-            unit.setPos(new Position (  x- ( getNation()*8)    , ( isHost() ? Position.ROW_2 : Position.ROW_7) ));
+            unit.setPosition(new Position (  x- ( getNation()*8)    , ( isHost() ? Position.ROW_2 : Position.ROW_7) ));
              army[y] =   unit  ;      
               y++;     
          }
@@ -132,7 +132,7 @@ public class Player  implements Serializable{
 //          /*
 //            Pozycja tymczasowo - bedzie tworzona w setupie
 //            */
-//            unit.setPos(new Position (  i- ( getNation()*8)    ,1));
+//            unit.setPosition(new Position (  i- ( getNation()*8)    ,1));
 //            army.add(   unit     ) ;      
 //                   
 //              
@@ -147,7 +147,7 @@ public class Player  implements Serializable{
 //          /*
 //            Pozycja tymczasowo - bedzie tworzona w setupie
 //            */
-//            unit.setPos(new Position (  i- ( getNation()*8)    ,7));
+//            unit.setPosition(new Position (  i- ( getNation()*8)    ,7));
 //            army.add(   unit     ) ;      
 //                   
 //              
@@ -223,5 +223,6 @@ public class Player  implements Serializable{
         this.getHand().getCardByPosInSet(position).setAvailableForPhase(phase);
     }
     
+
     
 }

@@ -48,6 +48,9 @@ public class Message implements Serializable{
     public final static int MOVE_COMMAND = 100;
     public final static int DRAW_CARD_COMMAND = 101;
     public final static int DISCARD_CARD_COMMAND = 102;
+    public final static int NEXT_PHASE_COMMAND = 103;
+    public final static int END_SETUP_COMMAND = 104;
+    
     
   
     private static final long serialVersionUID = 1L;
@@ -186,7 +189,9 @@ public class Message implements Serializable{
         switch(command)
         {
             case MOVE_COMMAND: return "MOVE_COMMAND";
-            
+            case NEXT_PHASE_COMMAND: return "NEXT_PHASE_COMMAND";
+            case DISCARD_CARD_COMMAND: return "DISCARD_CARD_COMMAND";
+            case END_SETUP_COMMAND: return "END_SETUP_COMMAND";
         } 
         
         return null;
