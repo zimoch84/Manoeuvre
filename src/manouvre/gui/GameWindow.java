@@ -1106,7 +1106,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             
             dialog.setOkCommand(endSetupCommand);
         
-            this.repaint();
+           
         }
         
         else

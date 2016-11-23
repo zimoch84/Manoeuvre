@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package manouvre.game;
+import java.util.Random;
 import manouvre.game.interfaces.DiceInterface;
 /**
  *
@@ -34,5 +35,35 @@ public class Dice {
         }     
         return 99; //if another value
     }
+ 
+    static public int k6(){
+        int nextInt =  new Random().nextInt(6) + 1;
+        return nextInt ;
+    }
+    static public int k2(){
+        int nextInt =  new Random().nextInt(2) + 1;
+        return nextInt ;
+    }
+    static public int k8(){
+        int nextInt =  new Random().nextInt(8) + 1;
+        return nextInt ;
+    }
+    static public int k10(){
+        int nextInt =  new Random().nextInt(10) + 1 ;
+        return nextInt ;
+    }
+    static public int dk6(){
+        int nextInt =  new Random().nextInt(6) +  new Random().nextInt(6) + 2;
+        return nextInt ;
+    }
     
+    static public int dk8(){
+        int nextInt = new Random().nextInt(8) + new Random().nextInt(8) + 2;
+        return nextInt ;
+    }
+    
+    static public int dk10(){
+        int nextInt = new Random().nextInt(10) + new Random().nextInt(10) + 2;
+        return nextInt ;
+    }
 }
