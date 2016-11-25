@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import manouvre.game.interfaces.ClientInterface;
 import manouvre.game.interfaces.Command;
+import manouvre.gui.CommandLogger;
 import manouvre.gui.GameWindow;
 
 /**
@@ -30,6 +31,8 @@ public class QueueClient {
     public GuestClient guestClient;
     Thread hostThread, guestThread;
     
+    public CommandLogger commandLoggerHost, commandLoggerGuest;
+    
     
     public QueueClient() {
         try {
@@ -43,6 +46,8 @@ public class QueueClient {
             guestClient = new GuestClient(hostQueue, guestQueue);
             guestThread = new Thread(guestClient);
             guestThread.start();
+            
+            
         } catch (IOException ex) {
             Logger.getLogger(QueueClient.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -79,6 +84,10 @@ class HostClient implements ClientInterface , Runnable{
         case Message.COMMAND:
                     Command executeCommand = msgIn.getCommand();
                     executeCommand.execute(clientGameHost.getGame());
+                    /*
+                        Show command desc in console in game;
+                        */
+                    commandLoggerHost.log(executeCommand);
                     clientGameHost.repaint();
                     break;
         default:
@@ -132,6 +141,12 @@ class GuestClient implements ClientInterface , Runnable{
             case Message.COMMAND:
                 Command executeCommand = msgIn.getCommand();
                 executeCommand.execute(clientGameGuest.getGame());
+                
+                  /*
+                        Show command desc in console in game;
+                        */
+                commandLoggerGuest.log(executeCommand);
+                
                 clientGameGuest.repaint();
                 break;
             default:

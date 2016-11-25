@@ -8,6 +8,7 @@ package manouvre.game;
 import java.io.IOException;
 import java.util.ArrayList;
 import manouvre.game.interfaces.CardInterface;
+import manouvre.gui.CommandLogger;
 import manouvre.gui.CreateRoomWindow;
 import manouvre.gui.GameWindow;
 import manouvre.gui.LoginWindow;
@@ -53,7 +54,14 @@ public class Maneuvre {
           
           fakeClient.clientGameGuest = clientGameGuest;
           fakeClient.clientGameHost = clientGameHost;
-                 
+          
+          CommandLogger commandLoggerHost = new CommandLogger(clientGameHost);
+          CommandLogger commandLoggerGuest = new CommandLogger(clientGameGuest);
+                  
+          fakeClient.commandLoggerHost = commandLoggerHost;
+          fakeClient.commandLoggerGuest = commandLoggerGuest;
+          
+          
           try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {

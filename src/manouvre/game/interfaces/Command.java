@@ -16,5 +16,6 @@ public interface Command extends  Serializable{
     
     public void execute(Game game);
     public void undo(Game game);
+    public String logCommand();
     
 }

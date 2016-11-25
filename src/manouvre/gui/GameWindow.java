@@ -955,7 +955,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                     if(checkPosition.equals(clickedPosition))
                     {
 
-                        MoveUnitCommand moveUnit = new MoveUnitCommand(selectedUnit,  clickedPosition);
+                        MoveUnitCommand moveUnit = new MoveUnitCommand(game.getCurrentPlayer().getName() , selectedUnit,  clickedPosition);
                         
                         moveUnit.execute(game);
                         
@@ -1010,6 +1010,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                {
                game.getCurrentPlayer().setFinishedSetup(true);
                SetupPositionCommand setupCommand = new SetupPositionCommand(
+                       game.getCurrentPlayer().getName(),
                        new ArrayList<Unit>(
                                         Arrays.asList(
                                                     game.getCurrentPlayer().getArmy()

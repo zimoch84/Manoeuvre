@@ -46,5 +46,11 @@ public class DiscardCardCommand implements Command {
       
     }
     
+    @Override
+    public String logCommand(){
+        return new String(senderPlayerName + " discarded " + selectionSeq.size() + " cards");
+    
+    }
+    
 }
 

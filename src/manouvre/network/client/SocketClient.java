@@ -7,6 +7,7 @@ import manouvre.game.Player;
 import manouvre.game.interfaces.ClientInterface;
 import manouvre.game.interfaces.Command;
 import manouvre.game.interfaces.FrameInterface;
+import manouvre.gui.CommandLogger;
 import manouvre.gui.CreateRoomWindow;
 import manouvre.gui.GameWindow;
 import manouvre.gui.LoginWindow;
@@ -49,6 +50,8 @@ public class SocketClient implements Runnable, ClientInterface{
     public ObjectInputStream In;
     public ObjectOutputStream Out;
 
+    CommandLogger commandLogger;
+    
     boolean keepRunning = true;
     
     public SocketClient(LoginWindow frame) throws IOException{
@@ -61,7 +64,10 @@ public class SocketClient implements Runnable, ClientInterface{
         In = new ObjectInputStream(socket.getInputStream());
         
         System.out.println("manouvre.network.client.SocketClient.<init>() : LocalPort " + socket.getLocalPort() + " Port " + socket.getPort()) ;
-      
+        
+        
+        
+        
     }
     
         public SocketClient() throws IOException{
@@ -218,7 +224,7 @@ public class SocketClient implements Runnable, ClientInterface{
                   case Message.START_GAME:
                       if(msg.getContentP() == Message.OK)
                       {
-                          
+                        commandLogger = new CommandLogger(clientGame);
                         Game game = msg.getGame();
                         System.out.println("SocketClient.run() Game: " + game.toString() );
                         System.out.println("SocketClient.run() currentPlayer: " + currentPlayer.toString() );
@@ -259,11 +265,16 @@ public class SocketClient implements Runnable, ClientInterface{
                       
                    case Message.COMMAND:
                         Command executeCommand = msg.getCommand();
-                    
+                
                     /*
                     Executing command over game on server
                     */
                     executeCommand.execute(clientGame.getGame());
+                    /*
+                        Show command desc in console in game;
+                        */
+                    commandLogger.log(executeCommand);
+                    
                     clientGame.repaint();
                     
                        break;

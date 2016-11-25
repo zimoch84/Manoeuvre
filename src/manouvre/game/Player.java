@@ -223,6 +223,7 @@ public class Player  implements Serializable{
         this.getHand().getCardByPosInSet(position).setAvailableForPhase(phase);
     }
     
+    
 
     
 }

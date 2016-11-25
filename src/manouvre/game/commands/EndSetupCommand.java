@@ -42,6 +42,12 @@ public class EndSetupCommand implements Command{
     
     }
     
+    @Override
+    public String logCommand(){
+        return new String(playerName + " has finished setup");
+    
+    }
+    
     
     
 }

@@ -38,9 +38,12 @@ public class DrawCardCommand implements Command {
     @Override
     public void undo(Game game){
       
-   
-      
     }
-    
+   
+    @Override
+    public String logCommand(){
+        return new String(senderPlayerName + " has drawn " + numberOfDrawnCards + " cards");
+
+    }
 }
 

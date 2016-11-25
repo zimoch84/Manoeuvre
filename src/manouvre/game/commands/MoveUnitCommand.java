@@ -18,10 +18,13 @@ public class MoveUnitCommand implements Command {
     Position newPosition, lastPosition;
 
     Unit storedUnit;
+    
+    String playerName;
 
-    public MoveUnitCommand(Unit unit,  Position newPosition) {
+    public MoveUnitCommand(String playerName, Unit unit,  Position newPosition) {
 	this.storedUnit = unit;
         this.newPosition = newPosition;
+        this.playerName = playerName;
        
 	}
 
@@ -62,5 +65,8 @@ public class MoveUnitCommand implements Command {
       game.getMap().getTerrainAtXY(newPosition.getX(), newPosition.getY()).setIsOccupiedByUnit(false);
       
     }
-
+    @Override
+    public String logCommand(){
+        return new String(playerName + " has moved unit " + storedUnit.getName() + " to position " + newPosition.toString());  
+    }
 }

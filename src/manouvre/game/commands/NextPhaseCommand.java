@@ -34,5 +34,10 @@ public class NextPhaseCommand implements Command{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    @Override
+    public String logCommand(){
+        return new String(activePlayerName + " moved to the next phase"  );
+    
+    }
     
 }

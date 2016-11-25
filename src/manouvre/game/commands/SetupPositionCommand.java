@@ -20,12 +20,13 @@ import manouvre.game.interfaces.Command;
 public class SetupPositionCommand implements Command{
 
     ArrayList<Unit> units;
-    
+    String playerName;
   
     
-    public SetupPositionCommand(ArrayList<Unit> units ) {
+    public SetupPositionCommand(String playerName, ArrayList<Unit> units ) {
     
         this.units = units;
+        this.playerName = playerName;
         
     }
    
@@ -37,7 +38,7 @@ public class SetupPositionCommand implements Command{
             game.searchUnit(searchUnit).move(searchUnit.getPosition());
         }
         
-        game.getOpponentPlayer().setFinishedSetup(true);
+        game.getPlayerByName(playerName).setFinishedSetup(true);
               
         
     }
@@ -46,5 +47,10 @@ public class SetupPositionCommand implements Command{
     public void undo(Game game) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+ 
+    @Override
+    public String logCommand(){
+        return new String(playerName + " send his army setup position");
     
+    }
 }
