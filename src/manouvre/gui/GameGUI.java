@@ -220,7 +220,7 @@ public class GameGUI {
         /*
         In setup draw only self army
         */
-        if(game.getPhase()== Game.SETUP)
+        if(game.getPhase()== Game.SETUP &&  !( game.getCurrentPlayer().isFinishedSetup() && game.getOpponentPlayer().isFinishedSetup() ) )
         {
             if(windowMode == CreateRoomWindow.AS_HOST)
             {

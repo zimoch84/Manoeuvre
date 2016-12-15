@@ -171,7 +171,9 @@ public class CustomDialog extends javax.swing.JFrame {
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
         
         if(okCommand != null){
-        
+            /*
+            Execute command locally and remotely
+            */
             okCommand.execute(game);
             
             Message msgOut = 

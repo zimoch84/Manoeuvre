@@ -26,7 +26,15 @@ public class EndSetupCommand implements Command{
     public void execute(Game game) {
         
         game.getPlayerByName(playerName).setFinishedSetup(true);
-        game.nextPhase(); 
+        /*
+        If both players finished advance game phase
+        */
+        if (game.getCurrentPlayer().isFinishedSetup() && game.getOpponentPlayer().isFinishedSetup())
+            {       game.nextPhase(); 
+        
+            }
+        
+        
         
     }
 

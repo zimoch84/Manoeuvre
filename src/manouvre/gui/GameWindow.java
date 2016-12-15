@@ -198,7 +198,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
            case Game.SETUP:
            {
             buttonPhaseName.setText("Setup");
-            buttonPhaseName.setEnabled(true);
+            buttonPhaseName.setEnabled(false);
             break;
            }    
            case Game.DISCARD:
@@ -476,7 +476,6 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
 
         chatTextArea.setColumns(20);
         chatTextArea.setRows(5);
-        chatTextArea.setText("Chat");
         jScrollPane1.setViewportView(chatTextArea);
 
         sendMessageButton.setText("Send");
@@ -1009,21 +1008,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                if(!game.getOpponentPlayer().isFinishedSetup() )
                {
                game.getCurrentPlayer().setFinishedSetup(true);
-               SetupPositionCommand setupCommand = new SetupPositionCommand(
-                       game.getCurrentPlayer().getName(),
-                       new ArrayList<Unit>(
-                                        Arrays.asList(
-                                                    game.getCurrentPlayer().getArmy()
-                                                    )
-                                         )
-                                    );
-               
-                                       
               
-               
-                Message setupMessage = new Message(Message.COMMAND, game.getCurrentPlayer().getName() , Message.MOVE_COMMAND, "IN_CHANNEL");
-                setupMessage.setCommand(setupCommand);
-                client.send(setupMessage);
                 
                 game.nextPhase(); 
 
@@ -1098,15 +1083,52 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         */
         if(game.getPhase() == Game.SETUP)
         {
-           
+            
+            /*
+            Validate setup army posiotion
+            
+            */
+            
+            Unit badPlacedUnit  = game.validateArmySetup(game.getCurrentPlayer());
+            
+            if (badPlacedUnit == null)
+            {
+            
+           /*
+            Setting end setup flag and after confirmation dialog
+            */
             EndSetupCommand endSetupCommand = new EndSetupCommand(game.getCurrentPlayer().getName());
-            
-            
             CustomDialog dialog = new CustomDialog(CustomDialog.YES_NO_TYPE, "Are You sure to end setup?", client, game);
-            
-            
             dialog.setOkCommand(endSetupCommand);
-        
+            
+            
+            /*
+            Sendig starting position to opponent
+            */
+            SetupPositionCommand setupCommand = new SetupPositionCommand(
+                       game.getCurrentPlayer().getName(),
+                       new ArrayList<Unit>(
+                                        Arrays.asList(
+                                                    game.getCurrentPlayer().getArmy()
+                                                    )
+                                         )
+                                    );
+               
+                                       
+              
+               
+                Message setupMessage = new Message(Message.COMMAND, game.getCurrentPlayer().getName() , Message.MOVE_COMMAND, "IN_CHANNEL");
+                setupMessage.setCommand(setupCommand);
+                client.send(setupMessage);
+                
+            }
+            
+            else
+            {           CustomDialog dialog = new CustomDialog(
+                        CustomDialog.CONFIRMATION_TYPE, "Unit " + badPlacedUnit.getName() +  " is placed wrong", client, game);
+            }
+            
+          
            
         }
         
