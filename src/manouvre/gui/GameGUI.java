@@ -57,8 +57,13 @@ public class GameGUI {
         this.drawSetGui = new CardSetGUI(game.getCurrentPlayer().getDrawPile());//empty
         this.tableSetGui = new CardSetGUI(game.getCurrentPlayer().getTablePile());//empty
        
+        /*
+        Set info about first / second player
+        */
+        CustomDialog dialog = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "You are" + (
+        game.getCurrentPlayer().isFirst() ? " first " : " second ") + "player"  , null, game);
+        dialog.setVisible(true);
         
-
     }
 //------------- MAP - LEFT UPPER CORNER OF THE SCREEN -----------------------------------
     void drawMap( Graphics g, int windowMode) {
