@@ -34,6 +34,8 @@ import manouvre.game.commands.NextPhaseCommand;
 import manouvre.game.interfaces.ClientInterface;
 import manouvre.game.interfaces.Command;
 import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
 
 
 /**

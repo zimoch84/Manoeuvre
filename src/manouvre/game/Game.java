@@ -168,7 +168,7 @@ public final class Game implements Serializable{
      * @param unit
      * @return Position
      */ 
-    private ArrayList<Position> getPossibleMovements(Position unitPosition){
+    public ArrayList<Position> getOneSquareMovements(Position unitPosition){
         
         ArrayList<Position> moves;
         moves = new ArrayList<>();
@@ -210,7 +210,7 @@ public final class Game implements Serializable{
         /*
         get Infantry Moves
         */
-        moves = getPossibleMovements(unit.getPosition());
+        moves = getOneSquareMovements(unit.getPosition());
        
         /*
         If calvary do check of every infantry move considering Terrain.MARSH which ends move
@@ -221,7 +221,7 @@ public final class Game implements Serializable{
                     
         for(Position move : moves ){       
                 if(! map.getTerrainAtXY(move.getX(), move.getY()).isEndsMove() ){              
-                    tempMoves = getPossibleMovements(move);                    
+                    tempMoves = getOneSquareMovements(move);                    
                         for(Position addPosition: tempMoves){                        
                             if (!moves.contains(addPosition) && !addPosition.equals(unit.getPosition()))                                                                  
                                 tempMoves2.add(addPosition);                                   

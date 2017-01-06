@@ -44,6 +44,8 @@ public class Player  implements Serializable{
  
     boolean host, finishedSetup;
 
+    boolean isPlayingCard;
+    
     
 
     public Player(String name) {
