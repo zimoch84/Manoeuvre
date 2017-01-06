@@ -41,7 +41,7 @@ public class MockClient extends Thread{
     
     Thread mockThread;
     
-    public MockClient() throws IOException {
+    public MockClient() throws IOException, InterruptedException {
         
         hostOut = new PipedOutputStream();
         guestOut = new PipedOutputStream();
@@ -54,19 +54,24 @@ public class MockClient extends Thread{
         mockThread = new Thread(this);
         mockThread.start();  
         
-        
+                
         hostOut.flush();
         guestOut.flush();
-              
-                hostClient = new HostClient(objectHostIn, objectHostOut);
-                hostThread = new Thread(hostClient);
-                hostThread.start();
-
-                guestClient = new GuestClient(objectGuestIn, objectGuestOut);
-                guestThread = new Thread(guestClient);
-                guestThread.start();
         
+        mockThread.join();
+        System.out.println("mock Thread joined");      
+        
+        objectHostOut.flush();
+        objectGuestOut.flush();
+        
+        
+        hostClient = new HostClient(objectHostIn, objectHostOut);
+        hostThread = new Thread(hostClient);
+        hostThread.start();
 
+        guestClient = new GuestClient(objectGuestIn, objectGuestOut);
+        guestThread = new Thread(guestClient);
+        guestThread.start();
         
         
     }
@@ -74,26 +79,27 @@ public class MockClient extends Thread{
     @Override
     public void run() {
         try {
-            
-            objectHostIn  = new ObjectInputStream(hostIn);
+            System.out.println("Startig Mock  client");
             objectHostOut = new ObjectOutputStream(hostOut);
             objectGuestOut = new ObjectOutputStream(guestOut);
+            objectHostIn  = new ObjectInputStream(hostIn);
             objectGuestIn = new ObjectInputStream(guestIn);
             
+            
+            System.out.println("Object counstructed Mock  client");
                
             
         } catch (IOException ex) {
             Logger.getLogger(MockClient.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    
+        } 
     }
     
-        public static void main(String[] args) throws IOException{
+        public static void main(String[] args) throws IOException, InterruptedException{
             
                 MockClient mock = new MockClient();
-                Message msgTest = new Message(Message.BYE, "fds", 0, "fsdf");
+               // Message msgTest = new Message(Message.BYE, "fds", 0, "fsdf");
         
-                mock.hostClient.send(msgTest);
+                //mock.hostClient.send(msgTest);
                 }
        }
     
