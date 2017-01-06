@@ -35,8 +35,10 @@ public class Player  implements Serializable{
     CardSet tablePile;
     
     //ArrayList<Unit> army;
-    
-    boolean active;
+    /*
+    Is player currently playing and is first player
+    */
+    boolean active, first;
     
     Unit[] army;
  
@@ -208,6 +210,15 @@ public class Player  implements Serializable{
         this.host = host;
     }
 
+    public boolean isFirst() {
+        return first;
+    }
+
+    public void setFirst(boolean first) {
+        this.first = first;
+    }
+
+    
     @Override
     public String toString() {
     

@@ -81,7 +81,10 @@ public final class Game implements Serializable{
         placeUnitsOnMap(hostPlayer);
         placeUnitsOnMap(guestPlayer);
         
+        setFirstPlayer();
         setPhase(Game.SETUP);
+        
+        
     }
      
     
@@ -362,6 +365,25 @@ public final class Game implements Serializable{
         setCardsInHandAsPlayableDueToPhase();
         
     } 
+    
+    void setFirstPlayer(){
+    
+    
+        int result =  Dice.k2();
+        
+        if(result == 0)
+        {getHostPlayer().setFirst(true);
+            getGuestPlayer().setFirst(false);
+        
+        }
+         else 
+         {
+             getHostPlayer().setFirst(false);
+            getGuestPlayer().setFirst(true);
+         
+         }
+    
+    }
    
     public void setCardsInHandAsPlayableDueToPhase(){
         for(int i=0; i<getCurrentPlayer().getHand().cardsLeftInSet(); i++){
