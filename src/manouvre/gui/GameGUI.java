@@ -369,9 +369,21 @@ public class GameGUI {
     
     
  //-------- CARDS - BOTTOM OF THE SCREEN -----------------------------------
+int prevPhase=0;
 
-    public void paintHand(Graphics g, int mouseCoorX, int mouseCoorY, int mouseClick)                 
+    public void paintHand(Graphics g, int mouseCoorX, int mouseCoorY, int mouseClick, int phase)                 
     {   
+        boolean phaseChanged=false;
+        if (prevPhase!=phase) phaseChanged=true;
+        prevPhase=phase;
+         if(phaseChanged) {
+             selectionSeq.clear();//clear selection if phase was changed
+             for (int i=0; i<handSetGui.cardsLeftInSet(); i++){  
+              handSetGui.getCardByPosInSet(i).setSelected(0);   
+             }
+         } 
+        
+        
         float f=0.5f; //scale factor //Normally cards has 260x375 pixels
         int width=round(260*f), height=round(375*f);
         int cardPaddingTop=20;
@@ -406,6 +418,7 @@ public class GameGUI {
                 g.drawImage(handSetGui.getCardByPosInSet(i).getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTopTemp, width, height, null);       
         }
                 Integer j=0;
+               
                 if(!selectionSeq.isEmpty()){ 
                    
                     j=selectionSeq.get(selectionSeq.size()-1);              

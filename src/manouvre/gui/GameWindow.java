@@ -237,7 +237,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
     private void paintHand(Graphics g )                 
     {   
         playCardButton.setEnabled(!gameGui.getSelectionSeqIsEmpty()&&game.getPhase()!=0&&game.getPhase()!=1);         
-        gameGui.paintHand(g,  handMouseCoorX, handMouseCoorY, mouseClickedOnHand); 
+        gameGui.paintHand(g,  handMouseCoorX, handMouseCoorY, mouseClickedOnHand, game.getPhase()); 
         mouseClickedOnHand=0; 
          
        setPhaseButtonLabel();  //when card is selected set the buttons
