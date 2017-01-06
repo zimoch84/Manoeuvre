@@ -29,6 +29,7 @@ public class CustomDialog extends javax.swing.JFrame {
     public static final int OK_CANCEL_TYPE = 1;
     public static final int CONFIRMATION_TYPE = 2;
     public static final int YES_NO_TYPE = 3;
+    public static final int YES_NO_UNDO_TYPE = 4;
     
     int dialogType;
     boolean executeOK;
@@ -97,6 +98,13 @@ public class CustomDialog extends javax.swing.JFrame {
                 cancelButton.setVisible(true);
                 cancelButton.setLabel("No");
                 break;
+            case YES_NO_UNDO_TYPE: 
+                okButton.setVisible(true);
+                okButton.setLabel("Yes");
+                cancelButton.setVisible(true);
+                cancelButton.setLabel("No");
+                break;    
+            
                        
         }
     }
@@ -188,6 +196,8 @@ public class CustomDialog extends javax.swing.JFrame {
     }//GEN-LAST:event_okButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        
+        
         if(cancelCommand != null){
         
             cancelCommand.execute(game);
@@ -199,6 +209,13 @@ public class CustomDialog extends javax.swing.JFrame {
             client.send(msgOut);
             
         }
+        else if (dialogType == YES_NO_UNDO_TYPE)
+            
+        {
+            cancelCommand.undo(game);
+        }
+            
+            
         
         this.dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed

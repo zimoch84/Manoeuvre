@@ -56,7 +56,7 @@ public class Unit implements UnitInterface, Serializable{
     int reducedStrength;
 
 
-     String  imageReducedName ;
+     String imageReducedName ;
      String imageFullName;
 
      

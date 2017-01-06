@@ -98,6 +98,8 @@ public class Card implements CardInterface, Serializable{
     boolean canceled=false;
     boolean playable=false;
  
+    
+    
    
     public Card (int chosenID) { 
         try {		
@@ -316,23 +318,4 @@ public class Card implements CardInterface, Serializable{
     public boolean canBePlayed(Game game) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    @Override
-    public Command getCommand() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-            
-
-
 }
-
-
-    
-    
-    
-    
-    
-    
-    
-    
-   

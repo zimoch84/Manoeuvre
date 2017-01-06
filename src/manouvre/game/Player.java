@@ -33,8 +33,11 @@ public class Player  implements Serializable{
     CardSet drawPile;
     CardSet discardPile;
     CardSet tablePile;
-    
-    //ArrayList<Unit> army;
+    /*
+    Field to store whole card flow needed data.
+    */
+    CardEngine cardEngine ;
+ 
     /*
     Is player currently playing and is first player
     */
@@ -44,31 +47,16 @@ public class Player  implements Serializable{
  
     boolean host, finishedSetup;
 
-    boolean isPlayingCard;
+    boolean playingCard;
     
     
 
     public Player(String name) {
         this.name = name;
+        this.cardEngine = new CardEngine(this);
     }
+    
 
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    public String getName() {
-        return name;
-    }
- 
-    public void setNation(int nation) {
-      //  System.out.println("Nation Set to:"+nation);
-        this.nation = nation;
-    }
-    
-    public int getNation() {
-        return nation;
-    }
-    
     public String nationToString(int nation)
         {
     switch(getNation())
@@ -161,6 +149,26 @@ public class Player  implements Serializable{
 //    // System.out.println("Units Generated:");
 //    }
     
+    /*
+    Getters and setters
+    */
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public String getName() {
+        return name;
+    }
+ 
+    public void setNation(int nation) {
+      //  System.out.println("Nation Set to:"+nation);
+        this.nation = nation;
+    }
+    
+    public int getNation() {
+        return nation;
+    }
     
     public CardSet getDrawPile() {
         return drawPile;
@@ -220,6 +228,15 @@ public class Player  implements Serializable{
         this.first = first;
     }
 
+    public CardEngine getCardEngine() {
+        return cardEngine;
+    }
+
+    public void setCardEngine(CardEngine cardEngine) {
+        this.cardEngine = cardEngine;
+    }
+
+    
     
     @Override
     public String toString() {
@@ -235,8 +252,15 @@ public class Player  implements Serializable{
     public void setHandPlayableByPhaseAndPosition(int position, int phase) {
         this.getHand().getCardByPosInSet(position).setAvailableForPhase(phase);
     }
-    
-    
 
+    public boolean isPlayingCard() {
+        return playingCard;
+    }
+
+    public void setPlayingCard(boolean playingCard) {
+        this.playingCard = playingCard;
+    }
+    
+    
     
 }
