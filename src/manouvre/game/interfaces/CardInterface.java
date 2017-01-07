@@ -164,10 +164,4 @@ public interface CardInterface {
     */
     public boolean canBePlayed(Game game);
     
-    /*
-    Create and return Command from card
-    */
-    public Command getCommand();
-    
-    
 }

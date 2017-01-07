@@ -28,7 +28,6 @@ import manouvre.game.interfaces.FrameInterface;
 import manouvre.game.interfaces.CardInterface;
 import java.util.Arrays;
 import manouvre.game.commands.SetupPositionCommand;
-import static java.lang.Math.abs;
 import manouvre.game.commands.EndSetupCommand;
 import manouvre.game.commands.NextPhaseCommand;
 import manouvre.game.interfaces.ClientInterface;
@@ -121,11 +120,13 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         
         bgImage = ImageIO.read( new File("resources\\backgrounds\\24209cb208yezho.jpg"));
         /*
-        Create titla
+        Create title
         */
         String title = "Manouvre, " + (windowMode== CreateRoomWindow.AS_HOST  
                             ? game.getHostPlayer().getName() + " as HOST" 
                             : game.getGuestPlayer().getName() + " as GUEST" );
+        
+        title = title + (game.getCurrentPlayer().isFirst() ? " and first player" : " and second player");
 
         setTitle(title);
         
@@ -947,9 +948,19 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             if(!selectedUnit.getPosition().equals(clickedPosition))
             {
                 System.out.println("manouvre.gui.ClientUI.mainMapPanelMouseClicked().clickedPosition :" + clickedPosition) ;
-
-                ArrayList<Position> movePositions =
-                game.getPossibleMovement(selectedUnit);
+                ArrayList<Position> movePositions;
+                if(game.getPhase() == Game.SETUP)
+                {
+                    movePositions = game.getSetupPossibleMovement();
+                }
+                else if (game.getCurrentPlayer().isPlayingCard() )
+                {
+                    movePositions = game.getOneSquareMovements(selectedUnit.getPosition());
+                }
+                else{
+                     movePositions = game.getPossibleMovement(selectedUnit);
+                }
+                
 
                 for(Position checkPosition: movePositions){
 
@@ -959,13 +970,38 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                         MoveUnitCommand moveUnit = new MoveUnitCommand(game.getCurrentPlayer().getName() , selectedUnit,  clickedPosition);
                         
                         moveUnit.execute(game);
-                        
                         Message moveMessage = new Message(Message.COMMAND, game.getCurrentPlayer().getName() , Message.MOVE_COMMAND, "IN_CHANNEL");
-                        moveMessage.setCommand(moveUnit);
                         
+                        /*
+                        Regular move has to be send but not the move from HQ or else cards
+                        */
+                        if(!game.getCurrentPlayer().isPlayingCard())
+                        {        
+                         moveMessage.setCommand(moveUnit);
                         client.send(moveMessage);
+                        }
                         
-                        //Move in game and GUI
+                        else 
+                        {   /*
+                            We attach move command to wrap it to postpone execution in card command
+                            */
+                            game.getCurrentPlayer().getCardEngine().setAttachedCommand(moveUnit);
+                            /*
+                            Confirmation dialog
+                            */
+                            CustomDialog dialog = new CustomDialog(CustomDialog.YES_NO_UNDO_TYPE, "Are You sure to play that card? " , client, game);
+                            
+                            try {
+                                dialog.setOkCommand(game.getCurrentPlayer().getCardEngine().createCardCommand());
+                                dialog.setCancelCommand(moveUnit);
+                            } catch (Exception ex) {
+                                Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            dialog.setVisible(true);
+                            
+                            game.getCurrentPlayer().setPlayingCard(false);
+                        }
+                         //Move in game and GUI
                         //Unselect all
                         gameGui.unselectAllUnits();
                         //exit loop

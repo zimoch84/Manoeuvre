@@ -241,6 +241,39 @@ public final class Game implements Serializable{
     return null;
     };
     
+    public ArrayList<Position> getSetupPossibleMovement()
+    {     
+        ArrayList<Position> moves;
+        moves = new ArrayList<>();
+                 
+        
+        int maxRow = getCurrentPlayer().isHost() ? Position.ROW_6 : Position.ROW_1;
+            
+        
+        for(Terrain terrains: getMap().getTerrainz()){
+        
+            if(currentPlayer.isHost())
+            {
+                if(terrains.getPosition().getY() < Position.ROW_7 && terrains.isPassable()) 
+                {
+                    moves.add(terrains.getPosition());
+                }
+      
+            }
+            else 
+                
+                if(terrains.getPosition().getY() > Position.ROW_1 && terrains.isPassable() ) 
+                {
+                    moves.add(terrains.getPosition());
+                }
+                
+                
+        
+        }
+        
+        return moves;
+    }
+    
     
     public void generateMap(){
         this.map = new Map();
@@ -434,12 +467,19 @@ public final class Game implements Serializable{
     }
     
     private void resetCurrentPlayer(){
-    
+    /*
+        Reseting Army
+        */
     for(Unit unit : getCurrentPlayer().getArmy()) {
         
-        unit.hasMoved = false;
+        unit.setHasMoved(false);
+        
     
     }
+    /*
+    ResetingPlayer
+    */    
+    getCurrentPlayer().setPlayingCard(false);
     }
     
     public String toString(){
@@ -449,6 +489,8 @@ public final class Game implements Serializable{
                  + " Map: " +  map.toString();
             
     }
+    
+    
     
 }
 
