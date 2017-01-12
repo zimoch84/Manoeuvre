@@ -304,7 +304,7 @@ public class Card implements CardInterface, Serializable{
                 if(this.CardName.equals("Supply")||
                         this.CardName.equals("Regroup"))
                        // this.getCardType()==CardInterface.UNIT||
-                       // this.getCardType()==CardInterface.HQLEADER) btestfalse
+                       // thi-s.getCardType()==CardInterface.HQLEADER) btestfalse
                     
                    this.setPlayable(true);
                 break;
