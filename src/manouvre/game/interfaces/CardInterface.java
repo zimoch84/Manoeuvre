@@ -5,6 +5,8 @@
  */
 package manouvre.game.interfaces;
 
+import manouvre.game.Game;
+
 /**
  *
  * @author Piotr
@@ -157,8 +159,9 @@ public interface CardInterface {
     set card is cancelled by GUERRILLAS
     */
     public void setCancelled();
-    
-    
-    
+    /*
+    If that card can be played at the moment
+    */
+    public boolean canBePlayed(Game game);
     
 }

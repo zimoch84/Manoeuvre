@@ -70,6 +70,7 @@ import java.io.IOException;
 
 import com.csvreader.CsvReader;
 import java.io.Serializable;
+import manouvre.game.interfaces.Command;
 
 public class Card implements CardInterface, Serializable{
     
@@ -97,6 +98,8 @@ public class Card implements CardInterface, Serializable{
     boolean canceled=false;
     boolean playable=false;
  
+    
+    
    
     public Card (int chosenID) { 
         try {		
@@ -310,18 +313,9 @@ public class Card implements CardInterface, Serializable{
        // if(this.CardName.equals("Supply"))
             
     }
-            
 
-
+    @Override
+    public boolean canBePlayed(Game game) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
-
-
-    
-    
-    
-    
-    
-    
-    
-    
-   

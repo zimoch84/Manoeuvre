@@ -29,6 +29,10 @@ import manouvre.network.server.GameRoom;
 import manouvre.game.interfaces.FrameInterface;
 import static java.lang.Thread.sleep;
 import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
 
 class GameRoomRenderer extends JLabel implements ListCellRenderer<GameRoom> {
  

@@ -17,6 +17,11 @@ import manouvre.game.commands.DiscardCardCommand;
 import manouvre.game.commands.DrawCardCommand;
 import manouvre.network.client.Message;
 import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
 
 
 
@@ -174,7 +179,16 @@ public class GameGUI {
                         if (terrainGUI.getTerrain().getIsOccupiedByUnit()) {
 
                             System.out.println("manouvre.gui.ClientUI.drawMap() : " + game.getCurrentPlayerUnitAtPosition(terrainGUI.getPos()).toString());
-                            ArrayList<Position> movePositions = game.getPossibleMovement(game.getCurrentPlayerUnitAtPosition(terrainGUI.getPos()));
+                            ArrayList<Position> movePositions;
+                            if(game.getPhase() == Game.SETUP)
+                            {movePositions = game.getSetupPossibleMovement();}
+                            else if (game.getCurrentPlayer().isPlayingCard() )
+                            {
+                                movePositions = game.getOneSquareMovements(terrainGUI.getPos());
+                            }
+                            else
+                            {movePositions = game.getPossibleMovement(game.getCurrentPlayerUnitAtPosition(terrainGUI.getPos()));}
+                            
                             for (Position drawMovePosion : movePositions) {
                                 g.setColor(Color.blue);
                                 g.drawRoundRect(drawMovePosion.getMouseX() + gapSelection, 
@@ -206,7 +220,17 @@ public class GameGUI {
                         if (terrainGUI.getTerrain().getIsOccupiedByUnit()) {
 
                             System.out.println("manouvre.gui.ClientUI.drawMap() : " + game.getCurrentPlayerUnitAtPosition(terrainGUI.getPos()).toString());
-                            ArrayList<Position> movePositions = game.getPossibleMovement(game.getCurrentPlayerUnitAtPosition(terrainGUI.getPos()));
+                            ArrayList<Position> movePositions;
+                            
+                            if(game.getPhase() == Game.SETUP)
+                            {movePositions = game.getSetupPossibleMovement();}
+                            else if (game.getCurrentPlayer().isPlayingCard() )
+                            {
+                                movePositions = game.getOneSquareMovements(terrainGUI.getPos());
+                            }
+                            else
+                            {movePositions = game.getPossibleMovement(game.getCurrentPlayerUnitAtPosition(terrainGUI.getPos()));}
+                            
                             for (Position drawMovePosion : movePositions) {
                                 g.setColor(Color.blue);
                                 g.drawRoundRect(drawMovePosion.transpoze().getMouseX() + gapSelection, 
@@ -248,7 +272,7 @@ public class GameGUI {
                          
                       )
                 {
-                    g.setColor(Color.red);
+                    g.setColor(Color.RED);
                     
                     g.drawRoundRect(
                                 drawUnit.getUnit().getPosition().getMouseX() + gapSelection, 
