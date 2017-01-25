@@ -12,7 +12,6 @@ import manouvre.gui.CommandLogger;
 import manouvre.gui.CreateRoomWindow;
 import manouvre.gui.GameWindow;
 import manouvre.gui.LoginWindow;
-import manouvre.network.client.MockClient;
 import manouvre.network.client.QueueClient;
 import manouvre.network.server.UnoptimizedDeepCopy;
 
