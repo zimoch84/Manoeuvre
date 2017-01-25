@@ -47,6 +47,8 @@ public class GameGUI {
     
     int windowMode;
     
+    boolean isLocked;
+    
     public GameGUI (Game newGame, int windowMode) throws IOException{
         this.game=newGame;
         this.windowMode = windowMode;
@@ -60,7 +62,7 @@ public class GameGUI {
         /*
         Set info about first / second player
         */
-        CustomDialog dialog = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "You are" + (
+        CustomDialog dialog = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, game.getCurrentPlayer().getName() + ", You are" + (
         game.getCurrentPlayer().isFirst() ? " first " : " second ") + "player"  , null, game);
         dialog.setVisible(true);
         
@@ -664,6 +666,14 @@ public class GameGUI {
               
         return null;
     
+    }
+
+    public boolean isLocked() {
+        return isLocked;
+    }
+
+    public void setLocked(boolean isLocked) {
+        this.isLocked = isLocked;
     }
     
     

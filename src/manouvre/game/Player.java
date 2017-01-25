@@ -48,6 +48,8 @@ public class Player  implements Serializable{
 
     public Player(String name) {
         this.name = name;
+        this.active = true;
+       
     }
 
     public void setName(String name) {
@@ -235,6 +237,13 @@ public class Player  implements Serializable{
     }
     
     
-
+    public void resetPlayer(){
+    
+    for(Unit unit : getArmy()) {
+        
+        unit.hasMoved = false;
+    
+    }
+    }
     
 }

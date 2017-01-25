@@ -82,6 +82,7 @@ public final class Game implements Serializable{
         placeUnitsOnMap(guestPlayer);
         
         setFirstPlayer();
+        this.turn=1;
         setPhase(Game.SETUP);
         
         
@@ -358,7 +359,7 @@ public final class Game implements Serializable{
             */
         {
             turn++;
-            resetCurrentPlayer();
+            getCurrentPlayer().resetPlayer();
             swapActivePlayer();
             phase=0;
         }
@@ -416,7 +417,7 @@ public final class Game implements Serializable{
     }
     
     
-    private void swapActivePlayer(){
+    public void swapActivePlayer(){
     
         if(getCurrentPlayer().isActive())
         {
@@ -433,14 +434,7 @@ public final class Game implements Serializable{
     
     }
     
-    private void resetCurrentPlayer(){
-    
-    for(Unit unit : getCurrentPlayer().getArmy()) {
-        
-        unit.hasMoved = false;
-    
-    }
-    }
+   
     
     public String toString(){
     
