@@ -17,10 +17,7 @@ import manouvre.game.commands.DiscardCardCommand;
 import manouvre.game.commands.DrawCardCommand;
 import manouvre.network.client.Message;
 import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
+import manouvre.game.commands.CommandQueue;
 import static java.lang.Math.round;
 
 
@@ -52,7 +49,7 @@ public class GameGUI {
     
     int windowMode;
     
-    boolean isLocked;
+    boolean lockGUI;
     
     public GameGUI (Game newGame, int windowMode) throws IOException{
         this.game=newGame;
@@ -68,7 +65,7 @@ public class GameGUI {
         Set info about first / second player
         */
         CustomDialog dialog = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, game.getCurrentPlayer().getName() + ", You are" + (
-        game.getCurrentPlayer().isFirst() ? " first " : " second ") + "player"  , null, game);
+        game.getCurrentPlayer().isFirst() ? " first " : " second ") + "player"  , (CommandQueue) null, game);
         dialog.setVisible(true);
         
     }
@@ -693,13 +690,17 @@ public class GameGUI {
     }
 
     public boolean isLocked() {
-        return isLocked;
+    return lockGUI;
     }
 
-    public void setLocked(boolean isLocked) {
-        this.isLocked = isLocked;
+    public void lockGUI() {
+    this.lockGUI = true;
     }
-    
+    public void unlockGUI(){
+    this.lockGUI = false;
+    }
+            
+            
     
     public ArrayList<UnitGUI> getUnitsGui() {
         return currentPlayerArmy;

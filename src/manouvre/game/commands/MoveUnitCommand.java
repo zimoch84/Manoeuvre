@@ -49,6 +49,8 @@ public class MoveUnitCommand implements Command {
         game.getMap().getTerrainAtXY(lastPosition.getX(), lastPosition.getY()).setIsOccupiedByUnit(false);
         game.getMap().getTerrainAtXY(newPosition.getX(), newPosition.getY()).setIsOccupiedByUnit(true);
         
+        game.getPlayerByName(playerName).setMoved(true);
+        
         
     }
     
@@ -64,9 +66,16 @@ public class MoveUnitCommand implements Command {
       game.getMap().getTerrainAtXY(lastPosition.getX(), lastPosition.getY()).setIsOccupiedByUnit(true);
       game.getMap().getTerrainAtXY(newPosition.getX(), newPosition.getY()).setIsOccupiedByUnit(false);
       
+      game.getPlayerByName(playerName).setMoved(false);
+      
     }
     @Override
     public String logCommand(){
         return new String(playerName + " has moved unit " + storedUnit.getName() + " to position " + newPosition.toString());  
+    }
+
+    @Override
+    public int getType() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

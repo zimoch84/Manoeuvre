@@ -41,5 +41,10 @@ public class EndTurnCommand implements Command{
     public String logCommand() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public int getType() {
+       return Command.END_TURN;
+    }
     
 }

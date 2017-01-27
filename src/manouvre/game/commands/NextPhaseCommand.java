@@ -39,5 +39,10 @@ public class NextPhaseCommand implements Command{
         return new String(activePlayerName + " moved to the next phase"  );
     
     }
+
+    @Override
+    public int getType() {
+       return Command.NEXT_PHASE;
+    }
     
 }

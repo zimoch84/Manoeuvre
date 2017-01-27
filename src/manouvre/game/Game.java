@@ -407,15 +407,18 @@ public final class Game implements Serializable{
         
         if(result == 0)
         {getHostPlayer().setFirst(true);
+         getHostPlayer().setActive(true);
             getGuestPlayer().setFirst(false);
+            getGuestPlayer().setActive(false);
         
         }
-         else 
-         {
+        else 
+        {
              getHostPlayer().setFirst(false);
-            getGuestPlayer().setFirst(true);
-         
-         }
+             getHostPlayer().setActive(false);
+                getGuestPlayer().setFirst(true);
+                getGuestPlayer().setActive(true);
+        }
     
     }
    

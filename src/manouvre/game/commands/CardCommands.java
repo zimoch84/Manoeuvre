@@ -38,6 +38,11 @@ public static class MoveToTableCommand implements Command{
         public String logCommand() {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
+
+        @Override
+        public int getType() {
+            return Command.PLAY_CARD;
+        }
     }    
  
 public static class ForcedMarchCommand implements Command {
@@ -71,6 +76,11 @@ public static class ForcedMarchCommand implements Command {
         @Override
         public String logCommand() {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public int getType() {
+            return Command.PLAY_CARD;
         }
         
         

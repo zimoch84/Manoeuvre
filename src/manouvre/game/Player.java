@@ -41,7 +41,7 @@ public class Player  implements Serializable{
     /*
     Is player currently playing and is first player
     */
-    boolean active, first;
+    boolean active, first, moved, draw;
     
     Unit[] army;
  
@@ -57,6 +57,16 @@ public class Player  implements Serializable{
        
     }
     
+    public void resetPlayer(){
+    
+    for(Unit unit : getArmy()) {
+        
+        unit.hasMoved = false;
+    
+    }
+        setMoved(false);
+        setDraw(false);
+    }
 
     public String nationToString(int nation)
         {
@@ -237,6 +247,23 @@ public class Player  implements Serializable{
         this.cardEngine = cardEngine;
     }
 
+    public boolean hasMoved() {
+        return moved;
+    }
+
+    public void setMoved(boolean moved) {
+        this.moved = moved;
+    }
+
+    public boolean hasDrawn() {
+        return draw;
+    }
+
+    public void setDraw(boolean draw) {
+        this.draw = draw;
+    }
+
+    
     
     
     @Override
@@ -255,14 +282,7 @@ public class Player  implements Serializable{
     }
     
     
-    public void resetPlayer(){
-    
-    for(Unit unit : getArmy()) {
-        
-        unit.hasMoved = false;
-    
-    }
-    }
+   
 
     public boolean isPlayingCard() {
         return playingCard;

@@ -11,6 +11,7 @@ import javax.swing.JRootPane;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import manouvre.game.Game;
+import manouvre.game.commands.CommandQueue;
 import manouvre.game.interfaces.ClientInterface;
 import manouvre.game.interfaces.Command;
 import manouvre.network.client.Message;
@@ -40,6 +41,7 @@ public class CustomDialog extends javax.swing.JFrame {
     String infoText;
     
     ClientInterface client;
+    CommandQueue cmd;
     Game game;
     
     public CustomDialog() {
@@ -77,6 +79,13 @@ public class CustomDialog extends javax.swing.JFrame {
         this(dialogType, infoText);
        this.client = client;
        this.game = game;
+        
+    }
+    
+    public CustomDialog(int dialogType, String infoText,  CommandQueue cmd, Game game){
+       this(dialogType, infoText);
+       this.game = game;
+       this.cmd = cmd;
         
     }
     
@@ -182,13 +191,7 @@ public class CustomDialog extends javax.swing.JFrame {
             /*
             Execute command locally and remotely
             */
-            okCommand.execute(game);
-            
-            Message msgOut = 
-                new Message(Message.COMMAND, game.getCurrentPlayer().getName(), okCommand.toString(), "IN_CHANNEL");
-            
-            msgOut.setCommand(okCommand);
-            client.send(msgOut);
+            cmd.storeAndExecuteAndSend(okCommand);
             
         }
         
@@ -200,20 +203,14 @@ public class CustomDialog extends javax.swing.JFrame {
         
         if(cancelCommand != null){
         
-            cancelCommand.execute(game);
-            
-            Message msgOut = 
-                new Message(Message.COMMAND, game.getCurrentPlayer().getName(), cancelCommand.toString(), "IN_CHANNEL");
-            
-            msgOut.setCommand(cancelCommand);
-            client.send(msgOut);
+            cmd.storeAndExecuteAndSend(cancelCommand);
             
         }
         else if (dialogType == YES_NO_UNDO_TYPE)
             
         {
-            cancelCommand.undo(game);
-        }
+            cmd.undoCommand(cancelCommand);
+                   }
             
             
         
