@@ -24,7 +24,7 @@ public class EndTurnCommand implements Command{
     
     @Override
     public void execute(Game game) {
-        game.setPhase(game.getPhase() +1);
+        game.nextTurn();
         game.setPhase(Game.DISCARD);
         game.getPlayerByName(activePlayerName).resetPlayer();
         game.swapActivePlayer();
@@ -39,7 +39,7 @@ public class EndTurnCommand implements Command{
 
     @Override
     public String logCommand() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       return new String(activePlayerName + " has ended his/her phase"  );
     }
 
     @Override

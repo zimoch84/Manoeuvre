@@ -28,6 +28,7 @@ public class EndSetupCommand implements Command{
     public void execute(Game game) {
         
         game.getPlayerByName(playerName).setFinishedSetup(true);
+        game.getPlayerByName(playerName).resetPlayer();
         /*
         If both players finished advance game phase
         */

@@ -206,6 +206,10 @@ public final class Game implements Serializable{
         return moves;
     }
     
+    public void nextTurn(){
+        turn++;
+        }
+    
     public ArrayList<Position> getPossibleMovement(Unit unit){      
         ArrayList<Position> moves;         
         /*
