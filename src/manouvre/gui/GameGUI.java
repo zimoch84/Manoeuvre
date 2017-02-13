@@ -90,6 +90,11 @@ public class GameGUI {
         Draw units
          */
         drawArmy(g);
+        /*
+        Draw retrieving arrows
+        */
+        drawRetrieving(g);
+        
        
     }
     private void drawTerrains(Graphics g){
@@ -360,6 +365,45 @@ public class GameGUI {
             }
     }
     
+    private void drawRetrieving(Graphics g){
+     
+    if (mapGui.isUnitSelected()){
+        
+        Unit selectedUnit = game.getSelectedUnit();
+        
+            if(selectedUnit.isRetriving()) 
+                
+                for (Position retrivingPositons: game.getRetreatPositions(selectedUnit))
+                {
+                    g.drawLine(
+                    (windowMode == CreateRoomWindow.AS_HOST) ? 
+                            selectedUnit.getPosition().getMouseX() +  MapGUI.PIECE_WIDTH / 2 
+                            :
+                            selectedUnit.getPosition().transpoze().getMouseX() +  MapGUI.PIECE_WIDTH / 2
+                            ,
+                    (windowMode == CreateRoomWindow.AS_HOST)
+                            ?
+                            selectedUnit.getPosition().getMouseY() +  MapGUI.PIECE_HEIGHT / 2
+                            :        
+                            selectedUnit.getPosition().transpoze().getMouseY() +  MapGUI.PIECE_HEIGHT / 2        
+                                    ,                    
+                    (windowMode == CreateRoomWindow.AS_HOST) ?
+                            retrivingPositons.getMouseX() + MapGUI.PIECE_WIDTH / 2
+                            :
+                            retrivingPositons.transpoze().getMouseX() + MapGUI.PIECE_WIDTH / 2        
+                            ,
+                    (windowMode == CreateRoomWindow.AS_HOST) ?
+                            retrivingPositons.getMouseY() +  MapGUI.PIECE_WIDTH / 2
+                            :
+                            retrivingPositons.transpoze().getMouseY() +  MapGUI.PIECE_WIDTH / 2      
+                    )
+                            ;
+                    }
+            }
+    
+      
+    }
+    
     private void generateUnitsUI() {
         for (Unit unit : game.getCurrentPlayer().getArmy()) {
             currentPlayerArmy.add(new UnitGUI(unit));
@@ -370,19 +414,10 @@ public class GameGUI {
         }
     }
 
-    UnitGUI getSelectedUnit() {
-        for (UnitGUI unitSearch : this.currentPlayerArmy) {
-            if (unitSearch.isSelected()) {
-                return unitSearch;
-            }
-        }
-        return null;
-    }
-
-    void unselectAllUnits() {
-        currentPlayerArmy.stream().forEach((UnitGUI unit) -> {
-            unit.setSelected(false);
-        });
+   void unselectAllUnits() {
+    for (Unit unit: game.getCurrentPlayer().getArmy()){
+             unit.setSelected(false);
+       }
         mapGui.setUnitSelected(false);
     }
     

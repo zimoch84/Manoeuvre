@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import manouvre.game.interfaces.PositionInterface;
 import manouvre.game.interfaces.UnitInterface;
 
 /**
@@ -39,10 +38,10 @@ public class Unit implements UnitInterface, Serializable{
     boolean eliminated;
    
     //Must be done Bart
-    boolean isSelected; 
+    boolean selected; 
     boolean hasMoved = false;
     boolean hasAttacked =false;
-    boolean canRetrive;
+    boolean retrieving;
     //
    
     
@@ -64,6 +63,7 @@ public class Unit implements UnitInterface, Serializable{
         this.ID  = ID;
         this.injured = false;
         this.eliminated = false;
+        this.retrieving = false;
         
         try{
             CsvReader csvReader = new CsvReader("resources\\units\\units.csv", ';');
@@ -98,6 +98,14 @@ public class Unit implements UnitInterface, Serializable{
          catch (NumberFormatException ex) {
             System.out.println("Exception in Contructor Unit.java ID: " +ID);
         } 
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
         
    
@@ -174,20 +182,20 @@ public class Unit implements UnitInterface, Serializable{
         this.hasMoved = hasMoved;
     }
 
-    public boolean isCanRetrive() {
-        return canRetrive;
+    public boolean isRetriving() {
+        return retrieving;
     }
 
-    public void setCanRetrive(boolean canRetrive) {
-        this.canRetrive = canRetrive;
+    public void setRetriving(boolean canRetrive) {
+        this.retrieving = canRetrive;
     }
     
      public boolean isIsSelected() {
-        return isSelected;
+        return selected;
     }
 
     public void setIsSelected(boolean isSelected) {
-        this.isSelected = isSelected;
+        this.selected = isSelected;
     }
     
     public boolean isHasAttacked() {

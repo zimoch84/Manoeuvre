@@ -12,6 +12,7 @@ import static manouvre.game.interfaces.PositionInterface.COLUMN_H;
 import static manouvre.game.interfaces.PositionInterface.ROW_8;
 import manouvre.gui.CreateRoomWindow;
 import manouvre.gui.MapGUI;
+import manouvre.gui.UnitGUI;
 
 /**
  *
@@ -243,7 +244,67 @@ public final class Game implements Serializable{
     };
     
     public ArrayList<Position> getRetreatPositions(Unit unit){
-    return null;
+        /*
+        A Retreat result will force the affected unit to vacate its current square. A unit
+        that Retreats is moved one square away from its current location. The choice of
+        the direction of the Retreat must be directly towards the unit’s starting edge of
+        the battlefield. If that square is blocked (by either friendly or enemy units), then
+        the Retreat must be to either flank square, retreating player’s choice. A flank
+        square is one not toward either side’s Starting Edge. If all three of these squares
+        are blocked or are the map edge, then and only then the unit may retreat towards
+        the enemy’s Starting Edge. If all four squares are blocked or are the map edge,
+        then the unit may not retreat and is Eliminated instead.
+        */
+        ArrayList<Position> possibleMovements = getOneSquareMovements(unit.getPosition());
+        /*
+        If there is no room for movement return null
+        */
+        if (possibleMovements.isEmpty() ) return null;
+        
+        ArrayList<Position> retreatMovements = new ArrayList<>();
+        /*
+        If player is a host we move increasing y else we decrease y 
+        */
+        int deltaMove =  unit.getOwner().isHost() ?  -1  : 1;
+        /*
+        Checking possible retreat to unit starting edge
+        */
+            for(Position checkRetreatPos : possibleMovements)
+            {/*
+                If we have space to move back
+                */
+             if(checkRetreatPos.getY() == unit.getPosition().getY() + deltaMove)  {
+                 
+                 retreatMovements.add(checkRetreatPos);
+                 return retreatMovements;
+             }
+            }
+            for(Position checkRetreatPos : possibleMovements)
+            {
+            /*
+            If we have space to move aside
+            */
+             if(checkRetreatPos.getX() == unit.getPosition().getX() + 1
+                     ||
+                     checkRetreatPos.getX() == unit.getPosition().getX() - 1 )
+             {
+                 
+                 retreatMovements.add(checkRetreatPos);
+                             
+                 
+             } 
+             /*
+             If we have side way movements return them
+             */
+             if (!retreatMovements.isEmpty())  return retreatMovements;
+             /*
+            if we have possibleMovements not epmty and none of above is true then 
+            possiblemovements contains final move up way
+             */
+            else return possibleMovements;
+            }
+      
+        return null;
     };
     
     public ArrayList<Position> getSetupPossibleMovement()
@@ -336,6 +397,16 @@ public final class Game implements Serializable{
         }
        throw new NullPointerException() ;
              
+    }
+    
+    public Unit getSelectedUnit(){
+     for (Unit unitSearch : getCurrentPlayer().getArmy()) {
+            if (unitSearch.isSelected()) {
+                return unitSearch;
+            }
+        }
+        return null;
+    
     }
     
     public Unit getCurrentPlayerUnitAtPosition(Position position){

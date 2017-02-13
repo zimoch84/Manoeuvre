@@ -500,6 +500,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         chatTextArea = new javax.swing.JTextArea();
         sendMessageButton = new javax.swing.JButton();
         sendText = new javax.swing.JTextField();
+        retreatToggle = new javax.swing.JToggleButton();
         mainMapPanel = new javax.swing.JPanel()
         {
             @Override
@@ -853,6 +854,13 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                     .addComponent(sendMessageButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
+        retreatToggle.setText("Retreat Toggle");
+        retreatToggle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                retreatToggleActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout rightSidePanelLayout = new javax.swing.GroupLayout(rightSidePanel);
         rightSidePanel.setLayout(rightSidePanelLayout);
         rightSidePanelLayout.setHorizontalGroup(
@@ -862,10 +870,12 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                 .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(chatPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(rightSidePanelLayout.createSequentialGroup()
-                        .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(opponentPlayerPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(buttonsPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(currentPlayerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(opponentPlayerPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(buttonsPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(currentPlayerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(retreatToggle))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(combatPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -889,7 +899,9 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(opponentPlayerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(retreatToggle)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(chatPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(174, 174, 174))
@@ -1089,7 +1101,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                             if(game.checkCurrentPlayerUnitAtPosition(selectedPosition) ) {
 
                                 gameGui.mapGui.setUnitSelected(true);
-                                gameGui.getUnitGuiOnMapGui(selectedPosition).setSelected(true);
+                                gameGui.getUnitGuiOnMapGui(selectedPosition).getUnit().setSelected(true);
 
                                 }
                             }
@@ -1104,7 +1116,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                             if(game.checkCurrentPlayerUnitAtPosition(selectedPosition) ) {
 
                                 gameGui.mapGui.setUnitSelected(true);
-                                gameGui.getUnitGuiOnMapGui(selectedPosition).setSelected(true);
+                                gameGui.getUnitGuiOnMapGui(selectedPosition).getUnit().setSelected(true);
 
                                 }
                             }    
@@ -1119,7 +1131,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         If unit is selected find which unit to move and move into
         */
         else  {
-            Unit selectedUnit = gameGui.getSelectedUnit().getUnit();
+            Unit selectedUnit = game.getSelectedUnit();
             
             
             Position clickedPosition = new Position(  Position.convertMouseXToX(x)   , Position.convertMouseYToY(y)) ;
@@ -1354,6 +1366,12 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             client.send(new Message("message", game.getCurrentPlayer().getName(), msg, target));
         }
     }//GEN-LAST:event_sendMessageButtonActionPerformed
+
+    private void retreatToggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_retreatToggleActionPerformed
+       
+        game.getSelectedUnit().setRetriving(!game.getSelectedUnit().isRetriving());
+        
+    }//GEN-LAST:event_retreatToggleActionPerformed
     
     /**
 	 * check whether the mouse is currently over this piece
@@ -1490,6 +1508,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
     private javax.swing.JPanel playerDrawLeftPanel;
     private javax.swing.JPanel playerDrawLeftPanel1;
     private javax.swing.JPanel playerHandPanel;
+    private javax.swing.JToggleButton retreatToggle;
     private javax.swing.JPanel rightSidePanel;
     private javax.swing.JButton sendMessageButton;
     private javax.swing.JTextField sendText;

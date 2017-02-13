@@ -111,6 +111,7 @@ public class Player  implements Serializable{
             Startting position row B or G
             */
             unit.setPosition(new Position (  x- ( getNation()*8)    , ( isHost() ? Position.ROW_2 : Position.ROW_7) ));
+            unit.setOwner(this);
              army[y] =   unit  ;      
               y++;     
          }
