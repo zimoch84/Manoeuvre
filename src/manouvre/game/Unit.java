@@ -163,6 +163,7 @@ public class Unit implements UnitInterface, Serializable{
     
         setPosition(newPosition);
         hasMoved = true;
+            if(isSelected()) setSelected(false);
     }
     
     public boolean equals(Unit inUnit){

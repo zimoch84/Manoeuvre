@@ -259,7 +259,7 @@ public final class Game implements Serializable{
         /*
         If there is no room for movement return null
         */
-        if (possibleMovements.isEmpty() ) return null;
+        if (possibleMovements.isEmpty() ) return new ArrayList<>();
         
         ArrayList<Position> retreatMovements = new ArrayList<>();
         /*
@@ -290,9 +290,9 @@ public final class Game implements Serializable{
              {
                  
                  retreatMovements.add(checkRetreatPos);
-                             
-                 
-             } 
+                
+             }
+            }
              /*
              If we have side way movements return them
              */
@@ -301,11 +301,10 @@ public final class Game implements Serializable{
             if we have possibleMovements not epmty and none of above is true then 
             possiblemovements contains final move up way
              */
-            else return possibleMovements;
-            }
-      
-        return null;
-    };
+             else return possibleMovements;
+             
+    }
+    
     
     public ArrayList<Position> getSetupPossibleMovement()
     {     

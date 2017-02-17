@@ -76,6 +76,6 @@ public class MoveUnitCommand implements Command {
 
     @Override
     public int getType() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return Command.MOVE_UNIT;
     }
 }
