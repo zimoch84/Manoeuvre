@@ -42,6 +42,7 @@ public class Unit implements UnitInterface, Serializable{
     boolean hasMoved = false;
     boolean hasAttacked =false;
     boolean retrieving;
+    boolean showLOS = false;
     //
    
     
@@ -210,6 +211,14 @@ public class Unit implements UnitInterface, Serializable{
     
     public String getName() {
         return name;
+    }
+
+    public boolean isShowingLOS() {
+        return showLOS;
+    }
+
+    public void setShowingLOS(boolean showLOS) {
+        this.showLOS = showLOS;
     }
     
     

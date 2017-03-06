@@ -501,6 +501,8 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         sendMessageButton = new javax.swing.JButton();
         sendText = new javax.swing.JTextField();
         retreatToggle = new javax.swing.JToggleButton();
+        retreatToggle1 = new javax.swing.JToggleButton();
+        LOSlength = new javax.swing.JTextField();
         mainMapPanel = new javax.swing.JPanel()
         {
             @Override
@@ -861,6 +863,20 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             }
         });
 
+        retreatToggle1.setText("LOS Toggle");
+        retreatToggle1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                retreatToggle1ActionPerformed(evt);
+            }
+        });
+
+        LOSlength.setText("2");
+        LOSlength.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LOSlengthActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout rightSidePanelLayout = new javax.swing.GroupLayout(rightSidePanel);
         rightSidePanel.setLayout(rightSidePanelLayout);
         rightSidePanelLayout.setHorizontalGroup(
@@ -875,7 +891,12 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                                 .addComponent(opponentPlayerPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(buttonsPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(currentPlayerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(retreatToggle))
+                            .addGroup(rightSidePanelLayout.createSequentialGroup()
+                                .addComponent(retreatToggle)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(retreatToggle1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(LOSlength, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(combatPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -901,7 +922,10 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(retreatToggle)))
+                        .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(retreatToggle)
+                            .addComponent(retreatToggle1)
+                            .addComponent(LOSlength, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(chatPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(174, 174, 174))
@@ -1372,6 +1396,14 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         game.getSelectedUnit().setRetriving(!game.getSelectedUnit().isRetriving());
         
     }//GEN-LAST:event_retreatToggleActionPerformed
+
+    private void retreatToggle1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_retreatToggle1ActionPerformed
+        game.getSelectedUnit().setShowingLOS(!game.getSelectedUnit().isShowingLOS());
+    }//GEN-LAST:event_retreatToggle1ActionPerformed
+
+    private void LOSlengthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LOSlengthActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_LOSlengthActionPerformed
     
     /**
 	 * check whether the mouse is currently over this piece
@@ -1480,6 +1512,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField LOSlength;
     javax.swing.JButton actionButton;
     private javax.swing.JButton buttonToNextPhase;
     private javax.swing.JPanel buttonsPanel;
@@ -1509,6 +1542,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
     private javax.swing.JPanel playerDrawLeftPanel1;
     private javax.swing.JPanel playerHandPanel;
     private javax.swing.JToggleButton retreatToggle;
+    private javax.swing.JToggleButton retreatToggle1;
     private javax.swing.JPanel rightSidePanel;
     private javax.swing.JButton sendMessageButton;
     private javax.swing.JTextField sendText;

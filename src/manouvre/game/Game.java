@@ -8,6 +8,7 @@ package manouvre.game;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import static manouvre.game.interfaces.PositionInterface.COLUMN_H;
 import static manouvre.game.interfaces.PositionInterface.ROW_8;
 import manouvre.gui.CreateRoomWindow;
@@ -164,7 +165,22 @@ public final class Game implements Serializable{
     public ArrayList<Position> getPossibleVolley(Unit unit){
         return null;   
     };
-    
+    public ArrayList<Position> getOneSquarePositions(Position unitPosition){
+        ArrayList<Position> positions = new ArrayList<>();
+          if (unitPosition.getX()-1  >= 0 ) {
+                  positions.add(new Position(unitPosition.getX()-1, unitPosition.getY()));
+          }
+          if (unitPosition.getY()-1 >= 0){      
+                  positions.add(new Position(unitPosition.getX(), unitPosition.getY()-1 ));
+          }
+          if (unitPosition.getY()+1 <= ROW_8){
+                  positions.add(new Position(unitPosition.getX(), unitPosition.getY()+1));
+          }
+          if (unitPosition.getX()+1 <= COLUMN_H){
+                  positions.add(new Position(unitPosition.getX()+1, unitPosition.getY()));
+          }
+        return positions;
+    }
      /**
          Firstly get adjenced tiles then check on terrain restrictions then check if another tile is occupied
      * @param unit
@@ -238,6 +254,39 @@ public final class Game implements Serializable{
         }       
         return moves; 
     };
+    
+    public ArrayList<Position> getLOS(Unit unit, int lenght){
+        
+        
+        Position unitPosition = unit.getPosition();
+        ArrayList<Position> los = getOneSquarePositions(unitPosition);
+        ArrayList<Position> los2;
+            /*
+            If length = 1 then we have volley 
+            */ 
+            if(lenght == 1)
+                    return los;
+            else 
+            {
+                 for(Iterator<Position> checkLOSPosition = los.iterator(); checkLOSPosition.hasNext() ; ) {
+                    /*  
+                    If 1st square terrain blocks los then 2nd squara wont be visible
+                    */
+                     Position position = checkLOSPosition.next();
+                 if(!map.getTerrainAtPosition(position).isBlockingLOS())   {
+                     los2 = getOneSquarePositions(position);
+                     los2.remove(unitPosition);
+
+                     los.addAll(los2);
+                 }
+                 
+                 }
+                
+                 
+            }
+         return los;           
+    };  
+
     
     public ArrayList<Position> getPossibleSupportingUnits(Unit unit){
     return null;

@@ -98,6 +98,10 @@ public class GameGUI {
         Draw retrieving arrows
         */
         drawRetrieving(g);
+        /*
+        Draw LOS
+        */
+        drawLOS(g);
         
        
     }
@@ -440,6 +444,46 @@ public class GameGUI {
             }
     
       
+    }
+    
+    
+    private void drawLOS(Graphics g){
+    
+        if (mapGui.isUnitSelected()){
+        
+        Unit selectedUnit = game.getSelectedUnit();
+        
+            if(selectedUnit.isShowingLOS()) 
+                
+                
+                
+                for (Position losPositons: game.getLOS(selectedUnit, 2)  )
+                {
+                    drawArrow(g,
+                    (windowMode == CreateRoomWindow.AS_HOST) ? 
+                            selectedUnit.getPosition().getMouseX() +  MapGUI.PIECE_WIDTH / 2 
+                            :
+                            selectedUnit.getPosition().transpoze().getMouseX() +  MapGUI.PIECE_WIDTH / 2
+                            ,
+                    (windowMode == CreateRoomWindow.AS_HOST)
+                            ?
+                            selectedUnit.getPosition().getMouseY() +  MapGUI.PIECE_HEIGHT / 2
+                            :        
+                            selectedUnit.getPosition().transpoze().getMouseY() +  MapGUI.PIECE_HEIGHT / 2        
+                                    ,                    
+                    (windowMode == CreateRoomWindow.AS_HOST) ?
+                            losPositons.getMouseX() + MapGUI.PIECE_WIDTH / 2
+                            :
+                            losPositons.transpoze().getMouseX() + MapGUI.PIECE_WIDTH / 2        
+                            ,
+                    (windowMode == CreateRoomWindow.AS_HOST) ?
+                            losPositons.getMouseY() +  MapGUI.PIECE_WIDTH / 2
+                            :
+                            losPositons.transpoze().getMouseY() +  MapGUI.PIECE_WIDTH / 2      
+                    , 10,15)
+                            ;
+                    }
+            }
     }
     
     private void generateUnitsUI() {

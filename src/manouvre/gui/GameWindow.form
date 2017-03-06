@@ -126,7 +126,13 @@
                                       <Component id="buttonsPanel" alignment="0" max="32767" attributes="0"/>
                                       <Component id="currentPlayerPanel" max="32767" attributes="0"/>
                                   </Group>
-                                  <Component id="retreatToggle" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="retreatToggle" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="retreatToggle1" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="LOSlength" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                               <EmptySpace type="unrelated" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -159,7 +165,11 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="buttonsPanel" min="-2" pref="132" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="retreatToggle" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="retreatToggle" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="retreatToggle1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="LOSlength" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -738,6 +748,22 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="retreatToggleActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="retreatToggle1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="LOS Toggle"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="retreatToggle1ActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JTextField" name="LOSlength">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="2"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LOSlengthActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
