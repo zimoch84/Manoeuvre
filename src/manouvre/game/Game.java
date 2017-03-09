@@ -14,6 +14,7 @@ import static manouvre.game.interfaces.PositionInterface.ROW_8;
 import manouvre.gui.CreateRoomWindow;
 import manouvre.gui.MapGUI;
 import manouvre.gui.UnitGUI;
+import manouvre.network.server.UnoptimizedDeepCopy;
 
 /**
  *
@@ -260,15 +261,17 @@ public final class Game implements Serializable{
         
         Position unitPosition = unit.getPosition();
         ArrayList<Position> los = getOneSquarePositions(unitPosition);
+        
+        ArrayList<Position> loscopy = (ArrayList<Position>) UnoptimizedDeepCopy.copy(los);
         ArrayList<Position> los2;
             /*
             If length = 1 then we have volley 
             */ 
             if(lenght == 1)
-                    return los;
+                    return loscopy;
             else 
             {
-                 for(Iterator<Position> checkLOSPosition = los.iterator(); checkLOSPosition.hasNext() ; ) {
+                 for(Iterator<Position> checkLOSPosition = loscopy.iterator(); checkLOSPosition.hasNext() ; ) {
                     /*  
                     If 1st square terrain blocks los then 2nd squara wont be visible
                     */

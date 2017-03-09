@@ -1397,13 +1397,13 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         
     }//GEN-LAST:event_retreatToggleActionPerformed
 
+    private void LOSlengthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LOSlengthActionPerformed
+       game.getSelectedUnit().setShowingLOS(!game.getSelectedUnit().isShowingLOS());
+    }//GEN-LAST:event_LOSlengthActionPerformed
+
     private void retreatToggle1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_retreatToggle1ActionPerformed
         game.getSelectedUnit().setShowingLOS(!game.getSelectedUnit().isShowingLOS());
     }//GEN-LAST:event_retreatToggle1ActionPerformed
-
-    private void LOSlengthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LOSlengthActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_LOSlengthActionPerformed
     
     /**
 	 * check whether the mouse is currently over this piece
