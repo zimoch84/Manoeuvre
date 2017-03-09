@@ -115,18 +115,23 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="opponentPlayerPanel" alignment="0" max="32767" attributes="0"/>
-                          <Component id="buttonsPanel" pref="347" max="32767" attributes="0"/>
-                          <Component id="currentPlayerPanel" alignment="0" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="combatPanel" max="32767" attributes="0"/>
-                          <Component id="tablePanel" max="32767" attributes="0"/>
-                          <Component id="dicePanel" alignment="0" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="TestPopup" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="opponentPlayerPanel" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="buttonsPanel" pref="347" max="32767" attributes="0"/>
+                                  <Component id="currentPlayerPanel" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="combatPanel" max="32767" attributes="0"/>
+                                  <Component id="tablePanel" max="32767" attributes="0"/>
+                                  <Component id="dicePanel" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
                       </Group>
                       <EmptySpace min="0" pref="18" max="32767" attributes="0"/>
                   </Group>
@@ -152,6 +157,8 @@
                               <Component id="buttonsPanel" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="TestPopup" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -667,6 +674,14 @@
                 </DimensionLayout>
               </Layout>
             </Container>
+            <Component class="javax.swing.JButton" name="TestPopup">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Test Popup"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TestPopupActionPerformed"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="mainMapPanel">

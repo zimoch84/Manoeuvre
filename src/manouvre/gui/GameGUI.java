@@ -17,11 +17,6 @@ import manouvre.game.commands.DiscardCardCommand;
 import manouvre.game.commands.DrawCardCommand;
 import manouvre.network.client.Message;
 import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
 
 
 
@@ -711,6 +706,7 @@ int prevPhase=0;
     public void setUnitsGui(ArrayList<UnitGUI> unitsGui) {
         this.currentPlayerArmy = unitsGui;
     }
+    
     
      
 }

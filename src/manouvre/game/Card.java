@@ -75,7 +75,12 @@ import manouvre.game.interfaces.Command;
 public class Card implements CardInterface, Serializable{
     
     private static final long serialVersionUID = 419321L;
+    int countId=480;
+    int countNation=8;
+    int countCards=60;
     int chosenID;
+    String chosenName;
+    
     String CardID="";
     String CardName="";				
     String CardFlag="";
@@ -97,8 +102,9 @@ public class Card implements CardInterface, Serializable{
  			
     boolean canceled=false;
     boolean playable=false;
- 
-    
+    boolean cardNotFound=false;
+
+  
     
    
     public Card (int chosenID) { 
@@ -107,9 +113,10 @@ public class Card implements CardInterface, Serializable{
             CsvReader cards = new CsvReader("resources\\cards\\cards.csv", ';');		
             cards.readHeaders();
             cards.readRecord();
-            while (!strChosenId.equals(cards.get("CardID")))
+            while (!strChosenId.equals(cards.get("CardID"))&&countId>0)
             {
                 cards.readRecord();
+                countId--;
             }
             this.CardID = cards.get("CardID");
             this.CardName = cards.get("CardName");
@@ -138,6 +145,55 @@ public class Card implements CardInterface, Serializable{
                     e.printStackTrace();
             }
     }
+    
+     public Card (String chosenName, String flag){
+          try {		
+            CsvReader cards = new CsvReader("resources\\cards\\cards.csv", ';');		
+            cards.readHeaders();
+            cards.readRecord();
+            while (!flag.equals(cards.get("CardFlag"))&&countId>0){
+                cards.readRecord();
+                countId--;
+            }
+            
+            while (!chosenName.equals(cards.get("CardName"))&&countCards>0)
+            {
+               
+                cards.readRecord();
+                countCards--;
+
+            }
+            //countNation--;
+            if (countCards==0) cardNotFound=true; 
+            
+            this.CardID = cards.get("CardID");
+            this.CardName = cards.get("CardName");
+            this.CardFlag = cards.get("CardFlag");
+            this.CardImg = cards.get("CardImg");
+            this.CardType = cards.get("CardType");
+            this.UnitAttack = cards.get("UnitAttack");
+            this.UnitDefense = cards.get("UnitDeffense");
+            this.UnitRange = cards.get("UnitRange");
+            this.UnitBombard = cards.get("UnitBombard");
+            this.UnitVolley = cards.get("UnitVolley");
+            this.UnitPursuit = cards.get("UnitPursuit");
+            this.UnitWithdraw = cards.get("UnitWithdraw");
+            this.LederCommand = cards.get("LederCommand");
+            this.LederCombat = cards.get("LederCombat");
+            this.LederRally = cards.get("LederRally");
+            this.LederPursuit = cards.get("LederPursuit");
+            this.LederGrandBatt = cards.get("LederGrandBatt");
+            this.UnitDescr = cards.get("UnitDescr");
+
+            cards.close();
+
+            } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+            } catch (IOException e) {
+                    e.printStackTrace();
+            }
+         
+     }
     
     public int getChosenID() {
         return chosenID;
@@ -317,5 +373,8 @@ public class Card implements CardInterface, Serializable{
     @Override
     public boolean canBePlayed(Game game) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    public boolean isCardNotFoundInNation() {
+        return cardNotFound;
     }
 }
