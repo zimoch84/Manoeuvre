@@ -8,10 +8,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Polygon;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Line2D;
 import java.io.IOException;
 import java.util.ArrayList;
 import manouvre.game.Game;
@@ -20,7 +16,6 @@ import manouvre.game.Unit;
 import manouvre.game.commands.DiscardCardCommand;
 import manouvre.game.commands.DrawCardCommand;
 import manouvre.network.client.Message;
-import static java.lang.Math.round;
 import manouvre.game.commands.CommandQueue;
 import static java.lang.Math.round;
 
@@ -683,7 +678,7 @@ public class GameGUI {
         g.drawString(drawLeft.toString(),20,110); 
     }
     
-   public static void drawStringMultiLine(Graphics g, String text, int lineWidth, int x, int y) {
+   private static void drawStringMultiLine(Graphics g, String text, int lineWidth, int x, int y) {
     FontMetrics m = g.getFontMetrics();
     if(m.stringWidth(text) < lineWidth) {
         g.drawString(text, x, y);
