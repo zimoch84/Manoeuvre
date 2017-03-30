@@ -28,10 +28,17 @@ public class CardSetGUI {
     ArrayList<CardGUI> cardListGui = new ArrayList<CardGUI>();  
     CardSet cardSet;  //decide which cardSet shall be processed
    // CardGUI backCover;
-
+    
+    
     public CardSetGUI (CardSet newCardSet){
        this.cardSet = newCardSet;
        reSet();
+    }
+    
+    public boolean isCardSelected(){
+    
+        return cardSet.isCardSelected();
+        
     }
     
     public void reSet(){ 
@@ -74,6 +81,6 @@ public class CardSetGUI {
        return cardListGui.get(cardPosition).card.getCardName();     
     }
     
-    
+           
     
 }

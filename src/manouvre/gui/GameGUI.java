@@ -16,6 +16,7 @@ import manouvre.game.Unit;
 import manouvre.game.commands.DiscardCardCommand;
 import manouvre.game.commands.DrawCardCommand;
 import manouvre.network.client.Message;
+import manouvre.game.commands.CommandQueue;
 import static java.lang.Math.round;
 
 
@@ -47,6 +48,8 @@ public class GameGUI {
     
     int windowMode;
     
+    boolean lockGUI;
+    
     public GameGUI (Game newGame, int windowMode) throws IOException{
         this.game=newGame;
         this.windowMode = windowMode;
@@ -60,8 +63,8 @@ public class GameGUI {
         /*
         Set info about first / second player
         */
-        CustomDialog dialog = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "You are" + (
-        game.getCurrentPlayer().isFirst() ? " first " : " second ") + "player"  , null, game);
+        CustomDialog dialog = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, game.getCurrentPlayer().getName() + ", You are" + (
+        game.getCurrentPlayer().isFirst() ? " first " : " second ") + "player"  , (CommandQueue) null, game);
         dialog.setVisible(true);
         
     }
@@ -86,6 +89,15 @@ public class GameGUI {
         Draw units
          */
         drawArmy(g);
+        /*
+        Draw retrieving arrows
+        */
+        drawRetrieving(g);
+        /*
+        Draw LOS
+        */
+        drawLOS(g);
+        
        
     }
     private void drawTerrains(Graphics g){
@@ -178,6 +190,10 @@ public class GameGUI {
                             else if (game.getCurrentPlayer().isPlayingCard() )
                             {
                                 movePositions = game.getOneSquareMovements(terrainGUI.getPos());
+                            }
+                            else if (game.getCurrentPlayerUnitAtPosition(terrainGUI.getPos()).isRetriving()  )
+                            {
+                                return;
                             }
                             else
                             {movePositions = game.getPossibleMovement(game.getCurrentPlayerUnitAtPosition(terrainGUI.getPos()));}
@@ -355,6 +371,115 @@ public class GameGUI {
                 }
             }
     }
+    /**
+      * Draw an arrow line betwwen two point 
+      * @param g the graphic component
+      * @param x1 x-position of first point
+      * @param y1 y-position of first point
+      * @param x2 x-position of second point
+      * @param y2 y-position of second point
+      * @param d  the width of the arrow
+      * @param h  the height of the arrow
+      */
+     private void drawArrow(Graphics g, int x1, int y1, int x2, int y2, int d, int h){
+        int dx = x2 - x1, dy = y2 - y1;
+        double D = Math.sqrt(dx*dx + dy*dy);
+        double xm = D - d, xn = xm, ym = h, yn = -h, x;
+        double sin = dy/D, cos = dx/D;
+
+        x = xm*cos - ym*sin + x1;
+        ym = xm*sin + ym*cos + y1;
+        xm = x;
+
+        x = xn*cos - yn*sin + x1;
+        yn = xn*sin + yn*cos + y1;
+        xn = x;
+
+        int[] xpoints = {x2, (int) xm, (int) xn};
+        int[] ypoints = {y2, (int) ym, (int) yn};
+
+        g.drawLine(x1, y1, x2, y2);
+        g.fillPolygon(xpoints, ypoints, 3);
+     }
+    
+    private void drawRetrieving(Graphics g){
+     
+    if (mapGui.isUnitSelected()){
+        
+        Unit selectedUnit = game.getSelectedUnit();
+        
+            if(selectedUnit.isRetriving()) 
+                
+                for (Position retrivingPositons: game.getRetreatPositions(selectedUnit))
+                {
+                    drawArrow(g,
+                    (windowMode == CreateRoomWindow.AS_HOST) ? 
+                            selectedUnit.getPosition().getMouseX() +  MapGUI.PIECE_WIDTH / 2 
+                            :
+                            selectedUnit.getPosition().transpoze().getMouseX() +  MapGUI.PIECE_WIDTH / 2
+                            ,
+                    (windowMode == CreateRoomWindow.AS_HOST)
+                            ?
+                            selectedUnit.getPosition().getMouseY() +  MapGUI.PIECE_HEIGHT / 2
+                            :        
+                            selectedUnit.getPosition().transpoze().getMouseY() +  MapGUI.PIECE_HEIGHT / 2        
+                                    ,                    
+                    (windowMode == CreateRoomWindow.AS_HOST) ?
+                            retrivingPositons.getMouseX() + MapGUI.PIECE_WIDTH / 2
+                            :
+                            retrivingPositons.transpoze().getMouseX() + MapGUI.PIECE_WIDTH / 2        
+                            ,
+                    (windowMode == CreateRoomWindow.AS_HOST) ?
+                            retrivingPositons.getMouseY() +  MapGUI.PIECE_WIDTH / 2
+                            :
+                            retrivingPositons.transpoze().getMouseY() +  MapGUI.PIECE_WIDTH / 2      
+                    , 10,15)
+                            ;
+                    }
+            }
+    
+      
+    }
+    
+    
+    private void drawLOS(Graphics g){
+    
+        if (mapGui.isUnitSelected()){
+        
+        Unit selectedUnit = game.getSelectedUnit();
+        
+            if(selectedUnit.isShowingLOS()) 
+                
+                
+                
+                for (Position losPositons: game.getLOS(selectedUnit, 2)  )
+                {
+                    drawArrow(g,
+                    (windowMode == CreateRoomWindow.AS_HOST) ? 
+                            selectedUnit.getPosition().getMouseX() +  MapGUI.PIECE_WIDTH / 2 
+                            :
+                            selectedUnit.getPosition().transpoze().getMouseX() +  MapGUI.PIECE_WIDTH / 2
+                            ,
+                    (windowMode == CreateRoomWindow.AS_HOST)
+                            ?
+                            selectedUnit.getPosition().getMouseY() +  MapGUI.PIECE_HEIGHT / 2
+                            :        
+                            selectedUnit.getPosition().transpoze().getMouseY() +  MapGUI.PIECE_HEIGHT / 2        
+                                    ,                    
+                    (windowMode == CreateRoomWindow.AS_HOST) ?
+                            losPositons.getMouseX() + MapGUI.PIECE_WIDTH / 2
+                            :
+                            losPositons.transpoze().getMouseX() + MapGUI.PIECE_WIDTH / 2        
+                            ,
+                    (windowMode == CreateRoomWindow.AS_HOST) ?
+                            losPositons.getMouseY() +  MapGUI.PIECE_WIDTH / 2
+                            :
+                            losPositons.transpoze().getMouseY() +  MapGUI.PIECE_WIDTH / 2      
+                    , 10,15)
+                            ;
+                    }
+            }
+    }
     
     private void generateUnitsUI() {
         for (Unit unit : game.getCurrentPlayer().getArmy()) {
@@ -366,19 +491,10 @@ public class GameGUI {
         }
     }
 
-    UnitGUI getSelectedUnit() {
-        for (UnitGUI unitSearch : this.currentPlayerArmy) {
-            if (unitSearch.isSelected()) {
-                return unitSearch;
-            }
-        }
-        return null;
-    }
-
-    void unselectAllUnits() {
-        currentPlayerArmy.stream().forEach((UnitGUI unit) -> {
-            unit.setSelected(false);
-        });
+   void unselectAllUnits() {
+    for (Unit unit: game.getCurrentPlayer().getArmy()){
+             unit.setSelected(false);
+       }
         mapGui.setUnitSelected(false);
     }
     
@@ -575,7 +691,7 @@ int prevPhase=0;
         g.drawString(drawLeft.toString(),20,110); 
     }
     
-   public static void drawStringMultiLine(Graphics g, String text, int lineWidth, int x, int y) {
+   private static void drawStringMultiLine(Graphics g, String text, int lineWidth, int x, int y) {
     FontMetrics m = g.getFontMetrics();
     if(m.stringWidth(text) < lineWidth) {
         g.drawString(text, x, y);
@@ -697,7 +813,19 @@ int prevPhase=0;
         return null;
     
     }
-    
+
+    public boolean isLocked() {
+    return lockGUI;
+    }
+
+    public void lockGUI() {
+    this.lockGUI = true;
+    }
+    public void unlockGUI(){
+    this.lockGUI = false;
+    }
+            
+            
     
     public ArrayList<UnitGUI> getUnitsGui() {
         return currentPlayerArmy;

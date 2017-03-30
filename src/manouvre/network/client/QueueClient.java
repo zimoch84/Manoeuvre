@@ -6,8 +6,6 @@
 package manouvre.network.client;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import static java.lang.Thread.sleep;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -16,6 +14,7 @@ import manouvre.game.interfaces.ClientInterface;
 import manouvre.game.interfaces.Command;
 import manouvre.gui.CommandLogger;
 import manouvre.gui.GameWindow;
+import static java.lang.Thread.sleep;
 
 /**
  *
@@ -82,13 +81,10 @@ class HostClient implements ClientInterface , Runnable{
         
     switch( msgIn.getMessageType() ){
         case Message.COMMAND:
+            
+            
                     Command executeCommand = msgIn.getCommand();
-                    executeCommand.execute(clientGameHost.getGame());
-                    /*
-                        Show command desc in console in game;
-                        */
-                    commandLoggerHost.log(executeCommand);
-                    clientGameHost.repaint();
+                    clientGameHost.cmd.storeAndExecute(executeCommand);
                     break;
         default:
              System.out.println("Host Client" + msgIn.toString()) ;
@@ -140,14 +136,7 @@ class GuestClient implements ClientInterface , Runnable{
          switch( msgIn.getMessageType() ){
             case Message.COMMAND:
                 Command executeCommand = msgIn.getCommand();
-                executeCommand.execute(clientGameGuest.getGame());
-                
-                  /*
-                        Show command desc in console in game;
-                        */
-                commandLoggerGuest.log(executeCommand);
-                
-                clientGameGuest.repaint();
+                clientGameGuest.cmd.storeAndExecute(executeCommand);
                 break;
             default:
                  System.out.println("Guest Client" + msgIn.toString()) ;

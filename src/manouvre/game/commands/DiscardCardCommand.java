@@ -51,6 +51,11 @@ public class DiscardCardCommand implements Command {
         return new String(senderPlayerName + " discarded " + selectionSeq.size() + " cards");
     
     }
+
+    @Override
+    public int getType() {
+       return Command.DISCARD_CARD;
+    }
     
 }
 

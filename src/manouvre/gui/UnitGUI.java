@@ -25,19 +25,6 @@ public class UnitGUI  {
     
     Unit unit;
     
-    boolean selected;
-
-    public boolean isSelected() {
-        return selected;
-    }
-
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-    }
-
-    
- 
-    
     public Image getImg() {
         if(unit.isInjured())
                 return imgReduced;

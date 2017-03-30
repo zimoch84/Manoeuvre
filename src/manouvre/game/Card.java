@@ -105,6 +105,8 @@ public class Card implements CardInterface, Serializable{
     boolean cardNotFound=false;
 
   
+ 
+    boolean selected;
     
    
     public Card (int chosenID) { 
@@ -370,6 +372,16 @@ public class Card implements CardInterface, Serializable{
             
     }
 
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    
+    
     @Override
     public boolean canBePlayed(Game game) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

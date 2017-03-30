@@ -8,10 +8,13 @@ package manouvre.game;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import static manouvre.game.interfaces.PositionInterface.COLUMN_H;
 import static manouvre.game.interfaces.PositionInterface.ROW_8;
 import manouvre.gui.CreateRoomWindow;
 import manouvre.gui.MapGUI;
+import manouvre.gui.UnitGUI;
+import manouvre.network.server.UnoptimizedDeepCopy;
 
 /**
  *
@@ -82,6 +85,7 @@ public final class Game implements Serializable{
         placeUnitsOnMap(guestPlayer);
         
         setFirstPlayer();
+        this.turn=1;
         setPhase(Game.SETUP);
         
         
@@ -162,7 +166,22 @@ public final class Game implements Serializable{
     public ArrayList<Position> getPossibleVolley(Unit unit){
         return null;   
     };
-    
+    public ArrayList<Position> getOneSquarePositions(Position unitPosition){
+        ArrayList<Position> positions = new ArrayList<>();
+          if (unitPosition.getX()-1  >= 0 ) {
+                  positions.add(new Position(unitPosition.getX()-1, unitPosition.getY()));
+          }
+          if (unitPosition.getY()-1 >= 0){      
+                  positions.add(new Position(unitPosition.getX(), unitPosition.getY()-1 ));
+          }
+          if (unitPosition.getY()+1 <= ROW_8){
+                  positions.add(new Position(unitPosition.getX(), unitPosition.getY()+1));
+          }
+          if (unitPosition.getX()+1 <= COLUMN_H){
+                  positions.add(new Position(unitPosition.getX()+1, unitPosition.getY()));
+          }
+        return positions;
+    }
      /**
          Firstly get adjenced tiles then check on terrain restrictions then check if another tile is occupied
      * @param unit
@@ -205,6 +224,10 @@ public final class Game implements Serializable{
         return moves;
     }
     
+    public void nextTurn(){
+        turn++;
+        }
+    
     public ArrayList<Position> getPossibleMovement(Unit unit){      
         ArrayList<Position> moves;         
         /*
@@ -233,13 +256,107 @@ public final class Game implements Serializable{
         return moves; 
     };
     
+    public ArrayList<Position> getLOS(Unit unit, int lenght){
+        
+        
+        Position unitPosition = unit.getPosition();
+        ArrayList<Position> los = getOneSquarePositions(unitPosition);
+        
+        ArrayList<Position> loscopy = (ArrayList<Position>) UnoptimizedDeepCopy.copy(los);
+        ArrayList<Position> los2;
+            /*
+            If length = 1 then we have volley 
+            */ 
+            if(lenght == 1)
+                    return loscopy;
+            else 
+            {
+                 for(Iterator<Position> checkLOSPosition = loscopy.iterator(); checkLOSPosition.hasNext() ; ) {
+                    /*  
+                    If 1st square terrain blocks los then 2nd squara wont be visible
+                    */
+                     Position position = checkLOSPosition.next();
+                 if(!map.getTerrainAtPosition(position).isBlockingLOS())   {
+                     los2 = getOneSquarePositions(position);
+                     los2.remove(unitPosition);
+
+                     los.addAll(los2);
+                 }
+                 
+                 }
+                
+                 
+            }
+         return los;           
+    };  
+
+    
     public ArrayList<Position> getPossibleSupportingUnits(Unit unit){
     return null;
     };
     
     public ArrayList<Position> getRetreatPositions(Unit unit){
-    return null;
-    };
+        /*
+        A Retreat result will force the affected unit to vacate its current square. A unit
+        that Retreats is moved one square away from its current location. The choice of
+        the direction of the Retreat must be directly towards the unit’s starting edge of
+        the battlefield. If that square is blocked (by either friendly or enemy units), then
+        the Retreat must be to either flank square, retreating player’s choice. A flank
+        square is one not toward either side’s Starting Edge. If all three of these squares
+        are blocked or are the map edge, then and only then the unit may retreat towards
+        the enemy’s Starting Edge. If all four squares are blocked or are the map edge,
+        then the unit may not retreat and is Eliminated instead.
+        */
+        ArrayList<Position> possibleMovements = getOneSquareMovements(unit.getPosition());
+        /*
+        If there is no room for movement return null
+        */
+        if (possibleMovements.isEmpty() ) return new ArrayList<>();
+        
+        ArrayList<Position> retreatMovements = new ArrayList<>();
+        /*
+        If player is a host we move increasing y else we decrease y 
+        */
+        int deltaMove =  unit.getOwner().isHost() ?  -1  : 1;
+        /*
+        Checking possible retreat to unit starting edge
+        */
+            for(Position checkRetreatPos : possibleMovements)
+            {/*
+                If we have space to move back
+                */
+             if(checkRetreatPos.getY() == unit.getPosition().getY() + deltaMove)  {
+                 
+                 retreatMovements.add(checkRetreatPos);
+                 return retreatMovements;
+             }
+            }
+            for(Position checkRetreatPos : possibleMovements)
+            {
+            /*
+            If we have space to move aside
+            */
+             if(checkRetreatPos.getX() == unit.getPosition().getX() + 1
+                     ||
+                     checkRetreatPos.getX() == unit.getPosition().getX() - 1 )
+             {
+                 
+                 retreatMovements.add(checkRetreatPos);
+                
+             }
+            }
+             /*
+             If we have side way movements return them
+             */
+             if (!retreatMovements.isEmpty())  return retreatMovements;
+             /*
+            if we have possibleMovements not epmty and none of above is true then 
+            possiblemovements contains final move up way
+             */
+             else return possibleMovements;
+             
+    }
+    
     
     public ArrayList<Position> getSetupPossibleMovement()
     {     
@@ -333,6 +450,16 @@ public final class Game implements Serializable{
              
     }
     
+    public Unit getSelectedUnit(){
+     for (Unit unitSearch : getCurrentPlayer().getArmy()) {
+            if (unitSearch.isSelected()) {
+                return unitSearch;
+            }
+        }
+        return null;
+    
+    }
+    
     public Unit getCurrentPlayerUnitAtPosition(Position position){
     
         for(Unit unitSearch: currentPlayer.getArmy()){
@@ -391,7 +518,7 @@ public final class Game implements Serializable{
             */
         {
             turn++;
-            resetCurrentPlayer();
+            getCurrentPlayer().resetPlayer();
             swapActivePlayer();
             phase=0;
         }
@@ -406,15 +533,18 @@ public final class Game implements Serializable{
         
         if(result == 0)
         {getHostPlayer().setFirst(true);
+         getHostPlayer().setActive(true);
             getGuestPlayer().setFirst(false);
+            getGuestPlayer().setActive(false);
         
         }
-         else 
-         {
+        else 
+        {
              getHostPlayer().setFirst(false);
-            getGuestPlayer().setFirst(true);
-         
-         }
+             getHostPlayer().setActive(false);
+                getGuestPlayer().setFirst(true);
+                getGuestPlayer().setActive(true);
+        }
     
     }
    
@@ -449,7 +579,7 @@ public final class Game implements Serializable{
     }
     
     
-    private void swapActivePlayer(){
+    public void swapActivePlayer(){
     
         if(getCurrentPlayer().isActive())
         {
@@ -466,21 +596,7 @@ public final class Game implements Serializable{
     
     }
     
-    private void resetCurrentPlayer(){
-    /*
-        Reseting Army
-        */
-    for(Unit unit : getCurrentPlayer().getArmy()) {
-        
-        unit.setHasMoved(false);
-        
-    
-    }
-    /*
-    ResetingPlayer
-    */    
-    getCurrentPlayer().setPlayingCard(false);
-    }
+   
     
     public String toString(){
     

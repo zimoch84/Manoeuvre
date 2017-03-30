@@ -53,4 +53,9 @@ public class SetupPositionCommand implements Command{
         return new String(playerName + " send his army setup position");
     
     }
+
+    @Override
+    public int getType() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

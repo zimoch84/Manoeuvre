@@ -186,12 +186,18 @@ public class Message implements Serializable{
      
     public String getCommandType(int command)
     {
+        
+
         switch(command)
         {
-            case MOVE_COMMAND: return "MOVE_COMMAND";
-            case NEXT_PHASE_COMMAND: return "NEXT_PHASE_COMMAND";
-            case DISCARD_CARD_COMMAND: return "DISCARD_CARD_COMMAND";
-            case END_SETUP_COMMAND: return "END_SETUP_COMMAND";
+            case Command.END_SETUP: return "END_SETUP";
+            case Command.END_TURN: return "END_TURN";
+            case Command.DRAW_CARD: return "DRAW_CARD";
+            case Command.DISCARD_CARD: return "DISCARD_CARD";
+            case Command.NEXT_PHASE: return "NEXT_PHASE";
+            case Command.MOVE_UNIT: return "MOVE_UNIT";
+            case Command.SETUP_POSITION: return "SETUP_POSITION";
+            case Command.PLAY_CARD: return "PLAY_CARD";
         } 
         
         return null;

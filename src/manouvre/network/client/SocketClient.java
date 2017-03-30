@@ -267,15 +267,16 @@ public class SocketClient implements Runnable, ClientInterface{
                         Command executeCommand = msg.getCommand();
                 
                     /*
-                    Executing command over game on server
+                    Executing command over game on client
                     */
-                    executeCommand.execute(clientGame.getGame());
+                    clientGame.cmd.storeAndExecute(executeCommand);
+                   
                     /*
                         Show command desc in console in game;
                         */
-                    commandLogger.log(executeCommand);
+                    //commandLogger.log(executeCommand);
                     
-                    clientGame.repaint();
+                   // clientGame.repaint();
                     
                        break;
                   default:

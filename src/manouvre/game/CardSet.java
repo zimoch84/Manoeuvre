@@ -30,6 +30,8 @@ public class CardSet implements CardSetInterface, Serializable{
     private int nation;
     private int cardID;
     
+    boolean cardSelected;
+    
     private Random randomGener = new Random();
 
     public ArrayList<Card> cardList = new ArrayList<Card>();
@@ -57,6 +59,15 @@ public class CardSet implements CardSetInterface, Serializable{
     public CardSet(){ 
         this.cardSetSize=60;
     }
+
+    public boolean isCardSelected() {
+        return cardSelected;
+    }
+
+    public void setCardSelected(boolean cardSelected) {
+        this.cardSelected = cardSelected;
+    }
+    
     
     //-----------------DECK------------------------------------------------
     /**
@@ -288,6 +299,19 @@ public class CardSet implements CardSetInterface, Serializable{
         return cardSetSize;
     }
 
-
+     public Card getSelectedCard(){
+     
+         if(isCardSelected())
+               for(Card checkCard : cardList){
+               
+                   if(checkCard.isSelected())
+                   {
+                       return checkCard;
+                   }
+                   
+               }
+         return null;
+              
+     }
    }
  

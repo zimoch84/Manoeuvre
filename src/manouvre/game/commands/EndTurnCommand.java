@@ -12,20 +12,23 @@ import manouvre.game.interfaces.Command;
  *
  * @author Piotr
  */
-public class NextPhaseCommand implements Command{
+public class EndTurnCommand implements Command{
 
+    
     String activePlayerName;
     int phase;
-    public NextPhaseCommand(String playerName, int phase) {
+    public EndTurnCommand(String playerName) {
         activePlayerName = playerName;
     
     }
     
-    
-    
     @Override
     public void execute(Game game) {
-        game.nextPhase();
+        game.nextTurn();
+        game.setPhase(Game.DISCARD);
+        game.getPlayerByName(activePlayerName).resetPlayer();
+        game.swapActivePlayer();
+    
         
     }
 
@@ -33,16 +36,15 @@ public class NextPhaseCommand implements Command{
     public void undo(Game game) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
-    public String logCommand(){
-        return new String(activePlayerName + " moved to the next phase"  );
-    
+    public String logCommand() {
+       return new String(activePlayerName + " has ended his/her phase"  );
     }
 
     @Override
     public int getType() {
-       return Command.NEXT_PHASE;
+       return Command.END_TURN;
     }
     
 }

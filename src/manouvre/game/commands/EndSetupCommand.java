@@ -15,10 +15,12 @@ import manouvre.game.interfaces.Command;
 public class EndSetupCommand implements Command{
 
     String playerName;
+    Command setupCommand;
     
-    public EndSetupCommand(String playerName) {
+    public EndSetupCommand(String playerName, SetupPositionCommand setupCommand) {
 
     this.playerName = playerName;
+    this.setupCommand = setupCommand;
 
     }
 
@@ -26,6 +28,7 @@ public class EndSetupCommand implements Command{
     public void execute(Game game) {
         
         game.getPlayerByName(playerName).setFinishedSetup(true);
+        game.getPlayerByName(playerName).resetPlayer();
         /*
         If both players finished advance game phase
         */
@@ -34,6 +37,8 @@ public class EndSetupCommand implements Command{
         
             }
         
+        setupCommand.execute(game);
+        
         
         
     }
@@ -41,6 +46,7 @@ public class EndSetupCommand implements Command{
     @Override
     public void undo(Game game) {
         game.getPlayerByName(playerName).setFinishedSetup(false);
+        
         
     }
     
@@ -54,6 +60,11 @@ public class EndSetupCommand implements Command{
     public String logCommand(){
         return new String(playerName + " has finished setup");
     
+    }
+
+    @Override
+    public int getType() {
+        return Command.END_SETUP;
     }
     
     
