@@ -76,33 +76,6 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
     public CommandQueue cmd;
     public CommandLogger cmdLogger;
  
-    public GameWindow(SocketClient passSocket, Player player) throws IOException{
-        
-        bgImage = ImageIO.read( new File("resources\\backgrounds\\24209cb208yezho.jpg"));
-        client = passSocket;
-        game = new Game(player);
-        gameGui = new GameGUI(game, CreateRoomWindow.AS_HOST);
-        
-        /*
-        game.generateMap();
-        game.setCurrentPlayer(player);
-        */
-   
-        initComponents();
-    
-        this.addWindowListener(new WindowListener() {
-            @Override public void windowOpened(WindowEvent e) {}
-            @Override public void windowClosing(WindowEvent e) { try{ client.send(new Message("message", game.getCurrentPlayer().getName(), ".bye", "SERVER")); clientThread.stop();  }catch(Exception ex){} }
-            @Override public void windowClosed(WindowEvent e) {}
-            @Override public void windowIconified(WindowEvent e) {}
-            @Override public void windowDeiconified(WindowEvent e) {}
-            @Override public void windowActivated(WindowEvent e) {}
-            @Override public void windowDeactivated(WindowEvent e) {}
-        });
-        
-     DefaultCaret caret = (DefaultCaret)chatTextArea.getCaret();
-     caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-    }
     /*
     This is main contructor
     */
@@ -162,33 +135,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
      caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
     }
     
-    /**
-     * Creates new form ClientUI
-     */
-    public GameWindow() throws Exception {
-        
-        bgImage = ImageIO.read( new File("resources\\backgrounds\\24209cb208yezho.jpg"));
-        initComponents();
-        game=new Game(new Player("Bartek"));
-        gameGui = new GameGUI(game, CreateRoomWindow.AS_HOST ); //TEMP
-      
-        gameGui.getGame().getMap(); //TEMP
-       
-        gameGui.mapGui = new MapGUI(game.getMap(), CreateRoomWindow.AS_HOST);
-        this.addWindowListener(new WindowListener() {
-
-            @Override public void windowOpened(WindowEvent e) {}
-            @Override public void windowClosing(WindowEvent e) { try{ client.send(new Message("message",game.getCurrentPlayer().getName(), ".bye", "SERVER")); clientThread.stop();  }catch(Exception ex){} }
-            @Override public void windowClosed(WindowEvent e) {}
-            @Override public void windowIconified(WindowEvent e) {}
-            @Override public void windowDeiconified(WindowEvent e) {}
-            @Override public void windowActivated(WindowEvent e) {}
-            @Override public void windowDeactivated(WindowEvent e) {}
-        });
-        
-            
-    }
-
+    
     public Game getGame() {
          return game;
     }
