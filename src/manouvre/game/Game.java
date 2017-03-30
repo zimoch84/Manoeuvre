@@ -48,27 +48,6 @@ public final class Game implements Serializable{
     private CardEngine cardEngine;
     
 
-  
-    public Game(Player newPlayer) throws IOException {
-        this.currentPlayer = newPlayer;
-        
-        turn = 1;
-        
-        //All this here is TEMP and should be deleted when using "correct" creation of Player (thru server)
-       
-        currentPlayer.setNation(1);  //TEMP
-        currentPlayer.setCards();  //TEMP
-        currentPlayer.generateUnits(); //TEMP
-        
-      
-      
-        generateMap(); //TEMP
-        placeUnitsOnMap(newPlayer);
-        this.cardEngine = new CardEngine(newPlayer);
-        
-        //-----------------------------------------
-    }
-    
     public Game(ArrayList<Player> players) {
         this.hostPlayer = players.get(0);
         this.guestPlayer = players.get(1);
