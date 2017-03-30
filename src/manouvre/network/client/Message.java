@@ -3,6 +3,7 @@ package manouvre.network.client;
 import java.io.Serializable;
 import java.util.ArrayList;
 import manouvre.game.Game;
+import manouvre.game.Param;
 import manouvre.game.Player;
 import manouvre.game.interfaces.Command;
 import manouvre.network.server.GameRoom;
@@ -190,14 +191,14 @@ public class Message implements Serializable{
 
         switch(command)
         {
-            case Command.END_SETUP: return "END_SETUP";
-            case Command.END_TURN: return "END_TURN";
-            case Command.DRAW_CARD: return "DRAW_CARD";
-            case Command.DISCARD_CARD: return "DISCARD_CARD";
-            case Command.NEXT_PHASE: return "NEXT_PHASE";
-            case Command.MOVE_UNIT: return "MOVE_UNIT";
-            case Command.SETUP_POSITION: return "SETUP_POSITION";
-            case Command.PLAY_CARD: return "PLAY_CARD";
+            case Param.END_SETUP: return "END_SETUP";
+            case Param.END_TURN: return "END_TURN";
+            case Param.DRAW_CARD: return "DRAW_CARD";
+            case Param.DISCARD_CARD: return "DISCARD_CARD";
+            case Param.NEXT_PHASE: return "NEXT_PHASE";
+            case Param.MOVE_UNIT: return "MOVE_UNIT";
+            case Param.SETUP_POSITION: return "SETUP_POSITION";
+            case Param.PLAY_CARD: return "PLAY_CARD";
         } 
         
         return null;

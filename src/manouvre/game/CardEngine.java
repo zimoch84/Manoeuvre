@@ -8,6 +8,7 @@ package manouvre.game;
 import java.io.Serializable;
 import manouvre.game.commands.CardCommands;
 import manouvre.game.interfaces.Command;
+import manouvre.gui.CardGUI;
 
 /**
  * Class to serve for whole card flow in game.
@@ -18,7 +19,7 @@ public class CardEngine implements Serializable{
     Player player;
     Command attachedCommand, cardCommand;
      
-    Card playingCard;
+    CardGUI playingCard;
 
     public CardEngine(Player player) {
         this.player = player;
@@ -40,11 +41,11 @@ public class CardEngine implements Serializable{
         this.attachedCommand = attachedCommand;
     }
 
-    public Card getPlayingCard() {
+    public CardGUI getPlayingCard() {
         return playingCard;
     }
 
-    public void setPlayingCard(Card playingCard) {
+    public void setPlayingCard(CardGUI playingCard) {
         this.playingCard = playingCard;
     }
     
@@ -52,7 +53,7 @@ public class CardEngine implements Serializable{
         /*
     Funtion to get current playing card
     */
-    public Card getCurrentPlayedCard(){
+    public CardGUI getCurrentPlayedCard(){
     
         
         /*
@@ -61,7 +62,7 @@ public class CardEngine implements Serializable{
         Temporaryly its Forced March
         
         */
-        return new Card(3);
+        return new CardGUI(new Card(3));
     
     }
     
@@ -76,7 +77,7 @@ public class CardEngine implements Serializable{
     switch (playingCard.getCardType() ) {
     
     
-        case Card.FORCED_MARCH : return new CardCommands.ForcedMarchCommand(attachedCommand, playingCard) ; 
+        case Card.FORCED_MARCH : return new CardCommands.ForcedMarchCommand(attachedCommand, playingCard.getCard()) ; 
         default: throw new Exception("There is no such card type");
     }
     }

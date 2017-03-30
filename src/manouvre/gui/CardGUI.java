@@ -131,6 +131,13 @@ public class CardGUI {
     public int getCardID() {
         return card.getCardID();
     }
+     public int getCardType() {
+        return card.getCardType();
+    }
+    
+   public Card getCard(){
+       return card;
+   }
     
     public void onSelected(GameGUI gameGui)
         {

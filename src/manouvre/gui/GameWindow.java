@@ -385,12 +385,9 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
  
     public void paintHand(Graphics g )                 
     {   
-        
-               
-       gameGui.paintHand(g,  handMouseCoorX, handMouseCoorY, mouseClickedOnHand, game.getPhase()); 
-        mouseClickedOnHand=0; 
+        gameGui.paintHand(g); 
          
-       setActionButtonText();  //when card is selected set the buttons
+      
         
     }
     
@@ -1062,8 +1059,8 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
 
     
     private void playerHandPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseClicked
-     
-                mouseClickedOnHand=1;   
+                gameGui.mouseClickedCard(game.getCardEngine()); 
+                setActionButtonText();  //when card is selected set the buttons
                 this.repaint();
                 if(game.getPhase()==Game.DISCARD)
                     setActionButtonText();  //if selection was done discard button should be visible
@@ -1096,7 +1093,10 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                 
                 handMouseCoorX = evt.getPoint().x;
 		handMouseCoorY = evt.getPoint().y;
-                if(abs(handMouseCoorX-handMouseCoorXdeaf)>deafband){
+    
+                gameGui.mouseMovedOverHand(handMouseCoorX, handMouseCoorY, mouseClickedOnHand);
+                
+                if(abs(handMouseCoorX-handMouseCoorXdeaf)>deafband){  //change repainting step
                     handMouseCoorXdeaf=handMouseCoorX;
                     this.repaint();
                 }
@@ -1105,8 +1105,6 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                     handMouseCoorYdeaf=handMouseCoorY; 
                     this.repaint();
                 }
-                
-                
                 //System.out.println("x:" + handMouseCoorX + " y:"+handMouseCoorY);
                 
                 
@@ -1356,6 +1354,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         /*
         IF setup then ask for confirmation
         */
+        gameGui.phaseChanged();
         if(game.getPhase() == Game.SETUP )
         {
             /*
@@ -1428,6 +1427,8 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
 
     private void TestPopupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TestPopupActionPerformed
         // TODO add your handling code here:
+        TestWindow testWindow = new TestWindow(game, this);
+        testWindow.setVisible(true);
     }//GEN-LAST:event_TestPopupActionPerformed
     
     /**

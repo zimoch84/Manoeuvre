@@ -45,6 +45,7 @@ public final class Game implements Serializable{
     private Player hostPlayer;
     private Player guestPlayer;
     boolean isServer=true;  //if this will not change game is set on Server
+    private CardEngine cardEngine;
     
 
   
@@ -63,6 +64,7 @@ public final class Game implements Serializable{
       
         generateMap(); //TEMP
         placeUnitsOnMap(newPlayer);
+        this.cardEngine = new CardEngine(newPlayer);
         
         //-----------------------------------------
     }
@@ -604,6 +606,14 @@ public final class Game implements Serializable{
               + " Guest Player:"  + ( guestPlayer != null ? guestPlayer.toString() : "null")
                  + " Map: " +  map.toString();
             
+    }
+
+    public CardEngine getCardEngine() {
+        return cardEngine;
+    }
+
+    public void setCardEngine(CardEngine cardEngine) {
+        this.cardEngine = cardEngine;
     }
     
     

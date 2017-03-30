@@ -18,6 +18,7 @@ import manouvre.game.commands.DrawCardCommand;
 import manouvre.network.client.Message;
 import manouvre.game.commands.CommandQueue;
 import static java.lang.Math.round;
+import manouvre.game.CardEngine;
 
 
 
@@ -509,27 +510,38 @@ public class GameGUI {
     
     
  //-------- CARDS - BOTTOM OF THE SCREEN -----------------------------------
-int prevPhase=0;
-
-    public void paintHand(Graphics g, int mouseCoorX, int mouseCoorY, int mouseClick, int phase)                 
-    {   
-        boolean phaseChanged=false;
-        if (prevPhase!=phase) phaseChanged=true;
-        prevPhase=phase;
-         if(phaseChanged) {
-             selectionSeq.clear();//clear selection if phase was changed
+    public void phaseChanged(){
+         selectionSeq.clear();//clear selection if phase was changed
              for (int i=0; i<handSetGui.cardsLeftInSet(); i++){  
               handSetGui.getCardByPosInSet(i).setSelected(0);   
              }
-         } 
-        
-        
+    }
+    public void mouseClickedCard(CardEngine cardEngine){
+        for (int i=0; i<handSetGui.cardsLeftInSet(); i++){  
+        if(handSetGui.getCardByPosInSet(i).isOverCard()==1){
+                if(game.getCurrentPlayer().getHand().getCardByPosInSet(i).isPlayable()){ //select card if it is playable
+                    if(handSetGui.getCardByPosInSet(i).isSelected()==0) {
+                        handSetGui.getCardByPosInSet(i).setSelected(1);
+                        selectionSeq.add(handSetGui.getCardIDByPosInSet(i)); 
+                        cardEngine.setPlayingCard(handSetGui.getCardByPosInSet(i));
+                        
+                    }   
+                    else {
+                        handSetGui.getCardByPosInSet(i).setSelected(0);
+                        Integer j=handSetGui.getCardIDByPosInSet(i);
+                        selectionSeq.remove(j); //remove number Integer j, not position int i
+                    }  
+                }
+            }
+        }
+    }
+    public void mouseMovedOverHand(int mouseCoorX, int mouseCoorY, int mouseClick){
         float f=0.5f; //scale factor //Normally cards has 260x375 pixels
         int width=round(260*f), height=round(375*f);
         int cardPaddingTop=20;
         int cardPaddingLeft=20;
-        int cardPaddingTopTemp=cardPaddingTop;
         int gap = 5;    
+        
         for (int i=0; i<handSetGui.cardsLeftInSet(); i++){  
            if(mouseCoorY>(cardPaddingTop-20*handSetGui.getCardByPosInSet(i).isOverCard()-20*handSetGui.getCardByPosInSet(i).isSelected()) && mouseCoorY<(cardPaddingTop+height)){ // if mouse is in row with cards
                 if ((mouseCoorX>cardPaddingLeft+(gap*i)+width*(i)) && mouseCoorX<(cardPaddingLeft+(gap*i)+width*(i+1))){ //if mouse is in th collon with card
@@ -540,38 +552,40 @@ int prevPhase=0;
                 }
             }  
             else  handSetGui.getCardByPosInSet(i).setOverCard(0);
-            if(mouseClick==1&&handSetGui.getCardByPosInSet(i).isOverCard()==1){
-                if(game.getCurrentPlayer().getHand().getCardByPosInSet(i).isPlayable()){ //select card if it is playable
-                    if(handSetGui.getCardByPosInSet(i).isSelected()==0) {
-                        handSetGui.getCardByPosInSet(i).setSelected(1);
-                        selectionSeq.add(handSetGui.getCardIDByPosInSet(i)); 
-                    }   
-                    else {
-                        handSetGui.getCardByPosInSet(i).setSelected(0);
-                        Integer j=handSetGui.getCardIDByPosInSet(i);
-                        selectionSeq.remove(j); //remove number Integer j, not position int i
-                    }  
-                }
-            }
-                if((handSetGui.getCardByPosInSet(i).isOverCard()==1 || handSetGui.getCardByPosInSet(i).isSelected()==1)&&game.getCurrentPlayer().getHand().getCardByPosInSet(i).isPlayable()) cardPaddingTopTemp=cardPaddingTop-20;
-                else cardPaddingTopTemp=cardPaddingTop;
-                g.drawImage(handSetGui.getCardByPosInSet(i).getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTopTemp, width, height, null);       
+            
+                
+                    
         }
-                Integer j=0;
-               
-                if(!selectionSeq.isEmpty()){ 
-                   
-                    j=selectionSeq.get(selectionSeq.size()-1);              
-                    j=handSetGui.getPositionInSetByCardID(j); 
-                    int[] xPoints={cardPaddingLeft+35+width*j+(gap*j),cardPaddingLeft+95+width*j+(gap*j),cardPaddingLeft+35+(95-35)/2+width*j+(gap*j)};
-                    int[] yPoints={cardPaddingTop+190,cardPaddingTop+190,cardPaddingTop+178};
-                    g.setColor(Color.white);
-                    g.setFont(new Font("Bookman Old Style", 1, 11));
-                    g.drawString("This card will be visible",cardPaddingLeft+width*j+(gap*j)-10,31+190);
-                    g.drawString("on the Discard Pile",cardPaddingLeft+width*j+(gap*j)+0,44+190);  
-                    g.fillPolygon(xPoints, yPoints, 3);
-                }                         
+    }
+    public void paintHand(Graphics g)                 
+    {   
+    float f=0.5f; //scale factor //Normally cards has 260x375 pixels
+    int width=round(260*f), height=round(375*f);
+    int cardPaddingTop=20;
+    int cardPaddingLeft=20;
+    int cardPaddingTopTemp=cardPaddingTop;
+    int gap = 5;    
+
+        Integer j=0;
+
+        if(!selectionSeq.isEmpty()){ 
+
+            j=selectionSeq.get(selectionSeq.size()-1);              
+            j=handSetGui.getPositionInSetByCardID(j); 
+            int[] xPoints={cardPaddingLeft+35+width*j+(gap*j),cardPaddingLeft+95+width*j+(gap*j),cardPaddingLeft+35+(95-35)/2+width*j+(gap*j)};
+            int[] yPoints={cardPaddingTop+190,cardPaddingTop+190,cardPaddingTop+178};
+            g.setColor(Color.white);
+            g.setFont(new Font("Bookman Old Style", 1, 11));
+            g.drawString("This card will be visible",cardPaddingLeft+width*j+(gap*j)-10,31+190);
+            g.drawString("on the Discard Pile",cardPaddingLeft+width*j+(gap*j)+0,44+190);  
+            g.fillPolygon(xPoints, yPoints, 3);
+        }  
+        for (int i=0; i<handSetGui.cardsLeftInSet(); i++) {   
+            if((handSetGui.getCardByPosInSet(i).isOverCard()==1 || handSetGui.getCardByPosInSet(i).isSelected()==1)&&game.getCurrentPlayer().getHand().getCardByPosInSet(i).isPlayable()) cardPaddingTopTemp=cardPaddingTop-20;
+            else cardPaddingTopTemp=cardPaddingTop;
+            g.drawImage(handSetGui.getCardByPosInSet(i).getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTopTemp, width, height, null);  
         }
+    }
 
     public Message discardSelCards(){ //done on hand itseld not on HandGui
         ArrayList<Integer> selectionSeqTemp=new ArrayList<Integer>();
