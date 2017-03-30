@@ -1394,15 +1394,18 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
     private void retreatToggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_retreatToggleActionPerformed
        
         game.getSelectedUnit().setRetriving(!game.getSelectedUnit().isRetriving());
-        
+         this.repaint();
     }//GEN-LAST:event_retreatToggleActionPerformed
 
     private void LOSlengthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LOSlengthActionPerformed
        game.getSelectedUnit().setShowingLOS(!game.getSelectedUnit().isShowingLOS());
+        this.repaint();
     }//GEN-LAST:event_LOSlengthActionPerformed
 
     private void retreatToggle1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_retreatToggle1ActionPerformed
-        game.getSelectedUnit().setShowingLOS(!game.getSelectedUnit().isShowingLOS());
+        
+                game.getSelectedUnit().setShowingLOS(!game.getSelectedUnit().isShowingLOS());
+                this.repaint();
     }//GEN-LAST:event_retreatToggle1ActionPerformed
     
     /**
