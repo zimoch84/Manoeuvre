@@ -68,21 +68,37 @@ public class Player  implements Serializable{
         setDraw(false);
     }
 
-    public String nationToString(int nation)
-        {
-    switch(getNation())
+    public String getNationAsString(boolean shortName)
     {
-    case CardInterface.BR: return "GreatBritain";
-    case CardInterface.AU: return "Austria";
-    case CardInterface.FR: return "France"; 
-    case CardInterface.OT: return "Ottoman";
-    case CardInterface.PR: return "Prussia";
-    case CardInterface.RU: return "Russland";
-    case CardInterface.SP: return "Spain";
-    case CardInterface.US: return "USA";
-    default : return "Unknown";
+    if(!shortName) {       
+        switch(getNation())
+        {
+        case CardInterface.BR: return "GreatBritain";
+        case CardInterface.AU: return "Austria";
+        case CardInterface.FR: return "France"; 
+        case CardInterface.OT: return "Ottoman";
+        case CardInterface.PR: return "Prussia";
+        case CardInterface.RU: return "Russland";
+        case CardInterface.SP: return "Spain";
+        case CardInterface.US: return "USA";
+        default: return "Unknown";
+        }
     }
-    
+    else
+    {
+        switch(getNation())
+        {
+        case CardInterface.BR: return "BR";
+        case CardInterface.AU: return "AU";
+        case CardInterface.FR: return "FR"; 
+        case CardInterface.OT: return "OT";
+        case CardInterface.PR: return "PR";
+        case CardInterface.RU: return "RU";
+        case CardInterface.SP: return "SP";
+        case CardInterface.US: return "US";
+        default: return "Unknown";
+        }  
+    }
     }
             
     
@@ -271,7 +287,7 @@ public class Player  implements Serializable{
     public String toString() {
     
         return getName() +
-                ",Nation: " + nationToString(getNation())+  
+                ",Nation: " + getNationAsString(false)+  
                 ",Army size: " + (army != null ? getArmy().length  : "0"
                 +",Hand Size: "  + (hand != null ? getHand().cardList.size()  : "0") 
                 ) ;

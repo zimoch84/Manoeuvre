@@ -6,6 +6,7 @@
 package manouvre.game.commands;
 
 import manouvre.game.Game;
+import manouvre.game.Param;
 import manouvre.game.interfaces.Command;
 
 /**
@@ -42,7 +43,7 @@ public class NextPhaseCommand implements Command{
 
     @Override
     public int getType() {
-       return Command.NEXT_PHASE;
+       return Param.NEXT_PHASE;
     }
     
 }

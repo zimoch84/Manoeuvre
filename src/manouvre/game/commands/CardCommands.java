@@ -7,6 +7,7 @@ package manouvre.game.commands;
 
 import manouvre.game.Card;
 import manouvre.game.Game;
+import manouvre.game.Param;
 import manouvre.game.interfaces.Command;
 
 /**
@@ -41,7 +42,7 @@ public static class MoveToTableCommand implements Command{
 
         @Override
         public int getType() {
-            return Command.PLAY_CARD;
+            return Param.PLAY_CARD;
         }
     }    
  
@@ -80,7 +81,7 @@ public static class ForcedMarchCommand implements Command {
 
         @Override
         public int getType() {
-            return Command.PLAY_CARD;
+            return Param.PLAY_CARD;
         }
         
         
