@@ -14,7 +14,7 @@ import manouvre.game.Dice;
  *
  * @author Bartosz
  */
-
+//someth
 
 
 
@@ -104,7 +104,7 @@ public class Card implements CardInterface, Serializable{
     boolean playable=false;
     boolean cardNotFound=false;
 
-  
+    boolean justToTry;
  
     boolean selected;
     
