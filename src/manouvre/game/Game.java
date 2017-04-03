@@ -55,10 +55,11 @@ public final class Game implements Serializable{
         hostPlayer.setHost(true);
         hostPlayer.setCards();  
         hostPlayer.generateUnits(); 
-        
+        cardEngine = new CardEngine(hostPlayer);
         guestPlayer.setHost(false);
         guestPlayer.setCards();  
         guestPlayer.generateUnits(); 
+       // cardEngine = new CardEngine(guestPlayer);
                 
         generateMap(); 
         
@@ -79,6 +80,7 @@ public final class Game implements Serializable{
         
         players.add(hostPlayer);
         players.add(guestPlayer);
+       
         
         return players;
         

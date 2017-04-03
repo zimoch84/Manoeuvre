@@ -49,7 +49,7 @@ public class GameGUI {
     
     int windowMode;
     
-    boolean lockGUI;
+    boolean lockGUI=false;
     
     public GameGUI (Game newGame, int windowMode) throws IOException{
         this.game=newGame;

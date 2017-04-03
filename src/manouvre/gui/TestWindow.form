@@ -26,8 +26,11 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="CloseButton" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="drawCards" min="-2" max="-2" attributes="0"/>
+                  <Component id="CloseButton" alignment="1" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -36,13 +39,19 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel1" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="CloseButton" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="drawCards" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="CloseButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
           </Group>
       </Group>
     </DimensionLayout>
@@ -61,37 +70,32 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="SkirmishBox" min="-2" max="-2" attributes="0"/>
-                      <Component id="RoyalEngineersBox" min="-2" max="-2" attributes="0"/>
-                      <Component id="AmbushBox" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="CommitedAttackBox" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="RegroupBox" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="SpyBox" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="EngineersBox" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="GuerrillasBox" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="RedoubtBox" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="SupplyBox" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="ForcedMarchBox" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="TextField" min="-2" pref="298" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
-                                      <Component id="TestField" min="-2" pref="298" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="ProgressBar" alignment="0" min="-2" pref="314" max="-2" attributes="0"/>
-                              </Group>
+                      <Group type="102" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="SkirmishBox" min="-2" max="-2" attributes="0"/>
+                              <Component id="RoyalEngineersBox" min="-2" max="-2" attributes="0"/>
+                              <Component id="AmbushBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="CommitedAttackBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="RegroupBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="SpyBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="EngineersBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="GuerrillasBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="RedoubtBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="SupplyBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="ForcedMarchBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="ScoutBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="WithdrawBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="ProgressBar" alignment="0" min="-2" pref="314" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-                          <Component id="drawCards" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="ScoutBox" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="WithdrawBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                          <Component id="TextField" min="-2" pref="298" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace pref="421" max="32767" attributes="0"/>
+                  <EmptySpace pref="41" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -124,16 +128,11 @@
                   <Component id="SupplyBox" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="WithdrawBox" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="26" max="32767" attributes="0"/>
-                  <Component id="TestField" min="-2" pref="22" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="TextField" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="drawCards" min="-2" max="-2" attributes="0"/>
-                      <Component id="ProgressBar" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="TextField" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="ProgressBar" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -236,27 +235,13 @@
         </Component>
         <Component class="javax.swing.JTextField" name="TextField">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+            <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="Text"/>
+            <Property name="name" type="java.lang.String" value="Test Popup" noResource="true"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TextFieldActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JButton" name="drawCards">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Draw Cards"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="drawCardsActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JTextField" name="TestField">
-          <Properties>
-            <Property name="editable" type="boolean" value="false"/>
-            <Property name="text" type="java.lang.String" value="Test"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TestFieldActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JCheckBox" name="RoyalEngineersBox">
@@ -283,6 +268,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CloseButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="drawCards">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Draw Cards"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="drawCardsActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
