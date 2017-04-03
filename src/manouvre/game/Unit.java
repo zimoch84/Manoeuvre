@@ -37,12 +37,12 @@ public class Unit implements UnitInterface, Serializable{
     boolean injured;
     boolean eliminated;
    
-    //Must be done Bart
     boolean selected; 
     boolean hasMoved = false;
     boolean hasAttacked =false;
     boolean retrieving;
-    //
+    boolean showLOS = false;
+    
    
     
     int ID;
@@ -163,6 +163,7 @@ public class Unit implements UnitInterface, Serializable{
     
         setPosition(newPosition);
         hasMoved = true;
+            if(isSelected()) setSelected(false);
     }
     
     public boolean equals(Unit inUnit){
@@ -174,11 +175,11 @@ public class Unit implements UnitInterface, Serializable{
     }
     
     //Bart
-    public boolean isHasMoved() {
+    public boolean hasMoved() {
         return hasMoved;
     }
 
-    public void setHasMoved(boolean hasMoved) {
+    public void setMoved(boolean hasMoved) {
         this.hasMoved = hasMoved;
     }
 
@@ -209,6 +210,14 @@ public class Unit implements UnitInterface, Serializable{
     
     public String getName() {
         return name;
+    }
+
+    public boolean isShowingLOS() {
+        return showLOS;
+    }
+
+    public void setShowingLOS(boolean showLOS) {
+        this.showLOS = showLOS;
     }
     
     

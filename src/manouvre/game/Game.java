@@ -8,11 +8,13 @@ package manouvre.game;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import static manouvre.game.interfaces.PositionInterface.COLUMN_H;
 import static manouvre.game.interfaces.PositionInterface.ROW_8;
 import manouvre.gui.CreateRoomWindow;
 import manouvre.gui.MapGUI;
 import manouvre.gui.UnitGUI;
+import manouvre.network.server.UnoptimizedDeepCopy;
 
 /**
  *
@@ -43,28 +45,9 @@ public final class Game implements Serializable{
     private Player hostPlayer;
     private Player guestPlayer;
     boolean isServer=true;  //if this will not change game is set on Server
+    private CardEngine cardEngine;
     
 
-  
-    public Game(Player newPlayer) throws IOException {
-        this.currentPlayer = newPlayer;
-        
-        turn = 1;
-        
-        //All this here is TEMP and should be deleted when using "correct" creation of Player (thru server)
-       
-        currentPlayer.setNation(1);  //TEMP
-        currentPlayer.setCards();  //TEMP
-        currentPlayer.generateUnits(); //TEMP
-        
-      
-      
-        generateMap(); //TEMP
-        placeUnitsOnMap(newPlayer);
-        
-        //-----------------------------------------
-    }
-    
     public Game(ArrayList<Player> players) {
         this.hostPlayer = players.get(0);
         this.guestPlayer = players.get(1);
@@ -164,7 +147,22 @@ public final class Game implements Serializable{
     public ArrayList<Position> getPossibleVolley(Unit unit){
         return null;   
     };
-    
+    public ArrayList<Position> getOneSquarePositions(Position unitPosition){
+        ArrayList<Position> positions = new ArrayList<>();
+          if (unitPosition.getX()-1  >= 0 ) {
+                  positions.add(new Position(unitPosition.getX()-1, unitPosition.getY()));
+          }
+          if (unitPosition.getY()-1 >= 0){      
+                  positions.add(new Position(unitPosition.getX(), unitPosition.getY()-1 ));
+          }
+          if (unitPosition.getY()+1 <= ROW_8){
+                  positions.add(new Position(unitPosition.getX(), unitPosition.getY()+1));
+          }
+          if (unitPosition.getX()+1 <= COLUMN_H){
+                  positions.add(new Position(unitPosition.getX()+1, unitPosition.getY()));
+          }
+        return positions;
+    }
      /**
          Firstly get adjenced tiles then check on terrain restrictions then check if another tile is occupied
      * @param unit
@@ -239,6 +237,41 @@ public final class Game implements Serializable{
         return moves; 
     };
     
+    public ArrayList<Position> getLOS(Unit unit, int lenght){
+        
+        
+        Position unitPosition = unit.getPosition();
+        ArrayList<Position> los = getOneSquarePositions(unitPosition);
+        
+        ArrayList<Position> loscopy = (ArrayList<Position>) UnoptimizedDeepCopy.copy(los);
+        ArrayList<Position> los2;
+            /*
+            If length = 1 then we have volley 
+            */ 
+            if(lenght == 1)
+                    return loscopy;
+            else 
+            {
+                 for(Iterator<Position> checkLOSPosition = loscopy.iterator(); checkLOSPosition.hasNext() ; ) {
+                    /*  
+                    If 1st square terrain blocks los then 2nd squara wont be visible
+                    */
+                     Position position = checkLOSPosition.next();
+                 if(!map.getTerrainAtPosition(position).isBlockingLOS())   {
+                     los2 = getOneSquarePositions(position);
+                     los2.remove(unitPosition);
+
+                     los.addAll(los2);
+                 }
+                 
+                 }
+                
+                 
+            }
+         return los;           
+    };  
+
+    
     public ArrayList<Position> getPossibleSupportingUnits(Unit unit){
     return null;
     };
@@ -259,7 +292,7 @@ public final class Game implements Serializable{
         /*
         If there is no room for movement return null
         */
-        if (possibleMovements.isEmpty() ) return null;
+        if (possibleMovements.isEmpty() ) return new ArrayList<>();
         
         ArrayList<Position> retreatMovements = new ArrayList<>();
         /*
@@ -290,9 +323,9 @@ public final class Game implements Serializable{
              {
                  
                  retreatMovements.add(checkRetreatPos);
-                             
-                 
-             } 
+                
+             }
+            }
              /*
              If we have side way movements return them
              */
@@ -301,11 +334,10 @@ public final class Game implements Serializable{
             if we have possibleMovements not epmty and none of above is true then 
             possiblemovements contains final move up way
              */
-            else return possibleMovements;
-            }
-      
-        return null;
-    };
+             else return possibleMovements;
+             
+    }
+    
     
     public ArrayList<Position> getSetupPossibleMovement()
     {     
@@ -553,6 +585,14 @@ public final class Game implements Serializable{
               + " Guest Player:"  + ( guestPlayer != null ? guestPlayer.toString() : "null")
                  + " Map: " +  map.toString();
             
+    }
+
+    public CardEngine getCardEngine() {
+        return cardEngine;
+    }
+
+    public void setCardEngine(CardEngine cardEngine) {
+        this.cardEngine = cardEngine;
     }
     
     

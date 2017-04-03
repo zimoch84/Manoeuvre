@@ -299,6 +299,19 @@ public class CardSet implements CardSetInterface, Serializable{
         return cardSetSize;
     }
 
-
+     public Card getSelectedCard(){
+     
+         if(isCardSelected())
+               for(Card checkCard : cardList){
+               
+                   if(checkCard.isSelected())
+                   {
+                       return checkCard;
+                   }
+                   
+               }
+         return null;
+              
+     }
    }
  

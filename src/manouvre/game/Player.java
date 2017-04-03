@@ -6,9 +6,6 @@
 package manouvre.game;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import manouvre.game.interfaces.CardInterface;
-import manouvre.gui.UnitGUI;
 
 /**
  *  Nation
@@ -26,7 +23,7 @@ public class Player  implements Serializable{
     
     private static final long serialVersionUID = 43211L;
     String name;
-    int nation; //for nation description see CardInterface
+    int nation; //for nation description see Card
 
    
     CardSet hand;
@@ -68,21 +65,37 @@ public class Player  implements Serializable{
         setDraw(false);
     }
 
-    public String nationToString(int nation)
-        {
-    switch(getNation())
+    public String getNationAsString(boolean shortName)
     {
-    case CardInterface.BR: return "GreatBritain";
-    case CardInterface.AU: return "Austria";
-    case CardInterface.FR: return "France"; 
-    case CardInterface.OT: return "Ottoman";
-    case CardInterface.PR: return "Prussia";
-    case CardInterface.RU: return "Russland";
-    case CardInterface.SP: return "Spain";
-    case CardInterface.US: return "USA";
-    default : return "Unknown";
+    if(!shortName) {       
+        switch(getNation())
+        {
+        case Card.BR: return "GreatBritain";
+        case Card.AU: return "Austria";
+        case Card.FR: return "France"; 
+        case Card.OT: return "Ottoman";
+        case Card.PR: return "Prussia";
+        case Card.RU: return "Russland";
+        case Card.SP: return "Spain";
+        case Card.US: return "USA";
+        default: return "Unknown";
+        }
     }
-    
+    else
+    {
+        switch(getNation())
+        {
+        case Card.BR: return "BR";
+        case Card.AU: return "AU";
+        case Card.FR: return "FR"; 
+        case Card.OT: return "OT";
+        case Card.PR: return "PR";
+        case Card.RU: return "RU";
+        case Card.SP: return "SP";
+        case Card.US: return "US";
+        default: return "Unknown";
+        }  
+    }
     }
             
     
@@ -115,51 +128,8 @@ public class Player  implements Serializable{
              army[y] =   unit  ;      
               y++;     
          }
-        
-            
-    // System.out.println("Units Generated:");
+ 
     }
-    
-//    public void generateUnits(){
-//     
-//        army = new ArrayList<Unit>();
-//        /*
-//        If its host then place units on B row else place unit on G row
-//        */
-//        
-//        if(isHost())
-//      for (int i=getNation()*8  ;i<getNation()*8+8;i++)
-//        {
-//
-//            
-//            Unit unit =  new Unit(i+1);
-//          /*
-//            Pozycja tymczasowo - bedzie tworzona w setupie
-//            */
-//            unit.setPosition(new Position (  i- ( getNation()*8)    ,1));
-//            army.add(   unit     ) ;      
-//                   
-//              
-//       
-//        }
-//        else 
-//      for (int i=getNation()*8  ;i<getNation()*8+8;i++)
-//        {
-//
-//            
-//            Unit unit =  new Unit(i+1);
-//          /*
-//            Pozycja tymczasowo - bedzie tworzona w setupie
-//            */
-//            unit.setPosition(new Position (  i- ( getNation()*8)    ,7));
-//            army.add(   unit     ) ;      
-//                   
-//              
-//       
-//        }      
-//            
-//    // System.out.println("Units Generated:");
-//    }
     
     /*
     Getters and setters
@@ -271,7 +241,7 @@ public class Player  implements Serializable{
     public String toString() {
     
         return getName() +
-                ",Nation: " + nationToString(getNation())+  
+                ",Nation: " + getNationAsString(false)+  
                 ",Army size: " + (army != null ? getArmy().length  : "0"
                 +",Hand Size: "  + (hand != null ? getHand().cardList.size()  : "0") 
                 ) ;
@@ -293,6 +263,14 @@ public class Player  implements Serializable{
         this.playingCard = playingCard;
     }
     
+    public Unit getLastMovedUnit(){
     
+        for(Unit checkUnit: getArmy()){
+        
+            if(checkUnit.hasMoved()) return checkUnit;
+        }
+        return null;
+        
+    }
     
 }

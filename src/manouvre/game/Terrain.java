@@ -7,7 +7,6 @@ package manouvre.game;
 
 import java.io.Serializable;
 import manouvre.game.interfaces.TerrainInterface;
-import manouvre.game.interfaces.UnitInterface;
 
 /**
  *

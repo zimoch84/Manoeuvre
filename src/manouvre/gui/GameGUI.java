@@ -16,8 +16,16 @@ import manouvre.game.Unit;
 import manouvre.game.commands.DiscardCardCommand;
 import manouvre.game.commands.DrawCardCommand;
 import manouvre.network.client.Message;
-import static java.lang.Math.round;
 import manouvre.game.commands.CommandQueue;
+import static java.lang.Math.round;
+import manouvre.game.Card;
+import manouvre.game.CardEngine;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
 import static java.lang.Math.round;
 
 
@@ -94,6 +102,14 @@ public class GameGUI {
         Draw retrieving arrows
         */
         drawRetrieving(g);
+        /*
+        Draw LOS
+        */
+        drawLOS(g);
+        /*
+        Draw card actions
+        */
+        drawCardSelections(g);
         
        
     }
@@ -182,11 +198,13 @@ public class GameGUI {
 
                             System.out.println("manouvre.gui.ClientUI.drawMap() : " + game.getCurrentPlayerUnitAtPosition(terrainGUI.getPos()).toString());
                             ArrayList<Position> movePositions;
-                            if(game.getPhase() == Game.SETUP)
-                            {movePositions = game.getSetupPossibleMovement();}
-                            else if (game.getCurrentPlayer().isPlayingCard() )
+                            if(game.getPhase() == Game.SETUP && !game.getCurrentPlayer().isPlayingCard())
                             {
-                                movePositions = game.getOneSquareMovements(terrainGUI.getPos());
+                                movePositions = game.getSetupPossibleMovement();
+                            }
+                            else if (game.getCurrentPlayerUnitAtPosition(terrainGUI.getPos()).isRetriving()  )
+                            {
+                                return;
                             }
                             else
                             {movePositions = game.getPossibleMovement(game.getCurrentPlayerUnitAtPosition(terrainGUI.getPos()));}
@@ -364,6 +382,73 @@ public class GameGUI {
                 }
             }
     }
+    private void drawCardSelections(Graphics g){
+    
+        if(game.getCurrentPlayer().isPlayingCard())
+        {
+         ArrayList<Position> movePositions;
+         Card playingCard = game.getCurrentPlayer().getCardEngine().getCurrentPlayedCard();
+         if (game.getCurrentPlayer().isPlayingCard())
+            switch(playingCard.getCardType())
+            {
+            case Card.FORCED_MARCH: 
+               {
+                Unit lastMovedUnit = game.getCurrentPlayer().getLastMovedUnit();
+                movePositions = game.getOneSquareMovements(lastMovedUnit.getPosition());
+                 
+                for (Position drawMovePosion : movePositions) {
+                                g.setColor(Color.red);
+                                g.drawRoundRect(
+                                        (windowMode == CreateRoomWindow.AS_HOST) ? 
+                                                drawMovePosion.getMouseX(): 
+                                                drawMovePosion.transpoze().getMouseX()
+                                        + gapSelection,
+                                        (windowMode == CreateRoomWindow.AS_HOST) ?
+                                                drawMovePosion.getMouseY(): 
+                                                drawMovePosion.transpoze().getMouseY()
+                                                + gapSelection, 
+                                        MapGUI.SQUARE_WIDTH - 2 * gapSelection, 
+                                        MapGUI.SQUARE_HEIGHT - 2 * gapSelection, 
+                                        10, 10);
+                            }
+                 
+                break;
+               }
+            }
+    
+    }
+    }
+    
+    /**
+      * Draw an arrow line betwwen two point 
+      * @param g the graphic component
+      * @param x1 x-position of first point
+      * @param y1 y-position of first point
+      * @param x2 x-position of second point
+      * @param y2 y-position of second point
+      * @param d  the width of the arrow
+      * @param h  the height of the arrow
+      */
+     private void drawArrow(Graphics g, int x1, int y1, int x2, int y2, int d, int h){
+        int dx = x2 - x1, dy = y2 - y1;
+        double D = Math.sqrt(dx*dx + dy*dy);
+        double xm = D - d, xn = xm, ym = h, yn = -h, x;
+        double sin = dy/D, cos = dx/D;
+
+        x = xm*cos - ym*sin + x1;
+        ym = xm*sin + ym*cos + y1;
+        xm = x;
+
+        x = xn*cos - yn*sin + x1;
+        yn = xn*sin + yn*cos + y1;
+        xn = x;
+
+        int[] xpoints = {x2, (int) xm, (int) xn};
+        int[] ypoints = {y2, (int) ym, (int) yn};
+
+        g.drawLine(x1, y1, x2, y2);
+        g.fillPolygon(xpoints, ypoints, 3);
+     }
     
     /**
       * Draw an arrow line betwwen two point 
@@ -407,7 +492,7 @@ public class GameGUI {
                 for (Position retrivingPositons: game.getRetreatPositions(selectedUnit))
                 {
                     
-                    g.drawLine(
+                    drawArrowLine(g,
                     (windowMode == CreateRoomWindow.AS_HOST) ? 
                             selectedUnit.getPosition().getMouseX() +  MapGUI.PIECE_WIDTH / 2 
                             :
@@ -428,12 +513,52 @@ public class GameGUI {
                             retrivingPositons.getMouseY() +  MapGUI.PIECE_WIDTH / 2
                             :
                             retrivingPositons.transpoze().getMouseY() +  MapGUI.PIECE_WIDTH / 2      
-                    )
+                    , 10,15)
                             ;
                     }
             }
     
       
+    }
+    
+    
+    private void drawLOS(Graphics g){
+    
+        if (mapGui.isUnitSelected()){
+        
+        Unit selectedUnit = game.getSelectedUnit();
+        
+            if(selectedUnit.isShowingLOS()) 
+                
+                
+                
+                for (Position losPositons: game.getLOS(selectedUnit, 2)  )
+                {
+                    drawArrow(g,
+                    (windowMode == CreateRoomWindow.AS_HOST) ? 
+                            selectedUnit.getPosition().getMouseX() +  MapGUI.PIECE_WIDTH / 2 
+                            :
+                            selectedUnit.getPosition().transpoze().getMouseX() +  MapGUI.PIECE_WIDTH / 2
+                            ,
+                    (windowMode == CreateRoomWindow.AS_HOST)
+                            ?
+                            selectedUnit.getPosition().getMouseY() +  MapGUI.PIECE_HEIGHT / 2
+                            :        
+                            selectedUnit.getPosition().transpoze().getMouseY() +  MapGUI.PIECE_HEIGHT / 2        
+                                    ,                    
+                    (windowMode == CreateRoomWindow.AS_HOST) ?
+                            losPositons.getMouseX() + MapGUI.PIECE_WIDTH / 2
+                            :
+                            losPositons.transpoze().getMouseX() + MapGUI.PIECE_WIDTH / 2        
+                            ,
+                    (windowMode == CreateRoomWindow.AS_HOST) ?
+                            losPositons.getMouseY() +  MapGUI.PIECE_WIDTH / 2
+                            :
+                            losPositons.transpoze().getMouseY() +  MapGUI.PIECE_WIDTH / 2      
+                    , 10,15)
+                            ;
+                    }
+            }
     }
     
     private void generateUnitsUI() {
@@ -464,15 +589,43 @@ public class GameGUI {
     
     
  //-------- CARDS - BOTTOM OF THE SCREEN -----------------------------------
-
-    public void paintHand(Graphics g, int mouseCoorX, int mouseCoorY, int mouseClick)                 
-    {   
+    public void phaseChanged(){
+         selectionSeq.clear();//clear selection if phase was changed
+             for (int i=0; i<handSetGui.cardsLeftInSet(); i++){  
+              handSetGui.getCardByPosInSet(i).setSelected(0);   
+             }
+    }
+    public void mouseClickedCard(CardEngine cardEngine){
+        for (int i=0; i<handSetGui.cardsLeftInSet(); i++){  
+        if(handSetGui.getCardByPosInSet(i).isOverCard()==1){
+                if(game.getCurrentPlayer().getHand().getCardByPosInSet(i).isPlayable()){ //select card if it is playable
+                    if(handSetGui.getCardByPosInSet(i).isSelected()==0) {
+                        handSetGui.getCardByPosInSet(i).setSelected(1);
+                        selectionSeq.add(handSetGui.getCardIDByPosInSet(i)); 
+                       
+                        cardEngine.setPlayingCard(handSetGui.getCardByPosInSet(i).getCard());
+                        /*
+                        Remember of clearing this selection in command after playing this card
+                        */
+                        handSetGui.getCardByPosInSet(i).getCard().setSelected(true);
+                        game.getCurrentPlayer().setPlayingCard(true);
+                    }   
+                    else {
+                        handSetGui.getCardByPosInSet(i).setSelected(0);
+                        Integer j=handSetGui.getCardIDByPosInSet(i);
+                        selectionSeq.remove(j); //remove number Integer j, not position int i
+                    }  
+                }
+            }
+        }
+    }
+    public void mouseMovedOverHand(int mouseCoorX, int mouseCoorY, int mouseClick){
         float f=0.5f; //scale factor //Normally cards has 260x375 pixels
         int width=round(260*f), height=round(375*f);
         int cardPaddingTop=20;
         int cardPaddingLeft=20;
-        int cardPaddingTopTemp=cardPaddingTop;
         int gap = 5;    
+        
         for (int i=0; i<handSetGui.cardsLeftInSet(); i++){  
            if(mouseCoorY>(cardPaddingTop-20*handSetGui.getCardByPosInSet(i).isOverCard()-20*handSetGui.getCardByPosInSet(i).isSelected()) && mouseCoorY<(cardPaddingTop+height)){ // if mouse is in row with cards
                 if ((mouseCoorX>cardPaddingLeft+(gap*i)+width*(i)) && mouseCoorX<(cardPaddingLeft+(gap*i)+width*(i+1))){ //if mouse is in th collon with card
@@ -483,37 +636,40 @@ public class GameGUI {
                 }
             }  
             else  handSetGui.getCardByPosInSet(i).setOverCard(0);
-            if(mouseClick==1&&handSetGui.getCardByPosInSet(i).isOverCard()==1){
-                if(game.getCurrentPlayer().getHand().getCardByPosInSet(i).isPlayable()){ //select card if it is playable
-                    if(handSetGui.getCardByPosInSet(i).isSelected()==0) {
-                        handSetGui.getCardByPosInSet(i).setSelected(1);
-                        selectionSeq.add(handSetGui.getCardIDByPosInSet(i)); 
-                    }   
-                    else {
-                        handSetGui.getCardByPosInSet(i).setSelected(0);
-                        Integer j=handSetGui.getCardIDByPosInSet(i);
-                        selectionSeq.remove(j); //remove number Integer j, not position int i
-                    }  
-                }
-            }
-                if((handSetGui.getCardByPosInSet(i).isOverCard()==1 || handSetGui.getCardByPosInSet(i).isSelected()==1)&&game.getCurrentPlayer().getHand().getCardByPosInSet(i).isPlayable()) cardPaddingTopTemp=cardPaddingTop-20;
-                else cardPaddingTopTemp=cardPaddingTop;
-                g.drawImage(handSetGui.getCardByPosInSet(i).getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTopTemp, width, height, null);       
+            
+                
+                    
         }
-                Integer j=0;
-                if(!selectionSeq.isEmpty()){ 
-                   
-                    j=selectionSeq.get(selectionSeq.size()-1);              
-                    j=handSetGui.getPositionInSetByCardID(j); 
-                    int[] xPoints={cardPaddingLeft+35+width*j+(gap*j),cardPaddingLeft+95+width*j+(gap*j),cardPaddingLeft+35+(95-35)/2+width*j+(gap*j)};
-                    int[] yPoints={cardPaddingTop+190,cardPaddingTop+190,cardPaddingTop+178};
-                    g.setColor(Color.white);
-                    g.setFont(new Font("Bookman Old Style", 1, 11));
-                    g.drawString("This card will be visible",cardPaddingLeft+width*j+(gap*j)-10,31+190);
-                    g.drawString("on the Discard Pile",cardPaddingLeft+width*j+(gap*j)+0,44+190);  
-                    g.fillPolygon(xPoints, yPoints, 3);
-                }                         
+    }
+    public void paintHand(Graphics g)                 
+    {   
+    float f=0.5f; //scale factor //Normally cards has 260x375 pixels
+    int width=round(260*f), height=round(375*f);
+    int cardPaddingTop=20;
+    int cardPaddingLeft=20;
+    int cardPaddingTopTemp=cardPaddingTop;
+    int gap = 5;    
+
+        Integer j=0;
+
+        if(!selectionSeq.isEmpty()){ 
+
+            j=selectionSeq.get(selectionSeq.size()-1);              
+            j=handSetGui.getPositionInSetByCardID(j); 
+            int[] xPoints={cardPaddingLeft+35+width*j+(gap*j),cardPaddingLeft+95+width*j+(gap*j),cardPaddingLeft+35+(95-35)/2+width*j+(gap*j)};
+            int[] yPoints={cardPaddingTop+190,cardPaddingTop+190,cardPaddingTop+178};
+            g.setColor(Color.white);
+            g.setFont(new Font("Bookman Old Style", 1, 11));
+            g.drawString("This card will be visible",cardPaddingLeft+width*j+(gap*j)-10,31+190);
+            g.drawString("on the Discard Pile",cardPaddingLeft+width*j+(gap*j)+0,44+190);  
+            g.fillPolygon(xPoints, yPoints, 3);
+        }  
+        for (int i=0; i<handSetGui.cardsLeftInSet(); i++) {   
+            if((handSetGui.getCardByPosInSet(i).isOverCard()==1 || handSetGui.getCardByPosInSet(i).isSelected()==1)&&game.getCurrentPlayer().getHand().getCardByPosInSet(i).isPlayable()) cardPaddingTopTemp=cardPaddingTop-20;
+            else cardPaddingTopTemp=cardPaddingTop;
+            g.drawImage(handSetGui.getCardByPosInSet(i).getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTopTemp, width, height, null);  
         }
+    }
 
     public Message discardSelCards(){ //done on hand itseld not on HandGui
         ArrayList<Integer> selectionSeqTemp=new ArrayList<Integer>();
@@ -633,7 +789,7 @@ public class GameGUI {
         g.drawString(drawLeft.toString(),20,110); 
     }
     
-   public static void drawStringMultiLine(Graphics g, String text, int lineWidth, int x, int y) {
+   private static void drawStringMultiLine(Graphics g, String text, int lineWidth, int x, int y) {
     FontMetrics m = g.getFontMetrics();
     if(m.stringWidth(text) < lineWidth) {
         g.drawString(text, x, y);
@@ -776,6 +932,7 @@ public class GameGUI {
     public void setUnitsGui(ArrayList<UnitGUI> unitsGui) {
         this.currentPlayerArmy = unitsGui;
     }
+    
     
      
 }

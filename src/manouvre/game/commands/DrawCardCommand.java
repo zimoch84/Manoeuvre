@@ -5,6 +5,7 @@
  */
 package manouvre.game.commands;
 import manouvre.game.Game;
+import manouvre.game.Param;
 
 import manouvre.game.interfaces.Command;
 
@@ -50,7 +51,7 @@ public class DrawCardCommand implements Command {
 
     @Override
     public int getType() {
-        return Command.DRAW_CARD;
+        return Param.DRAW_CARD;
     }
 }
 

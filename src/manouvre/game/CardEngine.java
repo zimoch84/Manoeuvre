@@ -53,7 +53,6 @@ public class CardEngine implements Serializable{
     Funtion to get current playing card
     */
     public Card getCurrentPlayedCard(){
-    
         
         /*
         To do - return played card

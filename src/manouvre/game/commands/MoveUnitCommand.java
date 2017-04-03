@@ -6,6 +6,7 @@
 package manouvre.game.commands;
 
 import manouvre.game.Game;
+import manouvre.game.Param;
 import manouvre.game.Position;
 import manouvre.game.Unit;
 import manouvre.game.interfaces.Command;
@@ -76,6 +77,6 @@ public class MoveUnitCommand implements Command {
 
     @Override
     public int getType() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return Param.MOVE_UNIT;
     }
 }

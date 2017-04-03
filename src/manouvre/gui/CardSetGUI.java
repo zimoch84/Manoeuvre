@@ -81,6 +81,6 @@ public class CardSetGUI {
        return cardListGui.get(cardPosition).card.getCardName();     
     }
     
-    
+           
     
 }
