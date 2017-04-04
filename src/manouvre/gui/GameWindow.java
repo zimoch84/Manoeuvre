@@ -825,7 +825,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             }
         });
 
-        TestPopup.setText("jButton1");
+        TestPopup.setText("Test Popup");
         TestPopup.setActionCommand("TestPopup");
         TestPopup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1008,17 +1008,17 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
     private void playerHandPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseClicked
                 gameGui.mouseClickedCard(game.getCardEngine()); 
                 setActionButtonText();  //when card is selected set the buttons
-                this.repaint();
+                repaint();
                 if(game.getPhase()==Game.DISCARD)
                     setActionButtonText();  //if selection was done discard button should be visible
                 
-                actionButton.setEnabled(
-                        
-                        !gameGui.getSelectionSeqIsEmpty()
-                                &&game.getPhase()!=Game.DISCARD
-                                &&game.getPhase()!=Game.DRAW
-                
-                );  
+//                actionButton.setEnabled(
+//                        
+//                        !gameGui.getSelectionSeqIsEmpty()
+//                                &&game.getPhase()!=Game.DISCARD
+//                                &&game.getPhase()!=Game.DRAW
+//                
+//                );  
                 //this.repaint();
                 
                 
@@ -1254,8 +1254,8 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
 
             case Game.DISCARD :
             {
-                client.send(gameGui.discardSelCards());
-
+                
+                clientSend(gameGui.discardSelCards());               
                 setActionButtonText();
                 this.repaint();
                 break;
@@ -1380,6 +1380,19 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         TestWindow testWindow = new TestWindow(game, this);
         testWindow.setVisible(true);
     }//GEN-LAST:event_TestPopupActionPerformed
+    
+    public void clientSend(Message message){
+        client.send(gameGui.discardSelCards());
+        this.repaint();
+    }
+
+    public GameGUI getGameGui() {
+        return gameGui;
+    }
+
+    public void setGameGui(GameGUI gameGui) {
+        this.gameGui = gameGui;
+    }
     
     /**
 	 * check whether the mouse is currently over this piece

@@ -18,7 +18,7 @@ import manouvre.network.client.Message;
  */
 public class TestWindow extends javax.swing.JFrame {
 
-    int numberOfPossibleCards=0, tempNumberOfPossibleCards=0;
+    int numberOfPossibleCards=0, tempNumberOfPossibleCards=0, numberOfChosenCards=0;
     GameWindow gameWindow;
     CardSet testCards;
     Game game;
@@ -90,12 +90,16 @@ public class TestWindow extends javax.swing.JFrame {
     
     
     private void addPossibleToSelectCard(){
-        if (tempNumberOfPossibleCards<5)
+        if (tempNumberOfPossibleCards<5){
         tempNumberOfPossibleCards++;
+        numberOfChosenCards--;
+        }
     }
      private void subPossibleToSelectCard(){
-         if (tempNumberOfPossibleCards>0)
-         tempNumberOfPossibleCards--;
+        if (tempNumberOfPossibleCards>0){
+        tempNumberOfPossibleCards--;
+        numberOfChosenCards++;
+        }
     }
     
 
@@ -122,11 +126,10 @@ public class TestWindow extends javax.swing.JFrame {
         ScoutBox = new javax.swing.JCheckBox();
         ProgressBar = new javax.swing.JProgressBar();
         TextField = new javax.swing.JTextField();
-        drawCards = new javax.swing.JButton();
-        TestField = new javax.swing.JTextField();
         RoyalEngineersBox = new javax.swing.JCheckBox();
         SpyBox = new javax.swing.JCheckBox();
         CloseButton = new javax.swing.JButton();
+        drawCards = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -213,25 +216,13 @@ public class TestWindow extends javax.swing.JFrame {
         ProgressBar.setMaximum(5);
         ProgressBar.setToolTipText("");
 
+        TextField.setEditable(false);
+        TextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         TextField.setText("Text");
+        TextField.setName("Test Popup"); // NOI18N
         TextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TextFieldActionPerformed(evt);
-            }
-        });
-
-        drawCards.setText("Draw Cards");
-        drawCards.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                drawCardsActionPerformed(evt);
-            }
-        });
-
-        TestField.setEditable(false);
-        TestField.setText("Test");
-        TestField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TestFieldActionPerformed(evt);
             }
         });
 
@@ -254,32 +245,28 @@ public class TestWindow extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SkirmishBox)
-                    .addComponent(RoyalEngineersBox)
-                    .addComponent(AmbushBox)
-                    .addComponent(CommitedAttackBox)
-                    .addComponent(RegroupBox)
-                    .addComponent(SpyBox)
-                    .addComponent(EngineersBox)
-                    .addComponent(GuerrillasBox)
-                    .addComponent(RedoubtBox)
-                    .addComponent(SupplyBox)
-                    .addComponent(ForcedMarchBox)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGap(16, 16, 16)
-                                    .addComponent(TestField, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(ProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(36, 36, 36)
-                        .addComponent(drawCards))
-                    .addComponent(ScoutBox)
-                    .addComponent(WithdrawBox))
-                .addContainerGap(421, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(SkirmishBox)
+                            .addComponent(RoyalEngineersBox)
+                            .addComponent(AmbushBox)
+                            .addComponent(CommitedAttackBox)
+                            .addComponent(RegroupBox)
+                            .addComponent(SpyBox)
+                            .addComponent(EngineersBox)
+                            .addComponent(GuerrillasBox)
+                            .addComponent(RedoubtBox)
+                            .addComponent(SupplyBox)
+                            .addComponent(ForcedMarchBox)
+                            .addComponent(ScoutBox)
+                            .addComponent(WithdrawBox)
+                            .addComponent(ProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -310,21 +297,24 @@ public class TestWindow extends javax.swing.JFrame {
                 .addComponent(SupplyBox)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(WithdrawBox)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                .addComponent(TestField, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(drawCards)
-                    .addComponent(ProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addComponent(TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         CloseButton.setText("Close");
         CloseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CloseButtonActionPerformed(evt);
+            }
+        });
+
+        drawCards.setText("Draw Cards");
+        drawCards.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                drawCardsActionPerformed(evt);
             }
         });
 
@@ -335,27 +325,32 @@ public class TestWindow extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(CloseButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(drawCards)
+                    .addComponent(CloseButton, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(CloseButton)
-                .addGap(57, 57, 57))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(drawCards)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(CloseButton)
+                        .addGap(28, 28, 28))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    // <editor-fold defaultstate="collapsed" desc="Typ function"> 
     private void AmbushBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AmbushBoxActionPerformed
-        // TODO add your handling code here:
         if(!AmbushBox.isSelected()&& (tempNumberOfPossibleCards<5)) {
             addPossibleToSelectCard();      
         }
@@ -366,14 +361,12 @@ public class TestWindow extends javax.swing.JFrame {
         
         ProgressBar.setValue(tempNumberOfPossibleCards);
         TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
-        for(int i=0; i<testCards.cardsLeftInSet(); i++){
-        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
-        }
-         //this.repaint();
+//        for(int i=0; i<testCards.cardsLeftInSet(); i++){
+//        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
+//        }
     }//GEN-LAST:event_AmbushBoxActionPerformed
-
+// <editor-fold defaultstate="collapsed" desc="Typ function"> 
     private void EngineersBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EngineersBoxActionPerformed
-        // TODO add your handling code here:
         if(!EngineersBox.isSelected() && (tempNumberOfPossibleCards<5)) {
             addPossibleToSelectCard();
         }
@@ -384,16 +377,13 @@ public class TestWindow extends javax.swing.JFrame {
         
         
         ProgressBar.setValue(tempNumberOfPossibleCards);
-         TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
-          for(int i=0; i<testCards.cardsLeftInSet(); i++){
-        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
-        }
-       // this.repaint();
+        TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
+//        for(int i=0; i<testCards.cardsLeftInSet(); i++){
+//        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
+//        }
     }//GEN-LAST:event_EngineersBoxActionPerformed
-
+// <editor-fold defaultstate="collapsed" desc="Typ function"> 
     private void WithdrawBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_WithdrawBoxActionPerformed
-        // TODO add your handling code here:
-        
         if(!WithdrawBox.isSelected() && (tempNumberOfPossibleCards<5)) {
             addPossibleToSelectCard();
         }
@@ -403,21 +393,17 @@ public class TestWindow extends javax.swing.JFrame {
         } else WithdrawBox.setSelected(false);   
         
         ProgressBar.setValue(tempNumberOfPossibleCards);
-         TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
-          for(int i=0; i<testCards.cardsLeftInSet(); i++){
-        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
-        }
-      //  this.repaint();
+        TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
+//        for(int i=0; i<testCards.cardsLeftInSet(); i++){
+//        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
+//        }
     }//GEN-LAST:event_WithdrawBoxActionPerformed
-
+// <editor-fold defaultstate="collapsed" desc="Typ function"> 
     private void CloseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CloseButtonActionPerformed
-        // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_CloseButtonActionPerformed
-
+// <editor-fold defaultstate="collapsed" desc="Typ function"> 
     private void CommitedAttackBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CommitedAttackBoxActionPerformed
-        // TODO add your handling code here:
-      
         if(!CommitedAttackBox.isSelected() && (tempNumberOfPossibleCards<5)) {
             addPossibleToSelectCard();
         }
@@ -425,18 +411,15 @@ public class TestWindow extends javax.swing.JFrame {
             subPossibleToSelectCard();
             testCards.addCardToThisSet(commitedAttack);
         } else CommitedAttackBox.setSelected(false);   
-        
         ProgressBar.setValue(tempNumberOfPossibleCards);
         TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
-         for(int i=0; i<testCards.cardsLeftInSet(); i++){
-        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
-        }
+//        for(int i=0; i<testCards.cardsLeftInSet(); i++){
+//        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
+//        }
        // this.repaint();
     }//GEN-LAST:event_CommitedAttackBoxActionPerformed
-
+// <editor-fold defaultstate="collapsed" desc="Typ function"> 
     private void ForcedMarchBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ForcedMarchBoxActionPerformed
-        // TODO add your handling code here:
-        
         if(!ForcedMarchBox.isSelected() && (tempNumberOfPossibleCards<5)) {
             addPossibleToSelectCard();
         }
@@ -444,18 +427,15 @@ public class TestWindow extends javax.swing.JFrame {
             subPossibleToSelectCard();
             testCards.addCardToThisSet(forcedMarch);
         } else ForcedMarchBox.setSelected(false);   
-        
         ProgressBar.setValue(tempNumberOfPossibleCards);
-         TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
-          for(int i=0; i<testCards.cardsLeftInSet(); i++){
-        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
-        }
+        TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
+//        for(int i=0; i<testCards.cardsLeftInSet(); i++){
+//        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
+//        }
        // this.repaint();
     }//GEN-LAST:event_ForcedMarchBoxActionPerformed
-
+// <editor-fold defaultstate="collapsed" desc="Typ function"> 
     private void GuerrillasBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuerrillasBoxActionPerformed
-        // TODO add your handling code here:
-       
         if(!GuerrillasBox.isSelected() && (tempNumberOfPossibleCards<5)) {
             addPossibleToSelectCard();
         }
@@ -463,18 +443,14 @@ public class TestWindow extends javax.swing.JFrame {
              subPossibleToSelectCard();
              testCards.addCardToThisSet(guerrillas);
          } else GuerrillasBox.setSelected(false);   
-        
         ProgressBar.setValue(tempNumberOfPossibleCards);
-         TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
-          for(int i=0; i<testCards.cardsLeftInSet(); i++){
-        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
-        }
-       // this.repaint();
+        TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
+//        for(int i=0; i<testCards.cardsLeftInSet(); i++){
+//        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
+//        }
     }//GEN-LAST:event_GuerrillasBoxActionPerformed
-
+// <editor-fold defaultstate="collapsed" desc="Typ function"> 
     private void RedoubtBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RedoubtBoxActionPerformed
-        // TODO add your handling code here:
-       
         if(!RedoubtBox.isSelected() && (tempNumberOfPossibleCards<5)) {
             addPossibleToSelectCard();
         }
@@ -482,18 +458,14 @@ public class TestWindow extends javax.swing.JFrame {
             subPossibleToSelectCard();
             testCards.addCardToThisSet(redoubt);
         } else RedoubtBox.setSelected(false);   
-        
         ProgressBar.setValue(tempNumberOfPossibleCards);
-         TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
-          for(int i=0; i<testCards.cardsLeftInSet(); i++){
-        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
-        }
-       // this.repaint();
+        TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
+//        for(int i=0; i<testCards.cardsLeftInSet(); i++){
+//        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
+//        }
     }//GEN-LAST:event_RedoubtBoxActionPerformed
-
+// <editor-fold defaultstate="collapsed" desc="Typ function"> 
     private void RegroupBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegroupBoxActionPerformed
-        // TODO add your handling code here:
-       
         if(!RegroupBox.isSelected() && (tempNumberOfPossibleCards<5)) {
             addPossibleToSelectCard();
         }
@@ -501,18 +473,14 @@ public class TestWindow extends javax.swing.JFrame {
             subPossibleToSelectCard();
             testCards.addCardToThisSet(regroup);
         } else RegroupBox.setSelected(false);   
-        
         ProgressBar.setValue(tempNumberOfPossibleCards);
-         TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
-          for(int i=0; i<testCards.cardsLeftInSet(); i++){
-        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
-        }
-       // this.repaint();
+        TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
+//        for(int i=0; i<testCards.cardsLeftInSet(); i++){
+//        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
+//        }
     }//GEN-LAST:event_RegroupBoxActionPerformed
-
+// <editor-fold defaultstate="collapsed" desc="Typ function"> 
     private void ScoutBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ScoutBoxActionPerformed
-        // TODO add your handling code here:
-        
         if(!ScoutBox.isSelected() && (tempNumberOfPossibleCards<5)) {
             addPossibleToSelectCard();
         }
@@ -520,18 +488,14 @@ public class TestWindow extends javax.swing.JFrame {
             subPossibleToSelectCard();
             testCards.addCardToThisSet(scout);
         } else ScoutBox.setSelected(false);   
-        
         ProgressBar.setValue(tempNumberOfPossibleCards);
         TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
-         for(int i=0; i<testCards.cardsLeftInSet(); i++){
-        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
-        }
-       // this.repaint();
+//        for(int i=0; i<testCards.cardsLeftInSet(); i++){
+//        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
+//        }
     }//GEN-LAST:event_ScoutBoxActionPerformed
-
+// <editor-fold defaultstate="collapsed" desc="Typ function"> 
     private void SkirmishBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SkirmishBoxActionPerformed
-        // TODO add your handling code here:
-       
         if(!SkirmishBox.isSelected() && (tempNumberOfPossibleCards<5)) {
             addPossibleToSelectCard();
         }
@@ -539,19 +503,14 @@ public class TestWindow extends javax.swing.JFrame {
             subPossibleToSelectCard();
             testCards.addCardToThisSet(skirmish);
         } else SkirmishBox.setSelected(false);   
-        
-        
         ProgressBar.setValue(tempNumberOfPossibleCards);
-         TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
-          for(int i=0; i<testCards.cardsLeftInSet(); i++){
-        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
-        }
-       // this.repaint();
+        TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
+//        for(int i=0; i<testCards.cardsLeftInSet(); i++){
+//        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
+//        }
     }//GEN-LAST:event_SkirmishBoxActionPerformed
-
+// <editor-fold defaultstate="collapsed" desc="Typ function"> 
     private void SupplyBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SupplyBoxActionPerformed
-        // TODO add your handling code here:
-        
         if(!SupplyBox.isSelected() && (tempNumberOfPossibleCards<5)) {
             addPossibleToSelectCard();
         }
@@ -559,13 +518,11 @@ public class TestWindow extends javax.swing.JFrame {
             subPossibleToSelectCard();
             testCards.addCardToThisSet(supply);
         } else SupplyBox.setSelected(false);   
-        
         ProgressBar.setValue(tempNumberOfPossibleCards);
-         TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
-          for(int i=0; i<testCards.cardsLeftInSet(); i++){
-        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
-        }
-       // this.repaint();
+        TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
+//        for(int i=0; i<testCards.cardsLeftInSet(); i++){
+//        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
+//        }
     }//GEN-LAST:event_SupplyBoxActionPerformed
 
     private void TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextFieldActionPerformed
@@ -574,31 +531,13 @@ public class TestWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_TextFieldActionPerformed
 
     private void drawCardsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drawCardsActionPerformed
-        // TODO add your handling code here:
-        
-      /*  DrawCardCommand drawCard = new DrawCardCommand(selectionSeqTemp, game.getCurrentPlayer().getName());
-                        
-        Message discardCardMessage = new Message(Message.COMMAND, game.getCurrentPlayer().getName() , Message.DISCARD_CARD_COMMAND, "IN_CHANNEL");
-        discardCardMessage.setCommand(discardCard);
-        
-        //execute locally
-        discardCard.execute(game);*/
-        
-        
-        game.getCurrentPlayer().getHand().addCardsFromTheTopOfOtherSet(numberOfPossibleCards, testCards, true);
-        
-        
-       gameWindow.repaint();
-         this.dispose();
+        game.getCurrentPlayer().getHand().addCardsFromTheTopOfOtherSet(numberOfChosenCards, testCards, true);
+        gameWindow.clientSend(gameWindow.getGameGui().discardSelCards());
+        this.dispose();
         
     }//GEN-LAST:event_drawCardsActionPerformed
 
-    private void TestFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TestFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TestFieldActionPerformed
-
     private void RoyalEngineersBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RoyalEngineersBoxActionPerformed
-        // TODO add your handling code here:
          if(!RoyalEngineersBox.isSelected()&& (tempNumberOfPossibleCards<5)) {
             addPossibleToSelectCard();      
         }
@@ -606,18 +545,14 @@ public class TestWindow extends javax.swing.JFrame {
             subPossibleToSelectCard();
             testCards.addCardToThisSet(royalEngineers);
         } else RoyalEngineersBox.setSelected(false);   
-        
         ProgressBar.setValue(tempNumberOfPossibleCards);
         TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
-         for(int i=0; i<testCards.cardsLeftInSet(); i++){
-        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
-        }
-        //TestField.setText("Card 1: " + testCards.getCardNameByPosInSet(0) + "Card 2: " + testCards.getCardNameByPosInSet(2) + "Card 3: " + testCards.getCardNameByPosInSet(3) );
-        //this.repaint();
+//        for(int i=0; i<testCards.cardsLeftInSet(); i++){
+//        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
+//        }
     }//GEN-LAST:event_RoyalEngineersBoxActionPerformed
 
     private void SpyBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SpyBoxActionPerformed
-        // TODO add your handling code here:
          if(!SpyBox.isSelected()&& (tempNumberOfPossibleCards<5)) {
             addPossibleToSelectCard();      
         }
@@ -628,9 +563,9 @@ public class TestWindow extends javax.swing.JFrame {
         
         ProgressBar.setValue(tempNumberOfPossibleCards);
         TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
-         for(int i=0; i<testCards.cardsLeftInSet(); i++){
-        System.out.println("Test Cards to be added (i): " + testCards.getCardNameByPosInSet(i));
-        }
+//        for(int i=0; i<testCards.cardsLeftInSet(); i++){
+//        System.out.println("Test Cards to be added (i): " + testCards.getCardNameByPosInSet(i));
+//        }
     }//GEN-LAST:event_SpyBoxActionPerformed
 
     /**
@@ -683,7 +618,6 @@ public class TestWindow extends javax.swing.JFrame {
     private javax.swing.JCheckBox SkirmishBox;
     private javax.swing.JCheckBox SpyBox;
     private javax.swing.JCheckBox SupplyBox;
-    private javax.swing.JTextField TestField;
     private javax.swing.JTextField TextField;
     private javax.swing.JCheckBox WithdrawBox;
     private javax.swing.JButton drawCards;

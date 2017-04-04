@@ -778,7 +778,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="TestPopup">
               <Properties>
-                <Property name="text" type="java.lang.String" value="jButton1"/>
+                <Property name="text" type="java.lang.String" value="Test Popup"/>
                 <Property name="actionCommand" type="java.lang.String" value="TestPopup"/>
               </Properties>
               <Events>
