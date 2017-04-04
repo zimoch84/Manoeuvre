@@ -111,7 +111,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         
         title = title + (game.getCurrentPlayer().isFirst() ? " and first player" : " and second player");
 
-        setTitle(title);
+        this.setTitle(title);
         
         
         initComponents();

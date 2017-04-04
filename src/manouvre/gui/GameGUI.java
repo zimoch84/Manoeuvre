@@ -18,7 +18,15 @@ import manouvre.game.commands.DrawCardCommand;
 import manouvre.network.client.Message;
 import manouvre.game.commands.CommandQueue;
 import static java.lang.Math.round;
+import manouvre.game.Card;
 import manouvre.game.CardEngine;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
 
 
 
@@ -98,6 +106,10 @@ public class GameGUI {
         Draw LOS
         */
         drawLOS(g);
+        /*
+        Draw card actions
+        */
+        drawCardSelections(g);
         
        
     }
@@ -186,11 +198,9 @@ public class GameGUI {
 
                             System.out.println("manouvre.gui.ClientUI.drawMap() : " + game.getCurrentPlayerUnitAtPosition(terrainGUI.getPos()).toString());
                             ArrayList<Position> movePositions;
-                            if(game.getPhase() == Game.SETUP)
-                            {movePositions = game.getSetupPossibleMovement();}
-                            else if (game.getCurrentPlayer().isPlayingCard() )
+                            if(game.getPhase() == Game.SETUP && !game.getCurrentPlayer().isPlayingCard())
                             {
-                                movePositions = game.getOneSquareMovements(terrainGUI.getPos());
+                                movePositions = game.getSetupPossibleMovement();
                             }
                             else if (game.getCurrentPlayerUnitAtPosition(terrainGUI.getPos()).isRetriving()  )
                             {
@@ -372,6 +382,43 @@ public class GameGUI {
                 }
             }
     }
+    private void drawCardSelections(Graphics g){
+    
+        if(game.getCurrentPlayer().isPlayingCard())
+        {
+         ArrayList<Position> movePositions;
+         Card playingCard = game.getCurrentPlayer().getCardEngine().getCurrentPlayedCard();
+         if (game.getCurrentPlayer().isPlayingCard())
+            switch(playingCard.getCardType())
+            {
+            case Card.FORCED_MARCH: 
+               {
+                Unit lastMovedUnit = game.getCurrentPlayer().getLastMovedUnit();
+                movePositions = game.getOneSquareMovements(lastMovedUnit.getPosition());
+                 
+                for (Position drawMovePosion : movePositions) {
+                                g.setColor(Color.red);
+                                g.drawRoundRect(
+                                        (windowMode == CreateRoomWindow.AS_HOST) ? 
+                                                drawMovePosion.getMouseX(): 
+                                                drawMovePosion.transpoze().getMouseX()
+                                        + gapSelection,
+                                        (windowMode == CreateRoomWindow.AS_HOST) ?
+                                                drawMovePosion.getMouseY(): 
+                                                drawMovePosion.transpoze().getMouseY()
+                                                + gapSelection, 
+                                        MapGUI.SQUARE_WIDTH - 2 * gapSelection, 
+                                        MapGUI.SQUARE_HEIGHT - 2 * gapSelection, 
+                                        10, 10);
+                            }
+                 
+                break;
+               }
+            }
+    
+    }
+    }
+    
     /**
       * Draw an arrow line betwwen two point 
       * @param g the graphic component
@@ -403,6 +450,37 @@ public class GameGUI {
         g.fillPolygon(xpoints, ypoints, 3);
      }
     
+    /**
+      * Draw an arrow line betwwen two point 
+      * @param g the graphic component
+      * @param x1 x-position of first point
+      * @param y1 y-position of first point
+      * @param x2 x-position of second point
+      * @param y2 y-position of second point
+      * @param d  the width of the arrow
+      * @param h  the height of the arrow
+      */
+     private void drawArrowLine(Graphics g, int x1, int y1, int x2, int y2, int d, int h){
+        int dx = x2 - x1, dy = y2 - y1;
+        double D = Math.sqrt(dx*dx + dy*dy);
+        double xm = D - d, xn = xm, ym = h, yn = -h, x;
+        double sin = dy/D, cos = dx/D;
+
+        x = xm*cos - ym*sin + x1;
+        ym = xm*sin + ym*cos + y1;
+        xm = x;
+
+        x = xn*cos - yn*sin + x1;
+        yn = xn*sin + yn*cos + y1;
+        xn = x;
+
+        int[] xpoints = {x2, (int) xm, (int) xn};
+        int[] ypoints = {y2, (int) ym, (int) yn};
+
+        g.drawLine(x1, y1, x2, y2);
+        g.fillPolygon(xpoints, ypoints, 3);
+     }
+    
     private void drawRetrieving(Graphics g){
      
     if (mapGui.isUnitSelected()){
@@ -413,7 +491,8 @@ public class GameGUI {
                 
                 for (Position retrivingPositons: game.getRetreatPositions(selectedUnit))
                 {
-                    drawArrow(g,
+                    
+                    drawArrowLine(g,
                     (windowMode == CreateRoomWindow.AS_HOST) ? 
                             selectedUnit.getPosition().getMouseX() +  MapGUI.PIECE_WIDTH / 2 
                             :
@@ -523,8 +602,13 @@ public class GameGUI {
                     if(handSetGui.getCardByPosInSet(i).isSelected()==0) {
                         handSetGui.getCardByPosInSet(i).setSelected(1);
                         selectionSeq.add(handSetGui.getCardIDByPosInSet(i)); 
+                       
                         cardEngine.setPlayingCard(handSetGui.getCardByPosInSet(i).getCard());
-                        
+                        /*
+                        Remember of clearing this selection in command after playing this card
+                        */
+                        handSetGui.getCardByPosInSet(i).getCard().setSelected(true);
+                        game.getCurrentPlayer().setPlayingCard(true);
                     }   
                     else {
                         handSetGui.getCardByPosInSet(i).setSelected(0);

@@ -8,7 +8,6 @@ package manouvre.game;
 import java.io.Serializable;
 import manouvre.game.commands.CardCommands;
 import manouvre.game.interfaces.Command;
-import manouvre.gui.CardGUI;
 
 /**
  * Class to serve for whole card flow in game.
@@ -54,7 +53,6 @@ public class CardEngine implements Serializable{
     Funtion to get current playing card
     */
     public Card getCurrentPlayedCard(){
-    
         
         /*
         To do - return played card
