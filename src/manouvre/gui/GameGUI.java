@@ -523,7 +523,7 @@ public class GameGUI {
                     if(handSetGui.getCardByPosInSet(i).isSelected()==0) {
                         handSetGui.getCardByPosInSet(i).setSelected(1);
                         selectionSeq.add(handSetGui.getCardIDByPosInSet(i)); 
-                        cardEngine.setPlayingCard(handSetGui.getCardByPosInSet(i));
+                        cardEngine.setPlayingCard(handSetGui.getCardByPosInSet(i).getCard());
                         
                     }   
                     else {
