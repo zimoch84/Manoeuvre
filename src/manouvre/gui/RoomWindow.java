@@ -684,7 +684,7 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
 //                                
 //                                
 //                                
-//                                 new GameWindow(client, player).setVisible(true);
+//                                 new GameWindow(socketClient, player).setVisible(true);
 //                            
 //                                setVisible(false);
 //                   

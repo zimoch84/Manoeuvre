@@ -31,6 +31,7 @@ public class CustomDialog extends javax.swing.JFrame {
     public static final int CONFIRMATION_TYPE = 2;
     public static final int YES_NO_TYPE = 3;
     public static final int YES_NO_UNDO_TYPE = 4;
+    public static final int YES_NO_WITH_CARD = 5;
     
     int dialogType;
     boolean executeOK;

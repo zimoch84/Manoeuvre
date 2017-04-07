@@ -17,7 +17,7 @@ import manouvre.network.server.GameRoom;
 public class CreateRoomWindow extends javax.swing.JFrame {
 
     
-    public SocketClient client;
+    public SocketClient socketClient;
     
      Player player;
     /**
@@ -41,7 +41,7 @@ public class CreateRoomWindow extends javax.swing.JFrame {
      */
      public CreateRoomWindow(SocketClient passSocket, Player player, int mode) {
          
-         client = passSocket;
+         socketClient = passSocket;
          this.player = player;
          this.windowMode = mode;
          
@@ -155,18 +155,18 @@ public class CreateRoomWindow extends javax.swing.JFrame {
         /*
         Port nasluchujacy serwera =  Port socketa klienta 
         Port wynegocjowany z serwerem to localPort socketa klienta
-        czyli client.socket.Port = server.liteningsocket.port = server.socket.localport
-        client.socket.Localport = server.socket.port
+        czyli socketClient.socket.Port = server.liteningsocket.port = server.socket.localport
+        socketClient.socket.Localport = server.socket.port
                 
         */
-        GameRoom room = new GameRoom(roomNameFieldText.getText(), passwordRoomFieldText.getText(), client.getSocket().getLocalPort(), player);
+        GameRoom room = new GameRoom(roomNameFieldText.getText(), passwordRoomFieldText.getText(), socketClient.getSocket().getLocalPort(), player);
         
         Message msg = new Message(Message.CREATE_ROOM, player.getName(), roomNameFieldText.getText() , "SERVER" );
         
         msg.addPlayer(player);
         msg.addGameRoom(room);
         
-        client.send(msg);
+        socketClient.send(msg);
               
   
         this.setVisible(false);

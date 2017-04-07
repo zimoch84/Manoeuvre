@@ -102,6 +102,8 @@ public class CardGUI {
 
     public void setSelected(int isSelected) {
         this.Selected = isSelected;
+        if(isSelected==1)this.card.setSelected(true);
+        if(isSelected==2)this.card.setSelected(false);
     }
     
     public int isSelected() {
