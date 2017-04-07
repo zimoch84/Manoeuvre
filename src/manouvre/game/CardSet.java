@@ -118,7 +118,7 @@ public class CardSet implements CardSetInterface, Serializable{
        Card randomCard;     
        for(int i=0; i<range; i++){
            randomCard=otherCardSet.dealRandomCardFromThisSet();
-       if(setPlayable==true) randomCard.setPlayable(true);//false by 
+       if(setPlayable==true) randomCard.setPlayableInPhase(true);//false by 
        if (cardList.size()<cardSetSize){  //if it is possible to add the card  
            cardList.add(randomCard);  //add the card
        }
@@ -136,7 +136,7 @@ public class CardSet implements CardSetInterface, Serializable{
         Card temp;
         for(int i=0; i<range; i++){   
         temp=otherCardSet.lastCardFromThisSet(true);
-        temp.setPlayable(setPlayable);    
+        temp.setPlayableInPhase(setPlayable);    
        if (cardList.size()<cardSetSize){  //if it is possible to add the card  
            cardList.add(temp);  //add the card
        }
@@ -313,5 +313,6 @@ public class CardSet implements CardSetInterface, Serializable{
          return null;
               
      }
+     
    }
  

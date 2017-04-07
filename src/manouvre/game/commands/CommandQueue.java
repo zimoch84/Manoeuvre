@@ -27,11 +27,11 @@ public class CommandQueue {
     
     ClientInterface client;
     
-    public CommandQueue(Game game, CommandLogger commandLogger, GameWindow gameWindow , ClientInterface client) {
+    public CommandQueue(Game game, CommandLogger commandLogger, GameWindow gameWindow , ClientInterface clientInterface) {
         this.game = game;
         this.commandLogger = commandLogger;
         this.gameWindow = gameWindow;
-        this.client = client;
+        this.client = clientInterface;
     }
     
 
@@ -40,9 +40,9 @@ public class CommandQueue {
       cmd.execute(game);
       commandLogger.log(cmd);
       
-      gameWindow.repaint();
-      gameWindow.refreshAll();
       
+      gameWindow.refreshAll();
+      gameWindow.repaint();
       
    }
     
@@ -50,18 +50,19 @@ public class CommandQueue {
       this.commands.add(cmd);
       cmd.execute(game);
       
-      gameWindow.repaint();
-      gameWindow.refreshAll();
       
+      gameWindow.refreshAll();
+      gameWindow.repaint();
       
    }
     
     public void storeAndExecuteAndSend(Command cmd) {
         this.commands.add(cmd);
-        cmd.execute(game);
+        cmd.execute(game); //execute locally
         commandLogger.log(cmd);
-        gameWindow.repaint();
+        
         gameWindow.refreshAll();
+        gameWindow.repaint();
 
         Message message = new Message(Message.COMMAND, game.getCurrentPlayer().getName() , cmd.getType(), "IN_CHANNEL");
         message.setCommand(cmd);

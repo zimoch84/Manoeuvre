@@ -20,7 +20,7 @@ import static java.lang.Thread.sleep;
  *
  * @author Piotr
  */
-public class QueueClient {
+public class QueueClient  {
     
     ArrayList<Message> guestQueue, hostQueue;
 

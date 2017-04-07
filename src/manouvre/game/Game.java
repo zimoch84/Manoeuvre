@@ -45,7 +45,6 @@ public final class Game implements Serializable{
     private Player hostPlayer;
     private Player guestPlayer;
     boolean isServer=true;  //if this will not change game is set on Server
-    private CardEngine cardEngine;
     
 
     public Game(ArrayList<Player> players) {
@@ -55,7 +54,7 @@ public final class Game implements Serializable{
         hostPlayer.setHost(true);
         hostPlayer.setCards();  
         hostPlayer.generateUnits(); 
-        cardEngine = new CardEngine(hostPlayer);
+        
         guestPlayer.setHost(false);
         guestPlayer.setCards();  
         guestPlayer.generateUnits(); 
@@ -490,6 +489,7 @@ public final class Game implements Serializable{
 
     public void setPhase(int phase) {
         this.phase = phase;
+        setCardsInHandAsPlayableDueToPhase();
     } 
     public void nextPhase() {
           
@@ -532,9 +532,9 @@ public final class Game implements Serializable{
     }
    
     public void setCardsInHandAsPlayableDueToPhase(){
-        for(int i=0; i<getCurrentPlayer().getHand().cardsLeftInSet(); i++){
-            currentPlayer.setHandPlayableByPhaseAndPosition(i, phase);    
-         }
+       if(currentPlayer!=null)
+            currentPlayer.setCardsInHandPlayableByPhase(phase);    
+         
     }
     
     /*
@@ -589,13 +589,7 @@ public final class Game implements Serializable{
             
     }
 
-    public CardEngine getCardEngine() {
-        return cardEngine;
-    }
-
-    public void setCardEngine(CardEngine cardEngine) {
-        this.cardEngine = cardEngine;
-    }
+    
     
     
     

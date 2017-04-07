@@ -51,7 +51,10 @@ public interface CardInterface {
     public static int SKIRMICH = 9;
     public static int REDOUBDT = 10;
     public static int SCOUT = 11;
-    
+    public static int ROYAL_ENG = 12;
+    public static int SPY = 13;
+    public static int AMBUSH = 14;
+    public static int REGROUP = 15;
     
     public static int HQCARD  = 6;
     
