@@ -1006,7 +1006,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
 
     
     private void playerHandPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseClicked
-                gameGui.mouseClickedCard(game.getCardEngine()); 
+                gameGui.mouseClickedCard(game.getCurrentPlayer().getCardEngine()); 
                 setActionButtonText();  //when card is selected set the buttons
                 repaint();
                 if(game.getPhase()==Game.DISCARD)
@@ -1062,67 +1062,48 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         /*
         If current player is active and have unlocked gui can move - else we lock interface
         */
-        if( (game.getCurrentPlayer().isActive() && ! gameGui.isLocked()) || game.getPhase()== Game.SETUP)
+        if( game.getCurrentPlayer().isActive() && ! gameGui.isLocked())
         {
         int x = evt.getPoint().x;
-        
         int y = evt.getPoint().y;
         
-
-            
-        
-        if(game.getPhase()==Game.MOVE || game.getPhase() == Game.SETUP ){ //player must be in correct phase to be able to move units
-            
-        
-        if(! gameGui.mapGui.isUnitSelected() )
-        {
-            for(TerrainGUI terrainGUI: gameGui.mapGui.getTerrainsGUI())
+        //player must be in correct phase to be able to move units
+        if(game.getPhase()==Game.MOVE || game.getPhase() == Game.SETUP )
+        { 
+        if(!gameGui.mapGui.isUnitSelected() )
             {
-                    
-                terrainGUI.setSelected(false);
-                if(windowMode == CreateRoomWindow.AS_HOST)
-                    {   
-                      if(terrainGUI.getPos().checkIfMouseFitInPositon(x, y))
-                            {
+           
+                Position clickedPos = Position.getPositionFromMouse(x, y);
+                if(clickedPos != null)
+                {
+                   if(windowMode == CreateRoomWindow.AS_GUEST) 
+                        {
+                            clickedPos = clickedPos.transpoze();
+                        }
+                    game.getMap().getTerrainAtPosition(clickedPos).setSelected(true);    
+                   
+                    System.out.println("manouvre.gui.GameWindow.mainMapPanelMouseClicked() " + clickedPos);
+                    /*
+                    If player clicks on unit select it
+                    */    
+                    if(game.checkCurrentPlayerUnitAtPosition(clickedPos) ) {
+                       gameGui.mapGui.setUnitSelected(true);
+                       gameGui.getUnitGuiOnMapGui(clickedPos).getUnit().setSelected(true);
 
-                            terrainGUI.setSelected(true);
-                            Position selectedPosition = terrainGUI.getPos();
-                            System.out.println("manouvre.gui.GameWindow.mainMapPanelMouseClicked() " + terrainGUI.getPos());
-                            if(game.checkCurrentPlayerUnitAtPosition(selectedPosition) ) {
-
-                                gameGui.mapGui.setUnitSelected(true);
-                                gameGui.getUnitGuiOnMapGui(selectedPosition).getUnit().setSelected(true);
-
-                                }
-                            }
-                    }
-                else if(windowMode == CreateRoomWindow.AS_GUEST)
-                        {   
-                        if(terrainGUI.getPos().transpoze().checkIfMouseFitInPositon(x, y))
-                            {
-                            terrainGUI.setSelected(true);
-                            Position selectedPosition = terrainGUI.getPos();
-                            System.out.println("manouvre.gui.GameWindow.mainMapPanelMouseClicked() " + terrainGUI.getPos());
-                            if(game.checkCurrentPlayerUnitAtPosition(selectedPosition) ) {
-
-                                gameGui.mapGui.setUnitSelected(true);
-                                gameGui.getUnitGuiOnMapGui(selectedPosition).getUnit().setSelected(true);
-
-                                }
-                            }    
-                         
-                        }   
-                this.repaint();
+                       }
                 }
+                      
+                this.repaint();
             }
+        }
             
         
         /*
         If unit is selected find which unit to move and move into
         */
-        else  {
+        else  
+        {
             Unit selectedUnit = game.getSelectedUnit();
-            
             
             Position clickedPosition = new Position(  Position.convertMouseXToX(x)   , Position.convertMouseYToY(y)) ;
             if(windowMode == CreateRoomWindow.AS_GUEST)
@@ -1213,8 +1194,8 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             // game.moveUnit(  , newPosition);
 
         }
-        }       
-        }
+    }       
+
         
        
         

@@ -16,13 +16,14 @@ import manouvre.game.interfaces.Command;
 public class CardEngine implements Serializable{
     
     Player player;
+
+    
     Command attachedCommand, cardCommand;
      
     Card playingCard;
 
-    public CardEngine(Player player) {
-        this.player = player;
-        
+    public CardEngine( ) {
+                
     }
     
     
@@ -48,7 +49,21 @@ public class CardEngine implements Serializable{
         this.playingCard = playingCard;
     }
     
-    
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public Command getCardCommand() {
+        return cardCommand;
+    }
+
+    public void setCardCommand(Command cardCommand) {
+        this.cardCommand = cardCommand;
+    }
         /*
     Funtion to get current playing card
     */

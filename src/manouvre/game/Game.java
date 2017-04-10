@@ -55,7 +55,7 @@ public final class Game implements Serializable{
         hostPlayer.setHost(true);
         hostPlayer.setCards();  
         hostPlayer.generateUnits(); 
-        cardEngine = new CardEngine(hostPlayer);
+        cardEngine = new CardEngine();
         guestPlayer.setHost(false);
         guestPlayer.setCards();  
         guestPlayer.generateUnits(); 
