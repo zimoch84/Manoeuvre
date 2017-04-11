@@ -38,6 +38,19 @@ import static java.lang.Math.abs;
 import static java.lang.Math.abs;
 import static java.lang.Math.abs;
 import static java.lang.Math.abs;
+import manouvre.game.commands.CardCommands;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
 
 
 /**
@@ -59,7 +72,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
     private int handMouseCoorX,handMouseCoorY;
     private int handMouseCoorXdeaf=0;
     private int handMouseCoorYdeaf=0;
-    int mouseClickedOnHand=0;
+   
     
     CardSetGUI cardSetsGUI;
     int windowMode;
@@ -86,7 +99,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
          */
         this.game = game;
         this.windowMode = windowMode;
-        client = passSocket;
+        this.client = passSocket;
         this.cmdLogger = new CommandLogger(this);
         this.cmd = new CommandQueue(game, cmdLogger, this, passSocket);
         
@@ -171,8 +184,13 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         setActionButtonText();
         setPhaseLabelText();
         setNextPhaseButonText();
+        updateGui();
     }
     
+    public void updateGui(){
+        gameGui.resetAllCardSets();
+        
+    }
     private void setActionButtonText(){
         /*
         If card is Selected change Label to "Play Card" 
@@ -211,6 +229,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
            case Game.MOVE:
            {
             actionButton.setVisible(true);
+            actionButton.setText("Move");
             if(game.getCurrentPlayer().hasMoved())
             {
             actionButton.setEnabled(game.getCurrentPlayer().isActive() && !gameGui.isLocked() );  
@@ -310,7 +329,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
            {
             buttonToNextPhase.setText("End move");
             buttonToNextPhase.setEnabled(!game.getCurrentPlayer().hasMoved() && !gameGui.isLocked() 
-                                        && game.getCurrentPlayer().isActive() && !gameGui.isLocked());
+                                        && game.getCurrentPlayer().isActive() );
             break;
            }
            case Game.COMBAT:
@@ -450,7 +469,6 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         retreatToggle = new javax.swing.JToggleButton();
         retreatToggle1 = new javax.swing.JToggleButton();
         LOSlength = new javax.swing.JTextField();
-        TestPopup = new javax.swing.JButton();
         mainMapPanel = new javax.swing.JPanel()
         {
             @Override
@@ -469,6 +487,14 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             }
         }
         ;
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        FindCard = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        MoveToTableCommand = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -760,7 +786,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         );
         tablePanelLayout.setVerticalGroup(
             tablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 218, Short.MAX_VALUE)
+            .addGap(0, 151, Short.MAX_VALUE)
         );
 
         chatPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Chat / Game Log"));
@@ -797,7 +823,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             chatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(chatPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(chatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(sendText, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -825,44 +851,31 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             }
         });
 
-        TestPopup.setText("Test Popup");
-        TestPopup.setActionCommand("TestPopup");
-        TestPopup.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TestPopupActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout rightSidePanelLayout = new javax.swing.GroupLayout(rightSidePanel);
         rightSidePanel.setLayout(rightSidePanelLayout);
         rightSidePanelLayout.setHorizontalGroup(
             rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rightSidePanelLayout.createSequentialGroup()
-                .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap()
+                .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(chatPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(rightSidePanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(chatPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(opponentPlayerPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(buttonsPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(currentPlayerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(rightSidePanelLayout.createSequentialGroup()
-                                .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(opponentPlayerPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(buttonsPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(currentPlayerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(rightSidePanelLayout.createSequentialGroup()
-                                        .addComponent(retreatToggle)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(retreatToggle1)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(LOSlength, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(combatPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(tablePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(dicePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                    .addGroup(rightSidePanelLayout.createSequentialGroup()
-                        .addGap(258, 258, 258)
-                        .addComponent(TestPopup)))
+                                .addComponent(retreatToggle)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(retreatToggle1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(LOSlength, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(combatPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(dicePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(tablePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 18, Short.MAX_VALUE))
         );
         rightSidePanelLayout.setVerticalGroup(
@@ -874,8 +887,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                         .addComponent(dicePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(25, 25, 25)
                         .addComponent(combatPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(tablePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(268, 268, 268))
                     .addGroup(rightSidePanelLayout.createSequentialGroup()
                         .addComponent(currentPlayerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -886,12 +898,12 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                         .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(retreatToggle)
                             .addComponent(retreatToggle1)
-                            .addComponent(LOSlength, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(LOSlength, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addComponent(chatPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(98, 98, 98)
-                .addComponent(TestPopup)
-                .addGap(51, 51, 51))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tablePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         currentPlayerPanel.getAccessibleContext().setAccessibleName(game.getCurrentPlayer().getName());
@@ -945,7 +957,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         );
         playerHandPanelLayout.setVerticalGroup(
             playerHandPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 238, Short.MAX_VALUE)
+            .addGap(0, 222, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout mainWindowPanelLayout = new javax.swing.GroupLayout(mainWindowPanel);
@@ -957,7 +969,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                 .addGroup(mainWindowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(mainMapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(playerHandPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                .addGap(24, 24, 24)
                 .addComponent(rightSidePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26))
         );
@@ -965,14 +977,51 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             mainWindowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainWindowPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(mainWindowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(rightSidePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(mainWindowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rightSidePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(mainWindowPanelLayout.createSequentialGroup()
                         .addComponent(mainMapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(playerHandPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
+
+        jMenu1.setText("Debug");
+
+        FindCard.setText("FindCard");
+        FindCard.setToolTipText("");
+        FindCard.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FindCardActionPerformed(evt);
+            }
+        });
+        jMenu1.add(FindCard);
+
+        jMenuItem2.setText("jMenuItem2");
+        jMenu1.add(jMenuItem2);
+
+        jMenu3.setText("Commands");
+
+        MoveToTableCommand.setText("MoveToTable");
+        MoveToTableCommand.setToolTipText("Card Must Be Selected");
+        MoveToTableCommand.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MoveToTableCommandActionPerformed(evt);
+            }
+        });
+        jMenu3.add(MoveToTableCommand);
+
+        jMenuItem4.setText("jMenuItem4");
+        jMenu3.add(jMenuItem4);
+
+        jMenu1.add(jMenu3);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -989,7 +1038,6 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(6, 6, 6)
                 .addComponent(mainWindowPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
@@ -1006,23 +1054,11 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
 
     
     private void playerHandPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseClicked
-                gameGui.mouseClickedCard(game.getCurrentPlayer().getCardEngine()); 
+                gameGui.mouseClickedCard(game.getCurrentPlayer().getCardCommandFactory()); 
                 setActionButtonText();  //when card is selected set the buttons
                 repaint();
                 if(game.getPhase()==Game.DISCARD)
                     setActionButtonText();  //if selection was done discard button should be visible
-                
-//                actionButton.setEnabled(
-//                        
-//                        !gameGui.getSelectionSeqIsEmpty()
-//                                &&game.getPhase()!=Game.DISCARD
-//                                &&game.getPhase()!=Game.DRAW
-//                
-//                );  
-                //this.repaint();
-                
-                
-                  
     }//GEN-LAST:event_playerHandPanelMouseClicked
 
     private void playerHandPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseEntered
@@ -1032,25 +1068,28 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
 
     private void playerHandPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseExited
          // TODO add your handling code here:
-         this.repaint();
+        // repaint(CURR_X, CURR_Y, CURR_W, CURR_H);
     }//GEN-LAST:event_playerHandPanelMouseExited
 
     private void playerHandPanelMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseMoved
                 int deafband=20; //repaint after mouse change of
-                
+                 final int CURR_X = playerHandPanel.getX();
+                 final int CURR_Y = playerHandPanel.getY();
+                 final int CURR_W = playerHandPanel.getWidth();
+                 final int CURR_H = playerHandPanel.getHeight();
                 handMouseCoorX = evt.getPoint().x;
 		handMouseCoorY = evt.getPoint().y;
     
-                gameGui.mouseMovedOverHand(handMouseCoorX, handMouseCoorY, mouseClickedOnHand);
+                gameGui.mouseMovedOverHand(handMouseCoorX, handMouseCoorY);
                 
                 if(abs(handMouseCoorX-handMouseCoorXdeaf)>deafband){  //change repainting step
                     handMouseCoorXdeaf=handMouseCoorX;
-                    this.repaint();
+                    repaint(CURR_X, CURR_Y, CURR_W, CURR_H);
                 }
               
                 if(abs(handMouseCoorY-handMouseCoorYdeaf)>deafband){
                     handMouseCoorYdeaf=handMouseCoorY; 
-                    this.repaint();
+                    repaint(CURR_X, CURR_Y, CURR_W, CURR_H);
                 }
                 //System.out.println("x:" + handMouseCoorX + " y:"+handMouseCoorY);
                 
@@ -1116,7 +1155,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                 if(game.getPhase() == Game.SETUP)
                 {
                     movePositions = game.getSetupPossibleMovement();
-                }
+        }
                 else if (game.getCurrentPlayer().isPlayingCard() )
                 {
                     movePositions = game.getOneSquareMovements(selectedUnit.getPosition());
@@ -1124,14 +1163,13 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                 else{
                      movePositions = game.getPossibleMovement(selectedUnit);
                 }
-                
-
+       
+        
                 for(Position checkPosition: movePositions){
-
+       
                     if(checkPosition.equals(clickedPosition))
                     {
-
-                        MoveUnitCommand moveUnit = new MoveUnitCommand(game.getCurrentPlayer().getName() , selectedUnit,  clickedPosition);
+                      MoveUnitCommand moveUnit = new MoveUnitCommand(game.getCurrentPlayer().getName() , selectedUnit,  clickedPosition);
                         
                         if(!game.getCurrentPlayer().isPlayingCard() && game.getPhase() != Game.SETUP)
                         {        
@@ -1145,14 +1183,14 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                         {   /*
                             We attach move command to wrap it to postpone execution in card command
                             */
-                            game.getCurrentPlayer().getCardEngine().setAttachedCommand(moveUnit);
+                            game.getCurrentPlayer().getCardCommandFactory().setAttachedCommand(moveUnit);
                             /*
                             Confirmation dialog
                             */
                             CustomDialog dialog = new CustomDialog(CustomDialog.YES_NO_UNDO_TYPE, "Are You sure to play that card? " , client, game);
                             
                             try {
-                                dialog.setOkCommand(game.getCurrentPlayer().getCardEngine().createCardCommand());
+                                dialog.setOkCommand(game.getCurrentPlayer().getCardCommandFactory().createCardCommand());
                                 dialog.setCancelCommand(moveUnit);
                             } catch (Exception ex) {
                                 Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
@@ -1180,7 +1218,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                         break;
                     }
                 }
-                repaint();
+                mainMapPanel.repaint();
             }
             /*
             Clicking on the same unit - deselects it.
@@ -1188,7 +1226,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             else
             {
                 gameGui.unselectAllUnits();
-                repaint();
+                mainMapPanel.repaint();
             }
 
             // game.moveUnit(  , newPosition);
@@ -1199,8 +1237,9 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         
        
         
+    
+       
     }//GEN-LAST:event_mainMapPanelMouseClicked
-
     private void mainMapPanelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainMapPanelMouseReleased
   //nothing
     }//GEN-LAST:event_mainMapPanelMouseReleased
@@ -1356,12 +1395,20 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                 this.repaint();
     }//GEN-LAST:event_retreatToggle1ActionPerformed
 
-    private void TestPopupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TestPopupActionPerformed
-        // TODO add your handling code here:
-        TestWindow testWindow = new TestWindow(game, this);
-        testWindow.setVisible(true);
-    }//GEN-LAST:event_TestPopupActionPerformed
-    
+    private void FindCardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FindCardActionPerformed
+         TestWindow testWindow = new TestWindow(game, this, game.getPhase());
+         testWindow.setBounds(50, 100, testWindow.getWidth(), testWindow.getHeight());
+         testWindow.setVisible(true);
+    }//GEN-LAST:event_FindCardActionPerformed
+
+    private void MoveToTableCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MoveToTableCommandActionPerformed
+        if(game.getCurrentPlayer().getCardCommandFactory().getCurrentPlayedCard()!=null){
+            Command moveToTable = game.getCurrentPlayer().getCardCommandFactory().createCardCommand();
+            cmd.storeAndExecuteAndSend(moveToTable);
+        }               
+                       
+    }//GEN-LAST:event_MoveToTableCommandActionPerformed
+ 
     public void clientSend(Message message){
         client.send(gameGui.discardSelCards());
         this.repaint();
@@ -1398,92 +1445,12 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
     chatTextArea.append(inString+ "\n");
     }
         
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) throws IOException {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GameWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GameWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GameWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GameWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                try {
-//                    new GameWindow().setVisible(true);
-//                } catch (Exception ex) {
-//                    Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//        });
-        
-        Player hostPlayer = new Player("Piotr");
-        hostPlayer.setHost(true);
-        hostPlayer.setNation(CardInterface.AU);
-        
-        Player guestPlayer = new Player("Bartek");
-        guestPlayer.setHost(false);
-        guestPlayer.setNation(CardInterface.FR);
-        
-        ArrayList<Player> players = new ArrayList<>();
-        
-        players.add(hostPlayer);
-        players.add(guestPlayer);
-        
-        
-        Game game = new Game(players);
-        
-        SocketClient socket = new SocketClient();
-        
-        //Host window
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    new GameWindow(game, socket, 0 ).setVisible(true);
-                } catch (Exception ex) {
-                    Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
-        //Guest window
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    new GameWindow(game, socket, 1 ).setVisible(true);
-                } catch (Exception ex) {
-                    Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
-        
-    }
-
    
     
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem FindCard;
     private javax.swing.JTextField LOSlength;
-    private javax.swing.JButton TestPopup;
+    private javax.swing.JMenuItem MoveToTableCommand;
     javax.swing.JButton actionButton;
     private javax.swing.JButton buttonToNextPhase;
     private javax.swing.JPanel buttonsPanel;
@@ -1502,6 +1469,12 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

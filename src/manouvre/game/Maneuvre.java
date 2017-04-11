@@ -19,7 +19,7 @@ import manouvre.network.server.UnoptimizedDeepCopy;
  *
  * @author Piotr
  */
-public class Maneuvre {
+public class Maneuvre {  //Fake! this is temporary just to start game quick
 
     /**
      * @param args the command line arguments

@@ -25,25 +25,31 @@ public class TestWindow extends javax.swing.JFrame {
     GameGUI gameGui; 
     Card ambush,commitedAttack,engineers,forcedMarch,guerrillas, redoubt,regroup,royalEngineers,scout,skirmish,spy,supply,withdraw;
     String flag;
+    int phase;
                     
     /**
      * Creates new form TestWindow
      */
-    public TestWindow(Game game, GameWindow gameWindow ) {
-        this.numberOfPossibleCards=game.getCurrentPlayer().getHand().getCardSetSize()-game.getCurrentPlayer().getHand().cardsLeftInSet();
-        this.tempNumberOfPossibleCards=numberOfPossibleCards;
+    public TestWindow(Game game, GameWindow gameWindow, int phase ) {
+        
         this.gameWindow=gameWindow;
         this.game=game;
-        this.gameGui=gameGui;
+        this.gameGui=gameWindow.getGameGui();
         this.testCards=new CardSet();
-       
+        this.phase=phase;
+        
         initComponents();
         initAllTheHqCards();
+        setNumberOfPossibleCards();
         
+    }
+    private void setNumberOfPossibleCards(){
+        this.numberOfPossibleCards=game.getCurrentPlayer().getHand().getCardSetSize()-game.getCurrentPlayer().getHand().cardsLeftInSet();
+        this.tempNumberOfPossibleCards=numberOfPossibleCards;
         ProgressBar.setValue(numberOfPossibleCards);
         TextField.setText("Possible to select " + numberOfPossibleCards + " more"  );
     }
-   
+    
     private void initAllTheHqCards(){
     this.flag=game.getCurrentPlayer().getNationAsString(true);
     
@@ -130,6 +136,7 @@ public class TestWindow extends javax.swing.JFrame {
         SpyBox = new javax.swing.JCheckBox();
         CloseButton = new javax.swing.JButton();
         drawCards = new javax.swing.JButton();
+        drawCards1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -318,6 +325,13 @@ public class TestWindow extends javax.swing.JFrame {
             }
         });
 
+        drawCards1.setText("Refresh");
+        drawCards1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -327,8 +341,10 @@ public class TestWindow extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(drawCards)
-                    .addComponent(CloseButton, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(drawCards)
+                        .addComponent(CloseButton, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(drawCards1, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -341,6 +357,8 @@ public class TestWindow extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(drawCards1)
+                        .addGap(18, 18, 18)
                         .addComponent(drawCards)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(CloseButton)
@@ -532,7 +550,9 @@ public class TestWindow extends javax.swing.JFrame {
 
     private void drawCardsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drawCardsActionPerformed
         game.getCurrentPlayer().getHand().addCardsFromTheTopOfOtherSet(numberOfChosenCards, testCards, true);
-        gameWindow.clientSend(gameWindow.getGameGui().discardSelCards());
+        game.setPhase(phase); //put back the game to previous phase
+        gameGui.getHandSetGui().reSet();
+        gameWindow.repaint();
         this.dispose();
         
     }//GEN-LAST:event_drawCardsActionPerformed
@@ -567,6 +587,10 @@ public class TestWindow extends javax.swing.JFrame {
 //        System.out.println("Test Cards to be added (i): " + testCards.getCardNameByPosInSet(i));
 //        }
     }//GEN-LAST:event_SpyBoxActionPerformed
+
+    private void refreshPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshPerformed
+        setNumberOfPossibleCards();
+    }//GEN-LAST:event_refreshPerformed
 
     /**
      * @param args the command line arguments
@@ -621,6 +645,7 @@ public class TestWindow extends javax.swing.JFrame {
     private javax.swing.JTextField TextField;
     private javax.swing.JCheckBox WithdrawBox;
     private javax.swing.JButton drawCards;
+    private javax.swing.JButton drawCards1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

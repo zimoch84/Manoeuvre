@@ -20,14 +20,20 @@ public static class MoveToTableCommand implements Command{
             
     
         Card card;
-
-        public MoveToTableCommand(Card card) {
+        String senderPlayerName;
+        public MoveToTableCommand(Card card, String senderPlayerName) {
             this.card = card;
+            this.senderPlayerName=senderPlayerName;
         }
      
         @Override
         public void execute(Game game) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            if(game.getCurrentPlayer().getName().equals(senderPlayerName)){
+                 game.getPlayerByName(senderPlayerName).getTablePile().addCardToThisSet(card);
+                 game.getPlayerByName(senderPlayerName).getHand().removeCardFromThisSet(card);
+            }else
+            game.getCurrentPlayer().getTablePile().addCardToThisSet(card); //if not sender just put the card on the table
+            
         }
 
         @Override
@@ -37,7 +43,7 @@ public static class MoveToTableCommand implements Command{
 
         @Override
         public String logCommand() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            return card.getCardName() + " cart moved to the table";
         }
 
         @Override
@@ -52,10 +58,10 @@ public static class ForcedMarchCommand implements Command {
         Card card;
         Command moveToTableCommand;
     
-        public ForcedMarchCommand(Command moveUnitCommand, Card card) {
+        public ForcedMarchCommand(Command moveUnitCommand, Card card, String senderPlayerName) {
             this.moveUnitCommand = moveUnitCommand;
             this.card = card;
-            this.moveToTableCommand = new CardCommands.MoveToTableCommand(card);
+            this.moveToTableCommand = new CardCommands.MoveToTableCommand(card, senderPlayerName);
             
             
         }

@@ -22,9 +22,9 @@ public class SocketClient implements Runnable, ClientInterface{
         Port nasluchujacy serwera =  Port socketa klienta 
         Port wynegocjowany z serwerem to localPort socketa klienta
         
-        czyli client.socket.Port = server.liteningsocket.port = server.socket.localport
+        czyli socketClient.socket.Port = server.liteningsocket.port = server.socket.localport
         
-        client.socket.Localport = server.socket.port
+        socketClient.socket.Localport = server.socket.port
                 
         */
     public Socket socket;
@@ -267,7 +267,7 @@ public class SocketClient implements Runnable, ClientInterface{
                         Command executeCommand = msg.getCommand();
                 
                     /*
-                    Executing command over game on client
+                    Executing command over game on socketClient
                     */
                     clientGame.cmd.storeAndExecute(executeCommand);
                    

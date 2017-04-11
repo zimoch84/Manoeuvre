@@ -13,17 +13,16 @@ import manouvre.game.interfaces.Command;
  * Class to serve for whole card flow in game.
  * @author Piotr
  */
-public class CardEngine implements Serializable{
+public class CardCommandFactory implements Serializable{
     
     Player player;
-
-    
     Command attachedCommand, cardCommand;
      
     Card playingCard;
 
-    public CardEngine( ) {
-                
+    public CardCommandFactory(Player player) {
+        this.player = player;
+        
     }
     
     
@@ -49,21 +48,10 @@ public class CardEngine implements Serializable{
         this.playingCard = playingCard;
     }
     
-    public Player getPlayer() {
-        return player;
+    public void resetPlayingCard(){
+        this.playingCard = null;
     }
-
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
-    public Command getCardCommand() {
-        return cardCommand;
-    }
-
-    public void setCardCommand(Command cardCommand) {
-        this.cardCommand = cardCommand;
-    }
+    
         /*
     Funtion to get current playing card
     */
@@ -75,7 +63,7 @@ public class CardEngine implements Serializable{
         Temporaryly its Forced March
         
         */
-        return new Card(3);
+        return playingCard;
     
     }
     
@@ -83,15 +71,16 @@ public class CardEngine implements Serializable{
     /*
     Crate card command based on Card
     */
-    public Command createCardCommand() throws Exception{
+    public Command createCardCommand() {
     
     playingCard= getCurrentPlayedCard();
         
     switch (playingCard.getCardType() ) {
     
     
-        case Card.FORCED_MARCH : return new CardCommands.ForcedMarchCommand(attachedCommand, playingCard) ; 
-        default: throw new Exception("There is no such card type");
+        case Card.FORCED_MARCH : return new CardCommands.ForcedMarchCommand(attachedCommand, playingCard, player.getName()) ; 
+        default: return new CardCommands.MoveToTableCommand(playingCard, player.getName()) ; //if any card selected temp
+//throw new Exception("There is no such card type");
     }
     }
     

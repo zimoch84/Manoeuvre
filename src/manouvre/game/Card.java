@@ -101,6 +101,9 @@ public class Card implements CardInterface, Serializable{
     String UnitDescr="";
  			
     boolean canceled=false;
+    boolean canBeCanceled = false;
+
+    
     boolean playable=false;
     boolean cardNotFound=false;
 
@@ -234,80 +237,134 @@ public class Card implements CardInterface, Serializable{
     }
 
     public int getCardType() {
-         switch (CardType){
+        switch (CardType){
             case "Unit": 
                 return CardInterface.UNIT;
             case "HqUnit":
                 return CardInterface.HQUNIT;
             case "HqLeader":
                 return CardInterface.HQLEADER;
-           
-        }          
+        }         
         return 99; //if else return wrong value
     }
 
-    public int getUnitAttack() {    
+    public int getUnitAttack() { 
+        if(!UnitAttack.equals(""))
         return Dice.diceTypeToInt(UnitAttack); //if else return wrong value
+        else return 99;
     }
 
     public int getUnitDefence() {
+        if(!UnitDefense.equals(""))
         return Integer.parseInt(UnitDefense);
+        else return 99;
     }
 
     public int getUnitRange() {
+         if(!UnitRange.equals(""))
         return Integer.parseInt(UnitRange);
+         else return 99;
     }
 
     public int getUnitBombard() {
+         if(!UnitBombard.equals(""))
         return Dice.diceTypeToInt(UnitBombard); 
+         else return 99;
     }
   
     public int getUnitVolley() {
+         if(!UnitVolley.equals(""))
         return Dice.diceTypeToInt(UnitVolley); 
+         else return 99;
     }
 
     public int getUnitPursuit() {
+         if(!UnitPursuit.equals(""))
         return Integer.parseInt(UnitPursuit);
+         else return 99;
     }
 
     public int getUnitWithdraw() {
+         if(!UnitWithdraw.equals(""))
         return Integer.parseInt(UnitWithdraw);
+         else return 99;
     }
 
     public String getLederCommand() {
+         if(!LederCommand.equals(""))
         return LederCommand;
+         else return "99";
     }
 
     public int getLederCombat() {
+         if(!LederCombat.equals(""))
         return Integer.parseInt(LederCombat);
+         else return 99;
     }
 
     public int getLederRally() {
+         if(!LederRally.equals(""))
         return Integer.parseInt(LederRally);
+         else return 99;
     }
 
     public int getLederPursuit() {
+         if(!LederPursuit.equals(""))
         return Integer.parseInt(LederPursuit);
+         else return 99;
     }
 
     public String getLederGrandBatt() { //only Napoleon
+         if(!LederGrandBatt.equals(""))
         return LederGrandBatt;
+         else return "99";
     }
 
     public String getUnitDescr() {
+         if(!UnitDescr.equals(""))
         return UnitDescr;
+         else return "99";
     }
 
 
     @Override
     public int getHQType() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        switch (CardName){
+            case "Committed Attack": 
+                return CardInterface.COMMITED_ATTACK;
+            case "Forced March":
+                return CardInterface.FORCED_MARCH;
+            case "Redoubt":
+                return CardInterface.REDOUBDT;
+            case "Royal Engineers": 
+                return CardInterface.ROYAL_ENG;
+            case "Skirmish":
+                return CardInterface.SKIRMICH;
+            case "Spy":
+                return CardInterface.SPY;
+            case "Supply": 
+                return CardInterface.SUPPLY;
+            case "Withdraw":
+                return CardInterface.WITHDRAW;
+            case "Ambush":
+                return CardInterface.AMBUSH;
+            case "Guerrillas": 
+                return CardInterface.GUERRILLAS;
+            case "Regroup":
+                return CardInterface.REGROUP;
+            case "Scout":
+                return CardInterface.SCOUT;
+        }      
+        return 99;
     }
  
 
     @Override
     public boolean isHQCard() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (getCardType()== Card.HQCARD)
+            return true; 
+            else return false;
     }
 
     @Override
@@ -330,33 +387,33 @@ public class Card implements CardInterface, Serializable{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void setPlayable(boolean playable) {
+    public void setPlayableInPhase(boolean playable) {
         this.playable = playable;
     }
     
-    public boolean isPlayable() {
+    public boolean isPlayableInPhase() {
         return playable;
     }
     
     public void setAvailableForPhase(int phase){
         switch(phase){
             case Game.SETUP:
-                 this.setPlayable(false);
+                 this.setPlayableInPhase(false);
                  break;
             case Game.DISCARD:
-                this.setPlayable(true);
+                this.setPlayableInPhase(true);
                 break;
             case Game.DRAW:
-                this.setPlayable(false);
+                this.setPlayableInPhase(false);
                 break;
             case Game.MOVE:
                 if(this.CardName.equals("Supply")||
                         this.CardName.equals("Forced March"))
                     
-                   this.setPlayable(true);
+                   this.setPlayableInPhase(true);
                 break;
             case Game.COMBAT:
-                this.setPlayable(true);//btestfalse 
+                this.setPlayableInPhase(true);//btestfalse 
                 break;
             case Game.RESTORATION:
                 if(this.CardName.equals("Supply")||
@@ -364,7 +421,7 @@ public class Card implements CardInterface, Serializable{
                        // this.getCardType()==CardInterface.UNIT||
                        // thi-s.getCardType()==CardInterface.HQLEADER) btestfalse
                     
-                   this.setPlayable(true);
+                   this.setPlayableInPhase(true);
                 break;
                 
         }
@@ -384,9 +441,39 @@ public class Card implements CardInterface, Serializable{
     
     @Override
     public boolean canBePlayed(Game game) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        if(isPlayableInPhase())
+        {
+            switch (getCardType())
+            {
+                case Card.FORCED_MARCH :
+                if(game.getCurrentPlayer().hasMoved()) {
+                    return true;
+                }
+                break;
+            }
+        }
+        return false;
     }
+    
     public boolean isCardNotFoundInNation() {
         return cardNotFound;
+    }
+    
+    public boolean isCanBeCanceled() {
+        return canBeCanceled;
+    }
+
+    public void setCanBeCanceled(boolean canBeCanceled) {
+        this.canBeCanceled = canBeCanceled;
+    }
+    
+    @Override
+    public boolean equals(Object in){
+    
+        Card p = (Card) in;
+        if(this.getCardID()==p.getCardID()) return true;
+        
+        else return false;
     }
 }

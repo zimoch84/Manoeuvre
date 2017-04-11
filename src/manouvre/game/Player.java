@@ -33,7 +33,7 @@ public class Player  implements Serializable{
     /*
     Field to store whole card flow needed data.
     */
-    CardEngine cardEngine ;
+    CardCommandFactory cardCommandFactory ;
  
     /*
     Is player currently playing and is first player
@@ -46,11 +46,11 @@ public class Player  implements Serializable{
 
     boolean playingCard;
     
-    
 
     public Player(String name) {
         this.name = name;
         this.active = true;
+        this.cardCommandFactory = new CardCommandFactory(this);
        
     }
     
@@ -58,7 +58,7 @@ public class Player  implements Serializable{
     
     for(Unit unit : getArmy()) {
         
-        unit.hasMoved = false;
+        unit.setMoved(false);
     
     }
         setMoved(false);
@@ -210,12 +210,12 @@ public class Player  implements Serializable{
         this.first = first;
     }
 
-    public CardEngine getCardEngine() {
-        return cardEngine;
+    public CardCommandFactory getCardCommandFactory() {
+        return cardCommandFactory;
     }
 
-    public void setCardEngine(CardEngine cardEngine) {
-        this.cardEngine = cardEngine;
+    public void setCardCommandFactory(CardCommandFactory cardCommandFactory) {
+        this.cardCommandFactory = cardCommandFactory;
     }
 
     public boolean hasMoved() {
@@ -248,8 +248,9 @@ public class Player  implements Serializable{
 
     }
       
-    public void setHandPlayableByPhaseAndPosition(int position, int phase) {
-        this.getHand().getCardByPosInSet(position).setAvailableForPhase(phase);
+    public void setCardsInHandPlayableByPhase(int phase) {
+        for(int i=0; i<getHand().cardsLeftInSet(); i++)
+            this.getHand().getCardByPosInSet(i).setAvailableForPhase(phase);
     }
     
     
@@ -272,5 +273,7 @@ public class Player  implements Serializable{
         return null;
         
     }
+    
+
     
 }
