@@ -1062,7 +1062,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         /*
         If current player is active and have unlocked gui can move - else we lock interface
         */
-        if( game.getCurrentPlayer().isActive() && ! gameGui.isLocked())
+        if( game.getCurrentPlayer().isActive() && ! gameGui.isLocked() || game.getPhase() == Game.SETUP )
         {
         int x = evt.getPoint().x;
         int y = evt.getPoint().y;
@@ -1095,7 +1095,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                       
                 this.repaint();
             }
-        }
+        
             
         
         /*
@@ -1192,7 +1192,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             }
 
             // game.moveUnit(  , newPosition);
-
+        }            
         }
     }       
 
