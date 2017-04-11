@@ -22,10 +22,8 @@ import manouvre.game.Game;
 import manouvre.game.Player;
 import manouvre.game.Position;
 import manouvre.game.Unit;
-import manouvre.network.client.SocketClient;
 import manouvre.game.commands.MoveUnitCommand;
 import manouvre.game.interfaces.FrameInterface;
-import manouvre.game.interfaces.CardInterface;
 import java.util.Arrays;
 import manouvre.game.commands.SetupPositionCommand;
 import manouvre.game.commands.EndSetupCommand;
@@ -34,22 +32,6 @@ import manouvre.game.interfaces.ClientInterface;
 import manouvre.game.interfaces.Command;
 import manouvre.game.commands.CommandQueue;
 import manouvre.game.commands.EndTurnCommand;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import manouvre.game.commands.CardCommands;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
 import static java.lang.Math.abs;
 import javax.swing.UIManager;
 
@@ -482,6 +464,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         jMenuItem2 = new javax.swing.JMenuItem();
         checkRetreat = new javax.swing.JCheckBoxMenuItem();
         checkLos = new javax.swing.JCheckBoxMenuItem();
+        jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
         jMenu3 = new javax.swing.JMenu();
         MoveToTableCommand = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -911,7 +894,6 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         jMenuItem2.setText("jMenuItem2");
         jMenu1.add(jMenuItem2);
 
-        checkRetreat.setSelected(true);
         checkRetreat.setText("toogleRetreat");
         checkRetreat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -920,7 +902,6 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         });
         jMenu1.add(checkRetreat);
 
-        checkLos.setSelected(true);
         checkLos.setText("toogleLOS");
         checkLos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -928,6 +909,9 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             }
         });
         jMenu1.add(checkLos);
+
+        jCheckBoxMenuItem1.setText("freeMove");
+        jMenu1.add(jCheckBoxMenuItem1);
 
         jMenu3.setText("Commands");
 
@@ -1072,6 +1056,8 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         */
         else  
         {
+            if(!game.getCurrentPlayer().hasMoved() || gameGui.freeMove)
+            {
             Unit selectedUnit = game.getSelectedUnit();
             
             Position clickedPosition = new Position(  Position.convertMouseXToX(x)   , Position.convertMouseYToY(y)) ;
@@ -1158,6 +1144,16 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                 gameGui.unselectAllUnits();
                 mainMapPanel.repaint();
             }
+            }
+            /*
+            If we moved already put popup to shop popup that
+            */
+            else 
+            {
+                CustomDialog cd = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "You have moved already, \n play card or proceed to next phase");
+                cd.setVisible(true);
+            }
+            
 
             // game.moveUnit(  , newPosition);
         }            
@@ -1383,6 +1379,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
     private javax.swing.JPanel currentPlayerPanel;
     private javax.swing.JPanel discardPanel;
     private javax.swing.JPanel discardPanel1;
+    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

@@ -40,7 +40,6 @@
             </MenuItem>
             <MenuItem class="javax.swing.JCheckBoxMenuItem" name="checkRetreat">
               <Properties>
-                <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="toogleRetreat"/>
               </Properties>
               <Events>
@@ -49,12 +48,16 @@
             </MenuItem>
             <MenuItem class="javax.swing.JCheckBoxMenuItem" name="checkLos">
               <Properties>
-                <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="toogleLOS"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="checkLosActionPerformed"/>
               </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JCheckBoxMenuItem" name="jCheckBoxMenuItem1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="freeMove"/>
+              </Properties>
             </MenuItem>
             <Menu class="javax.swing.JMenu" name="jMenu3">
               <Properties>

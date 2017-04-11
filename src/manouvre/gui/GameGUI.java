@@ -19,15 +19,7 @@ import manouvre.network.client.Message;
 import manouvre.game.commands.CommandQueue;
 import manouvre.game.Card;
 import manouvre.game.CardCommandFactory;
-import static java.lang.Math.round;
 import manouvre.game.Player;
-import manouvre.game.commands.MoveUnitCommand;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
 import static java.lang.Math.round;
 import manouvre.game.Terrain;
 
@@ -63,6 +55,8 @@ public class GameGUI {
     int windowMode;
     
     boolean lockGUI=false;
+    boolean freeMove = false;
+    
     
     public GameGUI (Game newGame, int windowMode) throws IOException{
         this.game=newGame;
