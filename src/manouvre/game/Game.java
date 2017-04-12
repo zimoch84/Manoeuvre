@@ -491,6 +491,40 @@ public final class Game implements Serializable{
     public int getPhase() {
         return phase;
     }
+ 
+     public String getPhaseName(int phase){
+      
+        
+           switch(phase){
+           case Game.SETUP:
+           {
+           return "Setup";
+           }    
+           case Game.DISCARD:
+           {
+            return "Discard";
+           }
+           case Game.DRAW:
+           {
+             return "Draw";
+           }
+           case Game.MOVE:
+           {
+            return "Move";
+            }
+           case Game.COMBAT:
+           {
+            return "Combat";
+           }
+            case Game.RESTORATION:
+           {
+            return "Restoration";
+           }
+         
+        
+           }   
+           return null;
+      }
 
     public void setPhase(int phase) {
         this.phase = phase;
