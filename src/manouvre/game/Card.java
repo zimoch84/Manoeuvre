@@ -70,7 +70,7 @@ import java.io.IOException;
 
 import com.csvreader.CsvReader;
 import java.io.Serializable;
-import manouvre.game.interfaces.Command;
+
 
 public class Card implements CardInterface, Serializable{
     
@@ -110,6 +110,10 @@ public class Card implements CardInterface, Serializable{
     boolean justToTry;
  
     boolean selected;
+    /*
+    Case if card is playing as an assoult or volley , bombard etc
+    */
+    int playingCardMode;
     
    
     public Card (int chosenID) { 
@@ -326,7 +330,16 @@ public class Card implements CardInterface, Serializable{
          else return "99";
     }
 
+    public int getPlayingCardMode() {
+        return playingCardMode;
+    }
 
+    public void setPlayingCardMode(int playingCardMode) {
+        this.playingCardMode = playingCardMode;
+    }
+
+    
+    
     @Override
     public int getHQType() {
 

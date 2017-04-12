@@ -135,6 +135,20 @@ public final class Game implements Serializable{
     }
     
     
+    public ArrayList<Position> getPossibleAssault(Unit unit){
+    
+    ArrayList<Position> getOneSquarePositionsArray = getOneSquarePositions(unit.getPosition());
+    
+    ArrayList<Position> getPossinleAssaultArray = new  ArrayList<>();
+    
+    for(Position checkPositon: getOneSquarePositionsArray)
+    {
+        if(checkOpponentPlayerUnitAtPosition(checkPositon))
+               getPossinleAssaultArray.add(checkPositon);
+    }
+    return getPossinleAssaultArray;
+    
+    }
 
     
     public ArrayList<Position> getPossibleBombard(Unit unit){
@@ -464,9 +478,74 @@ public final class Game implements Serializable{
      
     }
     
+    public Unit getOpponentPlayerUnitAtPosition(Position position){
+    
+        for(Unit unitSearch: opponentPlayer.getArmy()){
+        
+            if(unitSearch.getPosition().equals(position))
+            {
+                return unitSearch;
+              }
+            
+        
+        }
+              
+        return null;
+        
+     
+    }
+    
     public boolean checkCurrentPlayerUnitAtPosition(Position position){
     
         for(Unit unitSearch: currentPlayer.getArmy()){
+        
+            if(unitSearch.getPosition().equals(position))
+            {
+                return true;
+              }
+            
+        
+        }
+              
+        return false;
+        
+     
+    }
+     public boolean checkCurrentPlayerUnitByName(String name){
+    
+        for(Unit unitSearch: currentPlayer.getArmy()){
+        
+            if(unitSearch.getName().equals(name))
+            {
+                return true;
+              }
+        }
+              
+        return false;
+        
+     
+    }
+    
+     public Unit getCurrentPlayerUnitByName(String name){
+    
+        for(Unit unitSearch: currentPlayer.getArmy()){
+        
+            if(unitSearch.getName().equals(name))
+            {
+                return unitSearch;
+              }
+            
+        
+        }
+              
+        return null;
+        
+     
+    }
+    
+     public boolean checkOpponentPlayerUnitAtPosition(Position position){
+    
+        for(Unit unitSearch: opponentPlayer.getArmy()){
         
             if(unitSearch.getPosition().equals(position))
             {

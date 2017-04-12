@@ -19,11 +19,11 @@ public class NextPhaseCommand implements Command{
     int phase;
     public NextPhaseCommand(String playerName, int phase) {
         activePlayerName = playerName;
+        this.phase = phase;
     
     }
      public String getPhaseName(int phase){
       
-        
            switch(phase){
            case Game.SETUP:
            {

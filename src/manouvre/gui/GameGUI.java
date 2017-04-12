@@ -434,6 +434,33 @@ public class GameGUI {
                     }
 
                 }
+                case Card.UNIT :{
+                    /*
+                    Draw selection of unit that matches playing card
+                    */
+                    if(game.checkCurrentPlayerUnitByName(playingCard.getCardName()))
+                    {
+                        Position unitPosition = game.getCurrentPlayerUnitByName(playingCard.getCardName()).getPosition();
+                        
+                        g.setColor(Color.red);
+                                        g.drawRoundRect(
+                                                (windowMode == CreateRoomWindow.AS_HOST) ? 
+                                                        unitPosition.getMouseX(): 
+                                                        unitPosition.transpoze().getMouseX()
+                                                + gapSelection,
+                                                (windowMode == CreateRoomWindow.AS_HOST) ?
+                                                        unitPosition.getMouseY(): 
+                                                        unitPosition.transpoze().getMouseY()
+                                                        + gapSelection, 
+                                                MapGUI.SQUARE_WIDTH - 2 * gapSelection, 
+                                                MapGUI.SQUARE_HEIGHT - 2 * gapSelection, 
+                                                10, 10);
+                                    
+                    }
+                        
+                        
+                    
+                }
             }
         }
     }

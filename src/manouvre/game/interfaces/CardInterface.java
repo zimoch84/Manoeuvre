@@ -58,6 +58,12 @@ public interface CardInterface {
     
     public static int HQCARD  = 6;
     
+    public static int ASSAULT = 202;
+    public static int VOLLEY = 203;
+    public static int BOMBARD = 204;
+            
+    
+    
     /*
     Return CardID 
     */  
