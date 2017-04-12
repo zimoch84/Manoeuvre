@@ -27,10 +27,11 @@ public class Terrain  implements TerrainInterface, Serializable {
     
     boolean isRedoubt;
     boolean isOccupiedByUnit;
-    
-    Position pos;
-   
 
+    Position pos;
+    boolean selected;
+   
+    
     public Position getPosition() {
         return pos;
     }
@@ -201,6 +202,14 @@ public class Terrain  implements TerrainInterface, Serializable {
 
     public void setEndsMove(boolean endsMove) {
         this.endsMove = endsMove;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
     

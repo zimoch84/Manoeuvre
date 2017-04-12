@@ -19,16 +19,9 @@ import manouvre.network.client.Message;
 import manouvre.game.commands.CommandQueue;
 import manouvre.game.Card;
 import manouvre.game.CardCommandFactory;
-import static java.lang.Math.round;
 import manouvre.game.Player;
-import manouvre.game.commands.MoveUnitCommand;
 import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
+import manouvre.game.Terrain;
 
 
 
@@ -62,6 +55,8 @@ public class GameGUI {
     int windowMode;
     
     boolean lockGUI=false;
+    boolean freeMove = false;
+    
     
     public GameGUI (Game newGame, int windowMode) throws IOException{
         this.game=newGame;
@@ -188,32 +183,35 @@ public class GameGUI {
      if(windowMode == CreateRoomWindow.AS_HOST)
         {
             if (mapGui.isUnitSelected()) {
-                for (TerrainGUI terrainGUI : mapGui.getTerrainsGUI()) {
-                    if (terrainGUI.isSelected()) {
-                        g.drawRoundRect(terrainGUI.getPos().getMouseX() + gapSelection, 
-                                terrainGUI.getPos().getMouseY() + gapSelection, 
+                for (Terrain terrain : game.getMap().getTerrainz()) {
+                    if (terrain.isSelected()) {
+                        g.drawRoundRect(terrain.getPosition().getMouseX() + gapSelection, 
+                                terrain.getPosition().getMouseY() + gapSelection, 
                                 MapGUI.SQUARE_WIDTH - 2 * gapSelection, 
                                 MapGUI.SQUARE_HEIGHT - 2 * gapSelection, 
                                 10, 10
                         );
-                        System.out.println("manouvre.gui.GameGUI.drawMap() " + terrainGUI.getPos().toString());
+                        System.out.println("manouvre.gui.GameGUI.drawMap() " + terrain.getPosition().toString());
                         /*
                         Draw AdjencedSpace /Move
                          */
-                        if (terrainGUI.getTerrain().getIsOccupiedByUnit()) {
+                        if (terrain.getIsOccupiedByUnit()) {
 
-                            System.out.println("manouvre.gui.ClientUI.drawMap() : " + game.getCurrentPlayerUnitAtPosition(terrainGUI.getPos()).toString());
-                            ArrayList<Position> movePositions ;
-                            if(game.getPhase() == Game.SETUP && !currentPlayer.isPlayingCard())
+                            System.out.println("manouvre.gui.ClientUI.drawMap() : " + game.getCurrentPlayerUnitAtPosition(terrain.getPosition()).toString());
+                            ArrayList<Position> movePositions;
+                            if(game.getPhase() == Game.SETUP && !game.getCurrentPlayer().isPlayingCard())
                             {
                                 movePositions = game.getSetupPossibleMovement();
                             }
-                            else if (game.getCurrentPlayerUnitAtPosition(terrainGUI.getPos()).isRetriving()  )
+                            else if (game.getCurrentPlayerUnitAtPosition(terrain.getPosition()).isRetriving()  )
                             {
                                 return;
                             }
                             else
-                            {movePositions = game.getPossibleMovement(game.getCurrentPlayerUnitAtPosition(terrainGUI.getPos()));}
+                            {
+                                movePositions = game.getPossibleMovement(game.getCurrentPlayerUnitAtPosition(terrain.getPosition()));
+                            }
+                            
                             
                             for (Position drawMovePosion : movePositions) {
                                 g.setColor(Color.blue);
@@ -228,34 +226,39 @@ public class GameGUI {
                 }
             }
         }
-        else if(windowMode == CreateRoomWindow.AS_GUEST)
+    else if(windowMode == CreateRoomWindow.AS_GUEST)
         {
             if (mapGui.isUnitSelected()) {
-                for (TerrainGUI terrainGUI : mapGui.getTerrainsGUI()) {
-                    if (terrainGUI.isSelected()) {
-                        g.drawRoundRect(terrainGUI.getPos().transpoze().getMouseX() + gapSelection, 
-                                terrainGUI.getPos().transpoze().getMouseY() + gapSelection, 
+                for (Terrain terrain : game.getMap().getTerrainz()) {
+                    if (terrain.isSelected()) {
+                        g.drawRoundRect(terrain.getPosition().transpoze().getMouseX() + gapSelection, 
+                                terrain.getPosition().transpoze().getMouseY() + gapSelection, 
                                 MapGUI.SQUARE_WIDTH - 2 * gapSelection, 
                                 MapGUI.SQUARE_HEIGHT - 2 * gapSelection, 
                                 10, 10
                         );
-                        System.out.println("manouvre.gui.GameGUI.drawMap() " + terrainGUI.getPos().toString());
+                        System.out.println("manouvre.gui.GameGUI.drawMap() " + terrain.getPosition().toString());
                         /*
                         Draw AdjencedSpace /Move
                          */
-                        if (terrainGUI.getTerrain().getIsOccupiedByUnit()) {
+                        if (terrain.getIsOccupiedByUnit()) {
 
-                            System.out.println("manouvre.gui.ClientUI.drawMap() : " + game.getCurrentPlayerUnitAtPosition(terrainGUI.getPos()).toString());
+                            System.out.println("manouvre.gui.ClientUI.drawMap() : " + game.getCurrentPlayerUnitAtPosition(terrain.getPosition()).toString());
                             ArrayList<Position> movePositions;
                             
                             if(game.getPhase() == Game.SETUP)
-                            {movePositions = game.getSetupPossibleMovement();}
-                            else if (currentPlayer.isPlayingCard() )
                             {
-                                movePositions = game.getOneSquareMovements(terrainGUI.getPos());
+                                movePositions = game.getSetupPossibleMovement();
+                            }
+                            else if (game.getCurrentPlayer().isPlayingCard() )
+                            {
+                                movePositions = game.getOneSquareMovements(terrain.getPosition());
                             }
                             else
-                            {movePositions = game.getPossibleMovement(game.getCurrentPlayerUnitAtPosition(terrainGUI.getPos()));}
+                            {
+                                movePositions = game.getPossibleMovement(game.getCurrentPlayerUnitAtPosition(terrain.getPosition()));
+                            }
+                            
                             
                             for (Position drawMovePosion : movePositions) {
                                 g.setColor(Color.blue);
