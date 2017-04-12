@@ -8,6 +8,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import manouvre.game.Game;
@@ -21,6 +23,9 @@ import manouvre.game.Card;
 import manouvre.game.CardCommandFactory;
 import manouvre.game.Player;
 import static java.lang.Math.round;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import manouvre.game.Terrain;
 
 
@@ -601,6 +606,50 @@ public class GameGUI {
         return mapGui;
     }
     
+    Image getFlagIcon(Player player){
+        Image flag;
+         try {
+            switch (player.getNation()) {
+            case Card.BR : {
+                flag = ImageIO.read( new File("resources\\icons\\BRicon.jpg" ));
+                return flag;
+                }
+            case Card.AU : {
+                flag = ImageIO.read( new File("resources\\icons\\AUicon.jpg" ));
+                return flag;
+                }
+            case Card.FR : {
+                flag = ImageIO.read( new File("resources\\icons\\FRicon.jpg" ));
+                return flag;
+                }
+            case Card.OT : {
+                flag = ImageIO.read( new File("resources\\icons\\OTicon.jpg" ));
+                return flag;
+                }
+            case Card.PR : {
+                flag = ImageIO.read( new File("resources\\icons\\PRicon.jpg" ));
+                return flag;
+                }
+            case Card.RU : {
+                flag = ImageIO.read( new File("resources\\icons\\RUicon.jpg" ));
+                return flag;
+                }
+            case Card.SP : {
+                flag = ImageIO.read( new File("resources\\icons\\SPicon.jpg" ));
+                return flag;
+                }
+            case Card.US : {
+                flag = ImageIO.read( new File("resources\\icons\\USicon.jpg" ));
+                return flag;
+                }
+            
+            default: return null;
+            }
+          } catch (IOException ex) {
+                Logger.getLogger(GameGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return null;
+    }
     
     
  //-------- CARDS - BOTTOM OF THE SCREEN -----------------------------------

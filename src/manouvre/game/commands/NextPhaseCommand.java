@@ -21,7 +21,37 @@ public class NextPhaseCommand implements Command{
         activePlayerName = playerName;
     
     }
-    
+     public String getPhaseName(int phase){
+      
+        
+           switch(phase){
+           case Game.SETUP:
+           {
+           return "Setup";
+           }    
+           case Game.DISCARD:
+           {
+            return "Discard";
+           }
+           case Game.DRAW:
+           {
+             return "Draw";
+           }
+           case Game.MOVE:
+           {
+            return "Move";
+            }
+           case Game.COMBAT:
+           {
+            return "Combat";
+           }
+            case Game.RESTORATION:
+           {
+            return "Restoration";
+           }
+           }   
+           return null;
+      }
     
     
     @Override
@@ -37,7 +67,7 @@ public class NextPhaseCommand implements Command{
     
     @Override
     public String logCommand(){
-        return new String(activePlayerName + " moved to the next phase"  );
+        return new String(activePlayerName + " moved to the next phase " + getPhaseName(phase) );
     
     }
 

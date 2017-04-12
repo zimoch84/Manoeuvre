@@ -333,6 +333,18 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         }
     } 
  
+    public void drawCurrentPlayerFlag(Graphics g){
+    
+        g.drawImage(gameGui.getFlagIcon(game.getCurrentPlayer()), 0, 0,64,56, null);
+        
+    }
+    
+     public void drawOpponentPlayerFlag(Graphics g){
+    
+        g.drawImage(gameGui.getFlagIcon(game.getOpponentPlayer()), 0, 0,64,56, null);
+        
+    }
+    
     public void paintHand(Graphics g )                 
     {   
         gameGui.paintHand(g); 
@@ -440,7 +452,15 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         }
         ;
         jLabel2 = new javax.swing.JLabel();
-        curPlayerFlag = new javax.swing.JPanel();
+        curPlayerFlag = new javax.swing.JPanel()
+        {
+            @Override
+            public void paintComponent(Graphics g) {
+                drawCurrentPlayerFlag(g);
+
+            }
+        }
+        ;
         opponentPlayerPanel = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         discardPanel1 = new javax.swing.JPanel()
@@ -461,7 +481,16 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         }
         ;
         jLabel3 = new javax.swing.JLabel();
-        opoPlayerFlag = new javax.swing.JPanel();
+        opoPlayerFlag = new javax.swing.JPanel()
+        {
+            @Override
+            public void paintComponent(Graphics g) {
+                drawOpponentPlayerFlag(g);
+
+            }
+        }
+        ;
+        ;
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         FindCard = new javax.swing.JMenuItem();
@@ -683,7 +712,9 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                     .addComponent(sendMessageButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        currentPlayerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(game.getCurrentPlayer().getName() + (game.getCurrentPlayer().isFirst() ? " (First player)" : "")));
+        playersTabbedPane.setFocusCycleRoot(true);
+
+        currentPlayerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(game.getCurrentPlayer().getNationAsString(false)+ (game.getCurrentPlayer().isFirst() ? " (First player)" : "")));
         currentPlayerPanel.setForeground(new java.awt.Color(153, 0, 102));
         currentPlayerPanel.setOpaque(false);
 
@@ -763,10 +794,10 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        playersTabbedPane.addTab("tab1", currentPlayerPanel);
+        playersTabbedPane.addTab(game.getCurrentPlayer().getName(), currentPlayerPanel);
         currentPlayerPanel.getAccessibleContext().setAccessibleName(game.getCurrentPlayer().getName());
 
-        opponentPlayerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(game.getOpponentPlayer().getName() + (game.getOpponentPlayer().isFirst() ? " (First player)" : "")));
+        opponentPlayerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(game.getOpponentPlayer().getNationAsString(false)+ (game.getOpponentPlayer().isFirst() ? " (First player)" : "")));
         opponentPlayerPanel.setForeground(new java.awt.Color(153, 0, 102));
         opponentPlayerPanel.setOpaque(false);
 
@@ -841,13 +872,13 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(playerDrawLeftPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 9, Short.MAX_VALUE))
+                .addGap(0, 13, Short.MAX_VALUE))
             .addGroup(opponentPlayerPanelLayout.createSequentialGroup()
-                .addComponent(discardPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+                .addComponent(discardPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        playersTabbedPane.addTab("tab2", opponentPlayerPanel);
+        playersTabbedPane.addTab(game.getOpponentPlayer().getName(), opponentPlayerPanel);
         opponentPlayerPanel.getAccessibleContext().setAccessibleName(game.getOpponentPlayer().getName());
 
         javax.swing.GroupLayout rightSidePanelLayout = new javax.swing.GroupLayout(rightSidePanel);
