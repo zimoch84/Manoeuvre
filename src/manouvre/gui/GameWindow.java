@@ -166,7 +166,8 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         checkLockingGUI();
         setActionButtonText();
         setPhaseLabelText();
-        setNextPhaseButonText();
+        gameTurnCounter.setText(Integer.toString(game.getTurn()));
+        setNextPhaseButonText(); 
         updateGui();
     }
     
@@ -311,7 +312,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
            case Game.MOVE:
            {
             buttonToNextPhase.setText("End move");
-            buttonToNextPhase.setEnabled(!game.getCurrentPlayer().hasMoved() && !gameGui.isLocked() 
+            buttonToNextPhase.setEnabled(game.getCurrentPlayer().hasMoved() && !gameGui.isLocked() 
                                         && game.getCurrentPlayer().isActive() );
             break;
            }
@@ -324,7 +325,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             case Game.RESTORATION:
            {
             buttonToNextPhase.setEnabled(game.getCurrentPlayer().isActive() && !gameGui.isLocked());
-            buttonToNextPhase.setText("End round");
+            buttonToNextPhase.setText("End turn");
             break;
            }
          }
@@ -368,6 +369,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
     private void initComponents() {
 
         jFrame1 = new javax.swing.JFrame();
+        jPanel1 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         mainWindowPanel = new javax.swing.JPanel()
         {
@@ -402,7 +404,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         buttonToNextPhase = new javax.swing.JButton();
         actionButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        gameTurnCounter = new javax.swing.JLabel();
         phaseNameLabel = new javax.swing.JLabel();
         tablePanel = new javax.swing.JPanel(){
             @Override
@@ -417,7 +419,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         chatTextArea = new javax.swing.JTextArea();
         sendMessageButton = new javax.swing.JButton();
         sendText = new javax.swing.JTextField();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        playersTabbedPane = new javax.swing.JTabbedPane();
         currentPlayerPanel = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         discardPanel = new javax.swing.JPanel()
@@ -437,7 +439,8 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             }
         }
         ;
-        jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        curPlayerFlag = new javax.swing.JPanel();
         opponentPlayerPanel = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         discardPanel1 = new javax.swing.JPanel()
@@ -457,7 +460,8 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             }
         }
         ;
-        jPanel2 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        opoPlayerFlag = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         FindCard = new javax.swing.JMenuItem();
@@ -479,6 +483,17 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         jFrame1Layout.setVerticalGroup(
             jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 300, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -565,10 +580,10 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Turn:");
 
-        jLabel2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("0");
-        jLabel2.setEnabled(false);
+        gameTurnCounter.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        gameTurnCounter.setForeground(new java.awt.Color(255, 255, 255));
+        gameTurnCounter.setText("0");
+        gameTurnCounter.setEnabled(false);
 
         phaseNameLabel.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         phaseNameLabel.setForeground(new java.awt.Color(255, 255, 255));
@@ -584,7 +599,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                     .addGroup(buttonsPanelLayout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(gameTurnCounter, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(actionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(buttonToNextPhase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -601,14 +616,14 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                 .addContainerGap()
                 .addGroup(buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel2)
+                    .addComponent(gameTurnCounter)
                     .addComponent(actionButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(phaseNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(buttonToNextPhase)
+                .addComponent(buttonToNextPhase, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(67, 67, 67))
         );
 
@@ -620,11 +635,11 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         tablePanel.setLayout(tablePanelLayout);
         tablePanelLayout.setHorizontalGroup(
             tablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 543, Short.MAX_VALUE)
         );
         tablePanelLayout.setVerticalGroup(
             tablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 279, Short.MAX_VALUE)
         );
 
         chatPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Chat / Game Log"));
@@ -675,16 +690,17 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         jLabel6.setText("Score:");
 
         discardPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Discard Pile"));
+        discardPanel.setPreferredSize(new java.awt.Dimension(100, 25));
 
         javax.swing.GroupLayout discardPanelLayout = new javax.swing.GroupLayout(discardPanel);
         discardPanel.setLayout(discardPanelLayout);
         discardPanelLayout.setHorizontalGroup(
             discardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 88, Short.MAX_VALUE)
+            .addGap(0, 90, Short.MAX_VALUE)
         );
         discardPanelLayout.setVerticalGroup(
             discardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 130, Short.MAX_VALUE)
         );
 
         playerDrawLeftPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Draw Pile"));
@@ -693,25 +709,26 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         playerDrawLeftPanel.setLayout(playerDrawLeftPanelLayout);
         playerDrawLeftPanelLayout.setHorizontalGroup(
             playerDrawLeftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 79, Short.MAX_VALUE)
+            .addGap(0, 57, Short.MAX_VALUE)
         );
         playerDrawLeftPanelLayout.setVerticalGroup(
             playerDrawLeftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 21, Short.MAX_VALUE)
         );
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Units Killed"));
-        jPanel1.setOpaque(false);
+        jLabel2.setText("Units Killed:");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 68, Short.MAX_VALUE)
+        curPlayerFlag.setPreferredSize(new java.awt.Dimension(64, 56));
+
+        javax.swing.GroupLayout curPlayerFlagLayout = new javax.swing.GroupLayout(curPlayerFlag);
+        curPlayerFlag.setLayout(curPlayerFlagLayout);
+        curPlayerFlagLayout.setHorizontalGroup(
+            curPlayerFlagLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 64, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 19, Short.MAX_VALUE)
+        curPlayerFlagLayout.setVerticalGroup(
+            curPlayerFlagLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 56, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout currentPlayerPanelLayout = new javax.swing.GroupLayout(currentPlayerPanel);
@@ -722,28 +739,31 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                 .addContainerGap()
                 .addGroup(currentPlayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2)
+                    .addComponent(playerDrawLeftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(curPlayerFlag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addComponent(discardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(playerDrawLeftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21))
+                .addContainerGap())
         );
         currentPlayerPanelLayout.setVerticalGroup(
             currentPlayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(currentPlayerPanelLayout.createSequentialGroup()
-                .addGroup(currentPlayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(currentPlayerPanelLayout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(discardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(playerDrawLeftPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addContainerGap()
+                .addComponent(curPlayerFlag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(playerDrawLeftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(currentPlayerPanelLayout.createSequentialGroup()
+                .addComponent(discardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("tab1", currentPlayerPanel);
+        playersTabbedPane.addTab("tab1", currentPlayerPanel);
         currentPlayerPanel.getAccessibleContext().setAccessibleName(game.getCurrentPlayer().getName());
 
         opponentPlayerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(game.getOpponentPlayer().getName() + (game.getOpponentPlayer().isFirst() ? " (First player)" : "")));
@@ -753,12 +773,14 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         jLabel10.setText("Score:");
 
         discardPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Discard Pile"));
+        discardPanel1.setPreferredSize(new java.awt.Dimension(100, 25));
+        discardPanel1.setRequestFocusEnabled(false);
 
         javax.swing.GroupLayout discardPanel1Layout = new javax.swing.GroupLayout(discardPanel1);
         discardPanel1.setLayout(discardPanel1Layout);
         discardPanel1Layout.setHorizontalGroup(
             discardPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 88, Short.MAX_VALUE)
+            .addGap(0, 90, Short.MAX_VALUE)
         );
         discardPanel1Layout.setVerticalGroup(
             discardPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -771,25 +793,26 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         playerDrawLeftPanel1.setLayout(playerDrawLeftPanel1Layout);
         playerDrawLeftPanel1Layout.setHorizontalGroup(
             playerDrawLeftPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 80, Short.MAX_VALUE)
+            .addGap(0, 61, Short.MAX_VALUE)
         );
         playerDrawLeftPanel1Layout.setVerticalGroup(
             playerDrawLeftPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 20, Short.MAX_VALUE)
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Units Killed"));
-        jPanel2.setOpaque(false);
+        jLabel3.setText("Units Killed:");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 73, Short.MAX_VALUE)
+        opoPlayerFlag.setPreferredSize(new java.awt.Dimension(64, 56));
+
+        javax.swing.GroupLayout opoPlayerFlagLayout = new javax.swing.GroupLayout(opoPlayerFlag);
+        opoPlayerFlag.setLayout(opoPlayerFlagLayout);
+        opoPlayerFlagLayout.setHorizontalGroup(
+            opoPlayerFlagLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 64, Short.MAX_VALUE)
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 36, Short.MAX_VALUE)
+        opoPlayerFlagLayout.setVerticalGroup(
+            opoPlayerFlagLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 56, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout opponentPlayerPanelLayout = new javax.swing.GroupLayout(opponentPlayerPanel);
@@ -800,28 +823,31 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                 .addContainerGap()
                 .addGroup(opponentPlayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel3)
+                    .addComponent(playerDrawLeftPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(opoPlayerFlag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addComponent(discardPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(playerDrawLeftPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         opponentPlayerPanelLayout.setVerticalGroup(
             opponentPlayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, opponentPlayerPanelLayout.createSequentialGroup()
-                .addGroup(opponentPlayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(playerDrawLeftPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, opponentPlayerPanelLayout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(discardPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(opponentPlayerPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(opoPlayerFlag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(playerDrawLeftPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 9, Short.MAX_VALUE))
+            .addGroup(opponentPlayerPanelLayout.createSequentialGroup()
+                .addComponent(discardPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("tab2", opponentPlayerPanel);
+        playersTabbedPane.addTab("tab2", opponentPlayerPanel);
         opponentPlayerPanel.getAccessibleContext().setAccessibleName(game.getOpponentPlayer().getName());
 
         javax.swing.GroupLayout rightSidePanelLayout = new javax.swing.GroupLayout(rightSidePanel);
@@ -830,20 +856,20 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rightSidePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(tablePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tablePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(chatPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTabbedPane1))
+                    .addComponent(playersTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         rightSidePanelLayout.setVerticalGroup(
             rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rightSidePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(tablePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(playersTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(tablePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1152,6 +1178,9 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             {
                 CustomDialog cd = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "You have moved already, \n play card or proceed to next phase");
                 cd.setVisible(true);
+                gameGui.unselectAllUnits();
+                this.repaint();
+                
             }
             
 
@@ -1270,6 +1299,15 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             CustomDialog dialog = new CustomDialog(CustomDialog.YES_NO_TYPE, "Are You sure to end setup?", cmd, game);
             dialog.setOkCommand(endSetupCommand);
             
+            /*
+            Lock GUI if opponent hasnt finished setup
+            */
+            if(!game.getOpponentPlayer().isFinishedSetup()  && game.getCurrentPlayer().isActive())
+            {
+                gameGui.lockGUI();
+            
+            }
+            
               
             }
             else
@@ -1376,14 +1414,17 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
     private javax.swing.JTextArea chatTextArea;
     private javax.swing.JCheckBoxMenuItem checkLos;
     private javax.swing.JCheckBoxMenuItem checkRetreat;
+    private javax.swing.JPanel curPlayerFlag;
     private javax.swing.JPanel currentPlayerPanel;
     private javax.swing.JPanel discardPanel;
     private javax.swing.JPanel discardPanel1;
+    private javax.swing.JLabel gameTurnCounter;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -1394,16 +1435,16 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JPanel mainMapPanel;
     private javax.swing.JPanel mainWindowPanel;
+    private javax.swing.JPanel opoPlayerFlag;
     private javax.swing.JPanel opponentPlayerPanel;
     private javax.swing.JLabel phaseNameLabel;
     private javax.swing.JPanel playerDrawLeftPanel;
     private javax.swing.JPanel playerDrawLeftPanel1;
     private javax.swing.JPanel playerHandPanel;
+    private javax.swing.JTabbedPane playersTabbedPane;
     private javax.swing.JPanel rightSidePanel;
     private javax.swing.JButton sendMessageButton;
     private javax.swing.JTextField sendText;
