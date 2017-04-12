@@ -185,5 +185,10 @@ public class Position implements PositionInterface, Serializable{
             
         }
              
+        public static Position getPositionFromMouse(int x, int y){
+        
+            
+            return new Position(convertMouseXToX(x), convertMouseYToY(y)) ;
+        }
          
 }

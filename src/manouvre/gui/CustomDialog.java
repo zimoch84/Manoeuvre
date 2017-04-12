@@ -5,11 +5,15 @@
  */
 package manouvre.gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.JRootPane;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import manouvre.game.Game;
 import manouvre.game.commands.CommandQueue;
 import manouvre.game.interfaces.ClientInterface;
@@ -58,11 +62,21 @@ public class CustomDialog extends javax.swing.JFrame {
         this.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
         
         initComponents();
-        textArea.setText(infoText);
-      
+        
+        //textPane.setBackground(jPanel1.getBackground());
+        //textPane.setForeground(jPanel1.getBackground());
+        textPane.setBackground(Color.BLACK);
+        StyledDocument doc = textPane.getStyledDocument();
+        SimpleAttributeSet center = new SimpleAttributeSet();
+        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+        doc.setParagraphAttributes(0, doc.getLength(), center, false);
+        textPane.setOpaque(false);
+        textPane.setText(infoText);
+       
+              
         setButtonVisibility();
         
-        textArea.setHorizontalAlignment(SwingConstants.CENTER);
+        //textArea.setHorizontalAlignment(SwingConstants.CENTER);
         
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         // Determine the new location of the window
@@ -73,7 +87,7 @@ public class CustomDialog extends javax.swing.JFrame {
         this.setLocation(x, y);
        
         setVisible(true);
-        this.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
    
     public CustomDialog(int dialogType, String infoText,  ClientInterface client, Game game){
@@ -134,7 +148,7 @@ public class CustomDialog extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         okButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
-        textArea = new javax.swing.JLabel();
+        textPane = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.FlowLayout());
@@ -153,28 +167,26 @@ public class CustomDialog extends javax.swing.JFrame {
             }
         });
 
-        textArea.setText("text");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(textArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(textPane, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(cancelButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 151, Short.MAX_VALUE)
+                        .addGap(148, 148, 148)
                         .addComponent(okButton, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(42, Short.MAX_VALUE)
-                .addComponent(textArea, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
+                .addContainerGap(63, Short.MAX_VALUE)
+                .addComponent(textPane, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(okButton)
                     .addComponent(cancelButton))
@@ -268,6 +280,6 @@ public class CustomDialog extends javax.swing.JFrame {
     private javax.swing.JButton cancelButton;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton okButton;
-    private javax.swing.JLabel textArea;
+    private javax.swing.JTextPane textPane;
     // End of variables declaration//GEN-END:variables
 }

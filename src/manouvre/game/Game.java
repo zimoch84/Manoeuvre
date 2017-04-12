@@ -5,15 +5,12 @@
  */
 package manouvre.game;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import static manouvre.game.interfaces.PositionInterface.COLUMN_H;
 import static manouvre.game.interfaces.PositionInterface.ROW_8;
 import manouvre.gui.CreateRoomWindow;
-import manouvre.gui.MapGUI;
-import manouvre.gui.UnitGUI;
 import manouvre.network.server.UnoptimizedDeepCopy;
 
 /**
@@ -54,7 +51,6 @@ public final class Game implements Serializable{
         hostPlayer.setHost(true);
         hostPlayer.setCards();  
         hostPlayer.generateUnits(); 
-        
         guestPlayer.setHost(false);
         guestPlayer.setCards();  
         guestPlayer.generateUnits(); 
@@ -209,6 +205,15 @@ public final class Game implements Serializable{
     public void nextTurn(){
         turn++;
         }
+
+    public int getTurn() {
+        return turn;
+    }
+
+    public void setTurn(int turn) {
+        this.turn = turn;
+    }
+    
     
     public ArrayList<Position> getPossibleMovement(Unit unit){      
         ArrayList<Position> moves;         

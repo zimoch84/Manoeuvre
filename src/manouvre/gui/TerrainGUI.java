@@ -25,15 +25,6 @@ public class TerrainGUI {
         final private int SQUARE_HEIGHT = 100;
         private Image img;
         
-        boolean selected;
-
-        public boolean isSelected() {
-            return selected;
-        }
-
-        public void setSelected(boolean selected) {
-            this.selected = selected;
-        }
         
         Terrain terrain;
 
