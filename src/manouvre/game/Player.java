@@ -50,7 +50,7 @@ public class Player  implements Serializable{
     public Player(String name) {
         this.name = name;
         this.active = true;
-        this.cardCommandFactory = new CardCommandFactory(this);
+       
        
     }
     
@@ -208,14 +208,6 @@ public class Player  implements Serializable{
 
     public void setFirst(boolean first) {
         this.first = first;
-    }
-
-    public CardCommandFactory getCardCommandFactory() {
-        return cardCommandFactory;
-    }
-
-    public void setCardCommandFactory(CardCommandFactory cardCommandFactory) {
-        this.cardCommandFactory = cardCommandFactory;
     }
 
     public boolean hasMoved() {

@@ -1,28 +1,28 @@
 name;imageReduced;imageFull;ID;fullStrength;reducedStrength;type;country
 1st Foot Guards;BR1FGdsb.png;BR1FGds.png;1;8;4;0;Britain
-4th Reg of Foot;BR4RgtFb.png;BR4RgtF.png;2;7;3;0;Britain
-32nd Reg of Foot;BR32RgtFb.png;BR32RgtF.png;3;6;3;0;Britain
-42nd Reg of Foot;BR42RgtFb.png;BR42RgtF.png;4;6;4;0;Britain
-52nd Reg of Foot;BR52RgtFb.png;BR52RgtF.png;5;6;3;0;Britain
+4th Regiment of Foot;BR4RgtFb.png;BR4RgtF.png;2;7;3;0;Britain
+32nd Regiment of Foot;BR32RgtFb.png;BR32RgtF.png;3;6;3;0;Britain
+42nd Regiment of Foot;BR42RgtFb.png;BR42RgtF.png;4;6;4;0;Britain
+52nd Regiment of Foot;BR52RgtFb.png;BR52RgtF.png;5;6;3;0;Britain
 Dutch-Belgians;BRDBelgb.png;BRDBelg.png;6;5;3;0;Britain
-King's Dragoons;BRKDrgb.png;BRKDrg.png;7;8;4;1;Britain
-9th Queen's Royal;BR9QnRoyb.png;BR9QnRoy.png;8;7;3;1;Britain
-1st Infantry Reg;AU1InfRb.png;AU1InfR.png;9;7;4;0;Austria
-3rd Infantry Reg;AU3InfRb.png;AU3InfR.png;10;6;3;0;Austria
-4th Infantry Reg;AU4InfRb.png;AU4InfR.png;11;5;3;0;Austria
-6th Grenzer Reg;AU6GrzRb.png;AU6GrzR.png;12;7;3;0;Austria
-9th  Infantry Reg;AU9InfRb.png;AU9InfR.png;13;6;3;0;Austria
-14th Infantry Reg;AU14InfRb.png;AU14InfR.png;14;5;3;0;Austria
-Johann Drg;AUJohDrgb.png;AUJohDrg.png;15;6;3;1;Austria
-O'Reilly Chev;AUOReilCb.png;AUOReilC.png;16;8;4;1;Austria
-1st Cuirassier;FR1Cuirb.png;FR1Cuir.png;17;7;4;1;France
-2nd Reg Leger;FR2RgtLb.png;FR2RgtL.png;18;6;3;0;France
-4th Reg Suisse;FR4RgtSub.png;FR4RgtSu.png;19;5;3;0;France
-8th Reg Legere;FR8RgtLb.png;FR8RgtL.png;20;6;3;0;France
-19th Reg de Ligne;FR19RgtLb.png;FR19RgtL.png;21;7;4;0;France
-45th Reg de Ligne;FR45RgtLb.png;FR45RgtL.png;22;6;3;0;France
+King's Dragoons Guards;BRKDrgb.png;BRKDrg.png;7;8;4;1;Britain
+9th Queen`s Royal Lancers;BR9QnRoyb.png;BR9QnRoy.png;8;7;3;1;Britain
+1st  Regiment;AU1InfRb.png;AU1InfR.png;9;7;4;0;Austria
+3rd  Regiment;AU3InfRb.png;AU3InfR.png;10;6;3;0;Austria
+4th  Regiment;AU4InfRb.png;AU4InfR.png;11;5;3;0;Austria
+6th Grenzers;AU6GrzRb.png;AU6GrzR.png;12;7;3;0;Austria
+9th Regiment;AU9InfRb.png;AU9InfR.png;13;6;3;0;Austria
+14th Regiment;AU14InfRb.png;AU14InfR.png;14;5;3;0;Austria
+Johann Dragoons;AUJohDrgb.png;AUJohDrg.png;15;6;3;1;Austria
+O'Reilly Chevaulegers;AUOReilCb.png;AUOReilC.png;16;8;4;1;Austria
+1st Cuirassiers;FR1Cuirb.png;FR1Cuir.png;17;7;4;1;France
+2nd Regiment Legere;FR2RgtLb.png;FR2RgtL.png;18;6;3;0;France
+4th Regiment Suisse;FR4RgtSub.png;FR4RgtSu.png;19;5;3;0;France
+8th Regiment Legere;FR8RgtLb.png;FR8RgtL.png;20;6;3;0;France
+19th Regiment Legere;FR19RgtLb.png;FR19RgtL.png;21;7;4;0;France
+45th Regiment Legere;FR45RgtLb.png;FR45RgtL.png;22;6;3;0;France
 Guard Cavalry;FRGdCavb.png;FRGdCav.png;23;8;5;1;France
-Garde Imperial;FRGdImpb.png;FRGdImp.png;24;8;5;0;France
+Imperial Guard;FRGdImpb.png;FRGdImp.png;24;8;5;0;France
 1st Janissaries;OT1Janb.png;OT1Jan.png;25;8;5;0;Ottoman Empire
 2nd Janissaries;OT2Janb.png;OT2Jan.png;26;8;5;0;Ottoman Empire
 Albanian Feudal;OTAlbFdlb.png;OTAlbFdl.png;27;6;2;0;Ottoman Empire

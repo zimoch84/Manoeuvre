@@ -27,6 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import manouvre.game.Terrain;
+import manouvre.game.interfaces.CardInterface;
 
 
 
@@ -401,7 +402,8 @@ public class GameGUI {
         if(currentPlayer.isPlayingCard())
         {
             ArrayList<Position> movePositions;
-            Card playingCard = currentPlayer.getCardCommandFactory().getCurrentPlayedCard();
+            CardCommandFactory cardFactory = game.getCardCommandFactory();
+            Card playingCard = cardFactory.getCurrentPlayedCard();
 
             switch (playingCard.getCardType()){
                 case Card.HQCARD :
@@ -412,23 +414,8 @@ public class GameGUI {
                         {
                         Unit lastMovedUnit = currentPlayer.getLastMovedUnit();
                         movePositions = game.getOneSquareMovements(lastMovedUnit.getPosition());
-
-                        for (Position drawMovePosion : movePositions) {
-                                        g.setColor(Color.red);
-                                        g.drawRoundRect(
-                                                (windowMode == CreateRoomWindow.AS_HOST) ? 
-                                                        drawMovePosion.getMouseX(): 
-                                                        drawMovePosion.transpoze().getMouseX()
-                                                + gapSelection,
-                                                (windowMode == CreateRoomWindow.AS_HOST) ?
-                                                        drawMovePosion.getMouseY(): 
-                                                        drawMovePosion.transpoze().getMouseY()
-                                                        + gapSelection, 
-                                                MapGUI.SQUARE_WIDTH - 2 * gapSelection, 
-                                                MapGUI.SQUARE_HEIGHT - 2 * gapSelection, 
-                                                10, 10);
-                                    }
-
+                        
+                        drawMultipleRectanglesOnPositions(g, movePositions, Color.red);
                         break;
                         }
                     }
@@ -440,31 +427,111 @@ public class GameGUI {
                     */
                     if(game.checkCurrentPlayerUnitByName(playingCard.getCardName()))
                     {
-                        Position unitPosition = game.getCurrentPlayerUnitByName(playingCard.getCardName()).getPosition();
-                        
-                        g.setColor(Color.red);
-                                        g.drawRoundRect(
-                                                (windowMode == CreateRoomWindow.AS_HOST) ? 
-                                                        unitPosition.getMouseX(): 
-                                                        unitPosition.transpoze().getMouseX()
-                                                + gapSelection,
-                                                (windowMode == CreateRoomWindow.AS_HOST) ?
-                                                        unitPosition.getMouseY(): 
-                                                        unitPosition.transpoze().getMouseY()
-                                                        + gapSelection, 
-                                                MapGUI.SQUARE_WIDTH - 2 * gapSelection, 
-                                                MapGUI.SQUARE_HEIGHT - 2 * gapSelection, 
-                                                10, 10);
-                                    
-                    }
-                        
-                        
-                    
-                }
+                        Unit attackingUnit = game.getCurrentPlayerUnitByName(playingCard.getCardName());
+                        Position unitPosition = attackingUnit.getPosition();
+                        drawRectangleOnPosition(g, unitPosition, Color.red);
+                    /*
+                    Draw possible targets if we know playing Card Mode            
+                    */                    
+                        if(playingCard.getPlayingCardMode() > 0  )
+                        {
+                             cardFactory.setSelectedUnit(attackingUnit);
+                             cardFactory.calculateAttackingPositions();
+
+                             if(!cardFactory.getAttackingPositions().isEmpty())
+                             drawArrowToPositions(g, 
+                                     attackingUnit.getPosition(),
+                                     cardFactory.getAttackingPositions()
+                             );
+
+                        }
+                   }
+                break;    
+                }   
             }
+               
         }
+    
     }
     
+    /*
+    Draw rectangle on position
+    */
+    private void drawRectangleOnPosition(Graphics g, Position position, Color color){
+    
+    g.setColor(color);
+    g.drawRoundRect(
+            (windowMode == CreateRoomWindow.AS_HOST) ? 
+                    position.getMouseX(): 
+                    position.transpoze().getMouseX()
+            + gapSelection,
+            (windowMode == CreateRoomWindow.AS_HOST) ?
+                    position.getMouseY(): 
+                    position.transpoze().getMouseY()
+                    + gapSelection, 
+            MapGUI.SQUARE_WIDTH - 2 * gapSelection, 
+            MapGUI.SQUARE_HEIGHT - 2 * gapSelection, 
+            10, 10);
+    
+    }
+    
+      /*
+    Draw rectangles on positions
+    */
+    private void drawMultipleRectanglesOnPositions(Graphics g, ArrayList<Position> positions, Color color){
+    
+    g.setColor(color);
+    for(Position drawPosition: positions)
+    {
+    g.drawRoundRect(
+            (windowMode == CreateRoomWindow.AS_HOST) ? 
+                    drawPosition.getMouseX(): 
+                    drawPosition.transpoze().getMouseX()
+            + gapSelection,
+            (windowMode == CreateRoomWindow.AS_HOST) ?
+                    drawPosition.getMouseY(): 
+                    drawPosition.transpoze().getMouseY()
+                    + gapSelection, 
+            MapGUI.SQUARE_WIDTH - 2 * gapSelection, 
+            MapGUI.SQUARE_HEIGHT - 2 * gapSelection, 
+            10, 10);
+    }
+    }
+    
+    /*
+    Draw arrows to position
+    */
+    
+    private  void drawArrowToPositions(Graphics g , Position fromPosition, ArrayList<Position> toPositions){
+    
+    for (Position losPositons: toPositions  )
+                {
+                    drawArrow(g,
+                    (windowMode == CreateRoomWindow.AS_HOST) ? 
+                            fromPosition.getMouseX() +  MapGUI.PIECE_WIDTH / 2 
+                            :
+                            fromPosition.transpoze().getMouseX() +  MapGUI.PIECE_WIDTH / 2
+                            ,
+                    (windowMode == CreateRoomWindow.AS_HOST)
+                            ?
+                            fromPosition.getMouseY() +  MapGUI.PIECE_HEIGHT / 2
+                            :        
+                            fromPosition.transpoze().getMouseY() +  MapGUI.PIECE_HEIGHT / 2        
+                                    ,                    
+                    (windowMode == CreateRoomWindow.AS_HOST) ?
+                            losPositons.getMouseX() + MapGUI.PIECE_WIDTH / 2
+                            :
+                            losPositons.transpoze().getMouseX() + MapGUI.PIECE_WIDTH / 2        
+                            ,
+                    (windowMode == CreateRoomWindow.AS_HOST) ?
+                            losPositons.getMouseY() +  MapGUI.PIECE_WIDTH / 2
+                            :
+                            losPositons.transpoze().getMouseY() +  MapGUI.PIECE_WIDTH / 2      
+                    , 10,15)
+                            ;
+                    }
+    
+    }
     /**
       * Draw an arrow line betwwen two point 
       * @param g the graphic component
@@ -713,8 +780,29 @@ public class GameGUI {
                 }
             }
         }
-        if(selectionSeq.size()!=0)
-        cardEngine.setPlayingCard(new Card(selectionSeq.get(selectionSeq.size()-1))); //set this card to be played -> here will always come last selected card
+        if(selectionSeq.size()!=0){
+            
+            /*
+            FIX it
+            set actual creference to card from set instead create new objest
+            */
+            Card playingCard = new Card(
+                    selectionSeq.get(selectionSeq.size()-1)
+                    );
+            /*
+            If card have only 1 attacking mode set it here to avoid custom dialog
+            If card have 2 attacking mode then later we'll ask user about which mode he choses
+            */
+            if(playingCard.getCardType() == CardInterface.UNIT)
+            {
+                if(playingCard.getPlayingPossibleCardModes().size() == 1 )
+                    playingCard.setPlayingCardMode(playingCard.getPlayingPossibleCardModes().get(0));
+            }
+                    
+        cardEngine.setPlayingCard(playingCard); //set this card to be played -> here will always come last selected card
+        
+        
+        }
         else {
             cardEngine.resetPlayingCard();//reset if no selected cards
             currentPlayer.setPlayingCard(false);

@@ -168,6 +168,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         setPhaseLabelText();
         gameTurnCounter.setText(Integer.toString(game.getTurn()));
         setNextPhaseButonText(); 
+        game.getCardCommandFactory().resetFactory();
         updateGui();
     }
     
@@ -1025,7 +1026,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
 
     
     private void playerHandPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseClicked
-                gameGui.mouseClickedCard(game.getCurrentPlayer().getCardCommandFactory()); 
+                gameGui.mouseClickedCard(game.getCardCommandFactory()); 
                 setActionButtonText();  //when card is selected set the buttons
                 repaint();
                 if(game.getPhase()==Game.DISCARD)
@@ -1156,14 +1157,14 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                         {   /*
                             We attach move command to wrap it to postpone execution in card command
                             */
-                            game.getCurrentPlayer().getCardCommandFactory().setAttachedCommand(moveUnit);
+                            game.getCardCommandFactory().setAttachedCommand(moveUnit);
                             /*
                             Confirmation dialog
                             */
                             CustomDialog dialog = new CustomDialog(CustomDialog.YES_NO_UNDO_TYPE, "Are You sure to play that card? " , client, game);
                             
                             try {
-                                dialog.setOkCommand(game.getCurrentPlayer().getCardCommandFactory().createCardCommand());
+                                dialog.setOkCommand(game.getCardCommandFactory().createCardCommand());
                                 dialog.setCancelCommand(moveUnit);
                             } catch (Exception ex) {
                                 Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
@@ -1380,8 +1381,8 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
     }//GEN-LAST:event_FindCardActionPerformed
 
     private void MoveToTableCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MoveToTableCommandActionPerformed
-        if(game.getCurrentPlayer().getCardCommandFactory().getCurrentPlayedCard()!=null){
-            Command moveToTable = game.getCurrentPlayer().getCardCommandFactory().createCardCommand();
+        if(game.getCardCommandFactory().getCurrentPlayedCard()!=null){
+            Command moveToTable = game.getCardCommandFactory().createCardCommand();
             cmd.storeAndExecuteAndSend(moveToTable);
         }               
                        

@@ -43,6 +43,7 @@ public final class Game implements Serializable{
     private Player guestPlayer;
     boolean isServer=true;  //if this will not change game is set on Server
     
+    CardCommandFactory cardCommandFactory;
 
     public Game(ArrayList<Player> players) {
         this.hostPlayer = players.get(0);
@@ -54,7 +55,7 @@ public final class Game implements Serializable{
         guestPlayer.setHost(false);
         guestPlayer.setCards();  
         guestPlayer.generateUnits(); 
-       // cardEngine = new CardEngine(guestPlayer);
+        cardCommandFactory = new CardCommandFactory(this);
                 
         generateMap(); 
         
@@ -256,6 +257,8 @@ public final class Game implements Serializable{
         }       
         return moves; 
     };
+    
+    
     
     public ArrayList<Position> getLOS(Unit unit, int lenght){
         
@@ -695,6 +698,14 @@ public final class Game implements Serializable{
             
         
     
+    }
+
+    public CardCommandFactory getCardCommandFactory() {
+        return cardCommandFactory;
+    }
+
+    public void setCardCommandFactory(CardCommandFactory cardCommandFactory) {
+        this.cardCommandFactory = cardCommandFactory;
     }
     
    

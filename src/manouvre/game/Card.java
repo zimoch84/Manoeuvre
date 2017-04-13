@@ -70,6 +70,7 @@ import java.io.IOException;
 
 import com.csvreader.CsvReader;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 
 public class Card implements CardInterface, Serializable{
@@ -255,7 +256,7 @@ public class Card implements CardInterface, Serializable{
     public int getUnitAttack() { 
         if(!UnitAttack.equals(""))
         return Dice.diceTypeToInt(UnitAttack); //if else return wrong value
-        else return 99;
+        else return 0;
     }
 
     public int getUnitDefence() {
@@ -267,7 +268,7 @@ public class Card implements CardInterface, Serializable{
     public int getUnitRange() {
          if(!UnitRange.equals(""))
         return Integer.parseInt(UnitRange);
-         else return 99;
+         else return 0;
     }
 
     public int getUnitBombard() {
@@ -330,14 +331,44 @@ public class Card implements CardInterface, Serializable{
          else return "99";
     }
 
-    public int getPlayingCardMode() {
-        return playingCardMode;
+    
+    /*
+    There are 3 combination here 
+    ASSAULT
+    ASSAULT/VOLLEY
+    BOMBARD
+    */
+    public ArrayList<Integer> getPlayingPossibleCardModes() {
+        
+        ArrayList<Integer> cardPlayingModes = new ArrayList<Integer>();
+       
+        
+        if(!this.UnitAttack.equals("0")) 
+        {cardPlayingModes.add(Card.ASSAULT);
+         
+          }
+        if(this.UnitRange.equals("1") )
+        {
+        cardPlayingModes.add(Card.VOLLEY);
+ 
+        }
+        if(this.UnitRange.equals("2") )
+        {
+        cardPlayingModes.add(Card.BOMBARD);
+                }
+ 
+        return cardPlayingModes;
     }
 
+    
     public void setPlayingCardMode(int playingCardMode) {
         this.playingCardMode = playingCardMode;
     }
 
+    public int getPlayingCardMode() {
+        return playingCardMode;
+    }
+    
     
     
     @Override
