@@ -611,10 +611,13 @@ public final class Game implements Serializable{
     public void setPhase(int phase) {
         this.phase = phase;
         setCardsInHandAsPlayableDueToPhase();
+        System.out.println("manouvre.game.Game.setPhase() " + 
+                 " Phase: " +  phase );
     } 
     public void nextPhase() {
           
-        if(phase<4) phase++;
+        if(getPhase()<4) 
+            setPhase(getPhase()+1);
         
         else 
             /*

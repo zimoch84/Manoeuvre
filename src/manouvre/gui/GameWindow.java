@@ -145,6 +145,11 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
      g.drawImage(bgImage, 0, 0, this.getSize().width, this.getSize().height,Color.red, null);
     }
      
+    private void drawInfoPanel(Graphics g){
+    
+        gameGui.drawInfoPanel(g);
+    }
+    
     private void drawMap(Graphics g )                   
     {
         gameGui.drawMap(g,windowMode );
@@ -168,7 +173,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         setPhaseLabelText();
         gameTurnCounter.setText(Integer.toString(game.getTurn()));
         setNextPhaseButonText(); 
-        game.getCardCommandFactory().resetFactory();
+        
         updateGui();
     }
     
@@ -492,6 +497,15 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         }
         ;
         ;
+        jPanel2 = new javax.swing.JPanel()
+        {
+            @Override
+            public void paintComponent(Graphics g) {
+                drawInfoPanel(g);
+
+            }
+        }
+        ;
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         FindCard = new javax.swing.JMenuItem();
@@ -534,9 +548,17 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         });
 
         mainMapPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Map"));
+        mainMapPanel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                mainMapPanelMouseMoved(evt);
+            }
+        });
         mainMapPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 mainMapPanelMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                mainMapPanelMouseEntered(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 mainMapPanelMouseReleased(evt);
@@ -875,12 +897,25 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                 .addComponent(playerDrawLeftPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 13, Short.MAX_VALUE))
             .addGroup(opponentPlayerPanelLayout.createSequentialGroup()
-                .addComponent(discardPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+                .addComponent(discardPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         playersTabbedPane.addTab(game.getOpponentPlayer().getName(), opponentPlayerPanel);
         opponentPlayerPanel.getAccessibleContext().setAccessibleName(game.getOpponentPlayer().getName());
+
+        jPanel2.setOpaque(false);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 192, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout rightSidePanelLayout = new javax.swing.GroupLayout(rightSidePanel);
         rightSidePanel.setLayout(rightSidePanelLayout);
@@ -889,17 +924,28 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             .addGroup(rightSidePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tablePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(chatPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(playersTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(rightSidePanelLayout.createSequentialGroup()
+                        .addComponent(playersTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(rightSidePanelLayout.createSequentialGroup()
+                        .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tablePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(chatPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(0, 0, 0))
         );
         rightSidePanelLayout.setVerticalGroup(
             rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rightSidePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(playersTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(rightSidePanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(playersTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rightSidePanelLayout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(tablePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1397,6 +1443,34 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         game.getSelectedUnit().setShowingLOS(!game.getSelectedUnit().isShowingLOS());
         this.repaint();
     }//GEN-LAST:event_checkLosActionPerformed
+
+    private void mainMapPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainMapPanelMouseEntered
+        
+       
+        
+        
+    }//GEN-LAST:event_mainMapPanelMouseEntered
+
+    private void mainMapPanelMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainMapPanelMouseMoved
+       int x = evt.getPoint().x;
+        int y = evt.getPoint().y;
+        
+        Position clickedPos = Position.getPositionFromMouse(x, y);
+        
+        
+        if (windowMode == CreateRoomWindow.AS_GUEST) 
+            {
+                clickedPos = clickedPos.transpoze();
+            }
+               
+        UnitGUI unit = gameGui.getUnitGuiOnMapGui(clickedPos);
+        if(unit != null){
+        
+        gameGui.setInfoImage(unit.getImg());
+        repaint();
+        
+        }
+    }//GEN-LAST:event_mainMapPanelMouseMoved
  
     public void clientSend(Message message){
         client.send(gameGui.discardSelCards());
@@ -1467,6 +1541,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel mainMapPanel;
     private javax.swing.JPanel mainWindowPanel;

@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,6 +48,10 @@ public class GameGUI {
     CardSetGUI discardSetGui;
     CardSetGUI drawSetGui;
     CardSetGUI tableSetGui;
+    
+    
+    BufferedImage  infoImage;
+    
     /*
     Wielkosc ramki stolu w kwadracie w pikselach
     */
@@ -76,6 +81,7 @@ public class GameGUI {
         this.drawSetGui = new CardSetGUI(currentPlayer.getDrawPile());//empty
         this.tableSetGui = new CardSetGUI(currentPlayer.getTablePile());//empty
         
+               
         /*
         Set info about first / second player
         */
@@ -84,6 +90,15 @@ public class GameGUI {
         dialog.setVisible(true);
         
     }
+    void drawInfoPanel(Graphics g){
+    
+        if(infoImage != null)
+            
+            g.drawImage(infoImage, 0, 0,infoImage.getHeight(),infoImage.getHeight(), null);
+        
+    
+    }
+    
 //------------- MAP - LEFT UPPER CORNER OF THE SCREEN -----------------------------------
     void drawMap( Graphics g, int windowMode) {
        
@@ -480,21 +495,10 @@ public class GameGUI {
     */
     private void drawMultipleRectanglesOnPositions(Graphics g, ArrayList<Position> positions, Color color){
     
-    g.setColor(color);
+    
     for(Position drawPosition: positions)
     {
-    g.drawRoundRect(
-            (windowMode == CreateRoomWindow.AS_HOST) ? 
-                    drawPosition.getMouseX(): 
-                    drawPosition.transpoze().getMouseX()
-            + gapSelection,
-            (windowMode == CreateRoomWindow.AS_HOST) ?
-                    drawPosition.getMouseY(): 
-                    drawPosition.transpoze().getMouseY()
-                    + gapSelection, 
-            MapGUI.SQUARE_WIDTH - 2 * gapSelection, 
-            MapGUI.SQUARE_HEIGHT - 2 * gapSelection, 
-            10, 10);
+    drawRectangleOnPosition( g,  drawPosition, color);
     }
     }
     
@@ -1114,6 +1118,16 @@ public class GameGUI {
         return null;
     
     }
+
+    public BufferedImage getInfoImage() {
+        return infoImage;
+    }
+
+    public void setInfoImage(BufferedImage infoImage) {
+        this.infoImage = infoImage;
+    }
+    
+    
     
 //    ArrayList<Position> movePositions=null;
 //    public void drawPossibleMovements(){

@@ -20,12 +20,12 @@ import manouvre.game.Unit;
  */
 public class UnitGUI  {
     
-    Image imgFull;
-    Image imgReduced;
+    BufferedImage imgFull;
+    BufferedImage imgReduced;
     
     Unit unit;
     
-    public Image getImg() {
+    public BufferedImage getImg() {
         if(unit.isInjured())
                 return imgReduced;
         else return imgFull;

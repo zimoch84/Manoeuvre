@@ -8,6 +8,7 @@ package manouvre.game.commands;
 import manouvre.game.Card;
 import manouvre.game.Game;
 import manouvre.game.Param;
+import manouvre.game.Unit;
 import manouvre.game.interfaces.Command;
 
 /**
@@ -89,13 +90,45 @@ public static class ForcedMarchCommand implements Command {
         public int getType() {
             return Param.PLAY_CARD;
         }
-        
-        
-
 
 
 }    
+public static class AttackCommand implements Command {
+
+        Unit attackedUnit;
+        Card card;
+        Command moveToTableCommand;
+        
+        public AttackCommand(Unit attackedUnit, Card card, String senderPlayerName) {
+            this.attackedUnit = attackedUnit;
+            this.card = card;
+            this.moveToTableCommand = new CardCommands.MoveToTableCommand(card, senderPlayerName);
+            
+            
+        }
+        @Override
+        public void execute(Game game) {
+            
+            moveToTableCommand.execute(game);
+            
+        }
+
+        @Override
+        public void undo(Game game) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String logCommand() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public int getType() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
    
+}
 }
 
 
