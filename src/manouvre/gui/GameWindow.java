@@ -560,6 +560,9 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 mainMapPanelMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                mainMapPanelMouseExited(evt);
+            }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 mainMapPanelMouseReleased(evt);
             }
@@ -1471,6 +1474,10 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         
         }
     }//GEN-LAST:event_mainMapPanelMouseMoved
+
+    private void mainMapPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainMapPanelMouseExited
+        gameGui.setInfoImage(null);
+    }//GEN-LAST:event_mainMapPanelMouseExited
  
     public void clientSend(Message message){
         client.send(gameGui.discardSelCards());

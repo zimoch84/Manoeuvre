@@ -16,6 +16,44 @@ public class Dice {
         this.diceType=diceType;
     }*/
     
+    public static final int D6 = 0;
+    public static final int D8 = 1;
+    public static final int D10 = 3;
+    
+    
+    int type;
+    int result;
+
+    public Dice(int type) {
+    
+    this.type = type;
+    
+    }
+      
+    public void generateResult()
+    {
+    switch(type){
+        
+        case Dice.D6:
+        {result = k6();
+            break;
+        }
+        case Dice.D8:
+        {
+            result = k8();
+            break;
+        }
+        case Dice.D10:
+        {
+            result = k10();
+            break;
+        }
+      
+    }
+    
+    }
+            
+    
     public static int diceTypeToInt(String diceType){
         switch (diceType){
             case "":
@@ -66,4 +104,23 @@ public class Dice {
         int nextInt = new Random().nextInt(10) + new Random().nextInt(10) + 2;
         return nextInt ;
     }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public int getResult() {
+        return result;
+    }
+
+    public void setResult(int result) {
+        this.result = result;
+    }
+    
+    
+    
 }
