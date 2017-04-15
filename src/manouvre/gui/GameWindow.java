@@ -1094,15 +1094,15 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
 
     private void playerHandPanelMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseMoved
                 int deafband=20; //repaint after mouse change of
+                int repaintAddedArea=20;//refreash little more than just the sqare
                  final int CURR_X = playerHandPanel.getX();
                  final int CURR_Y = playerHandPanel.getY();
-                 final int CURR_W = playerHandPanel.getWidth();
-                 final int CURR_H = playerHandPanel.getHeight();
+                 final int CURR_W = playerHandPanel.getWidth()+repaintAddedArea;
+                 final int CURR_H = playerHandPanel.getHeight()+3*repaintAddedArea;
                 handMouseCoorX = evt.getPoint().x;
 		handMouseCoorY = evt.getPoint().y;
     
                 gameGui.mouseMovedOverHand(handMouseCoorX, handMouseCoorY);
-                
                 if(abs(handMouseCoorX-handMouseCoorXdeaf)>deafband){  //change repainting step
                     handMouseCoorXdeaf=handMouseCoorX;
                     repaint(CURR_X, CURR_Y, CURR_W, CURR_H);
@@ -1311,7 +1311,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             case Game.DISCARD :
             {
                 
-                clientSend(gameGui.discardSelCards());               
+                client.send(gameGui.discardSelCards());             
                 setActionButtonText();
                 this.repaint();
                 break;
@@ -1479,10 +1479,10 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         gameGui.setInfoImage(null);
     }//GEN-LAST:event_mainMapPanelMouseExited
  
-    public void clientSend(Message message){
-        client.send(gameGui.discardSelCards());
-        this.repaint();
-    }
+//    public void clientSend(Message message){
+//        client.send(gameGui.discardSelCards());
+//        this.repaint();
+//    }
 
     public GameGUI getGameGui() {
         return gameGui;

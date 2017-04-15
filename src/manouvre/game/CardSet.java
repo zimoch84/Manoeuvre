@@ -189,6 +189,11 @@ public class CardSet implements CardSetInterface, Serializable{
         
     }
      
+     public Card drawCardFromSet(Card card){
+       Card t_card=cardList.get(cardList.indexOf(card));
+        cardList.remove(card);
+        return t_card;
+     }
     
     //--------------GENERAL FOR ALL----------------------------
     public void addCardToThisSet(Card newCard){

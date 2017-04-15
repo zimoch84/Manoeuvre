@@ -30,11 +30,11 @@ public static class MoveToTableCommand implements Command{
         @Override
         public void execute(Game game) {
             if(game.getCurrentPlayer().getName().equals(senderPlayerName)){
-                 game.getPlayerByName(senderPlayerName).getTablePile().addCardToThisSet(card);
-                 game.getPlayerByName(senderPlayerName).getHand().removeCardFromThisSet(card);
-            }else
-            game.getCurrentPlayer().getTablePile().addCardToThisSet(card); //if not sender just put the card on the table
+                game.getCurrentPlayer().getTablePile().addCardToThisSet(game.getCurrentPlayer().getHand().drawCardFromSet(card));//remove card from own hand and put it on table
+            }else{
+                game.getCurrentPlayer().getTablePile().addCardToThisSet(game.getOpponentPlayer().getHand().drawCardFromSet(card)); //remove card from opponent hand and put it on table
             
+            }
         }
 
         @Override
