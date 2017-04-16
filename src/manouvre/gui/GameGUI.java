@@ -29,7 +29,9 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import manouvre.game.Dice;
 import manouvre.game.Terrain;
+import manouvre.game.commands.EndSetupCommand;
 import manouvre.game.interfaces.CardInterface;
+import manouvre.game.interfaces.Command;
 
 
 
@@ -69,8 +71,9 @@ public class GameGUI {
     boolean lockGUI=false;
     boolean freeMove = false;
     
+    CommandQueue cmdQueue;
     
-    public GameGUI (Game newGame, int windowMode) throws IOException{
+    public GameGUI (Game newGame, int windowMode, CommandQueue cmdQueue) throws IOException{
         this.game=newGame;
         this.currentPlayer=game.getCurrentPlayer();
         this.windowMode = windowMode;
@@ -82,6 +85,7 @@ public class GameGUI {
         this.drawSetGui = new CardSetGUI(currentPlayer.getDrawPile());//empty
         this.tableSetGui = new CardSetGUI(currentPlayer.getTablePile());//empty
         
+        this.cmdQueue=cmdQueue;
                
         /*
         Set info about first / second player
@@ -884,7 +888,18 @@ public class GameGUI {
         }
     }
 }
-    
+    public void rejectIfPossible(){
+        Command rejectCard = game.getCardCommandFactory().createRejectCardCommand();
+        for (int i=0; i<tableSetGui.cardsLeftInSet(); i++){  
+         if(tableSetGui.getCardByPosInSet(i).getCard().getCanBeCancelled())//if card can be canceled
+            {
+                game.getCardCommandFactory().setPlayingCard(tableSetGui.getCardByPosInSet(i).getCard());
+                CustomDialog dialog = new CustomDialog(CustomDialog.YES_NO_TYPE, "Your enemy played this card, will you reject?", cmdQueue, game);
+                tableSetGui.getCardByPosInSet(i).getCard().setCanBeCanceled(false);
+                dialog.setOkCommand(rejectCard);
+            }
+        }
+    } 
     public void paintTablePanel(Graphics g){
         Integer tempInt;
         String tempString;
@@ -895,12 +910,26 @@ public class GameGUI {
         int cardPaddingLeft=10;
         int cardPaddingTopText=138;
         
-       
+        if(tableSetGui.cardsLeftInSet()==0){  //paint NO CARD
+            g.setColor(Color.white);
+            g.setFont(new Font("Bookman Old Style", 1, 20));
+            g.drawString("No Card",20,100);  
+        }
         
+       
+       
         for (int i=0; i<tableSetGui.cardsLeftInSet(); i++){  
-            if(tableSetGui.cardsLeftInSet()>0){
-             g.drawImage(tableSetGui.getCardByPosInSet(i).getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTop, width, height, null);   
-             if(tableSetGui.getCardByPosInSet(i).card.getCardType()==0){ //if UNIT card selected
+           
+            g.drawImage(tableSetGui.getCardByPosInSet(i).getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTop, width, height, null);
+
+           
+                 
+             
+             
+             
+             
+             
+            /* if(tableSetGui.getCardByPosInSet(i).card.getCardType()==0){ //if UNIT card selected
                 g.setColor(Color.white);
                 g.setFont(new Font("Bookman Old Style", 1, 11));
                 
@@ -958,12 +987,10 @@ public class GameGUI {
                 tempString=tableSetGui.getCardByPosInSet(i).card.getUnitDescr();
                 drawStringMultiLine(g, tempString, 100, cardPaddingLeft+width*i+(gap*i)+5,84+cardPaddingTopText);
              }
-            }
-            else{
-                g.setColor(Color.white);
-                g.setFont(new Font("Bookman Old Style", 1, 20));
-                g.drawString("No Card",20,100);  
-            }
+            }*/
+            
+            
+            
         }
          Dice d6 = new Dice(Dice.D6);
         d6.generateResult();

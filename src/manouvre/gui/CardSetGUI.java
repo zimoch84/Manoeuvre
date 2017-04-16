@@ -44,7 +44,7 @@ public class CardSetGUI {
     public void reSet(){ 
        cardListGui.clear(); //clear the list
        for(int i=0; i<cardSet.cardsLeftInSet(); i++){
-        cardListGui.add(i, new CardGUI(cardSet.getCardByPosInSet(i)));
+       cardListGui.add(i, new CardGUI(cardSet.getCardByPosInSet(i)));
        }
     }
     public void getAllCardsImg(){

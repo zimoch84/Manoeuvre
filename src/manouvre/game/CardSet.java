@@ -132,10 +132,10 @@ public class CardSet implements CardSetInterface, Serializable{
      * @param otherCardSet - specyfy name of the other set
      * @param setPlayable  - set as playable TRUE or not playable FALSE
      */
-    public void addCardsFromTheTopOfOtherSet(int range, CardSet otherCardSet, boolean setPlayable){
+    public void addCardsFromTheTopOfOtherSet(int range, CardSet otherCardSet, boolean setPlayable, boolean deleteCard){
         Card temp;
         for(int i=0; i<range; i++){   
-        temp=otherCardSet.lastCardFromThisSet(true);
+        temp=otherCardSet.lastCardFromThisSet(deleteCard);
         temp.setPlayableInPhase(setPlayable);    
        if (cardList.size()<cardSetSize){  //if it is possible to add the card  
            cardList.add(temp);  //add the card
@@ -143,6 +143,21 @@ public class CardSet implements CardSetInterface, Serializable{
        else System.err.println("Too many cards in:"+cardList.getClass().getName()+", sent from: "+ otherCardSet.getClass().getName());
        }    
     }
+     public void addCardsFromOtherSet(int range, CardSet otherCardSet, boolean setPlayable, boolean deleteCards){
+        Card temp;
+        for(int i=0; i<range; i++){   
+        temp=otherCardSet.getCardByPosInSet(i);
+        temp.setPlayableInPhase(setPlayable);    
+       if (cardList.size()<cardSetSize){  //if it is possible to add the card  
+           cardList.add(temp);  //add the card
+       }
+       else System.err.println("Too many cards in:"+cardList.getClass().getName()+", sent from: "+ otherCardSet.getClass().getName());
+       }  
+       if(deleteCards)otherCardSet.clear();
+    }
+      public void clear(){
+          cardList.clear();
+      }
     /**
      * Returns the last card from the stack
      * @param remove - if TRUE last card will be removed from the stack
@@ -190,9 +205,12 @@ public class CardSet implements CardSetInterface, Serializable{
     }
      
      public Card drawCardFromSet(Card card){
-       Card t_card=cardList.get(cardList.indexOf(card));
+        if(cardList.size()>0){
+        Card t_card=cardList.get(cardList.indexOf(card));
         cardList.remove(card);
         return t_card;
+        }
+        return (Card)null;
      }
     
     //--------------GENERAL FOR ALL----------------------------

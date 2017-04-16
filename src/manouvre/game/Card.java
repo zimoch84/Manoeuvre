@@ -100,6 +100,8 @@ public class Card implements CardInterface, Serializable{
     String LederPursuit="";                           
     String LederGrandBatt="";                          
     String UnitDescr="";
+    String EnableMove="";
+    String CanBeCancelled="";
  			
     boolean canceled=false;
     boolean canBeCanceled = false;
@@ -146,6 +148,8 @@ public class Card implements CardInterface, Serializable{
             this.LederPursuit = cards.get("LederPursuit");
             this.LederGrandBatt = cards.get("LederGrandBatt");
             this.UnitDescr = cards.get("UnitDescr");
+            this.EnableMove = cards.get("EnableMove");
+            this.CanBeCancelled = cards.get("CanBeCancelled");
 
             cards.close();
 
@@ -194,7 +198,8 @@ public class Card implements CardInterface, Serializable{
             this.LederPursuit = cards.get("LederPursuit");
             this.LederGrandBatt = cards.get("LederGrandBatt");
             this.UnitDescr = cards.get("UnitDescr");
-
+            this.EnableMove = cards.get("EnableMove");
+            this.CanBeCancelled = cards.get("CanBeCancelled");
             cards.close();
 
             } catch (FileNotFoundException e) {
@@ -330,8 +335,21 @@ public class Card implements CardInterface, Serializable{
         return UnitDescr;
          else return "99";
     }
-
-    
+    public boolean getEnableMove() {
+         if(!EnableMove.equals(""))
+            if(Integer.parseInt(EnableMove)==1)
+            return true;
+         else return false;
+         return false;
+    }
+     public boolean getCanBeCancelled() {
+         if(!CanBeCancelled.equals(""))
+            if(Integer.parseInt(CanBeCancelled)==1)
+            return true;
+         else return false;
+         return false;
+    }
+      
     /*
     There are 3 combination here 
     ASSAULT

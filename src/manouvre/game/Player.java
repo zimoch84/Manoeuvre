@@ -107,7 +107,7 @@ public class Player  implements Serializable{
         this.tablePile = new CardSet();
 
        
-        hand.addCardsFromTheTopOfOtherSet(5, drawPile, false);
+        hand.addCardsFromTheTopOfOtherSet(5, drawPile, false, true);
         hand.sortCard();  
     }
     public void generateUnits(){

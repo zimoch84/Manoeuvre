@@ -135,7 +135,14 @@ public class CardCommandFactory implements Serializable{
 //throw new Exception("There is no such card type");
     }
     }
-
+    
+    public Command createRejectCardCommand(){
+        return new CardCommands.RejectCardCommand(playingCard, game.getCurrentPlayer().getName());
+    }
+    
+     public Command createMoveToHandCommand(CardSet cardSet, int numberOfChosenCards){
+        return new CardCommands.MoveToHandCommand(cardSet,numberOfChosenCards, game.getCurrentPlayer().getName());
+    }
     
     
     

@@ -43,6 +43,7 @@ public class CommandQueue {
       
       gameWindow.refreshAll();
       gameWindow.repaint();
+      cmd=null;//I thing we should delete commands after completion
       
    }
     
@@ -53,7 +54,7 @@ public class CommandQueue {
       
       gameWindow.refreshAll();
       gameWindow.repaint();
-      
+      cmd=null;//I thing we should delete commands  after completion
    }
     
     public void storeAndExecuteAndSend(Command cmd) {
@@ -63,10 +64,15 @@ public class CommandQueue {
         
         gameWindow.refreshAll();
         gameWindow.repaint();
+       
+        
 
         Message message = new Message(Message.COMMAND, game.getCurrentPlayer().getName() , cmd.getType(), "IN_CHANNEL");
         message.setCommand(cmd);
         client.send(message);
+        cmd=null;//I thing we should delete commands after completion
+        
+        
       
    }
     public void undoCommand(Command cmd) {

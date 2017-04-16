@@ -34,6 +34,7 @@ import manouvre.game.commands.CommandQueue;
 import manouvre.game.commands.EndTurnCommand;
 import static java.lang.Math.abs;
 import javax.swing.UIManager;
+import static java.lang.Math.abs;
 
 
 /**
@@ -69,7 +70,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
     
     private Image bgImage;
    
-    public CommandQueue cmd;
+    public CommandQueue cmdQueue;
     public CommandLogger cmdLogger;
  
     /*
@@ -84,7 +85,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         this.windowMode = windowMode;
         this.client = passSocket;
         this.cmdLogger = new CommandLogger(this);
-        this.cmd = new CommandQueue(game, cmdLogger, this, passSocket);
+        this.cmdQueue = new CommandQueue(game, cmdLogger, this, passSocket);
         
         
         /*
@@ -95,7 +96,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         /*
         Creates new GUI respects HOST/GUEST settings
         */
-        gameGui = new GameGUI(this.game, windowMode);
+        gameGui = new GameGUI(this.game, windowMode, cmdQueue);
         
         bgImage = ImageIO.read( new File("resources\\backgrounds\\24209cb208yezho.jpg"));
         /*
@@ -175,12 +176,28 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         setNextPhaseButonText(); 
         
         updateGui();
+        checkIfNewCardCanBeRejected();
     }
     
     public void updateGui(){
         gameGui.resetAllCardSets();
         
     }
+    public void  checkIfNewCardCanBeRejected(){
+        for(int i=0; i<gameGui.tableSetGui.cardsLeftInSet(); i++){
+            if(gameGui.tableSetGui.getCardByPosInSet(i).getCard().getCanBeCancelled())
+            {
+                game.getCardCommandFactory().setPlayingCard(gameGui.tableSetGui.getCardByPosInSet(i).getCard());
+                Command rejectCard = game.getCardCommandFactory().createRejectCardCommand();
+     
+                CustomDialog dialog = new CustomDialog(CustomDialog.YES_NO_TYPE, "Your enemy played this card, will you reject?", cmdQueue, game);
+                gameGui.tableSetGui.getCardByPosInSet(i).getCard().setCanBeCanceled(false);
+                dialog.setOkCommand(rejectCard);
+            }
+        }
+    } 
+            
+     
     private void setActionButtonText(){
         /*
         If card is Selected change Label to "Play Card" 
@@ -1196,7 +1213,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                         
                         if(!game.getCurrentPlayer().isPlayingCard() && game.getPhase() != Game.SETUP)
                         {        
-                                cmd.storeAndExecuteAndSend(moveUnit);
+                                cmdQueue.storeAndExecuteAndSend(moveUnit);
                         }
                         
                         /*
@@ -1228,7 +1245,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                             /*
                             Just execute on client
                             */
-                            cmd.storeAndExecute(moveUnit);
+                            cmdQueue.storeAndExecute(moveUnit);
                         
                         }
                         
@@ -1294,7 +1311,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             
             case "Undo":
             
-            cmd.undoLastCommand();
+            cmdQueue.undoLastCommand();
                 
             /*
             Else play action based on game turn 
@@ -1377,7 +1394,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                                                     )));
             EndSetupCommand endSetupCommand = new EndSetupCommand(game.getCurrentPlayer().getName(), setupCommand );
             
-            CustomDialog dialog = new CustomDialog(CustomDialog.YES_NO_TYPE, "Are You sure to end setup?", cmd, game);
+            CustomDialog dialog = new CustomDialog(CustomDialog.YES_NO_TYPE, "Are You sure to end setup?", cmdQueue, game);
             dialog.setOkCommand(endSetupCommand);
             
             /*
@@ -1394,7 +1411,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             else
             {           
             CustomDialog dialog = new CustomDialog(
-            CustomDialog.CONFIRMATION_TYPE, "Unit " + badPlacedUnit.getName() +  " is placed wrong", cmd, game);
+            CustomDialog.CONFIRMATION_TYPE, "Unit " + badPlacedUnit.getName() +  " is placed wrong", cmdQueue, game);
             }
           
         }
@@ -1402,12 +1419,12 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         else if (game.getPhase() == Game.RESTORATION)
         {
         Command endTurnCommand = new EndTurnCommand(game.getCurrentPlayer().getName());
-        cmd.storeAndExecuteAndSend(endTurnCommand);
+        cmdQueue.storeAndExecuteAndSend(endTurnCommand);
         }
         else 
         {
         Command nextPhaseCommand = new NextPhaseCommand(game.getCurrentPlayer().getName(), game.getPhase()+ 1);
-        cmd.storeAndExecuteAndSend(nextPhaseCommand);
+        cmdQueue.storeAndExecuteAndSend(nextPhaseCommand);
         }    
         setActionButtonText();
         this.repaint();
@@ -1424,7 +1441,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
     }//GEN-LAST:event_sendMessageButtonActionPerformed
 
     private void FindCardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FindCardActionPerformed
-         TestWindow testWindow = new TestWindow(game, this, game.getPhase());
+         TestWindow testWindow = new TestWindow(game, this, game.getPhase(), cmdQueue);
          testWindow.setBounds(50, 100, testWindow.getWidth(), testWindow.getHeight());
          testWindow.setVisible(true);
     }//GEN-LAST:event_FindCardActionPerformed
@@ -1432,7 +1449,8 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
     private void MoveToTableCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MoveToTableCommandActionPerformed
         if(game.getCardCommandFactory().getCurrentPlayedCard()!=null){
             Command moveToTable = game.getCardCommandFactory().createCardCommand();
-            cmd.storeAndExecuteAndSend(moveToTable);
+            
+            cmdQueue.storeAndExecuteAndSend(moveToTable);
         }               
                        
     }//GEN-LAST:event_MoveToTableCommandActionPerformed

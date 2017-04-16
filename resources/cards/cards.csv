@@ -1,481 +1,481 @@
-CardID;CardName;CardFlag;CardImg;CardType;UnitAttack;UnitDeffense;UnitRange;UnitBombard;UnitVolley;UnitPursuit;UnitWithdraw;LederCommand;LederCombat;LederRally;LederPursuit;LederGrandBatt;UnitDescr;EnableMove
-0;Committed Attack;BR;BRCattk.JPG;HqUnit;;;;;;;;;;;;;Add 2d6 to your combat total on an atack you initiate. Play after all defensive cards have been played. The attacking unit is reduced at the end of the combat.;
-1;Earl of Uxbridge;BR;BRUxbridge.JPG;HqLeader;;;;;;;;2;1;4;-1;;;
-2;Forced March;BR;BRFmarch.JPG;HqUnit;;;;;;;;;;;;;Any one unit you moved this turn may move one additional space;1
-3;Forced March;BR;BRFmarch.JPG;HqUnit;;;;;;;;;;;;;Any one unit you moved this turn may move one additional space;1
-4;Lord Wellington;BR;BRWelly.JPG;HqLeader;;;;;;;;4;5;4;;;;
-5;Redoubt;BR;BRRedbt.JPG;HqUnit;;;;;;;;;;;;;Place a Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;
-6;Redoubt;BR;BRRedbt.JPG;HqUnit;;;;;;;;;;;;;Place a Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;
-7;Rowland Hill;BR;BRHill.JPG;HqLeader;;;;;;;;2;1;4;;;;
-8;Royal Engineers;BR;BRRyEng.JPG;HqUnit;;;;;;;;;;;;;Negates any Redoubt being used in the current combat. Play after all defensive cards hve been played.;
-9;Sir John Moore;BR;BRMoore.JPG;HqLeader;;;;;;;;3;4;4;;;;
-10;Skirmish;BR;BRSkirm.JPG;HqUnit;;;;;;;;;;;;;Play after all defensive cards have been played. Move the attacking unit up to 2 spaces in any direction or combination of directions. Return the combat card you used to initiate the combat to your hand.;
-11;Spy;BR;BRSpy.JPG;HqUnit;;;;;;;;;;;;;Look at your opponent's hand. Playable any time during your turn.;
-12;Supply;BR;BRSuply.JPG;HqUnit;;;;;;;;;;;;;You may use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;
-13;Supply;BR;BRSuply.JPG;HqUnit;;;;;;;;;;;;;You may use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;
-14;Supply;BR;BRSuply.JPG;HqUnit;;;;;;;;;;;;;You may use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;
-15;Supply;BR;BRSuply.JPG;HqUnit;;;;;;;;;;;;;You may use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;
-16;William Beresford;BR;BRBeresford.JPG;HqLeader;;;;;;;;3;3;3;;;;
-17;Withdraw;BR;BRWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;
-18;Withdraw;BR;BRWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;
-19;Withdraw;BR;BRWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;
-20;1st Foot Guards;BR;BR1FGa.JPG;Unit;2d8;6;;;;;;;;;;;Not required to advance;
-21;1st Foot Guards;BR;BR1FGa.JPG;Unit;2d8;6;;;;;;;;;;;Not required to advance;
-22;1st Foot Guards;BR;BR1FGb.JPG;Unit;2d8;5;;;;;;;;;;;Not required to advance;
-23;1st Foot Guards;BR;BR1FGb.JPG;Unit;2d8;5;;;;;;;;;;;Not required to advance;
-24;1st Foot Guards;BR;BR1FGc.JPG;Unit;0;7;2;2d6;;;;;;;;;;
-25;4th Regiment of Foot;BR;BR4a.JPG;Unit;2d8;5;;;;;;;;;;;;
-26;4th Regiment of Foot;BR;BR4a.JPG;Unit;2d8;5;;;;;;;;;;;;
-27;4th Regiment of Foot;BR;BR4a.JPG;Unit;2d8;5;;;;;;;;;;;;
-28;4th Regiment of Foot;BR;BR4b.JPG;Unit;1d10;3;;;;;;;;;;;;
-29;4th Regiment of Foot;BR;BR4c.JPG;Unit;0;7;2;1d10;;;;;;;;;;
-30;9th Queen`s Royal Lancers;BR;BR9QLa.JPG;Unit;2d8;6;;;;4;;;;;;;;
-31;9th Queen`s Royal Lancers;BR;BR9QLb.JPG;Unit;2d8;6;;;;3;;;;;;;;
-32;9th Queen`s Royal Lancers;BR;BR9QLb.JPG;Unit;2d8;6;;;;3;;;;;;;;
-33;9th Queen`s Royal Lancers;BR;BR9QLb.JPG;Unit;2d8;6;;;;3;;;;;;;;
-34;9th Queen`s Royal Lancers;BR;BR9QLc.JPG;Unit;0;7;2;1d10;;;;;;;;;;
-35;32nd Regiment of Foot;BR;BR32a.JPG;Unit;2d8;6;;;;;;;;;;;;
-36;32nd Regiment of Foot;BR;BR32a.JPG;Unit;2d8;6;;;;;;;;;;;;
-37;32nd Regiment of Foot;BR;BR32b.JPG;Unit;2d6;5;;;;;;;;;;;;
-38;32nd Regiment of Foot;BR;BR32c.JPG;Unit;1d10;3;;;;;;;;;;;;
-39;32nd Regiment of Foot;BR;BR32d.JPG;Unit;0;7;2;1d10;;;;;;;;;;
-40;42nd Regiment of Foot;BR;BR42a.JPG;Unit;2d8;6;;;;;;;;;;;;
-41;42nd Regiment of Foot;BR;BR42b.JPG;Unit;2d8;5;;;;;;;;;;;;
-42;42nd Regiment of Foot;BR;BR42b.JPG;Unit;2d8;5;;;;;;;;;;;;
-43;42nd Regiment of Foot;BR;BR42c.JPG;Unit;2d6;6;1;;2d8;;;;;;;;;
-44;42nd Regiment of Foot;BR;BR42d.JPG;Unit;0;6;2;1d10;;;;;;;;;;
-45;52nd Regiment of Foot;BR;BR52a.JPG;Unit;2d8;5;;;;;;;;;;;;
-46;52nd Regiment of Foot;BR;BR52a.JPG;Unit;2d8;5;;;;;;;;;;;;
-47;52nd Regiment of Foot;BR;BR52b.JPG;Unit;1d10;3;;;;;;;;;;;;
-48;52nd Regiment of Foot;BR;BR52c.JPG;Unit;1d10;4;1;;2d6;;;;;;;;;
-49;52nd Regiment of Foot;BR;BR52d.JPG;Unit;0;6;2;1d10;;;;;;;;;;
-50;Dutch-Belgians;BR;BRDBa.JPG;Unit;1d10;3;;;;;;;;;;;;
-51;Dutch-Belgians;BR;BRDBa.JPG;Unit;1d10;3;;;;;;;;;;;;
-52;Dutch-Belgians;BR;BRDBb.JPG;Unit;1d10;2;;;;;;;;;;;;
-53;Dutch-Belgians;BR;BRDBb.JPG;Unit;1d10;2;;;;;;;;;;;;
-54;Dutch-Belgians;BR;BRDBc.JPG;Unit;0;5;2;1d10;;;;;;;;;;
-55;King's Dragoons Guards;BR;BRKDGa.JPG;Unit;2d8;7;;;;4;;;;;;;Not required to advance;
-56;King's Dragoons Guards;BR;BRKDGb.JPG;Unit;2d8;6;;;;4;;;;;;;Not required to advance;
-57;King's Dragoons Guards;BR;BRKDGb.JPG;Unit;2d8;6;;;;4;;;;;;;Not required to advance;
-58;King's Dragoons Guards;BR;BRKDGc.JPG;Unit;2d8;6;;;;3;;;;;;;Not required to advance;
-59;King's Dragoons Guards;BR;BRKDGd.JPG;Unit;0;6;2;1d10;;;;;;;;;;
-60;1st  Regiment;AU;AU1Ra.JPG;Unit;2d6;4;;;;;;;;;;;;
-61;1st  Regiment;AU;AU1Rb.JPG;Unit;1d10;4;;;;;;;;;;;;
-62;1st  Regiment;AU;AU1Rb.JPG;Unit;1d10;4;;;;;;;;;;;;
-63;1st  Regiment;AU;AU1Rb.JPG;Unit;1d10;4;;;;;;;;;;;;
-64;1st  Regiment;AU;AU1Rc.JPG;Unit;0;5;2;1d10;;;;;;;;;;
-65;3rd  Regiment;AU;AU3Ra.JPG;Unit;2d8;5;;;;;;;;;;;;
-66;3rd  Regiment;AU;AU3Rb.JPG;Unit;1d10;3;;;;;;;;;;;;
-67;3rd  Regiment;AU;AU3Rb.JPG;Unit;1d10;3;;;;;;;;;;;;
-68;3rd  Regiment;AU;AU3Rb.JPG;Unit;1d10;3;;;;;;;;;;;;
-69;3rd  Regiment;AU;AU3Rc.JPG;Unit;0;5;2;1d10;;;;;;;;;;
-70;4th  Regiment;AU;AU4Ra.JPG;Unit;2d6;3;;;;;;;;;;;;
-71;4th  Regiment;AU;AU4Rb.JPG;Unit;1d10;4;;;;;;;;;;;;
-72;4th  Regiment;AU;AU4Rc.JPG;Unit;1d10;5;1;;2d6;;;;;;;;;
-73;4th  Regiment;AU;AU4Rd.JPG;Unit;1d10;4;1;;2d6;;;;;;;;;
-74;4th  Regiment;AU;AU4Re.JPG;Unit;0;5;2;1d10;;;;;;;;;;
-75;6th Grenzers;AU;AU6Ga.JPG;Unit;2d6;3;;;;;;;;;;;;
-76;6th Grenzers;AU;AU6Gb.JPG;Unit;1d10;4;;;;;;;;;;;;
-77;6th Grenzers;AU;AU6Gc.JPG;Unit;1d10;3;;;;;;;;;;;;
-78;6th Grenzers;AU;AU6Gd.JPG;Unit;1d10;5;1;;2d6;;;;;;;;;
-79;6th Grenzers;AU;AU6Ge.JPG;Unit;1d10;3;1;;2d6;;;;;;;;;
-80;9th Regiment;AU;AU9Ra.JPG;Unit;2d8;5;;;;;;;;;;;;
-81;9th Regiment;AU;AU9Rb.JPG;Unit;2d6;4;;;;;;;;;;;;
-82;9th Regiment;AU;AU9Rc.JPG;Unit;1d10;3;;;;;;;;;;;;
-83;9th Regiment;AU;AU9Rc.JPG;Unit;1d10;3;;;;;;;;;;;;
-84;9th Regiment;AU;AU9Rc.JPG;Unit;1d10;3;;;;;;;;;;;;
-85;14th Regiment;AU;AU14a.JPG;Unit;2d6;4;;;;;;;;;;;;
-86;14th Regiment;AU;AU14b.JPG;Unit;1d10;3;;;;;;;;;;;;
-87;14th Regiment;AU;AU14b.JPG;Unit;1d10;3;;;;;;;;;;;;
-88;14th Regiment;AU;AU14c.JPG;Unit;1d10;5;1;;2d6;;;;;;;;;
-89;14th Regiment;AU;AU14d.JPG;Unit;0;5;2;1d10;;;;;;;;;;
-90;Johann Dragoons;AU;AUJDa.JPG;Unit;2d6;5;;;;3;;;;;;;;
-91;Johann Dragoons;AU;AUJDa.JPG;Unit;2d6;5;;;;3;;;;;;;;
-92;Johann Dragoons;AU;AUJDb.JPG;Unit;2d6;5;;;;2;;;;;;;;
-93;Johann Dragoons;AU;AUJDc.JPG;Unit;2d6;4;;;;2;;;;;;;;
-94;Johann Dragoons;AU;AUJDd.JPG;Unit;0;5;2;1d10;;;;;;;;;;
-95;O'Reilly Chevaulegers;AU;AUOCa.JPG;Unit;2d6;5;;;;3;;;;;;;;
-96;O'Reilly Chevaulegers;AU;AUOCa.JPG;Unit;2d6;5;;;;3;;;;;;;;
-97;O'Reilly Chevaulegers;AU;AUOCb.JPG;Unit;2d6;4;;;;2;;;;;;;;
-98;O'Reilly Chevaulegers;AU;AUOCc.JPG;Unit;1d10;2;;;;2;;;;;;;;
-99;O'Reilly Chevaulegers;AU;AUOCd.JPG;Unit;0;5;2;2d6;;;;;;;;;;
-100;Ambush;AU;AUAmbush.JPG;HqUnit;;;;;;;;;;;;;Play /n this card to initiate an attack. Attack any unit on the board using 1d10. Defensive cards may be played as well as other attack cards.;
-101;Ambush;AU;AUAmbush.JPG;HqUnit;;;;;;;;;;;;;Play /n this card to initiate an attack. Attack any unit on the board using 1d10. Defensive cards may be played as well as other attack cards.;
-102;Committed Attack;AU;AUCattk.JPG;HqUnit;;;;;;;;;;;;;Add 2d6 /n  to your combat total on an atack you initiate. Play after all defensive cards have been played. The attacking unit is reduced at the end of the combat.;
-103;Guerrillas;AU;AUGuer.JPG;HqUnit;;;;;;;;;;;;;Play to  /n prevent one of the following actions of an opponent: 1. Play a Supply card. 2. Play of a Regroup card. 3. Play a Forced March card. 4. Play a Reinforcement attempt.;
-104;Guerrillas;AU;AUGuer.JPG;HqUnit;;;;;;;;;;;;;Play to  /n prevent one of the following actions of an opponent: 1. Play a Supply card. 2. Play of a Regroup card. 3. Play a Forced March card. 4. Play a Reinforcement attempt.;
-105;Redoubt;AU;AURedbt.JPG;HqUnit;;;;;;;;;;;;;Place a  /n Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;
-106;Redoubt;AU;AURedbt.JPG;HqUnit;;;;;;;;;;;;;Place a  /n Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;
-107;Redoubt;AU;AURedbt.JPG;HqUnit;;;;;;;;;;;;;Place a  /n Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;
-108;Skirmish;AU;AUSkirm.JPG;HqUnit;;;;;;;;;;;;;Play after  /n all defensive cards have been played. Move the attacking unit up to 2 spaces in any direction or combination of directions. Return the combat card you used to initiate the combat to your hand.;
-109;Skirmish;AU;AUSkirm.JPG;HqUnit;;;;;;;;;;;;;Play after  /n all defensive cards have been played. Move the attacking unit up to 2 spaces in any direction or combination of directions. Return the combat card you used to initiate the combat to your hand.;
-110;Supply;AU;AUSuply.JPG;HqUnit;;;;;;;;;;;;;You may   /n use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;
-111;Supply;AU;AUSuply.JPG;HqUnit;;;;;;;;;;;;;You may   /n use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;
-112;Supply;AU;AUSuply.JPG;HqUnit;;;;;;;;;;;;;You may   /n use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;
-113;Supply;AU;AUSuply.JPG;HqUnit;;;;;;;;;;;;;You may   /n use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;
-114;Withdraw;AU;AUWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending  /n unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;
-115;Withdraw;AU;AUWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending  /n unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;
-116;Archduke Charles;AU;AUCharles.JPG;HqLeader;;;;;;;;4;4;5;;;;
-117;Emperor Francis II;AU;AUFrancis.JPG;HqLeader;;;;;;;;2;1;3;;;;
-118;Karl Mack von Leiberich;AU;AUMack.JPG;HqLeader;;;;;;;;3;2;4;;;;
-119;Duke of Schwarzenberg;AU;AUSchwarz.JPG;HqLeader;;;;;;;;2;2;3;;;;
-120;1st Cuirassiers;FR;FR1Ca.JPG;Unit;2d10;3;;;;4;;;;;;;;
-121;1st Cuirassiers;FR;FR1Ca.JPG;Unit;2d10;3;;;;4;;;;;;;;
-122;1st Cuirassiers;FR;FR1Cb.JPG;Unit;2d6;3;;;;3;;;;;;;;
-123;1st Cuirassiers;FR;FR1Cb.JPG;Unit;2d6;3;;;;3;;;;;;;;
-124;1st Cuirassiers;FR;FR1Cc.JPG;Unit;0;5;2;1d10;;;;;;;;;;
-125;2nd Regiment Legere;FR;FR2RLa.JPG;Unit;2d6;6;;;;;;;;;;;;
-126;2nd Regiment Legere;FR;FR2RLa.JPG;Unit;2d6;6;;;;;;;;;;;;
-127;2nd Regiment Legere;FR;FR2RLb.JPG;Unit;2d6;5;;;;;;;;;;;;
-128;2nd Regiment Legere;FR;FR2RLc.JPG;Unit;2d6;3;;;;;;;;;;;;
-129;2nd Regiment Legere;FR;FR2RLd.JPG;Unit;0;6;2;1d10;;;;;;;;;;
-130;4th Regiment Suisse;FR;FR4RSua.JPG;Unit;2d8;6;;;;;;;;;;;;
-131;4th Regiment Suisse;FR;FR4RSua.JPG;Unit;2d8;6;;;;;;;;;;;;
-132;4th Regiment Suisse;FR;FR4RSub.JPG;Unit;0;6;2;1d10;;;;;;;;;;
-133;4th Regiment Suisse;FR;FR4RSuc.JPG;Unit;2d6;5;;;;;;;;;;;;
-134;4th Regiment Suisse;FR;FR4RSud.JPG;Unit;0;6;2;1d10;;;;;;;;;;
-135;8th Regiment Legere;FR;FR8RLa.JPG;Unit;2d8;6;;;;;;;;;;;;
-136;8th Regiment Legere;FR;FR8RLb.JPG;Unit;2d6;6;;;;;;;;;;;;
-137;8th Regiment Legere;FR;FR8RLc.JPG;Unit;2d6;4;;;;;;;;;;;;
-138;8th Regiment Legere;FR;FR8RLc.JPG;Unit;2d6;4;;;;;;;;;;;;
-139;8th Regiment Legere;FR;FR8RLd.JPG;Unit;0;5;2;1d10;;;;;;;;;;
-140;19th Regiment Legere;FR;FR19RLa.JPG;Unit;2d8;6;;;;;;;;;;;;
-141;19th Regiment Legere;FR;FR19RLb.JPG;Unit;2d6;6;;;;;;;;;;;;
-142;19th Regiment Legere;FR;FR19RLc.JPG;Unit;2d6;5;;;;;;;;;;;;
-143;19th Regiment Legere;FR;FR19RLc.JPG;Unit;2d6;5;;;;;;;;;;;;
-144;19th Regiment Legere;FR;FR19RLd.JPG;Unit;0;6;2;1d10;;;;;;;;;;
-145;45th Regiment Legere;FR;FR45RLa.JPG;Unit;2d6;6;;;;;;;;;;;;
-146;45th Regiment Legere;FR;FR45RLb.JPG;Unit;2d6;5;;;;;;;;;;;;
-147;45th Regiment Legere;FR;FR45RLb.JPG;Unit;2d6;5;;;;;;;;;;;;
-148;45th Regiment Legere;FR;FR45RLb.JPG;Unit;2d6;5;;;;;;;;;;;;
-149;45th Regiment Legere;FR;FR45RLc.JPG;Unit;0;6;2;1d10;;;;;;;;;;
-150;Imperial Guard;FR;FRIGa.JPG;Unit;2d8;7;;;;;;;;;;;Not required to advance;
-151;Imperial Guard;FR;FRIGa.JPG;Unit;2d8;7;;;;;;;;;;;Not required to advance;
-152;Imperial Guard;FR;FRIGa.JPG;Unit;2d8;7;;;;;;;;;;;Not required to advance;
-153;Imperial Guard;FR;FRIGa.JPG;Unit;2d8;7;;;;;;;;;;;Not required to advance;
-154;Imperial Guard;FR;FRIGb.JPG;Unit;0;8;2;2d6;;;;;;;;;;
-155;Guard Cavalry;FR;FRGCa.JPG;Unit;2d10;4;;;;4;;;;;;;Not required to advance;
-156;Guard Cavalry;FR;FRGCb.JPG;Unit;2d8;4;;;;4;;;;;;;Not required to advance;
-157;Guard Cavalry;FR;FRGCb.JPG;Unit;2d8;4;;;;4;;;;;;;Not required to advance;
-158;Guard Cavalry;FR;FRGCb.JPG;Unit;2d8;4;;;;4;;;;;;;Not required to advance;
-159;Guard Cavalry;FR;FRGCc.JPG;Unit;0;6;2;2d6;;;;;;;;;;
-160;Forced March;FR;FRFMarch.JPG;HqUnit;;;;;;;;;;;;;Any one unit you moved this turn may move one additional space;1
-161;Forced March;FR;FRFMarch.JPG;HqUnit;;;;;;;;;;;;;Any one unit you moved this turn may move one additional space;1
-162;Forced March;FR;FRFMarch.JPG;HqUnit;;;;;;;;;;;;;Any one unit you moved this turn may move one additional space;1
-163;French Sappers;FR;FRSprs.JPG;HqUnit;;;;;;;;;;;;;Negates any Redoubt being used in the current combat. Play after all defensive cards hve been played.;
-164;Jean Lannes;FR;FRLannes.JPG;HqLeader;;;;;;;;2;2;5;;;;
-165;Joachim Murat;FR;FRMurat.JPG;HqLeader;;;;;;;;2;3;5;-1;;;
-166;Louis Nicolas Davout;FR;FRDavout.JPG;HqLeader;;;;;;;;4;5;3;;;;
-167;Michel Ney;FR;FRNey.JPG;HqLeader;;;;;;;;2;4;5;;;;
-168;Napoleon Bonaparte;FR;FRNapoleon.JPG;HqLeader;;;;;;;;4;5;5;;;Grand Battery: Range 2 from any unit, Damage 2d10;
-169;Nicolas Soult;FR;FRSoult.JPG;HqLeader;;;;;;;;3;3;3;;;;
-170;Redoubt;FR;FRRedbt.JPG;HqUnit;;;;;;;;;;;;;Place a Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;
-171;Skirmish;FR;FRSkrm.JPG;HqUnit;;;;;;;;;;;;;Play after all defensive cards have been played. Move the attacking unit up to 2 spaces in any direction or combination of directions. Return the combat card you used to initiate the combat to your hand.;
-172;Supply;FR;FRSuply.JPG;HqUnit;;;;;;;;;;;;;You may  use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;
-173;Supply;FR;FRSuply.JPG;HqUnit;;;;;;;;;;;;;You may  use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;
-174;Supply;FR;FRSuply.JPG;HqUnit;;;;;;;;;;;;;You may  use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;
-175;Supply;FR;FRSuply.JPG;HqUnit;;;;;;;;;;;;;You may  use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;
-176;Withdraw;FR;FRWdrw.JPG;HqUnit;;;;;;;;;;;;;The defending  unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;
-177;Withdraw;FR;FRWdrw.JPG;HqUnit;;;;;;;;;;;;;The defending  unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;
-178;Withdraw;FR;FRWdrw.JPG;HqUnit;;;;;;;;;;;;;The defending  unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;
-179;Withdraw;FR;FRWdrw.JPG;HqUnit;;;;;;;;;;;;;The defending  unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;
-180;1st Janissaries;OT;OT1Ja.JPG;Unit;2d8;4;;;;;;;;;;;Not required to advance;
-181;1st Janissaries;OT;OT1Jb.JPG;Unit;2d6;3;;;;;;;;;;;;
-182;1st Janissaries;OT;OT1Jb.JPG;Unit;2d6;4;;;;;;;;;;;;
-183;1st Janissaries;OT;OT1Jc.JPG;Unit;1d10;4;;;;;;;;;;;;
-184;1st Janissaries;OT;OT1Jd.JPG;Unit;0;5;2;1d10;;;;;;;;;;
-185;2nd Janissaries;OT;OT2Ja.JPG;Unit;2d8;4;;;;;;;;;;;Not required to advance;
-186;2nd Janissaries;OT;OT2Jb.JPG;Unit;2d6;3;;;;;;;;;;;;
-187;2nd Janissaries;OT;OT2Jb.JPG;Unit;2d6;3;;;;;;;;;;;;
-188;2nd Janissaries;OT;OT2Jc.JPG;Unit;1d10;3;;;;;;;;;;;;
-189;2nd Janissaries;OT;OT2Jd.JPG;Unit;0;5;2;1d10;;;;;;;;;;
-190;Albanian Feudal Corps;OT;OTAFa.JPG;Unit;1d10;3;;;;;;;;;;;;
-191;Albanian Feudal Corps;OT;OTAFa.JPG;Unit;1d11;4;;;;;;;;;;;;
-192;Albanian Feudal Corps;OT;OTAFa.JPG;Unit;1d12;5;;;;;;;;;;;;
-193;Albanian Feudal Corps;OT;OTAFa.JPG;Unit;1d13;6;;;;;;;;;;;;
-194;Albanian Feudal Corps;OT;OTAFb.JPG;Unit;0;5;2;1d10;;;;;;;;;;
-195;Arab Cavalry;OT;OTACa.JPG;Unit;2d10;6;3;;;3;;;;;;;;
-196;Arab Cavalry;OT;OTACb.JPG;Unit;2d8;4;2;;;2;;;;;;;;
-197;Arab Cavalry;OT;OTACc.JPG;Unit;2d8;4;;;;1;;;;;;;;
-198;Arab Cavalry;OT;OTACd.JPG;Unit;1d10;3;;;;1;;;;;;;;
-199;Arab Cavalry;OT;OTACe.JPG;Unit;0;5;2;1d10;;;;;;;;;;
-200;Greek Feudal Corps;OT;OTGFa.JPG;Unit;1d10;3;;;;;;;;;;;;
-201;Greek Feudal Corps;OT;OTGFa.JPG;Unit;1d10;3;;;;;;;;;;;;
-202;Greek Feudal Corps;OT;OTGFa.JPG;Unit;1d10;3;;;;;;;;;;;;
-203;Greek Feudal Corps;OT;OTGFa.JPG;Unit;1d10;3;;;;;;;;;;;;
-204;Greek Feudal Corps;OT;OTGFb.JPG;Unit;0;5;2;1d10;;;;;;;;;;
-205;Irregular Cavalry;OT;OTICa.JPG;Unit;1d10;3;;;;1;;;;;;;;
-206;Irregular Cavalry;OT;OTICa.JPG;Unit;1d10;3;;;;1;;;;;;;;
-207;Irregular Cavalry;OT;OTICb.JPG;Unit;1d8;2;;;;1;;;;;;;;
-208;Irregular Cavalry;OT;OTICb.JPG;Unit;1d8;2;;;;1;;;;;;;;
-209;Irregular Cavalry;OT;OTICc.JPG;Unit;0;5;2;1d10;;;;;;;;;;
-210;Regular Cavalry;OT;OTRCa.JPG;Unit;2d6;5;;;;3;;;;;;;;
-211;Regular Cavalry;OT;OTRCb.JPG;Unit;2d6;4;;;;3;;;;;;;;
-212;Regular Cavalry;OT;OTRCc.JPG;Unit;2d6;3;;;;2;;;;;;;;
-213;Regular Cavalry;OT;OTRCd.JPG;Unit;1d10;2;;;;2;;;;;;;;
-214;Regular Cavalry;OT;OTRCe.JPG;Unit;0;5;2;1d10;;;;;;;;;;
-215;Grand Visier Pasha;OT;OTPasha.JPG;HqLeader;;;;;;;;1;2;4;;;;
-216;Muhammad Ali;OT;OTAli.JPG;HqLeader;;;;;;;;2;3;4;-1;;;
-217;Omar Agha;OT;OTAgha.JPG;HqLeader;;;;;;;;2;2;4;;;;
-218;Pechlivan Khan;OT;OTKhan.JPG;HqLeader;;;;;;;;3;4;5;;;;
-219;Committed Attack;OT;OTCattk.JPG;HqUnit;;;;;;;;;;;;;Add 2d6  to your combat total on an atack you initiate. Play after all defensive cards have been played. The attacking unit is reduced at the end of the combat.;
-220;Committed Attack;OT;OTCattk.JPG;HqUnit;;;;;;;;;;;;;Add 2d6  to your combat total on an atack you initiate. Play after all defensive cards have been played. The attacking unit is reduced at the end of the combat.;
-221;Committed Attack;OT;OTCattk.JPG;HqUnit;;;;;;;;;;;;;Add 2d6  to your combat total on an atack you initiate. Play after all defensive cards have been played. The attacking unit is reduced at the end of the combat.;
-222;Committed Attack;OT;OTCattk.JPG;HqUnit;;;;;;;;;;;;;Add 2d6  to your combat total on an atack you initiate. Play after all defensive cards have been played. The attacking unit is reduced at the end of the combat.;
-223;Withdraw;OT;OTWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;
-224;Withdraw;OT;OTWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending  unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;
-225;Withdraw;OT;OTWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending  unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;
-226;Withdraw;OT;OTWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending  unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;
-227;Withdraw;OT;OTWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending  unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;
-228;Regroup;OT;OTRegroup.JPG;HqUnit;;;;;;;;;;;;;Play during the Restoration Phase to restore a reduced unit.;
-229;Regroup;OT;OTRegroup.JPG;HqUnit;;;;;;;;;;;;;Play during the Restoration Phase to restore a reduced unit.;
-230;Regroup;OT;OTRegroup.JPG;HqUnit;;;;;;;;;;;;;Play during the Restoration Phase to restore a reduced unit.;
-231;Regroup;OT;OTRegroup.JPG;HqUnit;;;;;;;;;;;;;Play during the Restoration Phase to restore a reduced unit.;
-232;Regroup;OT;OTRegroup.JPG;HqUnit;;;;;;;;;;;;;Play during the Restoration Phase to restore a reduced unit.;
-233;Regroup;OT;OTRegroup.JPG;HqUnit;;;;;;;;;;;;;Play during the Restoration Phase to restore a reduced unit.;
-234;Regroup;OT;OTRegroup.JPG;HqUnit;;;;;;;;;;;;;Play during the Restoration Phase to restore a reduced unit.;
-235;Ali Pasha's Cavalry;OT;OTAPa.JPG;Unit;2d8;6;;;;3;;;;;;;Not required to advance;
-236;Ali Pasha's Cavalry;OT;OTAPa.JPG;Unit;2d8;6;;;;3;;;;;;;Not required to advance;
-237;Ali Pasha's Cavalry;OT;OTAPb.JPG;Unit;2d10;5;;;;3;;;;;;;;
-238;Ali Pasha's Cavalry;OT;OTAPc.JPG;Unit;2d6;4;;;;2;;;;;;;;
-239;Ali Pasha's Cavalry;OT;OTAPd.JPG;Unit;0;5;2;1d10;;;;;;;;;;
-240;1st Infantry Regiment;PR;PR1Ra.JPG;Unit;2d6;4;;;;;;;;;;;;
-241;1st Infantry Regiment;PR;PR1Ra.JPG;Unit;2d6;4;;;;;;;;;;;;
-242;1st Infantry Regiment;PR;PR1Rb.JPG;Unit;2d6;3;;;;;;;;;;;;
-243;1st Infantry Regiment;PR;PR1Rc.JPG;Unit;1d8;6;1;;2d8;;;;;;;;;
-244;1st Infantry Regiment;PR;PR1Rd.JPG;Unit;0;5;2;1d10;;;;;;;;;;
-245;10th Dragoons;PR;PR10Da.JPG;Unit;2d10;5;;;;3;;;;;;;;
-246;10th Dragoons;PR;PR10Da.JPG;Unit;2d10;5;;;;3;;;;;;;;
-247;10th Dragoons;PR;PR10Db.JPG;Unit;2d6;4;;;;2;;;;;;;;
-248;10th Dragoons;PR;PR10Dc.JPG;Unit;2d6;6;;;;3;;;;;;;;
-249;10th Dragoons;PR;PR10Dd.JPG;Unit;0;5;2;1d10;;;;;;;;;;
-250;13th Infantry Regiment;PR;PR13Ra.JPG;Unit;2d8;5;;;;;;;;;;;;
-251;13th Infantry Regiment;PR;PR13Rb.JPG;Unit;2d6;4;;;;;;;;;;;;
-252;13th Infantry Regiment;PR;PR13Rc.JPG;Unit;2d6;3;;;;;;;;;;;;
-253;13th Infantry Regiment;PR;PR13Rd.JPG;Unit;1d10;3;1;2d6;;;;;;;;;;
-254;13th Infantry Regiment;PR;PR13Re.JPG;Unit;0;5;2;1d10;;;;;;;;;;
-255;25th Infantry Regiment;PR;PR25Ra.JPG;Unit;2d8;5;;;;;;;;;;;;
-256;25th Infantry Regiment;PR;PR25Rb.JPG;Unit;2d6;4;;;;;;;;;;;;
-257;25th Infantry Regiment;PR;PR25Rc.JPG;Unit;1d10;3;;;;;;;;;;;;
-258;25th Infantry Regiment;PR;PR25Rd.JPG;Unit;1d10;4;1;;2d6;;;;;;;;;
-259;25th Infantry Regiment;PR;PR25Re.JPG;Unit;0;5;2;1d10;;;;;;;;;;
-260;27th Infantry Regiment;PR;PR27Ra.JPG;Unit;2d8;5;;;;;;;;;;;;
-261;27th Infantry Regiment;PR;PR27Rb.JPG;Unit;1d10;3;;;;;;;;;;;;
-262;27th Infantry Regiment;PR;PR27Rb.JPG;Unit;1d10;3;;;;;;;;;;;;
-263;27th Infantry Regiment;PR;PR27Rc.JPG;Unit;1d10;3;1;;2d6;;;;;;;;;
-264;27th Infantry Regiment;PR;PR27Rd.JPG;Unit;0;5;2;1d10;;;;;;;;;;
-265;32nd Infantry Regiment;PR;PR32Ra.JPG;Unit;2d8;5;;;;;;;;;;;;
-266;32nd Infantry Regiment;PR;PR32Rb.JPG;Unit;1d10;3;;;;;;;;;;;;
-267;32nd Infantry Regiment;PR;PR32Rb.JPG;Unit;1d10;3;;;;;;;;;;;;
-268;32nd Infantry Regiment;PR;PR32Rc.JPG;Unit;1d10;3;1;;2d6;;;;;;;;;
-269;32nd Infantry Regiment;PR;PR32Rd.JPG;Unit;0;5;2;1d10;;;;;;;;;;
-270;Guard Grenadiers;PR;PRGGa.JPG;Unit;2d8;6;;;;;;;;;;;Not required to advance;
-271;Guard Grenadiers;PR;PRGGa.JPG;Unit;2d8;6;;;;;;;;;;;Not required to advance;
-272;Guard Grenadiers;PR;PRGGb.JPG;Unit;2d6;5;;;;;;;;;;;Not required to advance;
-273;Guard Grenadiers;PR;PRGGc.JPG;Unit;1d8;6;1;;2d8;;;;;;;;;
-274;Guard Grenadiers;PR;PRGGd.JPG;Unit;0;7;2;1d10;;;;;;;;;;
-275;Royal Escort;PR;PRREa.JPG;Unit;2d8;7;;;;4;;;;;;;Not required to advance;
-276;Royal Escort;PR;PRREb.JPG;Unit;2d10;5;;;;3;;;;;;;;
-277;Royal Escort;PR;PRREb.JPG;Unit;2d10;5;;;;3;;;;;;;;
-278;Royal Escort;PR;PRREc.JPG;Unit;2d6;4;;;;2;;;;;;;;
-279;Royal Escort;PR;PRREd.JPG;Unit;0;5;2;1d10;;;;;;;;;;
-280;Frederick Wilhelm Duke of Brunswick;PR;PRBrunswick.JPG;HqLeader;;;;;;;;2;1;2;;;;
-281;Johann Yorck von Wartenburg;PR;PRYorck.JPG;HqLeader;;;;;;;;3;3;4;;;;
-282;Count Kleist von Nollendorf;PR;PRKleist.JPG;HqLeader;;;;;;;;2;1;4;;;;
-283;Gebhard Lebrecht von Blucher;PR;PRBlucher.JPG;HqLeader;;;;;;;;3;4;5;-1;;;
-284;Committed Attack;PR;PRCattk.JPG;HqUnit;;;;;;;;;;;;;Add 2d6  to your combat total on an atack you initiate. Play after all defensive cards have been played. The attacking unit is reduced at the end of the combat.;
-285;Forced March;PR;PRFMarch.JPG;HqUnit;;;;;;;;;;;;;Any one unit you moved this turn may move one additional space;1
-286;Forced March;PR;PRFMarch.JPG;HqUnit;;;;;;;;;;;;;Any one unit you moved this turn may move one additional space;1
-287;Forced March;PR;PRFMarch.JPG;HqUnit;;;;;;;;;;;;;Any one unit you moved this turn may move one additional space;1
-288;Guerrillas;PR;PRGuerillas.JPG;HqUnit;;;;;;;;;;;;;Play to prevent one of the following actions of an opponent: 1. Play a Supply card. 2. Play of a Regroup card. 3. Play a Forced March card. 4. Play a Reinforcement attempt.;
-289;Redoubt;PR;PRRedbt.JPG;HqUnit;;;;;;;;;;;;;Place a Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;
-290;Redoubt;PR;PRRedbt.JPG;HqUnit;;;;;;;;;;;;;Place a Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;
-291;Redoubt;PR;PRRedbt.JPG;HqUnit;;;;;;;;;;;;;Place a Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;
-292;Skirmish;PR;PRskrm.JPG;HqUnit;;;;;;;;;;;;;Play after all defensive cards have been played. Move the attacking unit up to 2 spaces in any direction or combination of directions. Return the combat card you used to initiate the combat to your hand.;
-293;Skirmish;PR;PRskrm.JPG;HqUnit;;;;;;;;;;;;;Play after all defensive cards have been played. Move the attacking unit up to 2 spaces in any direction or combination of directions. Return the combat card you used to initiate the combat to your hand.;
-294;Supply;PR;PRsuply.JPG;HqUnit;;;;;;;;;;;;;You may  use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;
-295;Supply;PR;PRsuply.JPG;HqUnit;;;;;;;;;;;;;You may  use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;
-296;Supply;PR;PRsuply.JPG;HqUnit;;;;;;;;;;;;;You may  use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;
-297;Supply;PR;PRsuply.JPG;HqUnit;;;;;;;;;;;;;You may  use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;
-298;Withdraw;PR;PRWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;
-299;Withdraw;PR;PRWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;
-300;1st Cavalry;RU;RU1Ca.JPG;Unit;2d10;7;;;;4;;;;;;;Not required to advance;
-301;1st Cavalry;RU;RU1Cb.JPG;Unit;2d6;5;;;;3;;;;;;;;
-302;1st Cavalry;RU;RU1Cc.JPG;Unit;2d6;3;;;;2;;;;;;;;
-303;1st Cavalry;RU;RU1Cc.JPG;Unit;2d6;3;;;;2;;;;;;;;
-304;1st Cavalry;RU;RU1Cd.JPG;Unit;0;6;2;2d6;;;;;;;;;;
-305;Black Sea Cossacks;RU;RUBSCa.JPG;Unit;2d10;6;;;;3;;;;;;;;
-306;Black Sea Cossacks;RU;RUBSCb.JPG;Unit;2d10;4;;;;3;;;;;;;;
-307;Black Sea Cossacks;RU;RUBSCc.JPG;Unit;2d8;6;;;;3;;;;;;;;
-308;Black Sea Cossacks;RU;RUBSCd.JPG;Unit;1d8;3;;;;2;;;;;;;;
-309;Black Sea Cossacks;RU;RUBSCe.JPG;Unit;0;5;2;1d10;;;;;;;;;;
-310;Kexholm Regiment;RU;RUKRa.JPG;Unit;1d10;5;;;;;;;;;;;;
-311;Kexholm Regiment;RU;RUKRa.JPG;Unit;1d10;5;;;;;;;;;;;;
-312;Kexholm Regiment;RU;RUKRa.JPG;Unit;1d10;5;;;;;;;;;;;;
-313;Kexholm Regiment;RU;RUKRb.JPG;Unit;1d10;4;1;;2d6;;;;;;;;;
-314;Kexholm Regiment;RU;RUKRc.JPG;Unit;0;6;2;2d6;;;;;;;;;;
-315;Koursk  Regiment;RU;RUKORa.JPG;Unit;1d10;5;;;;;;;;;;;;
-316;Koursk  Regiment;RU;RUKORa.JPG;Unit;1d10;5;;;;;;;;;;;;
-317;Koursk  Regiment;RU;RUKORa.JPG;Unit;1d10;5;;;;;;;;;;;;
-318;Koursk  Regiment;RU;RUKORb.JPG;Unit;1d10;4;1;;2d6;;;;;;;;;
-319;Koursk  Regiment;RU;RUKORc.JPG;Unit;0;6;2;1d10;;;;;;;;;;
-320;Leib Grenadiers;RU;RULGa.JPG;Unit;2d8;5;;;;;;;;;;;;
-321;Leib Grenadiers;RU;RULGb.JPG;Unit;1d10;5;;;;;;;;;;;;
-322;Leib Grenadiers;RU;RULGb.JPG;Unit;1d10;5;;;;;;;;;;;;
-323;Leib Grenadiers;RU;RULGc.JPG;Unit;1d10;4;1;;2d6;;;;;;;;;
-324;Leib Grenadiers;RU;RULGd.JPG;Unit;0;6;2;1d10;;;;;;;;;;
-325;Moscow Regiment;RU;RUMRa.JPG;Unit;2d6;5;1;;2d8;;;;;;;;;
-326;Moscow Regiment;RU;RUMRa.JPG;Unit;2d6;5;1;;2d8;;;;;;;;;
-327;Moscow Regiment;RU;RUMRa.JPG;Unit;2d6;5;1;;2d8;;;;;;;;;
-328;Moscow Regiment;RU;RUMRb.JPG;Unit;1d10;5;;;;;;;;;;;;
-329;Moscow Regiment;RU;RUMRc.JPG;Unit;0;6;2;1d10;;;;;;;;;;
-330;Orlov Regiment;RU;RUORa.JPG;Unit;2d8;4;;;;;;;;;;;;
-331;Orlov Regiment;RU;RUORa.JPG;Unit;2d8;4;;;;;;;;;;;;
-332;Orlov Regiment;RU;RUORb.JPG;Unit;1d10;5;;;;;;;;;;;;
-333;Orlov Regiment;RU;RUORc.JPG;Unit;1d10;3;1;;2d6;;;;;;;;;
-334;Orlov Regiment;RU;RUORd.JPG;Unit;0;5;2;1d10;;;;;;;;;;
-335;Russian Guard;RU;RUGa.JPG;Unit;2d8;5;;;;;;;;;;;;
-336;Russian Guard;RU;RUGa.JPG;Unit;2d9;6;;;;;;;;;;;;
-337;Russian Guard;RU;RUGa.JPG;Unit;2d10;7;;;;;;;;;;;;
-338;Russian Guard;RU;RUGb.JPG;Unit;2d6;5;1;;2d8;;;;;;;;;
-339;Russian Guard;RU;RUGc.JPG;Unit;0;7;2;2d8;;;;;;;;;;
-340;Barclay de Tolly;RU;RUTolly.JPG;HqLeader;;;;;;;;3;3;3;;;;
-341;Committed Attack;RU;RUCattk.JPG;HqUnit;;;;;;;;;;;;;Add 2d6  to your combat total on an atack you initiate. Play after all defensive cards have been played. The attacking unit is reduced at the end of the combat.;
-342;Committed Attack;RU;RUCattk.JPG;HqUnit;;;;;;;;;;;;;Add 2d6  to your combat total on an atack you initiate. Play after all defensive cards have been played. The attacking unit is reduced at the end of the combat.;
-343;Committed Attack;RU;RUCattk.JPG;HqUnit;;;;;;;;;;;;;Add 2d6  to your combat total on an atack you initiate. Play after all defensive cards have been played. The attacking unit is reduced at the end of the combat.;
-344;Count of Sayn-Wittgenstein;RU;RUWittgn.JPG;HqLeader;;;;;;;;2;2;3;;;;
-345;Friederich W. von Buxhoevden;RU;RUBuxhoevden.JPG;HqLeader;;;;;;;;2;2;3;;;;
-346;Guerrillas;RU;RUGuer.JPG;HqUnit;;;;;;;;;;;;;Play to prevent one of the following actions of an opponent: 1. Play a Supply card. 2. Play of a Regroup card. 3. Play a Forced March card. 4. Play a Reinforcement attempt.;
-347;Guerillas;RU;RUGuer.JPG;Unit;;;;;;;;;;;;;Play to prevent one of the following actions of an opponent: 1. Play a Supply card. 2. Play of a Regroup card. 3. Play a Forced March card. 4. Play a Reinforcement attempt.;
-348;Levin August Count of Bennigsen;RU;RUBennigsen.JPG;HqLeader;;;;;;;;2;2;3;;;;
-349;Mikhail I. Kutuzov;RU;RUKutuzov.JPG;HqLeader;;;;;;;;4;3;3;;;;
-350;Pyotr I. Bagration;RU;RUBagration.JPG;HqLeader;;;;;;;;2;4;5;;;;
-351;Redoubt;RU;RURdbt.JPG;HqUnit;;;;;;;;;;;;;Place a Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;
-352;Redoubt;RU;RURdbt.JPG;HqUnit;;;;;;;;;;;;;Place a Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;
-353;Skirmish;RU;RUSkirm.JPG;HqUnit;;;;;;;;;;;;;Play after all defensive cards have been played. Move the attacking unit up to 2 spaces in any direction or combination of directions. Return the combat card you used to initiate the combat to your hand.;
-354;Supply;RU;RUSuply.JPG;HqUnit;;;;;;;;;;;;;You may use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;
-355;Supply;RU;RUSuply.JPG;HqUnit;;;;;;;;;;;;;You may use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;
-356;Supply;RU;RUSuply.JPG;HqUnit;;;;;;;;;;;;;You may use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;
-357;Supply;RU;RUSuply.JPG;HqUnit;;;;;;;;;;;;;You may use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;
-358;Withdraw;RU;RUWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;
-359;Withdraw;RU;RUWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;
-360;1st  Line Regiment;SP;SP1La.JPG;Unit;2d6;6;;;;;;;;;;;;
-361;1st  Line Regiment;SP;SP1Lb.JPG;Unit;1d10;6;;;;;;;;;;;;
-362;1st  Line Regiment;SP;SP1Lb.JPG;Unit;1d10;7;;;;;;;;;;;;
-363;1st  Line Regiment;SP;SP1Lc.JPG;Unit;1d10;3;;;;;;;;;;;;
-364;1st  Line Regiment;SP;SP1Ld.JPG;Unit;0;6;2;1d10;;;;;;;;;;
-365;3rd Hussars;SP;SP3Ha.JPG;Unit;2d6;3;;;;1;;;;;;;;
-366;3rd Hussars;SP;SP3Hb.JPG;Unit;1d10;2;;;;1;;;;;;;;
-367;3rd Hussars;SP;SP3Hb.JPG;Unit;1d10;2;;;;1;;;;;;;;
-368;3rd Hussars;SP;SP3Hb.JPG;Unit;1d10;2;;;;1;;;;;;;;
-369;3rd Hussars;SP;SP3Hc.JPG;Unit;0;6;2;1d10;;;;;;;;;;
-370;7th Navarrese Regiment;SP;SP7Na.JPG;Unit;2d6;5;;;;;;;;;;;;
-371;7th Navarrese Regiment;SP;SP7Nb.JPG;Unit;1d10;6;;;;;;;;;;;;
-372;7th Navarrese Regiment;SP;SP7Nb.JPG;Unit;1d10;6;;;;;;;;;;;;
-373;7th Navarrese Regiment;SP;SP7Nc.JPG;Unit;1d10;5;;;;;;;;;;;;
-374;7th Navarrese Regiment;SP;SP7Nd.JPG;Unit;0;7;2;1d10;;;;;;;;;;
-375;20th Line Regiment;SP;SP20a.JPG;Unit;2d6;6;;;;;;;;;;;;
-376;20th Line Regiment;SP;SP20b.JPG;Unit;2d6;5;;;;;;;;;;;;
-377;20th Line Regiment;SP;SP20c.JPG;Unit;1d10;6;;;;;;;;;;;;
-378;20th Line Regiment;SP;SP20d.JPG;Unit;1d10;5;;;;;;;;;;;;
-379;20th Line Regiment;SP;SP20e.JPG;Unit;0;7;2;1d10;;;;;;;;;;
-380;Regiment de Castille;SP;SPRCa.JPG;Unit;2d6;5;;;;;;;;;;;;
-381;Regiment de Castille;SP;SPRCb.JPG;Unit;1d10;7;;;;;;;;;;;;
-382;Regiment de Castille;SP;SPRCc.JPG;Unit;1d10;6;;;;;;;;;;;;
-383;Regiment de Castille;SP;SPRCc.JPG;Unit;1d10;6;;;;;;;;;;;;
-384;Regiment de Castille;SP;SPRCd.JPG;Unit;0;7;2;1d10;;;;;;;;;;
-385;Del Rey Dragoons;SP;SPDRa.JPG;Unit;2d6;4;;;;1;;;;;;;;
-386;Del Rey Dragoons;SP;SPDRb.JPG;Unit;1d10;4;;;;2;;;;;;;;
-387;Del Rey Dragoons;SP;SPDRc.JPG;Unit;1d10;3;;;;1;;;;;;;;
-388;Del Rey Dragoons;SP;SPDRd.JPG;Unit;1d10;2;;;;1;;;;;;;;
-389;Del Rey Dragoons;SP;SPDRe.JPG;Unit;0;5;2;1d10;;;;;;;;;;
-390;Infanteria Imperial;SP;SPIIa.JPG;Unit;2d6;4;;;;;;;;;;;;
-391;Infanteria Imperial;SP;SPiIb.JPG;Unit;1d10;6;;;;;;;;;;;;
-392;Infanteria Imperial;SP;SPiIb.JPG;Unit;1d10;6;;;;;;;;;;;;
-393;Infanteria Imperial;SP;SPiIb.JPG;Unit;1d10;6;;;;;;;;;;;;
-394;Infanteria Imperial;SP;SPiIc.JPG;Unit;0;7;2;1d10;;;;;;;;;;
-395;Walloon Guards;SP;SPWGb.JPG;Unit;1d10;6;;;;;;;;;;;;
-396;Walloon Guards;SP;SPWGa.JPG;Unit;2d6;6;;;;;;;;;;;;
-397;Walloon Guards;SP;SPWGd.JPG;Unit;2d6;6;;;;;;;;;;;Not required to advance;
-398;Walloon Guards;SP;SPWGd.JPG;Unit;2d6;6;;;;;;;;;;;Not required to advance;
-399;Walloon Guards;SP;SPWGc.JPG;Unit;0;7;2;2d6;;;;;;;;;;
-400;Joaquin Blake y Joyes;SP;SPBlake.JPG;HqLeader;;;;;;;;2;3;4;;;;
-401;Francisco Javier Castanos;SP;SPCastanos.JPG;HqLeader;;;;;;;;3;3;4;;;;
-402;Gregorio Garcia de la Cuesta;SP;SPCuesta.JPG;HqLeader;;;;;;;;2;2;5;;;;
-403;Pedro Caro y Sureda;SP;SPCaro.JPG;HqLeader;;;;;;;;2;1;3;;;;
-404;Guerrillas;SP;SPGuerr.JPG;HqUnit;;;;;;;;;;;;;Play to prevent one of the following actions of an opponent: 1. Play a Supply card. 2. Play of a Regroup card. 3. Play a Forced March card. 4. Play a Reinforcement attempt.;
-405;Guerrillas;SP;SPGuerr.JPG;HqUnit;;;;;;;;;;;;;Play to prevent one of the following actions of an opponent: 1. Play a Supply card. 2. Play of a Regroup card. 3. Play a Forced March card. 4. Play a Reinforcement attempt.;
-406;Guerrillas;SP;SPGuerr.JPG;HqUnit;;;;;;;;;;;;;Play to prevent one of the following actions of an opponent: 1. Play a Supply card. 2. Play of a Regroup card. 3. Play a Forced March card. 4. Play a Reinforcement attempt.;
-407;Guerrillas;SP;SPGuerr.JPG;HqUnit;;;;;;;;;;;;;Play to prevent one of the following actions of an opponent: 1. Play a Supply card. 2. Play of a Regroup card. 3. Play a Forced March card. 4. Play a Reinforcement attempt.;
-408;Guerrillas;SP;SPGuerr.JPG;HqUnit;;;;;;;;;;;;;Play to prevent one of the following actions of an opponent: 1. Play a Supply card. 2. Play of a Regroup card. 3. Play a Forced March card. 4. Play a Reinforcement attempt.;
-409;Redoubt;SP;SPRedbt.JPG;HqUnit;;;;;;;;;;;;;Place a Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;
-410;Redoubt;SP;SPRedbt.JPG;HqUnit;;;;;;;;;;;;;Place a Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;
-411;Redoubt;SP;SPRedbt.JPG;HqUnit;;;;;;;;;;;;;Place a Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;
-412;Redoubt;SP;SPRedbt.JPG;HqUnit;;;;;;;;;;;;;Place a Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;
-413;Skirmish;SP;SPSkirm.JPG;HqUnit;;;;;;;;;;;;;Play after all defensive cards have been played. Move the attacking unit up to 2 spaces in any direction or combination of directions. Return the combat card you used to initiate the combat to your hand.;
-414;Supply;SP;SPSupply.JPG;HqUnit;;;;;;;;;;;;;You may use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;
-415;Supply;SP;SPSupply.JPG;HqUnit;;;;;;;;;;;;;You may use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;
-416;Withdraw;SP;SPWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;
-417;Withdraw;SP;SPWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;
-418;Withdraw;SP;SPWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;
-419;Jose de Palafox y Melzi;SP;SPPalofax.JPG;HqLeader;;;;;;;;1;99;99;;;Rellay : Auto, Attack: 1, Def: 5;
-420;1st Infantry Regiment;US;US1Ia.JPG;Unit;2d6;5;;;;;2;;;;;;;
-421;1st Infantry Regiment;US;US1Ia.JPG;Unit;2d6;5;;;;;2;;;;;;;
-422;1st Infantry Regiment;US;US1Ib.JPG;Unit;2d6;5;;;;;;;;;;;;
-423;1st Infantry Regiment;US;US1Ib.JPG;Unit;2d6;5;;;;;;;;;;;;
-424;1st Infantry Regiment;US;US1Ic.JPG;Unit;0;6;2;1d10;;;;;;;;;;
-425;2nd Infantry Regiment;US;US2Ia.JPG;Unit;2d6;5;;;;;2;;;;;;;
-426;2nd Infantry Regiment;US;US2Ia.JPG;Unit;2d6;5;;;;;2;;;;;;;
-427;2nd Infantry Regiment;US;US2Ib.JPG;Unit;2d6;5;;;;;;;;;;;;
-428;2nd Infantry Regiment;US;US2Ib.JPG;Unit;2d6;5;;;;;;;;;;;;
-429;2nd Infantry Regiment;US;US2Ic.JPG;Unit;0;6;2;1d10;;;;;;;;;;
-430;4th Militia;US;US4Ma.JPG;Unit;2d6;5;;;;;3;;;;;;;
-431;4th Militia;US;US4Mb.JPG;Unit;2d6;5;1;0;2d6;;3;;;;;;;
-432;4th Militia;US;US4Mc.JPG;Unit;1d10;5;1;0;2d6;;3;;;;;;;
-433;4th Militia;US;US4Md.JPG;Unit;1d10;3;;;;;3;;;;;;;
-434;4th Militia;US;US4Me.JPG;Unit;0;5;2;1d10;;;;;;;;;;
-435;Volunteer Cavalry;US;USVCa.JPG;Unit;2d6;4;;;;3;;;;;;;;
-436;Volunteer Cavalry;US;USVCa.JPG;Unit;2d6;4;;;;3;;;;;;;;
-437;Volunteer Cavalry;US;USVCb.JPG;Unit;2d6;3;;;;1;;;;;;;;
-438;Volunteer Cavalry;US;USVCb.JPG;Unit;2d6;3;;;;1;;;;;;;;
-439;Volunteer Cavalry;US;USVCc.JPG;Unit;0;5;2;1d10;;;;;;;;;;
-440;3rd Infantry Regiment;US;US3Ia.JPG;Unit;2d6;5;;;;;2;;;;;;;
-441;3rd Infantry Regiment;US;US3Ia.JPG;Unit;2d6;5;;;;;2;;;;;;;
-442;3rd Infantry Regiment;US;US3Ib.JPG;Unit;2d6;5;;;;;;;;;;;;
-443;3rd Infantry Regiment;US;US3Ib.JPG;Unit;2d6;5;;;;;;;;;;;;
-444;3rd Infantry Regiment;US;US3Ic.JPG;Unit;0;5;2;1d10;;;;;;;;;;
-445;Henry Dearborn;US;USDearborn.JPG;HqLeader;;;;;;;;2;1;3;;;;
-446;William Henry Harrison;US;USHarrison.JPG;HqLeader;;;;;;;;2;2;4;;;;
-447;Andrew Jackson;US;USJackson.JPG;HqLeader;;;;;;;;2;3;4;;;;
-448;Alexander Macomb;US;USMacomb.JPG;HqLeader;;;;;;;;3;2;4;;;;
-449;Winfield Scott;US;USScott.JPG;HqLeader;;;;;;;;1;4;4;;;;
-450;10th Infantry Regiment;US;US10a.JPG;Unit;2d6;5;;;;;2;;;;;;;
-451;10th Infantry Regiment;US;US10a.JPG;Unit;2d6;5;;;;;2;;;;;;;
-452;10th Infantry Regiment;US;US10b.JPG;Unit;2d6;5;;;;;;;;;;;;
-453;10th Infantry Regiment;US;US10b.JPG;Unit;2d6;5;;;;;;;;;;;;
-454;10th Infantry Regiment;US;US10c.JPG;Unit;0;5;2;1d10;;;;;;;;;;
-455;13th Militia;US;US13a.JPG;Unit;1d10;3;1;;2d6;;3;;;;;;;
-456;13th Militia;US;US13a.JPG;Unit;1d10;3;1;;2d6;;3;;;;;;;
-457;13th Militia;US;US13a.JPG;Unit;1d10;3;1;;2d6;;3;;;;;;;
-458;13th Militia;US;US13a.JPG;Unit;1d10;3;1;;2d6;;3;;;;;;;
-459;13th Militia;US;US13b.JPG;Unit;0;5;2;2d6;;;;;;;;;;
-460;22nd Infantry Regiment;US;US22a.JPG;Unit;2d6;5;;;;;;;;;;;;
-461;22nd Infantry Regiment;US;US22b.JPG;Unit;1d10;3;;;;;2;;;;;;;
-462;22nd Infantry Regiment;US;US22b.JPG;Unit;1d10;3;;;;;2;;;;;;;
-463;22nd Infantry Regiment;US;US22c.JPG;Unit;1d10;5;1;;2d6;;;;;;;;;
-464;22nd Infantry Regiment;US;US22d.JPG;Unit;0;5;2;1d10;;;;;;;;;;
-465;Ambush;US;USAmbush.JPG;HqUnit;;;;;;;;;;;;;Play this card to initiate an attack. Attack any unit on the board using 1d10. Defensive cards may be played as well as other attack cards.;
-466;Ambush;US;USAmbush.JPG;HqUnit;;;;;;;;;;;;;Play this card to initiate an attack. Attack any unit on the board using 1d10. Defensive cards may be played as well as other attack cards.;
-467;Ambush;US;USAmbush.JPG;HqUnit;;;;;;;;;;;;;Play this card to initiate an attack. Attack any unit on the board using 1d10. Defensive cards may be played as well as other attack cards.;
-468;Ambush;US;USAmbush.JPG;HqUnit;;;;;;;;;;;;;Play this card to initiate an attack. Attack any unit on the board using 1d10. Defensive cards may be played as well as other attack cards.;
-469;Engineers;US;USEng.JPG;HqUnit;;;;;;;;;;;;;Negates any Redoubt being used in the current combat. Play after all defensive cards hve been played.;
-470;Redoubt;US;USRdbt.JPG;HqUnit;;;;;;;;;;;;;Place a Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;
-471;Redoubt;US;USRdbt.JPG;HqUnit;;;;;;;;;;;;;Place a Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;
-472;Redoubt;US;USRdbt.JPG;HqUnit;;;;;;;;;;;;;Place a Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;
-473;Scout;US;USScout.JPG;HqUnit;;;;;;;;;;;;;Look at your opponent's hand. Playable any time during your turn.;
-474;Skirmish;US;USSkirm.JPG;HqUnit;;;;;;;;;;;;;Play after all defensive cards have been played. Move the attacking unit up to 2 spaces in any direction or combination of directions. Return the combat card you used to initiate the combat to your hand.;
-475;Supply;US;USSupply.JPG;HqUnit;;;;;;;;;;;;;You may use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;
-476;Supply;US;USSupply.JPG;HqUnit;;;;;;;;;;;;;You may use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;
-477;Supply;US;USSupply.JPG;HqUnit;;;;;;;;;;;;;You may use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;
-478;Withdraw;US;USWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;
-479;Withdraw;US;USWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;
+CardID;CardName;CardFlag;CardImg;CardType;UnitAttack;UnitDeffense;UnitRange;UnitBombard;UnitVolley;UnitPursuit;UnitWithdraw;LederCommand;LederCombat;LederRally;LederPursuit;LederGrandBatt;UnitDescr;EnableMove;CanBeCancelled
+0;Committed Attack;BR;BRCattk.JPG;HqUnit;;;;;;;;;;;;;Add 2d6 to your combat total on an atack you initiate. Play after all defensive cards have been played. The attacking unit is reduced at the end of the combat.;;0
+1;Earl of Uxbridge;BR;BRUxbridge.JPG;HqLeader;;;;;;;;2;1;4;-1;;;;0
+2;Forced March;BR;BRFmarch.JPG;HqUnit;;;;;;;;;;;;;Any one unit you moved this turn may move one additional space;1;1
+3;Forced March;BR;BRFmarch.JPG;HqUnit;;;;;;;;;;;;;Any one unit you moved this turn may move one additional space;1;1
+4;Lord Wellington;BR;BRWelly.JPG;HqLeader;;;;;;;;4;5;4;;;;;0
+5;Redoubt;BR;BRRedbt.JPG;HqUnit;;;;;;;;;;;;;Place a Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;;0
+6;Redoubt;BR;BRRedbt.JPG;HqUnit;;;;;;;;;;;;;Place a Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;;0
+7;Rowland Hill;BR;BRHill.JPG;HqLeader;;;;;;;;2;1;4;;;;;0
+8;Royal Engineers;BR;BRRyEng.JPG;HqUnit;;;;;;;;;;;;;Negates any Redoubt being used in the current combat. Play after all defensive cards hve been played.;;0
+9;Sir John Moore;BR;BRMoore.JPG;HqLeader;;;;;;;;3;4;4;;;;;0
+10;Skirmish;BR;BRSkirm.JPG;HqUnit;;;;;;;;;;;;;Play after all defensive cards have been played. Move the attacking unit up to 2 spaces in any direction or combination of directions. Return the combat card you used to initiate the combat to your hand.;;0
+11;Spy;BR;BRSpy.JPG;HqUnit;;;;;;;;;;;;;Look at your opponent's hand. Playable any time during your turn.;;0
+12;Supply;BR;BRSuply.JPG;HqUnit;;;;;;;;;;;;;You may use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;;1
+13;Supply;BR;BRSuply.JPG;HqUnit;;;;;;;;;;;;;You may use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;;1
+14;Supply;BR;BRSuply.JPG;HqUnit;;;;;;;;;;;;;You may use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;;1
+15;Supply;BR;BRSuply.JPG;HqUnit;;;;;;;;;;;;;You may use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;;1
+16;William Beresford;BR;BRBeresford.JPG;HqLeader;;;;;;;;3;3;3;;;;;0
+17;Withdraw;BR;BRWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;;0
+18;Withdraw;BR;BRWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;;0
+19;Withdraw;BR;BRWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;;0
+20;1st Foot Guards;BR;BR1FGa.JPG;Unit;2d8;6;;;;;;;;;;;Not required to advance;;0
+21;1st Foot Guards;BR;BR1FGa.JPG;Unit;2d8;6;;;;;;;;;;;Not required to advance;;0
+22;1st Foot Guards;BR;BR1FGb.JPG;Unit;2d8;5;;;;;;;;;;;Not required to advance;;0
+23;1st Foot Guards;BR;BR1FGb.JPG;Unit;2d8;5;;;;;;;;;;;Not required to advance;;0
+24;1st Foot Guards;BR;BR1FGc.JPG;Unit;0;7;2;2d6;;;;;;;;;;;0
+25;4th Regiment of Foot;BR;BR4a.JPG;Unit;2d8;5;;;;;;;;;;;;;0
+26;4th Regiment of Foot;BR;BR4a.JPG;Unit;2d8;5;;;;;;;;;;;;;0
+27;4th Regiment of Foot;BR;BR4a.JPG;Unit;2d8;5;;;;;;;;;;;;;0
+28;4th Regiment of Foot;BR;BR4b.JPG;Unit;1d10;3;;;;;;;;;;;;;0
+29;4th Regiment of Foot;BR;BR4c.JPG;Unit;0;7;2;1d10;;;;;;;;;;;0
+30;9th Queen`s Royal Lancers;BR;BR9QLa.JPG;Unit;2d8;6;;;;4;;;;;;;;;0
+31;9th Queen`s Royal Lancers;BR;BR9QLb.JPG;Unit;2d8;6;;;;3;;;;;;;;;0
+32;9th Queen`s Royal Lancers;BR;BR9QLb.JPG;Unit;2d8;6;;;;3;;;;;;;;;0
+33;9th Queen`s Royal Lancers;BR;BR9QLb.JPG;Unit;2d8;6;;;;3;;;;;;;;;0
+34;9th Queen`s Royal Lancers;BR;BR9QLc.JPG;Unit;0;7;2;1d10;;;;;;;;;;;0
+35;32nd Regiment of Foot;BR;BR32a.JPG;Unit;2d8;6;;;;;;;;;;;;;0
+36;32nd Regiment of Foot;BR;BR32a.JPG;Unit;2d8;6;;;;;;;;;;;;;0
+37;32nd Regiment of Foot;BR;BR32b.JPG;Unit;2d6;5;;;;;;;;;;;;;0
+38;32nd Regiment of Foot;BR;BR32c.JPG;Unit;1d10;3;;;;;;;;;;;;;0
+39;32nd Regiment of Foot;BR;BR32d.JPG;Unit;0;7;2;1d10;;;;;;;;;;;0
+40;42nd Regiment of Foot;BR;BR42a.JPG;Unit;2d8;6;;;;;;;;;;;;;0
+41;42nd Regiment of Foot;BR;BR42b.JPG;Unit;2d8;5;;;;;;;;;;;;;0
+42;42nd Regiment of Foot;BR;BR42b.JPG;Unit;2d8;5;;;;;;;;;;;;;0
+43;42nd Regiment of Foot;BR;BR42c.JPG;Unit;2d6;6;1;;2d8;;;;;;;;;;0
+44;42nd Regiment of Foot;BR;BR42d.JPG;Unit;0;6;2;1d10;;;;;;;;;;;0
+45;52nd Regiment of Foot;BR;BR52a.JPG;Unit;2d8;5;;;;;;;;;;;;;0
+46;52nd Regiment of Foot;BR;BR52a.JPG;Unit;2d8;5;;;;;;;;;;;;;0
+47;52nd Regiment of Foot;BR;BR52b.JPG;Unit;1d10;3;;;;;;;;;;;;;0
+48;52nd Regiment of Foot;BR;BR52c.JPG;Unit;1d10;4;1;;2d6;;;;;;;;;;0
+49;52nd Regiment of Foot;BR;BR52d.JPG;Unit;0;6;2;1d10;;;;;;;;;;;0
+50;Dutch-Belgians;BR;BRDBa.JPG;Unit;1d10;3;;;;;;;;;;;;;0
+51;Dutch-Belgians;BR;BRDBa.JPG;Unit;1d10;3;;;;;;;;;;;;;0
+52;Dutch-Belgians;BR;BRDBb.JPG;Unit;1d10;2;;;;;;;;;;;;;0
+53;Dutch-Belgians;BR;BRDBb.JPG;Unit;1d10;2;;;;;;;;;;;;;0
+54;Dutch-Belgians;BR;BRDBc.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
+55;King's Dragoons Guards;BR;BRKDGa.JPG;Unit;2d8;7;;;;4;;;;;;;Not required to advance;;0
+56;King's Dragoons Guards;BR;BRKDGb.JPG;Unit;2d8;6;;;;4;;;;;;;Not required to advance;;0
+57;King's Dragoons Guards;BR;BRKDGb.JPG;Unit;2d8;6;;;;4;;;;;;;Not required to advance;;0
+58;King's Dragoons Guards;BR;BRKDGc.JPG;Unit;2d8;6;;;;3;;;;;;;Not required to advance;;0
+59;King's Dragoons Guards;BR;BRKDGd.JPG;Unit;0;6;2;1d10;;;;;;;;;;;0
+60;1st  Regiment;AU;AU1Ra.JPG;Unit;2d6;4;;;;;;;;;;;;;0
+61;1st  Regiment;AU;AU1Rb.JPG;Unit;1d10;4;;;;;;;;;;;;;0
+62;1st  Regiment;AU;AU1Rb.JPG;Unit;1d10;4;;;;;;;;;;;;;0
+63;1st  Regiment;AU;AU1Rb.JPG;Unit;1d10;4;;;;;;;;;;;;;0
+64;1st  Regiment;AU;AU1Rc.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
+65;3rd  Regiment;AU;AU3Ra.JPG;Unit;2d8;5;;;;;;;;;;;;;0
+66;3rd  Regiment;AU;AU3Rb.JPG;Unit;1d10;3;;;;;;;;;;;;;0
+67;3rd  Regiment;AU;AU3Rb.JPG;Unit;1d10;3;;;;;;;;;;;;;0
+68;3rd  Regiment;AU;AU3Rb.JPG;Unit;1d10;3;;;;;;;;;;;;;0
+69;3rd  Regiment;AU;AU3Rc.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
+70;4th  Regiment;AU;AU4Ra.JPG;Unit;2d6;3;;;;;;;;;;;;;0
+71;4th  Regiment;AU;AU4Rb.JPG;Unit;1d10;4;;;;;;;;;;;;;0
+72;4th  Regiment;AU;AU4Rc.JPG;Unit;1d10;5;1;;2d6;;;;;;;;;;0
+73;4th  Regiment;AU;AU4Rd.JPG;Unit;1d10;4;1;;2d6;;;;;;;;;;0
+74;4th  Regiment;AU;AU4Re.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
+75;6th Grenzers;AU;AU6Ga.JPG;Unit;2d6;3;;;;;;;;;;;;;0
+76;6th Grenzers;AU;AU6Gb.JPG;Unit;1d10;4;;;;;;;;;;;;;0
+77;6th Grenzers;AU;AU6Gc.JPG;Unit;1d10;3;;;;;;;;;;;;;0
+78;6th Grenzers;AU;AU6Gd.JPG;Unit;1d10;5;1;;2d6;;;;;;;;;;0
+79;6th Grenzers;AU;AU6Ge.JPG;Unit;1d10;3;1;;2d6;;;;;;;;;;0
+80;9th Regiment;AU;AU9Ra.JPG;Unit;2d8;5;;;;;;;;;;;;;0
+81;9th Regiment;AU;AU9Rb.JPG;Unit;2d6;4;;;;;;;;;;;;;0
+82;9th Regiment;AU;AU9Rc.JPG;Unit;1d10;3;;;;;;;;;;;;;0
+83;9th Regiment;AU;AU9Rc.JPG;Unit;1d10;3;;;;;;;;;;;;;0
+84;9th Regiment;AU;AU9Rc.JPG;Unit;1d10;3;;;;;;;;;;;;;0
+85;14th Regiment;AU;AU14a.JPG;Unit;2d6;4;;;;;;;;;;;;;0
+86;14th Regiment;AU;AU14b.JPG;Unit;1d10;3;;;;;;;;;;;;;0
+87;14th Regiment;AU;AU14b.JPG;Unit;1d10;3;;;;;;;;;;;;;0
+88;14th Regiment;AU;AU14c.JPG;Unit;1d10;5;1;;2d6;;;;;;;;;;0
+89;14th Regiment;AU;AU14d.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
+90;Johann Dragoons;AU;AUJDa.JPG;Unit;2d6;5;;;;3;;;;;;;;;0
+91;Johann Dragoons;AU;AUJDa.JPG;Unit;2d6;5;;;;3;;;;;;;;;0
+92;Johann Dragoons;AU;AUJDb.JPG;Unit;2d6;5;;;;2;;;;;;;;;0
+93;Johann Dragoons;AU;AUJDc.JPG;Unit;2d6;4;;;;2;;;;;;;;;0
+94;Johann Dragoons;AU;AUJDd.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
+95;O'Reilly Chevaulegers;AU;AUOCa.JPG;Unit;2d6;5;;;;3;;;;;;;;;0
+96;O'Reilly Chevaulegers;AU;AUOCa.JPG;Unit;2d6;5;;;;3;;;;;;;;;0
+97;O'Reilly Chevaulegers;AU;AUOCb.JPG;Unit;2d6;4;;;;2;;;;;;;;;0
+98;O'Reilly Chevaulegers;AU;AUOCc.JPG;Unit;1d10;2;;;;2;;;;;;;;;0
+99;O'Reilly Chevaulegers;AU;AUOCd.JPG;Unit;0;5;2;2d6;;;;;;;;;;;0
+100;Ambush;AU;AUAmbush.JPG;HqUnit;;;;;;;;;;;;;Play /n this card to initiate an attack. Attack any unit on the board using 1d10. Defensive cards may be played as well as other attack cards.;;0
+101;Ambush;AU;AUAmbush.JPG;HqUnit;;;;;;;;;;;;;Play /n this card to initiate an attack. Attack any unit on the board using 1d10. Defensive cards may be played as well as other attack cards.;;0
+102;Committed Attack;AU;AUCattk.JPG;HqUnit;;;;;;;;;;;;;Add 2d6 /n  to your combat total on an atack you initiate. Play after all defensive cards have been played. The attacking unit is reduced at the end of the combat.;;0
+103;Guerrillas;AU;AUGuer.JPG;HqUnit;;;;;;;;;;;;;Play to  /n prevent one of the following actions of an opponent: 1. Play a Supply card. 2. Play of a Regroup card. 3. Play a Forced March card. 4. Play a Reinforcement attempt.;;0
+104;Guerrillas;AU;AUGuer.JPG;HqUnit;;;;;;;;;;;;;Play to  /n prevent one of the following actions of an opponent: 1. Play a Supply card. 2. Play of a Regroup card. 3. Play a Forced March card. 4. Play a Reinforcement attempt.;;0
+105;Redoubt;AU;AURedbt.JPG;HqUnit;;;;;;;;;;;;;Place a  /n Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;;0
+106;Redoubt;AU;AURedbt.JPG;HqUnit;;;;;;;;;;;;;Place a  /n Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;;0
+107;Redoubt;AU;AURedbt.JPG;HqUnit;;;;;;;;;;;;;Place a  /n Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;;0
+108;Skirmish;AU;AUSkirm.JPG;HqUnit;;;;;;;;;;;;;Play after  /n all defensive cards have been played. Move the attacking unit up to 2 spaces in any direction or combination of directions. Return the combat card you used to initiate the combat to your hand.;;0
+109;Skirmish;AU;AUSkirm.JPG;HqUnit;;;;;;;;;;;;;Play after  /n all defensive cards have been played. Move the attacking unit up to 2 spaces in any direction or combination of directions. Return the combat card you used to initiate the combat to your hand.;;0
+110;Supply;AU;AUSuply.JPG;HqUnit;;;;;;;;;;;;;You may   /n use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;;1
+111;Supply;AU;AUSuply.JPG;HqUnit;;;;;;;;;;;;;You may   /n use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;;1
+112;Supply;AU;AUSuply.JPG;HqUnit;;;;;;;;;;;;;You may   /n use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;;1
+113;Supply;AU;AUSuply.JPG;HqUnit;;;;;;;;;;;;;You may   /n use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;;1
+114;Withdraw;AU;AUWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending  /n unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;;0
+115;Withdraw;AU;AUWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending  /n unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;;0
+116;Archduke Charles;AU;AUCharles.JPG;HqLeader;;;;;;;;4;4;5;;;;;0
+117;Emperor Francis II;AU;AUFrancis.JPG;HqLeader;;;;;;;;2;1;3;;;;;0
+118;Karl Mack von Leiberich;AU;AUMack.JPG;HqLeader;;;;;;;;3;2;4;;;;;0
+119;Duke of Schwarzenberg;AU;AUSchwarz.JPG;HqLeader;;;;;;;;2;2;3;;;;;0
+120;1st Cuirassiers;FR;FR1Ca.JPG;Unit;2d10;3;;;;4;;;;;;;;;0
+121;1st Cuirassiers;FR;FR1Ca.JPG;Unit;2d10;3;;;;4;;;;;;;;;0
+122;1st Cuirassiers;FR;FR1Cb.JPG;Unit;2d6;3;;;;3;;;;;;;;;0
+123;1st Cuirassiers;FR;FR1Cb.JPG;Unit;2d6;3;;;;3;;;;;;;;;0
+124;1st Cuirassiers;FR;FR1Cc.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
+125;2nd Regiment Legere;FR;FR2RLa.JPG;Unit;2d6;6;;;;;;;;;;;;;0
+126;2nd Regiment Legere;FR;FR2RLa.JPG;Unit;2d6;6;;;;;;;;;;;;;0
+127;2nd Regiment Legere;FR;FR2RLb.JPG;Unit;2d6;5;;;;;;;;;;;;;0
+128;2nd Regiment Legere;FR;FR2RLc.JPG;Unit;2d6;3;;;;;;;;;;;;;0
+129;2nd Regiment Legere;FR;FR2RLd.JPG;Unit;0;6;2;1d10;;;;;;;;;;;0
+130;4th Regiment Suisse;FR;FR4RSua.JPG;Unit;2d8;6;;;;;;;;;;;;;0
+131;4th Regiment Suisse;FR;FR4RSua.JPG;Unit;2d8;6;;;;;;;;;;;;;0
+132;4th Regiment Suisse;FR;FR4RSub.JPG;Unit;0;6;2;1d10;;;;;;;;;;;0
+133;4th Regiment Suisse;FR;FR4RSuc.JPG;Unit;2d6;5;;;;;;;;;;;;;0
+134;4th Regiment Suisse;FR;FR4RSud.JPG;Unit;0;6;2;1d10;;;;;;;;;;;0
+135;8th Regiment Legere;FR;FR8RLa.JPG;Unit;2d8;6;;;;;;;;;;;;;0
+136;8th Regiment Legere;FR;FR8RLb.JPG;Unit;2d6;6;;;;;;;;;;;;;0
+137;8th Regiment Legere;FR;FR8RLc.JPG;Unit;2d6;4;;;;;;;;;;;;;0
+138;8th Regiment Legere;FR;FR8RLc.JPG;Unit;2d6;4;;;;;;;;;;;;;0
+139;8th Regiment Legere;FR;FR8RLd.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
+140;19th Regiment Legere;FR;FR19RLa.JPG;Unit;2d8;6;;;;;;;;;;;;;0
+141;19th Regiment Legere;FR;FR19RLb.JPG;Unit;2d6;6;;;;;;;;;;;;;0
+142;19th Regiment Legere;FR;FR19RLc.JPG;Unit;2d6;5;;;;;;;;;;;;;0
+143;19th Regiment Legere;FR;FR19RLc.JPG;Unit;2d6;5;;;;;;;;;;;;;0
+144;19th Regiment Legere;FR;FR19RLd.JPG;Unit;0;6;2;1d10;;;;;;;;;;;0
+145;45th Regiment Legere;FR;FR45RLa.JPG;Unit;2d6;6;;;;;;;;;;;;;0
+146;45th Regiment Legere;FR;FR45RLb.JPG;Unit;2d6;5;;;;;;;;;;;;;0
+147;45th Regiment Legere;FR;FR45RLb.JPG;Unit;2d6;5;;;;;;;;;;;;;0
+148;45th Regiment Legere;FR;FR45RLb.JPG;Unit;2d6;5;;;;;;;;;;;;;0
+149;45th Regiment Legere;FR;FR45RLc.JPG;Unit;0;6;2;1d10;;;;;;;;;;;0
+150;Imperial Guard;FR;FRIGa.JPG;Unit;2d8;7;;;;;;;;;;;Not required to advance;;0
+151;Imperial Guard;FR;FRIGa.JPG;Unit;2d8;7;;;;;;;;;;;Not required to advance;;0
+152;Imperial Guard;FR;FRIGa.JPG;Unit;2d8;7;;;;;;;;;;;Not required to advance;;0
+153;Imperial Guard;FR;FRIGa.JPG;Unit;2d8;7;;;;;;;;;;;Not required to advance;;0
+154;Imperial Guard;FR;FRIGb.JPG;Unit;0;8;2;2d6;;;;;;;;;;;0
+155;Guard Cavalry;FR;FRGCa.JPG;Unit;2d10;4;;;;4;;;;;;;Not required to advance;;0
+156;Guard Cavalry;FR;FRGCb.JPG;Unit;2d8;4;;;;4;;;;;;;Not required to advance;;0
+157;Guard Cavalry;FR;FRGCb.JPG;Unit;2d8;4;;;;4;;;;;;;Not required to advance;;0
+158;Guard Cavalry;FR;FRGCb.JPG;Unit;2d8;4;;;;4;;;;;;;Not required to advance;;0
+159;Guard Cavalry;FR;FRGCc.JPG;Unit;0;6;2;2d6;;;;;;;;;;;0
+160;Forced March;FR;FRFMarch.JPG;HqUnit;;;;;;;;;;;;;Any one unit you moved this turn may move one additional space;1;1
+161;Forced March;FR;FRFMarch.JPG;HqUnit;;;;;;;;;;;;;Any one unit you moved this turn may move one additional space;1;1
+162;Forced March;FR;FRFMarch.JPG;HqUnit;;;;;;;;;;;;;Any one unit you moved this turn may move one additional space;1;1
+163;French Sappers;FR;FRSprs.JPG;HqUnit;;;;;;;;;;;;;Negates any Redoubt being used in the current combat. Play after all defensive cards hve been played.;;0
+164;Jean Lannes;FR;FRLannes.JPG;HqLeader;;;;;;;;2;2;5;;;;;0
+165;Joachim Murat;FR;FRMurat.JPG;HqLeader;;;;;;;;2;3;5;-1;;;;0
+166;Louis Nicolas Davout;FR;FRDavout.JPG;HqLeader;;;;;;;;4;5;3;;;;;0
+167;Michel Ney;FR;FRNey.JPG;HqLeader;;;;;;;;2;4;5;;;;;0
+168;Napoleon Bonaparte;FR;FRNapoleon.JPG;HqLeader;;;;;;;;4;5;5;;;Grand Battery: Range 2 from any unit, Damage 2d10;;0
+169;Nicolas Soult;FR;FRSoult.JPG;HqLeader;;;;;;;;3;3;3;;;;;0
+170;Redoubt;FR;FRRedbt.JPG;HqUnit;;;;;;;;;;;;;Place a Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;;0
+171;Skirmish;FR;FRSkrm.JPG;HqUnit;;;;;;;;;;;;;Play after all defensive cards have been played. Move the attacking unit up to 2 spaces in any direction or combination of directions. Return the combat card you used to initiate the combat to your hand.;;0
+172;Supply;FR;FRSuply.JPG;HqUnit;;;;;;;;;;;;;You may  use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;;1
+173;Supply;FR;FRSuply.JPG;HqUnit;;;;;;;;;;;;;You may  use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;;1
+174;Supply;FR;FRSuply.JPG;HqUnit;;;;;;;;;;;;;You may  use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;;1
+175;Supply;FR;FRSuply.JPG;HqUnit;;;;;;;;;;;;;You may  use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;;1
+176;Withdraw;FR;FRWdrw.JPG;HqUnit;;;;;;;;;;;;;The defending  unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;;0
+177;Withdraw;FR;FRWdrw.JPG;HqUnit;;;;;;;;;;;;;The defending  unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;;0
+178;Withdraw;FR;FRWdrw.JPG;HqUnit;;;;;;;;;;;;;The defending  unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;;0
+179;Withdraw;FR;FRWdrw.JPG;HqUnit;;;;;;;;;;;;;The defending  unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;;0
+180;1st Janissaries;OT;OT1Ja.JPG;Unit;2d8;4;;;;;;;;;;;Not required to advance;;0
+181;1st Janissaries;OT;OT1Jb.JPG;Unit;2d6;3;;;;;;;;;;;;;0
+182;1st Janissaries;OT;OT1Jb.JPG;Unit;2d6;4;;;;;;;;;;;;;0
+183;1st Janissaries;OT;OT1Jc.JPG;Unit;1d10;4;;;;;;;;;;;;;0
+184;1st Janissaries;OT;OT1Jd.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
+185;2nd Janissaries;OT;OT2Ja.JPG;Unit;2d8;4;;;;;;;;;;;Not required to advance;;0
+186;2nd Janissaries;OT;OT2Jb.JPG;Unit;2d6;3;;;;;;;;;;;;;0
+187;2nd Janissaries;OT;OT2Jb.JPG;Unit;2d6;3;;;;;;;;;;;;;0
+188;2nd Janissaries;OT;OT2Jc.JPG;Unit;1d10;3;;;;;;;;;;;;;0
+189;2nd Janissaries;OT;OT2Jd.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
+190;Albanian Feudal Corps;OT;OTAFa.JPG;Unit;1d10;3;;;;;;;;;;;;;0
+191;Albanian Feudal Corps;OT;OTAFa.JPG;Unit;1d11;4;;;;;;;;;;;;;0
+192;Albanian Feudal Corps;OT;OTAFa.JPG;Unit;1d12;5;;;;;;;;;;;;;0
+193;Albanian Feudal Corps;OT;OTAFa.JPG;Unit;1d13;6;;;;;;;;;;;;;0
+194;Albanian Feudal Corps;OT;OTAFb.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
+195;Arab Cavalry;OT;OTACa.JPG;Unit;2d10;6;3;;;3;;;;;;;;;0
+196;Arab Cavalry;OT;OTACb.JPG;Unit;2d8;4;2;;;2;;;;;;;;;0
+197;Arab Cavalry;OT;OTACc.JPG;Unit;2d8;4;;;;1;;;;;;;;;0
+198;Arab Cavalry;OT;OTACd.JPG;Unit;1d10;3;;;;1;;;;;;;;;0
+199;Arab Cavalry;OT;OTACe.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
+200;Greek Feudal Corps;OT;OTGFa.JPG;Unit;1d10;3;;;;;;;;;;;;;0
+201;Greek Feudal Corps;OT;OTGFa.JPG;Unit;1d10;3;;;;;;;;;;;;;0
+202;Greek Feudal Corps;OT;OTGFa.JPG;Unit;1d10;3;;;;;;;;;;;;;0
+203;Greek Feudal Corps;OT;OTGFa.JPG;Unit;1d10;3;;;;;;;;;;;;;0
+204;Greek Feudal Corps;OT;OTGFb.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
+205;Irregular Cavalry;OT;OTICa.JPG;Unit;1d10;3;;;;1;;;;;;;;;0
+206;Irregular Cavalry;OT;OTICa.JPG;Unit;1d10;3;;;;1;;;;;;;;;0
+207;Irregular Cavalry;OT;OTICb.JPG;Unit;1d8;2;;;;1;;;;;;;;;0
+208;Irregular Cavalry;OT;OTICb.JPG;Unit;1d8;2;;;;1;;;;;;;;;0
+209;Irregular Cavalry;OT;OTICc.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
+210;Regular Cavalry;OT;OTRCa.JPG;Unit;2d6;5;;;;3;;;;;;;;;0
+211;Regular Cavalry;OT;OTRCb.JPG;Unit;2d6;4;;;;3;;;;;;;;;0
+212;Regular Cavalry;OT;OTRCc.JPG;Unit;2d6;3;;;;2;;;;;;;;;0
+213;Regular Cavalry;OT;OTRCd.JPG;Unit;1d10;2;;;;2;;;;;;;;;0
+214;Regular Cavalry;OT;OTRCe.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
+215;Grand Visier Pasha;OT;OTPasha.JPG;HqLeader;;;;;;;;1;2;4;;;;;0
+216;Muhammad Ali;OT;OTAli.JPG;HqLeader;;;;;;;;2;3;4;-1;;;;0
+217;Omar Agha;OT;OTAgha.JPG;HqLeader;;;;;;;;2;2;4;;;;;0
+218;Pechlivan Khan;OT;OTKhan.JPG;HqLeader;;;;;;;;3;4;5;;;;;0
+219;Committed Attack;OT;OTCattk.JPG;HqUnit;;;;;;;;;;;;;Add 2d6  to your combat total on an atack you initiate. Play after all defensive cards have been played. The attacking unit is reduced at the end of the combat.;;0
+220;Committed Attack;OT;OTCattk.JPG;HqUnit;;;;;;;;;;;;;Add 2d6  to your combat total on an atack you initiate. Play after all defensive cards have been played. The attacking unit is reduced at the end of the combat.;;0
+221;Committed Attack;OT;OTCattk.JPG;HqUnit;;;;;;;;;;;;;Add 2d6  to your combat total on an atack you initiate. Play after all defensive cards have been played. The attacking unit is reduced at the end of the combat.;;0
+222;Committed Attack;OT;OTCattk.JPG;HqUnit;;;;;;;;;;;;;Add 2d6  to your combat total on an atack you initiate. Play after all defensive cards have been played. The attacking unit is reduced at the end of the combat.;;0
+223;Withdraw;OT;OTWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;;0
+224;Withdraw;OT;OTWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending  unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;;0
+225;Withdraw;OT;OTWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending  unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;;0
+226;Withdraw;OT;OTWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending  unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;;0
+227;Withdraw;OT;OTWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending  unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;;0
+228;Regroup;OT;OTRegroup.JPG;HqUnit;;;;;;;;;;;;;Play during the Restoration Phase to restore a reduced unit.;;1
+229;Regroup;OT;OTRegroup.JPG;HqUnit;;;;;;;;;;;;;Play during the Restoration Phase to restore a reduced unit.;;1
+230;Regroup;OT;OTRegroup.JPG;HqUnit;;;;;;;;;;;;;Play during the Restoration Phase to restore a reduced unit.;;1
+231;Regroup;OT;OTRegroup.JPG;HqUnit;;;;;;;;;;;;;Play during the Restoration Phase to restore a reduced unit.;;1
+232;Regroup;OT;OTRegroup.JPG;HqUnit;;;;;;;;;;;;;Play during the Restoration Phase to restore a reduced unit.;;1
+233;Regroup;OT;OTRegroup.JPG;HqUnit;;;;;;;;;;;;;Play during the Restoration Phase to restore a reduced unit.;;1
+234;Regroup;OT;OTRegroup.JPG;HqUnit;;;;;;;;;;;;;Play during the Restoration Phase to restore a reduced unit.;;1
+235;Ali Pasha's Cavalry;OT;OTAPa.JPG;Unit;2d8;6;;;;3;;;;;;;Not required to advance;;0
+236;Ali Pasha's Cavalry;OT;OTAPa.JPG;Unit;2d8;6;;;;3;;;;;;;Not required to advance;;0
+237;Ali Pasha's Cavalry;OT;OTAPb.JPG;Unit;2d10;5;;;;3;;;;;;;;;0
+238;Ali Pasha's Cavalry;OT;OTAPc.JPG;Unit;2d6;4;;;;2;;;;;;;;;0
+239;Ali Pasha's Cavalry;OT;OTAPd.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
+240;1st Infantry Regiment;PR;PR1Ra.JPG;Unit;2d6;4;;;;;;;;;;;;;0
+241;1st Infantry Regiment;PR;PR1Ra.JPG;Unit;2d6;4;;;;;;;;;;;;;0
+242;1st Infantry Regiment;PR;PR1Rb.JPG;Unit;2d6;3;;;;;;;;;;;;;0
+243;1st Infantry Regiment;PR;PR1Rc.JPG;Unit;1d8;6;1;;2d8;;;;;;;;;;0
+244;1st Infantry Regiment;PR;PR1Rd.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
+245;10th Dragoons;PR;PR10Da.JPG;Unit;2d10;5;;;;3;;;;;;;;;0
+246;10th Dragoons;PR;PR10Da.JPG;Unit;2d10;5;;;;3;;;;;;;;;0
+247;10th Dragoons;PR;PR10Db.JPG;Unit;2d6;4;;;;2;;;;;;;;;0
+248;10th Dragoons;PR;PR10Dc.JPG;Unit;2d6;6;;;;3;;;;;;;;;0
+249;10th Dragoons;PR;PR10Dd.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
+250;13th Infantry Regiment;PR;PR13Ra.JPG;Unit;2d8;5;;;;;;;;;;;;;0
+251;13th Infantry Regiment;PR;PR13Rb.JPG;Unit;2d6;4;;;;;;;;;;;;;0
+252;13th Infantry Regiment;PR;PR13Rc.JPG;Unit;2d6;3;;;;;;;;;;;;;0
+253;13th Infantry Regiment;PR;PR13Rd.JPG;Unit;1d10;3;1;2d6;;;;;;;;;;;0
+254;13th Infantry Regiment;PR;PR13Re.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
+255;25th Infantry Regiment;PR;PR25Ra.JPG;Unit;2d8;5;;;;;;;;;;;;;0
+256;25th Infantry Regiment;PR;PR25Rb.JPG;Unit;2d6;4;;;;;;;;;;;;;0
+257;25th Infantry Regiment;PR;PR25Rc.JPG;Unit;1d10;3;;;;;;;;;;;;;0
+258;25th Infantry Regiment;PR;PR25Rd.JPG;Unit;1d10;4;1;;2d6;;;;;;;;;;0
+259;25th Infantry Regiment;PR;PR25Re.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
+260;27th Infantry Regiment;PR;PR27Ra.JPG;Unit;2d8;5;;;;;;;;;;;;;0
+261;27th Infantry Regiment;PR;PR27Rb.JPG;Unit;1d10;3;;;;;;;;;;;;;0
+262;27th Infantry Regiment;PR;PR27Rb.JPG;Unit;1d10;3;;;;;;;;;;;;;0
+263;27th Infantry Regiment;PR;PR27Rc.JPG;Unit;1d10;3;1;;2d6;;;;;;;;;;0
+264;27th Infantry Regiment;PR;PR27Rd.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
+265;32nd Infantry Regiment;PR;PR32Ra.JPG;Unit;2d8;5;;;;;;;;;;;;;0
+266;32nd Infantry Regiment;PR;PR32Rb.JPG;Unit;1d10;3;;;;;;;;;;;;;0
+267;32nd Infantry Regiment;PR;PR32Rb.JPG;Unit;1d10;3;;;;;;;;;;;;;0
+268;32nd Infantry Regiment;PR;PR32Rc.JPG;Unit;1d10;3;1;;2d6;;;;;;;;;;0
+269;32nd Infantry Regiment;PR;PR32Rd.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
+270;Guard Grenadiers;PR;PRGGa.JPG;Unit;2d8;6;;;;;;;;;;;Not required to advance;;0
+271;Guard Grenadiers;PR;PRGGa.JPG;Unit;2d8;6;;;;;;;;;;;Not required to advance;;0
+272;Guard Grenadiers;PR;PRGGb.JPG;Unit;2d6;5;;;;;;;;;;;Not required to advance;;0
+273;Guard Grenadiers;PR;PRGGc.JPG;Unit;1d8;6;1;;2d8;;;;;;;;;;0
+274;Guard Grenadiers;PR;PRGGd.JPG;Unit;0;7;2;1d10;;;;;;;;;;;0
+275;Royal Escort;PR;PRREa.JPG;Unit;2d8;7;;;;4;;;;;;;Not required to advance;;0
+276;Royal Escort;PR;PRREb.JPG;Unit;2d10;5;;;;3;;;;;;;;;0
+277;Royal Escort;PR;PRREb.JPG;Unit;2d10;5;;;;3;;;;;;;;;0
+278;Royal Escort;PR;PRREc.JPG;Unit;2d6;4;;;;2;;;;;;;;;0
+279;Royal Escort;PR;PRREd.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
+280;Frederick Wilhelm Duke of Brunswick;PR;PRBrunswick.JPG;HqLeader;;;;;;;;2;1;2;;;;;0
+281;Johann Yorck von Wartenburg;PR;PRYorck.JPG;HqLeader;;;;;;;;3;3;4;;;;;0
+282;Count Kleist von Nollendorf;PR;PRKleist.JPG;HqLeader;;;;;;;;2;1;4;;;;;0
+283;Gebhard Lebrecht von Blucher;PR;PRBlucher.JPG;HqLeader;;;;;;;;3;4;5;-1;;;;0
+284;Committed Attack;PR;PRCattk.JPG;HqUnit;;;;;;;;;;;;;Add 2d6  to your combat total on an atack you initiate. Play after all defensive cards have been played. The attacking unit is reduced at the end of the combat.;;0
+285;Forced March;PR;PRFMarch.JPG;HqUnit;;;;;;;;;;;;;Any one unit you moved this turn may move one additional space;1;1
+286;Forced March;PR;PRFMarch.JPG;HqUnit;;;;;;;;;;;;;Any one unit you moved this turn may move one additional space;1;1
+287;Forced March;PR;PRFMarch.JPG;HqUnit;;;;;;;;;;;;;Any one unit you moved this turn may move one additional space;1;1
+288;Guerrillas;PR;PRGuerillas.JPG;HqUnit;;;;;;;;;;;;;Play to prevent one of the following actions of an opponent: 1. Play a Supply card. 2. Play of a Regroup card. 3. Play a Forced March card. 4. Play a Reinforcement attempt.;;0
+289;Redoubt;PR;PRRedbt.JPG;HqUnit;;;;;;;;;;;;;Place a Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;;0
+290;Redoubt;PR;PRRedbt.JPG;HqUnit;;;;;;;;;;;;;Place a Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;;0
+291;Redoubt;PR;PRRedbt.JPG;HqUnit;;;;;;;;;;;;;Place a Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;;0
+292;Skirmish;PR;PRskrm.JPG;HqUnit;;;;;;;;;;;;;Play after all defensive cards have been played. Move the attacking unit up to 2 spaces in any direction or combination of directions. Return the combat card you used to initiate the combat to your hand.;;0
+293;Skirmish;PR;PRskrm.JPG;HqUnit;;;;;;;;;;;;;Play after all defensive cards have been played. Move the attacking unit up to 2 spaces in any direction or combination of directions. Return the combat card you used to initiate the combat to your hand.;;0
+294;Supply;PR;PRsuply.JPG;HqUnit;;;;;;;;;;;;;You may  use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;;1
+295;Supply;PR;PRsuply.JPG;HqUnit;;;;;;;;;;;;;You may  use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;;1
+296;Supply;PR;PRsuply.JPG;HqUnit;;;;;;;;;;;;;You may  use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;;1
+297;Supply;PR;PRsuply.JPG;HqUnit;;;;;;;;;;;;;You may  use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;;1
+298;Withdraw;PR;PRWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;;0
+299;Withdraw;PR;PRWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;;0
+300;1st Cavalry;RU;RU1Ca.JPG;Unit;2d10;7;;;;4;;;;;;;Not required to advance;;0
+301;1st Cavalry;RU;RU1Cb.JPG;Unit;2d6;5;;;;3;;;;;;;;;0
+302;1st Cavalry;RU;RU1Cc.JPG;Unit;2d6;3;;;;2;;;;;;;;;0
+303;1st Cavalry;RU;RU1Cc.JPG;Unit;2d6;3;;;;2;;;;;;;;;0
+304;1st Cavalry;RU;RU1Cd.JPG;Unit;0;6;2;2d6;;;;;;;;;;;0
+305;Black Sea Cossacks;RU;RUBSCa.JPG;Unit;2d10;6;;;;3;;;;;;;;;0
+306;Black Sea Cossacks;RU;RUBSCb.JPG;Unit;2d10;4;;;;3;;;;;;;;;0
+307;Black Sea Cossacks;RU;RUBSCc.JPG;Unit;2d8;6;;;;3;;;;;;;;;0
+308;Black Sea Cossacks;RU;RUBSCd.JPG;Unit;1d8;3;;;;2;;;;;;;;;0
+309;Black Sea Cossacks;RU;RUBSCe.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
+310;Kexholm Regiment;RU;RUKRa.JPG;Unit;1d10;5;;;;;;;;;;;;;0
+311;Kexholm Regiment;RU;RUKRa.JPG;Unit;1d10;5;;;;;;;;;;;;;0
+312;Kexholm Regiment;RU;RUKRa.JPG;Unit;1d10;5;;;;;;;;;;;;;0
+313;Kexholm Regiment;RU;RUKRb.JPG;Unit;1d10;4;1;;2d6;;;;;;;;;;0
+314;Kexholm Regiment;RU;RUKRc.JPG;Unit;0;6;2;2d6;;;;;;;;;;;0
+315;Koursk  Regiment;RU;RUKORa.JPG;Unit;1d10;5;;;;;;;;;;;;;0
+316;Koursk  Regiment;RU;RUKORa.JPG;Unit;1d10;5;;;;;;;;;;;;;0
+317;Koursk  Regiment;RU;RUKORa.JPG;Unit;1d10;5;;;;;;;;;;;;;0
+318;Koursk  Regiment;RU;RUKORb.JPG;Unit;1d10;4;1;;2d6;;;;;;;;;;0
+319;Koursk  Regiment;RU;RUKORc.JPG;Unit;0;6;2;1d10;;;;;;;;;;;0
+320;Leib Grenadiers;RU;RULGa.JPG;Unit;2d8;5;;;;;;;;;;;;;0
+321;Leib Grenadiers;RU;RULGb.JPG;Unit;1d10;5;;;;;;;;;;;;;0
+322;Leib Grenadiers;RU;RULGb.JPG;Unit;1d10;5;;;;;;;;;;;;;0
+323;Leib Grenadiers;RU;RULGc.JPG;Unit;1d10;4;1;;2d6;;;;;;;;;;0
+324;Leib Grenadiers;RU;RULGd.JPG;Unit;0;6;2;1d10;;;;;;;;;;;0
+325;Moscow Regiment;RU;RUMRa.JPG;Unit;2d6;5;1;;2d8;;;;;;;;;;0
+326;Moscow Regiment;RU;RUMRa.JPG;Unit;2d6;5;1;;2d8;;;;;;;;;;0
+327;Moscow Regiment;RU;RUMRa.JPG;Unit;2d6;5;1;;2d8;;;;;;;;;;0
+328;Moscow Regiment;RU;RUMRb.JPG;Unit;1d10;5;;;;;;;;;;;;;0
+329;Moscow Regiment;RU;RUMRc.JPG;Unit;0;6;2;1d10;;;;;;;;;;;0
+330;Orlov Regiment;RU;RUORa.JPG;Unit;2d8;4;;;;;;;;;;;;;0
+331;Orlov Regiment;RU;RUORa.JPG;Unit;2d8;4;;;;;;;;;;;;;0
+332;Orlov Regiment;RU;RUORb.JPG;Unit;1d10;5;;;;;;;;;;;;;0
+333;Orlov Regiment;RU;RUORc.JPG;Unit;1d10;3;1;;2d6;;;;;;;;;;0
+334;Orlov Regiment;RU;RUORd.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
+335;Russian Guard;RU;RUGa.JPG;Unit;2d8;5;;;;;;;;;;;;;0
+336;Russian Guard;RU;RUGa.JPG;Unit;2d9;6;;;;;;;;;;;;;0
+337;Russian Guard;RU;RUGa.JPG;Unit;2d10;7;;;;;;;;;;;;;0
+338;Russian Guard;RU;RUGb.JPG;Unit;2d6;5;1;;2d8;;;;;;;;;;0
+339;Russian Guard;RU;RUGc.JPG;Unit;0;7;2;2d8;;;;;;;;;;;0
+340;Barclay de Tolly;RU;RUTolly.JPG;HqLeader;;;;;;;;3;3;3;;;;;0
+341;Committed Attack;RU;RUCattk.JPG;HqUnit;;;;;;;;;;;;;Add 2d6  to your combat total on an atack you initiate. Play after all defensive cards have been played. The attacking unit is reduced at the end of the combat.;;0
+342;Committed Attack;RU;RUCattk.JPG;HqUnit;;;;;;;;;;;;;Add 2d6  to your combat total on an atack you initiate. Play after all defensive cards have been played. The attacking unit is reduced at the end of the combat.;;0
+343;Committed Attack;RU;RUCattk.JPG;HqUnit;;;;;;;;;;;;;Add 2d6  to your combat total on an atack you initiate. Play after all defensive cards have been played. The attacking unit is reduced at the end of the combat.;;0
+344;Count of Sayn-Wittgenstein;RU;RUWittgn.JPG;HqLeader;;;;;;;;2;2;3;;;;;0
+345;Friederich W. von Buxhoevden;RU;RUBuxhoevden.JPG;HqLeader;;;;;;;;2;2;3;;;;;0
+346;Guerrillas;RU;RUGuer.JPG;HqUnit;;;;;;;;;;;;;Play to prevent one of the following actions of an opponent: 1. Play a Supply card. 2. Play of a Regroup card. 3. Play a Forced March card. 4. Play a Reinforcement attempt.;;0
+347;Guerillas;RU;RUGuer.JPG;Unit;;;;;;;;;;;;;Play to prevent one of the following actions of an opponent: 1. Play a Supply card. 2. Play of a Regroup card. 3. Play a Forced March card. 4. Play a Reinforcement attempt.;;0
+348;Levin August Count of Bennigsen;RU;RUBennigsen.JPG;HqLeader;;;;;;;;2;2;3;;;;;0
+349;Mikhail I. Kutuzov;RU;RUKutuzov.JPG;HqLeader;;;;;;;;4;3;3;;;;;0
+350;Pyotr I. Bagration;RU;RUBagration.JPG;HqLeader;;;;;;;;2;4;5;;;;;0
+351;Redoubt;RU;RURdbt.JPG;HqUnit;;;;;;;;;;;;;Place a Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;;0
+352;Redoubt;RU;RURdbt.JPG;HqUnit;;;;;;;;;;;;;Place a Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;;0
+353;Skirmish;RU;RUSkirm.JPG;HqUnit;;;;;;;;;;;;;Play after all defensive cards have been played. Move the attacking unit up to 2 spaces in any direction or combination of directions. Return the combat card you used to initiate the combat to your hand.;;0
+354;Supply;RU;RUSuply.JPG;HqUnit;;;;;;;;;;;;;You may use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;;1
+355;Supply;RU;RUSuply.JPG;HqUnit;;;;;;;;;;;;;You may use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;;1
+356;Supply;RU;RUSuply.JPG;HqUnit;;;;;;;;;;;;;You may use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;;1
+357;Supply;RU;RUSuply.JPG;HqUnit;;;;;;;;;;;;;You may use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;;1
+358;Withdraw;RU;RUWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;;0
+359;Withdraw;RU;RUWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;;0
+360;1st  Line Regiment;SP;SP1La.JPG;Unit;2d6;6;;;;;;;;;;;;;0
+361;1st  Line Regiment;SP;SP1Lb.JPG;Unit;1d10;6;;;;;;;;;;;;;0
+362;1st  Line Regiment;SP;SP1Lb.JPG;Unit;1d10;7;;;;;;;;;;;;;0
+363;1st  Line Regiment;SP;SP1Lc.JPG;Unit;1d10;3;;;;;;;;;;;;;0
+364;1st  Line Regiment;SP;SP1Ld.JPG;Unit;0;6;2;1d10;;;;;;;;;;;0
+365;3rd Hussars;SP;SP3Ha.JPG;Unit;2d6;3;;;;1;;;;;;;;;0
+366;3rd Hussars;SP;SP3Hb.JPG;Unit;1d10;2;;;;1;;;;;;;;;0
+367;3rd Hussars;SP;SP3Hb.JPG;Unit;1d10;2;;;;1;;;;;;;;;0
+368;3rd Hussars;SP;SP3Hb.JPG;Unit;1d10;2;;;;1;;;;;;;;;0
+369;3rd Hussars;SP;SP3Hc.JPG;Unit;0;6;2;1d10;;;;;;;;;;;0
+370;7th Navarrese Regiment;SP;SP7Na.JPG;Unit;2d6;5;;;;;;;;;;;;;0
+371;7th Navarrese Regiment;SP;SP7Nb.JPG;Unit;1d10;6;;;;;;;;;;;;;0
+372;7th Navarrese Regiment;SP;SP7Nb.JPG;Unit;1d10;6;;;;;;;;;;;;;0
+373;7th Navarrese Regiment;SP;SP7Nc.JPG;Unit;1d10;5;;;;;;;;;;;;;0
+374;7th Navarrese Regiment;SP;SP7Nd.JPG;Unit;0;7;2;1d10;;;;;;;;;;;0
+375;20th Line Regiment;SP;SP20a.JPG;Unit;2d6;6;;;;;;;;;;;;;0
+376;20th Line Regiment;SP;SP20b.JPG;Unit;2d6;5;;;;;;;;;;;;;0
+377;20th Line Regiment;SP;SP20c.JPG;Unit;1d10;6;;;;;;;;;;;;;0
+378;20th Line Regiment;SP;SP20d.JPG;Unit;1d10;5;;;;;;;;;;;;;0
+379;20th Line Regiment;SP;SP20e.JPG;Unit;0;7;2;1d10;;;;;;;;;;;0
+380;Regiment de Castille;SP;SPRCa.JPG;Unit;2d6;5;;;;;;;;;;;;;0
+381;Regiment de Castille;SP;SPRCb.JPG;Unit;1d10;7;;;;;;;;;;;;;0
+382;Regiment de Castille;SP;SPRCc.JPG;Unit;1d10;6;;;;;;;;;;;;;0
+383;Regiment de Castille;SP;SPRCc.JPG;Unit;1d10;6;;;;;;;;;;;;;0
+384;Regiment de Castille;SP;SPRCd.JPG;Unit;0;7;2;1d10;;;;;;;;;;;0
+385;Del Rey Dragoons;SP;SPDRa.JPG;Unit;2d6;4;;;;1;;;;;;;;;0
+386;Del Rey Dragoons;SP;SPDRb.JPG;Unit;1d10;4;;;;2;;;;;;;;;0
+387;Del Rey Dragoons;SP;SPDRc.JPG;Unit;1d10;3;;;;1;;;;;;;;;0
+388;Del Rey Dragoons;SP;SPDRd.JPG;Unit;1d10;2;;;;1;;;;;;;;;0
+389;Del Rey Dragoons;SP;SPDRe.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
+390;Infanteria Imperial;SP;SPIIa.JPG;Unit;2d6;4;;;;;;;;;;;;;0
+391;Infanteria Imperial;SP;SPiIb.JPG;Unit;1d10;6;;;;;;;;;;;;;0
+392;Infanteria Imperial;SP;SPiIb.JPG;Unit;1d10;6;;;;;;;;;;;;;0
+393;Infanteria Imperial;SP;SPiIb.JPG;Unit;1d10;6;;;;;;;;;;;;;0
+394;Infanteria Imperial;SP;SPiIc.JPG;Unit;0;7;2;1d10;;;;;;;;;;;0
+395;Walloon Guards;SP;SPWGb.JPG;Unit;1d10;6;;;;;;;;;;;;;0
+396;Walloon Guards;SP;SPWGa.JPG;Unit;2d6;6;;;;;;;;;;;;;0
+397;Walloon Guards;SP;SPWGd.JPG;Unit;2d6;6;;;;;;;;;;;Not required to advance;;0
+398;Walloon Guards;SP;SPWGd.JPG;Unit;2d6;6;;;;;;;;;;;Not required to advance;;0
+399;Walloon Guards;SP;SPWGc.JPG;Unit;0;7;2;2d6;;;;;;;;;;;0
+400;Joaquin Blake y Joyes;SP;SPBlake.JPG;HqLeader;;;;;;;;2;3;4;;;;;0
+401;Francisco Javier Castanos;SP;SPCastanos.JPG;HqLeader;;;;;;;;3;3;4;;;;;0
+402;Gregorio Garcia de la Cuesta;SP;SPCuesta.JPG;HqLeader;;;;;;;;2;2;5;;;;;0
+403;Pedro Caro y Sureda;SP;SPCaro.JPG;HqLeader;;;;;;;;2;1;3;;;;;0
+404;Guerrillas;SP;SPGuerr.JPG;HqUnit;;;;;;;;;;;;;Play to prevent one of the following actions of an opponent: 1. Play a Supply card. 2. Play of a Regroup card. 3. Play a Forced March card. 4. Play a Reinforcement attempt.;;0
+405;Guerrillas;SP;SPGuerr.JPG;HqUnit;;;;;;;;;;;;;Play to prevent one of the following actions of an opponent: 1. Play a Supply card. 2. Play of a Regroup card. 3. Play a Forced March card. 4. Play a Reinforcement attempt.;;0
+406;Guerrillas;SP;SPGuerr.JPG;HqUnit;;;;;;;;;;;;;Play to prevent one of the following actions of an opponent: 1. Play a Supply card. 2. Play of a Regroup card. 3. Play a Forced March card. 4. Play a Reinforcement attempt.;;0
+407;Guerrillas;SP;SPGuerr.JPG;HqUnit;;;;;;;;;;;;;Play to prevent one of the following actions of an opponent: 1. Play a Supply card. 2. Play of a Regroup card. 3. Play a Forced March card. 4. Play a Reinforcement attempt.;;0
+408;Guerrillas;SP;SPGuerr.JPG;HqUnit;;;;;;;;;;;;;Play to prevent one of the following actions of an opponent: 1. Play a Supply card. 2. Play of a Regroup card. 3. Play a Forced March card. 4. Play a Reinforcement attempt.;;0
+409;Redoubt;SP;SPRedbt.JPG;HqUnit;;;;;;;;;;;;;Place a Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;;0
+410;Redoubt;SP;SPRedbt.JPG;HqUnit;;;;;;;;;;;;;Place a Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;;0
+411;Redoubt;SP;SPRedbt.JPG;HqUnit;;;;;;;;;;;;;Place a Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;;0
+412;Redoubt;SP;SPRedbt.JPG;HqUnit;;;;;;;;;;;;;Place a Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;;0
+413;Skirmish;SP;SPSkirm.JPG;HqUnit;;;;;;;;;;;;;Play after all defensive cards have been played. Move the attacking unit up to 2 spaces in any direction or combination of directions. Return the combat card you used to initiate the combat to your hand.;;0
+414;Supply;SP;SPSupply.JPG;HqUnit;;;;;;;;;;;;;You may use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;;1
+415;Supply;SP;SPSupply.JPG;HqUnit;;;;;;;;;;;;;You may use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;;1
+416;Withdraw;SP;SPWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;;0
+417;Withdraw;SP;SPWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;;0
+418;Withdraw;SP;SPWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;;0
+419;Jose de Palafox y Melzi;SP;SPPalofax.JPG;HqLeader;;;;;;;;1;99;99;;;Rellay : Auto, Attack: 1, Def: 5;;0
+420;1st Infantry Regiment;US;US1Ia.JPG;Unit;2d6;5;;;;;2;;;;;;;;0
+421;1st Infantry Regiment;US;US1Ia.JPG;Unit;2d6;5;;;;;2;;;;;;;;0
+422;1st Infantry Regiment;US;US1Ib.JPG;Unit;2d6;5;;;;;;;;;;;;;0
+423;1st Infantry Regiment;US;US1Ib.JPG;Unit;2d6;5;;;;;;;;;;;;;0
+424;1st Infantry Regiment;US;US1Ic.JPG;Unit;0;6;2;1d10;;;;;;;;;;;0
+425;2nd Infantry Regiment;US;US2Ia.JPG;Unit;2d6;5;;;;;2;;;;;;;;0
+426;2nd Infantry Regiment;US;US2Ia.JPG;Unit;2d6;5;;;;;2;;;;;;;;0
+427;2nd Infantry Regiment;US;US2Ib.JPG;Unit;2d6;5;;;;;;;;;;;;;0
+428;2nd Infantry Regiment;US;US2Ib.JPG;Unit;2d6;5;;;;;;;;;;;;;0
+429;2nd Infantry Regiment;US;US2Ic.JPG;Unit;0;6;2;1d10;;;;;;;;;;;0
+430;4th Militia;US;US4Ma.JPG;Unit;2d6;5;;;;;3;;;;;;;;0
+431;4th Militia;US;US4Mb.JPG;Unit;2d6;5;1;0;2d6;;3;;;;;;;;0
+432;4th Militia;US;US4Mc.JPG;Unit;1d10;5;1;0;2d6;;3;;;;;;;;0
+433;4th Militia;US;US4Md.JPG;Unit;1d10;3;;;;;3;;;;;;;;0
+434;4th Militia;US;US4Me.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
+435;Volunteer Cavalry;US;USVCa.JPG;Unit;2d6;4;;;;3;;;;;;;;;0
+436;Volunteer Cavalry;US;USVCa.JPG;Unit;2d6;4;;;;3;;;;;;;;;0
+437;Volunteer Cavalry;US;USVCb.JPG;Unit;2d6;3;;;;1;;;;;;;;;0
+438;Volunteer Cavalry;US;USVCb.JPG;Unit;2d6;3;;;;1;;;;;;;;;0
+439;Volunteer Cavalry;US;USVCc.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
+440;3rd Infantry Regiment;US;US3Ia.JPG;Unit;2d6;5;;;;;2;;;;;;;;0
+441;3rd Infantry Regiment;US;US3Ia.JPG;Unit;2d6;5;;;;;2;;;;;;;;0
+442;3rd Infantry Regiment;US;US3Ib.JPG;Unit;2d6;5;;;;;;;;;;;;;0
+443;3rd Infantry Regiment;US;US3Ib.JPG;Unit;2d6;5;;;;;;;;;;;;;0
+444;3rd Infantry Regiment;US;US3Ic.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
+445;Henry Dearborn;US;USDearborn.JPG;HqLeader;;;;;;;;2;1;3;;;;;0
+446;William Henry Harrison;US;USHarrison.JPG;HqLeader;;;;;;;;2;2;4;;;;;0
+447;Andrew Jackson;US;USJackson.JPG;HqLeader;;;;;;;;2;3;4;;;;;0
+448;Alexander Macomb;US;USMacomb.JPG;HqLeader;;;;;;;;3;2;4;;;;;0
+449;Winfield Scott;US;USScott.JPG;HqLeader;;;;;;;;1;4;4;;;;;0
+450;10th Infantry Regiment;US;US10a.JPG;Unit;2d6;5;;;;;2;;;;;;;;0
+451;10th Infantry Regiment;US;US10a.JPG;Unit;2d6;5;;;;;2;;;;;;;;0
+452;10th Infantry Regiment;US;US10b.JPG;Unit;2d6;5;;;;;;;;;;;;;0
+453;10th Infantry Regiment;US;US10b.JPG;Unit;2d6;5;;;;;;;;;;;;;0
+454;10th Infantry Regiment;US;US10c.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
+455;13th Militia;US;US13a.JPG;Unit;1d10;3;1;;2d6;;3;;;;;;;;0
+456;13th Militia;US;US13a.JPG;Unit;1d10;3;1;;2d6;;3;;;;;;;;0
+457;13th Militia;US;US13a.JPG;Unit;1d10;3;1;;2d6;;3;;;;;;;;0
+458;13th Militia;US;US13a.JPG;Unit;1d10;3;1;;2d6;;3;;;;;;;;0
+459;13th Militia;US;US13b.JPG;Unit;0;5;2;2d6;;;;;;;;;;;0
+460;22nd Infantry Regiment;US;US22a.JPG;Unit;2d6;5;;;;;;;;;;;;;0
+461;22nd Infantry Regiment;US;US22b.JPG;Unit;1d10;3;;;;;2;;;;;;;;0
+462;22nd Infantry Regiment;US;US22b.JPG;Unit;1d10;3;;;;;2;;;;;;;;0
+463;22nd Infantry Regiment;US;US22c.JPG;Unit;1d10;5;1;;2d6;;;;;;;;;;0
+464;22nd Infantry Regiment;US;US22d.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
+465;Ambush;US;USAmbush.JPG;HqUnit;;;;;;;;;;;;;Play this card to initiate an attack. Attack any unit on the board using 1d10. Defensive cards may be played as well as other attack cards.;;0
+466;Ambush;US;USAmbush.JPG;HqUnit;;;;;;;;;;;;;Play this card to initiate an attack. Attack any unit on the board using 1d10. Defensive cards may be played as well as other attack cards.;;0
+467;Ambush;US;USAmbush.JPG;HqUnit;;;;;;;;;;;;;Play this card to initiate an attack. Attack any unit on the board using 1d10. Defensive cards may be played as well as other attack cards.;;0
+468;Ambush;US;USAmbush.JPG;HqUnit;;;;;;;;;;;;;Play this card to initiate an attack. Attack any unit on the board using 1d10. Defensive cards may be played as well as other attack cards.;;0
+469;Engineers;US;USEng.JPG;HqUnit;;;;;;;;;;;;;Negates any Redoubt being used in the current combat. Play after all defensive cards hve been played.;;0
+470;Redoubt;US;USRdbt.JPG;HqUnit;;;;;;;;;;;;;Place a Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;;0
+471;Redoubt;US;USRdbt.JPG;HqUnit;;;;;;;;;;;;;Place a Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;;0
+472;Redoubt;US;USRdbt.JPG;HqUnit;;;;;;;;;;;;;Place a Redoubt marker under  a unit. That unit adds 3 to its defense total. Only 1 Redoubt may be played per turn.;;0
+473;Scout;US;USScout.JPG;HqUnit;;;;;;;;;;;;;Look at your opponent's hand. Playable any time during your turn.;;0
+474;Skirmish;US;USSkirm.JPG;HqUnit;;;;;;;;;;;;;Play after all defensive cards have been played. Move the attacking unit up to 2 spaces in any direction or combination of directions. Return the combat card you used to initiate the combat to your hand.;;0
+475;Supply;US;USSupply.JPG;HqUnit;;;;;;;;;;;;;You may use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;;1
+476;Supply;US;USSupply.JPG;HqUnit;;;;;;;;;;;;;You may use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;;1
+477;Supply;US;USSupply.JPG;HqUnit;;;;;;;;;;;;;You may use this card to do one of the following: 1. Move one additional unit in the movement phase. 2. Restore a reduced unit.;;1
+478;Withdraw;US;USWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;;0
+479;Withdraw;US;USWdraw.JPG;HqUnit;;;;;;;;;;;;;The defending unit may withdraw from combat after the attack has been declared but before the dice have been rolled. No other defensive cards may be played.;;0
