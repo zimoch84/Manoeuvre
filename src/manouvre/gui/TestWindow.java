@@ -8,8 +8,10 @@ package manouvre.gui;
 import manouvre.game.Card;
 import manouvre.game.CardSet;
 import manouvre.game.Game;
+import manouvre.game.commands.CommandQueue;
 import manouvre.game.commands.DiscardCardCommand;
 import manouvre.game.commands.DrawCardCommand;
+import manouvre.game.interfaces.Command;
 import manouvre.network.client.Message;
 
 /**
@@ -26,12 +28,13 @@ public class TestWindow extends javax.swing.JFrame {
     Card ambush,commitedAttack,engineers,forcedMarch,guerrillas, redoubt,regroup,royalEngineers,scout,skirmish,spy,supply,withdraw;
     String flag;
     int phase;
+    CommandQueue cmdQueue;
                     
     /**
      * Creates new form TestWindow
      */
-    public TestWindow(Game game, GameWindow gameWindow, int phase ) {
-        
+    public TestWindow(Game game, GameWindow gameWindow, int phase, CommandQueue cmdQueue ) {
+        this.cmdQueue=cmdQueue;
         this.gameWindow=gameWindow;
         this.game=game;
         this.gameGui=gameWindow.getGameGui();
@@ -549,10 +552,13 @@ public class TestWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_TextFieldActionPerformed
 
     private void drawCardsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drawCardsActionPerformed
-        game.getCurrentPlayer().getHand().addCardsFromTheTopOfOtherSet(numberOfChosenCards, testCards, true);
+        Command drawToHand = game.getCardCommandFactory().createMoveToHandCommand(testCards,numberOfChosenCards);
+        cmdQueue.storeAndExecuteAndSend(drawToHand);
+        
+       
         game.setPhase(phase); //put back the game to previous phase
-        gameGui.getHandSetGui().reSet();
-        gameWindow.repaint();
+//        gameGui.getHandSetGui().reSet();
+//        gameWindow.repaint();
         this.dispose();
         
     }//GEN-LAST:event_drawCardsActionPerformed

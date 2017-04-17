@@ -29,7 +29,10 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import manouvre.game.Dice;
 import manouvre.game.Terrain;
+import manouvre.game.commands.EndSetupCommand;
 import manouvre.game.interfaces.CardInterface;
+import manouvre.game.interfaces.Command;
+import static java.lang.Math.round;
 
 
 
@@ -69,8 +72,9 @@ public class GameGUI {
     boolean lockGUI=false;
     boolean freeMove = false;
     
+    CommandQueue cmdQueue;
     
-    public GameGUI (Game newGame, int windowMode) throws IOException{
+    public GameGUI (Game newGame, int windowMode, CommandQueue cmdQueue) throws IOException{
         this.game=newGame;
         this.currentPlayer=game.getCurrentPlayer();
         this.windowMode = windowMode;
@@ -82,6 +86,7 @@ public class GameGUI {
         this.drawSetGui = new CardSetGUI(currentPlayer.getDrawPile());//empty
         this.tableSetGui = new CardSetGUI(currentPlayer.getTablePile());//empty
         
+        this.cmdQueue=cmdQueue;
                
         /*
         Set info about first / second player
@@ -775,7 +780,7 @@ public class GameGUI {
             j=selectionSeq.get(selectionSeq.size()-1);              
             j=handSetGui.getPositionInSetByCardID(j); 
             int[] xPoints={cardPaddingLeft+35+width*j+(gap*j),cardPaddingLeft+95+width*j+(gap*j),cardPaddingLeft+35+(95-35)/2+width*j+(gap*j)};
-            int[] yPoints={cardPaddingTop+190,cardPaddingTop+190,cardPaddingTop+178};
+            int[] yPoints={cardPaddingTop+180,cardPaddingTop+180,cardPaddingTop+170};
             g.setColor(Color.white);
             g.setFont(new Font("Bookman Old Style", 1, 11));
             g.drawString("This card will be visible",cardPaddingLeft+width*j+(gap*j)-10,41+190);
@@ -884,7 +889,20 @@ public class GameGUI {
         }
     }
 }
-    
+    public void rejectIfPossible(){
+        Command rejectCard = game.getCardCommandFactory().createRejectCardCommand();
+        Command doNotRejectCard = game.getCardCommandFactory().createDoNotRejectCardCommand();
+        for (int i=0; i<tableSetGui.cardsLeftInSet(); i++){  
+         if(tableSetGui.getCardByPosInSet(i).getCard().getCanBeCancelled())//if card can be canceled
+            {
+                game.getCardCommandFactory().setPlayingCard(tableSetGui.getCardByPosInSet(i).getCard());
+                CustomDialog dialog = new CustomDialog(CustomDialog.YES_NO_TYPE, "Your enemy played this card, will you reject?", cmdQueue, game);
+                tableSetGui.getCardByPosInSet(i).getCard().setCanBeCanceled(false);
+                dialog.setOkCommand(rejectCard);
+                dialog.setCancelCommand(doNotRejectCard);
+            }
+        }
+    } 
     public void paintTablePanel(Graphics g){
         Integer tempInt;
         String tempString;
@@ -895,12 +913,26 @@ public class GameGUI {
         int cardPaddingLeft=10;
         int cardPaddingTopText=138;
         
-       
+        if(tableSetGui.cardsLeftInSet()==0){  //paint NO CARD
+            g.setColor(Color.white);
+            g.setFont(new Font("Bookman Old Style", 1, 20));
+            g.drawString("No Card",20,100);  
+        }
         
+       
+       
         for (int i=0; i<tableSetGui.cardsLeftInSet(); i++){  
-            if(tableSetGui.cardsLeftInSet()>0){
-             g.drawImage(tableSetGui.getCardByPosInSet(i).getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTop, width, height, null);   
-             if(tableSetGui.getCardByPosInSet(i).card.getCardType()==0){ //if UNIT card selected
+           
+            g.drawImage(tableSetGui.getCardByPosInSet(i).getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTop, width, height, null);
+
+           
+                 
+             
+             
+             
+             
+             
+            /* if(tableSetGui.getCardByPosInSet(i).card.getCardType()==0){ //if UNIT card selected
                 g.setColor(Color.white);
                 g.setFont(new Font("Bookman Old Style", 1, 11));
                 
@@ -958,12 +990,10 @@ public class GameGUI {
                 tempString=tableSetGui.getCardByPosInSet(i).card.getUnitDescr();
                 drawStringMultiLine(g, tempString, 100, cardPaddingLeft+width*i+(gap*i)+5,84+cardPaddingTopText);
              }
-            }
-            else{
-                g.setColor(Color.white);
-                g.setFont(new Font("Bookman Old Style", 1, 20));
-                g.drawString("No Card",20,100);  
-            }
+            }*/
+            
+            
+            
         }
          Dice d6 = new Dice(Dice.D6);
         d6.generateResult();
@@ -1039,7 +1069,7 @@ public class GameGUI {
 //                     movePositions = game.getPossibleMovement(selectedUnit);
 //                }
 //    }
-//    public void paintUnitSelection(int mouseX, int mouseY, CommandQueue cmd){
+//    public void paintUnitSelection(int mouseX, int mouseY, CommandQueue cmdQueue){
 //       
 //    int x=mouseX;
 //    int y=mouseY;
@@ -1105,7 +1135,7 @@ public class GameGUI {
 //
 //                        if(!currentPlayer.isPlayingCard() && (game.getPhase() != Game.SETUP) )
 //                        {        
-//                                cmd.storeAndExecuteAndSend(moveUnit);
+//                                cmdQueue.storeAndExecuteAndSend(moveUnit);
 //                        }
 //
 //                        /*
@@ -1137,7 +1167,7 @@ public class GameGUI {
 //                            /*
 //                            Just execute on socketClient
 //                            */
-//                            cmd.storeAndExecute(moveUnit);
+//                            cmdQueue.storeAndExecute(moveUnit);
 //
 //                        }
 //                        //Unselect all

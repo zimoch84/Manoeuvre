@@ -15,6 +15,8 @@ import manouvre.game.interfaces.Command;
 import manouvre.gui.CommandLogger;
 import manouvre.gui.GameWindow;
 import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
 
 /**
  *
@@ -84,7 +86,7 @@ class HostClient implements ClientInterface , Runnable{
             
             
                     Command executeCommand = msgIn.getCommand();
-                    clientGameHost.cmd.storeAndExecute(executeCommand);
+                    clientGameHost.cmdQueue.storeAndExecute(executeCommand);
                     break;
         default:
              System.out.println("Host Client" + msgIn.toString()) ;
@@ -136,7 +138,7 @@ class GuestClient implements ClientInterface , Runnable{
          switch( msgIn.getMessageType() ){
             case Message.COMMAND:
                 Command executeCommand = msgIn.getCommand();
-                clientGameGuest.cmd.storeAndExecute(executeCommand);
+                clientGameGuest.cmdQueue.storeAndExecute(executeCommand);
                 break;
             default:
                  System.out.println("Guest Client" + msgIn.toString()) ;
@@ -162,6 +164,6 @@ class GuestClient implements ClientInterface , Runnable{
             }
             }
         }
-}
+    }
 }
 
