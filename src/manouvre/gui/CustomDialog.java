@@ -46,7 +46,7 @@ public class CustomDialog extends javax.swing.JFrame {
     String infoText;
     
     ClientInterface client;
-    CommandQueue cmd;
+    CommandQueue cmdQueue;
     Game game;
     
     public CustomDialog() {
@@ -100,7 +100,7 @@ public class CustomDialog extends javax.swing.JFrame {
     public CustomDialog(int dialogType, String infoText,  CommandQueue cmd, Game game){
        this(dialogType, infoText);
        this.game = game;
-       this.cmd = cmd;
+       this.cmdQueue = cmd;
         
     }
     
@@ -204,7 +204,7 @@ public class CustomDialog extends javax.swing.JFrame {
             /*
             Execute command locally and remotely
             */
-            cmd.storeAndExecuteAndSend(okCommand);
+            cmdQueue.storeAndExecuteAndSend(okCommand);
             
         }
         
@@ -216,13 +216,13 @@ public class CustomDialog extends javax.swing.JFrame {
         
         if(cancelCommand != null){
         
-            cmd.storeAndExecuteAndSend(cancelCommand);
+            cmdQueue.storeAndExecuteAndSend(cancelCommand);
             
         }
         else if (dialogType == YES_NO_UNDO_TYPE)
             
         {
-            cmd.undoCommand(cancelCommand);
+            cmdQueue.undoCommand(cancelCommand);
                    }
             
             

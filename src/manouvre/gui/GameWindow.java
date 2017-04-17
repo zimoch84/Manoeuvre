@@ -35,6 +35,8 @@ import manouvre.game.commands.EndTurnCommand;
 import static java.lang.Math.abs;
 import javax.swing.UIManager;
 import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
 
 
 /**

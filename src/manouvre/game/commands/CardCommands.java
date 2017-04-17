@@ -93,6 +93,42 @@ public static class RejectCardCommand implements Command{
         public int getType() {
             return Param.PLAY_CARD;
         }
+    }   
+
+public static class DoNotRejectCardCommand implements Command{    
+            
+    
+        Card card;
+        String senderPlayerName;
+        public DoNotRejectCardCommand(Card card, String senderPlayerName) {
+            this.card = card;
+            this.senderPlayerName=senderPlayerName;
+        }
+     
+        @Override
+        public void execute(Game game) {
+            if(game.getCurrentPlayer().getName().equals(senderPlayerName)){
+                //do nothing here
+            }
+            else{
+                game.getCurrentPlayer().getTablePile().addCardToThisSet(game.getCurrentPlayer().getHand().drawCardFromSet(card));//remove card from own hand and put it on table
+            }
+        }
+
+        @Override
+        public void undo(Game game) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String logCommand() {
+            return card.getCardName() + " cart was not rejected " + senderPlayerName;
+        }
+
+        @Override
+        public int getType() {
+            return Param.PLAY_CARD;
+        }
     }    
 
 

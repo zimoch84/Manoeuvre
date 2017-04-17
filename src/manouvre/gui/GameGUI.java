@@ -32,6 +32,7 @@ import manouvre.game.Terrain;
 import manouvre.game.commands.EndSetupCommand;
 import manouvre.game.interfaces.CardInterface;
 import manouvre.game.interfaces.Command;
+import static java.lang.Math.round;
 
 
 
@@ -890,6 +891,7 @@ public class GameGUI {
 }
     public void rejectIfPossible(){
         Command rejectCard = game.getCardCommandFactory().createRejectCardCommand();
+        Command doNotRejectCard = game.getCardCommandFactory().createDoNotRejectCardCommand();
         for (int i=0; i<tableSetGui.cardsLeftInSet(); i++){  
          if(tableSetGui.getCardByPosInSet(i).getCard().getCanBeCancelled())//if card can be canceled
             {
@@ -897,6 +899,7 @@ public class GameGUI {
                 CustomDialog dialog = new CustomDialog(CustomDialog.YES_NO_TYPE, "Your enemy played this card, will you reject?", cmdQueue, game);
                 tableSetGui.getCardByPosInSet(i).getCard().setCanBeCanceled(false);
                 dialog.setOkCommand(rejectCard);
+                dialog.setCancelCommand(doNotRejectCard);
             }
         }
     } 
@@ -1066,7 +1069,7 @@ public class GameGUI {
 //                     movePositions = game.getPossibleMovement(selectedUnit);
 //                }
 //    }
-//    public void paintUnitSelection(int mouseX, int mouseY, CommandQueue cmd){
+//    public void paintUnitSelection(int mouseX, int mouseY, CommandQueue cmdQueue){
 //       
 //    int x=mouseX;
 //    int y=mouseY;
@@ -1132,7 +1135,7 @@ public class GameGUI {
 //
 //                        if(!currentPlayer.isPlayingCard() && (game.getPhase() != Game.SETUP) )
 //                        {        
-//                                cmd.storeAndExecuteAndSend(moveUnit);
+//                                cmdQueue.storeAndExecuteAndSend(moveUnit);
 //                        }
 //
 //                        /*
@@ -1164,7 +1167,7 @@ public class GameGUI {
 //                            /*
 //                            Just execute on socketClient
 //                            */
-//                            cmd.storeAndExecute(moveUnit);
+//                            cmdQueue.storeAndExecute(moveUnit);
 //
 //                        }
 //                        //Unselect all
