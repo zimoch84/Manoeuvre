@@ -6,6 +6,8 @@
 package manouvre.gui;
 
 import java.awt.Color;
+import java.awt.Desktop;
+import static java.awt.Desktop.isDesktopSupported;
 import manouvre.network.client.Message;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -37,6 +39,10 @@ import javax.swing.UIManager;
 import static java.lang.Math.abs;
 import static java.lang.Math.abs;
 import static java.lang.Math.abs;
+import javax.swing.Box;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -407,6 +413,8 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
 
         jFrame1 = new javax.swing.JFrame();
         jPanel1 = new javax.swing.JPanel();
+        jRadioButtonMenuItem1 = new javax.swing.JRadioButtonMenuItem();
+        jMenu4 = new javax.swing.JMenu();
         jLabel5 = new javax.swing.JLabel();
         mainWindowPanel = new javax.swing.JPanel()
         {
@@ -536,6 +544,20 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         MoveToTableCommand = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenu5 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu6 = new javax.swing.JMenu();
+        jMenuItemAmbush = new javax.swing.JMenuItem();
+        jMenuItemCommAttack = new javax.swing.JMenuItem();
+        jMenuItemGuerrillas = new javax.swing.JMenuItem();
+        jMenuItemRedoubt = new javax.swing.JMenuItem();
+        jMenuItemRegroup = new javax.swing.JMenuItem();
+        jMenuItemSkirmish = new javax.swing.JMenuItem();
+        jMenuItemSupply = new javax.swing.JMenuItem();
+        jMenuItemWithdraw = new javax.swing.JMenuItem();
+        jMenuItemForced_March = new javax.swing.JMenuItem();
+        jMenuItemEngineers = new javax.swing.JMenuItem();
+        jMenuItemScout = new javax.swing.JMenuItem();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -558,6 +580,11 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 100, Short.MAX_VALUE)
         );
+
+        jRadioButtonMenuItem1.setSelected(true);
+        jRadioButtonMenuItem1.setText("jRadioButtonMenuItem1");
+
+        jMenu4.setText("jMenu4");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -772,11 +799,11 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         discardPanel.setLayout(discardPanelLayout);
         discardPanelLayout.setHorizontalGroup(
             discardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 90, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         discardPanelLayout.setVerticalGroup(
             discardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 130, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         playerDrawLeftPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Draw Pile"));
@@ -785,11 +812,11 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         playerDrawLeftPanel.setLayout(playerDrawLeftPanelLayout);
         playerDrawLeftPanelLayout.setHorizontalGroup(
             playerDrawLeftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 57, Short.MAX_VALUE)
+            .addGap(0, 63, Short.MAX_VALUE)
         );
         playerDrawLeftPanelLayout.setVerticalGroup(
             playerDrawLeftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 21, Short.MAX_VALUE)
+            .addGap(0, 37, Short.MAX_VALUE)
         );
 
         jLabel2.setText("Units Killed:");
@@ -814,29 +841,31 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             .addGroup(currentPlayerPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(currentPlayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel2)
-                    .addComponent(playerDrawLeftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(curPlayerFlag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
-                .addComponent(discardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                    .addGroup(currentPlayerPanelLayout.createSequentialGroup()
+                        .addComponent(playerDrawLeftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(143, Short.MAX_VALUE))
+                    .addGroup(currentPlayerPanelLayout.createSequentialGroup()
+                        .addGroup(currentPlayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel2)
+                            .addComponent(curPlayerFlag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(26, 26, 26)
+                        .addComponent(discardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE))))
         );
         currentPlayerPanelLayout.setVerticalGroup(
             currentPlayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(currentPlayerPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(curPlayerFlag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(currentPlayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(currentPlayerPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(curPlayerFlag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2))
+                    .addComponent(discardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(playerDrawLeftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(currentPlayerPanelLayout.createSequentialGroup()
-                .addComponent(discardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(playerDrawLeftPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         playersTabbedPane.addTab(game.getCurrentPlayer().getName(), currentPlayerPanel);
@@ -856,7 +885,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         discardPanel1.setLayout(discardPanel1Layout);
         discardPanel1Layout.setHorizontalGroup(
             discardPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 90, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         discardPanel1Layout.setVerticalGroup(
             discardPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -869,11 +898,11 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         playerDrawLeftPanel1.setLayout(playerDrawLeftPanel1Layout);
         playerDrawLeftPanel1Layout.setHorizontalGroup(
             playerDrawLeftPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 61, Short.MAX_VALUE)
+            .addGap(0, 63, Short.MAX_VALUE)
         );
         playerDrawLeftPanel1Layout.setVerticalGroup(
             playerDrawLeftPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 20, Short.MAX_VALUE)
+            .addGap(0, 37, Short.MAX_VALUE)
         );
 
         jLabel3.setText("Units Killed:");
@@ -898,29 +927,31 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             .addGroup(opponentPlayerPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(opponentPlayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel3)
-                    .addComponent(playerDrawLeftPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(opoPlayerFlag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
-                .addComponent(discardPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(opponentPlayerPanelLayout.createSequentialGroup()
+                        .addComponent(playerDrawLeftPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(143, Short.MAX_VALUE))
+                    .addGroup(opponentPlayerPanelLayout.createSequentialGroup()
+                        .addGroup(opponentPlayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel3)
+                            .addComponent(opoPlayerFlag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(26, 26, 26)
+                        .addComponent(discardPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE))))
         );
         opponentPlayerPanelLayout.setVerticalGroup(
             opponentPlayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(opponentPlayerPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(opoPlayerFlag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(opponentPlayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(opponentPlayerPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(opoPlayerFlag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3))
+                    .addComponent(discardPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel10)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(playerDrawLeftPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 13, Short.MAX_VALUE))
-            .addGroup(opponentPlayerPanelLayout.createSequentialGroup()
-                .addComponent(discardPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(playerDrawLeftPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         playersTabbedPane.addTab(game.getOpponentPlayer().getName(), opponentPlayerPanel);
@@ -963,18 +994,18 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             .addGroup(rightSidePanelLayout.createSequentialGroup()
                 .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(rightSidePanelLayout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(rightSidePanelLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(playersTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rightSidePanelLayout.createSequentialGroup()
-                        .addGap(36, 36, 36)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(playersTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(tablePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(chatPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25))
+                .addContainerGap())
         );
 
         tablePanel.getAccessibleContext().setAccessibleName("");
@@ -1002,7 +1033,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                         .addComponent(mainMapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(playerHandPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 6, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -1059,6 +1090,113 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
 
         jMenu2.setText("Edit");
         jMenuBar1.add(jMenu2);
+
+        jMenu5.setText("Help");
+        jMenu5.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+
+        jMenuItem1.setText("Manoeuvre_Rules.pdf");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem1);
+
+        jMenu6.setText("Show Card Description");
+
+        jMenuItemAmbush.setText("Ambush");
+        jMenuItemAmbush.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemAmbushActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItemAmbush);
+
+        jMenuItemCommAttack.setText("Committed Attack");
+        jMenuItemCommAttack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemCommAttackActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItemCommAttack);
+
+        jMenuItemGuerrillas.setText("Guerrillas");
+        jMenuItemGuerrillas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemGuerrillasActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItemGuerrillas);
+
+        jMenuItemRedoubt.setText("Redoubt");
+        jMenuItemRedoubt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemRedoubtActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItemRedoubt);
+
+        jMenuItemRegroup.setText("Regroup");
+        jMenuItemRegroup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemRegroupActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItemRegroup);
+
+        jMenuItemSkirmish.setText("Skirmish");
+        jMenuItemSkirmish.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemSkirmishActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItemSkirmish);
+
+        jMenuItemSupply.setText("Supply");
+        jMenuItemSupply.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemSupplyActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItemSupply);
+
+        jMenuItemWithdraw.setText("Withdraw");
+        jMenuItemWithdraw.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemWithdrawActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItemWithdraw);
+
+        jMenuItemForced_March.setText("Forced March");
+        jMenuItemForced_March.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemForced_MarchActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItemForced_March);
+
+        jMenuItemEngineers.setText("Engineers/Royal Eng");
+        jMenuItemEngineers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemEngineersActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItemEngineers);
+
+        jMenuItemScout.setText("Scout/Spy");
+        jMenuItemScout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemScoutActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItemScout);
+
+        jMenu5.add(jMenu6);
+
+        jMenuBar1.add(Box.createHorizontalGlue());// <-- horizontal glue
+
+        jMenuBar1.add(jMenu5);
 
         setJMenuBar(jMenuBar1);
 
@@ -1498,10 +1636,262 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
     private void mainMapPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainMapPanelMouseExited
         gameGui.setInfoImage(null);
     }//GEN-LAST:event_mainMapPanelMouseExited
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    File pdfFile = new File("resources\\ManoeuvreRules-2010.pdf");   
+    if(isDesktopSupported()){
+        try {
+            Desktop.getDesktop().open(pdfFile);
+        } catch (IOException ex) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog( null
+                                         , "An error happened trying to open file : " + pdfFile.getPath()
+                                         , "IOException"
+                                         , JOptionPane.WARNING_MESSAGE
+            );
+        }
+    }
+    else{
+        JOptionPane.showMessageDialog( null
+                                         , "This is not supported on your Operating System: " 
+                                         , "IOException"
+                                         , JOptionPane.WARNING_MESSAGE
+            );
+    }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItemAmbushActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAmbushActionPerformed
+        ImageIcon  imageIcon = new ImageIcon();
+        try {
+            Image imgFull = ImageIO.read(new File("resources\\cards\\AUAmbush.jpg"));
+            imageIcon = new ImageIcon(imgFull);
+        } catch (IOException ex) {
+            Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        JOptionPane.showMessageDialog( null
+                                         , "6 Cards\n\n"
+                                                 + "2 in Austria\n"
+                                                 + "4 in USA"
+                                         , "Card Description"
+                                         , JOptionPane.PLAIN_MESSAGE
+                                         , imageIcon
+        );
+    }//GEN-LAST:event_jMenuItemAmbushActionPerformed
+
+    private void jMenuItemCommAttackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCommAttackActionPerformed
+        ImageIcon  imageIcon = new ImageIcon();
+        try {
+            Image imgFull = ImageIO.read(new File("resources\\cards\\AUCattk.JPG"));
+            imageIcon = new ImageIcon(imgFull);
+        } catch (IOException ex) {
+            Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        JOptionPane.showMessageDialog( null
+                                         , "10 Cards\n\n"
+                                                 + "1 in Britain\n"
+                                                 + "1 in Austria\n"
+                                                 + "4 in Ottoman"
+                                                 + "1 in Prussia\n"
+                                                 + "3 in Russia"
+                                         , "Card Description"
+                                         , JOptionPane.PLAIN_MESSAGE
+                                         , imageIcon
+        );
+    }//GEN-LAST:event_jMenuItemCommAttackActionPerformed
+
+    private void jMenuItemGuerrillasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemGuerrillasActionPerformed
+        ImageIcon  imageIcon = new ImageIcon();
+        try {
+            Image imgFull = ImageIO.read(new File("resources\\cards\\AUGuer.JPG"));
+            imageIcon = new ImageIcon(imgFull);
+        } catch (IOException ex) {
+            Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        JOptionPane.showMessageDialog( null
+                                         , "9 Cards\n\n"
+                                                 + "2 in Austria\n"
+                                                 + "1 in Prussia\n"
+                                                 + "1 in Russia\n"
+                                                 + "5 in Spain" 
+                                         , "Card Description"
+                                         , JOptionPane.PLAIN_MESSAGE
+                                         , imageIcon
+        );        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItemGuerrillasActionPerformed
+
+    private void jMenuItemRedoubtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRedoubtActionPerformed
+        ImageIcon  imageIcon = new ImageIcon();
+        try {
+            Image imgFull = ImageIO.read(new File("resources\\cards\\AURedbt.JPG"));
+            imageIcon = new ImageIcon(imgFull);
+        } catch (IOException ex) {
+            Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        JOptionPane.showMessageDialog( null
+                                         , "18 Cards\n\n"
+                                                 + "2 in Britain\n"
+                                                 + "3 in Austria\n"
+                                                 + "1 in Frace\n"
+                                                 + "3 in Prussia\n"
+                                                 + "2 in Russia\n"
+                                                 + "4 in Spain\n"
+                                                 + "3 in USA"  
+                                         , "Card Description"
+                                         , JOptionPane.PLAIN_MESSAGE
+                                         , imageIcon
+        );    
+    }//GEN-LAST:event_jMenuItemRedoubtActionPerformed
+
+    private void jMenuItemRegroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRegroupActionPerformed
+        ImageIcon  imageIcon = new ImageIcon();
+        try {
+            Image imgFull = ImageIO.read(new File("resources\\cards\\OTRegroup.JPG"));
+            imageIcon = new ImageIcon(imgFull);
+        } catch (IOException ex) {
+            Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        JOptionPane.showMessageDialog( null
+                                         , "7 Cards\n\n"
+                                                 + "7 in Ottoman"
+                                                   
+                                         , "Card Description"
+                                         , JOptionPane.PLAIN_MESSAGE
+                                         , imageIcon
+        );  
+    }//GEN-LAST:event_jMenuItemRegroupActionPerformed
+
+    private void jMenuItemSkirmishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSkirmishActionPerformed
+        ImageIcon  imageIcon = new ImageIcon();
+        try {
+            Image imgFull = ImageIO.read(new File("resources\\cards\\BRSkirm.JPG"));
+            imageIcon = new ImageIcon(imgFull);
+        } catch (IOException ex) {
+            Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        JOptionPane.showMessageDialog( null
+                                         , "9 Cards\n\n"
+                                                 + "1 in Britain\n"
+                                                 + "2 in Austria\n"
+                                                 + "1 in Frace\n"
+                                                 + "2 in Prussia\n"
+                                                 + "1 in Russia\n"
+                                                 + "1 in Spain\n"
+                                                 + "1 in USA"  
+                                         , "Card Description"
+                                         , JOptionPane.PLAIN_MESSAGE
+                                         , imageIcon
+        );  
+    }//GEN-LAST:event_jMenuItemSkirmishActionPerformed
+
+    private void jMenuItemSupplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSupplyActionPerformed
+        ImageIcon  imageIcon = new ImageIcon();
+        try {
+            Image imgFull = ImageIO.read(new File("resources\\cards\\BRSuply.JPG"));
+            imageIcon = new ImageIcon(imgFull);
+        } catch (IOException ex) {
+            Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        JOptionPane.showMessageDialog( null
+                                         , "25 Cards\n\n"
+                                                 + "4 in Britain\n"
+                                                 + "4 in Austria\n"
+                                                 + "4 in Frace\n"
+                                                 + "4 in Prussia\n"
+                                                 + "4 in Russia\n"
+                                                 + "2 in Spain\n"
+                                                 + "3 in USA"   
+                                         , "Card Description"
+                                         , JOptionPane.PLAIN_MESSAGE
+                                         , imageIcon
+        );  
+    }//GEN-LAST:event_jMenuItemSupplyActionPerformed
+
+    private void jMenuItemWithdrawActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemWithdrawActionPerformed
+        ImageIcon  imageIcon = new ImageIcon();
+        try {
+            Image imgFull = ImageIO.read(new File("resources\\cards\\BRWdraw.JPG"));
+            imageIcon = new ImageIcon(imgFull);
+        } catch (IOException ex) {
+            Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        JOptionPane.showMessageDialog( null
+                                         , "23 Cards\n\n"
+                                                 + "3 in Britain\n"
+                                                 + "2 in Austria\n"
+                                                 + "4 in Frace\n"
+                                                 + "5 in Ottoman\n"
+                                                 + "2 in Prussia\n"
+                                                 + "2 in Russia\n"
+                                                 + "3 in Spain\n"
+                                                 + "2 in USA"  
+                                         , "Card Description"
+                                         , JOptionPane.PLAIN_MESSAGE
+                                         , imageIcon
+        );  
+    }//GEN-LAST:event_jMenuItemWithdrawActionPerformed
+
+    private void jMenuItemForced_MarchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemForced_MarchActionPerformed
+        ImageIcon  imageIcon = new ImageIcon();
+        try {
+            Image imgFull = ImageIO.read(new File("resources\\cards\\FRFMarch.JPG"));
+            imageIcon = new ImageIcon(imgFull);
+        } catch (IOException ex) {
+            Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        JOptionPane.showMessageDialog( null
+                                         , "8 Cards\n\n"
+                                                 + "2 in Britain\n"
+                                                 + "3 in Frace\n"
+                                                 + "3 in Prussia"
+                                         , "Card Description"
+                                         , JOptionPane.PLAIN_MESSAGE
+                                         , imageIcon
+        ); 
+    }//GEN-LAST:event_jMenuItemForced_MarchActionPerformed
+
+    private void jMenuItemEngineersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEngineersActionPerformed
+        ImageIcon  imageIcon = new ImageIcon();
+        try {
+            Image imgFull = ImageIO.read(new File("resources\\cards\\USEng.JPG"));
+            imageIcon = new ImageIcon(imgFull);
+        } catch (IOException ex) {
+            Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        JOptionPane.showMessageDialog( null
+                                         , "2 Cards\n\n"
+                                                 + "1 in Britain\n"
+                                                 + "(Royal Engineers)\n"
+                                                 + "1 in USA"
+                                         , "Card Description"
+                                         , JOptionPane.PLAIN_MESSAGE
+                                         , imageIcon
+        ); 
+    }//GEN-LAST:event_jMenuItemEngineersActionPerformed
+
+    private void jMenuItemScoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemScoutActionPerformed
+        ImageIcon  imageIcon = new ImageIcon();
+        try {
+            Image imgFull = ImageIO.read(new File("resources\\cards\\USScout.JPG"));
+            imageIcon = new ImageIcon(imgFull);
+        } catch (IOException ex) {
+            Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        JOptionPane.showMessageDialog( null
+                                         , "2 Cards\n\n"
+                                                 + "1 in Britain\n"
+                                                 + "(Spy)\n"
+                                                 + "1 in USA\n"
+                                                 + "(Scout)"
+                                         , "Card Description"
+                                         , JOptionPane.PLAIN_MESSAGE
+                                         , imageIcon
+        ); 
+    }//GEN-LAST:event_jMenuItemScoutActionPerformed
  
 //    public void clientSend(Message message){
-//        client.send(gameGui.discardSelCards());
-//        this.repaint();
+//        clOTRegroup.JPGient.send(gameGui.discardSelCards());
+//        this.repaint();OTRegroup.JPG
 //    }
 
     public GameGUI getGameGui() {
@@ -1564,11 +1954,27 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItemAmbush;
+    private javax.swing.JMenuItem jMenuItemCommAttack;
+    private javax.swing.JMenuItem jMenuItemEngineers;
+    private javax.swing.JMenuItem jMenuItemForced_March;
+    private javax.swing.JMenuItem jMenuItemGuerrillas;
+    private javax.swing.JMenuItem jMenuItemRedoubt;
+    private javax.swing.JMenuItem jMenuItemRegroup;
+    private javax.swing.JMenuItem jMenuItemScout;
+    private javax.swing.JMenuItem jMenuItemSkirmish;
+    private javax.swing.JMenuItem jMenuItemSupply;
+    private javax.swing.JMenuItem jMenuItemWithdraw;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel mainMapPanel;
     private javax.swing.JPanel mainWindowPanel;

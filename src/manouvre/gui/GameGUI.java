@@ -768,7 +768,7 @@ public class GameGUI {
     }
     public void paintHand(Graphics g)                 
     {   
-    float f=0.5f; //scale factor //Normally cards has 260x375 pixels
+    float f=0.50f; //scale factor //Normally cards has 260x375 pixels
     int width=round(260*f), height=round(375*f);
     int cardPaddingTop=40;
     int cardPaddingLeft=10;
@@ -819,18 +819,23 @@ public class GameGUI {
         return selectionSeq.isEmpty();
     }
     
-   
+    private BufferedImage cropImage(Image img, int x, int y, int width, int height){
+        BufferedImage buffImage = (BufferedImage)img;
+        return buffImage.getSubimage(x, y, width, height);
+    }
             
     public void paintDiscard(Graphics g, boolean paintOpponent){
         CardGUI cardGui;
-        float f=0.41f; //scale factor //Normally cards has 260x375 pixels
-        int width=round(260*f), height=round(375*f);
-        int cardPaddingTop=16;
+        float f=0.6f; //scale factor //Normally cards has 260x375 pixels
+        int x=30,y=50,w=195,h=225; //cropp image
+        int width=round(w*f), height=round(h*f);
+        int cardPaddingTop=18;
         int cardPaddingLeft=5;
         if (paintOpponent==true){
             if(game.getOpponentPlayer().getDiscardPile().cardsLeftInSet()>0){
                 cardGui=new CardGUI(game.getOpponentPlayer().getDiscardPile().lastCardFromThisSet(false));
-                g.drawImage(cardGui.getImgFull(), cardPaddingLeft, cardPaddingTop, width, height, null);           
+               // g.drawImage(cardGui.getImgFull(), cardPaddingLeft, cardPaddingTop, width, height, null); 
+                g.drawImage(cardGui.getImgFull(), cardPaddingLeft, cardPaddingTop, width, height, null); 
             }
             else{
                 g.setColor(Color.white);
@@ -840,7 +845,8 @@ public class GameGUI {
         }
         else{
             if(discardSetGui.cardsLeftInSet()>0){
-                g.drawImage(discardSetGui.getCardByPosInSet(discardSetGui.cardsLeftInSet()-1).getImgFull(), cardPaddingLeft, cardPaddingTop, width, height, null);           
+                Image image = cropImage(discardSetGui.getCardByPosInSet(discardSetGui.cardsLeftInSet()-1).getImgFull(),x,y,w,h);
+                g.drawImage(image, cardPaddingLeft, cardPaddingTop, width, height, null);  
             }
             else{
                 g.setColor(Color.white);
@@ -851,13 +857,9 @@ public class GameGUI {
     }
     
     public void paintDrawLeft(Graphics g, boolean paintOpponent){
-        float f=0.41f; //scale factor //Normally cards has 260x375 pixels
-        int width=round(260*f), height=round(375*f);
-        int cardPaddingTop=16;
+        int cardPaddingTop=55;
         int cardPaddingLeft=5;
-        
         Integer drawLeft;
-       
         if (paintOpponent==true)
             drawLeft=game.getOpponentPlayer().getDrawPile().cardsLeftInSet();
         else 
@@ -865,7 +867,7 @@ public class GameGUI {
 
         g.setColor(Color.white);
         g.setFont(new Font("Bookman Old Style", 1, 50));        
-        g.drawString(drawLeft.toString(),20,110); 
+        g.drawString(drawLeft.toString(),cardPaddingLeft,cardPaddingTop); 
     }
     
    private static void drawStringMultiLine(Graphics g, String text, int lineWidth, int x, int y) {
