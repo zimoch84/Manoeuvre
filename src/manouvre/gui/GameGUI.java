@@ -780,7 +780,7 @@ public class GameGUI {
             j=selectionSeq.get(selectionSeq.size()-1);              
             j=handSetGui.getPositionInSetByCardID(j); 
             int[] xPoints={cardPaddingLeft+35+width*j+(gap*j),cardPaddingLeft+95+width*j+(gap*j),cardPaddingLeft+35+(95-35)/2+width*j+(gap*j)};
-            int[] yPoints={cardPaddingTop+190,cardPaddingTop+190,cardPaddingTop+178};
+            int[] yPoints={cardPaddingTop+180,cardPaddingTop+180,cardPaddingTop+170};
             g.setColor(Color.white);
             g.setFont(new Font("Bookman Old Style", 1, 11));
             g.drawString("This card will be visible",cardPaddingLeft+width*j+(gap*j)-10,41+190);
