@@ -464,7 +464,7 @@ public class Card implements CardInterface, Serializable{
         return playable;
     }
     
-    public void setAvailableForPhase(int phase){
+    public void setAvailableForPhase(int phase,  Unit[] army){
         switch(phase){
             case Game.SETUP:
                  this.setPlayableInPhase(false);
@@ -482,7 +482,10 @@ public class Card implements CardInterface, Serializable{
                    this.setPlayableInPhase(true);
                 break;
             case Game.COMBAT:
-                this.setPlayableInPhase(true);//btestfalse 
+                for(int i=0; i<army.length;i++){
+                     if(this.CardName.equals(army[i].getName()))//find if there is unit with the card name
+                         this.setPlayableInPhase(true);//btestfalse 
+                }
                 break;
             case Game.RESTORATION:
                 if(this.CardName.equals("Supply")||
