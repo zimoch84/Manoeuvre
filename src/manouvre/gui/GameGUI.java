@@ -106,9 +106,9 @@ public class GameGUI {
     
         if(infoImage != null)
             
-            g.drawImage(infoImage, 0, 0,infoImage.getHeight(),infoImage.getHeight(), null);
+            g.drawImage(infoImage, 0, 0,infoImage.getWidth(),infoImage.getHeight(), null);
         
-    
+               
     }
     
 //------------- MAP - LEFT UPPER CORNER OF THE SCREEN -----------------------------------
@@ -760,20 +760,41 @@ public class GameGUI {
     public void mouseMovedOverHand(int mouseCoorX, int mouseCoorY){
         float f=0.5f; //scale factor //Normally cards has 260x375 pixels
         int width=round(260*f), height=round(375*f);
-        int cardPaddingTop=20;
-        int cardPaddingLeft=20;
+        int cardPaddingTop=40;
+        int cardPaddingLeft=10;
         int gap = 5;    
-        
+        setInfoImage(null);
         for (int i=0; i<handSetGui.cardsLeftInSet(); i++){  
-           if(mouseCoorY>(cardPaddingTop-20*handSetGui.getCardByPosInSet(i).isOverCard()-20*handSetGui.getCardByPosInSet(i).isSelected()) && mouseCoorY<(cardPaddingTop+height)){ // if mouse is in row with cards
-                if ((mouseCoorX>cardPaddingLeft+(gap*i)+width*(i)) && mouseCoorX<(cardPaddingLeft+(gap*i)+width*(i+1))){ //if mouse is in th collon with card
+            int mouseYmin = cardPaddingTop-20*handSetGui.getCardByPosInSet(i).isOverCard()-20*handSetGui.getCardByPosInSet(i).isSelected();
+            int mouseYmax = cardPaddingTop+height;
+            int mouseXmin = cardPaddingLeft+(gap*i)+width*(i);
+            int mouseXmax = cardPaddingLeft+(gap*i)+width*(i+1);
+            int halfCard = mouseYmin+(mouseYmax-mouseYmin)/2;
+            System.err.println("mouseYmin:" + mouseYmin);
+            System.err.println("mouseYmax:" + mouseYmax);
+            System.err.println("half card:" + halfCard);
+           if(mouseCoorY>mouseYmin && mouseCoorY<mouseYmax){ // if mouse is in row with cards
+                if (mouseCoorX>mouseXmin && mouseCoorX<mouseXmax){ //if mouse is in th collon with card
                     handSetGui.getCardByPosInSet(i).setOverCard(1);
+                    if(mouseCoorY>halfCard){//bottom card selection
+                        int x=0,y=375/2,w=260,h=375/2; //cropp image
+                        Image image = cropImage(handSetGui.getCardByPosInSet(i).getImgFull(),x,y,w,h);
+                        setInfoImage((BufferedImage)image);
+                    }
+                    if(mouseCoorY<=halfCard){//top card selection
+                        int x=0,y=0,w=260,h=375/2; //cropp image
+                        Image image = cropImage(handSetGui.getCardByPosInSet(i).getImgFull(),x,y,w,h);
+                        setInfoImage((BufferedImage)image);
+                    }
+      
                 } 
                 else{
                     handSetGui.getCardByPosInSet(i).setOverCard(0);
                 }
             }  
-            else  handSetGui.getCardByPosInSet(i).setOverCard(0);
+            else  {
+               handSetGui.getCardByPosInSet(i).setOverCard(0);
+           }
             
                 
                     
