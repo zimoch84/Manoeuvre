@@ -369,27 +369,23 @@ public final class Game implements Serializable{
                  
         
         int maxRow = getCurrentPlayer().isHost() ? Position.ROW_6 : Position.ROW_1;
-            
-        
         for(Terrain terrains: getMap().getTerrainz()){
         
             if(currentPlayer.isHost())
             {
                 if(terrains.getPosition().getY() < Position.ROW_7 && terrains.isPassable()) 
                 {
+                    
                     moves.add(terrains.getPosition());
                 }
       
             }
             else 
-                
-                if(terrains.getPosition().getY() > Position.ROW_1 && terrains.isPassable() ) 
-                {
-                    moves.add(terrains.getPosition());
-                }
-                
-                
-        
+  
+            if(terrains.getPosition().getY() > Position.ROW_1 && terrains.isPassable() ) 
+            {
+                moves.add(terrains.getPosition());
+            }
         }
         
         return moves;

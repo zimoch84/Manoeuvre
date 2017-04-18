@@ -624,6 +624,7 @@ public class GameGUI {
     for (Unit unit: currentPlayer.getArmy()){
              unit.setSelected(false);
              mapGui.setUnitSelected(false);
+             mapGui.getMap().unselectAllTerrains();
        }
        
     }
@@ -718,6 +719,8 @@ public class GameGUI {
         }
         if(selectionSeq.size()!=0){
             
+            if(game.getPhase() != Game.SETUP)
+            {
             /*
             FIX it
             set actual creference to card from set instead create new objest
@@ -725,18 +728,22 @@ public class GameGUI {
             Card playingCard = new Card(
                     selectionSeq.get(selectionSeq.size()-1)
                     );
+            
+            if(playingCard.canBePlayed(game))
+            {
             /*
             If card have only 1 attacking mode set it here to avoid custom dialog
             If card have 2 attacking mode then later we'll ask user about which mode he choses
             */
-            if(playingCard.getCardType() == CardInterface.UNIT)
-            {
-                if(playingCard.getPlayingPossibleCardModes().size() == 1 )
-                    playingCard.setPlayingCardMode(playingCard.getPlayingPossibleCardModes().get(0));
+                if(playingCard.getCardType() == Card.UNIT)
+                {
+                    if(playingCard.getPlayingPossibleCardModes().size() == 1 )
+                        playingCard.setPlayingCardMode(playingCard.getPlayingPossibleCardModes().get(0));
+                }
             }
-                    
         cardEngine.setPlayingCard(playingCard); //set this card to be played -> here will always come last selected card
         
+            }
         
         }
         else {
