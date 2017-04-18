@@ -43,6 +43,7 @@ import javax.swing.Box;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import manouvre.game.Card;
 
 
 
