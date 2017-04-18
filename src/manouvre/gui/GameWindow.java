@@ -1321,7 +1321,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         */
         else  
         {
-            if(!game.getCurrentPlayer().hasMoved() || gameGui.freeMove)
+            if(!game.getCurrentPlayer().hasMoved() || gameGui.freeMove || game.getCurrentPlayer().isPlayingCard())
             {
             Unit selectedUnit = game.getSelectedUnit();
             

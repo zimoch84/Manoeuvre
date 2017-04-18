@@ -731,12 +731,18 @@ public class GameGUI {
             FIX it
             set actual creference to card from set instead create new objest
             */
-            Card playingCard = new Card(
+            Card playingCard = 
+                    
+                    new Card(
                     selectionSeq.get(selectionSeq.size()-1)
                     );
             
             if(playingCard.canBePlayed(game))
             {
+                /*
+                Trigger action on selection
+                */
+                playingCard.actionOnSelection(game);
             /*
             If card have only 1 attacking mode set it here to avoid custom dialog
             If card have 2 attacking mode then later we'll ask user about which mode he choses
@@ -757,6 +763,27 @@ public class GameGUI {
             currentPlayer.setPlayingCard(false);
         } 
     }
+    public Card getCardFromMousePosition(int mouseCoorX, int mouseCoorY){
+        float f=0.5f; //scale factor //Normally cards has 260x375 pixels
+        int width=round(260*f), height=round(375*f);
+        int cardPaddingTop=40;
+        int cardPaddingLeft=10;
+        int gap = 5;    
+        for (int i=0; i<handSetGui.cardsLeftInSet(); i++){
+            int mouseYmin = cardPaddingTop-20*handSetGui.getCardByPosInSet(i).isOverCard()-20*handSetGui.getCardByPosInSet(i).isSelected();
+            int mouseYmax = cardPaddingTop+height;
+            int mouseXmin = cardPaddingLeft+(gap*i)+width*(i);
+            int mouseXmax = cardPaddingLeft+(gap*i)+width*(i+1);
+            
+            if(mouseCoorY>mouseYmin && mouseCoorY<mouseYmax){ 
+                if (mouseCoorX>mouseXmin && mouseCoorX<mouseXmax){ 
+                    return handSetGui.getCardByPosInSet(i).getCard();
+                }
+            }
+        }
+        return null;
+    }
+    
     public void mouseMovedOverHand(int mouseCoorX, int mouseCoorY){
         float f=0.5f; //scale factor //Normally cards has 260x375 pixels
         int width=round(260*f), height=round(375*f);
@@ -770,9 +797,10 @@ public class GameGUI {
             int mouseXmin = cardPaddingLeft+(gap*i)+width*(i);
             int mouseXmax = cardPaddingLeft+(gap*i)+width*(i+1);
             int halfCard = mouseYmin+(mouseYmax-mouseYmin)/2;
-            System.err.println("mouseYmin:" + mouseYmin);
+            /*System.err.println("mouseYmin:" + mouseYmin);
             System.err.println("mouseYmax:" + mouseYmax);
             System.err.println("half card:" + halfCard);
+            */
            if(mouseCoorY>mouseYmin && mouseCoorY<mouseYmax){ // if mouse is in row with cards
                 if (mouseCoorX>mouseXmin && mouseCoorX<mouseXmax){ //if mouse is in th collon with card
                     handSetGui.getCardByPosInSet(i).setOverCard(1);

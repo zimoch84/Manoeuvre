@@ -40,7 +40,7 @@ public class SetupPositionCommand implements Command{
             /*
             To clear has moved and other flags
             */
-            game.getCurrentPlayer().resetPlayer();
+            game.getPlayerByName(playerName).resetPlayer();
         }
         
         game.getPlayerByName(playerName).setFinishedSetup(true);

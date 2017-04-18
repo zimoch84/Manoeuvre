@@ -191,14 +191,6 @@ public class Unit implements UnitInterface, Serializable{
         this.retrieving = canRetrive;
     }
     
-     public boolean isIsSelected() {
-        return selected;
-    }
-
-    public void setIsSelected(boolean isSelected) {
-        this.selected = isSelected;
-    }
-    
     public boolean isHasAttacked() {
         return hasAttacked;
     }

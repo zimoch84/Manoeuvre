@@ -516,7 +516,7 @@ public class Card implements CardInterface, Serializable{
         
         if(isPlayableInPhase())
         {
-            switch (getCardType())
+            switch (getHQType())
             {
                 case Card.FORCED_MARCH :
                 if(game.getCurrentPlayer().hasMoved()) {
@@ -526,6 +526,41 @@ public class Card implements CardInterface, Serializable{
             }
         }
         return false;
+    }
+    
+    public void actionOnSelection(Game game){
+    
+    switch(getCardType()){
+        case Card.HQCARD:
+        {
+            switch (getHQType()){
+                case Card.FORCED_MARCH:
+                {
+                    game.getCurrentPlayer().getLastMovedUnit().setSelected(true);
+                }
+            
+            }
+        }
+            
+    }
+    
+    }
+    public void actionOnDeselection(Game game){
+    
+    switch(getCardType()){
+        case Card.HQCARD:
+        {
+            switch (getHQType()){
+                case Card.FORCED_MARCH:
+                {
+                    game.getCurrentPlayer().getLastMovedUnit().setSelected(false);
+                }
+            
+            }
+        }
+            
+    }
+    
     }
     
     public boolean isCardNotFoundInNation() {
