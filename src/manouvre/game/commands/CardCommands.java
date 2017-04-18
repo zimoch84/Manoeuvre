@@ -34,11 +34,19 @@ public static class MoveToTableCommand implements Command{
                 if(!card.getCanBeCancelled())
                 game.getCurrentPlayer().getTablePile().addCardToThisSet(game.getCurrentPlayer().getHand().drawCardFromSet(card));//remove card from own hand and put it on table
                 //repaint is made by CommandQueue
+                              
                 else{
-                    //card is not yet  at the table, opponent have to confirm
+                        //card is not yet  at the table, opponent have to confirm
                 }
             }else{
                 game.getCurrentPlayer().getTablePile().addCardToThisSet(game.getOpponentPlayer().getHand().drawCardFromSet(card)); //remove card from opponent hand and put it on table
+                game.getCardCommandFactory().setPlayingCard(card);
+               // game.getCardCommandFactory().setCancelCardPopupMode(true);
+                
+               
+                
+                
+
                 //repaint is made by CommandQueue
             }
         }
@@ -50,6 +58,7 @@ public static class MoveToTableCommand implements Command{
 
         @Override
         public String logCommand() {
+            if(card.getCanBeCancelled()) return card.getCardName() + " cart moved to the table " + senderPlayerName + " have to wait for acceptance";
             return card.getCardName() + " cart moved to the table";
         }
 
@@ -72,10 +81,14 @@ public static class RejectCardCommand implements Command{
         @Override
         public void execute(Game game) {
             if(game.getCurrentPlayer().getName().equals(senderPlayerName)){
-                game.getCurrentPlayer().getDiscardPile().addCardToThisSet(game.getCurrentPlayer().getTablePile().drawCardFromSet(card)); 
+                game.getCardCommandFactory().getPlayingCard().setCanBeCanceled(false);
+                game.getOpponentPlayer().getDiscardPile().addCardToThisSet(game.getCurrentPlayer().getTablePile().drawCardFromSet(card)); 
+                
             }
             else{
-                game.getOpponentPlayer().getDiscardPile().addCardToThisSet(game.getCurrentPlayer().getHand().drawCardFromSet(card));
+                game.getCardCommandFactory().getPlayingCard().setCanBeCanceled(false);
+                game.getCurrentPlayer().getDiscardPile().addCardToThisSet(game.getCurrentPlayer().getHand().drawCardFromSet(card));
+                 
             }
         }
 
@@ -108,10 +121,11 @@ public static class DoNotRejectCardCommand implements Command{
         @Override
         public void execute(Game game) {
             if(game.getCurrentPlayer().getName().equals(senderPlayerName)){
-                //do nothing here
+                game.getCardCommandFactory().getPlayingCard().setCanBeCanceled(false);
             }
             else{
                 game.getCurrentPlayer().getTablePile().addCardToThisSet(game.getCurrentPlayer().getHand().drawCardFromSet(card));//remove card from own hand and put it on table
+                game.getCardCommandFactory().getPlayingCard().setCanBeCanceled(false);
             }
         }
 

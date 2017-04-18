@@ -6,6 +6,8 @@
 package manouvre.game.commands;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import manouvre.game.Game;
 import manouvre.game.interfaces.ClientInterface;
 import manouvre.game.interfaces.Command;
@@ -43,7 +45,7 @@ public class CommandQueue {
       
       gameWindow.refreshAll();
       gameWindow.repaint();
-      cmd=null;//I thing we should delete commands after completion
+     // cmd=null;//I thing we should delete commands after completion
       
    }
     
@@ -54,7 +56,7 @@ public class CommandQueue {
       
       gameWindow.refreshAll();
       gameWindow.repaint();
-      cmd=null;//I thing we should delete commands  after completion
+     // cmd=null;//I thing we should delete commands  after completion
    }
     
     public void storeAndExecuteAndSend(Command cmd) {
@@ -70,7 +72,7 @@ public class CommandQueue {
         Message message = new Message(Message.COMMAND, game.getCurrentPlayer().getName() , cmd.getType(), "IN_CHANNEL");
         message.setCommand(cmd);
         client.send(message);
-        cmd=null;//I thing we should delete commands after completion
+       // cmd=null;//I thing we should delete commands after completion
         
         
       
@@ -96,5 +98,6 @@ public class CommandQueue {
          commands.remove(commands.size()-1);
     
     }
-    
+
+
 }

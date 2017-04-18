@@ -43,6 +43,18 @@ import javax.swing.Box;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
 
 
 /**
@@ -184,26 +196,32 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         setNextPhaseButonText(); 
         
         updateGui();
-        checkIfNewCardCanBeRejected();
+        //checkIfNewCardCanBeRejected();
     }
     
     public void updateGui(){
         gameGui.resetAllCardSets();
         
     }
-    public void  checkIfNewCardCanBeRejected(){
-        for(int i=0; i<gameGui.tableSetGui.cardsLeftInSet(); i++){
-            if(gameGui.tableSetGui.getCardByPosInSet(i).getCard().getCanBeCancelled())
-            {
-                game.getCardCommandFactory().setPlayingCard(gameGui.tableSetGui.getCardByPosInSet(i).getCard());
+    public void  checkPopUps(){  //show popup if card cen be cancelled
+        if(game.getCardCommandFactory().getPlayingCard()!=null){
+            if(game.getCardCommandFactory().getPlayingCard().getCanBeCancelled()){
                 Command rejectCard = game.getCardCommandFactory().createRejectCardCommand();
-     
-                CustomDialog dialog = new CustomDialog(CustomDialog.YES_NO_TYPE, "Your enemy played this card, will you reject?", cmdQueue, game);
-                gameGui.tableSetGui.getCardByPosInSet(i).getCard().setCanBeCanceled(false);
-                dialog.setOkCommand(rejectCard);
+                Command doNotRejectCard = game.getCardCommandFactory().createDoNotRejectCardCommand();
+                if(game.getCurrentPlayer().getHand().getCardByName("Guerrillas")!=null){//if player has Guerrillas
+                    CustomDialog dialog = new CustomDialog(CustomDialog.YES_NO_TYPE, game.getCurrentPlayer().getName()+" Your enemy played this card, will you reject?", cmdQueue, game);
+                    game.getCardCommandFactory().getPlayingCard().setCanBeCanceled(false);
+                    dialog.setOkCommand(rejectCard);
+                    dialog.setCancelCommand(doNotRejectCard);
+                } else{
+                    CustomDialog dialog = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, game.getCurrentPlayer().getName()+" Your enemy played this card, you can not reject..", cmdQueue, game);
+                    game.getCardCommandFactory().getPlayingCard().setCanBeCanceled(false);
+                    dialog.setOkCommand(doNotRejectCard);
+                    rejectCard=null;
+                }
             }
         }
-    } 
+    }
             
      
     private void setActionButtonText(){
@@ -816,7 +834,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         );
         playerDrawLeftPanelLayout.setVerticalGroup(
             playerDrawLeftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 37, Short.MAX_VALUE)
+            .addGap(0, 56, Short.MAX_VALUE)
         );
 
         jLabel2.setText("Units Killed:");
@@ -902,7 +920,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         );
         playerDrawLeftPanel1Layout.setVerticalGroup(
             playerDrawLeftPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 37, Short.MAX_VALUE)
+            .addGap(0, 56, Short.MAX_VALUE)
         );
 
         jLabel3.setText("Units Killed:");
@@ -996,10 +1014,8 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                     .addGroup(rightSidePanelLayout.createSequentialGroup()
                         .addGap(37, 37, 37)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(rightSidePanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(playersTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(playersTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tablePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1691,7 +1707,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                                          , "10 Cards\n\n"
                                                  + "1 in Britain\n"
                                                  + "1 in Austria\n"
-                                                 + "4 in Ottoman"
+                                                 + "4 in Ottoman\n"
                                                  + "1 in Prussia\n"
                                                  + "3 in Russia"
                                          , "Card Description"

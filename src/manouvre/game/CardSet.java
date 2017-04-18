@@ -255,7 +255,7 @@ public class CardSet implements CardSetInterface, Serializable{
                 return cardList.get(i);
             }
         }  
-        return cardList.get(0);
+        return (Card)null;
     }
      
     public String getCardNameByPosInSet(int cardPosition){

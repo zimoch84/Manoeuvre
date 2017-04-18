@@ -33,6 +33,12 @@ import manouvre.game.commands.EndSetupCommand;
 import manouvre.game.interfaces.CardInterface;
 import manouvre.game.interfaces.Command;
 import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
 
 
 
@@ -826,16 +832,16 @@ public class GameGUI {
             
     public void paintDiscard(Graphics g, boolean paintOpponent){
         CardGUI cardGui;
-        float f=0.6f; //scale factor //Normally cards has 260x375 pixels
-        int x=30,y=50,w=195,h=225; //cropp image
+        float f=0.5f; //scale factor //Normally cards has 260x375 pixels
+        int x=35,y=45,w=195,h=140; //cropp image
         int width=round(w*f), height=round(h*f);
-        int cardPaddingTop=18;
-        int cardPaddingLeft=5;
+        int cardPaddingTop=20;
+        int cardPaddingLeft=8;
         if (paintOpponent==true){
             if(game.getOpponentPlayer().getDiscardPile().cardsLeftInSet()>0){
                 cardGui=new CardGUI(game.getOpponentPlayer().getDiscardPile().lastCardFromThisSet(false));
-               // g.drawImage(cardGui.getImgFull(), cardPaddingLeft, cardPaddingTop, width, height, null); 
-                g.drawImage(cardGui.getImgFull(), cardPaddingLeft, cardPaddingTop, width, height, null); 
+                Image image = cropImage(cardGui.getImgFull(),x,y,w,h);
+                 g.drawImage(image, cardPaddingLeft, cardPaddingTop, width, height, null);  
             }
             else{
                 g.setColor(Color.white);
@@ -891,20 +897,7 @@ public class GameGUI {
         }
     }
 }
-    public void rejectIfPossible(){
-        Command rejectCard = game.getCardCommandFactory().createRejectCardCommand();
-        Command doNotRejectCard = game.getCardCommandFactory().createDoNotRejectCardCommand();
-        for (int i=0; i<tableSetGui.cardsLeftInSet(); i++){  
-         if(tableSetGui.getCardByPosInSet(i).getCard().getCanBeCancelled())//if card can be canceled
-            {
-                game.getCardCommandFactory().setPlayingCard(tableSetGui.getCardByPosInSet(i).getCard());
-                CustomDialog dialog = new CustomDialog(CustomDialog.YES_NO_TYPE, "Your enemy played this card, will you reject?", cmdQueue, game);
-                tableSetGui.getCardByPosInSet(i).getCard().setCanBeCanceled(false);
-                dialog.setOkCommand(rejectCard);
-                dialog.setCancelCommand(doNotRejectCard);
-            }
-        }
-    } 
+    
     public void paintTablePanel(Graphics g){
         Integer tempInt;
         String tempString;

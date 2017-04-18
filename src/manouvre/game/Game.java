@@ -8,6 +8,8 @@ package manouvre.game;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
+import manouvre.game.commands.CommandQueue;
+import manouvre.game.interfaces.Command;
 import static manouvre.game.interfaces.PositionInterface.COLUMN_H;
 import static manouvre.game.interfaces.PositionInterface.ROW_8;
 import manouvre.gui.CreateRoomWindow;
@@ -32,6 +34,7 @@ public final class Game implements Serializable{
        
     
     Map map;    
+    
 
     //ArrayList<Unit> units = new ArrayList<>();
 
@@ -44,6 +47,7 @@ public final class Game implements Serializable{
     boolean isServer=true;  //if this will not change game is set on Server
     
     CardCommandFactory cardCommandFactory;
+    
 
     public Game(ArrayList<Player> players) {
         this.hostPlayer = players.get(0);
@@ -710,6 +714,7 @@ public final class Game implements Serializable{
     public void setCardCommandFactory(CardCommandFactory cardCommandFactory) {
         this.cardCommandFactory = cardCommandFactory;
     }
+
     
    
     
