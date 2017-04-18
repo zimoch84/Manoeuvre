@@ -254,7 +254,7 @@ public class Card implements CardInterface, Serializable{
             case "Unit": 
                 return CardInterface.UNIT;
             case "HqUnit":
-                return CardInterface.HQUNIT;
+                return CardInterface.HQCARD;
             case "HqLeader":
                 return CardInterface.HQLEADER;
         }         

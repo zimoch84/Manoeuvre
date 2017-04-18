@@ -87,7 +87,7 @@ public class MapGUI{
     background= ImageIO.read( new File("resources\\backgrounds\\table800_800.jpg" ));
     
     }
-    
+   
     private void loadTerrains() throws IOException{
     
           for (int x=0;x<8;x++)
@@ -137,8 +137,16 @@ public class MapGUI{
     public void setUnitSelected(boolean unitSelected) {
         this.unitSelected = unitSelected;
     }
+
+    public Map getMap() {
+        return map;
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
+    }
+
     
-        
    }
     
     
