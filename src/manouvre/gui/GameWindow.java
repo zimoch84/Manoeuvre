@@ -1278,12 +1278,14 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                 gameGui.mouseMovedOverHand(handMouseCoorX, handMouseCoorY);
                 if(abs(handMouseCoorX-handMouseCoorXdeaf)>deafband){  //change repainting step
                     handMouseCoorXdeaf=handMouseCoorX;
-                    repaint(CURR_X, CURR_Y, CURR_W, CURR_H);
+                    //repaint(CURR_X, CURR_Y, CURR_W, CURR_H);
+                    repaint();
                 }
               
                 if(abs(handMouseCoorY-handMouseCoorYdeaf)>deafband){
                     handMouseCoorYdeaf=handMouseCoorY; 
-                    repaint(CURR_X, CURR_Y, CURR_W, CURR_H);
+                   // repaint(CURR_X, CURR_Y, CURR_W, CURR_H);
+                   repaint();
                 }
                 //System.out.println("x:" + handMouseCoorX + " y:"+handMouseCoorY);
                 
