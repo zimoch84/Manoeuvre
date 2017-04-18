@@ -100,7 +100,15 @@ public class Map implements MapInterface, Serializable{
         return terrains[pos.getX()][pos.getY()];
     }
     
-    
+        
+    public void unselectAllTerrains()
+    {
+        for(Terrain terrain: getTerrainz())
+      {
+          terrain.setSelected(false);
+        }
+    }
+        
     
     
 }

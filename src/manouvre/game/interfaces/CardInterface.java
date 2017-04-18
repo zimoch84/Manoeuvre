@@ -29,7 +29,7 @@ public interface CardInterface {
     Card Type
     */
     public static int UNIT=0;
-    public static int HQUNIT=1;
+    public static int HQCARD=1;
     public static int HQLEADER=2;
     
     /*
@@ -55,9 +55,7 @@ public interface CardInterface {
     public static int SPY = 13;
     public static int AMBUSH = 14;
     public static int REGROUP = 15;
-    
-    public static int HQCARD  = 6;
-    
+
     public static int ASSAULT = 202;
     public static int VOLLEY = 203;
     public static int BOMBARD = 204;

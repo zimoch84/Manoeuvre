@@ -43,18 +43,7 @@ import javax.swing.Box;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
+
 
 
 /**
@@ -1307,8 +1296,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         { 
         if(!gameGui.mapGui.isUnitSelected() )
             {
-           
-                Position clickedPos = Position.getPositionFromMouse(x, y);
+             Position clickedPos = Position.getPositionFromMouse(x, y);
                 if(clickedPos != null)
                 {
                    if(windowMode == CreateRoomWindow.AS_GUEST) 
@@ -1316,7 +1304,6 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                             clickedPos = clickedPos.transpoze();
                         }
                     game.getMap().getTerrainAtPosition(clickedPos).setSelected(true);    
-                   
                     System.out.println("manouvre.gui.GameWindow.mainMapPanelMouseClicked() " + clickedPos);
                     /*
                     If player clicks on unit select it
@@ -1324,15 +1311,10 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                     if(game.checkCurrentPlayerUnitAtPosition(clickedPos) ) {
                        gameGui.mapGui.setUnitSelected(true);
                        gameGui.getUnitGuiOnMapGui(clickedPos).getUnit().setSelected(true);
-
                        }
                 }
-                      
-                this.repaint();
+            this.repaint();
             }
-        
-            
-        
         /*
         If unit is selected find which unit to move and move into
         */
@@ -1345,35 +1327,58 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             Position clickedPosition = new Position(  Position.convertMouseXToX(x)   , Position.convertMouseYToY(y)) ;
             if(windowMode == CreateRoomWindow.AS_GUEST)
                     clickedPosition = clickedPosition.transpoze();
-            
+            /*
+            If we clicked on other position that selected unit.
+            */
             if(!selectedUnit.getPosition().equals(clickedPosition))
             {
                 System.out.println("manouvre.gui.ClientUI.mainMapPanelMouseClicked().clickedPosition :" + clickedPosition) ;
-                ArrayList<Position> movePositions;
+                ArrayList<Position> movePositions = null;
                 if(game.getPhase() == Game.SETUP)
                 {
                     movePositions = game.getSetupPossibleMovement();
-        }
+                }
                 else if (game.getCurrentPlayer().isPlayingCard() )
                 {
-                    movePositions = game.getOneSquareMovements(selectedUnit.getPosition());
+                    Card playingCard = game.getCardCommandFactory().getPlayingCard();
+                    switch(playingCard.getCardType()){
+                        
+                        case Card.HQCARD :
+                        {
+                            switch(playingCard.getHQType()){
+                           
+                                case Card.FORCED_MARCH:
+                                {
+                                   movePositions = game.getOneSquareMovements(selectedUnit.getPosition()); 
+                                   break;
+                                }
+                            }
+                            break;
+                        }
+     
+                    }
+                    
                 }
+                /*
+                There is no setup and we don playing card 
+                */
                 else{
                      movePositions = game.getPossibleMovement(selectedUnit);
                 }
-       
-        
+                /*
+                Check if we can move to clicked position
+                */    
                 for(Position checkPosition: movePositions){
-       
                     if(checkPosition.equals(clickedPosition))
                     {
                       MoveUnitCommand moveUnit = new MoveUnitCommand(game.getCurrentPlayer().getName() , selectedUnit,  clickedPosition);
-                        
+                        /*
+                      If we done play card and we are not in setup
+                      */
                         if(!game.getCurrentPlayer().isPlayingCard() && game.getPhase() != Game.SETUP)
                         {        
                                 cmdQueue.storeAndExecuteAndSend(moveUnit);
                         }
-                        
                         /*
                         Regular move has to be send but not the move from HQ or else cards
                         */
@@ -1386,7 +1391,6 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                             Confirmation dialog
                             */
                             CustomDialog dialog = new CustomDialog(CustomDialog.YES_NO_UNDO_TYPE, "Are You sure to play that card? " , client, game);
-                            
                             try {
                                 dialog.setOkCommand(game.getCardCommandFactory().createCardCommand());
                                 dialog.setCancelCommand(moveUnit);
@@ -1394,26 +1398,24 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                                 Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
                             }
                             dialog.setVisible(true);
-                            
-                            game.getCurrentPlayer().setPlayingCard(false);
                         }
-                        
+                        /*
+                        If we dont play card or we are in setup
+                        */
                         else 
                         {   
                             /*
                             Just execute on client
                             */
                             cmdQueue.storeAndExecute(moveUnit);
-                        
                         }
-                        
-                        
-                         //Move in game and GUI
-                        //Unselect all
-                        gameGui.unselectAllUnits();
-                        //exit loop
-                        
-                        break;
+
+                    //Unselect all
+                    gameGui.unselectAllUnits();
+                    /*
+                    If we hit in moving posiion we can exit loop
+                    */
+                    break;
                     }
                 }
                 mainMapPanel.repaint();

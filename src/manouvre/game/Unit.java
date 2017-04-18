@@ -162,7 +162,7 @@ public class Unit implements UnitInterface, Serializable{
     public void move(Position newPosition){
     
         setPosition(newPosition);
-        hasMoved = true;
+        setMoved(true);
             if(isSelected()) setSelected(false);
     }
     
