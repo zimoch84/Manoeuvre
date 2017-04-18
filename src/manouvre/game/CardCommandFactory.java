@@ -19,11 +19,21 @@ public class CardCommandFactory implements Serializable{
     Game game;
     Command attachedCommand, cardCommand;
      
-    Card playingCard;
+    Card playingCard=null;
     
     ArrayList<Position> attackingPositions;
 
     Unit selectedUnit;
+    
+    boolean cancelCardMode;
+
+    public boolean isCancelCardMode() {
+        return cancelCardMode;
+    }
+
+    public void setCancelCardPopupMode(boolean cancelCardMode) {
+        this.cancelCardMode = cancelCardMode;
+    }
     
     public CardCommandFactory(Game game) {
         
@@ -146,8 +156,4 @@ public class CardCommandFactory implements Serializable{
      public Command createMoveToHandCommand(CardSet cardSet, int numberOfChosenCards){
         return new CardCommands.MoveToHandCommand(cardSet,numberOfChosenCards, game.getCurrentPlayer().getName());
     }
-    
-    
-    
-    
 }

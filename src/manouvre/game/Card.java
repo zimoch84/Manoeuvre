@@ -101,7 +101,7 @@ public class Card implements CardInterface, Serializable{
     String LederGrandBatt="";                          
     String UnitDescr="";
     String EnableMove="";
-    String CanBeCancelled="";
+    String CanBeCanceledFromCSV="";
  			
     boolean canceled=false;
     boolean canBeCanceled = false;
@@ -149,7 +149,8 @@ public class Card implements CardInterface, Serializable{
             this.LederGrandBatt = cards.get("LederGrandBatt");
             this.UnitDescr = cards.get("UnitDescr");
             this.EnableMove = cards.get("EnableMove");
-            this.CanBeCancelled = cards.get("CanBeCancelled");
+            this.CanBeCanceledFromCSV = cards.get("CanBeCancelled");
+            setCanBeCanceled(getCanBeCanceledFromCsv());
 
             cards.close();
 
@@ -199,7 +200,9 @@ public class Card implements CardInterface, Serializable{
             this.LederGrandBatt = cards.get("LederGrandBatt");
             this.UnitDescr = cards.get("UnitDescr");
             this.EnableMove = cards.get("EnableMove");
-            this.CanBeCancelled = cards.get("CanBeCancelled");
+            this.CanBeCanceledFromCSV = cards.get("CanBeCancelled");
+            setCanBeCanceled(getCanBeCanceledFromCsv());
+            
             cards.close();
 
             } catch (FileNotFoundException e) {
@@ -342,9 +345,13 @@ public class Card implements CardInterface, Serializable{
          else return false;
          return false;
     }
-     public boolean getCanBeCancelled() {
-         if(!CanBeCancelled.equals(""))
-            if(Integer.parseInt(CanBeCancelled)==1)
+    
+    public boolean getCanBeCancelled() {
+         return canBeCanceled;
+    }
+     public boolean getCanBeCanceledFromCsv() {
+         if(!CanBeCanceledFromCSV.equals(""))
+            if(Integer.parseInt(CanBeCanceledFromCSV)==1)
             return true;
          else return false;
          return false;

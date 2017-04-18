@@ -87,6 +87,7 @@ class HostClient implements ClientInterface , Runnable{
             
                     Command executeCommand = msgIn.getCommand();
                     clientGameHost.cmdQueue.storeAndExecute(executeCommand);
+                    clientGameHost.checkPopUps();
                     break;
         default:
              System.out.println("Host Client" + msgIn.toString()) ;
@@ -139,6 +140,7 @@ class GuestClient implements ClientInterface , Runnable{
             case Message.COMMAND:
                 Command executeCommand = msgIn.getCommand();
                 clientGameGuest.cmdQueue.storeAndExecute(executeCommand);
+                clientGameGuest.checkPopUps();
                 break;
             default:
                  System.out.println("Guest Client" + msgIn.toString()) ;
