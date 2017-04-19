@@ -1395,7 +1395,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                             /*
                             Confirmation dialog
                             */
-                            CustomDialog dialog = new CustomDialog(CustomDialog.YES_NO_UNDO_TYPE, "Are You sure to play that card? " , client, game);
+                            CustomDialog dialog = new CustomDialog(CustomDialog.YES_NO_UNDO_TYPE, "Are You sure to play that card? " , cmdQueue, game);
                             try {
                                 dialog.setOkCommand(game.getCardCommandFactory().createCardCommand());
                                 dialog.setCancelCommand(moveUnit);

@@ -151,12 +151,13 @@ public static class ForcedMarchCommand implements Command {
         Command moveUnitCommand;
         Card card;
         Command moveToTableCommand;
+        String senderPlayerName;
     
         public ForcedMarchCommand(Command moveUnitCommand, Card card, String senderPlayerName) {
             this.moveUnitCommand = moveUnitCommand;
             this.card = card;
             this.moveToTableCommand = new CardCommands.MoveToTableCommand(card, senderPlayerName);
-            
+            this.senderPlayerName = senderPlayerName;
             
         }
 
@@ -176,7 +177,7 @@ public static class ForcedMarchCommand implements Command {
 
         @Override
         public String logCommand() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+             return senderPlayerName  + " played " + card.getCardName();
         }
 
         @Override
