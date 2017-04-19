@@ -45,6 +45,11 @@ public class CommandQueue {
       
       gameWindow.refreshAll();
       gameWindow.repaint();
+        
+      System.err.println("CommandQueue.storeAndExecute() " + cmd.toString() + " "
+              + game.getCurrentPlayer().getName() + " Phase" + 
+              game.getPhaseName(game.getPhase()));
+     
      // cmd=null;//I thing we should delete commands after completion
       
    }

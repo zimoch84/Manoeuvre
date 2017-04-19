@@ -39,6 +39,14 @@ import static java.lang.Math.round;
 import static java.lang.Math.round;
 import static java.lang.Math.round;
 import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
 
 
 
@@ -703,9 +711,10 @@ public class GameGUI {
         handSetGui.getCardByPosInSet(positionInSet).setSelected(1);
     }
     public void mouseClickedCard(CardCommandFactory cardEngine){
+        
         for (int i=0; i<handSetGui.cardsLeftInSet(); i++){     
             if(handSetGui.getCardByPosInSet(i).isOverCard()==1){
-                if(currentPlayer.getHand().getCardByPosInSet(i).isPlayableInPhase()){ //select card if it is playable
+                    if(currentPlayer.getHand().getCardByPosInSet(i).getAvailableForPhase(game.getPhase())){ //select card if it is playable
                     if(handSetGui.getCardByPosInSet(i).isSelected()==0) {
                         handSetGui.getCardByPosInSet(i).setSelected(1);
                         if(game.getPhase()==Game.MOVE||game.getPhase()==Game.COMBAT)//in this phase it is possible to select ONE card, thats why all have to be unselected before click
@@ -739,10 +748,11 @@ public class GameGUI {
             
             if(playingCard.canBePlayed(game))
             {
-                /*
-                Trigger action on selection
-                */
-                playingCard.actionOnSelection(game);
+            /*
+            Trigger action on selection
+            */
+            playingCard.actionOnSelection(game);
+            
             /*
             If card have only 1 attacking mode set it here to avoid custom dialog
             If card have 2 attacking mode then later we'll ask user about which mode he choses
@@ -752,10 +762,9 @@ public class GameGUI {
                     if(playingCard.getPlayingPossibleCardModes().size() == 1 )
                         playingCard.setPlayingCardMode(playingCard.getPlayingPossibleCardModes().get(0));
                 }
+            cardEngine.setPlayingCard(playingCard); //set this card to be played -> here will always come last selected card
             }
-        cardEngine.setPlayingCard(playingCard); //set this card to be played -> here will always come last selected card
-        
-            }
+        }
         
         }
         else {
@@ -792,7 +801,7 @@ public class GameGUI {
         int gap = 5;    
         setInfoImage(null);
         for (int i=0; i<handSetGui.cardsLeftInSet(); i++){  
-            int mouseYmin = cardPaddingTop-20*handSetGui.getCardByPosInSet(i).isOverCard()-20*handSetGui.getCardByPosInSet(i).isSelected();
+                int mouseYmin = cardPaddingTop-20*handSetGui.getCardByPosInSet(i).isOverCard()-20*handSetGui.getCardByPosInSet(i).isSelected();
             int mouseYmax = cardPaddingTop+height;
             int mouseXmin = cardPaddingLeft+(gap*i)+width*(i);
             int mouseXmax = cardPaddingLeft+(gap*i)+width*(i+1);
@@ -850,8 +859,12 @@ public class GameGUI {
             g.fillPolygon(xPoints, yPoints, 3);
         }  
         for (int i=0; i<handSetGui.cardsLeftInSet(); i++) {   
-            if((handSetGui.getCardByPosInSet(i).isOverCard()==1 || handSetGui.getCardByPosInSet(i).isSelected()==1)&&currentPlayer.getHand().getCardByPosInSet(i).isPlayableInPhase()) cardPaddingTopTemp=cardPaddingTop-20;
+            if((handSetGui.getCardByPosInSet(i).isOverCard()==1 || 
+                    handSetGui.getCardByPosInSet(i).isSelected()==1) 
+                    && currentPlayer.getHand().getCardByPosInSet(i).getAvailableForPhase(game.getPhase())) 
+                    cardPaddingTopTemp=cardPaddingTop-20;
             else cardPaddingTopTemp=cardPaddingTop;
+            
             g.drawImage(handSetGui.getCardByPosInSet(i).getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTopTemp, width, height, null);  
         }
     }

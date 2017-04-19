@@ -608,9 +608,9 @@ public final class Game implements Serializable{
 
     public void setPhase(int phase) {
         this.phase = phase;
-        setCardsInHandAsPlayableDueToPhase();
-        System.out.println("manouvre.game.Game.setPhase() " + 
-                 " Phase: " +  phase );
+        System.out.println("manouvre.game.Game.setPhase() " +  
+                ( currentPlayer != null ? getCurrentPlayer().getName() : "Brak curr" )+ " " +   
+                 " Phase: " +  getPhaseName(phase) );
     } 
     public void nextPhase() {
           
@@ -627,7 +627,7 @@ public final class Game implements Serializable{
             swapActivePlayer();
             phase=0;
         }
-        setCardsInHandAsPlayableDueToPhase();
+
         
     } 
     
@@ -653,12 +653,7 @@ public final class Game implements Serializable{
     
     }
    
-    public void setCardsInHandAsPlayableDueToPhase(){
-       if(currentPlayer!=null)
-            currentPlayer.setCardsInHandPlayableByPhase(phase);    
-         
-    }
-    
+ 
     /*
     Returns true if starting position of army is OK.
     */

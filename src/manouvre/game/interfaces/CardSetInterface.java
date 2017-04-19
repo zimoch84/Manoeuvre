@@ -19,7 +19,7 @@ public interface CardSetInterface {
     * @param range
     * @param otherCardSet 
     */
-   public void addRandomCardsFromOtherSet(int range, CardSetInterface otherCardSet, boolean isPlayabe);
+   public void addRandomCardsFromOtherSet(int range, CardSetInterface otherCardSet);
    
    /**
     * Deal the card to another set, f.ex. to USED CADS

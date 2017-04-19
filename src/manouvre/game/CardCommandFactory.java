@@ -139,10 +139,15 @@ public class CardCommandFactory implements Serializable{
         
     switch (playingCard.getCardType() ) {
     
-    
-        case Card.FORCED_MARCH : return new CardCommands.ForcedMarchCommand(attachedCommand, playingCard, game.getCurrentPlayer().getName()) ; 
-        default: return new CardCommands.MoveToTableCommand(playingCard, game.getCurrentPlayer().getName()) ; //if any card selected temp
-//throw new Exception("There is no such card type");
+        case Card.HQCARD :
+        {
+            switch(playingCard.getHQType()){
+            case Card.FORCED_MARCH : return new CardCommands.ForcedMarchCommand(attachedCommand, playingCard, game.getCurrentPlayer().getName()) ;
+            default: return new CardCommands.MoveToTableCommand(playingCard, game.getCurrentPlayer().getName()) ; //if any card selected temp
+        }
+        }    
+            
+    default: return new CardCommands.MoveToTableCommand(playingCard, game.getCurrentPlayer().getName()) ; //if any card selected temp
     }
     }
     

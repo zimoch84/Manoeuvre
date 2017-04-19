@@ -556,7 +556,7 @@ public class TestWindow extends javax.swing.JFrame {
         cmdQueue.storeAndExecuteAndSend(drawToHand);
         
        
-        game.setPhase(phase); //put back the game to previous phase
+            
 //        gameGui.getHandSetGui().reSet();
 //        gameWindow.repaint();
         this.dispose();

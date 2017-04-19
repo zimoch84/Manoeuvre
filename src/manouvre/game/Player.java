@@ -240,16 +240,7 @@ public class Player  implements Serializable{
                 ) ;
 
     }
-      
-    public void setCardsInHandPlayableByPhase(int phase) {
-        for(int i=0; i<getHand().cardsLeftInSet(); i++)
-            this.getHand().getCardByPosInSet(i).setAvailableForPhase(phase, army);
-    }
-    
-    
-   
-
-    public boolean isPlayingCard() {
+     public boolean isPlayingCard() {
         return playingCard;
     }
 
