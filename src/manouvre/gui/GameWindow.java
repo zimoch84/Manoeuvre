@@ -48,6 +48,126 @@ import static java.lang.Math.abs;
 import static java.lang.Math.abs;
 import static java.lang.Math.abs;
 import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
 
 
 
@@ -709,18 +829,17 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             .addGroup(buttonsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(buttonToNextPhase, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(buttonsPanelLayout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(gameTurnCounter, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(actionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(buttonToNextPhase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, buttonsPanelLayout.createSequentialGroup()
+                        .addComponent(gameTurnCounter, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(actionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(buttonsPanelLayout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(phaseNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(phaseNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         buttonsPanelLayout.setVerticalGroup(
@@ -752,7 +871,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         );
         tablePanelLayout.setVerticalGroup(
             tablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 279, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         chatPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Chat / Game Log"));
@@ -775,21 +894,20 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         chatPanel.setLayout(chatPanelLayout);
         chatPanelLayout.setHorizontalGroup(
             chatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(chatPanelLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, chatPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(chatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(chatPanelLayout.createSequentialGroup()
-                        .addComponent(sendText, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(sendMessageButton, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(51, 51, 51))
+                .addGroup(chatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, chatPanelLayout.createSequentialGroup()
+                        .addComponent(sendText)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(sendMessageButton)))
+                .addGap(280, 280, 280))
         );
         chatPanelLayout.setVerticalGroup(
             chatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(chatPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(chatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(sendText, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -996,10 +1114,11 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                     .addGroup(rightSidePanelLayout.createSequentialGroup()
                         .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(tablePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(chatPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(0, 0, 0))
+                            .addGroup(rightSidePanelLayout.createSequentialGroup()
+                                .addComponent(chatPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         rightSidePanelLayout.setVerticalGroup(
             rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1010,11 +1129,11 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(playersTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tablePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(chatPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tablePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chatPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -1043,7 +1162,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                         .addComponent(mainMapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(playerHandPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 19, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -1221,7 +1340,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(mainWindowPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(67, 67, 67))
+                .addGap(19, 19, 19))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1242,11 +1361,13 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
 
     
     private void playerHandPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseClicked
-                gameGui.mouseClickedCard(game.getCardCommandFactory()); 
-                setActionButtonText();  //when card is selected set the buttons
-                repaint();
-                if(game.getPhase()==Game.DISCARD)
-                    setActionButtonText();  //if selection was done discard button should be visible
+        handMouseCoorX = evt.getPoint().x;
+	handMouseCoorY = evt.getPoint().y;        
+        gameGui.mouseClickedCard(game.getCardCommandFactory(),handMouseCoorX,handMouseCoorY); 
+        setActionButtonText();  //when card is selected set the buttons
+        repaint();
+        if(game.getPhase()==Game.DISCARD)
+            setActionButtonText();  //if selection was done discard button should be visible
     }//GEN-LAST:event_playerHandPanelMouseClicked
 
     private void playerHandPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseEntered
@@ -1269,7 +1390,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                 handMouseCoorX = evt.getPoint().x;
 		handMouseCoorY = evt.getPoint().y;
     
-                gameGui.mouseMovedOverHand(handMouseCoorX, handMouseCoorY);
+                gameGui.setMouseOverCard(handMouseCoorX, handMouseCoorY);
                 if(abs(handMouseCoorX-handMouseCoorXdeaf)>deafband){  //change repainting step
                     handMouseCoorXdeaf=handMouseCoorX;
                     //repaint(CURR_X, CURR_Y, CURR_W, CURR_H);
