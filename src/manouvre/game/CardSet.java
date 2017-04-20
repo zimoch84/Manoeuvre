@@ -323,21 +323,26 @@ public class CardSet implements CardSetInterface, Serializable{
      public int getCardSetSize() {
         return cardSetSize;
     }
-
-     public Card getSelectedCard(){
      
-         if(isCardSelected())
-               for(Card checkCard : cardList){
-               
-                   if(checkCard.isSelected())
-                   {
-                       return checkCard;
-                   }
-                   
-               }
-         return null;
-              
+     public Card getCardFromSetByID(int cardID){
+          for (int i=0; i<cardList.size(); i++){
+            if(cardList.get(i).getCardID()==cardID){
+                return cardList.get(i);
+            }
+        }
+        return (Card)null;
+     
      }
+     
+    public Card getCardByCard(Card card){
+        for(Card checkCard : cardList){
+            if(checkCard.equals(card))
+            {
+                return checkCard;
+            }
+        }
+        return null;
+    }
      
    }
  

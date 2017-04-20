@@ -111,6 +111,7 @@ public class Card implements CardInterface, Serializable{
     boolean justToTry;
  
     boolean selected;
+    boolean mouseOverCard;
     /*
     Case if card is playing as an assoult or volley , bombard etc
     */
@@ -584,4 +585,13 @@ public class Card implements CardInterface, Serializable{
         
         else return false;
     }
+
+    public boolean isMouseOverCard() {
+        return mouseOverCard;
+    }
+
+    public void setMouseOverCard(boolean mouseOverCard) {
+        this.mouseOverCard = mouseOverCard;
+    }
+    
 }

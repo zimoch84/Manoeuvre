@@ -48,6 +48,126 @@ import static java.lang.Math.abs;
 import static java.lang.Math.abs;
 import static java.lang.Math.abs;
 import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
 
 
 
@@ -1241,11 +1361,13 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
 
     
     private void playerHandPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseClicked
-                gameGui.mouseClickedCard(game.getCardCommandFactory()); 
-                setActionButtonText();  //when card is selected set the buttons
-                repaint();
-                if(game.getPhase()==Game.DISCARD)
-                    setActionButtonText();  //if selection was done discard button should be visible
+        handMouseCoorX = evt.getPoint().x;
+	handMouseCoorY = evt.getPoint().y;        
+        gameGui.mouseClickedCard(game.getCardCommandFactory(),handMouseCoorX,handMouseCoorY); 
+        setActionButtonText();  //when card is selected set the buttons
+        repaint();
+        if(game.getPhase()==Game.DISCARD)
+            setActionButtonText();  //if selection was done discard button should be visible
     }//GEN-LAST:event_playerHandPanelMouseClicked
 
     private void playerHandPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseEntered
@@ -1268,7 +1390,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                 handMouseCoorX = evt.getPoint().x;
 		handMouseCoorY = evt.getPoint().y;
     
-                gameGui.mouseMovedOverHand(handMouseCoorX, handMouseCoorY);
+                gameGui.setMouseOverCard(handMouseCoorX, handMouseCoorY);
                 if(abs(handMouseCoorX-handMouseCoorXdeaf)>deafband){  //change repainting step
                     handMouseCoorXdeaf=handMouseCoorX;
                     //repaint(CURR_X, CURR_Y, CURR_W, CURR_H);
