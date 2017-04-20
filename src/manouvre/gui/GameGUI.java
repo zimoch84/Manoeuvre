@@ -990,7 +990,6 @@ public class GameGUI {
         if(selectionSeq.size()!=0){
             if(game.getPhase() != Game.SETUP)
             {
-      
             Card playingCard = handSetGui.getCardSet().getCardFromSetByID(selectionSeq.get(selectionSeq.size()-1));
             if(playingCard.canBePlayed(game))
             {

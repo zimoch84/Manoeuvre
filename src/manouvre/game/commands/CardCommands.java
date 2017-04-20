@@ -82,10 +82,15 @@ public static class RejectCardCommand implements Command{
         public void execute(Game game) {
             if(game.getCurrentPlayer().getName().equals(senderPlayerName)){
                 game.getCardCommandFactory().getPlayingCard().setCanBeCanceled(false);
+                Card gaurillas = game.getCurrentPlayer().getHand().getCardByName("Guerrillas");
+                game.getCurrentPlayer().getDiscardPile().addCardToThisSet(gaurillas); 
                 game.getOpponentPlayer().getDiscardPile().addCardToThisSet(game.getCurrentPlayer().getTablePile().drawCardFromSet(card)); 
                 
             }
             else{
+                Card gaurillas = game.getOpponentPlayer().getHand().getCardByName("Guerrillas");
+                game.getOpponentPlayer().getDiscardPile().addCardToThisSet(gaurillas); 
+                
                 game.getCardCommandFactory().getPlayingCard().setCanBeCanceled(false);
                 game.getCurrentPlayer().getDiscardPile().addCardToThisSet(game.getCurrentPlayer().getHand().drawCardFromSet(card));
                  
