@@ -8,8 +8,6 @@ package manouvre.game;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
-import manouvre.game.commands.CommandQueue;
-import manouvre.game.interfaces.Command;
 import static manouvre.game.interfaces.PositionInterface.COLUMN_H;
 import static manouvre.game.interfaces.PositionInterface.ROW_8;
 import manouvre.gui.CreateRoomWindow;
@@ -610,9 +608,9 @@ public final class Game implements Serializable{
 
     public void setPhase(int phase) {
         this.phase = phase;
-        setCardsInHandAsPlayableDueToPhase();
-        System.out.println("manouvre.game.Game.setPhase() " + 
-                 " Phase: " +  phase );
+        System.out.println("manouvre.game.Game.setPhase() " +  
+                ( currentPlayer != null ? getCurrentPlayer().getName() : "Brak curr" )+ " " +   
+                 " Phase: " +  getPhaseName(phase) );
     } 
     public void nextPhase() {
           
@@ -629,7 +627,7 @@ public final class Game implements Serializable{
             swapActivePlayer();
             phase=0;
         }
-        setCardsInHandAsPlayableDueToPhase();
+
         
     } 
     
@@ -655,12 +653,7 @@ public final class Game implements Serializable{
     
     }
    
-    public void setCardsInHandAsPlayableDueToPhase(){
-       if(currentPlayer!=null)
-            currentPlayer.setCardsInHandPlayableByPhase(phase);    
-         
-    }
-    
+ 
     /*
     Returns true if starting position of army is OK.
     */

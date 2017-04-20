@@ -31,7 +31,8 @@ public class DrawCardCommand implements Command {
     public void execute(Game game) {  
          if(!game.isServer())
          game.getCurrentPlayer().getName(); //temp just for check where we are
-            game.getPlayerByName(senderPlayerName).getHand().addCardsFromTheTopOfOtherSet(numberOfDrawnCards, game.getPlayerByName(senderPlayerName).getDrawPile(), false, true);
+            game.getPlayerByName(senderPlayerName).getHand().addCardsFromTheTopOfOtherSet(
+                    numberOfDrawnCards, game.getPlayerByName(senderPlayerName).getDrawPile(), false, true);
             game.getPlayerByName(senderPlayerName).getHand().sortCard();
             game.getPlayerByName(senderPlayerName).setDraw(true);
             
@@ -42,7 +43,7 @@ public class DrawCardCommand implements Command {
     public void undo(Game game){
       
     }
-   
+    
     @Override
     public String logCommand(){
         return new String(senderPlayerName + " has drawn " + numberOfDrawnCards + " cards");

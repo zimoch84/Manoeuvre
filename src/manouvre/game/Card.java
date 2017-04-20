@@ -105,9 +105,7 @@ public class Card implements CardInterface, Serializable{
  			
     boolean canceled=false;
     boolean canBeCanceled = false;
-
     
-    boolean playable=false;
     boolean cardNotFound=false;
 
     boolean justToTry;
@@ -456,54 +454,50 @@ public class Card implements CardInterface, Serializable{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void setPlayableInPhase(boolean playable) {
-        this.playable = playable;
-    }
-    
-    public boolean isPlayableInPhase() {
-        return playable;
-    }
-    
-    public void setAvailableForPhase(int phase,  Unit[] army){
+    /*
+    Check if card can be upped
+    */
+ 
+    public boolean getAvailableForPhase(int phase){
         switch(phase){
             case Game.SETUP:
-                 this.setPlayableInPhase(false);
-                 break;
+                 return false;
+                 
             case Game.DISCARD:
-                this.setPlayableInPhase(true);
-                break;
+                return true;
+              
             case Game.DRAW:
-                this.setPlayableInPhase(false);
-                break;
+                if(getHQType() == Card.SCOUT) 
+                    return true;
+                else return false;
             case Game.MOVE:
-                if(this.CardName.equals("Supply")||
-                        this.CardName.equals("Forced March"))
-                    
-                   this.setPlayableInPhase(true);
-                break;
+              if(  getHQType() != Card.REDOUBDT 
+                       || getHQType() != Card.REGROUP
+                       || getHQType() != Card.SKIRMICH
+                       || getHQType()  != Card.WITHDRAW
+
+                      )
+                    return true;
+                else return false;
             case Game.COMBAT:
-                for(int i=0; i<army.length;i++){
-                     if(this.CardName.equals(army[i].getName()))//find if there is unit with the card name
-                         this.setPlayableInPhase(true);//btestfalse 
-                }
-                break;
+                 if(  getHQType() != Card.REDOUBDT  
+                         || getHQType() != Card.REGROUP 
+                         || getHQType()  != Card.SUPPLY
+                         || getHQType()  != Card.FORCED_MARCH
+                         )
+                    return true;
+                else return false;
             case Game.RESTORATION:
-                if(this.CardName.equals("Supply")||
-                        this.CardName.equals("Regroup"))
-                       // this.getCardType()==CardInterface.UNIT||
-                       // thi-s.getCardType()==CardInterface.HQLEADER) btestfalse
-                    
-                   this.setPlayableInPhase(true);
-                for(int i=0; i<army.length;i++){ //playing unit during restoration phase can restore unit - this can be stopped by playing Gaurillas
-                     if(this.CardName.equals(army[i].getName()))//find if there is unit with the card name
-                         this.setPlayableInPhase(true); 
-                         this.setCanBeCanceled(true); //can be stopped by playing Gaurillas
-                }
-                break;
+                if(getHQType() == Card.REDOUBDT ||
+                        getHQType() == Card.REGROUP
+                    )
+                    return true;
                 
+                else return false;
+                   
         }
-       // if(this.CardName.equals("Supply"))
-            
+      return false;
+           
     }
 
     public boolean isSelected() {
@@ -519,9 +513,9 @@ public class Card implements CardInterface, Serializable{
     @Override
     public boolean canBePlayed(Game game) {
         
-        if(isPlayableInPhase())
+        if(getAvailableForPhase(game.getPhase()))
         {
-            switch (getCardType())
+            switch (getHQType())
             {
                 case Card.FORCED_MARCH :
                 if(game.getCurrentPlayer().hasMoved()) {
@@ -531,6 +525,43 @@ public class Card implements CardInterface, Serializable{
             }
         }
         return false;
+    }
+    
+    public void actionOnSelection(Game game){
+    
+    switch(getCardType()){
+        case Card.HQCARD:
+        {
+            switch (getHQType()){
+                case Card.FORCED_MARCH:
+                {
+                    game.getCurrentPlayer().getLastMovedUnit().setSelected(true);
+                    game.getMap().setUnitSelected(true);
+                }
+            
+            }
+        }
+            
+    }
+    
+    }
+    public void actionOnDeselection(Game game){
+    
+    switch(getCardType()){
+        case Card.HQCARD:
+        {
+            switch (getHQType()){
+                case Card.FORCED_MARCH:
+                {
+                    game.getCurrentPlayer().getLastMovedUnit().setSelected(false);
+                    game.getMap().setUnitSelected(false);
+                }
+            
+            }
+        }
+            
+    }
+    
     }
     
     public boolean isCardNotFoundInNation() {

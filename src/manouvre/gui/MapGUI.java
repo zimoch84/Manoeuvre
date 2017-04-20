@@ -47,7 +47,6 @@ public class MapGUI{
      ArrayList<TerrainGUI> wrappingArrayOfTerrains = new ArrayList<>();
      Map map;
      
-     boolean unitSelected;
 
      int windowMode;
     
@@ -82,7 +81,7 @@ public class MapGUI{
     this.windowMode = windowMode;
     
     this.terrainsGUI = new TerrainGUI[8][8];
-    unitSelected = false;
+    map.unitSelected = false;
     loadTerrains();
     background= ImageIO.read( new File("resources\\backgrounds\\table800_800.jpg" ));
     
@@ -131,11 +130,11 @@ public class MapGUI{
 
          
     public boolean isUnitSelected() {
-        return unitSelected;
+        return map.unitSelected;
     }
 
     public void setUnitSelected(boolean unitSelected) {
-        this.unitSelected = unitSelected;
+        map.unitSelected = unitSelected;
     }
 
     public Map getMap() {

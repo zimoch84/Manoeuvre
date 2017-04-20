@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 import manouvre.game.interfaces.MapInterface;
-import manouvre.game.interfaces.TerrainInterface;
+
 
 /**
  *
@@ -19,6 +19,7 @@ public class Map implements MapInterface, Serializable{
 
     private static final long serialVersionUID = 4665321L;
     Terrain[][] terrains ;
+    public boolean unitSelected;
 
     public Map() {
         this.terrains = new Terrain[8][8];
@@ -107,6 +108,14 @@ public class Map implements MapInterface, Serializable{
       {
           terrain.setSelected(false);
         }
+    }
+
+    public boolean isUnitSelected() {
+        return unitSelected;
+    }
+
+    public void setUnitSelected(boolean unitSelected) {
+        this.unitSelected = unitSelected;
     }
         
     

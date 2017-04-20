@@ -50,7 +50,10 @@ public class MoveUnitCommand implements Command {
         game.getMap().getTerrainAtXY(lastPosition.getX(), lastPosition.getY()).setIsOccupiedByUnit(false);
         game.getMap().getTerrainAtXY(newPosition.getX(), newPosition.getY()).setIsOccupiedByUnit(true);
         
-        if (game.getPhase()!=Game.SETUP)game.getPlayerByName(playerName).setMoved(true);
+        if (game.getPhase()!=Game.SETUP)
+        {
+            game.getPlayerByName(playerName).setMoved(true);
+        }
         
         
     }
