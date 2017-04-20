@@ -23,7 +23,7 @@ public class CardCommandFactory implements Serializable{
     
     ArrayList<Position> attackingPositions;
 
-    Unit selectedUnit;
+    Unit selectedUnit, attackedUnit;
     
     boolean cancelCardMode;
 
@@ -74,8 +74,24 @@ public class CardCommandFactory implements Serializable{
     }
     
     public void resetPlayingCard(){
-        this.playingCard = null;
+        
+        if(playingCard != null) 
+            this.playingCard.setSelected(false) ;
+       else 
+             this.playingCard = null;
+        
+        game.getCurrentPlayer().setPlayingCard(false);
     }
+
+    public Unit getAttackedUnit() {
+        return attackedUnit;
+    }
+
+    public void setAttackedUnit(Unit attackedUnit) {
+        this.attackedUnit = attackedUnit;
+    }
+    
+    
     
         /*
     Funtion to get current playing card
@@ -145,11 +161,18 @@ public class CardCommandFactory implements Serializable{
             case Card.FORCED_MARCH : return new CardCommands.ForcedMarchCommand(attachedCommand, playingCard, game.getCurrentPlayer().getName()) ;
             default: return new CardCommands.MoveToTableCommand(playingCard, game.getCurrentPlayer().getName()) ; //if any card selected temp
         }
+        }  
+        case Card.UNIT :
+        {
+            return new CardCommands.AttackCommand(getAttackedUnit(), playingCard, game.getCurrentPlayer().getName());
+        
         }    
+            
             
     default: return new CardCommands.MoveToTableCommand(playingCard, game.getCurrentPlayer().getName()) ; //if any card selected temp
     }
     }
+    
     
     public Command createRejectCardCommand(){
         return new CardCommands.RejectCardCommand(playingCard, game.getCurrentPlayer().getName());
