@@ -1063,9 +1063,7 @@ public class GameGUI {
     
     public void paintHand(Graphics g)                 
     {   
-    
     int cardPaddingTopTemp=cardPaddingTop;
-
         Integer j=0;
         if(!selectionSeq.isEmpty()){
             j=selectionSeq.get(selectionSeq.size()-1);              
