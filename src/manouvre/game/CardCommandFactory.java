@@ -153,7 +153,7 @@ public class CardCommandFactory implements Serializable{
         return new CardCommands.DoNotRejectCardCommand(playingCard, game.getCurrentPlayer().getName());
     }
     
-     public Command createMoveToHandCommand(CardSet cardSet, int numberOfChosenCards){
-        return new CardCommands.MoveToHandCommand(cardSet,numberOfChosenCards, game.getCurrentPlayer().getName());
+     public Command createMoveToHandCommand(CardSet cardSet, int numberOfChosenCards, boolean deleteCards){
+        return new CardCommands.MoveToHandCommand(cardSet,numberOfChosenCards, game.getCurrentPlayer().getName(), deleteCards);
     }
 }

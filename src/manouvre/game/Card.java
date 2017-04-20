@@ -494,6 +494,11 @@ public class Card implements CardInterface, Serializable{
                        // thi-s.getCardType()==CardInterface.HQLEADER) btestfalse
                     
                    this.setPlayableInPhase(true);
+                for(int i=0; i<army.length;i++){ //playing unit during restoration phase can restore unit - this can be stopped by playing Gaurillas
+                     if(this.CardName.equals(army[i].getName()))//find if there is unit with the card name
+                         this.setPlayableInPhase(true); 
+                         this.setCanBeCanceled(true); //can be stopped by playing Gaurillas
+                }
                 break;
                 
         }

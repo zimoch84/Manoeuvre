@@ -153,10 +153,12 @@ public class CardSet implements CardSetInterface, Serializable{
        }
        else System.err.println("Too many cards in:"+cardList.getClass().getName()+", sent from: "+ otherCardSet.getClass().getName());
        }  
-       if(deleteCards)otherCardSet.clear();
+       if(deleteCards)otherCardSet.clear(range);
     }
-      public void clear(){
-          cardList.clear();
+      public void clear(int range){ //remove first "range" cards set
+          for(int i=0; i<range; i++){
+             cardList.remove(0); 
+          }
       }
     /**
      * Returns the last card from the stack

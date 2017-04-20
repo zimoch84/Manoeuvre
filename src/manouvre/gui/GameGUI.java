@@ -770,9 +770,7 @@ public class GameGUI {
             int mouseXmin = cardPaddingLeft+(gap*i)+width*(i);
             int mouseXmax = cardPaddingLeft+(gap*i)+width*(i+1);
             int halfCard = mouseYmin+(mouseYmax-mouseYmin)/2;
-            System.err.println("mouseYmin:" + mouseYmin);
-            System.err.println("mouseYmax:" + mouseYmax);
-            System.err.println("half card:" + halfCard);
+            
            if(mouseCoorY>mouseYmin && mouseCoorY<mouseYmax){ // if mouse is in row with cards
                 if (mouseCoorX>mouseXmin && mouseCoorX<mouseXmax){ //if mouse is in th collon with card
                     handSetGui.getCardByPosInSet(i).setOverCard(1);

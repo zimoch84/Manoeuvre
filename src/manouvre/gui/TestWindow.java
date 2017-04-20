@@ -5,6 +5,9 @@
  */
 package manouvre.gui;
 
+import static java.lang.Thread.sleep;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import manouvre.game.Card;
 import manouvre.game.CardSet;
 import manouvre.game.Game;
@@ -373,7 +376,8 @@ public class TestWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Typ function"> 
     private void AmbushBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AmbushBoxActionPerformed
         if(!AmbushBox.isSelected()&& (tempNumberOfPossibleCards<5)) {
-            addPossibleToSelectCard();      
+            addPossibleToSelectCard();  
+            testCards.removeCardFromThisSet(ambush);
         }
         if(AmbushBox.isSelected() && (tempNumberOfPossibleCards>0)) {
             subPossibleToSelectCard();
@@ -389,6 +393,7 @@ public class TestWindow extends javax.swing.JFrame {
 // <editor-fold defaultstate="collapsed" desc="Typ function"> 
     private void EngineersBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EngineersBoxActionPerformed
         if(!EngineersBox.isSelected() && (tempNumberOfPossibleCards<5)) {
+            testCards.removeCardFromThisSet(engineers);
             addPossibleToSelectCard();
         }
         if(EngineersBox.isSelected() && tempNumberOfPossibleCards>0) {
@@ -406,6 +411,7 @@ public class TestWindow extends javax.swing.JFrame {
 // <editor-fold defaultstate="collapsed" desc="Typ function"> 
     private void WithdrawBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_WithdrawBoxActionPerformed
         if(!WithdrawBox.isSelected() && (tempNumberOfPossibleCards<5)) {
+            testCards.removeCardFromThisSet(withdraw);
             addPossibleToSelectCard();
         }
         if(WithdrawBox.isSelected() && tempNumberOfPossibleCards>0) {
@@ -426,6 +432,7 @@ public class TestWindow extends javax.swing.JFrame {
 // <editor-fold defaultstate="collapsed" desc="Typ function"> 
     private void CommitedAttackBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CommitedAttackBoxActionPerformed
         if(!CommitedAttackBox.isSelected() && (tempNumberOfPossibleCards<5)) {
+            testCards.removeCardFromThisSet(commitedAttack);
             addPossibleToSelectCard();
         }
         if(CommitedAttackBox.isSelected() && tempNumberOfPossibleCards>0) {
@@ -442,6 +449,7 @@ public class TestWindow extends javax.swing.JFrame {
 // <editor-fold defaultstate="collapsed" desc="Typ function"> 
     private void ForcedMarchBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ForcedMarchBoxActionPerformed
         if(!ForcedMarchBox.isSelected() && (tempNumberOfPossibleCards<5)) {
+            testCards.removeCardFromThisSet(forcedMarch);
             addPossibleToSelectCard();
         }
         if(ForcedMarchBox.isSelected() && tempNumberOfPossibleCards>0) {
@@ -458,6 +466,7 @@ public class TestWindow extends javax.swing.JFrame {
 // <editor-fold defaultstate="collapsed" desc="Typ function"> 
     private void GuerrillasBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuerrillasBoxActionPerformed
         if(!GuerrillasBox.isSelected() && (tempNumberOfPossibleCards<5)) {
+            testCards.removeCardFromThisSet(guerrillas);
             addPossibleToSelectCard();
         }
          if(GuerrillasBox.isSelected() && tempNumberOfPossibleCards>0) {
@@ -473,6 +482,7 @@ public class TestWindow extends javax.swing.JFrame {
 // <editor-fold defaultstate="collapsed" desc="Typ function"> 
     private void RedoubtBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RedoubtBoxActionPerformed
         if(!RedoubtBox.isSelected() && (tempNumberOfPossibleCards<5)) {
+            testCards.removeCardFromThisSet(redoubt);
             addPossibleToSelectCard();
         }
         if(RedoubtBox.isSelected() && tempNumberOfPossibleCards>0) {
@@ -488,6 +498,7 @@ public class TestWindow extends javax.swing.JFrame {
 // <editor-fold defaultstate="collapsed" desc="Typ function"> 
     private void RegroupBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegroupBoxActionPerformed
         if(!RegroupBox.isSelected() && (tempNumberOfPossibleCards<5)) {
+            testCards.removeCardFromThisSet(regroup);
             addPossibleToSelectCard();
         }
         if(RegroupBox.isSelected() && tempNumberOfPossibleCards>0) {
@@ -503,6 +514,7 @@ public class TestWindow extends javax.swing.JFrame {
 // <editor-fold defaultstate="collapsed" desc="Typ function"> 
     private void ScoutBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ScoutBoxActionPerformed
         if(!ScoutBox.isSelected() && (tempNumberOfPossibleCards<5)) {
+            testCards.removeCardFromThisSet(scout);
             addPossibleToSelectCard();
         }
         if(ScoutBox.isSelected() && tempNumberOfPossibleCards>0) {
@@ -518,6 +530,7 @@ public class TestWindow extends javax.swing.JFrame {
 // <editor-fold defaultstate="collapsed" desc="Typ function"> 
     private void SkirmishBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SkirmishBoxActionPerformed
         if(!SkirmishBox.isSelected() && (tempNumberOfPossibleCards<5)) {
+            testCards.removeCardFromThisSet(skirmish);
             addPossibleToSelectCard();
         }
         if(SkirmishBox.isSelected() && tempNumberOfPossibleCards>0) {
@@ -534,6 +547,7 @@ public class TestWindow extends javax.swing.JFrame {
     private void SupplyBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SupplyBoxActionPerformed
         if(!SupplyBox.isSelected() && (tempNumberOfPossibleCards<5)) {
             addPossibleToSelectCard();
+            testCards.removeCardFromThisSet(supply);
         }
         if(SupplyBox.isSelected() && tempNumberOfPossibleCards>0) {
             subPossibleToSelectCard();
@@ -552,13 +566,19 @@ public class TestWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_TextFieldActionPerformed
 
     private void drawCardsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drawCardsActionPerformed
-        Command drawToHand = game.getCardCommandFactory().createMoveToHandCommand(testCards,numberOfChosenCards);
-        cmdQueue.storeAndExecuteAndSend(drawToHand);
         
-       
-        game.setPhase(phase); //put back the game to previous phase
+        
+       if(tempNumberOfPossibleCards>0){
+        Command drawToHand = game.getCardCommandFactory().createMoveToHandCommand(game.getCurrentPlayer().getDrawPile(),tempNumberOfPossibleCards, true);
+        cmdQueue.storeAndExecuteAndSend(drawToHand);
+       }
+        
+       Command drawToHand = game.getCardCommandFactory().createMoveToHandCommand(testCards,numberOfChosenCards, true);
+        cmdQueue.storeAndExecuteAndSend(drawToHand);
+           game.setPhase(phase); //put back the game to previous phase
 //        gameGui.getHandSetGui().reSet();
 //        gameWindow.repaint();
+
         this.dispose();
         
     }//GEN-LAST:event_drawCardsActionPerformed

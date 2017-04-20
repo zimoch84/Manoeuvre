@@ -228,8 +228,10 @@ public static class MoveToHandCommand implements Command{    //just for test pop
         String senderPlayerName;
         CardSet cardSet;
         int numberOfChosenCards;
+        boolean deleteCards;
          StringBuilder stringBuilder=new StringBuilder();
-        public MoveToHandCommand(CardSet cardSet, int numberOfChosenCards, String senderPlayerName) {
+        public MoveToHandCommand(CardSet cardSet, int numberOfChosenCards, String senderPlayerName,  boolean deleteCards) {
+            this.deleteCards=deleteCards;
             this.cardSet=cardSet;
             this.numberOfChosenCards=numberOfChosenCards;
             this.senderPlayerName=senderPlayerName;
@@ -238,10 +240,10 @@ public static class MoveToHandCommand implements Command{    //just for test pop
         @Override
         public void execute(Game game) {
             if(game.getCurrentPlayer().getName().equals(senderPlayerName)){
-                game.getCurrentPlayer().getHand().addCardsFromOtherSet(numberOfChosenCards, cardSet, true, false);//add to own hand
+                game.getCurrentPlayer().getHand().addCardsFromOtherSet(numberOfChosenCards, cardSet, true, deleteCards);//add to own hand
                 
             }else{
-                game.getOpponentPlayer().getHand().addCardsFromOtherSet(numberOfChosenCards, cardSet, true, false); //add card to opponent hand
+                game.getOpponentPlayer().getHand().addCardsFromOtherSet(numberOfChosenCards, cardSet, true, deleteCards); //add card to opponent hand
                 //repaint is made by CommandQueue
             }
         }

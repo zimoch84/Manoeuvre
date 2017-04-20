@@ -5,6 +5,7 @@
  */
 package manouvre.game.commands;
 
+import static java.lang.Thread.sleep;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -70,6 +71,7 @@ public class CommandQueue {
         
 
         Message message = new Message(Message.COMMAND, game.getCurrentPlayer().getName() , cmd.getType(), "IN_CHANNEL");
+      
         message.setCommand(cmd);
         client.send(message);
        // cmd=null;//I thing we should delete commands after completion
