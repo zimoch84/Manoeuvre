@@ -100,33 +100,6 @@ public class CardGUI {
         return OverCard;
     }
 
-    public void setSelected(int isSelected) {
-        this.Selected = isSelected;
-        if(isSelected==1)this.card.setSelected(true);
-        if(isSelected==2)this.card.setSelected(false);
-    }
-    
-    public int isSelected() {
-        return Selected;
-    }
-
-    public void printSelect(){
-        System.out.println(card.getCardName()+" Card Selection Status:"+Selected);
-        
-    }
-    
-    public void printOverCard(){
-        System.out.println("Mouse Over "+card.getCardName()+" Card Status: "+OverCard);
-        
-    }
-
-    public void setSelectionSeq(int selectionSeq) {
-        this.selectionSeq = selectionSeq;
-    }
-    
-    public int getSelectionSeq() {
-        return selectionSeq;
-    }
     public int getFlag() {
         return card.getCardFlag();
     }
@@ -141,11 +114,4 @@ public class CardGUI {
        return card;
    }
     
-    public void onSelected(GameGUI gameGui)
-        {
-    
-        }
-    
-    
-  
 }
