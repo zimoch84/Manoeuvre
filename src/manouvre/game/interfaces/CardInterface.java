@@ -60,7 +60,8 @@ public interface CardInterface {
     public static int VOLLEY = 203;
     public static int BOMBARD = 204;
             
-    
+    public static int MOVE_ACTION = 500;
+    public static int PICK_ACTION = 501;
     
     /*
     Return CardID 

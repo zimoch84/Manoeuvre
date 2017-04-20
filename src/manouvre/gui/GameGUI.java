@@ -391,6 +391,7 @@ public class GameGUI {
                    }
                 break;    
                 }   
+                default: System.err.println("drawCardSelections()  Brak typu karty " + playingCard.toString());
             }
                
         }

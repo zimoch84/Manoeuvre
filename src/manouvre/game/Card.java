@@ -211,6 +211,33 @@ public class Card implements CardInterface, Serializable{
          
      }
     
+    public int getAtionType(int phase){
+        
+        if(getHQType()== Card.FORCED_MARCH )
+            return Card.MOVE_ACTION;
+        if(getHQType()== Card.SUPPLY) 
+        {
+          if(phase == Game.MOVE ){
+            return Card.MOVE_ACTION;
+          }
+            else 
+            return Card.PICK_ACTION;
+         
+        }
+        if(getHQType()== Card.REDOUBDT ||
+           getHQType()== Card.REGROUP ||
+           getHQType()== Card.SKIRMICH ||     
+           getHQType()== Card.AMBUSH ||
+           getCardType() == Card.UNIT)
+  
+        {
+            return Card.PICK_ACTION;
+        }
+        
+     return 0;   
+          
+    }
+     
     public int getChosenID() {
         return chosenID;
     }
