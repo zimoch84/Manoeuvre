@@ -1210,7 +1210,8 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         });
         jMenu3.add(MoveToTableCommand);
 
-        jMenuItem4.setText("jMenuItem4");
+        jMenuItem4.setText("Attack");
+        jMenuItem4.setToolTipText("Attacking card must be selected");
         jMenu3.add(jMenuItem4);
 
         jMenu1.add(jMenu3);

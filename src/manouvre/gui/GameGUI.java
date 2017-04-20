@@ -957,8 +957,11 @@ public class GameGUI {
         for (int i=0; i<handSetGui.getCardSet().cardsLeftInSet(); i++){ 
             handSetGui.getCardSet().getCardByPosInSet(i).setSelected(false);
         }
-        if(handSetGui.getCardSet().getCardByCard(cardClicked)!=null)
+        selectionSeq.clear();
+        if(handSetGui.getCardSet().getCardByCard(cardClicked)!=null){
         handSetGui.getCardSet().getCardByCard(cardClicked).setSelected(true);
+        selectionSeq.add((Integer)cardClicked.getCardID());
+        }
         else System.err.println("CARD IS NOT SELECTED - check GameGui.java method: keepOneSelectedCard");
     }
     public void mouseClickedCard(CardCommandFactory cardEngine, int mouseX, int mouseY){
@@ -969,9 +972,10 @@ public class GameGUI {
                     cardClicked.setSelected(true);
                     if(game.getPhase()==Game.MOVE||game.getPhase()==Game.COMBAT)//in this phase it is possible to select ONE card, thats why all have to be unselected before click
                     {
+                        game.getCardCommandFactory().setPlayingCard(cardClicked);
                         keepOneSelectedCard(cardClicked);
                     }
-                    selectionSeq.add(cardClicked.getCardID()); 
+                    selectionSeq.add((Integer)cardClicked.getCardID()); 
                     if(game.getPhase()!=Game.DISCARD)currentPlayer.setPlayingCard(true);  //not playing cards on Table during Discard
                 }   
                 else {
@@ -1071,8 +1075,10 @@ public class GameGUI {
             int[] yPoints={cardPaddingTop+180,cardPaddingTop+180,cardPaddingTop+170};
             g.setColor(Color.white);
             g.setFont(new Font("Bookman Old Style", 1, 11));
+            if(game.getPhase()==Game.DISCARD){
             g.drawString("This card will be visible",cardPaddingLeft+width*j+(gap*j)-10,41+190);
-            g.drawString("on the Discard Pile",cardPaddingLeft+width*j+(gap*j)+0,54+190);  
+            g.drawString("on the Discard Pile",cardPaddingLeft+width*j+(gap*j)+0,54+190); 
+            }
             g.fillPolygon(xPoints, yPoints, 3);
         }  
         for (int i=0; i<handSetGui.cardsLeftInSet(); i++) {   

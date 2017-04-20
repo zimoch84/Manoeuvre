@@ -105,7 +105,8 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuItem4">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="jMenuItem4"/>
+                    <Property name="text" type="java.lang.String" value="Attack"/>
+                    <Property name="toolTipText" type="java.lang.String" value="Attacking card must be selected"/>
                   </Properties>
                 </MenuItem>
               </SubComponents>
