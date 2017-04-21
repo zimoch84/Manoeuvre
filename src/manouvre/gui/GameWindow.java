@@ -1435,6 +1435,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                     TODO getPossibleUnitsToSelect() and select it - do regular Move
                     */  
                 }
+                break;
                 }
                 case Card.PICK_ACTION:    
                 {
@@ -1452,7 +1453,8 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                 game.getCardCommandFactory().resetPlayingCard();
                 this.repaint();
                 }   
-              }
+                break;
+                }
             }}
       
         }

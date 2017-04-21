@@ -374,7 +374,7 @@ public class GameGUI {
                    }
                 break;    
                 }   
-                default: System.err.println("drawCardSelections()  Brak typu karty " + playingCard.toString());
+                default: System.err.println("drawCardSelections()  Brak typu karty " + playingCard.getCardName());
             }
                
         }
@@ -752,7 +752,7 @@ public class GameGUI {
                     if(playingCard.getPlayingPossibleCardModes().size() == 1 )
                         playingCard.setPlayingCardMode(playingCard.getPlayingPossibleCardModes().get(0));
                 }
-            cardFactory.setPlayingCard(playingCard); //set this card to be played -> here will always come last selected card
+            
             }
     
     }
