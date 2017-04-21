@@ -27,6 +27,7 @@ public class EndTurnCommand implements Command{
     public void execute(Game game) {
         game.nextTurn();
         game.setPhase(Game.DISCARD);
+        game.getMap().unselectAllTerrains();
         game.getPlayerByName(activePlayerName).resetPlayer();
         game.getCardCommandFactory().resetFactory();
         game.swapActivePlayer();

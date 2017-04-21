@@ -84,6 +84,7 @@ public static class RejectCardCommand implements Command{
                 Card guerrillas = game.getCurrentPlayer().getHand().getCardByName("Guerrillas", true);
                 game.getCurrentPlayer().getDiscardPile().addCardToThisSet(guerrillas); 
                 game.getOpponentPlayer().getDiscardPile().addCardToThisSet(game.getCurrentPlayer().getTablePile().drawCardFromSet(card)); 
+                               
             }
             else{
                 game.undoCommandBeforeLast(true);
@@ -93,6 +94,10 @@ public static class RejectCardCommand implements Command{
                 game.getOpponentPlayer().getDiscardPile().addCardToThisSet(guerrillas); 
                 
                 game.getCurrentPlayer().getDiscardPile().addCardToThisSet(game.getCurrentPlayer().getHand().drawCardFromSet(card));
+                game.getCardCommandFactory().resetFactory();
+                
+                
+                
             }
         }
 
@@ -126,10 +131,14 @@ public static class DoNotRejectCardCommand implements Command{
         public void execute(Game game) {
             if(game.getCurrentPlayer().getName().equals(senderPlayerName)){
                 game.getCardCommandFactory().getPlayingCard().setCanBeCanceled(false);
+                
+                game.getPlayerByName(senderPlayerName).setPlayingCard(false);
+                game.getCardCommandFactory().resetFactory();
             }
             else{
                 game.getCurrentPlayer().getTablePile().addCardToThisSet(game.getCurrentPlayer().getHand().drawCardFromSet(card));//remove card from own hand and put it on table
                 game.getCardCommandFactory().getPlayingCard().setCanBeCanceled(false);
+                game.getCardCommandFactory().resetFactory();
             }
         }
 
@@ -196,12 +205,13 @@ public static class AttackCommand implements Command {
         Unit attackedUnit;
         Card card;
         Command moveToTableCommand;
+        String senderPlayerName;
         
         public AttackCommand(Unit attackedUnit, Card card, String senderPlayerName) {
             this.attackedUnit = attackedUnit;
             this.card = card;
             this.moveToTableCommand = new CardCommands.MoveToTableCommand(card, senderPlayerName);
-            
+            this.senderPlayerName = senderPlayerName;
             
         }
         @Override
@@ -218,12 +228,12 @@ public static class AttackCommand implements Command {
 
         @Override
         public String logCommand() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            return senderPlayerName  + " played " + card.getCardName();
         }
 
         @Override
         public int getType() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+           return Param.PLAY_CARD;
         }
    
     }

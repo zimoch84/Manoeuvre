@@ -141,7 +141,7 @@ public class CardCommandFactory implements Serializable{
     {
         setAttachedCommand(null);
         setAttackingPositions(null);
-        setPlayingCard(null);
+        resetPlayingCard();
         setSelectedUnit(null);
         
     }
