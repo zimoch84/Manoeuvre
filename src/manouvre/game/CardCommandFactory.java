@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import manouvre.game.commands.CardCommands;
 import manouvre.game.interfaces.CardCommandInterface;
-import manouvre.game.interfaces.CommandInterface;
+import manouvre.game.interfaces.Command;
 
 /**
  * Class to serve for whole card flow in game.
@@ -18,7 +18,7 @@ import manouvre.game.interfaces.CommandInterface;
 public class CardCommandFactory implements Serializable{
     
     Game game;
-    CommandInterface attachedCommand;
+    Command attachedCommand;
     CardCommandInterface cardCommand;
 
     
@@ -61,11 +61,11 @@ public class CardCommandFactory implements Serializable{
         this.selectedUnit = selectedUnit;
     }
 
-    public CommandInterface getAttachedCommand() {
+    public Command getAttachedCommand() {
         return attachedCommand;
     }
 
-    public void setAttachedCommand(CommandInterface attachedCommand) {
+    public void setAttachedCommand(Command attachedCommand) {
         this.attachedCommand = attachedCommand;
     }
 
@@ -153,7 +153,7 @@ public class CardCommandFactory implements Serializable{
     /*
     Crate card command based on Card
     */
-    public CommandInterface createCardCommand() {
+    public Command createCardCommand() {
     
     playingCard= getCurrentPlayedCard();
         
@@ -178,14 +178,14 @@ public class CardCommandFactory implements Serializable{
     }
     
     
-    public CommandInterface createRejectCardCommand(){
+    public Command createRejectCardCommand(){
         return new CardCommands.RejectCardCommand(playingCard, game.getCurrentPlayer().getName());
     }
-    public CommandInterface createDoNotRejectCardCommand(){
+    public Command createDoNotRejectCardCommand(){
         return new CardCommands.DoNotRejectCardCommand(playingCard, game.getCurrentPlayer().getName());
     }
     
-     public CommandInterface createMoveToHandCommand(CardSet cardSet, int numberOfChosenCards, boolean deleteCards){
+     public Command createMoveToHandCommand(CardSet cardSet, int numberOfChosenCards, boolean deleteCards){
         return new CardCommands.MoveToHandCommand(cardSet,numberOfChosenCards, game.getCurrentPlayer().getName(), deleteCards);
     }
      

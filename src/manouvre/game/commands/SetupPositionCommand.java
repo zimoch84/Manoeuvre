@@ -8,7 +8,7 @@ package manouvre.game.commands;
 import java.util.ArrayList;
 import manouvre.game.Game;
 import manouvre.game.Unit;
-import manouvre.game.interfaces.CommandInterface;
+import manouvre.game.interfaces.Command;
 
 /**
  *
@@ -17,7 +17,7 @@ import manouvre.game.interfaces.CommandInterface;
  * Set flag setupFinished
  *       
  */
-public class SetupPositionCommand implements CommandInterface{
+public class SetupPositionCommand implements Command{
 
     ArrayList<Unit> units;
     String playerName;

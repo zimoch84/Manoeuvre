@@ -12,7 +12,7 @@ import manouvre.gui.GameWindow;
 import manouvre.gui.LoginWindow;
 import manouvre.gui.MainChatWindow;
 import manouvre.gui.RoomWindow;
-import manouvre.game.interfaces.CommandInterface;
+import manouvre.game.interfaces.Command;
 
 public class SocketClient implements Runnable, ClientInterface{
     
@@ -264,7 +264,7 @@ public class SocketClient implements Runnable, ClientInterface{
                        break;
                       
                    case Message.COMMAND:
-                        CommandInterface executeCommand = msg.getCommand();
+                        Command executeCommand = msg.getCommand();
                 
                     /*
                     Executing command over game on socketClient

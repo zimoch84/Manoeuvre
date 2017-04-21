@@ -9,10 +9,10 @@ import manouvre.game.Game;
 import manouvre.game.Param;
 import manouvre.game.Position;
 import manouvre.game.Unit;
-import manouvre.game.interfaces.CommandInterface;
+import manouvre.game.interfaces.Command;
 
 
-public class MoveUnitCommand implements CommandInterface {
+public class MoveUnitCommand implements Command {
 
     private static final long serialVersionUID = -1306760703066967345L;
     int x,y,lastx, lasty;

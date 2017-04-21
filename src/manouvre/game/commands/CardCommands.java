@@ -10,8 +10,8 @@ import manouvre.game.CardSet;
 import manouvre.game.Game;
 import manouvre.game.Param;
 import manouvre.game.Unit;
-import manouvre.game.interfaces.CommandInterface;
 import manouvre.game.interfaces.CardCommandInterface;
+import manouvre.game.interfaces.Command;
 
 /**
  *
@@ -168,12 +168,12 @@ public static class DoNotRejectCardCommand implements CardCommandInterface{
 
 public static class ForcedMarchCommand implements CardCommandInterface {
 
-        CommandInterface moveUnitCommand;
+        Command moveUnitCommand;
         Card card;
-        CommandInterface moveToTableCommand;
+        Command moveToTableCommand;
         String senderPlayerName;
     
-        public ForcedMarchCommand(CommandInterface moveUnitCommand, Card card, String senderPlayerName) {
+        public ForcedMarchCommand(Command moveUnitCommand, Card card, String senderPlayerName) {
             this.moveUnitCommand = moveUnitCommand;
             this.card = card;
             this.moveToTableCommand = new CardCommands.MoveToTableCommand(card, senderPlayerName);
@@ -211,11 +211,11 @@ public static class ForcedMarchCommand implements CardCommandInterface {
 
 
 }    
-public static class AttackCommand implements CommandInterface {
+public static class AttackCommand implements Command {
 
         Unit attackedUnit;
         Card card;
-        CommandInterface moveToTableCommand;
+        Command moveToTableCommand;
         String senderPlayerName;
         
         public AttackCommand(Unit attackedUnit, Card card, String senderPlayerName) {
@@ -248,7 +248,7 @@ public static class AttackCommand implements CommandInterface {
         }
    
     }
-public static class MoveToHandCommand implements CommandInterface{    //just for test popup
+public static class MoveToHandCommand implements Command{    //just for test popup
             
     
         String senderPlayerName;

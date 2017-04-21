@@ -10,7 +10,7 @@ import manouvre.game.Game;
 import manouvre.game.Player;
 import manouvre.game.interfaces.CardInterface;
 import manouvre.network.client.Message;
-import manouvre.game.interfaces.CommandInterface;
+import manouvre.game.interfaces.Command;
 
 /**
  *
@@ -213,7 +213,7 @@ public class ServerMessageHandler {
                      */
                     gameRoom = server.getRoomByPort(portID);
                     
-                    CommandInterface executeCommand = msg.getCommand();
+                    Command executeCommand = msg.getCommand();
                     
                     /*
                     Executing command over game on server

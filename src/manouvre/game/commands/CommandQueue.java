@@ -14,7 +14,9 @@ import manouvre.game.interfaces.ClientInterface;
 import manouvre.gui.CommandLogger;
 import manouvre.gui.GameWindow;
 import manouvre.network.client.Message;
-import manouvre.game.interfaces.CommandInterface;
+import static java.lang.Thread.sleep;
+import manouvre.game.interfaces.Command;
+import static java.lang.Thread.sleep;
 import static java.lang.Thread.sleep;
 
 /**
@@ -23,7 +25,7 @@ import static java.lang.Thread.sleep;
  */
 public class CommandQueue {
     
-    ArrayList<CommandInterface> commands = new ArrayList<CommandInterface>();
+    ArrayList<Command> commands = new ArrayList<Command>();
     Game game;
     
     CommandLogger commandLogger;
@@ -39,7 +41,7 @@ public class CommandQueue {
     }
     
 
-    public void storeAndExecute(CommandInterface cmd) {
+    public void storeAndExecute(Command cmd) {
       this.commands.add(cmd);
       cmd.execute(game);
       commandLogger.log(cmd);
@@ -56,7 +58,7 @@ public class CommandQueue {
       
    }
     
-    public void storeAndExecuteWithoutLogs(CommandInterface cmd) {
+    public void storeAndExecuteWithoutLogs(Command cmd) {
       this.commands.add(cmd);
       cmd.execute(game);
       
@@ -66,7 +68,7 @@ public class CommandQueue {
      // cmd=null;//I thing we should delete commands  after completion
    }
     
-    public void storeAndExecuteAndSend(CommandInterface cmd) {
+    public void storeAndExecuteAndSend(Command cmd) {
         this.commands.add(cmd);
         
         commandLogger.log(cmd);
@@ -85,7 +87,7 @@ public class CommandQueue {
         
       
    }
-    public void undoCommand(CommandInterface cmd) {
+    public void undoCommand(Command cmd) {
     
          this.commands.add(cmd);
          cmd.undo(game);
@@ -96,7 +98,7 @@ public class CommandQueue {
     
     public void undoLastCommand() {
     
-         CommandInterface cmd = commands.get(commands.size()-1);
+         Command cmd = commands.get(commands.size()-1);
          cmd.undo(game);
          gameWindow.repaint();
          gameWindow.refreshAll();

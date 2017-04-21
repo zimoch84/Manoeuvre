@@ -12,7 +12,7 @@ import manouvre.game.Game;
  *
  * @author Piotr
  */
-public interface CommandInterface extends  Serializable{
+public interface Command extends  Serializable{
     
 
       

@@ -15,7 +15,9 @@ import manouvre.game.commands.CommandQueue;
 import manouvre.game.commands.DiscardCardCommand;
 import manouvre.game.commands.DrawCardCommand;
 import manouvre.network.client.Message;
-import manouvre.game.interfaces.CommandInterface;
+import static java.lang.Thread.sleep;
+import manouvre.game.interfaces.Command;
+import static java.lang.Thread.sleep;
 import static java.lang.Thread.sleep;
 
 /**
@@ -571,7 +573,7 @@ public class TestWindow extends javax.swing.JFrame {
     private void drawCardsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drawCardsActionPerformed
         
         
-         CommandInterface drawToHand = game.getCardCommandFactory().createMoveToHandCommand(testCards,numberOfChosenCards, false);
+         Command drawToHand = game.getCardCommandFactory().createMoveToHandCommand(testCards,numberOfChosenCards, false);
         cmdQueue.storeAndExecuteAndSend(drawToHand);
            game.setPhase(phase); //put back the game to previous phase
 //        gameGui.getHandSetGui().reSet();

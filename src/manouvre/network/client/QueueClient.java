@@ -16,7 +16,15 @@ import manouvre.gui.GameWindow;
 import static java.lang.Thread.sleep;
 import static java.lang.Thread.sleep;
 import static java.lang.Thread.sleep;
-import manouvre.game.interfaces.CommandInterface;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
+import manouvre.game.interfaces.Command;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
 import static java.lang.Thread.sleep;
 import static java.lang.Thread.sleep;
 import static java.lang.Thread.sleep;
@@ -89,7 +97,7 @@ class HostClient implements ClientInterface , Runnable{
         case Message.COMMAND:
             
             
-                    CommandInterface executeCommand = msgIn.getCommand();
+                    Command executeCommand = msgIn.getCommand();
                     clientGameHost.cmdQueue.storeAndExecute(executeCommand);
                     clientGameHost.checkPopUps();
                     break;
@@ -142,7 +150,7 @@ class GuestClient implements ClientInterface , Runnable{
     synchronized public void handle(Message msgIn) {
          switch( msgIn.getMessageType() ){
             case Message.COMMAND:
-                CommandInterface executeCommand = msgIn.getCommand();
+                Command executeCommand = msgIn.getCommand();
                 clientGameGuest.cmdQueue.storeAndExecute(executeCommand);
                 clientGameGuest.checkPopUps();
                 break;
