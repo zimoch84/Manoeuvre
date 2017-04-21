@@ -59,10 +59,13 @@ public class Player  implements Serializable{
     for(Unit unit : getArmy()) {
         
         unit.setMoved(false);
+        unit.setSelected(false);
     
     }
         setMoved(false);
         setDraw(false);
+        setPlayingCard(false);
+        
     }
 
     public String getNationAsString(boolean shortName)

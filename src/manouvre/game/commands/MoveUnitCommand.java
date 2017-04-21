@@ -49,7 +49,9 @@ public class MoveUnitCommand implements CommandInterface {
         
         game.getMap().getTerrainAtXY(lastPosition.getX(), lastPosition.getY()).setIsOccupiedByUnit(false);
         game.getMap().getTerrainAtXY(newPosition.getX(), newPosition.getY()).setIsOccupiedByUnit(true);
-        
+        game.getMap().unselectAllTerrains();
+                
+                
         if (game.getPhase()!=Game.SETUP)
         {
             game.getPlayerByName(playerName).setMoved(true);

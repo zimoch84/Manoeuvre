@@ -56,8 +56,11 @@ public class NextPhaseCommand implements CommandInterface{
     
     @Override
     public void execute(Game game) {
-        game.nextPhase();
-        
+
+        game.setPhase(game.getPhase()+1);
+        game.getMap().unselectAllTerrains();
+        game.getPlayerByName(activePlayerName).resetPlayer();
+        game.getCardCommandFactory().resetFactory();
     }
 
     @Override

@@ -20,4 +20,5 @@ public abstract class  Param {
     public static final int SETUP_POSITION = 7;
     public static final int PLAY_CARD = 8;
     
+    
 }

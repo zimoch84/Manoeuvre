@@ -209,7 +209,7 @@ public class GameGUI {
         {
         for (Terrain terrain : game.getMap().getTerrainz()) {
             if (terrain.isSelected()) {
-                drawRectangleOnPosition(g, terrain.getPosition(), Color.yellow);
+                //drawRectangleOnPosition(g, terrain.getPosition(), Color.yellow);
                 /*                Draw AdjencedSpace /Move                 */
                 if (terrain.getIsOccupiedByUnit()) 
                 {
@@ -331,7 +331,7 @@ public class GameGUI {
         {
             ArrayList<Position> movePositions;
             Card playingCard = cardFactory.getCurrentPlayedCard();
-
+        if(playingCard != null)
             switch (playingCard.getCardType()){
                 case Card.HQCARD :
                 {
@@ -341,7 +341,6 @@ public class GameGUI {
                         {
                         Unit lastMovedUnit = currentPlayer.getLastMovedUnit();
                         movePositions = game.getOneSquareMovements(lastMovedUnit.getPosition());
-                        
                         drawMultipleRectanglesOnPositions(g, movePositions, Color.red);
                         break;
                         }
@@ -717,12 +716,14 @@ public class GameGUI {
                     if(game.getPhase()==Game.MOVE||game.getPhase()==Game.COMBAT)//in this phase it is possible to select ONE card, thats why all have to be unselected before click
                     {
                         game.getCardCommandFactory().setPlayingCard(cardClicked);
+                        triggerCardActionOnSelection(cardClicked);
                         keepOneSelectedCard(cardClicked);
                     }
                     selectionSeq.add((Integer)cardClicked.getCardID()); 
                     if(game.getPhase()!=Game.DISCARD)currentPlayer.setPlayingCard(true);  //not playing cards on Table during Discard
                 }   
                 else {
+                    triggerCardActionOnDeSelection(cardClicked);
                     cardClicked.setSelected(false);
                     Integer j=cardClicked.getCardID();
                     selectionSeq.remove(j); //remove number Integer j, not position int i
@@ -731,12 +732,11 @@ public class GameGUI {
                 JOptionPane.showMessageDialog(null, "This card is not available in this phase", 
                      "Wrong Action", JOptionPane.OK_OPTION); 
         }
-        if(cardFactory.getPlayingCard()!=null){
-            if(game.getPhase() != Game.SETUP)
-            {
-      
-            Card playingCard = cardFactory.getPlayingCard();
-            if(playingCard.canBePlayed(game))
+    }
+    
+    private void triggerCardActionOnSelection(Card playingCard){
+    
+         if(playingCard.canBePlayed(game))
             {
             /*
             Trigger action on selection
@@ -754,13 +754,20 @@ public class GameGUI {
                 }
             cardFactory.setPlayingCard(playingCard); //set this card to be played -> here will always come last selected card
             }
-        }
-        
-        }
-        else {
-            currentPlayer.setPlayingCard(false);
-        } 
+    
     }
+    
+    private void triggerCardActionOnDeSelection(Card playingCard){
+    
+            /*
+            Trigger action on selection
+            */
+            playingCard.actionOnDeselection(game);
+            
+            game.getCardCommandFactory().resetFactory();
+    
+    }
+    
     public Card getCardFromMousePosition(int mouseCoorX, int mouseCoorY){
         setInfoImage(null);
         for (int i=0; i<handSetGui.cardsLeftInSet(); i++){
@@ -806,7 +813,7 @@ public class GameGUI {
             cardOverMouse.setMouseOverCard(true);
         }
         else{
-            System.err.println("card null");
+           // System.err.println("card null");
         }
     }
     

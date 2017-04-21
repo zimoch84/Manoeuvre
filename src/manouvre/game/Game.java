@@ -614,25 +614,7 @@ public final class Game implements Serializable{
                 ( currentPlayer != null ? getCurrentPlayer().getName() : "Brak curr" )+ " " +   
                  " Phase: " +  getPhaseName(phase) );
     } 
-    public void nextPhase() {
-          
-        if(getPhase()<4) 
-            setPhase(getPhase()+1);
-        
-        else 
-            /*
-            Next turn
-            */
-        {
-            turn++;
-            getCurrentPlayer().resetPlayer();
-            swapActivePlayer();
-            phase=0;
-        }
-
-        
-    } 
-    
+       
     void setFirstPlayer(){
     
     

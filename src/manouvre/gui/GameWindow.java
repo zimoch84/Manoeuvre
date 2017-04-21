@@ -746,7 +746,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         );
         tablePanelLayout.setVerticalGroup(
             tablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 328, Short.MAX_VALUE)
         );
 
         chatPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Chat / Game Log"));
@@ -782,7 +782,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         chatPanelLayout.setVerticalGroup(
             chatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(chatPanelLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(chatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(sendText, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -808,7 +808,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         );
         discardPanelLayout.setVerticalGroup(
             discardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 93, Short.MAX_VALUE)
         );
 
         playerDrawLeftPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Draw Pile"));
@@ -855,7 +855,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                             .addComponent(jLabel2)
                             .addComponent(curPlayerFlag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(26, 26, 26)
-                        .addComponent(discardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE))))
+                        .addComponent(discardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))))
         );
         currentPlayerPanelLayout.setVerticalGroup(
             currentPlayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -894,7 +894,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         );
         discardPanel1Layout.setVerticalGroup(
             discardPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 93, Short.MAX_VALUE)
         );
 
         playerDrawLeftPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Draw Pile"));
@@ -941,7 +941,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                             .addComponent(jLabel3)
                             .addComponent(opoPlayerFlag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(26, 26, 26)
-                        .addComponent(discardPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE))))
+                        .addComponent(discardPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))))
         );
         opponentPlayerPanelLayout.setVerticalGroup(
             opponentPlayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -989,11 +989,9 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                     .addGroup(rightSidePanelLayout.createSequentialGroup()
                         .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(tablePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(rightSidePanelLayout.createSequentialGroup()
-                                .addComponent(chatPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addComponent(chatPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 1, Short.MAX_VALUE))))
         );
         rightSidePanelLayout.setVerticalGroup(
             rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1004,11 +1002,11 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(playersTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tablePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(chatPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(tablePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(chatPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -1225,7 +1223,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(mainWindowPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel5)
                 .addContainerGap())
         );
@@ -1314,7 +1312,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                     If player clicks on unit select it
                     */    
                     if(game.checkCurrentPlayerUnitAtPosition(clickedPos) ) {
-                       gameGui.mapGui.setUnitSelected(true);
+                           gameGui.mapGui.setUnitSelected(true);
                        gameGui.getUnitGuiOnMapGui(clickedPos).getUnit().setSelected(true);
                        }
                 }
@@ -1352,6 +1350,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                         if(game.getPhase() != Game.SETUP)
                         {        
                         cmdQueue.storeAndExecuteAndSend(moveUnit);
+                        gameGui.unselectAllUnits();   
                         }
                         /*
                         If we dont play card or we are in setup
@@ -1362,6 +1361,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                         Just execute on client
                         */
                         cmdQueue.storeAndExecute(moveUnit);
+                        gameGui.unselectAllUnits();   
                         }
                  }
                 else{ 
@@ -1402,29 +1402,26 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                 if(game.getSelectedUnit()!= null)
                 {  
                 Unit selectedUnit = game.getSelectedUnit();
-                for(Position checkPosition : getMovePositions(playingCard))
-                {
-                    if(checkPosition.equals(clickedPos)){
-                            MoveUnitCommand moveUnit = new MoveUnitCommand(game.getCurrentPlayer().getName() , selectedUnit,  clickedPos);
-                            /*
-                            We attach move command to wrap it to postpone execution in card command
-                            */
-                            game.getCardCommandFactory().setAttachedCommand(moveUnit);
-                            /*
-                            Confirmation dialog
-                            */
-                            showConfirmationCardDialog();
-                        
-                        
+                if(!getMovePositions(playingCard).isEmpty())
+                    if(getMovePositions(playingCard).contains(clickedPos))
+                    {
+                        MoveUnitCommand moveUnit = new MoveUnitCommand(game.getCurrentPlayer().getName() , selectedUnit,  clickedPos);
+                        /*
+                        We attach move command to wrap it to postpone execution in card command
+                        */
+                        game.getCardCommandFactory().setAttachedCommand(moveUnit);
+                        /*
+                        Confirmation dialog
+                        */
+                        showConfirmationCardDialog();
                     }
                     /*
                     Deselect card and clear Card Factory
                     */
                     else {
-                    game.getCardCommandFactory().resetPlayingCard();
-                    this.repaint();
+                        game.getCardCommandFactory().resetPlayingCard();
+                        this.repaint();
                     }
-                } 
                 } 
                 /*
                 We dont have selected unit
@@ -1435,31 +1432,25 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                     */  
                 }
                 }
-                
                 case Card.PICK_ACTION:    
                 {
-                    
-                if(getAvaliblePositionToSelect().contains(clickedPos))
-                {
-                    Unit attackedUnit = game.getOpponentPlayerUnitAtPosition(clickedPos);
-                    game.getCardCommandFactory().setAttackedUnit(attackedUnit);
-                    
-                    showConfirmationCardDialog();
-                    
-                    
-                }
-                
+                if(!getAvaliblePositionToSelect().isEmpty())    
+                    if(getAvaliblePositionToSelect().contains(clickedPos))
+                    {
+                        Unit attackedUnit = game.getOpponentPlayerUnitAtPosition(clickedPos);
+                        game.getCardCommandFactory().setAttackedUnit(attackedUnit);
+                        showConfirmationCardDialog();
+                    }
+                    else 
+                    showCannotPlayCardDialog();    
                 else 
                 {
                 game.getCardCommandFactory().resetPlayingCard();
                 this.repaint();
                 }   
-                    
-                    
-                }
+              }
             }}
-            
-            
+      
         }
         
     }//GEN-LAST:event_mainMapPanelMouseClicked
@@ -1483,6 +1474,17 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         dialog.setVisible(true);
         
     }
+    private void showCannotPlayCardDialog(){
+    /*
+        Confirmation dialog
+        */
+        CustomDialog dialog = 
+                new CustomDialog(CustomDialog.CONFIRMATION_TYPE, 
+                        "You cannot play this card",
+                        cmdQueue, game);
+        dialog.setVisible(true);
+        
+    }
     private ArrayList<Position> getAvaliblePositionToSelect()
     {
         if(game.getCurrentPlayer().isPlayingCard())
@@ -1493,6 +1495,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                 {
                 if(playingCard.getHQType() == Card.SUPPLY)
                 {
+                   return null;
                     /*
                     GetNonDeadUnits beside that 1 has moved
                     */
@@ -1507,7 +1510,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                     if(playingCard.getPlayingCardMode() > 0  )
                     {
                          game.getCardCommandFactory().setSelectedUnit(game.getSelectedUnit());
-                         game.getCardCommandFactory().calculateAttackingPositions();
+                         game.getCardCommandFactory().calculateAttackingPositions();    
                          return  game.getCardCommandFactory().getAttackingPositions();
 
                     }

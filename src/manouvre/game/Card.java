@@ -503,7 +503,7 @@ public class Card implements CardInterface, Serializable{
                        || getHQType() != Card.REGROUP
                        || getHQType() != Card.SKIRMICH
                        || getHQType()  != Card.WITHDRAW
-
+                       || getCardType() != Card.UNIT
                       )
                     return true;
                 else return false;
@@ -543,13 +543,25 @@ public class Card implements CardInterface, Serializable{
         
         if(getAvailableForPhase(game.getPhase()))
         {
-            switch (getHQType())
-            {
+            switch (getCardType()) {
+            
+            case Card.HQCARD:
+                switch (getHQType())
+                {
                 case Card.FORCED_MARCH :
                 if(game.getCurrentPlayer().hasMoved()) {
                     return true;
                 }
                 break;
+                }
+            
+            case Card.UNIT:
+            
+                if(game.getPhase() == Game.COMBAT ||
+                   game.getPhase() == Game.RESTORATION)
+                     return true;
+                else return false;
+                
             }
         }
         return false;
@@ -596,10 +608,6 @@ public class Card implements CardInterface, Serializable{
         return cardNotFound;
     }
     
-    public boolean isCanBeCanceled() {
-        return canBeCanceled;
-    }
-
     public void setCanBeCanceled(boolean canBeCanceled) {
         this.canBeCanceled = canBeCanceled;
     }

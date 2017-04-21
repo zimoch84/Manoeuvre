@@ -34,7 +34,8 @@ public class EndSetupCommand implements CommandInterface{
         If both players finished advance game phase
         */
         if (game.getCurrentPlayer().isFinishedSetup() && game.getOpponentPlayer().isFinishedSetup())
-            {       game.nextPhase(); 
+            {     
+                game.setPhase(game.getPhase()+1);
         
             }
         
