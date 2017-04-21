@@ -5,8 +5,8 @@
  */
 package manouvre.gui;
 
-import manouvre.game.interfaces.Command;
 import manouvre.game.interfaces.FrameInterface;
+import manouvre.game.interfaces.CommandInterface;
 
 /**
  *
@@ -23,7 +23,7 @@ public class CommandLogger {
     
     }
       
-    public void log(Command command){
+    public void log(CommandInterface command){
                   
         frame.printOnChat(command.logCommand());
        

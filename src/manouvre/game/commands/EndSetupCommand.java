@@ -7,16 +7,16 @@ package manouvre.game.commands;
 
 import manouvre.game.Game;
 import manouvre.game.Param;
-import manouvre.game.interfaces.Command;
+import manouvre.game.interfaces.CommandInterface;
 
 /**
  *
  * @author Piotr
  */
-public class EndSetupCommand implements Command{
+public class EndSetupCommand implements CommandInterface{
 
     String playerName;
-    Command setupCommand;
+    CommandInterface setupCommand;
     
     public EndSetupCommand(String playerName, SetupPositionCommand setupCommand) {
 

@@ -7,13 +7,13 @@ package manouvre.game.commands;
 import manouvre.game.Game;
 import manouvre.game.Param;
 
-import manouvre.game.interfaces.Command;
+import manouvre.game.interfaces.CommandInterface;
 
 /**
  *
  * @author Bartosz
  */
-public class DrawCardCommand implements Command {
+public class DrawCardCommand implements CommandInterface {
    
     int numberOfDrawnCards;
     String senderPlayerName;

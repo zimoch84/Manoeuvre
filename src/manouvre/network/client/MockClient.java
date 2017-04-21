@@ -9,8 +9,8 @@ import java.io.PipedOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import manouvre.game.interfaces.ClientInterface;
-import manouvre.game.interfaces.Command;
 import manouvre.gui.GameWindow;
+import manouvre.game.interfaces.CommandInterface;
 
 /**
  *
@@ -131,7 +131,7 @@ public class MockClient extends Thread{
             System.out.println(msgIn.toString());
         break;
 //        case Message.COMMAND:
-//                        Command executeCommand = msgIn.getCommand();
+//                        CommandInterface executeCommand = msgIn.getCommand();
 //                    executeCommand.execute(clientGameHost.getGame());
 //                    clientGameHost.repaint();
 //                    break;
@@ -205,8 +205,8 @@ class GuestClient implements ClientInterface , Runnable{
     synchronized public void handle(Message msgIn) {
          switch( msgIn.getMessageType() ){
 //        case Message.COMMAND:
-//                    Command executeCommand = msgIn.getCommand();
-//                    Command.execute(clientGameGuest.getGame());
+//                    CommandInterface executeCommand = msgIn.getCommand();
+//                    CommandInterface.execute(clientGameGuest.getGame());
 //                    clientGameGuest.repaint();
 //                    
 //                       break;

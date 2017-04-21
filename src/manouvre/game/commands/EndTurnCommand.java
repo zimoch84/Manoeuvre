@@ -7,13 +7,13 @@ package manouvre.game.commands;
 
 import manouvre.game.Game;
 import manouvre.game.Param;
-import manouvre.game.interfaces.Command;
+import manouvre.game.interfaces.CommandInterface;
 
 /**
  *
  * @author Piotr
  */
-public class EndTurnCommand implements Command{
+public class EndTurnCommand implements CommandInterface{
 
     
     String activePlayerName;

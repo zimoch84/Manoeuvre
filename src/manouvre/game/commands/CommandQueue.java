@@ -11,10 +11,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import manouvre.game.Game;
 import manouvre.game.interfaces.ClientInterface;
-import manouvre.game.interfaces.Command;
 import manouvre.gui.CommandLogger;
 import manouvre.gui.GameWindow;
 import manouvre.network.client.Message;
+import manouvre.game.interfaces.CommandInterface;
+import static java.lang.Thread.sleep;
 
 /**
  *
@@ -22,7 +23,7 @@ import manouvre.network.client.Message;
  */
 public class CommandQueue {
     
-    ArrayList<Command> commands = new ArrayList<Command>();
+    ArrayList<CommandInterface> commands = new ArrayList<CommandInterface>();
     Game game;
     
     CommandLogger commandLogger;
@@ -38,7 +39,7 @@ public class CommandQueue {
     }
     
 
-    public void storeAndExecute(Command cmd) {
+    public void storeAndExecute(CommandInterface cmd) {
       this.commands.add(cmd);
       cmd.execute(game);
       commandLogger.log(cmd);
@@ -55,7 +56,7 @@ public class CommandQueue {
       
    }
     
-    public void storeAndExecuteWithoutLogs(Command cmd) {
+    public void storeAndExecuteWithoutLogs(CommandInterface cmd) {
       this.commands.add(cmd);
       cmd.execute(game);
       
@@ -65,9 +66,9 @@ public class CommandQueue {
      // cmd=null;//I thing we should delete commands  after completion
    }
     
-    public void storeAndExecuteAndSend(Command cmd) {
+    public void storeAndExecuteAndSend(CommandInterface cmd) {
         this.commands.add(cmd);
-        cmd.execute(game); //execute locally
+        
         commandLogger.log(cmd);
         
         gameWindow.refreshAll();
@@ -84,7 +85,7 @@ public class CommandQueue {
         
       
    }
-    public void undoCommand(Command cmd) {
+    public void undoCommand(CommandInterface cmd) {
     
          this.commands.add(cmd);
          cmd.undo(game);
@@ -95,7 +96,7 @@ public class CommandQueue {
     
     public void undoLastCommand() {
     
-         Command cmd = commands.get(commands.size()-1);
+         CommandInterface cmd = commands.get(commands.size()-1);
          cmd.undo(game);
          gameWindow.repaint();
          gameWindow.refreshAll();
@@ -103,19 +104,6 @@ public class CommandQueue {
          Remove last command
          */
          commands.remove(commands.size()-1);
-    
-    }
-    public void undoCommandBeforeLast(int numberBeforLast) {
-    
-         Command cmd = commands.get(commands.size()-numberBeforLast);
-         cmd.undo(game);
-         gameWindow.repaint();
-         gameWindow.refreshAll();
-         /*
-         Remove last command
-         */
-         commands.remove(commands.size()-numberBeforLast);
-         game.undoCommandBeforeLast(false);
     
     }
 

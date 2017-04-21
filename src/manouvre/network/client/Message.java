@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import manouvre.game.Game;
 import manouvre.game.Param;
 import manouvre.game.Player;
-import manouvre.game.interfaces.Command;
 import manouvre.network.server.GameRoom;
+import manouvre.game.interfaces.CommandInterface;
 /**
  * 
  * @author Piotr
@@ -71,7 +71,7 @@ public class Message implements Serializable{
     
     public Player hostPlayer, guestPlayer;
     
-    public Command command;
+    public CommandInterface command;
 
       
     public Message(String type, String sender, String content, String recipient){
@@ -205,11 +205,11 @@ public class Message implements Serializable{
             
     }
 
-    public void setCommand(Command command) {
+    public void setCommand(CommandInterface command) {
         this.command = command;
     }
 
-    public Command getCommand() {
+    public CommandInterface getCommand() {
         return command;
     }
       

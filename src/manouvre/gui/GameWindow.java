@@ -31,7 +31,6 @@ import manouvre.game.commands.SetupPositionCommand;
 import manouvre.game.commands.EndSetupCommand;
 import manouvre.game.commands.NextPhaseCommand;
 import manouvre.game.interfaces.ClientInterface;
-import manouvre.game.interfaces.Command;
 import manouvre.game.commands.CommandQueue;
 import manouvre.game.commands.EndTurnCommand;
 import javax.swing.UIManager;
@@ -39,6 +38,9 @@ import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import manouvre.game.Card;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import manouvre.game.interfaces.CommandInterface;
 import static java.lang.Math.abs;
 import static java.lang.Math.abs;
 
@@ -193,8 +195,8 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
     public void  checkPopUps(){  //show popup if card cen be cancelled
         if(game.getCardCommandFactory().getPlayingCard()!=null){
             if(game.getCardCommandFactory().getPlayingCard().getCanBeCancelled()){
-                Command rejectCard = game.getCardCommandFactory().createRejectCardCommand();
-                Command doNotRejectCard = game.getCardCommandFactory().createDoNotRejectCardCommand();
+                CommandInterface rejectCard = game.getCardCommandFactory().createRejectCardCommand();
+                CommandInterface doNotRejectCard = game.getCardCommandFactory().createDoNotRejectCardCommand();
                 if(game.getCurrentPlayer().getHand().getCardByName("Guerrillas", false)!=null){//if player has Guerrillas
                     CustomDialog dialog = new CustomDialog(CustomDialog.YES_NO_TYPE, game.getCurrentPlayer().getName()+" Your enemy played this card, will you reject?", cmdQueue, game);
                     game.getCardCommandFactory().getPlayingCard().setCanBeCanceled(false);
@@ -210,12 +212,6 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         }
     }
     
-     public void checkUndoLastCommand(){
-        if(game.isUndoLastCommand()){
-            cmdQueue.undoCommandBeforeLast(3);
-        }
-    }
-     
     private void setActionButtonText(){
         /*
         If card is Selected change Label to "Play Card" 
@@ -1685,12 +1681,12 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         
         else if (game.getPhase() == Game.RESTORATION)
         {
-        Command endTurnCommand = new EndTurnCommand(game.getCurrentPlayer().getName());
+        CommandInterface endTurnCommand = new EndTurnCommand(game.getCurrentPlayer().getName());
         cmdQueue.storeAndExecuteAndSend(endTurnCommand);
         }
         else 
         {
-        Command nextPhaseCommand = new NextPhaseCommand(game.getCurrentPlayer().getName(), game.getPhase()+ 1);
+        CommandInterface nextPhaseCommand = new NextPhaseCommand(game.getCurrentPlayer().getName(), game.getPhase()+ 1);
         cmdQueue.storeAndExecuteAndSend(nextPhaseCommand);
         }    
         setActionButtonText();
@@ -1717,7 +1713,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
 
     private void MoveToTableCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MoveToTableCommandActionPerformed
         if(game.getCardCommandFactory().getCurrentPlayedCard()!=null){
-            Command moveToTable = game.getCardCommandFactory().createCardCommand();
+            CommandInterface moveToTable = game.getCardCommandFactory().createCardCommand();
             
             cmdQueue.storeAndExecuteAndSend(moveToTable);
         }               

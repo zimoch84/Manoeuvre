@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import manouvre.game.Game;
 import manouvre.game.Player;
 import manouvre.game.interfaces.CardInterface;
-import manouvre.game.interfaces.Command;
 import manouvre.network.client.Message;
+import manouvre.game.interfaces.CommandInterface;
 
 /**
  *
@@ -213,7 +213,7 @@ public class ServerMessageHandler {
                      */
                     gameRoom = server.getRoomByPort(portID);
                     
-                    Command executeCommand = msg.getCommand();
+                    CommandInterface executeCommand = msg.getCommand();
                     
                     /*
                     Executing command over game on server

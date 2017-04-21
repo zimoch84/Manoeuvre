@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import manouvre.game.Game;
 import manouvre.game.Param;
 
-import manouvre.game.interfaces.Command;
+import manouvre.game.interfaces.CommandInterface;
 
 /**
  *
  * @author Bartosz
  */
-public class DiscardCardCommand implements Command {
+public class DiscardCardCommand implements CommandInterface {
    
     ArrayList<Integer> selectionSeq;
     String senderPlayerName;

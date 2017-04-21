@@ -7,13 +7,13 @@ package manouvre.game.commands;
 
 import manouvre.game.Game;
 import manouvre.game.Param;
-import manouvre.game.interfaces.Command;
+import manouvre.game.interfaces.CommandInterface;
 
 /**
  *
  * @author Piotr
  */
-public class NextPhaseCommand implements Command{
+public class NextPhaseCommand implements CommandInterface{
 
     String activePlayerName;
     int phase;

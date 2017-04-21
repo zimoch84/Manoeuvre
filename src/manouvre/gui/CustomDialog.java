@@ -17,9 +17,9 @@ import javax.swing.text.StyledDocument;
 import manouvre.game.Game;
 import manouvre.game.commands.CommandQueue;
 import manouvre.game.interfaces.ClientInterface;
-import manouvre.game.interfaces.Command;
 import manouvre.network.client.Message;
 import manouvre.network.client.SocketClient;
+import manouvre.game.interfaces.CommandInterface;
 
 /**
  *
@@ -40,8 +40,8 @@ public class CustomDialog extends javax.swing.JFrame {
     int dialogType;
     boolean executeOK;
     
-    Command okCommand;
-    Command cancelCommand;
+    CommandInterface okCommand;
+    CommandInterface cancelCommand;
     
     String infoText;
     
@@ -264,11 +264,11 @@ public class CustomDialog extends javax.swing.JFrame {
             }
         });
     }
-    public void setOkCommand(Command okCommand) {
+    public void setOkCommand(CommandInterface okCommand) {
         this.okCommand = okCommand;
     }
 
-    public void setCancelCommand(Command cancelCommand) {
+    public void setCancelCommand(CommandInterface cancelCommand) {
         this.cancelCommand = cancelCommand;
     }
 

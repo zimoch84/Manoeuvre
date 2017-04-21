@@ -10,7 +10,8 @@ import manouvre.game.CardSet;
 import manouvre.game.Game;
 import manouvre.game.Param;
 import manouvre.game.Unit;
-import manouvre.game.interfaces.Command;
+import manouvre.game.interfaces.CommandInterface;
+import manouvre.game.interfaces.CardCommandInterface;
 
 /**
  *
@@ -18,7 +19,7 @@ import manouvre.game.interfaces.Command;
  */
 public class CardCommands {
     
-public static class MoveToTableCommand implements Command{    
+public static class MoveToTableCommand implements CardCommandInterface{    
             
     
         Card card;
@@ -31,13 +32,10 @@ public static class MoveToTableCommand implements Command{
         @Override
         public void execute(Game game) {
             if(game.getCurrentPlayer().getName().equals(senderPlayerName)){
-                if(!card.getCanBeCancelled())
+               
                 game.getCurrentPlayer().getTablePile().addCardToThisSet(game.getCurrentPlayer().getHand().drawCardFromSet(card));//remove card from own hand and put it on table
                 //repaint is made by CommandQueue
-                              
-                else{
-                        //card is not yet  at the table, opponent have to confirm
-                }
+                
             }else{
                 game.getCurrentPlayer().getTablePile().addCardToThisSet(game.getOpponentPlayer().getHand().drawCardFromSet(card)); //remove card from opponent hand and put it on table
                 game.getCardCommandFactory().setPlayingCard(card);
@@ -66,9 +64,14 @@ public static class MoveToTableCommand implements Command{
         public int getType() {
             return Param.PLAY_CARD;
         }
+
+        @Override
+        public void cancel(Game game) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
     }    
  
-public static class RejectCardCommand implements Command{    
+public static class RejectCardCommand implements CardCommandInterface{    
             
     
         Card card;
@@ -80,20 +83,19 @@ public static class RejectCardCommand implements Command{
      
         @Override
         public void execute(Game game) {
-           if(game.getCurrentPlayer().getName().equals(senderPlayerName)){
-                Card guerrillas = game.getCurrentPlayer().getHand().getCardByName("Guerrillas", true);
-                game.getCurrentPlayer().getDiscardPile().addCardToThisSet(guerrillas); 
-                game.getOpponentPlayer().getDiscardPile().addCardToThisSet(game.getCurrentPlayer().getTablePile().drawCardFromSet(card)); 
+           if(game.getCurrentPlayer().getName().equals(senderPlayerName)){ //separate action for each player
+                game.getCardCommandFactory().resetFactory();
             }
             else{
-                game.undoCommandBeforeLast(true);
                 game.getCardCommandFactory().getPlayingCard().setCanBeCanceled(false);
+                game.getCardCommandFactory().getCardCommand().cancel(game); //get last command, and do Cancel- f.ex.ForcedMarch
                 
-                Card guerrillas = game.getOpponentPlayer().getHand().getCardByName("Guerrillas", true);
-                game.getOpponentPlayer().getDiscardPile().addCardToThisSet(guerrillas); 
                 
-                game.getCurrentPlayer().getDiscardPile().addCardToThisSet(game.getCurrentPlayer().getHand().drawCardFromSet(card));
             }
+           //all players do the same
+                Card guerrillas = game.getPlayerByName(senderPlayerName).getHand().getCardByName("Guerrillas", true);
+                game.getPlayerByName(senderPlayerName).getDiscardPile().addCardToThisSet(guerrillas); 
+                game.getPlayerByName(senderPlayerName).getDiscardPile().addCardToThisSet(game.getPlayerByName(senderPlayerName).getTablePile().drawCardFromSet(card));
         }
 
         @Override
@@ -110,9 +112,14 @@ public static class RejectCardCommand implements Command{
         public int getType() {
             return Param.PLAY_CARD;
         }
+
+        @Override
+        public void cancel(Game game) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
     }   
 
-public static class DoNotRejectCardCommand implements Command{    
+public static class DoNotRejectCardCommand implements CardCommandInterface{    
             
     
         Card card;
@@ -147,22 +154,26 @@ public static class DoNotRejectCardCommand implements Command{
         public int getType() {
             return Param.PLAY_CARD;
         }
+
+        @Override
+        public void cancel(Game game) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
     }    
 
 
-public static class ForcedMarchCommand implements Command {
+public static class ForcedMarchCommand implements CardCommandInterface {
 
-        Command moveUnitCommand;
+        CommandInterface moveUnitCommand;
         Card card;
-        Command moveToTableCommand;
+        CommandInterface moveToTableCommand;
         String senderPlayerName;
     
-        public ForcedMarchCommand(Command moveUnitCommand, Card card, String senderPlayerName) {
+        public ForcedMarchCommand(CommandInterface moveUnitCommand, Card card, String senderPlayerName) {
             this.moveUnitCommand = moveUnitCommand;
             this.card = card;
             this.moveToTableCommand = new CardCommands.MoveToTableCommand(card, senderPlayerName);
             this.senderPlayerName = senderPlayerName;
-            
         }
 
         @Override
@@ -189,13 +200,18 @@ public static class ForcedMarchCommand implements Command {
             return Param.PLAY_CARD;
         }
 
+        @Override
+        public void cancel(Game game) {
+            moveUnitCommand.undo(game);
+        }
+
 
 }    
-public static class AttackCommand implements Command {
+public static class AttackCommand implements CommandInterface {
 
         Unit attackedUnit;
         Card card;
-        Command moveToTableCommand;
+        CommandInterface moveToTableCommand;
         
         public AttackCommand(Unit attackedUnit, Card card, String senderPlayerName) {
             this.attackedUnit = attackedUnit;
@@ -227,7 +243,7 @@ public static class AttackCommand implements Command {
         }
    
     }
-public static class MoveToHandCommand implements Command{    //just for test popup
+public static class MoveToHandCommand implements CommandInterface{    //just for test popup
             
     
         String senderPlayerName;
