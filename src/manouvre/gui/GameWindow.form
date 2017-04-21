@@ -89,6 +89,11 @@
                 <Property name="text" type="java.lang.String" value="freeMove"/>
               </Properties>
             </MenuItem>
+            <MenuItem class="javax.swing.JCheckBoxMenuItem" name="allowDrawOnDiscard">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Allow draw during discard"/>
+              </Properties>
+            </MenuItem>
             <Menu class="javax.swing.JMenu" name="jMenu3">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Commands"/>
