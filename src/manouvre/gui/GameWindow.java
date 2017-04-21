@@ -47,6 +47,7 @@ import static java.lang.Math.abs;
 import static java.lang.Math.abs;
 import static java.lang.Math.abs;
 import static java.lang.Math.abs;
+import manouvre.game.CardCommandFactory;
 
 
 
@@ -255,7 +256,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
            {
             actionButton.setVisible(true);
             actionButton.setText("Move");
-             if(game.getCurrentPlayer().hasMoved()&&!game.isUndoLastCommand())
+             if(game.getCurrentPlayer().hasMoved()) //this is not working with doing undo for Forced March - when rejected
             {
             actionButton.setEnabled(game.getCurrentPlayer().isActive() && !gameGui.isLocked() );  
             actionButton.setText("Undo");

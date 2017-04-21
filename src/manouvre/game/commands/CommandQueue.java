@@ -5,19 +5,13 @@
  */
 package manouvre.game.commands;
 
-import static java.lang.Thread.sleep;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import manouvre.game.Game;
 import manouvre.game.interfaces.ClientInterface;
 import manouvre.gui.CommandLogger;
 import manouvre.gui.GameWindow;
 import manouvre.network.client.Message;
-import static java.lang.Thread.sleep;
 import manouvre.game.interfaces.Command;
-import static java.lang.Thread.sleep;
-import static java.lang.Thread.sleep;
 
 /**
  *
@@ -70,7 +64,7 @@ public class CommandQueue {
     
     public void storeAndExecuteAndSend(Command cmd) {
         this.commands.add(cmd);
-        
+        cmd.execute(game); //execute locally
         commandLogger.log(cmd);
         
         gameWindow.refreshAll();

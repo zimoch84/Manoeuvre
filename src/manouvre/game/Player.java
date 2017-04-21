@@ -6,6 +6,7 @@
 package manouvre.game;
 
 import java.io.Serializable;
+import manouvre.game.interfaces.CardInterface;
 
 /**
  *  Nation
@@ -109,8 +110,20 @@ public class Player  implements Serializable{
         this.discardPile = new CardSet();
         this.tablePile = new CardSet();
 
-       
+        if(nation==CardInterface.AU){//btestfalse
+            hand.addCardToThisSet(drawPile.getCardByName("Guerrillas", true));
+            hand.addCardToThisSet(drawPile.getCardByName("Guerrillas", true));
+            hand.addCardToThisSet(drawPile.getCardByName("Supply", true));
+            hand.addCardsFromTheTopOfOtherSet(2, drawPile, false, true);
+        }
+        else if(nation==CardInterface.FR){
+            hand.addCardToThisSet(drawPile.getCardByName("Forced March", true));
+            hand.addCardToThisSet(drawPile.getCardByName("Forced March", true));
+            hand.addCardToThisSet(drawPile.getCardByName("Supply", true));
+            hand.addCardsFromTheTopOfOtherSet(2, drawPile, false, true);
+        } else
         hand.addCardsFromTheTopOfOtherSet(5, drawPile, false, true);
+        
         hand.sortCard();  
     }
     public void generateUnits(){

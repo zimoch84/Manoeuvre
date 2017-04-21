@@ -698,17 +698,6 @@ public final class Game implements Serializable{
                  + " Map: " +  map.toString();
             
     }
-
-    public boolean isUndoLastCommand() {
-        return undoLastCommand;
-    }
-
-    public void undoCommandBeforeLast(boolean undoLastCommand) {
-        this.undoLastCommand = undoLastCommand;
-    }
-
-    
-    
     
 }
 

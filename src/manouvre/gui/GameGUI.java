@@ -719,7 +719,7 @@ public class GameGUI {
                         triggerCardActionOnSelection(cardClicked);
                         keepOneSelectedCard(cardClicked);
                     }
-                    selectionSeq.add((Integer)cardClicked.getCardID()); 
+                    else selectionSeq.add((Integer)cardClicked.getCardID()); 
                     if(game.getPhase()!=Game.DISCARD)currentPlayer.setPlayingCard(true);  //not playing cards on Table during Discard
                 }   
                 else {
