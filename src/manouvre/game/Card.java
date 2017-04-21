@@ -579,8 +579,15 @@ public class Card implements CardInterface, Serializable{
                     game.getMap().setUnitSelected(true);
                 }
             
-            }
+            } break;
         }
+        case Card.UNIT:
+        {
+                game.getCurrentPlayerUnitByName(getCardName()).setSelected(true);
+                game.getMap().setUnitSelected(true);
+                break;
+        }    
+            
             
     }
     
@@ -593,13 +600,21 @@ public class Card implements CardInterface, Serializable{
             switch (getHQType()){
                 case Card.FORCED_MARCH:
                 {
-                    game.getCurrentPlayer().getLastMovedUnit().setSelected(false);
+                    if(game.getCurrentPlayer().getLastMovedUnit()!= null)
+                         game.getCurrentPlayer().getLastMovedUnit().setSelected(false);
                     game.getMap().setUnitSelected(false);
+                    break;
                 }
             
             }
         }
-            
+        case Card.UNIT:
+        {   
+                if(game.getCurrentPlayerUnitByName(getCardName())!= null)
+                    game.getCurrentPlayerUnitByName(getCardName()).setSelected(false);
+                game.getMap().setUnitSelected(false);
+                break;
+        }     
     }
     
     }

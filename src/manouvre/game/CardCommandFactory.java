@@ -134,7 +134,7 @@ public class CardCommandFactory implements Serializable{
                     attackPositions.add(checkPosition);
             }
 
-                setAttackingPositions(attackingPositions);
+                setAttackingPositions(attackPositions);
             }
         }
 
