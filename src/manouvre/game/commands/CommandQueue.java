@@ -105,6 +105,18 @@ public class CommandQueue {
          commands.remove(commands.size()-1);
     
     }
-
+    public void undoCommandBeforeLast(int numberBeforLast) {
+    
+         Command cmd = commands.get(commands.size()-numberBeforLast);
+         cmd.undo(game);
+         gameWindow.repaint();
+         gameWindow.refreshAll();
+         /*
+         Remove last command
+         */
+         commands.remove(commands.size()-numberBeforLast);
+         game.undoCommandBeforeLast(false);
+    
+    }
 
 }

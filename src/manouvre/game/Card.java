@@ -507,7 +507,7 @@ public class Card implements CardInterface, Serializable{
                       )
                     return true;
                 else return false;
-            case Game.COMBAT:
+            case Game.COMBAT:  
                  if(  getHQType() != Card.REDOUBDT  
                          || getHQType() != Card.REGROUP 
                          || getHQType()  != Card.SUPPLY

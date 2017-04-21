@@ -251,10 +251,12 @@ public class CardSet implements CardSetInterface, Serializable{
        return cardList.get(cardPosition);     
     }
     
-    public Card getCardByName(String name){
+    public Card getCardByName(String name, boolean remove){
         for (int i=0; i<cardList.size(); i++){
             if(cardList.get(i).getCardName().equals(name)){
-                return cardList.get(i);
+                Card card = cardList.get(i);
+                if(remove)cardList.remove(i);
+                return card;
             }
         }  
         return (Card)null;

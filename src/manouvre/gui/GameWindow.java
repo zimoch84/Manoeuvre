@@ -34,138 +34,11 @@ import manouvre.game.interfaces.ClientInterface;
 import manouvre.game.interfaces.Command;
 import manouvre.game.commands.CommandQueue;
 import manouvre.game.commands.EndTurnCommand;
-import static java.lang.Math.abs;
 import javax.swing.UIManager;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
 import javax.swing.Box;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import manouvre.game.Card;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
 import static java.lang.Math.abs;
 import static java.lang.Math.abs;
 
@@ -322,7 +195,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             if(game.getCardCommandFactory().getPlayingCard().getCanBeCancelled()){
                 Command rejectCard = game.getCardCommandFactory().createRejectCardCommand();
                 Command doNotRejectCard = game.getCardCommandFactory().createDoNotRejectCardCommand();
-                if(game.getCurrentPlayer().getHand().getCardByName("Guerrillas")!=null){//if player has Guerrillas
+                if(game.getCurrentPlayer().getHand().getCardByName("Guerrillas", false)!=null){//if player has Guerrillas
                     CustomDialog dialog = new CustomDialog(CustomDialog.YES_NO_TYPE, game.getCurrentPlayer().getName()+" Your enemy played this card, will you reject?", cmdQueue, game);
                     game.getCardCommandFactory().getPlayingCard().setCanBeCanceled(false);
                     dialog.setOkCommand(rejectCard);
@@ -336,7 +209,12 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             }
         }
     }
-            
+    
+     public void checkUndoLastCommand(){
+        if(game.isUndoLastCommand()){
+            cmdQueue.undoCommandBeforeLast(3);
+        }
+    }
      
     private void setActionButtonText(){
         /*
@@ -377,7 +255,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
            {
             actionButton.setVisible(true);
             actionButton.setText("Move");
-            if(game.getCurrentPlayer().hasMoved())
+             if(game.getCurrentPlayer().hasMoved()&&!game.isUndoLastCommand())
             {
             actionButton.setEnabled(game.getCurrentPlayer().isActive() && !gameGui.isLocked() );  
             actionButton.setText("Undo");
@@ -672,6 +550,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         checkRetreat = new javax.swing.JCheckBoxMenuItem();
         checkLos = new javax.swing.JCheckBoxMenuItem();
         jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
+        allowDrawOnDiscard = new javax.swing.JCheckBoxMenuItem();
         jMenu3 = new javax.swing.JMenu();
         MoveToTableCommand = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -1199,6 +1078,9 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         jCheckBoxMenuItem1.setText("freeMove");
         jMenu1.add(jCheckBoxMenuItem1);
 
+        allowDrawOnDiscard.setText("Allow draw during discard");
+        jMenu1.add(allowDrawOnDiscard);
+
         jMenu3.setText("Commands");
 
         MoveToTableCommand.setText("MoveToTable");
@@ -1210,7 +1092,8 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         });
         jMenu3.add(MoveToTableCommand);
 
-        jMenuItem4.setText("jMenuItem4");
+        jMenuItem4.setText("Attack");
+        jMenuItem4.setToolTipText("Attacking card must be selected");
         jMenu3.add(jMenuItem4);
 
         jMenu1.add(jMenu3);
@@ -1363,7 +1246,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
     private void playerHandPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseClicked
         handMouseCoorX = evt.getPoint().x;
 	handMouseCoorY = evt.getPoint().y;        
-        gameGui.mouseClickedCard(game.getCardCommandFactory(),handMouseCoorX,handMouseCoorY); 
+        gameGui.mouseClickedCard(handMouseCoorX,handMouseCoorY); 
         setActionButtonText();  //when card is selected set the buttons
         repaint();
         if(game.getPhase()==Game.DISCARD)
@@ -1709,7 +1592,12 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             case Game.DISCARD :
             {
                 
-                client.send(gameGui.discardSelCards());             
+                client.send(gameGui.discardSelCards());   
+                if(allowDrawOnDiscard.isSelected())//if  Debug is active draw cards after Discard
+                {
+                    client.send(gameGui.drawCards());
+                    game.getCurrentPlayer().setDraw(false);
+                }     
                 setActionButtonText();
                 this.repaint();
                 break;
@@ -1823,6 +1711,8 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
          TestWindow testWindow = new TestWindow(game, this, game.getPhase(), cmdQueue);
          testWindow.setBounds(50, 100, testWindow.getWidth(), testWindow.getHeight());
          testWindow.setVisible(true);
+         game.setPhase(Game.DISCARD);
+         refreshAll();
     }//GEN-LAST:event_FindCardActionPerformed
 
     private void MoveToTableCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MoveToTableCommandActionPerformed
@@ -2170,6 +2060,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
     private javax.swing.JMenuItem FindCard;
     private javax.swing.JMenuItem MoveToTableCommand;
     javax.swing.JButton actionButton;
+    private javax.swing.JCheckBoxMenuItem allowDrawOnDiscard;
     private javax.swing.JButton buttonToNextPhase;
     private javax.swing.JPanel buttonsPanel;
     private javax.swing.JPanel chatPanel;

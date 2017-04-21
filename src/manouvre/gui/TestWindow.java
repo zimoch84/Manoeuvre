@@ -427,6 +427,8 @@ public class TestWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_WithdrawBoxActionPerformed
 // <editor-fold defaultstate="collapsed" desc="Typ function"> 
     private void CloseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CloseButtonActionPerformed
+        game.setPhase(phase); //put back the game to previous phase
+        gameWindow.refreshAll();
         this.dispose();
     }//GEN-LAST:event_CloseButtonActionPerformed
 // <editor-fold defaultstate="collapsed" desc="Typ function"> 
@@ -568,17 +570,11 @@ public class TestWindow extends javax.swing.JFrame {
     private void drawCardsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drawCardsActionPerformed
         
         
-       if(tempNumberOfPossibleCards>0){
-        Command drawToHand = game.getCardCommandFactory().createMoveToHandCommand(game.getCurrentPlayer().getDrawPile(),tempNumberOfPossibleCards, true);
-        cmdQueue.storeAndExecuteAndSend(drawToHand);
-       }
-        
-       Command drawToHand = game.getCardCommandFactory().createMoveToHandCommand(testCards,numberOfChosenCards, true);
+         Command drawToHand = game.getCardCommandFactory().createMoveToHandCommand(testCards,numberOfChosenCards, false);
         cmdQueue.storeAndExecuteAndSend(drawToHand);
            game.setPhase(phase); //put back the game to previous phase
 //        gameGui.getHandSetGui().reSet();
-//        gameWindow.repaint();
-
+        gameWindow.refreshAll();
         this.dispose();
         
     }//GEN-LAST:event_drawCardsActionPerformed

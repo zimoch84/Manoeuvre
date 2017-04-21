@@ -23,271 +23,14 @@ import manouvre.game.commands.CommandQueue;
 import manouvre.game.Card;
 import manouvre.game.CardCommandFactory;
 import manouvre.game.Player;
-import static java.lang.Math.round;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import manouvre.game.Dice;
 import manouvre.game.Terrain;
-import manouvre.game.commands.EndSetupCommand;
-import manouvre.game.interfaces.CardInterface;
-import manouvre.game.interfaces.Command;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
 import static java.lang.Math.round;
 import javax.swing.JOptionPane;
+import static java.lang.Math.round;
 
 
 
@@ -310,7 +53,7 @@ public class GameGUI {
     
     
     BufferedImage  infoImage;
-    
+     CardCommandFactory cardFactory;
     /*
     Wielkosc ramki stolu w kwadracie w pikselach
     */
@@ -341,6 +84,7 @@ public class GameGUI {
         this.drawSetGui = new CardSetGUI(currentPlayer.getDrawPile());//empty
         this.tableSetGui = new CardSetGUI(currentPlayer.getTablePile());//empty
         
+        this.cardFactory = game.getCardCommandFactory();
         this.cmdQueue=cmdQueue;
                
         /*
@@ -586,7 +330,6 @@ public class GameGUI {
         if(currentPlayer.isPlayingCard())
         {
             ArrayList<Position> movePositions;
-            CardCommandFactory cardFactory = game.getCardCommandFactory();
             Card playingCard = cardFactory.getCurrentPlayedCard();
 
             switch (playingCard.getCardType()){
@@ -945,7 +688,7 @@ public class GameGUI {
     int cardPaddingTop=40;
     int cardPaddingLeft=10;
     int gap = 5; 
-    int halfCard; //set during mouse move
+    int oneThirdCard; //set during mouse move
     int liftCardIfSelectedBy=20;//pixels if card selected
     
     public void phaseChanged(){
@@ -958,11 +701,14 @@ public class GameGUI {
         for (int i=0; i<handSetGui.getCardSet().cardsLeftInSet(); i++){ 
             handSetGui.getCardSet().getCardByPosInSet(i).setSelected(false);
         }
-        if(handSetGui.getCardSet().getCardByCard(cardClicked)!=null)
+        selectionSeq.clear();
+        if(handSetGui.getCardSet().getCardByCard(cardClicked)!=null){
         handSetGui.getCardSet().getCardByCard(cardClicked).setSelected(true);
+        selectionSeq.add((Integer)cardClicked.getCardID());
+        }
         else System.err.println("CARD IS NOT SELECTED - check GameGui.java method: keepOneSelectedCard");
     }
-    public void mouseClickedCard(CardCommandFactory cardEngine, int mouseX, int mouseY){
+    public void mouseClickedCard(int mouseX, int mouseY){
         Card cardClicked=getCardFromMousePosition(mouseX,mouseY);
         if(cardClicked!=null){
                 if(cardClicked.getAvailableForPhase(game.getPhase())){ //select card if it is playable
@@ -970,9 +716,10 @@ public class GameGUI {
                     cardClicked.setSelected(true);
                     if(game.getPhase()==Game.MOVE||game.getPhase()==Game.COMBAT)//in this phase it is possible to select ONE card, thats why all have to be unselected before click
                     {
+                        game.getCardCommandFactory().setPlayingCard(cardClicked);
                         keepOneSelectedCard(cardClicked);
                     }
-                    selectionSeq.add(cardClicked.getCardID()); 
+                    selectionSeq.add((Integer)cardClicked.getCardID()); 
                     if(game.getPhase()!=Game.DISCARD)currentPlayer.setPlayingCard(true);  //not playing cards on Table during Discard
                 }   
                 else {
@@ -984,11 +731,11 @@ public class GameGUI {
                 JOptionPane.showMessageDialog(null, "This card is not available in this phase", 
                      "Wrong Action", JOptionPane.OK_OPTION); 
         }
-        if(selectionSeq.size()!=0){
+        if(cardFactory.getPlayingCard()!=null){
             if(game.getPhase() != Game.SETUP)
             {
       
-            Card playingCard = handSetGui.getCardSet().getCardFromSetByID(selectionSeq.get(selectionSeq.size()-1));
+            Card playingCard = cardFactory.getPlayingCard();
             if(playingCard.canBePlayed(game))
             {
             /*
@@ -1005,13 +752,12 @@ public class GameGUI {
                     if(playingCard.getPlayingPossibleCardModes().size() == 1 )
                         playingCard.setPlayingCardMode(playingCard.getPlayingPossibleCardModes().get(0));
                 }
-            cardEngine.setPlayingCard(playingCard); //set this card to be played -> here will always come last selected card
+            cardFactory.setPlayingCard(playingCard); //set this card to be played -> here will always come last selected card
             }
         }
         
         }
         else {
-            cardEngine.resetPlayingCard();//reset if no selected cards
             currentPlayer.setPlayingCard(false);
         } 
     }
@@ -1024,16 +770,21 @@ public class GameGUI {
             int mouseYmax = cardPaddingTop+height;
             int mouseXmin = cardPaddingLeft+(gap*i)+width*(i);
             int mouseXmax = cardPaddingLeft+(gap*i)+width*(i+1);
-            halfCard = mouseYmin+(mouseYmax-mouseYmin)/2;
+            oneThirdCard = (mouseYmin+(mouseYmax-mouseYmin))/3;
             
             if(mouseCoorY>mouseYmin && mouseCoorY<mouseYmax){ // if mouse is in row with cards
                 if (mouseCoorX>mouseXmin && mouseCoorX<mouseXmax){ //if mouse is in th collon with card
-                    if(mouseCoorY>halfCard){//bottom card selection
+                     if(mouseCoorY>oneThirdCard*2){//bottom card selection
                         int x=0,y=375/2,w=260,h=375/2; //cropp image
                         Image image = cropImage(handSetGui.getCardByPosInSet(i).getImgFull(),x,y,w,h);
                         setInfoImage((BufferedImage)image);
                     }
-                    if(mouseCoorY<=halfCard){//top card selection
+                    if(oneThirdCard<mouseCoorY && mouseCoorY<=oneThirdCard*2){//middle card selection
+                        int x=0,y=375/4,w=260,h=375/2; //cropp image
+                        Image image = cropImage(handSetGui.getCardByPosInSet(i).getImgFull(),x,y,w,h);
+                        setInfoImage((BufferedImage)image);
+                    }
+                    if(mouseCoorY<=oneThirdCard){//top card selection
                         int x=0,y=0,w=260,h=375/2; //cropp image
                         Image image = cropImage(handSetGui.getCardByPosInSet(i).getImgFull(),x,y,w,h);
                         setInfoImage((BufferedImage)image);
@@ -1061,9 +812,7 @@ public class GameGUI {
     
     public void paintHand(Graphics g)                 
     {   
-    
     int cardPaddingTopTemp=cardPaddingTop;
-
         Integer j=0;
         if(!selectionSeq.isEmpty()){
             j=selectionSeq.get(selectionSeq.size()-1);              
@@ -1072,8 +821,10 @@ public class GameGUI {
             int[] yPoints={cardPaddingTop+180,cardPaddingTop+180,cardPaddingTop+170};
             g.setColor(Color.white);
             g.setFont(new Font("Bookman Old Style", 1, 11));
+            if(game.getPhase()==Game.DISCARD){
             g.drawString("This card will be visible",cardPaddingLeft+width*j+(gap*j)-10,41+190);
-            g.drawString("on the Discard Pile",cardPaddingLeft+width*j+(gap*j)+0,54+190);  
+            g.drawString("on the Discard Pile",cardPaddingLeft+width*j+(gap*j)+0,54+190); 
+            }
             g.fillPolygon(xPoints, yPoints, 3);
         }  
         for (int i=0; i<handSetGui.cardsLeftInSet(); i++) {   

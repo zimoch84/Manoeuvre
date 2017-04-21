@@ -46,6 +46,8 @@ public final class Game implements Serializable{
     
     CardCommandFactory cardCommandFactory;
     
+    boolean undoLastCommand=false;
+    
 
     public Game(ArrayList<Player> players) {
         this.hostPlayer = players.get(0);
@@ -715,7 +717,14 @@ public final class Game implements Serializable{
             
     }
 
-    
+    public boolean isUndoLastCommand() {
+        return undoLastCommand;
+    }
+
+    public void undoCommandBeforeLast(boolean undoLastCommand) {
+        this.undoLastCommand = undoLastCommand;
+    }
+
     
     
     
