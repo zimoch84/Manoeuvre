@@ -17,9 +17,9 @@ import javax.swing.text.StyledDocument;
 import manouvre.game.Game;
 import manouvre.game.commands.CommandQueue;
 import manouvre.game.interfaces.ClientInterface;
-import manouvre.game.interfaces.Command;
 import manouvre.network.client.Message;
 import manouvre.network.client.SocketClient;
+import manouvre.game.interfaces.Command;
 
 /**
  *

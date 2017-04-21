@@ -9,8 +9,8 @@ import java.io.PipedOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import manouvre.game.interfaces.ClientInterface;
-import manouvre.game.interfaces.Command;
 import manouvre.gui.GameWindow;
+import manouvre.game.interfaces.Command;
 
 /**
  *

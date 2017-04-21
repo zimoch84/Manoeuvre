@@ -11,9 +11,21 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import manouvre.game.interfaces.ClientInterface;
-import manouvre.game.interfaces.Command;
 import manouvre.gui.CommandLogger;
 import manouvre.gui.GameWindow;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
+import manouvre.game.interfaces.Command;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
 import static java.lang.Thread.sleep;
 import static java.lang.Thread.sleep;
 import static java.lang.Thread.sleep;
@@ -88,7 +100,6 @@ class HostClient implements ClientInterface , Runnable{
                     Command executeCommand = msgIn.getCommand();
                     clientGameHost.cmdQueue.storeAndExecute(executeCommand);
                     clientGameHost.checkPopUps();
-                    clientGameHost.checkUndoLastCommand();
                     break;
         default:
              System.out.println("Host Client" + msgIn.toString()) ;
@@ -142,7 +153,6 @@ class GuestClient implements ClientInterface , Runnable{
                 Command executeCommand = msgIn.getCommand();
                 clientGameGuest.cmdQueue.storeAndExecute(executeCommand);
                 clientGameGuest.checkPopUps();
-                clientGameGuest.checkUndoLastCommand();
                 break;
             default:
                  System.out.println("Guest Client" + msgIn.toString()) ;

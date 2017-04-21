@@ -160,6 +160,9 @@ public class CardSet implements CardSetInterface, Serializable{
              cardList.remove(0); 
           }
       }
+      public void clear(){ //remove first "range" cards set
+        cardList.clear(); 
+      }
     /**
      * Returns the last card from the stack
      * @param remove - if TRUE last card will be removed from the stack

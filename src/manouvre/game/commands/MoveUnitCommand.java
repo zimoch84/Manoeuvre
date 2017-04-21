@@ -72,8 +72,8 @@ public class MoveUnitCommand implements Command {
       game.getMap().getTerrainAtXY(lastPosition.getX(), lastPosition.getY()).setIsOccupiedByUnit(true);
       game.getMap().getTerrainAtXY(newPosition.getX(), newPosition.getY()).setIsOccupiedByUnit(false);
       
-      if(!game.isUndoLastCommand())game.getPlayerByName(playerName).setMoved(false);
-      else game.getPlayerByName(playerName).setMoved(true);
+      //game.getPlayerByName(playerName).setMoved(false);  //btestfalse undo should give setMoved(false) but it doesnt work with Force March and reject funcion. Not possible to end Move Phase
+      game.getPlayerByName(playerName).setMoved(true);
       
     }
     @Override

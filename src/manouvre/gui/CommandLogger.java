@@ -5,8 +5,8 @@
  */
 package manouvre.gui;
 
-import manouvre.game.interfaces.Command;
 import manouvre.game.interfaces.FrameInterface;
+import manouvre.game.interfaces.Command;
 
 /**
  *

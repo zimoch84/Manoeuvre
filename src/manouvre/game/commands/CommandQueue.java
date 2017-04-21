@@ -5,16 +5,13 @@
  */
 package manouvre.game.commands;
 
-import static java.lang.Thread.sleep;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import manouvre.game.Game;
 import manouvre.game.interfaces.ClientInterface;
-import manouvre.game.interfaces.Command;
 import manouvre.gui.CommandLogger;
 import manouvre.gui.GameWindow;
 import manouvre.network.client.Message;
+import manouvre.game.interfaces.Command;
 
 /**
  *
@@ -103,19 +100,6 @@ public class CommandQueue {
          Remove last command
          */
          commands.remove(commands.size()-1);
-    
-    }
-    public void undoCommandBeforeLast(int numberBeforLast) {
-    
-         Command cmd = commands.get(commands.size()-numberBeforLast);
-         cmd.undo(game);
-         gameWindow.repaint();
-         gameWindow.refreshAll();
-         /*
-         Remove last command
-         */
-         commands.remove(commands.size()-numberBeforLast);
-         game.undoCommandBeforeLast(false);
     
     }
 

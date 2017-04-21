@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import manouvre.game.Game;
 import manouvre.game.Player;
 import manouvre.game.interfaces.CardInterface;
-import manouvre.game.interfaces.Command;
 import manouvre.network.client.Message;
+import manouvre.game.interfaces.Command;
 
 /**
  *

@@ -31,7 +31,6 @@ import manouvre.game.commands.SetupPositionCommand;
 import manouvre.game.commands.EndSetupCommand;
 import manouvre.game.commands.NextPhaseCommand;
 import manouvre.game.interfaces.ClientInterface;
-import manouvre.game.interfaces.Command;
 import manouvre.game.commands.CommandQueue;
 import manouvre.game.commands.EndTurnCommand;
 import javax.swing.UIManager;
@@ -41,6 +40,14 @@ import javax.swing.JOptionPane;
 import manouvre.game.Card;
 import static java.lang.Math.abs;
 import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import manouvre.game.interfaces.Command;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import manouvre.game.CardCommandFactory;
 
 
 
@@ -210,12 +217,6 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         }
     }
     
-     public void checkUndoLastCommand(){
-        if(game.isUndoLastCommand()){
-            cmdQueue.undoCommandBeforeLast(3);
-        }
-    }
-     
     private void setActionButtonText(){
         /*
         If card is Selected change Label to "Play Card" 
@@ -255,7 +256,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
            {
             actionButton.setVisible(true);
             actionButton.setText("Move");
-             if(game.getCurrentPlayer().hasMoved()&&!game.isUndoLastCommand())
+             if(game.getCurrentPlayer().hasMoved()) //this is not working with doing undo for Forced March - when rejected
             {
             actionButton.setEnabled(game.getCurrentPlayer().isActive() && !gameGui.isLocked() );  
             actionButton.setText("Undo");

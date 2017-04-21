@@ -14,8 +14,11 @@ import manouvre.game.Game;
 import manouvre.game.commands.CommandQueue;
 import manouvre.game.commands.DiscardCardCommand;
 import manouvre.game.commands.DrawCardCommand;
-import manouvre.game.interfaces.Command;
 import manouvre.network.client.Message;
+import static java.lang.Thread.sleep;
+import manouvre.game.interfaces.Command;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
 
 /**
  *

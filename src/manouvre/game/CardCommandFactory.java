@@ -8,6 +8,7 @@ package manouvre.game;
 import java.io.Serializable;
 import java.util.ArrayList;
 import manouvre.game.commands.CardCommands;
+import manouvre.game.interfaces.CardCommandInterface;
 import manouvre.game.interfaces.Command;
 
 /**
@@ -17,7 +18,10 @@ import manouvre.game.interfaces.Command;
 public class CardCommandFactory implements Serializable{
     
     Game game;
-    Command attachedCommand, cardCommand;
+    Command attachedCommand;
+    CardCommandInterface cardCommand;
+
+    
      
     Card playingCard=null;
     
@@ -158,8 +162,14 @@ public class CardCommandFactory implements Serializable{
         case Card.HQCARD :
         {
             switch(playingCard.getHQType()){
-            case Card.FORCED_MARCH : return new CardCommands.ForcedMarchCommand(attachedCommand, playingCard, game.getCurrentPlayer().getName()) ;
-            default: return new CardCommands.MoveToTableCommand(playingCard, game.getCurrentPlayer().getName()) ; //if any card selected temp
+            case Card.FORCED_MARCH : {
+                setCardCommand( new CardCommands.ForcedMarchCommand(attachedCommand, playingCard, game.getCurrentPlayer().getName()) );
+                return getCardCommand();
+            }
+            default: {
+                setCardCommand(new CardCommands.MoveToTableCommand(playingCard, game.getCurrentPlayer().getName()));
+                return  getCardCommand();
+            } //if any card selected temp
         }
         }  
         case Card.UNIT :
@@ -169,7 +179,10 @@ public class CardCommandFactory implements Serializable{
         }    
             
             
-    default: return new CardCommands.MoveToTableCommand(playingCard, game.getCurrentPlayer().getName()) ; //if any card selected temp
+    default: {
+        setCardCommand(new CardCommands.MoveToTableCommand(playingCard, game.getCurrentPlayer().getName())) ;
+        return  getCardCommand();
+    } //if any card selected temp
     }
     }
     
@@ -184,4 +197,17 @@ public class CardCommandFactory implements Serializable{
      public Command createMoveToHandCommand(CardSet cardSet, int numberOfChosenCards, boolean deleteCards){
         return new CardCommands.MoveToHandCommand(cardSet,numberOfChosenCards, game.getCurrentPlayer().getName(), deleteCards);
     }
+     
+    public Command createCleanTableCommand(){
+        return new CardCommands.CleanTableCommand();
+    } 
+     
+    public CardCommandInterface getCardCommand() {
+        return cardCommand;
+    }
+
+    public void setCardCommand(CardCommandInterface cardCommand) {
+        this.cardCommand = cardCommand;
+    }
+    
 }
