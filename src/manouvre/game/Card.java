@@ -420,6 +420,15 @@ public class Card implements CardInterface, Serializable{
         return playingCardMode;
     }
     
+    public String getPlayiningMode()
+    {
+    if(getPlayingCardMode() == Card.BOMBARD) return "BOMBARD";
+    if(getPlayingCardMode() == Card.ASSAULT) return "ASSALULT";
+    if(getPlayingCardMode() == Card.VOLLEY) return "VOLLEY";
+    if(getPlayingCardMode() == Card.AMBUSH) return "AMBUSH";
+    
+    return null;
+    }
     
     
     @Override

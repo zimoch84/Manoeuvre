@@ -682,8 +682,8 @@ public class GameGUI {
     
     
  //-------- CARDS - BOTTOM OF THE SCREEN -----------------------------------
-    float f=0.5f; //scale factor for Cards//Normally cards has 260x375 pixels
-    int width=round(260*f), height=round(375*f);
+    //scale factor for Cards//Normally cards has 260x375 pixels
+    int width=round(CardGUI.CARD_WIDTH*CardGUI.SCALE_FACTOR), height=round(CardGUI.CARD_HEIGHT*CardGUI.SCALE_FACTOR);
     int cardPaddingTop=40;
     int cardPaddingLeft=10;
     int gap = 5; 
@@ -877,7 +877,7 @@ public class GameGUI {
     public void paintDiscard(Graphics g, boolean paintOpponent){
         CardGUI cardGui;
         int x=35,y=45,w=195,h=140; //cropp image
-        int width=round(w*f), height=round(h*f);
+        int width=round(w*CardGUI.SCALE_FACTOR), height=round(h*CardGUI.SCALE_FACTOR);
         int cardPaddingTop=20;
         int cardPaddingLeft=8;
         if (paintOpponent==true){

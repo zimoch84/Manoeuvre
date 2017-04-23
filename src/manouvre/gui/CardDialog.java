@@ -7,6 +7,7 @@ package manouvre.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Toolkit;
 import javax.swing.JRootPane;
 import javax.swing.SwingConstants;
@@ -25,41 +26,29 @@ import manouvre.game.interfaces.Command;
  *
  * @author Piotr
  */
-public class CustomDialog extends javax.swing.JFrame {
+public class CardDialog extends javax.swing.JFrame {
 
     /**
-     * Creates new form CustomDialog
+     * Creates new form CardDialog
      */
-    
-    public static final int OK_CANCEL_TYPE = 1;
-    public static final int CONFIRMATION_TYPE = 2;
-    public static final int YES_NO_TYPE = 3;
-    public static final int YES_NO_UNDO_TYPE = 4;
-    public static final int YES_NO_WITH_CARD = 5;
-    public static final int THROW_DICE = 6;
-    
-    
-    int dialogType;
-    boolean executeOK;
-    
     Command okCommand;
     Command cancelCommand;
     
-    String infoText;
-    
+    CardGUI playedCard;
+  
     ClientInterface client;
     CommandQueue cmdQueue;
     Game game;
     
-    public CustomDialog() {
+    public CardDialog() {
         initComponents();
     }
 
-    public CustomDialog(int dialogType, String infoText) {
-        this.dialogType = dialogType;
-        this.infoText = infoText;
-        
-        
+    public CardDialog(CardGUI playedCard, ClientInterface client, CommandQueue cmdQueue, Game game)  {
+       
+        this.playedCard = playedCard;
+        this.game = game;
+        this.cmdQueue = cmdQueue;
         this.setUndecorated(true);
         this.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
         
@@ -67,13 +56,11 @@ public class CustomDialog extends javax.swing.JFrame {
         
         //textPane.setBackground(jPanel1.getBackground());
         //textPane.setForeground(jPanel1.getBackground());
-        textPane.setBackground(Color.BLACK);
-        StyledDocument doc = textPane.getStyledDocument();
+        
         SimpleAttributeSet center = new SimpleAttributeSet();
         StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
-        doc.setParagraphAttributes(0, doc.getLength(), center, false);
-        textPane.setOpaque(false);
-        textPane.setText(infoText);
+        
+        
        
               
         setButtonVisibility();
@@ -92,50 +79,22 @@ public class CustomDialog extends javax.swing.JFrame {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
    
-    public CustomDialog(int dialogType, String infoText,  ClientInterface client, Game game){
-        this(dialogType, infoText);
-       this.client = client;
-       this.game = game;
         
-    }
-    
-    public CustomDialog(int dialogType, String infoText,  CommandQueue cmd, Game game){
-       this(dialogType, infoText);
-       this.game = game;
-       this.cmdQueue = cmd;
-        
-    }
-    
     private void setButtonVisibility()
     {
-        switch(dialogType){
-            case OK_CANCEL_TYPE: 
-                okButton.setVisible(true);
-                cancelButton.setVisible(true);
-                break;  
-            case CONFIRMATION_TYPE :
-                
-                okButton.setVisible(true);
-                cancelButton.setVisible(false);
-                break;
-            case YES_NO_TYPE: 
-                okButton.setVisible(true);
-                okButton.setLabel("Yes");
-                cancelButton.setVisible(true);
-                cancelButton.setLabel("No");
-                break;
-            case YES_NO_UNDO_TYPE: 
-                okButton.setVisible(true);
-                okButton.setLabel("Yes");
-                cancelButton.setVisible(true);
-                cancelButton.setLabel("No");
-                break;    
-            
-                       
-        }
+        
+        
+            if(game.getCurrentPlayer().getHand().getCardByName("Guerrillas", false)!=null)
+            cancelButton.setEnabled(true);
     }
             
+    private void drawCard(Graphics g){
     
+        g.drawImage(playedCard.getImgFull(),0,0,(int)(CardGUI.CARD_WIDTH * CardGUI.SCALE_FACTOR) ,
+                
+                (int) (CardGUI.CARD_HEIGHT * CardGUI.SCALE_FACTOR), null);
+        
+    }
         
 
     /**
@@ -150,7 +109,16 @@ public class CustomDialog extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         okButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
-        textPane = new javax.swing.JTextPane();
+        jPanel2 = new javax.swing.JPanel()
+        {
+            @Override
+            public void paintComponent(Graphics g) {
+                drawCard(g);
+
+            }
+        }
+        ;
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.FlowLayout());
@@ -162,12 +130,27 @@ public class CustomDialog extends javax.swing.JFrame {
             }
         });
 
-        cancelButton.setText("Cancel");
+        cancelButton.setText("Guirellas");
+        cancelButton.setEnabled(false);
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelButtonActionPerformed(evt);
             }
         });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 159, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 217, Short.MAX_VALUE)
+        );
+
+        jLabel1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel1.setText("Opponent plays:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -175,23 +158,33 @@ public class CustomDialog extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(textPane, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(cancelButton)
-                        .addGap(148, 148, 148)
-                        .addComponent(okButton, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(16, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(okButton, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 73, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(71, 71, 71))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(94, 94, 94))))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(63, Short.MAX_VALUE)
-                .addComponent(textPane, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(okButton)
-                    .addComponent(cancelButton))
+                    .addComponent(cancelButton)
+                    .addComponent(okButton))
                 .addContainerGap())
         );
 
@@ -220,14 +213,6 @@ public class CustomDialog extends javax.swing.JFrame {
             cmdQueue.storeAndExecuteAndSend(cancelCommand);
             
         }
-        else if (dialogType == YES_NO_UNDO_TYPE)
-            
-        {
-            cmdQueue.undoCommand(cancelCommand);
-                   }
-            
-            
-        
         this.dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
@@ -248,21 +233,23 @@ public class CustomDialog extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CustomDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CardDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CustomDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CardDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CustomDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CardDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CustomDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CardDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CustomDialog().setVisible(true);
+                new CardDialog().setVisible(true);
             }
         });
     }
@@ -274,13 +261,11 @@ public class CustomDialog extends javax.swing.JFrame {
         this.cancelCommand = cancelCommand;
     }
 
-    public void setInfoText(String infoText) {
-        this.infoText = infoText;
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JButton okButton;
-    private javax.swing.JTextPane textPane;
     // End of variables declaration//GEN-END:variables
 }

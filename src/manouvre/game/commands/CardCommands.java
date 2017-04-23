@@ -6,6 +6,7 @@
 package manouvre.game.commands;
 
 import manouvre.game.Card;
+import manouvre.game.CardCommandFactory;
 import manouvre.game.CardSet;
 import manouvre.game.Game;
 import manouvre.game.Param;
@@ -38,7 +39,8 @@ public static class MoveToTableCommand implements CardCommandInterface{
                 
             }else{
                 game.getCurrentPlayer().getTablePile().addCardToThisSet(game.getOpponentPlayer().getHand().drawCardFromSet(card)); //remove card from opponent hand and put it on table
-                game.getCardCommandFactory().setPlayingCard(card);
+                game.getCardCommandFactory().setOpponentCard(card);
+                
                 //repaint is made by CommandQueue
             }
         }
@@ -176,6 +178,7 @@ public static class ForcedMarchCommand implements CardCommandInterface {
           
             moveToTableCommand.execute(game);
             moveUnitCommand.execute(game);
+            game.getCardCommandFactory().notifyObservers(CardCommandFactory.CARD_DIALOG);
         }
 
         @Override
@@ -220,8 +223,14 @@ public static class AttackCommand implements Command {
         @Override
         public void execute(Game game) {
             
-            moveToTableCommand.execute(game);
+           moveToTableCommand.execute(game);
             
+            
+           game.getCardCommandFactory().setAttackedUnit(attackedUnit);
+            
+           game.getCardCommandFactory().notifyObservers(CardCommandFactory.ATTACK_DIALOG);
+           
+          
         }
 
         @Override
