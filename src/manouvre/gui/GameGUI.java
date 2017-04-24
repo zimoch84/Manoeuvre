@@ -204,34 +204,30 @@ public class GameGUI {
     }
     
     private void drawSelection(Graphics g){
-        
-    if (mapGui.isUnitSelected()) 
-        {
-        for (Terrain terrain : game.getMap().getTerrainz()) {
-            if (terrain.isSelected()) {
-                //drawRectangleOnPosition(g, terrain.getPosition(), Color.yellow);
-                /*                Draw AdjencedSpace /Move                 */
-                if (terrain.getIsOccupiedByUnit()) 
-                {
-                    ArrayList<Position> movePositions;
-                    if(game.getPhase() == Game.SETUP && !game.getCurrentPlayer().isPlayingCard())
-                    {
-                        movePositions = game.getSetupPossibleMovement();
-                    }
-                    else if (game.getCurrentPlayerUnitAtPosition(terrain.getPosition()).isRetriving()  )
-                    {
-                        return;
-                    }
-                    else
-                    {
-                        movePositions = game.getPossibleMovement(game.getCurrentPlayerUnitAtPosition(terrain.getPosition()));
-                    }
-                
-                    drawMultipleRectanglesOnPositions(g, movePositions, Color.blue);
-                }
+   
+    if(!game.getCurrentPlayer().isPlayingCard())
+        if (mapGui.isUnitSelected()) 
+            {
+
+            Unit selectedUnit = game.getSelectedUnit();
+            ArrayList<Position> movePositions;
+
+            if(game.getPhase() == Game.SETUP)
+            {
+                movePositions = game.getSetupPossibleMovement();
             }
+            else if (selectedUnit.isRetriving())
+            {
+                return;
             }
+            else
+            {
+                movePositions = game.getPossibleMovement(selectedUnit);
+            }
+
+            drawMultipleRectanglesOnPositions(g, movePositions, Color.blue);
         }
+
     }
     private void drawArmy(Graphics g){
     

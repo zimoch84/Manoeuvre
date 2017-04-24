@@ -216,16 +216,12 @@ public class CustomDialog extends javax.swing.JFrame {
         
         
         if(cancelCommand != null){
-        
-            cmdQueue.storeAndExecuteAndSend(cancelCommand);
-            
-        }
-        else if (dialogType == YES_NO_UNDO_TYPE)
-            
-        {
+            if (dialogType == YES_NO_UNDO_TYPE)
             cmdQueue.undoCommand(cancelCommand);
-                   }
-            
+            else
+            cmdQueue.storeAndExecuteAndSend(cancelCommand);
+ 
+        }
             
         
         this.dispose();

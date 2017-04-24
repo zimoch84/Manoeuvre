@@ -177,6 +177,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                        new UnitGUI(ccmdf.getAttackedUnit()), client, cmdQueue, game);
                
                ad.setVisible(true);
+               break;
                
            }
            default :
@@ -1352,14 +1353,15 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             {
                 if(clickedPos != null)
                 {
-                    game.getMap().getTerrainAtPosition(clickedPos).setSelected(true);    
+                    game.getMap().getTerrainAtPosition(clickedPos).setSelected(true);           
                     System.out.println("manouvre.gui.GameWindow.mainMapPanelMouseClicked() " + clickedPos);
                     /*
                     If player clicks on unit select it
                     */    
                     if(game.checkCurrentPlayerUnitAtPosition(clickedPos) ) {
                            gameGui.mapGui.setUnitSelected(true);
-                       gameGui.getUnitGuiOnMapGui(clickedPos).getUnit().setSelected(true);
+                           game.getMap().getTerrainAtPosition(clickedPos).setIsOccupiedByUnit(true);
+                           gameGui.getUnitGuiOnMapGui(clickedPos).getUnit().setSelected(true);
                        }
                 }
             this.repaint();
@@ -1510,11 +1512,13 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         Confirmation dialog
         */
         CustomDialog dialog = 
-                new CustomDialog(CustomDialog.YES_NO_UNDO_TYPE, 
+                new CustomDialog(CustomDialog.YES_NO_TYPE, 
                         "Are You sure to play that card? " ,
                         cmdQueue, game);
         try {
             dialog.setOkCommand(game.getCardCommandFactory().createCardCommand());
+            dialog.setCancelCommand(game.getCardCommandFactory().resetFactoryCommand());
+            
             //dialog.setCancelCommand(moveUnit);
         } catch (Exception ex) {
             Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
@@ -1531,6 +1535,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                         "You cannot play this card",
                         cmdQueue, game);
         dialog.setVisible(true);
+        game.getCardCommandFactory().resetFactory();
         
     }
     private ArrayList<Position> getAvaliblePositionToSelect()

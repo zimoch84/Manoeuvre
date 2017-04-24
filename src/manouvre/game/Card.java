@@ -512,6 +512,7 @@ public class Card implements CardInterface, Serializable{
                        || getHQType() != Card.REGROUP
                        || getHQType() != Card.SKIRMICH
                        || getHQType()  != Card.WITHDRAW
+                       
                        || getCardType() != Card.UNIT
                       )
                     return true;

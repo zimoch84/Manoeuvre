@@ -203,6 +203,10 @@ public class CardCommandFactory extends Observable implements Serializable{
     }
     
     
+    public Command resetFactoryCommand(){
+        return new CardCommands.ResetCardFactory(game.getCurrentPlayer().getName());
+    }
+    
     public Command createRejectCardCommand(){
         return new CardCommands.RejectCardCommand(opponentCard, game.getCurrentPlayer().getName());
     }

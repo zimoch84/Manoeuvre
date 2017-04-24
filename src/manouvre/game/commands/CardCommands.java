@@ -134,6 +134,7 @@ public static class DoNotRejectCardCommand implements CardCommandInterface{
             }
             else{
             new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Your card was not rejected by: "+ senderPlayerName);
+            game.getCardCommandFactory().resetFactory();
             }
         }
 
@@ -328,7 +329,37 @@ public static class CleanTableCommand implements Command{    //just for test pop
         }
     }    
  
+public static class ResetCardFactory implements Command{    
+            
+    
+        
+        String senderPlayerName;
+        public ResetCardFactory(String senderPlayerName) {
+            this.senderPlayerName=senderPlayerName;
+        }
+   
+        @Override
+        public void execute(Game game) {
+             game.getCardCommandFactory().resetFactory();
+     
+        }
 
+        @Override
+        public void undo(Game game) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String logCommand() {
+            return senderPlayerName + " reseted his card factory";
+        }
+
+        @Override
+        public int getType() {
+            return Param.RESET_FACTORY
+                    ;
+        }
+      }   
 
 
 }
