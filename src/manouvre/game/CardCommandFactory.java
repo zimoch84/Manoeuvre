@@ -7,6 +7,7 @@ package manouvre.game;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Observable;
 import manouvre.game.commands.CardCommands;
 import manouvre.game.interfaces.CardCommandInterface;
 import manouvre.game.interfaces.Command;
@@ -15,17 +16,22 @@ import manouvre.game.interfaces.Command;
  * Class to serve for whole card flow in game.
  * @author Piotr
  */
-public class CardCommandFactory implements Serializable{
+public class CardCommandFactory extends Observable implements Serializable{
     
     Game game;
     Command attachedCommand;
     CardCommandInterface cardCommand;
     CardCommandInterface incomingCardCommand;
 
+    /*
+    Notify observer passed arg
+    */
+    public final static  String ATTACK_DIALOG = "ATTACK_DIALOG";
+    public final static String CARD_DIALOG = "CARD_DIALOG";
    
     
      
-    Card playingCard=null;
+    Card playingCard, opponentCard;
     
     ArrayList<Position> attackingPositions;
 
@@ -44,6 +50,7 @@ public class CardCommandFactory implements Serializable{
     public CardCommandFactory(Game game) {
         
         this.game = game;
+        
     }
 
     
@@ -71,6 +78,15 @@ public class CardCommandFactory implements Serializable{
         this.attachedCommand = attachedCommand;
     }
 
+    public Card getOpponentCard() {
+        return opponentCard;
+    }
+
+    public void setOpponentCard(Card opponentCard) {
+        this.opponentCard = opponentCard;
+        setChanged();
+    }
+    
     public Card getPlayingCard() {
         return playingCard;
     }
@@ -95,6 +111,7 @@ public class CardCommandFactory implements Serializable{
 
     public void setAttackedUnit(Unit attackedUnit) {
         this.attackedUnit = attackedUnit;
+        setChanged();
     }
     
     
@@ -177,7 +194,7 @@ public class CardCommandFactory implements Serializable{
         case Card.UNIT :
         {
             return new CardCommands.AttackCommand(getAttackedUnit(), playingCard, game.getCurrentPlayer().getName());
-        
+            
         }    
             
             
@@ -189,11 +206,15 @@ public class CardCommandFactory implements Serializable{
     }
     
     
+    public Command resetFactoryCommand(){
+        return new CardCommands.ResetCardFactory(game.getCurrentPlayer().getName());
+    }
+    
     public Command createRejectCardCommand(){
-        return new CardCommands.RejectCardCommand(playingCard, game.getCurrentPlayer().getName());
+        return new CardCommands.RejectCardCommand(opponentCard, game.getCurrentPlayer().getName());
     }
     public Command createDoNotRejectCardCommand(){
-        return new CardCommands.DoNotRejectCardCommand(playingCard, game.getCurrentPlayer().getName());
+        return new CardCommands.DoNotRejectCardCommand(opponentCard, game.getCurrentPlayer().getName());
     }
     
      public Command createMoveToHandCommand(CardSet cardSet, int numberOfChosenCards, boolean deleteCards){
@@ -211,6 +232,8 @@ public class CardCommandFactory implements Serializable{
     public void setCardCommand(CardCommandInterface cardCommand) {
         this.cardCommand = cardCommand;
     }
+
+
     
      public CardCommandInterface getIncomingCardCommand() {
         return incomingCardCommand;

@@ -6,6 +6,7 @@
 package manouvre.game.commands;
 
 import manouvre.game.Card;
+import manouvre.game.CardCommandFactory;
 import manouvre.game.CardSet;
 import manouvre.game.Game;
 import manouvre.game.Param;
@@ -38,7 +39,8 @@ public static class MoveToTableCommand implements CardCommandInterface{
                 
             }else{
                 game.getCurrentPlayer().getTablePile().addCardToThisSet(game.getOpponentPlayer().getHand().drawCardFromSet(card)); //remove card from opponent hand and put it on table
-                game.getCardCommandFactory().setPlayingCard(card);
+                game.getCardCommandFactory().setOpponentCard(card);
+                
                 //repaint is made by CommandQueue
             }
         }
@@ -85,7 +87,7 @@ public static class RejectCardCommand implements CardCommandInterface{
                 game.getCurrentPlayer().getDiscardPile().addCardToThisSet(game.getCurrentPlayer().getTablePile().drawCardFromSet(card));
                 game.getCardCommandFactory().getIncomingCardCommand().cancel(game); //get last command, and do Cancel- f.ex.ForcedMarch - iside Cancel resetaFactory
                 new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Your card was rejected by: "+ senderPlayerName);
-                
+                //game.getCardCommandFactory().notifyObservers(CardCommandFactory.CARD_DIALOG);
             }
            //all players do the same
                 Card guerrillas = game.getPlayerByName(senderPlayerName).getHand().getCardByName("Guerrillas", true);
@@ -132,6 +134,7 @@ public static class DoNotRejectCardCommand implements CardCommandInterface{
             }
             else{
             new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Your card was not rejected by: "+ senderPlayerName);
+            game.getCardCommandFactory().resetFactory();
             }
         }
 
@@ -180,6 +183,7 @@ public static class ForcedMarchCommand implements CardCommandInterface {
                 //do nothing special
             }else
             game.getCardCommandFactory().setIncomingCardCommand(this); //set this comand to be able to reject it
+            game.getCardCommandFactory().notifyObservers(CardCommandFactory.CARD_DIALOG);
         }
 
         @Override
@@ -224,8 +228,14 @@ public static class AttackCommand implements Command {
         @Override
         public void execute(Game game) {
             
-            moveToTableCommand.execute(game);
+           moveToTableCommand.execute(game);
             
+            
+           game.getCardCommandFactory().setAttackedUnit(attackedUnit);
+            
+           game.getCardCommandFactory().notifyObservers(CardCommandFactory.ATTACK_DIALOG);
+           
+          
         }
 
         @Override
@@ -323,7 +333,37 @@ public static class CleanTableCommand implements Command{    //just for test pop
         }
     }    
  
+public static class ResetCardFactory implements Command{    
+            
+    
+        
+        String senderPlayerName;
+        public ResetCardFactory(String senderPlayerName) {
+            this.senderPlayerName=senderPlayerName;
+        }
+   
+        @Override
+        public void execute(Game game) {
+             game.getCardCommandFactory().resetFactory();
+     
+        }
 
+        @Override
+        public void undo(Game game) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String logCommand() {
+            return senderPlayerName + " reseted his card factory";
+        }
+
+        @Override
+        public int getType() {
+            return Param.RESET_FACTORY
+                    ;
+        }
+      }   
 
 
 }

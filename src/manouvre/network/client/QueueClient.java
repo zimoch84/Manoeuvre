@@ -6,28 +6,13 @@
 package manouvre.network.client;
 
 import java.io.IOException;
-import static java.lang.Thread.sleep;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import manouvre.game.interfaces.ClientInterface;
 import manouvre.gui.CommandLogger;
 import manouvre.gui.GameWindow;
-import static java.lang.Thread.sleep;
-import static java.lang.Thread.sleep;
-import static java.lang.Thread.sleep;
-import static java.lang.Thread.sleep;
-import static java.lang.Thread.sleep;
-import static java.lang.Thread.sleep;
-import static java.lang.Thread.sleep;
 import manouvre.game.interfaces.Command;
-import static java.lang.Thread.sleep;
-import static java.lang.Thread.sleep;
-import static java.lang.Thread.sleep;
-import static java.lang.Thread.sleep;
-import static java.lang.Thread.sleep;
-import static java.lang.Thread.sleep;
-import static java.lang.Thread.sleep;
 import static java.lang.Thread.sleep;
 
 /**
@@ -74,6 +59,7 @@ public class QueueClient  {
         
         
     }
+   
 class HostClient implements ClientInterface , Runnable{
  ArrayList<Message> guestQueue, hostQueue;
  
@@ -152,7 +138,7 @@ class GuestClient implements ClientInterface , Runnable{
             case Message.COMMAND:
                 Command executeCommand = msgIn.getCommand();
                 clientGameGuest.cmdQueue.storeAndExecute(executeCommand);
-                clientGameGuest.checkPopUps();
+                //clientGameGuest.checkPopUps();
                 break;
             default:
                  System.out.println("Guest Client" + msgIn.toString()) ;

@@ -30,6 +30,10 @@ public class CardGUI {
 //    int posY;
     Image imgBackCover;
    
+    public static final int CARD_WIDTH = 260;
+    public static final int CARD_HEIGHT = 375;
+    public static final float SCALE_FACTOR= 0.5f;
+    
     /**
      * Gets the card image based on its ID in cards.csv 
      * @param ID    cardID

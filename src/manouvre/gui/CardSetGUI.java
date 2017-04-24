@@ -5,14 +5,7 @@
  */
 package manouvre.gui;
 
-import java.awt.Image;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import manouvre.game.Card;
 import manouvre.game.CardSet;
 
 //import java.awt.image.BufferedImage;

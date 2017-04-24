@@ -19,6 +19,7 @@ public abstract class  Param {
     public static final int MOVE_UNIT = 6;
     public static final int SETUP_POSITION = 7;
     public static final int PLAY_CARD = 8;
+    public static final int RESET_FACTORY = 8;
     
     
 }

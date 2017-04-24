@@ -204,34 +204,30 @@ public class GameGUI {
     }
     
     private void drawSelection(Graphics g){
-        
-    if (mapGui.isUnitSelected()) 
-        {
-        for (Terrain terrain : game.getMap().getTerrainz()) {
-            if (terrain.isSelected()) {
-                //drawRectangleOnPosition(g, terrain.getPosition(), Color.yellow);
-                /*                Draw AdjencedSpace /Move                 */
-                if (terrain.getIsOccupiedByUnit()) 
-                {
-                    ArrayList<Position> movePositions;
-                    if(game.getPhase() == Game.SETUP && !game.getCurrentPlayer().isPlayingCard())
-                    {
-                        movePositions = game.getSetupPossibleMovement();
-                    }
-                    else if (game.getCurrentPlayerUnitAtPosition(terrain.getPosition()).isRetriving()  )
-                    {
-                        return;
-                    }
-                    else
-                    {
-                        movePositions = game.getPossibleMovement(game.getCurrentPlayerUnitAtPosition(terrain.getPosition()));
-                    }
-                
-                    drawMultipleRectanglesOnPositions(g, movePositions, Color.blue);
-                }
+   
+    if(!game.getCurrentPlayer().isPlayingCard())
+        if (mapGui.isUnitSelected()) 
+            {
+
+            Unit selectedUnit = game.getSelectedUnit();
+            ArrayList<Position> movePositions;
+
+            if(game.getPhase() == Game.SETUP)
+            {
+                movePositions = game.getSetupPossibleMovement();
             }
+            else if (selectedUnit.isRetriving())
+            {
+                return;
             }
+            else
+            {
+                movePositions = game.getPossibleMovement(selectedUnit);
+            }
+
+            drawMultipleRectanglesOnPositions(g, movePositions, Color.blue);
         }
+
     }
     private void drawArmy(Graphics g){
     
@@ -682,8 +678,8 @@ public class GameGUI {
     
     
  //-------- CARDS - BOTTOM OF THE SCREEN -----------------------------------
-    float f=0.5f; //scale factor for Cards//Normally cards has 260x375 pixels
-    int width=round(260*f), height=round(375*f);
+    //scale factor for Cards//Normally cards has 260x375 pixels
+    int width=round(CardGUI.CARD_WIDTH*CardGUI.SCALE_FACTOR), height=round(CardGUI.CARD_HEIGHT*CardGUI.SCALE_FACTOR);
     int cardPaddingTop=40;
     int cardPaddingLeft=10;
     int gap = 5; 
@@ -877,7 +873,7 @@ public class GameGUI {
     public void paintDiscard(Graphics g, boolean paintOpponent){
         CardGUI cardGui;
         int x=35,y=45,w=195,h=140; //cropp image
-        int width=round(w*f), height=round(h*f);
+        int width=round(w*CardGUI.SCALE_FACTOR), height=round(h*CardGUI.SCALE_FACTOR);
         int cardPaddingTop=20;
         int cardPaddingLeft=8;
         if (paintOpponent==true){

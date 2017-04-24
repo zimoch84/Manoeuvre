@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package manouvre.gui;
-
 import java.awt.Color;
 import java.awt.Desktop;
 import static java.awt.Desktop.isDesktopSupported;
@@ -38,15 +37,10 @@ import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import manouvre.game.Card;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
 import manouvre.game.interfaces.Command;
 import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
+import java.util.Observable;
+import java.util.Observer;
 import manouvre.game.CardCommandFactory;
 
 
@@ -55,7 +49,7 @@ import manouvre.game.CardCommandFactory;
  *
  * @author Piotr
  */
-public class GameWindow extends javax.swing.JFrame implements FrameInterface{
+public class GameWindow extends javax.swing.JFrame  implements FrameInterface, Observer{
 
     /*
     Network variables
@@ -127,6 +121,8 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         
         initComponents();
         
+        game.getCardCommandFactory().addObserver(this);
+        
         refreshAll();
         
         
@@ -147,6 +143,48 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
     }
     
     
+    @Override
+    public void update(Observable o, Object arg) {
+        CardCommandFactory ccmdf = (CardCommandFactory) o;
+        String dialogType = (String) arg;
+        
+       switch (dialogType){
+       
+           case CardCommandFactory.CARD_DIALOG:
+           {
+           Command rejectCard = ccmdf.createRejectCardCommand();
+           Command doNotRejectCard = ccmdf.createDoNotRejectCardCommand();
+           CardDialog cd  = new CardDialog(new CardGUI (ccmdf.getOpponentCard()), client, cmdQueue, game);
+           cd.setOkCommand(doNotRejectCard);
+           cd.setCancelCommand(rejectCard);   
+           
+           cd.setVisible(true);
+           break;
+               
+           }
+           
+           case CardCommandFactory.ATTACK_DIALOG:
+           {
+           /*
+               Create withdraw or ok dialog
+               */
+               Command withdrawCommand;   // ccmdf.createRejectCardCommand();
+               Command okCommand;//
+               Command pickDefenseCardsCommand;
+               AttackDialog ad = new AttackDialog(ccmdf.getOpponentCard().getPlayiningMode(), new CardGUI(ccmdf.getOpponentCard()), 
+                       new UnitGUI(ccmdf.getAttackedUnit()), client, cmdQueue, game);
+               
+               ad.setVisible(true);
+               break;
+               
+           }
+           default :
+               System.out.println("manouvre.gui.GameWindow.update() No such dialog Type" );
+       
+       }
+        
+    }
+     
     public Game getGame() {
          return game;
     }
@@ -197,7 +235,10 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         gameGui.resetAllCardSets();
         
     }
-    public void  checkPopUps(){  //show popup if card cen be cancelled
+    public void  checkPopUps(){ 
+        
+            
+//show popup if card cen be cancelled
         if(game.getCardCommandFactory().getPlayingCard()!=null){
             if(game.getCardCommandFactory().getPlayingCard().getCanBeCancelled()){
                 Command rejectCard = game.getCardCommandFactory().createRejectCardCommand();
@@ -605,13 +646,15 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             }
         });
 
-        mainMapPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Map"));
         mainMapPanel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
                 mainMapPanelMouseMoved(evt);
             }
         });
         mainMapPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                mainMapPanelMouseReleased(evt);
+            }
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 mainMapPanelMouseClicked(evt);
             }
@@ -620,9 +663,6 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 mainMapPanelMouseExited(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                mainMapPanelMouseReleased(evt);
             }
         });
 
@@ -1311,14 +1351,15 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
             {
                 if(clickedPos != null)
                 {
-                    game.getMap().getTerrainAtPosition(clickedPos).setSelected(true);    
+                    game.getMap().getTerrainAtPosition(clickedPos).setSelected(true);           
                     System.out.println("manouvre.gui.GameWindow.mainMapPanelMouseClicked() " + clickedPos);
                     /*
                     If player clicks on unit select it
                     */    
                     if(game.checkCurrentPlayerUnitAtPosition(clickedPos) ) {
                            gameGui.mapGui.setUnitSelected(true);
-                       gameGui.getUnitGuiOnMapGui(clickedPos).getUnit().setSelected(true);
+                           game.getMap().getTerrainAtPosition(clickedPos).setIsOccupiedByUnit(true);
+                           gameGui.getUnitGuiOnMapGui(clickedPos).getUnit().setSelected(true);
                        }
                 }
             this.repaint();
@@ -1469,11 +1510,13 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
         Confirmation dialog
         */
         CustomDialog dialog = 
-                new CustomDialog(CustomDialog.YES_NO_UNDO_TYPE, 
+                new CustomDialog(CustomDialog.YES_NO_TYPE, 
                         "Are You sure to play that card? " ,
                         cmdQueue, game);
         try {
             dialog.setOkCommand(game.getCardCommandFactory().createCardCommand());
+            dialog.setCancelCommand(game.getCardCommandFactory().resetFactoryCommand());
+            
             //dialog.setCancelCommand(moveUnit);
         } catch (Exception ex) {
             Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
@@ -1490,6 +1533,7 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
                         "You cannot play this card",
                         cmdQueue, game);
         dialog.setVisible(true);
+        game.getCardCommandFactory().resetFactory();
         
     }
     private ArrayList<Position> getAvaliblePositionToSelect()
@@ -2126,6 +2170,8 @@ public class GameWindow extends javax.swing.JFrame implements FrameInterface{
     private javax.swing.JTextField sendText;
     private javax.swing.JPanel tablePanel;
     // End of variables declaration//GEN-END:variables
+
+  
 
 
 
