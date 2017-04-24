@@ -688,7 +688,15 @@ public final class Game implements Serializable{
         this.cardCommandFactory = cardCommandFactory;
     }
 
+    public void unselectAllUnits(){
     
+    for (Unit unit: currentPlayer.getArmy()){
+             unit.setSelected(false);
+             getMap().setUnitSelected(false);
+             getMap().unselectAllTerrains();
+       }
+       
+    }
    
     
     public String toString(){

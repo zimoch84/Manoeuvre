@@ -34,15 +34,21 @@ public static class MoveToTableCommand implements CardCommandInterface{
         @Override
         public void execute(Game game) {
             if(game.getCurrentPlayer().getName().equals(senderPlayerName)){
-                game.getCurrentPlayer().getTablePile().addCardToThisSet(game.getCurrentPlayer().getHand().drawCardFromSet(card));//remove card from own hand and put it on table
-                //repaint is made by CommandQueue
-                
+                Card movingCard=game.getCurrentPlayer().getHand().getCardByCard(card);
+                addCardToBothTables(game,movingCard);
+                game.getCurrentPlayer().getHand().drawCardFromSet(card);//remove card from own hand
             }else{
-                game.getCurrentPlayer().getTablePile().addCardToThisSet(game.getOpponentPlayer().getHand().drawCardFromSet(card)); //remove card from opponent hand and put it on table
-                game.getCardCommandFactory().setOpponentCard(card);
-                
-                //repaint is made by CommandQueue
+                Card movingCard=game.getOpponentPlayer().getHand().getCardByCard(card);
+                addCardToBothTables(game,movingCard);
+                game.getOpponentPlayer().getHand().drawCardFromSet(card);//remove card from own hand
+                game.getCardCommandFactory().setOpponentCard(movingCard);
             }
+            //repaint is made by CommandQueue
+        }
+        
+        private void addCardToBothTables(Game game, Card card){
+                game.getCurrentPlayer().getTablePile().addCardToThisSet(card);// Put card on own table
+                game.getOpponentPlayer().getTablePile().addCardToThisSet(card);// Put card on Opponent table
         }
 
         @Override
@@ -72,30 +78,35 @@ public static class RejectCardCommand implements CardCommandInterface{
     
         Card card;
         String senderPlayerName;
-        public RejectCardCommand(Card card, String senderPlayerName) {
+        CardCommandInterface incomingCardCommand;
+        public RejectCardCommand(Card card, String senderPlayerName, CardCommandInterface incomingCardCommand) {
             this.card = card;
             this.senderPlayerName=senderPlayerName;
+            this.incomingCardCommand=incomingCardCommand;
         }
      
         @Override
         public void execute(Game game) {
            if(game.getCurrentPlayer().getName().equals(senderPlayerName)){ //separate action for each player
+                game.getCurrentPlayer().getTablePile().drawCardFromSet(card);//do not add this card to Discard as this card goes to Opponent DiscardPile
+                game.getOpponentPlayer().getDiscardPile().addCardToThisSet(game.getOpponentPlayer().getTablePile().drawCardFromSet(card));
                 game.getCardCommandFactory().resetFactory();
-                game.getCurrentPlayer().getDiscardPile().addCardToThisSet(game.getCurrentPlayer().getTablePile().drawCardFromSet(card));
             }
             else{
+                game.getCardCommandFactory().awakeObserver();
+                game.getCardCommandFactory().notifyObservers(CardCommandFactory.CARD_REJECTED);
                 game.getCurrentPlayer().getDiscardPile().addCardToThisSet(game.getCurrentPlayer().getTablePile().drawCardFromSet(card));
-                game.getCardCommandFactory().getCardCommand().cancel(game); //get last command, and do Cancel- f.ex.ForcedMarch - iside Cancel resetaFactory
-                new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Your card was rejected by: "+ senderPlayerName);
-                
             }
            //all players do the same
+                
+               
+                incomingCardCommand.cancel(game); 
                 Card guerrillas = game.getPlayerByName(senderPlayerName).getHand().getCardByName("Guerrillas", true);
                 game.getPlayerByName(senderPlayerName).getDiscardPile().addCardToThisSet(guerrillas); 
                 
                 
         }
-
+       
         @Override
         public void undo(Game game) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -133,7 +144,8 @@ public static class DoNotRejectCardCommand implements CardCommandInterface{
                 game.getCardCommandFactory().resetFactory();
             }
             else{
-            new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Your card was not rejected by: "+ senderPlayerName);
+            game.getCardCommandFactory().awakeObserver();
+            game.getCardCommandFactory().notifyObservers(CardCommandFactory.CARD_NOT_REJECTED);
             game.getCardCommandFactory().resetFactory();
             }
         }
@@ -179,6 +191,10 @@ public static class ForcedMarchCommand implements CardCommandInterface {
           
             moveToTableCommand.execute(game);
             moveUnitCommand.execute(game);
+            if(game.getCurrentPlayer().getName().equals(senderPlayerName)){
+                //do nothing special
+            }else
+            game.getCardCommandFactory().setIncomingCardCommand(this); //set this comand to be able to reject it
             game.getCardCommandFactory().notifyObservers(CardCommandFactory.CARD_DIALOG);
         }
 
@@ -202,6 +218,7 @@ public static class ForcedMarchCommand implements CardCommandInterface {
         @Override
         public void cancel(Game game) {
             moveUnitCommand.undo(game);
+            game.getCurrentPlayer().setMoved(true);
             game.getCardCommandFactory().resetFactory();
         }
 

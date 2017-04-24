@@ -21,12 +21,15 @@ public class CardCommandFactory extends Observable implements Serializable{
     Game game;
     Command attachedCommand;
     CardCommandInterface cardCommand;
+    CardCommandInterface incomingCardCommand;
 
     /*
     Notify observer passed arg
     */
     public final static  String ATTACK_DIALOG = "ATTACK_DIALOG";
     public final static String CARD_DIALOG = "CARD_DIALOG";
+    public final static String CARD_REJECTED = "CARD_REJECTED";
+    public final static String CARD_NOT_REJECTED = "CARD_NOT_REJECTED";
      
     Card playingCard, opponentCard;
     
@@ -82,6 +85,10 @@ public class CardCommandFactory extends Observable implements Serializable{
     public void setOpponentCard(Card opponentCard) {
         this.opponentCard = opponentCard;
         setChanged();
+    }
+    
+    public void awakeObserver(){
+         setChanged();
     }
     
     public Card getPlayingCard() {
@@ -208,7 +215,7 @@ public class CardCommandFactory extends Observable implements Serializable{
     }
     
     public Command createRejectCardCommand(){
-        return new CardCommands.RejectCardCommand(opponentCard, game.getCurrentPlayer().getName());
+        return new CardCommands.RejectCardCommand(opponentCard, game.getCurrentPlayer().getName(), getIncomingCardCommand());
     }
     public Command createDoNotRejectCardCommand(){
         return new CardCommands.DoNotRejectCardCommand(opponentCard, game.getCurrentPlayer().getName());
@@ -232,4 +239,11 @@ public class CardCommandFactory extends Observable implements Serializable{
 
 
     
+     public CardCommandInterface getIncomingCardCommand() {
+        return incomingCardCommand;
+    }
+
+    public void setIncomingCardCommand(CardCommandInterface incomingCardCommand) {
+        this.incomingCardCommand = incomingCardCommand;
+    }
 }
