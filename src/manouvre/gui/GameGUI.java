@@ -616,11 +616,7 @@ public class GameGUI {
     }
 
    void unselectAllUnits() {
-    for (Unit unit: currentPlayer.getArmy()){
-             unit.setSelected(false);
-             mapGui.setUnitSelected(false);
-             mapGui.getMap().unselectAllTerrains();
-       }
+        game.unselectAllUnits();
        
     }
     
@@ -873,7 +869,7 @@ public class GameGUI {
             
     public void paintDiscard(Graphics g, boolean paintOpponent){
         CardGUI cardGui;
-        int x=35,y=45,w=195,h=140; //cropp image
+        int x=35,y=40,w=195,h=300; //cropp image
         int width=round(w*CardGUI.SCALE_FACTOR), height=round(h*CardGUI.SCALE_FACTOR);
         int cardPaddingTop=20;
         int cardPaddingLeft=8;

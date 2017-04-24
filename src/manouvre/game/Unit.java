@@ -107,6 +107,14 @@ public class Unit implements UnitInterface, Serializable{
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
         
    
     @Override
