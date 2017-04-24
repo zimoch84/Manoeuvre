@@ -20,7 +20,9 @@ public class CardCommandFactory implements Serializable{
     Game game;
     Command attachedCommand;
     CardCommandInterface cardCommand;
+    CardCommandInterface incomingCardCommand;
 
+   
     
      
     Card playingCard=null;
@@ -210,4 +212,11 @@ public class CardCommandFactory implements Serializable{
         this.cardCommand = cardCommand;
     }
     
+     public CardCommandInterface getIncomingCardCommand() {
+        return incomingCardCommand;
+    }
+
+    public void setIncomingCardCommand(CardCommandInterface incomingCardCommand) {
+        this.incomingCardCommand = incomingCardCommand;
+    }
 }

@@ -83,7 +83,7 @@ public static class RejectCardCommand implements CardCommandInterface{
             }
             else{
                 game.getCurrentPlayer().getDiscardPile().addCardToThisSet(game.getCurrentPlayer().getTablePile().drawCardFromSet(card));
-                game.getCardCommandFactory().getCardCommand().cancel(game); //get last command, and do Cancel- f.ex.ForcedMarch - iside Cancel resetaFactory
+                game.getCardCommandFactory().getIncomingCardCommand().cancel(game); //get last command, and do Cancel- f.ex.ForcedMarch - iside Cancel resetaFactory
                 new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Your card was rejected by: "+ senderPlayerName);
                 
             }
@@ -176,6 +176,10 @@ public static class ForcedMarchCommand implements CardCommandInterface {
           
             moveToTableCommand.execute(game);
             moveUnitCommand.execute(game);
+            if(game.getCurrentPlayer().getName().equals(senderPlayerName)){
+                //do nothing special
+            }else
+            game.getCardCommandFactory().setIncomingCardCommand(this); //set this comand to be able to reject it
         }
 
         @Override
