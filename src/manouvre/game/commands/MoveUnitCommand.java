@@ -25,6 +25,7 @@ public class MoveUnitCommand implements Command {
     public MoveUnitCommand(String playerName, Unit unit,  Position newPosition) {
 	this.storedUnit = unit;
         this.newPosition = newPosition;
+        this.lastPosition = new Position (storedUnit.getPosition().getX(), storedUnit.getPosition().getY()) ;
         this.playerName = playerName;
        
 	}
@@ -38,7 +39,7 @@ public class MoveUnitCommand implements Command {
         /*
         Store last position to undo be passible
         */
-        lastPosition = storedUnit.getPosition() ;
+       // lastPosition = new Position (storedUnit.getPosition().getX(), storedUnit.getPosition().getY()) ;
         /*
         Move unit on game 
         */
@@ -49,7 +50,7 @@ public class MoveUnitCommand implements Command {
         
         game.getMap().getTerrainAtXY(lastPosition.getX(), lastPosition.getY()).setIsOccupiedByUnit(false);
         game.getMap().getTerrainAtXY(newPosition.getX(), newPosition.getY()).setIsOccupiedByUnit(true);
-        game.getMap().unselectAllTerrains();
+        game.unselectAllUnits();
                 
                 
         if (game.getPhase()!=Game.SETUP)
@@ -72,8 +73,8 @@ public class MoveUnitCommand implements Command {
       game.getMap().getTerrainAtXY(lastPosition.getX(), lastPosition.getY()).setIsOccupiedByUnit(true);
       game.getMap().getTerrainAtXY(newPosition.getX(), newPosition.getY()).setIsOccupiedByUnit(false);
       
-      //game.getPlayerByName(playerName).setMoved(false);  //btestfalse undo should give setMoved(false) but it doesnt work with Force March and reject funcion. Not possible to end Move Phase
-      game.getPlayerByName(playerName).setMoved(true);
+      game.getPlayerByName(playerName).setMoved(false);  //btestfalse undo should give setMoved(false) but it doesnt work with Force March and reject funcion. Not possible to end Move Phase
+      
       
     }
     @Override

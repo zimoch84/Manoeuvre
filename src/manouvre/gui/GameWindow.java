@@ -5,7 +5,6 @@
  */
 package manouvre.gui;
 
-import com.sun.beans.util.Cache;
 import java.awt.Color;
 import java.awt.Desktop;
 import static java.awt.Desktop.isDesktopSupported;
@@ -179,6 +178,14 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                ad.setVisible(true);
                break;
                
+           }
+           case CardCommandFactory.CARD_REJECTED:
+           {
+               new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Your card was rejected by opponent");
+           }
+           case CardCommandFactory.CARD_NOT_REJECTED:
+           {
+               new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Your card was not rejected by opponent");
            }
            default :
                System.out.println("manouvre.gui.GameWindow.update() No such dialog Type" );
@@ -855,7 +862,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         );
         discardPanelLayout.setVerticalGroup(
             discardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 93, Short.MAX_VALUE)
+            .addGap(0, 155, Short.MAX_VALUE)
         );
 
         playerDrawLeftPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Draw Pile"));
@@ -893,31 +900,28 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             .addGroup(currentPlayerPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(currentPlayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(currentPlayerPanelLayout.createSequentialGroup()
-                        .addComponent(playerDrawLeftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(143, Short.MAX_VALUE))
-                    .addGroup(currentPlayerPanelLayout.createSequentialGroup()
-                        .addGroup(currentPlayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel2)
-                            .addComponent(curPlayerFlag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(26, 26, 26)
-                        .addComponent(discardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))))
+                    .addComponent(playerDrawLeftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel2)
+                    .addComponent(curPlayerFlag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(discardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
+                .addContainerGap())
         );
         currentPlayerPanelLayout.setVerticalGroup(
             currentPlayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(currentPlayerPanelLayout.createSequentialGroup()
-                .addGroup(currentPlayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(currentPlayerPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(curPlayerFlag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2))
-                    .addComponent(discardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(curPlayerFlag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(playerDrawLeftPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(currentPlayerPanelLayout.createSequentialGroup()
+                .addComponent(discardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         playersTabbedPane.addTab(game.getCurrentPlayer().getName(), currentPlayerPanel);
@@ -937,11 +941,11 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         discardPanel1.setLayout(discardPanel1Layout);
         discardPanel1Layout.setHorizontalGroup(
             discardPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 121, Short.MAX_VALUE)
         );
         discardPanel1Layout.setVerticalGroup(
             discardPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 93, Short.MAX_VALUE)
+            .addGap(0, 155, Short.MAX_VALUE)
         );
 
         playerDrawLeftPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Draw Pile"));
@@ -979,31 +983,28 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             .addGroup(opponentPlayerPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(opponentPlayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(opponentPlayerPanelLayout.createSequentialGroup()
-                        .addComponent(playerDrawLeftPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(143, Short.MAX_VALUE))
-                    .addGroup(opponentPlayerPanelLayout.createSequentialGroup()
-                        .addGroup(opponentPlayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel3)
-                            .addComponent(opoPlayerFlag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(26, 26, 26)
-                        .addComponent(discardPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))))
+                    .addComponent(playerDrawLeftPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel3)
+                    .addComponent(opoPlayerFlag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(discardPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
+                .addContainerGap())
         );
         opponentPlayerPanelLayout.setVerticalGroup(
             opponentPlayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(opponentPlayerPanelLayout.createSequentialGroup()
-                .addGroup(opponentPlayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(opponentPlayerPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(opoPlayerFlag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3))
-                    .addComponent(discardPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(opoPlayerFlag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(playerDrawLeftPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(opponentPlayerPanelLayout.createSequentialGroup()
+                .addComponent(discardPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         playersTabbedPane.addTab(game.getOpponentPlayer().getName(), opponentPlayerPanel);
@@ -1030,7 +1031,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                 .addContainerGap()
                 .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(rightSidePanelLayout.createSequentialGroup()
-                        .addComponent(playersTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(playersTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(rightSidePanelLayout.createSequentialGroup()
@@ -1656,7 +1657,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             }
             case Game.DRAW:
             {
-                client.send(gameGui.drawCards());
+//                client.send(gameGui.drawCards());
                 setActionButtonText();
                 this.repaint();
                 break;
@@ -1734,7 +1735,12 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             }
           
         }
-        
+        else if (game.getPhase() == Game.DISCARD)
+        {
+        client.send(gameGui.drawCards());
+        Command nextPhaseCommand = new NextPhaseCommand(game.getCurrentPlayer().getName(), game.getPhase()+ 1);
+        cmdQueue.storeAndExecuteAndSend(nextPhaseCommand);
+        }
         else if (game.getPhase() == Game.RESTORATION)
         {
         Command endTurnCommand = new EndTurnCommand(game.getCurrentPlayer().getName());
