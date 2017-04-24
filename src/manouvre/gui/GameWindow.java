@@ -1087,6 +1087,20 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         );
 
         jMenu1.setText("Debug");
+        jMenu1.addMenuListener(new javax.swing.event.MenuListener() {
+            public void menuCanceled(javax.swing.event.MenuEvent evt) {
+            }
+            public void menuDeselected(javax.swing.event.MenuEvent evt) {
+            }
+            public void menuSelected(javax.swing.event.MenuEvent evt) {
+                jMenu1MenuSelected(evt);
+            }
+        });
+        jMenu1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu1ActionPerformed(evt);
+            }
+        });
 
         FindCard.setText("FindCard");
         FindCard.setToolTipText("");
@@ -1375,7 +1389,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             {
             Unit selectedUnit = game.getSelectedUnit();
             ArrayList<Position> movePositions;
-                if(game.getPhase() == Game.SETUP)
+                if(game.getPhase() == Game.SETUP || gameGui.freeMove )
                 {
                     movePositions = game.getSetupPossibleMovement();
                 }
@@ -2069,6 +2083,15 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                                          , imageIcon
         ); 
     }//GEN-LAST:event_jMenuItemScoutActionPerformed
+
+    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
+       
+    }//GEN-LAST:event_jMenu1ActionPerformed
+
+    private void jMenu1MenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_jMenu1MenuSelected
+        gameGui.freeMove = !gameGui.freeMove;
+        repaint();// TODO add your handling code here:
+    }//GEN-LAST:event_jMenu1MenuSelected
  
 //    public void clientSend(Message message){
 //        clOTRegroup.JPGient.send(gameGui.discardSelCards());

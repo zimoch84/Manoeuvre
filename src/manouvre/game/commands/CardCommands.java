@@ -228,8 +228,14 @@ public static class AttackCommand implements Command {
             
             
            game.getCardCommandFactory().setAttackedUnit(attackedUnit);
-            
-           game.getCardCommandFactory().notifyObservers(CardCommandFactory.ATTACK_DIALOG);
+           
+           if(game.getCurrentPlayer().getName() != senderPlayerName){
+               
+               game.getCardCommandFactory().setOpponentCard(card);
+               game.getCardCommandFactory().notifyObservers(CardCommandFactory.ATTACK_DIALOG);
+               
+           }
+           
            
           
         }

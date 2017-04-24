@@ -31,6 +31,7 @@ import manouvre.game.Terrain;
 import static java.lang.Math.round;
 import javax.swing.JOptionPane;
 import static java.lang.Math.round;
+import manouvre.game.interfaces.CardInterface;
 
 
 
@@ -212,7 +213,7 @@ public class GameGUI {
             Unit selectedUnit = game.getSelectedUnit();
             ArrayList<Position> movePositions;
 
-            if(game.getPhase() == Game.SETUP)
+            if(game.getPhase() == Game.SETUP || freeMove)
             {
                 movePositions = game.getSetupPossibleMovement();
             }
@@ -1029,11 +1030,7 @@ public class GameGUI {
             
             
         }
-         Dice d6 = new Dice(Dice.D6);
-        d6.generateResult();
-        DiceGUI d6gui = new DiceGUI(d6);
-        
-        g.drawImage(d6gui.getImage(), 400, 30, null);
+        paintDices(g);
     }
    
    
@@ -1041,6 +1038,56 @@ public class GameGUI {
       
         
     }
+    
+    private void paintDices(Graphics g){
+        final int DICE_GAP = 10;
+        final int STARTING_D6_X = 300;
+        final int STARTING_D6_Y = 30;
+        
+        final int STARTING_D8_X = 400;
+        final int STARTING_D8_Y = 120;
+        
+        final int STARTING_D10_X = 400;
+        final int STARTING_D10_Y = 200;
+        
+        
+        
+        int i=0;
+        if(!game.getCardCommandFactory().getD6dices().isEmpty())
+            for(Dice d6  :  game.getCardCommandFactory().getD6dices() ){
+                i=i++;
+                DiceGUI d6gui = new DiceGUI(d6);
+                g.drawImage(d6gui.getImage(), 
+                        STARTING_D6_X  - (i-1)* (int)(DiceGUI.D6SQUARE_WIDTH*DiceGUI.SCALE_FACTOR_D6), 
+                        STARTING_D6_Y ,
+                        (int)(d6gui.getImage().getWidth()*DiceGUI.SCALE_FACTOR_D6),
+                        (int)(d6gui.getImage().getHeight()*DiceGUI.SCALE_FACTOR_D6)
+                        
+                        , null);
+            } 
+        i=0;
+        if(!game.getCardCommandFactory().getD8dices().isEmpty())
+            for(Dice d8 : game.getCardCommandFactory().getD8dices() ){
+                i++;
+                DiceGUI d8gui = new DiceGUI(d8);
+                g.drawImage(d8gui.getImage(), STARTING_D8_X -  (i-1)* (int)(DiceGUI.D8SQUARE_WIDTH*DiceGUI.SCALE_FACTOR_D8) , STARTING_D8_Y , 
+                        (int)(d8gui.getImage().getWidth()*DiceGUI.SCALE_FACTOR_D8),
+                        (int)(d8gui.getImage().getHeight()*DiceGUI.SCALE_FACTOR_D8),
+                        
+                        null);
+            } 
+        i=0;
+        if(!game.getCardCommandFactory().getD10dices().isEmpty())
+            for(Dice d10 : game.getCardCommandFactory().getD10dices() ){
+                i++;
+                DiceGUI d10gui = new DiceGUI(d10);
+                g.drawImage(d10gui.getImage(), STARTING_D10_X - (i-1)*(int)(DiceGUI.D10SQUARE_WIDTH * DiceGUI.SCALE_FACTOR_D10), STARTING_D10_Y ,
+                        (int)(d10gui.getImage().getWidth()*DiceGUI.SCALE_FACTOR_D10),
+                        (int)(d10gui.getImage().getHeight()*DiceGUI.SCALE_FACTOR_D10),
+                        null);
+            } 
+    }
+    
     
     public UnitGUI getUnitGuiOnMapGui(Position position){
     

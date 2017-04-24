@@ -292,13 +292,18 @@ public class AttackDialog extends javax.swing.JFrame {
 
     private void drawCard(Graphics g){
     
-        g.drawImage(playedCard.getImgFull(),0,0, playedCard.getImgFull().getWidth(this) ,playedCard.getImgFull().getHeight(this), null);
+        g.drawImage(playedCard.getImgFull(),0,0, 
+                (int) (playedCard.getImgFull().getWidth(this) * CardGUI.SCALE_FACTOR),
+                (int)(playedCard.getImgFull().getHeight(this) * CardGUI.SCALE_FACTOR)
+                , null);
         
     }
     
     private void drawUnit(Graphics g){
     
-         g.drawImage(attackedUnit.getImg(),0,0, attackedUnit.getImg().getWidth(this) ,attackedUnit.getImg().getHeight(this), null);
+         g.drawImage(attackedUnit.getImg(),0,0, 
+                MapGUI.PIECE_WIDTH
+               ,MapGUI.PIECE_HEIGHT, null);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
