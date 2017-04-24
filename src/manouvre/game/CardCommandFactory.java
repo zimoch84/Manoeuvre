@@ -60,7 +60,7 @@ public class CardCommandFactory extends Observable implements Serializable{
         
         this.game = game;
         d6dices = new ArrayList<>();
-        d8dices = new ArrayList<>();;
+        d8dices = new ArrayList<>();
         d10dices = new ArrayList<>(); 
         fakeDices();
         
@@ -207,9 +207,9 @@ public class CardCommandFactory extends Observable implements Serializable{
         setAttackingPositions(null);
         resetPlayingCard();
         setSelectedUnit(null);
-        setD10dices(null);
-        setD8dices(null);
-        setD6dices(null);
+        //setD10dices(null);
+       // setD8dices(null);
+       // setD6dices(null);
         
         
     }
