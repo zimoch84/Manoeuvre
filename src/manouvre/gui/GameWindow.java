@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package manouvre.gui;
+
+import com.sun.beans.util.Cache;
 import java.awt.Color;
 import java.awt.Desktop;
 import static java.awt.Desktop.isDesktopSupported;

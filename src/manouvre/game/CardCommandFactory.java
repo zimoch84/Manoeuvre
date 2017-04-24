@@ -28,8 +28,6 @@ public class CardCommandFactory extends Observable implements Serializable{
     */
     public final static  String ATTACK_DIALOG = "ATTACK_DIALOG";
     public final static String CARD_DIALOG = "CARD_DIALOG";
-   
-    
      
     Card playingCard, opponentCard;
     
