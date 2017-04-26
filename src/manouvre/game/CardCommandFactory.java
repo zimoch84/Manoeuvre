@@ -9,8 +9,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Observable;
 import manouvre.game.commands.CardCommands;
+import manouvre.game.commands.ThrowDiceCommand;
 import manouvre.game.interfaces.CardCommandInterface;
 import manouvre.game.interfaces.Command;
+import manouvre.game.interfaces.DiceInterface;
 
 /**
  * Class to serve for whole card flow in game.
@@ -33,10 +35,17 @@ public class CardCommandFactory extends Observable implements Serializable{
      
     Card playingCard, opponentCard;
     
+    ArrayList<Card> attackingCards, defendingCards;
+   
     ArrayList<Position> attackingPositions;
     ArrayList<Card> deffendingCards=new ArrayList<>();
     
     Unit selectedUnit, attackedUnit;
+    
+    ArrayList<Dice> d6dices;
+    ArrayList<Dice> d8dices;
+    ArrayList<Dice> d10dices;
+    
     
     boolean cancelCardMode;
 
@@ -51,7 +60,35 @@ public class CardCommandFactory extends Observable implements Serializable{
     public CardCommandFactory(Game game) {
         
         this.game = game;
+        d6dices = new ArrayList<>();
+        d8dices = new ArrayList<>();
+        d10dices = new ArrayList<>(); 
+        fakeDices();
         
+    }
+
+    public ArrayList<Dice> getD6dices() {
+        return d6dices;
+    }
+
+    public void setD6dices(ArrayList<Dice> d6dices) {
+        this.d6dices = d6dices;
+    }
+
+    public ArrayList<Dice> getD8dices() {
+        return d8dices;
+    }
+
+    public void setD8dices(ArrayList<Dice> d8dices) {
+        this.d8dices = d8dices;
+    }
+
+    public ArrayList<Dice> getD10dices() {
+        return d10dices;
+    }
+
+    public void setD10dices(ArrayList<Dice> d10dices) {
+        this.d10dices = d10dices;
     }
 
     
@@ -171,6 +208,10 @@ public class CardCommandFactory extends Observable implements Serializable{
         setAttackingPositions(null);
         resetPlayingCard();
         setSelectedUnit(null);
+        //setD10dices(null);
+       // setD8dices(null);
+       // setD6dices(null);
+        
         
     }
         
@@ -238,7 +279,91 @@ public class CardCommandFactory extends Observable implements Serializable{
         this.cardCommand = cardCommand;
     }
 
+    public Command createThrowDiceCommand(){
+    
+        return new ThrowDiceCommand(game.getCurrentPlayer().getName(), getAttackingCards());
+    }
 
+    public ArrayList<Card> getAttackingCards() {
+        return attackingCards;
+    }
+
+    public void setAttackingCards(ArrayList<Card> attackingCards) {
+        this.attackingCards = attackingCards;
+    }
+
+    public ArrayList<Card> getDefendingCards() {
+        return defendingCards;
+    }
+
+    public void setDefendingCards(ArrayList<Card> defendingCards) {
+        this.defendingCards = defendingCards;
+    }
+
+    void prepareDices(ArrayList<Card> attackingCards){
+    
+        for(Card checkCard: attackingCards )
+        {
+        switch(checkCard.getUnitAttack()){
+        
+            case DiceInterface.DICE1d6:{
+                d6dices.add(new Dice(Dice.D6));
+                break;
+            }
+            case DiceInterface.DICE2d6:{
+                d6dices.add(new Dice(Dice.D6));
+                d6dices.add(new Dice(Dice.D6));
+                break;
+            }
+            case DiceInterface.DICE1d8:{
+                d8dices.add(new Dice(Dice.D8));
+                break;
+            }
+            case DiceInterface.DICE2d8:{
+                d8dices.add(new Dice(Dice.D8));
+                d8dices.add(new Dice(Dice.D8));
+                break;
+            }
+            case DiceInterface.DICE1d10:{
+                d10dices.add(new Dice(Dice.D8));
+                break;
+            }
+            case DiceInterface.DICE2d10:{
+                d10dices.add(new Dice(Dice.D10));
+                d10dices.add(new Dice(Dice.D10));
+                break;
+            }
+           
+        }
+        }
+        
+        for(Dice dice : d6dices){dice.setResult(6);}
+        for(Dice dice : d8dices){dice.setResult(8);}
+        for(Dice dice : d10dices){dice.setResult(10);}
+   
+        game.getCardCommandFactory().setD6dices(d6dices);
+        game.getCardCommandFactory().setD8dices(d8dices);
+        game.getCardCommandFactory().setD10dices(d10dices);
+    }
+    
+    void fakeDices()
+    {
+    d6dices.add(new Dice(Dice.D6));
+    d6dices.add(new Dice(Dice.D6));
+    d10dices.add(new Dice(Dice.D10));
+    d10dices.add(new Dice(Dice.D10));
+    d8dices.add(new Dice(Dice.D8));
+    d8dices.add(new Dice(Dice.D8));
+    
+    /*
+        for(Dice dice : d6dices){dice.setResult(6);}
+        for(Dice dice : d8dices){dice.setResult(8);}
+        for(Dice dice : d10dices){dice.setResult(10);}
+*/        
+        for(Dice dice : d6dices){dice.generateResult();}
+        for(Dice dice : d8dices){dice.generateResult();}
+        for(Dice dice : d10dices){dice.generateResult();}
+    }
     
      public CardCommandInterface getIncomingCardCommand() {
         return incomingCardCommand;

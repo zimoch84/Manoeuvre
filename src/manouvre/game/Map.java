@@ -66,17 +66,17 @@ public class Map implements MapInterface, Serializable{
                        
                        var = rand.nextInt()%100;
                        Position pos = new Position(i, j);
-                       if (var < 40) 
+                       if (var < 50) 
                            terrains[i][j] = new Terrain(Terrain.CLEAR, pos);
-                       else if ( (var >= 40) && (var <50) )
-                           terrains[i][j] = new Terrain(Terrain.CITY, pos);
                        else if ( (var >= 50) && (var <60) )
-                           terrains[i][j] = new Terrain(Terrain.HILL, pos);
+                           terrains[i][j] = new Terrain(Terrain.CITY, pos);
                        else if ( (var >= 60) && (var <70) )
-                           terrains[i][j] = new Terrain(Terrain.FIELDS, pos);
+                           terrains[i][j] = new Terrain(Terrain.HILL, pos);
                        else if ( (var >= 70) && (var <80) )
+                           terrains[i][j] = new Terrain(Terrain.FIELDS, pos);
+                       else if ( (var >= 80) && (var <82) )
                            terrains[i][j] = new Terrain(Terrain.LAKE, pos);
-                       else if ( (var >= 80) && (var <90) )
+                       else if ( (var >= 82) && (var <90) )
                            terrains[i][j] = new Terrain(Terrain.FOREST, pos);
                        else if ( (var >= 90) && (var <100) )
                            terrains[i][j] = new Terrain(Terrain.MARSH,pos);

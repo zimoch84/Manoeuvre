@@ -230,13 +230,21 @@ public class CardCommands {
 
         @Override
         public void execute(Game game) {
-
-            moveToTableCommand.execute(game);
-
-            game.getCardCommandFactory().setAttackedUnit(attackedUnit);
-
-            game.getCardCommandFactory().notifyObservers(CardCommandFactory.ATTACK_DIALOG);
-
+            
+           moveToTableCommand.execute(game);
+            
+            
+           game.getCardCommandFactory().setAttackedUnit(attackedUnit);
+           
+           if(game.getCurrentPlayer().getName() != senderPlayerName){
+               
+               game.getCardCommandFactory().setOpponentCard(card);
+               game.getCardCommandFactory().notifyObservers(CardCommandFactory.ATTACK_DIALOG);
+               
+           }
+           
+           
+          
         }
 
         @Override

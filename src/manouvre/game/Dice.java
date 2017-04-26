@@ -4,13 +4,14 @@
  * and open the template in the editor.
  */
 package manouvre.game;
+import java.io.Serializable;
 import java.util.Random;
 import manouvre.game.interfaces.DiceInterface;
 /**
  *
  * @author Bartosz
  */
-public class Dice {
+public class Dice implements Serializable{
 
    /* public Dice(String diceType) {
         this.diceType=diceType;
@@ -27,6 +28,7 @@ public class Dice {
     public Dice(int type) {
     
     this.type = type;
+    this.result=1;
     
     }
       
