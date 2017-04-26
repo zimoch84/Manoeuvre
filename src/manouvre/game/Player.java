@@ -30,7 +30,7 @@ public class Player  implements Serializable{
     CardSet hand;
     CardSet drawPile;
     CardSet discardPile;
-    CardSet tablePile;
+    //CardSet tablePile; //TABLE WILL BE ONE INSTANCE FOR GAME; OUTSIDE FROM PLAYERS; mede in Game.java
     /*
     Field to store whole card flow needed data.
     */
@@ -108,7 +108,7 @@ public class Player  implements Serializable{
         this.hand = new CardSet(5);     
              
         this.discardPile = new CardSet();
-        this.tablePile = new CardSet();
+        //this.tablePile = new CardSet();
 
         if(nation==CardInterface.AU){//btestfalse
             hand.addCardToThisSet(drawPile.getCardByName("Guerrillas", true));
@@ -189,10 +189,6 @@ public class Player  implements Serializable{
         return discardPile;
     }
     
-     public CardSet getTablePile() {
-        return tablePile;
-    }
-
     public void setActive(boolean active) {
         this.active = active;
     }

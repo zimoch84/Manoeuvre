@@ -20,35 +20,29 @@ import manouvre.gui.CustomDialog;
  * @author Piotr
  */
 public class CardCommands {
-    
-public static class MoveToTableCommand implements CardCommandInterface{    
-            
-    
+
+    public static class MoveToTableCommand implements CardCommandInterface {
+
         Card card;
         String senderPlayerName;
+
         public MoveToTableCommand(Card card, String senderPlayerName) {
             this.card = card;
-            this.senderPlayerName=senderPlayerName;
+            this.senderPlayerName = senderPlayerName;
         }
-     
+
         @Override
         public void execute(Game game) {
-            if(game.getCurrentPlayer().getName().equals(senderPlayerName)){
-                Card movingCard=game.getCurrentPlayer().getHand().getCardByCard(card);
-                addCardToBothTables(game,movingCard);
-                game.getCurrentPlayer().getHand().drawCardFromSet(card);//remove card from own hand
-            }else{
-                Card movingCard=game.getOpponentPlayer().getHand().getCardByCard(card);
-                addCardToBothTables(game,movingCard);
-                game.getOpponentPlayer().getHand().drawCardFromSet(card);//remove card from own hand
+                Card movingCard = game.getPlayerByName(senderPlayerName).getHand().getCardByCard(card);
+                game.getTablePile().addCardToThisSet(movingCard);// Put card on own table
+                game.getPlayerByName(senderPlayerName).getHand().drawCardFromSet(movingCard);//remove card from own hand
+                
+            if (game.getCurrentPlayer().getName().equals(senderPlayerName)) {
+                //do nothing
+            } else {
                 game.getCardCommandFactory().setOpponentCard(movingCard);
             }
             //repaint is made by CommandQueue
-        }
-        
-        private void addCardToBothTables(Game game, Card card){
-                game.getCurrentPlayer().getTablePile().addCardToThisSet(card);// Put card on own table
-                game.getOpponentPlayer().getTablePile().addCardToThisSet(card);// Put card on Opponent table
         }
 
         @Override
@@ -58,7 +52,9 @@ public static class MoveToTableCommand implements CardCommandInterface{
 
         @Override
         public String logCommand() {
-            if(card.getCanBeCancelled()) return card.getCardName() + " cart moved to the table " + senderPlayerName + " have to wait for acceptance";
+            if (card.getCanBeCancelled()) {
+                return card.getCardName() + " cart moved to the table " + senderPlayerName + " have to wait for acceptance";
+            }
             return card.getCardName() + " cart moved to the table";
         }
 
@@ -71,42 +67,36 @@ public static class MoveToTableCommand implements CardCommandInterface{
         public void cancel(Game game) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
-    }    
- 
-public static class RejectCardCommand implements CardCommandInterface{    
-            
-    
+    }
+
+    public static class RejectCardCommand implements CardCommandInterface {
+
         Card card;
         String senderPlayerName;
         CardCommandInterface incomingCardCommand;
+
         public RejectCardCommand(Card card, String senderPlayerName, CardCommandInterface incomingCardCommand) {
             this.card = card;
-            this.senderPlayerName=senderPlayerName;
-            this.incomingCardCommand=incomingCardCommand;
+            this.senderPlayerName = senderPlayerName;
+            this.incomingCardCommand = incomingCardCommand;
         }
-     
+
         @Override
         public void execute(Game game) {
-           if(game.getCurrentPlayer().getName().equals(senderPlayerName)){ //separate action for each player
-                game.getCurrentPlayer().getTablePile().drawCardFromSet(card);//do not add this card to Discard as this card goes to Opponent DiscardPile
-                game.getOpponentPlayer().getDiscardPile().addCardToThisSet(game.getOpponentPlayer().getTablePile().drawCardFromSet(card));
-                game.getCardCommandFactory().resetFactory();
-            }
-            else{
+            if (game.getCurrentPlayer().getName().equals(senderPlayerName)) { //separate action for each player
+                //do nothing special
+            } else {
                 game.getCardCommandFactory().awakeObserver();
                 game.getCardCommandFactory().notifyObservers(CardCommandFactory.CARD_REJECTED);
-                game.getCurrentPlayer().getDiscardPile().addCardToThisSet(game.getCurrentPlayer().getTablePile().drawCardFromSet(card));
             }
-           //all players do the same
-                
-               
-                incomingCardCommand.cancel(game); 
-                Card guerrillas = game.getPlayerByName(senderPlayerName).getHand().getCardByName("Guerrillas", true);
-                game.getPlayerByName(senderPlayerName).getDiscardPile().addCardToThisSet(guerrillas); 
-                
-                
+            //all players do the same
+            game.getPlayerByName(senderPlayerName).getDiscardPile().addCardToThisSet(game.getTablePile().drawCardFromSet(card));
+            incomingCardCommand.cancel(game);
+            Card guerrillas = game.getPlayerByName(senderPlayerName).getHand().getCardByName("Guerrillas", true);
+            game.getPlayerByName(senderPlayerName).getDiscardPile().addCardToThisSet(guerrillas);
+
         }
-       
+
         @Override
         public void undo(Game game) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -126,27 +116,26 @@ public static class RejectCardCommand implements CardCommandInterface{
         public void cancel(Game game) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
-    }   
+    }
 
-public static class DoNotRejectCardCommand implements CardCommandInterface{    
-            
-    
+    public static class DoNotRejectCardCommand implements CardCommandInterface {
+
         Card card;
         String senderPlayerName;
+
         public DoNotRejectCardCommand(Card card, String senderPlayerName) {
             this.card = card;
-            this.senderPlayerName=senderPlayerName;
+            this.senderPlayerName = senderPlayerName;
         }
-     
+
         @Override
         public void execute(Game game) {
-            if(game.getCurrentPlayer().getName().equals(senderPlayerName)){
+            if (game.getCurrentPlayer().getName().equals(senderPlayerName)) {
                 game.getCardCommandFactory().resetFactory();
-            }
-            else{
-            game.getCardCommandFactory().awakeObserver();
-            game.getCardCommandFactory().notifyObservers(CardCommandFactory.CARD_NOT_REJECTED);
-            game.getCardCommandFactory().resetFactory();
+            } else {
+                game.getCardCommandFactory().awakeObserver();
+                game.getCardCommandFactory().notifyObservers(CardCommandFactory.CARD_NOT_REJECTED);
+                game.getCardCommandFactory().resetFactory();
             }
         }
 
@@ -169,16 +158,15 @@ public static class DoNotRejectCardCommand implements CardCommandInterface{
         public void cancel(Game game) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
-    }    
+    }
 
-
-public static class ForcedMarchCommand implements CardCommandInterface {
+    public static class ForcedMarchCommand implements CardCommandInterface {
 
         Command moveUnitCommand;
         Card card;
         Command moveToTableCommand;
         String senderPlayerName;
-    
+
         public ForcedMarchCommand(Command moveUnitCommand, Card card, String senderPlayerName) {
             this.moveUnitCommand = moveUnitCommand;
             this.card = card;
@@ -188,26 +176,27 @@ public static class ForcedMarchCommand implements CardCommandInterface {
 
         @Override
         public void execute(Game game) {
-          
+
             moveToTableCommand.execute(game);
             moveUnitCommand.execute(game);
-            if(game.getCurrentPlayer().getName().equals(senderPlayerName)){
+            if (game.getCurrentPlayer().getName().equals(senderPlayerName)) {
                 //do nothing special
-            }else
-            game.getCardCommandFactory().setIncomingCardCommand(this); //set this comand to be able to reject it
+            } else {
+                game.getCardCommandFactory().setIncomingCardCommand(this); //set this comand to be able to reject it
+            }
             game.getCardCommandFactory().notifyObservers(CardCommandFactory.CARD_DIALOG);
         }
 
         @Override
         public void undo(Game game) {
-            
+
             moveUnitCommand.undo(game);
-            
+
         }
 
         @Override
         public String logCommand() {
-             return senderPlayerName  + " played " + card.getCardName();
+            return senderPlayerName + " played " + card.getCardName();
         }
 
         @Override
@@ -222,33 +211,32 @@ public static class ForcedMarchCommand implements CardCommandInterface {
             game.getCardCommandFactory().resetFactory();
         }
 
+    }
 
-}    
-public static class AttackCommand implements Command {
+    public static class AttackCommand implements Command {
 
         Unit attackedUnit;
         Card card;
         Command moveToTableCommand;
         String senderPlayerName;
-        
+
         public AttackCommand(Unit attackedUnit, Card card, String senderPlayerName) {
             this.attackedUnit = attackedUnit;
             this.card = card;
             this.moveToTableCommand = new CardCommands.MoveToTableCommand(card, senderPlayerName);
             this.senderPlayerName = senderPlayerName;
-            
+
         }
+
         @Override
         public void execute(Game game) {
-            
-           moveToTableCommand.execute(game);
-            
-            
-           game.getCardCommandFactory().setAttackedUnit(attackedUnit);
-            
-           game.getCardCommandFactory().notifyObservers(CardCommandFactory.ATTACK_DIALOG);
-           
-          
+
+            moveToTableCommand.execute(game);
+
+            game.getCardCommandFactory().setAttackedUnit(attackedUnit);
+
+            game.getCardCommandFactory().notifyObservers(CardCommandFactory.ATTACK_DIALOG);
+
         }
 
         @Override
@@ -258,36 +246,37 @@ public static class AttackCommand implements Command {
 
         @Override
         public String logCommand() {
-            return senderPlayerName  + " played " + card.getCardName();
+            return senderPlayerName + " played " + card.getCardName();
         }
 
         @Override
         public int getType() {
-           return Param.PLAY_CARD;
+            return Param.PLAY_CARD;
         }
-   
+
     }
-public static class MoveToHandCommand implements Command{    //just for test popup
-            
-    
+
+    public static class MoveToHandCommand implements Command {    //just for test popup
+
         String senderPlayerName;
         CardSet cardSet;
         int numberOfChosenCards;
         boolean deleteCards;
-        StringBuilder stringBuilder=new StringBuilder();
-        public MoveToHandCommand(CardSet cardSet, int numberOfChosenCards, String senderPlayerName,  boolean deleteCards) {
-            this.deleteCards=deleteCards;
-            this.cardSet=cardSet;
-            this.numberOfChosenCards=numberOfChosenCards;
-            this.senderPlayerName=senderPlayerName;
+        StringBuilder stringBuilder = new StringBuilder();
+
+        public MoveToHandCommand(CardSet cardSet, int numberOfChosenCards, String senderPlayerName, boolean deleteCards) {
+            this.deleteCards = deleteCards;
+            this.cardSet = cardSet;
+            this.numberOfChosenCards = numberOfChosenCards;
+            this.senderPlayerName = senderPlayerName;
         }
-     
+
         @Override
         public void execute(Game game) {
-            if(game.getCurrentPlayer().getName().equals(senderPlayerName)){
+            if (game.getCurrentPlayer().getName().equals(senderPlayerName)) {
                 game.getCurrentPlayer().getHand().addCardsFromOtherSet(numberOfChosenCards, cardSet, true, deleteCards);//add to own hand
-                
-            }else{
+
+            } else {
                 game.getOpponentPlayer().getHand().addCardsFromOtherSet(numberOfChosenCards, cardSet, true, deleteCards); //add card to opponent hand
                 //repaint is made by CommandQueue
             }
@@ -301,12 +290,12 @@ public static class MoveToHandCommand implements Command{    //just for test pop
         @Override
         public String logCommand() {
             stringBuilder.setLength(0);//delete all string
-            
-            stringBuilder.append(senderPlayerName+ " has drawn "+cardSet.cardsLeftInSet()+"cards from Test Panel \n" );
-            for (int i=0; i<cardSet.cardsLeftInSet();i++){
-                stringBuilder.append(i+": "+ cardSet.getCardNameByPosInSet(i)+"\n");
+
+            stringBuilder.append(senderPlayerName + " has drawn " + cardSet.cardsLeftInSet() + "cards from Test Panel \n");
+            for (int i = 0; i < cardSet.cardsLeftInSet(); i++) {
+                stringBuilder.append(i + ": " + cardSet.getCardNameByPosInSet(i) + "\n");
             }
-            
+
             return stringBuilder.toString();
         }
 
@@ -314,20 +303,17 @@ public static class MoveToHandCommand implements Command{    //just for test pop
         public int getType() {
             return Param.PLAY_CARD;
         }
-    }    
- 
+    }
 
-public static class CleanTableCommand implements Command{    //just for test popup
-            
-    
-       
+    public static class CleanTableCommand implements Command {    //just for test popup
+
         public CleanTableCommand() {
-           
+
         }
-     
+
         @Override
         public void execute(Game game) {
-           game.getCurrentPlayer().getTablePile().clear();
+            game.getTablePile().clear();
         }
 
         @Override
@@ -344,21 +330,20 @@ public static class CleanTableCommand implements Command{    //just for test pop
         public int getType() {
             return Param.PLAY_CARD;
         }
-    }    
- 
-public static class ResetCardFactory implements Command{    
-            
-    
-        
+    }
+
+    public static class ResetCardFactory implements Command {
+
         String senderPlayerName;
+
         public ResetCardFactory(String senderPlayerName) {
-            this.senderPlayerName=senderPlayerName;
+            this.senderPlayerName = senderPlayerName;
         }
-   
+
         @Override
         public void execute(Game game) {
-             game.getCardCommandFactory().resetFactory();
-     
+            game.getCardCommandFactory().resetFactory();
+
         }
 
         @Override
@@ -373,12 +358,8 @@ public static class ResetCardFactory implements Command{
 
         @Override
         public int getType() {
-            return Param.RESET_FACTORY
-                    ;
+            return Param.RESET_FACTORY;
         }
-      }   
-
+    }
 
 }
-
-

@@ -43,6 +43,7 @@ import static java.lang.Math.abs;
 import java.util.Observable;
 import java.util.Observer;
 import manouvre.game.CardCommandFactory;
+import static java.lang.Math.abs;
 
 
 
@@ -476,6 +477,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         jPanel1 = new javax.swing.JPanel();
         jRadioButtonMenuItem1 = new javax.swing.JRadioButtonMenuItem();
         jMenu4 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jLabel5 = new javax.swing.JLabel();
         mainWindowPanel = new javax.swing.JPanel()
         {
@@ -605,6 +607,10 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         jMenu3 = new javax.swing.JMenu();
         MoveToTableCommand = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenu7 = new javax.swing.JMenu();
+        cardsSelectingAsDefensive = new javax.swing.JCheckBoxMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -647,6 +653,8 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         jRadioButtonMenuItem1.setText("jRadioButtonMenuItem1");
 
         jMenu4.setText("jMenu4");
+
+        jMenuItem3.setText("jMenuItem3");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -1134,11 +1142,39 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         });
         jMenu3.add(MoveToTableCommand);
 
-        jMenuItem4.setText("Attack");
+        jMenuItem4.setText("setDefenceCardsAvailable");
         jMenuItem4.setToolTipText("Attacking card must be selected");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem4);
 
         jMenu1.add(jMenu3);
+
+        jMenuItem5.setText("jMenuItem5");
+        jMenu1.add(jMenuItem5);
+
+        jMenu7.setText("During Attack");
+
+        cardsSelectingAsDefensive.setText("Cards selected as Defensive");
+        cardsSelectingAsDefensive.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cardsSelectingAsDefensiveActionPerformed(evt);
+            }
+        });
+        jMenu7.add(cardsSelectingAsDefensive);
+
+        jMenuItem6.setText("jMenuItem6");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu7.add(jMenuItem6);
+
+        jMenu1.add(jMenu7);
 
         jMenuBar1.add(jMenu1);
 
@@ -1293,6 +1329,10 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         repaint();
         if(game.getPhase()==Game.DISCARD)
             setActionButtonText();  //if selection was done discard button should be visible
+        if(cardsSelectingAsDefensive.isSelected()) //btestfalse
+            gameGui.chooseCardsAsDefending=true;
+        else
+             gameGui.chooseCardsAsDefending=false;
     }//GEN-LAST:event_playerHandPanelMouseClicked
 
     private void playerHandPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseEntered
@@ -1399,7 +1439,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                         if(game.getPhase() != Game.SETUP)
                         {        
                         cmdQueue.storeAndExecuteAndSend(moveUnit);
-                        gameGui.unselectAllUnits();   
+                        gameGui.unselectAllUnits();  
                         }
                         /*
                         If we dont play card or we are in setup
@@ -1415,7 +1455,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                  }
                 else{ 
                 //Unselect all if not clicked at allowed move
-                gameGui.unselectAllUnits();   
+                gameGui.unselectAllUnits(); 
                 mainMapPanel.repaint();
                 }
             }
@@ -2075,6 +2115,18 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                                          , imageIcon
         ); 
     }//GEN-LAST:event_jMenuItemScoutActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+      
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void cardsSelectingAsDefensiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cardsSelectingAsDefensiveActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cardsSelectingAsDefensiveActionPerformed
  
 //    public void clientSend(Message message){
 //        clOTRegroup.JPGient.send(gameGui.discardSelCards());
@@ -2121,6 +2173,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     private javax.swing.JCheckBoxMenuItem allowDrawOnDiscard;
     private javax.swing.JButton buttonToNextPhase;
     private javax.swing.JPanel buttonsPanel;
+    private javax.swing.JCheckBoxMenuItem cardsSelectingAsDefensive;
     private javax.swing.JPanel chatPanel;
     private javax.swing.JTextArea chatTextArea;
     private javax.swing.JCheckBoxMenuItem checkLos;
@@ -2145,10 +2198,14 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
+    private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItemAmbush;
     private javax.swing.JMenuItem jMenuItemCommAttack;
     private javax.swing.JMenuItem jMenuItemEngineers;

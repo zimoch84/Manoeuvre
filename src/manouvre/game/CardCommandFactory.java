@@ -34,7 +34,8 @@ public class CardCommandFactory extends Observable implements Serializable{
     Card playingCard, opponentCard;
     
     ArrayList<Position> attackingPositions;
-
+    ArrayList<Card> deffendingCards=new ArrayList<>();
+    
     Unit selectedUnit, attackedUnit;
     
     boolean cancelCardMode;
@@ -246,4 +247,22 @@ public class CardCommandFactory extends Observable implements Serializable{
     public void setIncomingCardCommand(CardCommandInterface incomingCardCommand) {
         this.incomingCardCommand = incomingCardCommand;
     }
+
+    public ArrayList<Card> getDeffendingCards() {
+        return deffendingCards;
+    }
+
+    public void setDeffendingCards(ArrayList<Card> deffendingCards) {
+        this.deffendingCards = deffendingCards;
+    }
+    public void addDeffendingCards(Card cardToAdd) {
+        this.deffendingCards.add(cardToAdd);
+    }
+    public void clearDeffendingCards() {
+        this.deffendingCards.clear();
+    }
+    public void removeDeffendingCards(Card cardToRemove) {
+        this.deffendingCards.remove(cardToRemove);
+    }
+    
 }

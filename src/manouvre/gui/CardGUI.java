@@ -6,6 +6,7 @@
 package manouvre.gui;
 
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -95,7 +96,20 @@ public class CardGUI {
     public Image getImgFull() {
         return imgFull;
     }
-    
+    public Image getImgSmall(int frameCrop) {
+        //Normally cards has 260x375 pixels
+        int x=frameCrop;
+        int y=frameCrop;
+        int w=260-frameCrop*2;
+        int h=375-frameCrop*2;
+        
+        Image imageSmall = cropImage(imgFull,x,y,w,h);
+        return imageSmall;
+    }
+    private BufferedImage cropImage(Image img, int x, int y, int width, int height){
+        BufferedImage buffImage = (BufferedImage)img;
+        return buffImage.getSubimage(x, y, width, height);
+    }
     public void setOverCard(int isOverCard) {
         this.OverCard = isOverCard;
     }

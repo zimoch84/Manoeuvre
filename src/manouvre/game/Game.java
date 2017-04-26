@@ -28,6 +28,8 @@ public final class Game implements Serializable{
     public static final int DRAW = 1;
     public static final int MOVE = 2;
     public static final int COMBAT = 3;
+    public static final int COMBAT_DEF = 31;
+    public static final int COMBAT_SUPP = 32;
     public static final int RESTORATION = 4;
        
     
@@ -46,8 +48,7 @@ public final class Game implements Serializable{
     
     CardCommandFactory cardCommandFactory;
     
-    boolean undoLastCommand=false;
-    
+    CardSet tablePile,tablePileDefPart;
 
     public Game(ArrayList<Player> players) {
         this.hostPlayer = players.get(0);
@@ -60,7 +61,9 @@ public final class Game implements Serializable{
         guestPlayer.setCards();  
         guestPlayer.generateUnits(); 
         cardCommandFactory = new CardCommandFactory(this);
-                
+         
+        this.tablePile=new CardSet();
+        this.tablePileDefPart=new CardSet();
         generateMap(); 
         
         placeUnitsOnMap(hostPlayer);
@@ -705,6 +708,22 @@ public final class Game implements Serializable{
               + " Guest Player:"  + ( guestPlayer != null ? guestPlayer.toString() : "null")
                  + " Map: " +  map.toString();
             
+    }
+
+    public CardSet getTablePile() {
+        return tablePile;
+    }
+
+    public void setTablePile(CardSet tablePile) {
+        this.tablePile = tablePile;
+    }
+
+    public CardSet getTablePileDefPart() {
+        return tablePileDefPart;
+    }
+
+    public void setTablePileDefPart(CardSet tablePileDefPart) {
+        this.tablePileDefPart = tablePileDefPart;
     }
     
 }
