@@ -117,6 +117,7 @@ public class Card implements CardInterface, Serializable{
     */
     int playingCardMode;
     
+    boolean availableForDefance=false;
    
     public Card (int chosenID) { 
         try {		
@@ -653,5 +654,14 @@ public class Card implements CardInterface, Serializable{
     public void setMouseOverCard(boolean mouseOverCard) {
         this.mouseOverCard = mouseOverCard;
     }
+
+    public boolean isAvailableForDefance() {
+        return availableForDefance;
+    }
+
+    public void setAvailableForDefance(boolean availableForDefance) {
+        this.availableForDefance = availableForDefance;
+    }
+    
     
 }
