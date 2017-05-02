@@ -212,15 +212,17 @@ public class GameGUI {
     private void drawSelection(Graphics g){
    
     if(!game.getCurrentPlayer().isPlayingCard())
-        if (mapGui.isUnitSelected()) 
+        if (mapGui.isUnitSelected() ) 
             {
 
             Unit selectedUnit = game.getSelectedUnit();
             ArrayList<Position> movePositions;
 
+            if(selectedUnit != null)
             if(game.getPhase() == Game.SETUP || freeMove)
             {
                 movePositions = game.getSetupPossibleMovement();
+                drawMultipleRectanglesOnPositions(g, movePositions, Color.blue);
             }
             else if (selectedUnit.isRetriving())
             {
@@ -229,10 +231,9 @@ public class GameGUI {
             else
             {
                 movePositions = game.getPossibleMovement(selectedUnit);
+                drawMultipleRectanglesOnPositions(g, movePositions, Color.blue);
             }
-
-            drawMultipleRectanglesOnPositions(g, movePositions, Color.blue);
-        }
+       }
 
     }
     private void drawArmy(Graphics g){

@@ -301,9 +301,29 @@ public final class Game implements Serializable{
          return los;           
     };  
 
+    /*
+    Get units that can join attack , this is for selection purpose only
+    */
+    public ArrayList<Position> getPossibleSupportingUnitsPositions(Unit defendingUnit){
     
-    public ArrayList<Position> getPossibleSupportingUnits(Unit unit){
-    return null;
+        /*
+        get attacking Units position that are adjenced to the defending one
+        */
+        ArrayList<Position> possiblePositions = getOneSquarePositions(defendingUnit.getPosition());
+        ArrayList<Position> supportingPositions = new ArrayList<>();
+        for( Position checkPosition: possiblePositions)
+        {
+            if(checkCurrentPlayerUnitAtPosition(checkPosition))
+            {
+                supportingPositions.add(checkPosition);
+            }
+     
+        }
+        
+        return supportingPositions;
+        
+        
+
     };
     
     public ArrayList<Position> getRetreatPositions(Unit unit){
