@@ -215,6 +215,8 @@ public class Card implements CardInterface, Serializable{
     
     public int getAtionType(int phase){
         
+        if(getCardType() == Card.HQLEADER)
+            return Card.MULTIPLE_PICK_ACTION;
         if(getHQType()== Card.FORCED_MARCH || 
            getHQType()== Card.WITHDRAW     
                 )
@@ -332,10 +334,10 @@ public class Card implements CardInterface, Serializable{
          else return 99;
     }
 
-    public String getLederCommand() {
+    public int getLederCommand() {
          if(!LederCommand.equals(""))
-        return LederCommand;
-         else return "99";
+            return Integer.parseInt(LederCommand);
+         else return 99;
     }
 
     public int getLederCombat() {

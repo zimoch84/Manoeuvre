@@ -62,6 +62,7 @@ public interface CardInterface {
             
     public static int MOVE_ACTION = 500;
     public static int PICK_ACTION = 501;
+    public static int MULTIPLE_PICK_ACTION = 502;
     
     /*
     Return CardID 
@@ -114,7 +115,7 @@ public interface CardInterface {
     /*
     Returns leder command string
     */
-    public String getLederCommand();
+    public int getLederCommand();
     /*
     Returns leder combat value
     */

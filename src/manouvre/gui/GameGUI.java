@@ -383,7 +383,13 @@ public class GameGUI {
                         }
                    }
                 break;    
-                }   
+                }  
+                case Card.HQLEADER :{
+                /*
+                    If we have leader selected draw nothing
+                    */
+                break;
+                }
                 default: System.err.println("drawCardSelections()  Brak typu karty " + playingCard.getCardName());
             }
                
@@ -716,20 +722,24 @@ public class GameGUI {
     public void mouseClickedCard(int mouseX, int mouseY){
         Card cardClicked=getCardFromMousePosition(mouseX,mouseY);
         if(cardClicked!=null){
-                if(cardClicked.getAvailableForPhase(game.getPhase())){ //select card if it is playable
-                if(!cardClicked.isSelected()) {//if not selected
+                if(cardClicked.getAvailableForPhase(game.getPhase())||cardClicked.isAvailableForDefance()){ //select card if it is playable
+                if(!cardClicked.isSelected()) 
+                {//if not selected
                     cardClicked.setSelected(true);
                     if(game.getPhase()==Game.MOVE||game.getPhase()==Game.COMBAT)//in this phase it is possible to select ONE card, thats why all have to be unselected before click
                     {
                         game.getCardCommandFactory().setPlayingCard(cardClicked);
                         triggerCardActionOnSelection(cardClicked);
                         keepOneSelectedCard(cardClicked);
-                 //   }else if (game.getPhase()==Game.COMBAT_DEF&&cardClicked.isAvailableForDefance()){
-                    if(chooseCardsAsDefending)
-                        game.getCardCommandFactory().addDeffendingCards(cardClicked);
                     }
-                    else selectionSeq.add((Integer)cardClicked.getCardID()); 
-                    if(game.getPhase()!=Game.DISCARD)currentPlayer.setPlayingCard(true);  //not playing cards on Table during Discard
+                    else if (game.getPhase()==Game.COMBAT_DEF){//during defence
+                        game.getCardCommandFactory().addDeffendingCards(cardClicked);
+                        selectionSeq.add((Integer)cardClicked.getCardID()); 
+                    }
+                    else selectionSeq.add((Integer)cardClicked.getCardID());
+                    
+                if(game.getPhase()!=Game.DISCARD)
+                    currentPlayer.setPlayingCard(true);  //not playing cards on Table during Discard
                 }   
                 else {
                     triggerCardActionOnDeSelection(cardClicked);

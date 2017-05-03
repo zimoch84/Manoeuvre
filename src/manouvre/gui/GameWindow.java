@@ -44,6 +44,7 @@ import java.util.Observable;
 import java.util.Observer;
 import manouvre.game.CardCommandFactory;
 import static java.lang.Math.abs;
+import manouvre.game.commands.ThrowDiceCommand;
 
 
 
@@ -173,7 +174,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                Command withdrawCommand;   // ccmdf.createRejectCardCommand();
                Command okCommand;//
                Command pickDefenseCardsCommand;
-               AttackDialog ad = new AttackDialog(ccmdf.getOpponentCard().getPlayiningMode(),ccmdf.getOpponentCard(), 
+               AttackDialog ad = new AttackDialog(ccmdf.getOpponentCard().getPlayiningMode(), ccmdf.getOpponentCard(), 
                        ccmdf.getAttackedUnit(), client, cmdQueue, game);
                
               
@@ -184,10 +185,31 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            case CardCommandFactory.CARD_REJECTED:
            {
                new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Your card was rejected by opponent");
+               break;
+           }
+           case CardCommandFactory.OPPONENT_WITHDRAW:
+           {
+               /*
+               Create puruit dialog
+               */
+               break;
+               
            }
            case CardCommandFactory.CARD_NOT_REJECTED:
            {
                new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Your card was not rejected by opponent");
+               break;
+           }
+            case CardCommandFactory.DEFENDING_CARDS_PLAYED:
+           {
+           
+//           Command doNotRejectCard = ccmdf.createDoNotRejectCardCommand();
+           SupportDialog sd  = new SupportDialog(null,game.getCardCommandFactory().getDeffendingCards(), client, cmdQueue, game);
+//           cd.setOkCommand(doNotRejectCard);
+//           cd.setCancelCommand(rejectCard);   
+           
+           sd.setVisible(true);
+           break;
            }
            default :
                System.out.println("manouvre.gui.GameWindow.update() No such dialog Type" );
@@ -1555,6 +1577,36 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                 }   
                 break;
                 }
+                case Card.MULTIPLE_PICK_ACTION:    
+                {
+                int availaibleUnits = getAvaliblePositionToSelect().size();
+                
+                if(availaibleUnits>0) 
+                    {
+                    int commandValue =game.getCardCommandFactory().getPlayingCard().getLederCommand();
+                    
+                    int maxSelections = ( commandValue > availaibleUnits ? availaibleUnits : commandValue );
+                    /*
+                    If we need to select more 
+                    */
+                    if(game.getNumberOfSupportingUnit() < maxSelections)
+                    {    
+                        if(getAvaliblePositionToSelect().contains(clickedPos))
+                        {
+                           game.getCurrentPlayerUnitAtPosition(clickedPos).setSupporting(true);
+                           if(game.getNumberOfSupportingUnit() == maxSelections)
+                                    showConfirmationCardDialog();
+                        }
+                        else this.repaint();
+                    }
+                    }
+                else 
+                showCannotPlayCardDialog();    
+                game.getCardCommandFactory().resetPlayingCard();
+                this.repaint();
+                break;
+                }
+                
             }}
       
         }
@@ -1624,6 +1676,12 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
 
                     }
                 
+                }    
+                
+                case Card.HQLEADER:
+                {
+                    return game.getPossibleSupportingUnitsPositions(game.getCardCommandFactory().getAttackedUnit());
+  
                 }    
                     
                 

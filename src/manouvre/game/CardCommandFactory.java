@@ -32,6 +32,8 @@ public class CardCommandFactory extends Observable implements Serializable{
     public final static String CARD_DIALOG = "CARD_DIALOG";
     public final static String CARD_REJECTED = "CARD_REJECTED";
     public final static String CARD_NOT_REJECTED = "CARD_NOT_REJECTED";
+    public final static String DEFENDING_CARDS_PLAYED = "DEFENDING_CARDS_PLAYED";
+    public final static String OPPONENT_WITHDRAW = "OPPONENT_WITHDRAW";
      
     Card playingCard, opponentCard;
     
@@ -249,7 +251,14 @@ public class CardCommandFactory extends Observable implements Serializable{
         }  
         case Card.UNIT :
         {
-            return new CardCommands.AttackCommand(getAttackedUnit(), playingCard, game.getCurrentPlayer().getName());
+            return new CardCommands.AttackCommand(
+                    getAttackedUnit(), 
+                    playingCard,
+                    game.getCurrentPlayer().getName(),
+                    game.getSelectedUnit(), 
+                    game.getMap().getTerrainAtPosition(game.getSelectedUnit().getPosition()), 
+                    game.getMap().getTerrainAtPosition(getAttackedUnit().getPosition())
+            );
             
         }    
             

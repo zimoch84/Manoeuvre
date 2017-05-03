@@ -100,7 +100,7 @@ public class AttackDialog extends javax.swing.JFrame {
         int numberOfDeffendingCards=0;
         CardSet hand=game.getCurrentPlayer().getHand();
            for(int i=0; i<hand.cardsLeftInSet();i++){
-               if(attackedUnit.getName()==hand.getCardNameByPosInSet(i)){
+               if(attackedUnit.getName().equals(hand.getCardNameByPosInSet(i))){
                    numberOfDeffendingCards++;
                    hand.getCardByPosInSet(i).setAvailableForDefance(true);
                }
@@ -308,8 +308,14 @@ public class AttackDialog extends javax.swing.JFrame {
         {
             MoveUnitCommand moveUnit = new MoveUnitCommand(game.getCurrentPlayer().getName(), attackedUnit, withdrawPositions.get(0));
             game.getCardCommandFactory().setAttachedCommand(moveUnit);
+            game.getCardCommandFactory().setPlayingCard(game.getCurrentPlayer().getHand().getCardByType(Card.WITHDRAW));
             withdrawCommand = game.getCardCommandFactory().createCardCommand();
             cmdQueue.storeAndExecuteAndSend(withdrawCommand);
+            
+            
+            this.dispose();
+            
+            
          
         }
         else 
@@ -322,6 +328,8 @@ public class AttackDialog extends javax.swing.JFrame {
             moveLeft = new Position(attackedUnit.getPosition().getX() - (game.getCurrentPlayer().isHost() ? 1 : -1 ), attackedUnit.getPosition().getY() );
             moveRight = new Position(attackedUnit.getPosition().getX() - (game.getCurrentPlayer().isHost() ? -1 : 1 ), attackedUnit.getPosition().getY() );
             
+            game.getCardCommandFactory().setPlayingCard(game.getCurrentPlayer().getHand().getCardByType(Card.WITHDRAW));
+            
             MoveUnitCommand moveUnitLeft = new MoveUnitCommand(game.getCurrentPlayer().getName(), attackedUnit, moveLeft);
             game.getCardCommandFactory().setAttachedCommand(moveUnitLeft);
             Command withdrawCommandLeft = game.getCardCommandFactory().createCardCommand();
@@ -331,7 +339,7 @@ public class AttackDialog extends javax.swing.JFrame {
             Command withdrawCommandRight = game.getCardCommandFactory().createCardCommand();
             
             VerySimpleDialog vsd = new VerySimpleDialog( "Left", withdrawCommandLeft, "Right", withdrawCommandRight, cmdQueue, game);
-            
+            this.dispose();
         }
         }
         else 

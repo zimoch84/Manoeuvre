@@ -24,7 +24,7 @@ public class VerySimpleDialog extends javax.swing.JFrame {
 
     public VerySimpleDialog(String leftButtonText, Command leftCommand, String rightButtonText, Command rightCommand, CommandQueue cmd, Game game) {
         
-        super();
+        initComponents();
         this.leftButtonText = leftButtonText;
         this.leftCommand = leftCommand;
         this.rightButtonText = rightButtonText;
@@ -34,6 +34,8 @@ public class VerySimpleDialog extends javax.swing.JFrame {
         
         jButton1.setText(leftButtonText);
         jButton2.setText(rightButtonText);
+        
+        this.setVisible(true);
     }
     /**
      * Creates new form VerySimpleDialog

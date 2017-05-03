@@ -265,6 +265,16 @@ public class CardSet implements CardSetInterface, Serializable{
         return (Card)null;
     }
      
+    public Card getCardByType(int type){
+        for (int i=0; i<cardList.size(); i++){
+            if(cardList.get(i).getHQType() == type){
+                Card card = cardList.get(i);
+                return card;
+            }
+        }  
+        return (Card)null;
+    }
+    
     public String getCardNameByPosInSet(int cardPosition){
        return cardList.get(cardPosition).getCardName();     
     }

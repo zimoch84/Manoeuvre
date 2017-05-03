@@ -8,8 +8,10 @@ package manouvre.game.commands;
 import manouvre.game.Card;
 import manouvre.game.CardCommandFactory;
 import manouvre.game.CardSet;
+import manouvre.game.Combat;
 import manouvre.game.Game;
 import manouvre.game.Param;
+import manouvre.game.Terrain;
 import manouvre.game.Unit;
 import manouvre.game.interfaces.CardCommandInterface;
 import manouvre.game.interfaces.Command;
@@ -233,6 +235,9 @@ public class CardCommands {
             moveToTableCommand.execute(game);
             moveUnitCommand.execute(game);
             game.getCardCommandFactory().notifyObservers(CardCommandFactory.CARD_DIALOG);
+            
+            game.getCardCommandFactory().resetFactory();
+            
         }
 
         @Override
@@ -265,15 +270,20 @@ public class CardCommands {
     public static class AttackCommand implements Command {
 
         Unit attackedUnit;
-        Card card;
+        Card attackingCard;
         Command moveToTableCommand;
         String senderPlayerName;
+        Combat combat;
 
-        public AttackCommand(Unit attackedUnit, Card card, String senderPlayerName) {
-            this.attackedUnit = attackedUnit;
-            this.card = card;
-            this.moveToTableCommand = new CardCommands.MoveToTableCommand(card, senderPlayerName);
+        public AttackCommand(Unit defendingUnit, Card attackingCard, String senderPlayerName, Unit attackingUnit, Terrain attackTerrain, Terrain defenseTerrain) {
+            this.attackedUnit = defendingUnit;
+            this.attackingCard = attackingCard;
+            this.moveToTableCommand = new CardCommands.MoveToTableCommand(attackingCard, senderPlayerName);
             this.senderPlayerName = senderPlayerName;
+            
+            
+            combat = new Combat(attackingCard.getPlayingCardMode(), attackingUnit, attackingCard, attackTerrain, defendingUnit, defenseTerrain);
+            
 
         }
 
@@ -282,12 +292,13 @@ public class CardCommands {
             
            moveToTableCommand.execute(game);
             
+           game.setCombat(combat);
             
            game.getCardCommandFactory().setAttackedUnit(attackedUnit);
            
            if(game.getCurrentPlayer().getName() != senderPlayerName){
                
-               game.getCardCommandFactory().setOpponentCard(card);
+               game.getCardCommandFactory().setOpponentCard(attackingCard);
                game.getCardCommandFactory().notifyObservers(CardCommandFactory.ATTACK_DIALOG);
                
            }
@@ -303,7 +314,7 @@ public class CardCommands {
 
         @Override
         public String logCommand() {
-            return senderPlayerName + " played " + card.getCardName();
+            return senderPlayerName + " played " + attackingCard.getCardName();
         }
 
         @Override
