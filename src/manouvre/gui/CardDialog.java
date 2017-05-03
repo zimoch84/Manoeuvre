@@ -8,13 +8,17 @@ package manouvre.gui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 import javax.swing.JRootPane;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
+import manouvre.game.Card;
+import manouvre.game.CardSet;
 import manouvre.game.Game;
 import manouvre.game.commands.CommandQueue;
 import manouvre.game.interfaces.ClientInterface;
@@ -35,6 +39,7 @@ public class CardDialog extends javax.swing.JFrame {
     Command cancelCommand;
     
     CardGUI playedCard;
+    CardSetGUI defCardsPlayerd;
   
     ClientInterface client;
     CommandQueue cmdQueue;
@@ -44,9 +49,10 @@ public class CardDialog extends javax.swing.JFrame {
         initComponents();
     }
 
-    public CardDialog(CardGUI playedCard, ClientInterface client, CommandQueue cmdQueue, Game game)  {
+    public CardDialog(CardGUI playedCard, CardSetGUI defCardsPlayerd, ClientInterface client, CommandQueue cmdQueue, Game game)  {
        
         this.playedCard = playedCard;
+         this.defCardsPlayerd=defCardsPlayerd;
         this.game = game;
         this.cmdQueue = cmdQueue;
         this.setUndecorated(true);
@@ -78,7 +84,7 @@ public class CardDialog extends javax.swing.JFrame {
         setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
-   
+    
         
     private void setButtonVisibility()
     {
@@ -89,10 +95,26 @@ public class CardDialog extends javax.swing.JFrame {
     }
             
     private void drawCard(Graphics g){
-    
+        int cropFrame=30;
+        double resizeFactor=0.4;
+        int cardPaddingLeftDef=250;
+        int cardPaddingTopDef=50;
+        int width=(int)((260-2*cropFrame)*resizeFactor);
+        int height=(int)((375-2*cropFrame)*resizeFactor);
+        int gapDef=50;
+       
+        if(defCardsPlayerd!=null){
+            for (int i=0; i<defCardsPlayerd.cardsLeftInSet(); i++){  
+                    Image image = defCardsPlayerd.getCardByPosInSet(i).getImgSmall(cropFrame);
+                    g.drawImage(image, cardPaddingLeftDef+(width-gapDef)*i, cardPaddingTopDef+gapDef*i, width, height, null);
+            }
+        }
+        
+        if(playedCard!=null){
         g.drawImage(playedCard.getImgFull(),0,0,(int)(CardGUI.CARD_WIDTH * CardGUI.SCALE_FACTOR) ,
                 
                 (int) (CardGUI.CARD_HEIGHT * CardGUI.SCALE_FACTOR), null);
+        }
         
     }
         
@@ -142,7 +164,7 @@ public class CardDialog extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 159, Short.MAX_VALUE)
+            .addGap(0, 147, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -165,14 +187,13 @@ public class CardDialog extends javax.swing.JFrame {
                         .addComponent(okButton, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 73, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(71, 71, 71))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(94, 94, 94))))))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(94, 94, 94))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(86, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(82, 82, 82))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

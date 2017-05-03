@@ -49,6 +49,8 @@ public class AttackDialog extends javax.swing.JFrame {
     ClientInterface client;
     CommandQueue cmdQueue;
     Game game;
+    int nrOfChosenCards;
+    int numberOfAvailableDeffendingCards=0;
     
     CustomDialog withdrawDialog;
     
@@ -75,8 +77,9 @@ public class AttackDialog extends javax.swing.JFrame {
         
         SimpleAttributeSet center = new SimpleAttributeSet();
         StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
-                   
+              
         setButtonVisibility();
+        setNrOfChosenCards(0);
         
         //textArea.setHorizontalAlignment(SwingConstants.CENTER);
         
@@ -299,7 +302,7 @@ public class AttackDialog extends javax.swing.JFrame {
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
        
-        ArrayList<Position> withdrawPositions = game.getRetreatPositions(attackedUnit);
+  ArrayList<Position> withdrawPositions = game.getRetreatPositions(attackedUnit);
         if(!withdrawPositions.isEmpty())        
         {
         game.getMap().setUnitSelected(true);
@@ -421,7 +424,13 @@ public class AttackDialog extends javax.swing.JFrame {
                 MapGUI.PIECE_WIDTH
                ,MapGUI.PIECE_HEIGHT, null);
     }
-
+     public int getNrOfChosenCards() {
+        return nrOfChosenCards;
+    }
+    public void setNrOfChosenCards(int nrOfChosenCards) {
+        this.nrOfChosenCards = nrOfChosenCards;
+         nrOfDefendingCardsTxt.setText(Integer.toString(numberOfAvailableDeffendingCards-nrOfChosenCards));
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
     private javax.swing.JButton defendButton;

@@ -5,6 +5,8 @@
  */
 package manouvre.game.commands;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import manouvre.game.Card;
 import manouvre.game.CardCommandFactory;
 import manouvre.game.CardSet;
@@ -36,16 +38,16 @@ public class CardCommands {
         @Override
         public void execute(Game game) {
                 Card movingCard = game.getPlayerByName(senderPlayerName).getHand().getCardByCard(card);
-                game.getTablePile().addCardToThisSet(movingCard);// Put card on own table
-                game.getPlayerByName(senderPlayerName).getHand().drawCardFromSet(movingCard);//remove card from own hand
+                game.getTablePile().addCardToThisSet(movingCard);// Put cards on own table
+                game.getPlayerByName(senderPlayerName).getHand().drawCardFromSet(movingCard);//remove cards from own hand
                 
-            if (game.getCurrentPlayer().getName().equals(senderPlayerName)) {
-                //do nothing
-            } else {
-                game.getCardCommandFactory().setOpponentCard(movingCard);
+                if (game.getCurrentPlayer().getName().equals(senderPlayerName)) {
+                    //do nothing
+                } else {
+                    game.getCardCommandFactory().setOpponentCard(movingCard);
+                }
+                //repaint is made by CommandQueue
             }
-            //repaint is made by CommandQueue
-        }
 
         @Override
         public void undo(Game game) {
@@ -56,7 +58,7 @@ public class CardCommands {
         public String logCommand() {
             if (card.getCanBeCancelled()) {
                 return card.getCardName() + " cart moved to the table " + senderPlayerName + " have to wait for acceptance";
-            }
+                }
             return card.getCardName() + " cart moved to the table";
         }
 
@@ -345,7 +347,7 @@ public class CardCommands {
                 game.getCurrentPlayer().getHand().addCardsFromOtherSet(numberOfChosenCards, cardSet, true, deleteCards);//add to own hand
 
             } else {
-                game.getOpponentPlayer().getHand().addCardsFromOtherSet(numberOfChosenCards, cardSet, true, deleteCards); //add card to opponent hand
+                game.getOpponentPlayer().getHand().addCardsFromOtherSet(numberOfChosenCards, cardSet, true, deleteCards); //add cards to opponent hand
                 //repaint is made by CommandQueue
             }
         }
@@ -429,5 +431,62 @@ public class CardCommands {
             return Param.RESET_FACTORY;
         }
     }
+     public static class MoveDefensiveCardsToTableCommand implements CardCommandInterface {
+
+        ArrayList<Card> cards;
+        String senderPlayerName;
+
+        public MoveDefensiveCardsToTableCommand(ArrayList<Card> cards, String senderPlayerName) {
+            this.cards = cards;
+            this.senderPlayerName = senderPlayerName;
+        }
+
+        @Override
+        public void execute(Game game) {
+            for(Card card:cards){
+                Card movingCard = game.getPlayerByName(senderPlayerName).getHand().getCardByCard(card);
+                game.getTablePileDefPart().addCardToThisSet(movingCard);// Put cards on own table
+                game.getPlayerByName(senderPlayerName).getHand().drawCardFromSet(movingCard);//remove cards from own hand
+            }    
+            if (game.getCurrentPlayer().getName().equals(senderPlayerName)) {
+               // game.getCardCommandFactory().clearDefendingCards();
+                //do nothing
+            } else {
+                game.getCardCommandFactory().setDefendingOponentCards(cards);
+                game.getCardCommandFactory().awakeObserver();
+            game.getCardCommandFactory().notifyObservers(CardCommandFactory.DEFENDING_CARDS_PLAYED);
+            game.getCardCommandFactory().resetFactory();
+            }
+            //repaint is made by CommandQueue
+            
+        }
+        @Override
+        public void undo(Game game) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String logCommand() {
+            if(cards.size()==1)//if player is playing one card
+                if (cards.get(0).getCanBeCancelled()) {
+                    return cards.get(0).getCardName() + " cart moved to the table " + senderPlayerName + " have to wait for acceptance";
+                }
+                
+            
+            return "More than one cart moved to the table";
+        }
+
+        @Override
+        public int getType() {
+            return Param.PLAY_CARD;
+        }
+
+        @Override
+        public void cancel(Game game) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+    }
+
+    
 
 }

@@ -1,5 +1,6 @@
 package manouvre.game.interfaces;
 
+import java.util.ArrayList;
 import manouvre.game.Card;
 
 /**
@@ -43,7 +44,7 @@ public interface CardSetInterface {
    /**
     * Show all the Card Names in the set
     */
-   public void getAllCardsNamesFromSet();
+   public ArrayList<String> getAllCardsNamesFromSet();
    
    /**
     * Return card based on its position in the set

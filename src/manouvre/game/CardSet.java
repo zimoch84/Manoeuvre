@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.Collections;
+import javax.swing.JOptionPane;
 import manouvre.game.interfaces.CardInterface;
 
 import manouvre.game.interfaces.CardSetInterface;
@@ -136,12 +137,19 @@ public class CardSet implements CardSetInterface, Serializable{
         Card temp;
         for(int i=0; i<range; i++){   
         temp=otherCardSet.lastCardFromThisSet(deleteCard);
-            
-       if (cardList.size()<cardSetSize){  //if it is possible to add the card  
-           cardList.add(temp);  //add the card
-       }
-       else System.err.println("Too many cards in:"+cardList.getClass().getName()+", sent from: "+ otherCardSet.getClass().getName());
-       }    
+        if(temp!=null) {    
+            if (cardList.size()<cardSetSize){  //if it is possible to add the card  
+                cardList.add(temp);  //add the card
+            }
+            else System.err.println("Too many cards in:"+cardList.getClass().getName()+", sent from: "+ otherCardSet.getClass().getName());
+            } 
+        else {
+            JOptionPane.showMessageDialog(null, "No more cards to draw", 
+                     "Wrong Action", JOptionPane.OK_OPTION); 
+            break;
+        }
+        }
+        
     }
      public void addCardsFromOtherSet(int range, CardSet otherCardSet, boolean setPlayable, boolean deleteCards){
         Card temp;
@@ -170,9 +178,13 @@ public class CardSet implements CardSetInterface, Serializable{
      */
     public Card lastCardFromThisSet(boolean remove){
         int size=cardsLeftInSet();
+        if(size>0){
         Card temp = getCardByPosInSet(size-1);
         if(remove)removeCardFromThisSet(getCardByPosInSet(size-1));
         return temp;
+        }
+        
+        return null;
     }
     
     
@@ -239,10 +251,13 @@ public class CardSet implements CardSetInterface, Serializable{
         
      }
     
-    public void getAllCardsNamesFromSet(){
+    public ArrayList<String> getAllCardsNamesFromSet(){
+        ArrayList<String> cardNames = new ArrayList<>();
     for(int i=0; i<cardList.size(); i++){
-       System.out.println("Card " +i+": " + cardList.get(i).getCardName());     
+       System.out.println("Card " +i+": " + cardList.get(i).getCardName()); 
+       cardNames.add(cardList.get(i).getCardName());
     }
+    return cardNames;
     }  
     public void getAllCardsIDFromSet(){
     for(int i=0; i<cardList.size(); i++){
