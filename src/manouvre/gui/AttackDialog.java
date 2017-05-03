@@ -9,15 +9,21 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Toolkit;
+import java.util.ArrayList;
+import javafx.beans.Observable;
 import javax.swing.JRootPane;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
+import manouvre.game.Card;
 import manouvre.game.CardSet;
 import manouvre.game.Game;
+import manouvre.game.Position;
+import manouvre.game.Unit;
 import manouvre.game.commands.CommandQueue;
+import manouvre.game.commands.MoveUnitCommand;
 import manouvre.game.interfaces.ClientInterface;
 import manouvre.network.client.Message;
 import manouvre.network.client.SocketClient;
@@ -32,8 +38,11 @@ public class AttackDialog extends javax.swing.JFrame {
     Command okCommand;
     Command withdrawCommand;
     
-    CardGUI playedCard;
-    UnitGUI attackedUnit;
+    CardGUI playedCardGui;
+    UnitGUI attackedUnitGui;
+    
+    Card playedCard;
+    Unit attackedUnit;
     
     String attackType;
     
@@ -41,14 +50,16 @@ public class AttackDialog extends javax.swing.JFrame {
     CommandQueue cmdQueue;
     Game game;
     
+    CustomDialog withdrawDialog;
+    
     public AttackDialog() {
         initComponents();
     }
-
-    public AttackDialog(String attackType, CardGUI playedCard, UnitGUI attackedUnit, ClientInterface client, CommandQueue cmdQueue, Game game) {
-        
+    public AttackDialog(String attackType, Card playedCard, Unit attackedUnit, ClientInterface client, CommandQueue cmdQueue, Game game){
+  
         this.attackType = attackType;
         this.playedCard = playedCard;
+        
         this.attackedUnit = attackedUnit;
         this.client = client;
         this.cmdQueue = cmdQueue;
@@ -89,7 +100,7 @@ public class AttackDialog extends javax.swing.JFrame {
         int numberOfDeffendingCards=0;
         CardSet hand=game.getCurrentPlayer().getHand();
            for(int i=0; i<hand.cardsLeftInSet();i++){
-               if(attackedUnit.getUnit().getName()==hand.getCardNameByPosInSet(i)){
+               if(attackedUnit.getName()==hand.getCardNameByPosInSet(i)){
                    numberOfDeffendingCards++;
                    hand.getCardByPosInSet(i).setAvailableForDefance(true);
                }
@@ -261,10 +272,11 @@ public class AttackDialog extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel2)))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cancelButton)
-                    .addComponent(okButton)
-                    .addComponent(defendButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(defendButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cancelButton)
+                        .addComponent(okButton)))
                 .addContainerGap())
         );
 
@@ -286,15 +298,46 @@ public class AttackDialog extends javax.swing.JFrame {
     }//GEN-LAST:event_okButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        
-        
-        if(withdrawCommand != null){
-        
+       
+        ArrayList<Position> withdrawPositions = game.getRetreatPositions(attackedUnit);
+        if(!withdrawPositions.isEmpty())        
+        {
+        game.getMap().setUnitSelected(true);
+        game.getCardCommandFactory().setAttackedUnit(attackedUnit);
+        if(withdrawPositions.size() == 1 )
+        {
+            MoveUnitCommand moveUnit = new MoveUnitCommand(game.getCurrentPlayer().getName(), attackedUnit, withdrawPositions.get(0));
+            game.getCardCommandFactory().setAttachedCommand(moveUnit);
+            withdrawCommand = game.getCardCommandFactory().createCardCommand();
             cmdQueue.storeAndExecuteAndSend(withdrawCommand);
+         
+        }
+        else 
+        {
+            /*
+            Very simple dialog bumped with right / left choice
+            */
+            Position moveLeft, moveRight;
+            
+            moveLeft = new Position(attackedUnit.getPosition().getX() - (game.getCurrentPlayer().isHost() ? 1 : -1 ), attackedUnit.getPosition().getY() );
+            moveRight = new Position(attackedUnit.getPosition().getX() - (game.getCurrentPlayer().isHost() ? -1 : 1 ), attackedUnit.getPosition().getY() );
+            
+            MoveUnitCommand moveUnitLeft = new MoveUnitCommand(game.getCurrentPlayer().getName(), attackedUnit, moveLeft);
+            game.getCardCommandFactory().setAttachedCommand(moveUnitLeft);
+            Command withdrawCommandLeft = game.getCardCommandFactory().createCardCommand();
+            
+            MoveUnitCommand moveUnitRight = new MoveUnitCommand(game.getCurrentPlayer().getName(), attackedUnit, moveRight);
+            game.getCardCommandFactory().setAttachedCommand(moveUnitRight);
+            Command withdrawCommandRight = game.getCardCommandFactory().createCardCommand();
+            
+            VerySimpleDialog vsd = new VerySimpleDialog( "Left", withdrawCommandLeft, "Right", withdrawCommandRight, cmdQueue, game);
             
         }
-        
-        this.dispose();
+        }
+        else 
+        {   withdrawDialog = 
+                    new CustomDialog(CustomDialog.CONFIRMATION_TYPE, game.getCurrentPlayer().getName()+" You dont have free posision to witdraw", cmdQueue, game);
+        }
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void defendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_defendButtonActionPerformed
@@ -355,17 +398,18 @@ public class AttackDialog extends javax.swing.JFrame {
     }
 
     private void drawCard(Graphics g){
-    
-        g.drawImage(playedCard.getImgFull(),0,0, 
-                (int) (playedCard.getImgFull().getWidth(this) * CardGUI.SCALE_FACTOR),
-                (int)(playedCard.getImgFull().getHeight(this) * CardGUI.SCALE_FACTOR)
+        CardGUI playedCardgui = new CardGUI((playedCard));
+        
+        g.drawImage(playedCardgui.getImgFull(),0,0, 
+                (int) (playedCardgui.getImgFull().getWidth(this) * CardGUI.SCALE_FACTOR),
+                (int)(playedCardgui.getImgFull().getHeight(this) * CardGUI.SCALE_FACTOR)
                 , null);
         
     }
     
     private void drawUnit(Graphics g){
-    
-         g.drawImage(attackedUnit.getImg(),0,0, 
+    UnitGUI unitGui = new UnitGUI(attackedUnit);
+         g.drawImage(unitGui.getImg(),0,0, 
                 MapGUI.PIECE_WIDTH
                ,MapGUI.PIECE_HEIGHT, null);
     }

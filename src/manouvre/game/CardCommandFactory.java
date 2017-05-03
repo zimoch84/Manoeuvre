@@ -231,6 +231,16 @@ public class CardCommandFactory extends Observable implements Serializable{
                 setCardCommand( new CardCommands.ForcedMarchCommand(attachedCommand, playingCard, game.getCurrentPlayer().getName()) );
                 return getCardCommand();
             }
+            case Card.WITHDRAW : {
+                /*
+                We create it in 2 steps - first in attack dialog we choose withdraw action button which trigger another dialog window 
+                when we have to choose where witdraw to.
+                
+                */
+               
+                setCardCommand( new CardCommands.WithrdawCommand(attachedCommand, playingCard, game.getCurrentPlayer().getName()) );
+                return getCardCommand();
+            }
             default: {
                 setCardCommand(new CardCommands.MoveToTableCommand(playingCard, game.getCurrentPlayer().getName()));
                 return  getCardCommand();

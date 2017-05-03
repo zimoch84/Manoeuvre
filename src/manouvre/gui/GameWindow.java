@@ -173,9 +173,10 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                Command withdrawCommand;   // ccmdf.createRejectCardCommand();
                Command okCommand;//
                Command pickDefenseCardsCommand;
-               AttackDialog ad = new AttackDialog(ccmdf.getOpponentCard().getPlayiningMode(), new CardGUI(ccmdf.getOpponentCard()), 
-                       new UnitGUI(ccmdf.getAttackedUnit()), client, cmdQueue, game);
+               AttackDialog ad = new AttackDialog(ccmdf.getOpponentCard().getPlayiningMode(),ccmdf.getOpponentCard(), 
+                       ccmdf.getAttackedUnit(), client, cmdQueue, game);
                
+              
                ad.setVisible(true);
                break;
                
@@ -1490,7 +1491,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         else if (game.getCurrentPlayer().isPlayingCard())
         {
              /*
-            Phase 1 either player has selected unit or has to selelect card
+            Phase 1 either player has selected unit or has to selelect it
             */
 
             Card playingCard = game.getCardCommandFactory().getPlayingCard();
@@ -1653,6 +1654,12 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                                 case Card.SUPPLY:
                                 {
                                    movePositions = game.getPossibleMovement(selectedUnit); 
+                                   break;
+                                }
+                                
+                                case Card.WITHDRAW:
+                                {
+                                   movePositions = game.getRetreatPositions(selectedUnit); 
                                    break;
                                 }
                                 

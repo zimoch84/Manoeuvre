@@ -134,7 +134,7 @@ public class GameGUI {
         /*
         Draw retrieving arrows
         */
-        //drawRetrieving(g);
+        drawRetrieving(g);
         /*
         Draw LOS
         */
@@ -347,6 +347,13 @@ public class GameGUI {
                         drawMultipleRectanglesOnPositions(g, movePositions, Color.red);
                         break;
                         }
+                    case Card.WITHDRAW: 
+                        {
+                        Unit attackedUnit = game.getCardCommandFactory().getAttackedUnit();
+                        movePositions = game.getRetreatPositions(attackedUnit);
+                        drawMultipleRectanglesOnPositions(g, movePositions, Color.red);
+                        break;
+                        }
                     }
 
                 }
@@ -533,10 +540,10 @@ public class GameGUI {
     
     private void drawRetrieving(Graphics g){
      
-    if (mapGui.isUnitSelected()){
+    if (mapGui.isUnitSelected() ){
         
         Unit selectedUnit = game.getSelectedUnit();
-        
+        if(selectedUnit != null)
             if(selectedUnit.isRetriving()) 
                 
                 for (Position retrivingPositons: game.getRetreatPositions(selectedUnit))

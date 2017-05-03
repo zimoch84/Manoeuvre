@@ -212,6 +212,55 @@ public class CardCommands {
         }
 
     }
+    
+     public static class WithrdawCommand implements CardCommandInterface {
+
+        Command moveUnitCommand;
+        Card card;
+        Command moveToTableCommand;
+        String senderPlayerName;
+
+        public WithrdawCommand(Command moveUnitCommand, Card card, String senderPlayerName) {
+            this.moveUnitCommand = moveUnitCommand;
+            this.card = card;
+            this.moveToTableCommand = new CardCommands.MoveToTableCommand(card, senderPlayerName);
+            this.senderPlayerName = senderPlayerName;
+        }
+
+        @Override
+        public void execute(Game game) {
+
+            moveToTableCommand.execute(game);
+            moveUnitCommand.execute(game);
+            game.getCardCommandFactory().notifyObservers(CardCommandFactory.CARD_DIALOG);
+        }
+
+        @Override
+        public void undo(Game game) {
+
+            moveUnitCommand.undo(game);
+
+        }
+
+        @Override
+        public String logCommand() {
+            return senderPlayerName + " played " + card.getCardName();
+        }
+
+        @Override
+        public int getType() {
+            return Param.PLAY_CARD;
+        }
+
+        @Override
+        public void cancel(Game game) {
+            moveUnitCommand.undo(game);
+            game.getCurrentPlayer().setMoved(true);
+            game.getCardCommandFactory().resetFactory();
+        }
+
+    }
+
 
     public static class AttackCommand implements Command {
 

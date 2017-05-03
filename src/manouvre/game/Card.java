@@ -215,7 +215,9 @@ public class Card implements CardInterface, Serializable{
     
     public int getAtionType(int phase){
         
-        if(getHQType()== Card.FORCED_MARCH )
+        if(getHQType()== Card.FORCED_MARCH || 
+           getHQType()== Card.WITHDRAW     
+                )
             return Card.MOVE_ACTION;
         if(getHQType()== Card.SUPPLY) 
         {
@@ -588,6 +590,14 @@ public class Card implements CardInterface, Serializable{
                 {
                     game.getCurrentPlayer().getLastMovedUnit().setSelected(true);
                     game.getMap().setUnitSelected(true);
+                    break;
+                }
+                
+                case Card.WITHDRAW:
+                {
+                    game.getCardCommandFactory().getAttackedUnit().setSelected(true);
+                    game.getMap().setUnitSelected(true);
+                    break;
                 }
             
             } break;
@@ -613,6 +623,12 @@ public class Card implements CardInterface, Serializable{
                 {
                     if(game.getCurrentPlayer().getLastMovedUnit()!= null)
                          game.getCurrentPlayer().getLastMovedUnit().setSelected(false);
+                    game.getMap().setUnitSelected(false);
+                    break;
+                }
+                case Card.WITHDRAW:
+                {
+                    game.getCardCommandFactory().getAttackedUnit().setSelected(false);
                     game.getMap().setUnitSelected(false);
                     break;
                 }
