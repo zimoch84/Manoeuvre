@@ -6,6 +6,7 @@
 package manouvre.gui;
 
 import java.util.ArrayList;
+import manouvre.game.Card;
 import manouvre.game.CardSet;
 
 //import java.awt.image.BufferedImage;
@@ -28,6 +29,11 @@ public class CardSetGUI {
     public CardSetGUI (CardSet newCardSet){
        this.cardSet = newCardSet;
        reSet();
+    }
+    public CardSetGUI (ArrayList<Card> newCardSet){
+       for(int i=0; i<newCardSet.size(); i++){
+       cardListGui.add(i, new CardGUI(newCardSet.get(i)));
+       }
     }
     
     public boolean isCardSelected(){

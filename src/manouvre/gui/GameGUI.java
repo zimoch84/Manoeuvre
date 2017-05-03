@@ -34,6 +34,131 @@ import static java.lang.Math.round;
 import static java.lang.Math.round;
 import static java.lang.Math.round;
 import manouvre.game.interfaces.CardInterface;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import manouvre.game.CardSet;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
 
 
 
@@ -709,7 +834,7 @@ public class GameGUI {
     public void mouseClickedCard(int mouseX, int mouseY){
         Card cardClicked=getCardFromMousePosition(mouseX,mouseY);
         if(cardClicked!=null){
-                if(cardClicked.getAvailableForPhase(game.getPhase())){ //select card if it is playable
+                if(cardClicked.getAvailableForPhase(game.getPhase())||cardClicked.isAvailableForDefance()){ //select card if it is playable
                 if(!cardClicked.isSelected()) {//if not selected
                     cardClicked.setSelected(true);
                     if(game.getPhase()==Game.MOVE||game.getPhase()==Game.COMBAT)//in this phase it is possible to select ONE card, thats why all have to be unselected before click
@@ -717,11 +842,12 @@ public class GameGUI {
                         game.getCardCommandFactory().setPlayingCard(cardClicked);
                         triggerCardActionOnSelection(cardClicked);
                         keepOneSelectedCard(cardClicked);
-                 //   }else if (game.getPhase()==Game.COMBAT_DEF&&cardClicked.isAvailableForDefance()){
-                    if(chooseCardsAsDefending)
-                        game.getCardCommandFactory().addDeffendingCards(cardClicked);
+                    }else if (game.getPhase()==Game.COMBAT_DEF){//during defence
+                        game.getCardCommandFactory().addDefendingCard(cardClicked);
+                        selectionSeq.add((Integer)cardClicked.getCardID()); 
                     }
-                    else selectionSeq.add((Integer)cardClicked.getCardID()); 
+                    else selectionSeq.add((Integer)cardClicked.getCardID());
+                    
                     if(game.getPhase()!=Game.DISCARD)currentPlayer.setPlayingCard(true);  //not playing cards on Table during Discard
                 }   
                 else {
@@ -730,7 +856,7 @@ public class GameGUI {
                     Integer j=cardClicked.getCardID();
                     selectionSeq.remove(j); //remove number Integer j, not position int i
                     if (game.getPhase()==Game.COMBAT_DEF){
-                        game.getCardCommandFactory().removeDeffendingCards(cardClicked);
+                        game.getCardCommandFactory().removeDefendingCard(cardClicked);
                     }
                 }  
             }else
@@ -824,6 +950,7 @@ public class GameGUI {
     
     public void paintHand(Graphics g)                 
     {   
+        CardSet hand=currentPlayer.getHand();
     int cardPaddingTopTemp=cardPaddingTop;
         Integer j=0;
         if(!selectionSeq.isEmpty()){
@@ -838,10 +965,21 @@ public class GameGUI {
             g.drawString("on the Discard Pile",cardPaddingLeft+width*j+(gap*j)+0,54+190); 
             }
             g.fillPolygon(xPoints, yPoints, 3);
+            if(game.getPhase()==Game.COMBAT_DEF){  //put triangle under all selected in Defence mode
+                for(int s=0; s<selectionSeq.size()-1; s++){
+                    j=selectionSeq.get(s);              
+                    j=handSetGui.getPositionInSetByCardID(j); 
+                    int[] xPoints2={cardPaddingLeft+35+width*j+(gap*j),cardPaddingLeft+95+width*j+(gap*j),cardPaddingLeft+35+(95-35)/2+width*j+(gap*j)};
+                    int[] yPoints2={cardPaddingTop+180,cardPaddingTop+180,cardPaddingTop+170};
+                    g.setColor(Color.white);
+                    g.fillPolygon(xPoints2, yPoints2, 3);
+                }
+            }
+            
         }  
         for (int i=0; i<handSetGui.cardsLeftInSet(); i++) {   
             if((handSetGui.getCardByPosInSet(i).getCard().isMouseOverCard()|| handSetGui.getCardByPosInSet(i).getCard().isSelected()) 
-                    && currentPlayer.getHand().getCardByPosInSet(i).getAvailableForPhase(game.getPhase())) 
+                    && (hand.getCardByPosInSet(i).getAvailableForPhase(game.getPhase())|| hand.getCardByPosInSet(i).isAvailableForDefance()) ) //during defence
                     cardPaddingTopTemp=cardPaddingTop-20;
             else cardPaddingTopTemp=cardPaddingTop;
             
@@ -974,7 +1112,7 @@ public class GameGUI {
    
      public void resetDefenceCardsAvailable(){
         for(int i=0; i<handSetGui.cardsLeftInSet();i++){
-                handSetGui.getCardSet().getCardByPosInSet(i).setAvailableForDefance(true);
+                handSetGui.getCardSet().getCardByPosInSet(i).setAvailableForDefance(false);
         }
     }
    
@@ -986,12 +1124,8 @@ public class GameGUI {
         int height=(int)((375-2*cropFrame)*resizeFactor);
         int gapDef=50;
        
-        ArrayList<Card> deffendingCards =  game.getCardCommandFactory().getDeffendingCards();
-        if(deffendingCards!=null)
-            for (int i=0; i<deffendingCards.size(); i++){  
-                game.getTablePileDefPart().addCardToThisSet(deffendingCards.get(i));
-                tableSetGuiDefPart.reSet();
-                
+        tableSetGuiDefPart.reSet();
+            for (int i=0; i<tableSetGuiDefPart.cardsLeftInSet(); i++){  
                 Image image = tableSetGuiDefPart.getCardByPosInSet(i).getImgSmall(cropFrame);
                 g.drawImage(image, cardPaddingLeftDef+(width-gapDef)*i, cardPaddingTop+gapDef*i, width, height, null);
             }
@@ -1315,6 +1449,14 @@ public class GameGUI {
         this.discardSetGui.reSet(); //reset GUI
         this.drawSetGui.reSet(); //reset GUI
         return discardCardMessage;
+    }
+
+    public CardSetGUI getTableSetGuiDefPart() {
+        return tableSetGuiDefPart;
+    }
+
+    public void setTableSetGuiDefPart(CardSetGUI tableSetGuiDefPart) {
+        this.tableSetGuiDefPart = tableSetGuiDefPart;
     }
     
      

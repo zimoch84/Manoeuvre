@@ -30,7 +30,7 @@ import manouvre.game.interfaces.Command;
  *
  * @author Piotr
  */
-public class CardDialog extends javax.swing.JFrame {
+public class SupportDialog extends javax.swing.JFrame {
 
     /**
      * Creates new form CardDialog
@@ -39,20 +39,30 @@ public class CardDialog extends javax.swing.JFrame {
     Command cancelCommand;
     
     CardGUI playedCard;
-    CardSetGUI defCardsPlayerd;
+    ArrayList<Card> defCardsPlayerd;
+    CardSetGUI defCardsPlayedGui;
   
     ClientInterface client;
     CommandQueue cmdQueue;
     Game game;
     
-    public CardDialog() {
+    int cropFrame=30;
+        double resizeFactor=0.7;
+        int cardPaddingLeftDef=0;
+        int cardPaddingTopDef=10;
+        int width=(int)((260-2*cropFrame)*resizeFactor);
+        int height=(int)((375-2*cropFrame)*resizeFactor);
+        int gapDef=10;
+    
+    public SupportDialog() {
         initComponents();
     }
 
-    public CardDialog(CardGUI playedCard, CardSetGUI defCardsPlayerd, ClientInterface client, CommandQueue cmdQueue, Game game)  {
+    public SupportDialog(CardGUI playedCard, ArrayList<Card> defCardsPlayerd, ClientInterface client, CommandQueue cmdQueue, Game game)  {
        
         this.playedCard = playedCard;
          this.defCardsPlayerd=defCardsPlayerd;
+         this.defCardsPlayedGui=new CardSetGUI(defCardsPlayerd);
         this.game = game;
         this.cmdQueue = cmdQueue;
         this.setUndecorated(true);
@@ -85,6 +95,7 @@ public class CardDialog extends javax.swing.JFrame {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
     
+   
         
     private void setButtonVisibility()
     {
@@ -95,21 +106,32 @@ public class CardDialog extends javax.swing.JFrame {
     }
             
     private void drawCard(Graphics g){
-        int cropFrame=30;
-        double resizeFactor=0.4;
-        int cardPaddingLeftDef=250;
-        int cardPaddingTopDef=50;
-        int width=(int)((260-2*cropFrame)*resizeFactor);
-        int height=(int)((375-2*cropFrame)*resizeFactor);
-        int gapDef=50;
-       
-        if(defCardsPlayerd!=null){
-            for (int i=0; i<defCardsPlayerd.cardsLeftInSet(); i++){  
-                    Image image = defCardsPlayerd.getCardByPosInSet(i).getImgSmall(cropFrame);
-                    g.drawImage(image, cardPaddingLeftDef+(width-gapDef)*i, cardPaddingTopDef+gapDef*i, width, height, null);
+        
+       int i=0;
+        if(defCardsPlayedGui!=null){
+            for (i=0; i<defCardsPlayedGui.cardsLeftInSet(); i++){  
+                if(i%2==0){
+                    Image image = defCardsPlayedGui.getCardByPosInSet(i).getImgSmall(cropFrame);
+                    g.drawImage(image, cardPaddingLeftDef+(width-gapDef)*i, cardPaddingTopDef, width, height, null);
+                }else{
+                    Image image = defCardsPlayedGui.getCardByPosInSet(i).getImgSmall(cropFrame);
+                    g.drawImage(image, cardPaddingLeftDef+(width-gapDef)*i, cardPaddingTopDef+gapDef, width, height, null);
+                }
             }
         }
-        
+        switch(defCardsPlayedGui.cardsLeftInSet()){
+            case 4:{
+                jScrollBar1.setVisible(true);
+                jScrollBar1.setMaximum(70);
+                break;
+            }
+            case 5:{
+                jScrollBar1.setVisible(true);
+                jScrollBar1.setMaximum(220);
+                break;
+            }
+            default: jScrollBar1.setVisible(false);
+        }
         if(playedCard!=null){
         g.drawImage(playedCard.getImgFull(),0,0,(int)(CardGUI.CARD_WIDTH * CardGUI.SCALE_FACTOR) ,
                 
@@ -140,7 +162,10 @@ public class CardDialog extends javax.swing.JFrame {
             }
         }
         ;
+        jScrollBar1 = new javax.swing.JScrollBar();
         jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.FlowLayout());
@@ -160,53 +185,83 @@ public class CardDialog extends javax.swing.JFrame {
             }
         });
 
+        jScrollBar1.setMaximum(800);
+        jScrollBar1.setOrientation(javax.swing.JScrollBar.HORIZONTAL);
+        jScrollBar1.addAdjustmentListener(new java.awt.event.AdjustmentListener() {
+            public void adjustmentValueChanged(java.awt.event.AdjustmentEvent evt) {
+                jScrollBar1AdjustmentValueChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 147, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(86, 86, 86))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 217, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 239, Short.MAX_VALUE)
+                .addComponent(jScrollBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel1.setText("Opponent plays:");
 
+        jButton1.setText("repaint");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jTextField1.setText("jTextField1");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(27, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(131, 131, 131)
+                                .addComponent(jButton1))
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 469, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
                         .addComponent(cancelButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(okButton, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(94, 94, 94))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(86, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(82, 82, 82))
+                        .addGap(12, 12, 12)))
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(217, 217, 217)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jLabel1)
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelButton)
                     .addComponent(okButton))
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         getContentPane().add(jPanel1);
@@ -237,6 +292,19 @@ public class CardDialog extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        this.repaint();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jScrollBar1AdjustmentValueChanged(java.awt.event.AdjustmentEvent evt) {//GEN-FIRST:event_jScrollBar1AdjustmentValueChanged
+        // TODO add your handling code here:
+        cardPaddingLeftDef=-evt.getValue();
+        jTextField1.setText(Integer.toString(evt.getValue()));
+        this.repaint();
+      
+    }//GEN-LAST:event_jScrollBar1AdjustmentValueChanged
+
     /**
      * @param args the command line arguments
      */
@@ -254,14 +322,18 @@ public class CardDialog extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CardDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SupportDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CardDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SupportDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CardDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SupportDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CardDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SupportDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -270,7 +342,7 @@ public class CardDialog extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CardDialog().setVisible(true);
+                new SupportDialog().setVisible(true);
             }
         });
     }
@@ -284,9 +356,12 @@ public class CardDialog extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollBar jScrollBar1;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JButton okButton;
     // End of variables declaration//GEN-END:variables
 }

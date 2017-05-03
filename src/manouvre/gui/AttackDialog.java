@@ -40,6 +40,9 @@ public class AttackDialog extends javax.swing.JFrame {
     ClientInterface client;
     CommandQueue cmdQueue;
     Game game;
+    int nrOfChosenCards;
+    int numberOfAvailableDeffendingCards=0;
+   
     
     public AttackDialog() {
         initComponents();
@@ -65,8 +68,8 @@ public class AttackDialog extends javax.swing.JFrame {
         SimpleAttributeSet center = new SimpleAttributeSet();
         StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
                    
-        setButtonVisibility();
-        
+        setWithdrawButtonVisibility();
+        setNrOfChosenCards(0);
         //textArea.setHorizontalAlignment(SwingConstants.CENTER);
         
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -82,27 +85,25 @@ public class AttackDialog extends javax.swing.JFrame {
         labelTitle.setText(labelTitle.getText() + " " + attackType);
         
         setVisible(true);
+        this.setAlwaysOnTop (true);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
     
     private void chooseCardsAvailableForDefence(){
-        int numberOfDeffendingCards=0;
+       
         CardSet hand=game.getCurrentPlayer().getHand();
            for(int i=0; i<hand.cardsLeftInSet();i++){
-               if(attackedUnit.getUnit().getName()==hand.getCardNameByPosInSet(i)){
-                   numberOfDeffendingCards++;
+               if(attackedUnit.getUnit().getName().equals(hand.getCardNameByPosInSet(i))){
+                   numberOfAvailableDeffendingCards++;
                    hand.getCardByPosInSet(i).setAvailableForDefance(true);
                }
                else {
                    hand.getCardByPosInSet(i).setAvailableForDefance(false);
-                   numberOfDeffendingCards--;
                }
            }
-           nrOfDefendingCardsTxt.setText(Integer.toString(numberOfDeffendingCards));
-           if(numberOfDeffendingCards>0)defendButton.setEnabled(true);
-           else defendButton.setEnabled(false);
+           nrOfDefendingCardsTxt.setText(Integer.toString(numberOfAvailableDeffendingCards));
     }
-    private void setButtonVisibility()
+    private void setWithdrawButtonVisibility()
     {
         
         if(game.getCurrentPlayer().getHand().getCardByName("Withdraw", false)!=null)
@@ -143,7 +144,6 @@ public class AttackDialog extends javax.swing.JFrame {
             }
         }
         ;
-        defendButton = new javax.swing.JButton();
         nrOfDefendingCardsTxt = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -151,7 +151,7 @@ public class AttackDialog extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.FlowLayout());
 
-        okButton.setText("OK");
+        okButton.setText("DEFEND!");
         okButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 okButtonActionPerformed(evt);
@@ -191,13 +191,6 @@ public class AttackDialog extends javax.swing.JFrame {
             .addGap(0, 100, Short.MAX_VALUE)
         );
 
-        defendButton.setText("DEFEND!");
-        defendButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                defendButtonActionPerformed(evt);
-            }
-        });
-
         nrOfDefendingCardsTxt.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         nrOfDefendingCardsTxt.setText("nr of cards");
         nrOfDefendingCardsTxt.addActionListener(new java.awt.event.ActionListener() {
@@ -219,10 +212,8 @@ public class AttackDialog extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(cancelButton)
-                        .addGap(26, 26, 26)
-                        .addComponent(defendButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(okButton, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(okButton))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(59, 59, 59)
                         .addComponent(labelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -263,8 +254,7 @@ public class AttackDialog extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelButton)
-                    .addComponent(okButton)
-                    .addComponent(defendButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(okButton))
                 .addContainerGap())
         );
 
@@ -281,8 +271,9 @@ public class AttackDialog extends javax.swing.JFrame {
             cmdQueue.storeAndExecuteAndSend(okCommand);
             
         }
-        
+        cmdQueue.storeAndExecuteAndSend(game.getCardCommandFactory().createMoveDefensiveCardsToTableCommand(game.getCardCommandFactory().getDefendingCards()));
         this.dispose();
+        
     }//GEN-LAST:event_okButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
@@ -296,10 +287,6 @@ public class AttackDialog extends javax.swing.JFrame {
         
         this.dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
-
-    private void defendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_defendButtonActionPerformed
-       //here command to paint the cards on table -> GameGui -> public void paintDefenceCardsOnTheTable(Graphics g){
-    }//GEN-LAST:event_defendButtonActionPerformed
 
     private void nrOfDefendingCardsTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nrOfDefendingCardsTxtActionPerformed
         // TODO add your handling code here:
@@ -369,10 +356,17 @@ public class AttackDialog extends javax.swing.JFrame {
                 MapGUI.PIECE_WIDTH
                ,MapGUI.PIECE_HEIGHT, null);
     }
+     public int getNrOfChosenCards() {
+        return nrOfChosenCards;
+    }
+
+    public void setNrOfChosenCards(int nrOfChosenCards) {
+        this.nrOfChosenCards = nrOfChosenCards;
+         nrOfDefendingCardsTxt.setText(Integer.toString(numberOfAvailableDeffendingCards-nrOfChosenCards));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
-    private javax.swing.JButton defendButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
