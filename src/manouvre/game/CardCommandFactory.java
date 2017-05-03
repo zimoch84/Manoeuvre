@@ -32,13 +32,15 @@ public class CardCommandFactory extends Observable implements Serializable{
     public final static String CARD_DIALOG = "CARD_DIALOG";
     public final static String CARD_REJECTED = "CARD_REJECTED";
     public final static String CARD_NOT_REJECTED = "CARD_NOT_REJECTED";
+    public final static String DEFENDING_CARDS_PLAYED = "DEFENDING_CARDS_PLAYED";
      
     Card playingCard, opponentCard;
     
-    ArrayList<Card> attackingCards, defendingCards;
+    ArrayList<Card> attackingCards;
    
     ArrayList<Position> attackingPositions;
-    ArrayList<Card> deffendingCards=new ArrayList<>();
+    ArrayList<Card> defendingCards=new ArrayList<>();
+    ArrayList<Card> defendingOponentCards=new ArrayList<>();
     
     Unit selectedUnit, attackedUnit;
     
@@ -292,14 +294,6 @@ public class CardCommandFactory extends Observable implements Serializable{
         this.attackingCards = attackingCards;
     }
 
-    public ArrayList<Card> getDefendingCards() {
-        return defendingCards;
-    }
-
-    public void setDefendingCards(ArrayList<Card> defendingCards) {
-        this.defendingCards = defendingCards;
-    }
-
     void prepareDices(ArrayList<Card> attackingCards){
     
         for(Card checkCard: attackingCards )
@@ -373,21 +367,33 @@ public class CardCommandFactory extends Observable implements Serializable{
         this.incomingCardCommand = incomingCardCommand;
     }
 
-    public ArrayList<Card> getDeffendingCards() {
-        return deffendingCards;
+    public ArrayList<Card> getDefendingCards() {
+        return defendingCards;
     }
 
-    public void setDeffendingCards(ArrayList<Card> deffendingCards) {
-        this.deffendingCards = deffendingCards;
+    public void setDefendingCards(ArrayList<Card> defendingCards) {
+        this.defendingCards = defendingCards;
     }
-    public void addDeffendingCards(Card cardToAdd) {
-        this.deffendingCards.add(cardToAdd);
+    public void addDefendingCard(Card cardToAdd) {
+        this.defendingCards.add(cardToAdd);
     }
-    public void clearDeffendingCards() {
-        this.deffendingCards.clear();
+    public void clearDefendingCards() {
+        this.defendingCards.clear();
     }
-    public void removeDeffendingCards(Card cardToRemove) {
-        this.deffendingCards.remove(cardToRemove);
+    public void removeDefendingCard(Card cardToRemove) {
+        this.defendingCards.remove(cardToRemove);
+    }
+
+    public ArrayList<Card> getDefendingOponentCards() {
+        return defendingOponentCards;
+    }
+
+    public void setDefendingOponentCards(ArrayList<Card> defendingOponentCards) {
+        this.defendingOponentCards = defendingOponentCards;
     }
     
+    
+    public Command createMoveDefensiveCardsToTableCommand(ArrayList<Card> cards){
+        return new CardCommands.MoveDefensiveCardsToTableCommand(cards, game.getCurrentPlayer().getName());
+    }
 }

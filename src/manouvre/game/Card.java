@@ -499,16 +499,20 @@ public class Card implements CardInterface, Serializable{
     public boolean getAvailableForPhase(int phase){
         switch(phase){
             case Game.SETUP:
+                 setAvailableForDefance(false);
                  return false;
                  
             case Game.DISCARD:
+                 setAvailableForDefance(false);
                 return true;
               
             case Game.DRAW:
+                 setAvailableForDefance(false);
                 if(getHQType() == Card.SCOUT) 
                     return true;
                 else return false;
             case Game.MOVE:
+                 setAvailableForDefance(false);
               if(  getHQType() != Card.REDOUBDT 
                        || getHQType() != Card.REGROUP
                        || getHQType() != Card.SKIRMICH
@@ -527,6 +531,7 @@ public class Card implements CardInterface, Serializable{
                     return true;
                 else return false;
             case Game.RESTORATION:
+                 setAvailableForDefance(false);
                 if(getHQType() == Card.REDOUBDT ||
                         getHQType() == Card.REGROUP
                     )
