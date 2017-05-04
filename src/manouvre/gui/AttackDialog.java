@@ -18,6 +18,7 @@ import javax.swing.text.StyledDocument;
 import manouvre.game.CardSet;
 import manouvre.game.Game;
 import manouvre.game.commands.CommandQueue;
+import manouvre.game.interfaces.CardInterface;
 import manouvre.game.interfaces.ClientInterface;
 import manouvre.network.client.Message;
 import manouvre.network.client.SocketClient;
@@ -93,7 +94,8 @@ public class AttackDialog extends javax.swing.JFrame {
        
         CardSet hand=game.getCurrentPlayer().getHand();
            for(int i=0; i<hand.cardsLeftInSet();i++){
-               if(attackedUnit.getUnit().getName().equals(hand.getCardNameByPosInSet(i))){
+               if(attackedUnit.getUnit().getName().equals(hand.getCardNameByPosInSet(i))||
+                       hand.getCardByPosInSet(i).getCardType()==CardInterface.HQLEADER){
                    numberOfAvailableDeffendingCards++;
                    hand.getCardByPosInSet(i).setAvailableForDefance(true);
                }
@@ -271,6 +273,7 @@ public class AttackDialog extends javax.swing.JFrame {
             cmdQueue.storeAndExecuteAndSend(okCommand);
             
         }
+        
         cmdQueue.storeAndExecuteAndSend(game.getCardCommandFactory().createMoveDefensiveCardsToTableCommand(game.getCardCommandFactory().getDefendingCards()));
         this.dispose();
         

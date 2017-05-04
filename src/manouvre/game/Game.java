@@ -28,9 +28,10 @@ public final class Game implements Serializable{
     public static final int DRAW = 1;
     public static final int MOVE = 2;
     public static final int COMBAT = 3;
-    public static final int COMBAT_DEF = 31;
-    public static final int COMBAT_SUPP = 32;
-    public static final int RESTORATION = 4;
+    public static final int COMBAT_DEF = 4;
+    public static final int COMBAT_SUPP = 5;
+    public static final int RESTORATION = 6;
+    public static final int MAX_PHASES = 7; //there is max 6 phases -> move this value up if new phase come
        
     
     Map map;    
@@ -591,12 +592,17 @@ public final class Game implements Serializable{
 //   DRAW = 1;
 //   MOVE = 2;
 //   COMBAT = 3;
-//   RESTORATION = 4;
+//   COMBAT_DEF = 4;
+//   COMBAT_SUPP = 5;     
+//   RESTORATION = 6;
        
     public int getPhase() {
         return phase;
     }
- 
+    
+    public void nextPhase(){
+        if(getPhase()<Game.MAX_PHASES)setPhase(getPhase()+1);
+    }
      public String getPhaseName(int phase){
       
         

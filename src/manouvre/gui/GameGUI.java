@@ -834,7 +834,9 @@ public class GameGUI {
     public void mouseClickedCard(int mouseX, int mouseY){
         Card cardClicked=getCardFromMousePosition(mouseX,mouseY);
         if(cardClicked!=null){
-                if(cardClicked.getAvailableForPhase(game.getPhase())||cardClicked.isAvailableForDefance()){ //select card if it is playable
+                if(cardClicked.getAvailableForPhase(game.getPhase())||
+                        cardClicked.isAvailableForDefance()||
+                        cardClicked.isAvailableForSupport()){ //select card if it is playable
                 if(!cardClicked.isSelected()) {//if not selected
                     cardClicked.setSelected(true);
                     if(game.getPhase()==Game.MOVE||game.getPhase()==Game.COMBAT)//in this phase it is possible to select ONE card, thats why all have to be unselected before click
@@ -844,6 +846,9 @@ public class GameGUI {
                         keepOneSelectedCard(cardClicked);
                     }else if (game.getPhase()==Game.COMBAT_DEF){//during defence
                         game.getCardCommandFactory().addDefendingCard(cardClicked);
+                        selectionSeq.add((Integer)cardClicked.getCardID()); 
+                    }else if (game.getPhase()==Game.COMBAT_SUPP){//during support
+                        game.getCardCommandFactory().addAttackingCard(cardClicked);
                         selectionSeq.add((Integer)cardClicked.getCardID()); 
                     }
                     else selectionSeq.add((Integer)cardClicked.getCardID());
@@ -858,7 +863,10 @@ public class GameGUI {
                     if (game.getPhase()==Game.COMBAT_DEF){
                         game.getCardCommandFactory().removeDefendingCard(cardClicked);
                     }
-                }  
+                    else if (game.getPhase()==Game.COMBAT_SUPP){//during support
+                        game.getCardCommandFactory().removeAttackingCard(cardClicked);
+                    }
+                }
             }else
                 JOptionPane.showMessageDialog(null, "This card is not available in this phase", 
                      "Wrong Action", JOptionPane.OK_OPTION); 
@@ -951,7 +959,7 @@ public class GameGUI {
     public void paintHand(Graphics g)                 
     {   
         CardSet hand=currentPlayer.getHand();
-    int cardPaddingTopTemp=cardPaddingTop;
+        int cardPaddingTopTemp=cardPaddingTop;
         Integer j=0;
         if(!selectionSeq.isEmpty()){
             j=selectionSeq.get(selectionSeq.size()-1);              
@@ -979,7 +987,9 @@ public class GameGUI {
         }  
         for (int i=0; i<handSetGui.cardsLeftInSet(); i++) {   
             if((handSetGui.getCardByPosInSet(i).getCard().isMouseOverCard()|| handSetGui.getCardByPosInSet(i).getCard().isSelected()) 
-                    && (hand.getCardByPosInSet(i).getAvailableForPhase(game.getPhase())|| hand.getCardByPosInSet(i).isAvailableForDefance()) ) //during defence
+                    && (hand.getCardByPosInSet(i).getAvailableForPhase(game.getPhase())||
+                    hand.getCardByPosInSet(i).isAvailableForDefance())||
+                    hand.getCardByPosInSet(i).isAvailableForSupport()) //during defence
                     cardPaddingTopTemp=cardPaddingTop-20;
             else cardPaddingTopTemp=cardPaddingTop;
             

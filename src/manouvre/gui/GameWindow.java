@@ -376,6 +376,16 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             phaseNameLabel.setText("Combat");
              break;
            }
+           case Game.COMBAT_DEF:
+           {
+            phaseNameLabel.setText("Defence");
+             break;
+           }
+           case Game.COMBAT_SUPP:
+           {
+            phaseNameLabel.setText("Support");
+             break;
+           }
             case Game.RESTORATION:
            {
             phaseNameLabel.setText("Restoration");

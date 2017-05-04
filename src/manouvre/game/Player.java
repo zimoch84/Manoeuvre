@@ -119,12 +119,12 @@ public class Player  implements Serializable{
         else if(nation==CardInterface.FR){
             hand.addCardToThisSet(drawPile.getCardByName("2nd Regiment Legere", true));
             hand.addCardToThisSet(drawPile.getCardByName("2nd Regiment Legere", true));
-             hand.addCardToThisSet(drawPile.getCardByName("2nd Regiment Legere", true));
-            hand.addCardToThisSet(drawPile.getCardByName("2nd Regiment Legere", true));
-             hand.addCardToThisSet(drawPile.getCardByName("2nd Regiment Legere", true));
+//             hand.addCardToThisSet(drawPile.getCardByName("2nd Regiment Legere", true));
+//            hand.addCardToThisSet(drawPile.getCardByName("2nd Regiment Legere", true));
+//             hand.addCardToThisSet(drawPile.getCardByName("2nd Regiment Legere", true));
 //            hand.addCardToThisSet(drawPile.getCardByName("Forced March", true));
 //            hand.addCardToThisSet(drawPile.getCardByName("Supply", true));
-           // hand.addCardsFromTheTopOfOtherSet(0, drawPile, false, true);
+            hand.addCardsFromTheTopOfOtherSet(3, drawPile, false, true);
         } else
         hand.addCardsFromTheTopOfOtherSet(5, drawPile, false, true);
         

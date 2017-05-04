@@ -118,6 +118,7 @@ public class Card implements CardInterface, Serializable{
     int playingCardMode;
     
     boolean availableForDefance=false;
+     boolean availableForSupport=false;
    
     public Card (int chosenID) { 
         try {		
@@ -500,19 +501,23 @@ public class Card implements CardInterface, Serializable{
         switch(phase){
             case Game.SETUP:
                  setAvailableForDefance(false);
+                 setAvailableForSupport(false);
                  return false;
                  
             case Game.DISCARD:
                  setAvailableForDefance(false);
+                  setAvailableForSupport(false);
                 return true;
               
             case Game.DRAW:
                  setAvailableForDefance(false);
+                  setAvailableForSupport(false);
                 if(getHQType() == Card.SCOUT) 
                     return true;
                 else return false;
             case Game.MOVE:
                  setAvailableForDefance(false);
+                  setAvailableForSupport(false);
               if(  getHQType() != Card.REDOUBDT 
                        || getHQType() != Card.REGROUP
                        || getHQType() != Card.SKIRMICH
@@ -532,6 +537,7 @@ public class Card implements CardInterface, Serializable{
                 else return false;
             case Game.RESTORATION:
                  setAvailableForDefance(false);
+                  setAvailableForSupport(false);
                 if(getHQType() == Card.REDOUBDT ||
                         getHQType() == Card.REGROUP
                     )
@@ -666,6 +672,14 @@ public class Card implements CardInterface, Serializable{
 
     public void setAvailableForDefance(boolean availableForDefance) {
         this.availableForDefance = availableForDefance;
+    }
+
+    public boolean isAvailableForSupport() {
+        return availableForSupport;
+    }
+
+    public void setAvailableForSupport(boolean availableForSupport) {
+        this.availableForSupport = availableForSupport;
     }
     
     

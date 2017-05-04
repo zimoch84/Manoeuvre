@@ -293,6 +293,12 @@ public class CardCommandFactory extends Observable implements Serializable{
     public void setAttackingCards(ArrayList<Card> attackingCards) {
         this.attackingCards = attackingCards;
     }
+     public void addAttackingCard(Card card) {
+        this.attackingCards.add(card);
+    }
+     public void removeAttackingCard(Card card) {
+        this.attackingCards.remove(card);
+    }
 
     void prepareDices(ArrayList<Card> attackingCards){
     
