@@ -27,136 +27,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import manouvre.game.Dice;
-import manouvre.game.Terrain;
-import static java.lang.Math.round;
 import javax.swing.JOptionPane;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import manouvre.game.interfaces.CardInterface;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
 import manouvre.game.CardSet;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
+import manouvre.game.Combat;
 import static java.lang.Math.round;
 import static java.lang.Math.round;
 
@@ -200,8 +73,6 @@ public class GameGUI {
     
     CommandQueue cmdQueue;
     
-    //some temps
-    public boolean chooseCardsAsDefending;
     
     public GameGUI (Game newGame, int windowMode, CommandQueue cmdQueue) throws IOException{
         this.game=newGame;
@@ -847,18 +718,20 @@ public class GameGUI {
     public void mouseClickedCard(int mouseX, int mouseY){
         Card cardClicked=getCardFromMousePosition(mouseX,mouseY);
         if(cardClicked!=null){
-                if(cardClicked.getAvailableForPhase(game.getPhase())||cardClicked.isAvailableForDefance()){ //select card if it is playable
-                if(!cardClicked.isSelected()) 
-                {//if not selected
+                if(cardClicked.getAvailableForPhase(game)){ //select card if it is playable
+                if(!cardClicked.isSelected()) {//if not selected
                     cardClicked.setSelected(true);
-                    if(game.getPhase()==Game.MOVE||game.getPhase()==Game.COMBAT)//in this phase it is possible to select ONE card, thats why all have to be unselected before click
+                    if(game.getPhase()==Game.MOVE||(game.getPhase()==Game.COMBAT&&game.getCombat().getState()==Combat.ATTACKER_CHOSES))//in this phase it is possible to select ONE card, thats why all have to be unselected before click
                     {
                         game.getCardCommandFactory().setPlayingCard(cardClicked);
                         triggerCardActionOnSelection(cardClicked);
                         keepOneSelectedCard(cardClicked);
                     }
-                    else if (game.getPhase()==Game.COMBAT_DEF){//during defence
-                        game.getCardCommandFactory().addDefendingCard(cardClicked);
+                    else if (game.getPhase()==Game.COMBAT&&(game.getCombat().getState()==Combat.PICK_DEFENSE_CARDS)){//during defence
+                        game.getCardCommandFactory().addPickedDefendingCard(cardClicked);
+                        selectionSeq.add((Integer)cardClicked.getCardID()); 
+                    }else if (game.getPhase()==Game.COMBAT&&(game.getCombat().getState()==Combat.PICK_SUPPORT_UNIT)){//during support
+                        game.getCardCommandFactory().addPickedAttackingCard(cardClicked);
                         selectionSeq.add((Integer)cardClicked.getCardID()); 
                     }
                     else selectionSeq.add((Integer)cardClicked.getCardID());
@@ -871,10 +744,13 @@ public class GameGUI {
                     cardClicked.setSelected(false);
                     Integer j=cardClicked.getCardID();
                     selectionSeq.remove(j); //remove number Integer j, not position int i
-                    if (game.getPhase()==Game.COMBAT_DEF){
-                        game.getCardCommandFactory().removeDefendingCard(cardClicked);
+                    if (game.getPhase()==Game.COMBAT&&(game.getCombat().getState()==Combat.PICK_DEFENSE_CARDS)){
+                        game.getCardCommandFactory().removePickedDefendingCard(cardClicked);
                     }
-                }  
+                    else if (game.getPhase()==Game.COMBAT&&(game.getCombat().getState()==Combat.PICK_SUPPORT_UNIT)){//during support
+                        game.getCardCommandFactory().removePickedAttackingCard(cardClicked);
+                    }
+                }
             }else
                 JOptionPane.showMessageDialog(null, "This card is not available in this phase", 
                      "Wrong Action", JOptionPane.OK_OPTION); 
@@ -967,7 +843,7 @@ public class GameGUI {
     public void paintHand(Graphics g)                 
     {   
         CardSet hand=currentPlayer.getHand();
-    int cardPaddingTopTemp=cardPaddingTop;
+        int cardPaddingTopTemp=cardPaddingTop;
         Integer j=0;
         if(!selectionSeq.isEmpty()){
             j=selectionSeq.get(selectionSeq.size()-1);              
@@ -981,7 +857,7 @@ public class GameGUI {
             g.drawString("on the Discard Pile",cardPaddingLeft+width*j+(gap*j)+0,54+190); 
             }
             g.fillPolygon(xPoints, yPoints, 3);
-            if(game.getPhase()==Game.COMBAT_DEF){  //put triangle under all selected in Defence mode
+            if(game.getPhase()==Game.COMBAT&&(game.getCombat().getState()==Combat.PICK_DEFENSE_CARDS)){  //put triangle under all selected in Defence mode
                 for(int s=0; s<selectionSeq.size()-1; s++){
                     j=selectionSeq.get(s);              
                     j=handSetGui.getPositionInSetByCardID(j); 
@@ -995,7 +871,7 @@ public class GameGUI {
         }  
         for (int i=0; i<handSetGui.cardsLeftInSet(); i++) {   
             if((handSetGui.getCardByPosInSet(i).getCard().isMouseOverCard()|| handSetGui.getCardByPosInSet(i).getCard().isSelected()) 
-                    && (hand.getCardByPosInSet(i).getAvailableForPhase(game.getPhase())|| hand.getCardByPosInSet(i).isAvailableForDefance()) ) //during defence
+                    && (hand.getCardByPosInSet(i).getAvailableForPhase(game)))
                     cardPaddingTopTemp=cardPaddingTop-20;
             else cardPaddingTopTemp=cardPaddingTop;
             
@@ -1124,18 +1000,11 @@ public class GameGUI {
         
        
     }
-    
-   
-     public void resetDefenceCardsAvailable(){
-        for(int i=0; i<handSetGui.cardsLeftInSet();i++){
-                handSetGui.getCardSet().getCardByPosInSet(i).setAvailableForDefance(false);
-        }
-    }
    
     public void paintDefenceCardsOnTheTable(Graphics g){
         int cropFrame=30;
         double resizeFactor=0.4;
-        int cardPaddingLeftDef=250;
+        int cardPaddingLeftDef=80;
         int width=(int)((260-2*cropFrame)*resizeFactor);
         int height=(int)((375-2*cropFrame)*resizeFactor);
         int gapDef=50;

@@ -42,9 +42,8 @@ import manouvre.game.interfaces.Command;
 import java.util.Observable;
 import java.util.Observer;
 import manouvre.game.CardCommandFactory;
+import manouvre.game.Combat;
 import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import manouvre.game.commands.ThrowDiceCommand;
 
 
 
@@ -176,7 +175,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                Command withdrawCommand;   // ccmdf.createRejectCardCommand();
                Command okCommand;//
                Command pickDefenseCardsCommand;
-               ad = new AttackDialog(ccmdf.getOpponentCard().getPlayiningMode(), ccmdf.getOpponentCard(), 
+               AttackDialog ad = new AttackDialog(ccmdf.getOpponentCard().getPlayiningMode(), ccmdf.getOpponentCard(), 
                        ccmdf.getAttackedUnit(), client, cmdQueue, game);
                
               
@@ -206,7 +205,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            {
            
 //           Command doNotRejectCard = ccmdf.createDoNotRejectCardCommand();
-           SupportDialog sd  = new SupportDialog(null,game.getCardCommandFactory().getDefendingCards(), client, cmdQueue, game);
+           SupportDialog sd  = new SupportDialog(null,game.getCombat().getDefenceCards(), client, cmdQueue, game);
 //           cd.setOkCommand(doNotRejectCard);
 //           cd.setCancelCommand(rejectCard);   
            
@@ -388,6 +387,16 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             phaseNameLabel.setText("Combat");
              break;
            }
+//           case Game.COMBAT_DEF:
+//           {
+//            phaseNameLabel.setText("Defence");
+//             break;
+//           }
+//           case Game.COMBAT_SUPP:
+//           {
+//            phaseNameLabel.setText("Support");
+//             break;
+//           }
             case Game.RESTORATION:
            {
             phaseNameLabel.setText("Restoration");
@@ -634,8 +643,8 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
-        cardsSelectingAsDefensive = new javax.swing.JCheckBoxMenuItem();
         AttackingDialogMenu = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
         jMenu8 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
@@ -1199,21 +1208,21 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
 
         jMenu7.setText("During Attack");
 
-        cardsSelectingAsDefensive.setText("Cards selected as Defensive");
-        cardsSelectingAsDefensive.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cardsSelectingAsDefensiveActionPerformed(evt);
-            }
-        });
-        jMenu7.add(cardsSelectingAsDefensive);
-
-        AttackingDialogMenu.setText("AttackingDialog");
+        AttackingDialogMenu.setText("AttackingDialog BOMBARD");
         AttackingDialogMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AttackingDialogMenuActionPerformed(evt);
             }
         });
         jMenu7.add(AttackingDialogMenu);
+
+        jMenuItem7.setText("AttackingDialog ASSAULT");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu7.add(jMenuItem7);
 
         jMenu1.add(jMenu7);
 
@@ -1382,13 +1391,9 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         repaint();
         if(game.getPhase()==Game.DISCARD)
             setActionButtonText();  //if selection was done discard button should be visible
-        if(cardsSelectingAsDefensive.isSelected()) //btestfalse
-            gameGui.chooseCardsAsDefending=true;
-        else
-             gameGui.chooseCardsAsDefending=false;
         
-        if(ad!=null&&game.getPhase()==Game.COMBAT_DEF){
-            ad.setNrOfChosenCards(game.getCardCommandFactory().getDefendingCards().size());
+        if(ad!=null&&game.getPhase()==Game.COMBAT&&(game.getCombat().getState()==Combat.PICK_DEFENSE_CARDS)){
+            ad.setNrOfChosenCards(game.getCardCommandFactory().getPickedDefendingCards().size());
             ad.revalidate();
             //ad.repaint();
         }
@@ -2230,36 +2235,64 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void AttackingDialogMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AttackingDialogMenuActionPerformed
-        // TODO add your handling code here:
-        for(String cardName:game.getOpponentPlayer().getHand().getAllCardsNamesFromSet()) //get Unit that corresponds with the Card in Hand
+        // TEMP btestfalse
+        game.setPhase(Game.COMBAT);
+        game.getCurrentPlayer().getArmy()[1].setSelected(true); 
+        for(String cardName:game.getCurrentPlayer().getHand().getAllCardsNamesFromSet()) //get Unit that corresponds with the Card in Hand
         {
-            for(Unit unit: game.getOpponentPlayer().getArmy()){
+            for(Unit unit: game.getCurrentPlayer().getArmy()){
                 if(cardName.equals(unit.getName())){
-                game.getCardCommandFactory().setOpponentCard(game.getOpponentPlayer().getHand().getCardByName(cardName, false));
+                game.getCardCommandFactory().setPlayingCard(game.getCurrentPlayer().getHand().getCardByName(cardName, false));
                 }
             }
+            //temp of tem
+            game.getCardCommandFactory().setPlayingCard(game.getCurrentPlayer().getHand().getCardByPosInSet(4));//take the last card - bombard
         }
-        game.setPhase(Game.COMBAT_DEF);
-        game.getCardCommandFactory().setAttackedUnit(game.getCurrentPlayer().getArmy()[1]);//setAttacked unit
-        game.getCardCommandFactory().getOpponentCard().setPlayingCardMode(Card.ASSAULT);
-        game.getCardCommandFactory().awakeObserver();
-        game.getCardCommandFactory().notifyObservers(CardCommandFactory.ATTACK_DIALOG);
-         
-         /**
-          *  AttackDialog ad = new AttackDialog(ccmdf.getOpponentCard().getPlayiningMode(), new CardGUI(ccmdf.getOpponentCard()), 
-                       new UnitGUI(ccmdf.getAttackedUnit()), client, cmdQueue, game);
-          */
+        
+        /**
+         *       game.getSelectedUnit(), 
+                    game.getMap().getTerrainAtPosition(game.getSelectedUnit().getPosition()), 
+                    game.getMap().getTerrainAtPosition(getAttackedUnit().getPosition())
+         */
+        game.getCardCommandFactory().setAttackedUnit(game.getOpponentPlayer().getArmy()[1]);//setAttacked unit
+         game.getCardCommandFactory().getPlayingCard().setPlayingCardMode(Card.BOMBARD);
+        
+        Command attack = game.getCardCommandFactory().createCardCommand();
+        cmdQueue.storeAndExecuteAndSend(attack);
+       
     }//GEN-LAST:event_AttackingDialogMenuActionPerformed
-
-    private void cardsSelectingAsDefensiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cardsSelectingAsDefensiveActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cardsSelectingAsDefensiveActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         // TODO add your handling code here:
         game.setPhase(Game.DISCARD);
         refreshAll();
     }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+     game.setPhase(Game.COMBAT);
+        game.getCurrentPlayer().getArmy()[1].setSelected(true); 
+        for(String cardName:game.getCurrentPlayer().getHand().getAllCardsNamesFromSet()) //get Unit that corresponds with the Card in Hand
+        {
+            for(Unit unit: game.getCurrentPlayer().getArmy()){
+                if(cardName.equals(unit.getName())){
+                game.getCardCommandFactory().setPlayingCard(game.getCurrentPlayer().getHand().getCardByName(cardName, false));
+                }
+            }
+        }
+        
+        /**
+         *       game.getSelectedUnit(), 
+                    game.getMap().getTerrainAtPosition(game.getSelectedUnit().getPosition()), 
+                    game.getMap().getTerrainAtPosition(getAttackedUnit().getPosition())
+         */
+        game.getCardCommandFactory().setAttackedUnit(game.getOpponentPlayer().getArmy()[1]);//setAttacked unit
+         game.getCardCommandFactory().getPlayingCard().setPlayingCardMode(Card.ASSAULT);
+        
+        Command attack = game.getCardCommandFactory().createCardCommand();
+        cmdQueue.storeAndExecuteAndSend(attack);
+       
+                                        
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
  
 //    public void clientSend(Message message){
 //        clOTRegroup.JPGient.send(gameGui.discardSelCards());
@@ -2307,7 +2340,6 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     private javax.swing.JCheckBoxMenuItem allowDrawOnDiscard;
     private javax.swing.JButton buttonToNextPhase;
     private javax.swing.JPanel buttonsPanel;
-    private javax.swing.JCheckBoxMenuItem cardsSelectingAsDefensive;
     private javax.swing.JPanel chatPanel;
     private javax.swing.JTextArea chatTextArea;
     private javax.swing.JCheckBoxMenuItem checkLos;
@@ -2341,6 +2373,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItemAmbush;
     private javax.swing.JMenuItem jMenuItemCommAttack;
     private javax.swing.JMenuItem jMenuItemEngineers;

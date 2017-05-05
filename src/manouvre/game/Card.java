@@ -118,6 +118,7 @@ public class Card implements CardInterface, Serializable{
     int playingCardMode;
     
     boolean availableForDefance=false;
+     boolean availableForSupport=false;
    
     public Card (int chosenID) { 
         try {		
@@ -500,23 +501,20 @@ public class Card implements CardInterface, Serializable{
     Check if card can be upped
     */
  
-    public boolean getAvailableForPhase(int phase){
+    public boolean getAvailableForPhase(Game game){
+        int phase=game.getPhase();
         switch(phase){
             case Game.SETUP:
-                 setAvailableForDefance(false);
                  return false;
                  
             case Game.DISCARD:
-                 setAvailableForDefance(false);
                 return true;
               
             case Game.DRAW:
-                 setAvailableForDefance(false);
                 if(getHQType() == Card.SCOUT) 
                     return true;
                 else return false;
             case Game.MOVE:
-                 setAvailableForDefance(false);
               if(  getHQType() != Card.REDOUBDT 
                        || getHQType() != Card.REGROUP
                        || getHQType() != Card.SKIRMICH
@@ -527,15 +525,24 @@ public class Card implements CardInterface, Serializable{
                     return true;
                 else return false;
             case Game.COMBAT:  
-                 if(  getHQType() != Card.REDOUBDT  
+                 if((game.getCombat().getState()==Combat.INITIALIZING_COMBAT)&&  //at the start of the battle
+                         (getHQType() != Card.REDOUBDT  
                          || getHQType() != Card.REGROUP 
                          || getHQType()  != Card.SUPPLY
                          || getHQType()  != Card.FORCED_MARCH
-                         )
+                         ))
                     return true;
+                  if((game.getCombat().getState()==Combat.PICK_DEFENSE_CARDS)&&
+                          (!game.getCardCommandFactory().getOpponentCard().getPlayiningMode().equals("BOMBARD"))&&  //at the defence part of the battle but not in BOMBARD
+                          (game.getCardCommandFactory().getAttackedUnit().getName().equals(getCardName())||
+                          (getCardType()==CardInterface.HQLEADER)))
+                          return true;
+                  if((game.getCombat().getState()==Combat.PLAY_SUPPORTING_CARDS)&&  //at the support part of the battle
+                          (game.getCardCommandFactory().getAttackedUnit().getName().equals(getCardName())||
+                          getCardType()==CardInterface.HQLEADER))
+                          return true;
                 else return false;
             case Game.RESTORATION:
-                 setAvailableForDefance(false);
                 if(getHQType() == Card.REDOUBDT ||
                         getHQType() == Card.REGROUP
                     )
@@ -561,7 +568,7 @@ public class Card implements CardInterface, Serializable{
     @Override
     public boolean canBePlayed(Game game) {
         
-        if(getAvailableForPhase(game.getPhase()))
+        if(getAvailableForPhase(game))
         {
             switch (getCardType()) {
             
@@ -677,14 +684,4 @@ public class Card implements CardInterface, Serializable{
     public void setMouseOverCard(boolean mouseOverCard) {
         this.mouseOverCard = mouseOverCard;
     }
-
-    public boolean isAvailableForDefance() {
-        return availableForDefance;
-    }
-
-    public void setAvailableForDefance(boolean availableForDefance) {
-        this.availableForDefance = availableForDefance;
-    }
-    
-    
 }

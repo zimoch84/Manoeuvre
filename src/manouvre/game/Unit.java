@@ -222,7 +222,7 @@ public class Unit implements UnitInterface, Serializable{
     }
 
     public int getCurrentStrenght() {
-        return (isInjured() ? strenght : reducedStrength) ;
+        return (isInjured() ? reducedStrength :strenght) ;
     }
 
     public boolean isSupporting() {

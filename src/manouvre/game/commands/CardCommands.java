@@ -295,11 +295,13 @@ public class CardCommands {
            moveToTableCommand.execute(game);
             
            game.setCombat(combat);
-            
+           game.getCombat().setState(Combat.PICK_DEFENSE_CARDS);//now is the time for opponent to choose defensive cards
            game.getCardCommandFactory().setAttackedUnit(attackedUnit);
            
-           if(game.getCurrentPlayer().getName() != senderPlayerName){
-               
+           if(!game.getCurrentPlayer().getName().equals(senderPlayerName)){
+               game.setPhase(Game.COMBAT);//btestfalse - temporary -
+               game.getCombat().setState(Combat.PICK_DEFENSE_CARDS);
+                      
                game.getCardCommandFactory().setOpponentCard(attackingCard);
                game.getCardCommandFactory().notifyObservers(CardCommandFactory.ATTACK_DIALOG);
                
@@ -447,13 +449,16 @@ public class CardCommands {
                 Card movingCard = game.getPlayerByName(senderPlayerName).getHand().getCardByCard(card);
                 game.getTablePileDefPart().addCardToThisSet(movingCard);// Put cards on own table
                 game.getPlayerByName(senderPlayerName).getHand().drawCardFromSet(movingCard);//remove cards from own hand
+               
             }    
+            game.getCombat().calculateCombatValues();
             if (game.getCurrentPlayer().getName().equals(senderPlayerName)) {
+                game.getCombat().setDefenceCards(cards);
                // game.getCardCommandFactory().clearDefendingCards();
                 //do nothing
             } else {
-                game.getCardCommandFactory().setDefendingOponentCards(cards);
-                game.getCardCommandFactory().awakeObserver();
+                
+            game.getCardCommandFactory().awakeObserver();
             game.getCardCommandFactory().notifyObservers(CardCommandFactory.DEFENDING_CARDS_PLAYED);
             game.getCardCommandFactory().resetFactory();
             }

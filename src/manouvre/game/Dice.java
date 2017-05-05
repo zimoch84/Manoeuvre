@@ -28,7 +28,7 @@ public class Dice implements Serializable{
     public Dice(int type) {
     
     this.type = type;
-    this.result=1;
+    generateResult();
     
     }
       

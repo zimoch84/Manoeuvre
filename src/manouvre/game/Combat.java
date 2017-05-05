@@ -6,6 +6,7 @@
 package manouvre.game;
 
 import java.util.ArrayList;
+import manouvre.game.interfaces.DiceInterface;
 
 /**
  *
@@ -26,6 +27,7 @@ public class Combat {
     /*
     Outcome
     */
+    public static final int DEFFENDER_TAKES_HIT=9;
     public static final int ATTACKER_TAKES_HIT= 10;
     public static final int DEFENDER_CHOSES= 11;
     public static final int ATTACKER_CHOSES= 12;
@@ -33,7 +35,7 @@ public class Combat {
     public static final int ELIMINATE= 14;
     public static final int NO_EFFECT= 15;
 
-    
+   
     Unit attackingUnit, defendingUnit;
 
 
@@ -44,7 +46,7 @@ public class Combat {
     ArrayList<Dice> dices;
     
     Card attackCard; 
-    ArrayList<Card> attackCards, defenseCards;
+    ArrayList<Card> attackCards, defenceCards;
     Terrain attackTerrain, defenseTerrain;
     
     ArrayList<Unit> supportingUnits;
@@ -55,7 +57,7 @@ public class Combat {
     this.attackingUnit = attackingUnit;
     this.defendingUnit = defendingUnit;
     this.attackCards = new ArrayList<>();
-    this.defenseCards = new ArrayList<>();
+    this.defenceCards = new ArrayList<>();
     this.dices = new ArrayList<>();
     this.supportingUnits = new ArrayList<>();
     this.attackCard = attackCard;
@@ -65,7 +67,7 @@ public class Combat {
     this.defenseTerrain = defenseTerrain;
     
     this.state= INITIALIZING_COMBAT;
-    
+    setDices(attackCards);
     calculateBonuses();
     calculateCombatValues();
     
@@ -87,7 +89,7 @@ public class Combat {
         */
         defenceValue += defendingUnit.getCurrentStrenght();
         defenceValue += defenseBonus;
-        for(Card checkCards : defenseCards)
+        for(Card checkCards : defenceCards)
             {
         defenceValue +=  checkCards.getUnitDefence();
         }
@@ -95,9 +97,10 @@ public class Combat {
         /*
         Attack value
         */
+        if(!attackCard.getPlayiningMode().equals("BOMBARD")){  //bomard do not get advantage of Unit Attack
         attackValue += attackingUnit.getCurrentStrenght();
         attackValue += attackBonus;
-        
+        }
         /*
         Dices 
         */
@@ -127,16 +130,90 @@ public class Combat {
         return dices;
     }
 
-    public void setDices(ArrayList<Dice> dices) {
+    public void setDices(ArrayList<Card> cards) {
+    for(Card checkCard: cards)
+        {
+        switch(checkCard.getUnitAttack()){ //if attack
+            case DiceInterface.DICE1d6:{
+                dices.add(new Dice(Dice.D6));
+                break;
+            }
+            case DiceInterface.DICE2d6:{
+                dices.add(new Dice(Dice.D6));
+                dices.add(new Dice(Dice.D6));
+                break;
+            }
+            case DiceInterface.DICE1d8:{
+                dices.add(new Dice(Dice.D8));
+                break;
+            }
+            case DiceInterface.DICE2d8:{
+                dices.add(new Dice(Dice.D8));
+                dices.add(new Dice(Dice.D8));
+                break;
+            }
+            case DiceInterface.DICE1d10:{
+                dices.add(new Dice(Dice.D8));
+                break;
+            }
+            case DiceInterface.DICE2d10:{
+                dices.add(new Dice(Dice.D10));
+                dices.add(new Dice(Dice.D10));
+                break;
+            }
+            case 99:{                              // if card has no attack- BOMBARD
+                switch(checkCard.getUnitBombard()){
+                    case DiceInterface.DICE1d6:{
+                        dices.add(new Dice(Dice.D6));
+                        break;
+                    }
+                    case DiceInterface.DICE2d6:{
+                        dices.add(new Dice(Dice.D6));
+                        dices.add(new Dice(Dice.D6));
+                        break;
+                    }
+                    case DiceInterface.DICE1d8:{
+                        dices.add(new Dice(Dice.D8));
+                        break;
+                    }
+                    case DiceInterface.DICE2d8:{
+                        dices.add(new Dice(Dice.D8));
+                        dices.add(new Dice(Dice.D8));
+                        break;
+                    }
+                    case DiceInterface.DICE1d10:{
+                        dices.add(new Dice(Dice.D8));
+                        break;
+                    }
+                    case DiceInterface.DICE2d10:{
+                        dices.add(new Dice(Dice.D10));
+                        dices.add(new Dice(Dice.D10));
+                        break;
+                    }
+                }
+            break;    
+            }    
+        }
+    }
+        
         this.dices = dices;
     }
-
     public ArrayList<Card> getAttackCards() {
         return attackCards;
     }
 
     public void setAttackCards(ArrayList<Card> attackCards) {
+        
         this.attackCards = attackCards;
+        setDices(attackCards);
+    }
+
+    public ArrayList<Card> getDefenceCards() {
+        return defenceCards;
+    }
+
+    public void setDefenceCards(ArrayList<Card> defenceCards) {
+        this.defenceCards = defenceCards;
     }
 
     public ArrayList<Unit> getSupportingUnits() {
@@ -164,7 +241,7 @@ public class Combat {
     }
 
    
-    public int getOutcome()
+    public int getAssaultOutcome()
     {
         if(attackValue <  defenceValue) return ATTACKER_TAKES_HIT;
         
@@ -180,5 +257,10 @@ public class Combat {
         
         return NO_EFFECT;
     }
-    
+    public int getBombardOutcome()
+    {
+        if(attackValue >  defenceValue) return DEFFENDER_TAKES_HIT;
+        return NO_EFFECT;   
+        
+    }
 }

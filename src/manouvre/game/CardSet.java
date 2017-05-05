@@ -222,7 +222,7 @@ public class CardSet implements CardSetInterface, Serializable{
     }
      
      public Card drawCardFromSet(Card card){
-        if(cardList.size()>0){
+        if(cardList.size()>0&&cardList.contains(card)){
         Card t_card=cardList.get(cardList.indexOf(card));
         cardList.remove(card);
         return t_card;

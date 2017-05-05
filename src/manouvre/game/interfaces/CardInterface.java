@@ -42,7 +42,7 @@ public interface CardInterface {
     /*
     HQ card types
     */
-    public static int COMMANDER = 3;
+   // public static int COMMANDER = 3; NOT IN USE
     public static int WITHDRAW = 4;
     public static int SUPPLY = 5;
     public static int GUERRILLAS = 6;

@@ -138,20 +138,20 @@
                 <Property name="text" type="java.lang.String" value="During Attack"/>
               </Properties>
               <SubComponents>
-                <MenuItem class="javax.swing.JCheckBoxMenuItem" name="cardsSelectingAsDefensive">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Cards selected as Defensive"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cardsSelectingAsDefensiveActionPerformed"/>
-                  </Events>
-                </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="AttackingDialogMenu">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="AttackingDialog"/>
+                    <Property name="text" type="java.lang.String" value="AttackingDialog BOMBARD"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AttackingDialogMenuActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem7">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="AttackingDialog ASSAULT"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem7ActionPerformed"/>
                   </Events>
                 </MenuItem>
               </SubComponents>
@@ -764,7 +764,7 @@
                                   <Component id="curPlayerFlag" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                              <Component id="discardPanel" pref="137" max="32767" attributes="0"/>
+                              <Component id="discardPanel" pref="133" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -817,7 +817,7 @@
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <EmptySpace min="0" pref="158" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="155" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                       </Layout>
@@ -918,7 +918,7 @@
                                   <Component id="opoPlayerFlag" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                              <Component id="discardPanel1" pref="137" max="32767" attributes="0"/>
+                              <Component id="discardPanel1" pref="133" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -972,7 +972,7 @@
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <EmptySpace min="0" pref="158" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="155" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                       </Layout>
