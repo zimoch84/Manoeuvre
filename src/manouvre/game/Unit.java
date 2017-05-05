@@ -43,6 +43,7 @@ public class Unit implements UnitInterface, Serializable{
     boolean retrieving;
     boolean showLOS = false;
     
+    boolean supporting = false;
    
     
     int ID;
@@ -219,6 +220,19 @@ public class Unit implements UnitInterface, Serializable{
     public void setShowingLOS(boolean showLOS) {
         this.showLOS = showLOS;
     }
+
+    public int getCurrentStrenght() {
+        return (isInjured() ? reducedStrength :strenght) ;
+    }
+
+    public boolean isSupporting() {
+        return supporting;
+    }
+
+    public void setSupporting(boolean supporting) {
+        this.supporting = supporting;
+    }
     
     
+
 }

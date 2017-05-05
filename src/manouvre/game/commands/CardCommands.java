@@ -10,8 +10,10 @@ import java.util.Arrays;
 import manouvre.game.Card;
 import manouvre.game.CardCommandFactory;
 import manouvre.game.CardSet;
+import manouvre.game.Combat;
 import manouvre.game.Game;
 import manouvre.game.Param;
+import manouvre.game.Terrain;
 import manouvre.game.Unit;
 import manouvre.game.interfaces.CardCommandInterface;
 import manouvre.game.interfaces.Command;
@@ -214,19 +216,76 @@ public class CardCommands {
         }
 
     }
+    
+     public static class WithrdawCommand implements CardCommandInterface {
 
-    public static class AttackCommand implements Command {
-
-        Unit attackedUnit;
+        Command moveUnitCommand;
         Card card;
         Command moveToTableCommand;
         String senderPlayerName;
 
-        public AttackCommand(Unit attackedUnit, Card card, String senderPlayerName) {
-            this.attackedUnit = attackedUnit;
+        public WithrdawCommand(Command moveUnitCommand, Card card, String senderPlayerName) {
+            this.moveUnitCommand = moveUnitCommand;
             this.card = card;
             this.moveToTableCommand = new CardCommands.MoveToTableCommand(card, senderPlayerName);
             this.senderPlayerName = senderPlayerName;
+        }
+
+        @Override
+        public void execute(Game game) {
+
+            moveToTableCommand.execute(game);
+            moveUnitCommand.execute(game);
+            game.getCardCommandFactory().notifyObservers(CardCommandFactory.CARD_DIALOG);
+            
+            game.getCardCommandFactory().resetFactory();
+            
+        }
+
+        @Override
+        public void undo(Game game) {
+
+            moveUnitCommand.undo(game);
+
+        }
+
+        @Override
+        public String logCommand() {
+            return senderPlayerName + " played " + card.getCardName();
+        }
+
+        @Override
+        public int getType() {
+            return Param.PLAY_CARD;
+        }
+
+        @Override
+        public void cancel(Game game) {
+            moveUnitCommand.undo(game);
+            game.getCurrentPlayer().setMoved(true);
+            game.getCardCommandFactory().resetFactory();
+        }
+
+    }
+
+
+    public static class AttackCommand implements Command {
+
+        Unit attackedUnit;
+        Card attackingCard;
+        Command moveToTableCommand;
+        String senderPlayerName;
+        Combat combat;
+
+        public AttackCommand(Unit defendingUnit, Card attackingCard, String senderPlayerName, Unit attackingUnit, Terrain attackTerrain, Terrain defenseTerrain) {
+            this.attackedUnit = defendingUnit;
+            this.attackingCard = attackingCard;
+            this.moveToTableCommand = new CardCommands.MoveToTableCommand(attackingCard, senderPlayerName);
+            this.senderPlayerName = senderPlayerName;
+            
+            
+            combat = new Combat(attackingCard.getPlayingCardMode(), attackingUnit, attackingCard, attackTerrain, defendingUnit, defenseTerrain);
+            
 
         }
 
@@ -235,12 +294,15 @@ public class CardCommands {
             
            moveToTableCommand.execute(game);
             
-            
+           game.setCombat(combat);
+           game.getCombat().setState(Combat.PICK_DEFENSE_CARDS);//now is the time for opponent to choose defensive cards
            game.getCardCommandFactory().setAttackedUnit(attackedUnit);
            
-           if(game.getCurrentPlayer().getName() != senderPlayerName){
-               
-               game.getCardCommandFactory().setOpponentCard(card);
+           if(!game.getCurrentPlayer().getName().equals(senderPlayerName)){
+               game.setPhase(Game.COMBAT);//btestfalse - temporary -
+               game.getCombat().setState(Combat.PICK_DEFENSE_CARDS);
+                      
+               game.getCardCommandFactory().setOpponentCard(attackingCard);
                game.getCardCommandFactory().notifyObservers(CardCommandFactory.ATTACK_DIALOG);
                
            }
@@ -256,7 +318,7 @@ public class CardCommands {
 
         @Override
         public String logCommand() {
-            return senderPlayerName + " played " + card.getCardName();
+            return senderPlayerName + " played " + attackingCard.getCardName();
         }
 
         @Override
@@ -387,13 +449,16 @@ public class CardCommands {
                 Card movingCard = game.getPlayerByName(senderPlayerName).getHand().getCardByCard(card);
                 game.getTablePileDefPart().addCardToThisSet(movingCard);// Put cards on own table
                 game.getPlayerByName(senderPlayerName).getHand().drawCardFromSet(movingCard);//remove cards from own hand
+               
             }    
+            game.getCombat().calculateCombatValues();
             if (game.getCurrentPlayer().getName().equals(senderPlayerName)) {
+                game.getCombat().setDefenceCards(cards);
                // game.getCardCommandFactory().clearDefendingCards();
                 //do nothing
             } else {
-                game.getCardCommandFactory().setDefendingOponentCards(cards);
-                game.getCardCommandFactory().awakeObserver();
+                
+            game.getCardCommandFactory().awakeObserver();
             game.getCardCommandFactory().notifyObservers(CardCommandFactory.DEFENDING_CARDS_PLAYED);
             game.getCardCommandFactory().resetFactory();
             }

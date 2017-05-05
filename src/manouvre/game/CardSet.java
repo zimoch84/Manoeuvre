@@ -222,7 +222,7 @@ public class CardSet implements CardSetInterface, Serializable{
     }
      
      public Card drawCardFromSet(Card card){
-        if(cardList.size()>0){
+        if(cardList.size()>0&&cardList.contains(card)){
         Card t_card=cardList.get(cardList.indexOf(card));
         cardList.remove(card);
         return t_card;
@@ -280,6 +280,16 @@ public class CardSet implements CardSetInterface, Serializable{
         return (Card)null;
     }
      
+    public Card getCardByType(int type){
+        for (int i=0; i<cardList.size(); i++){
+            if(cardList.get(i).getHQType() == type){
+                Card card = cardList.get(i);
+                return card;
+            }
+        }  
+        return (Card)null;
+    }
+    
     public String getCardNameByPosInSet(int cardPosition){
        return cardList.get(cardPosition).getCardName();     
     }

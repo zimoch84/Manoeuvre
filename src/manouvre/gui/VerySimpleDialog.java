@@ -5,17 +5,48 @@
  */
 package manouvre.gui;
 
+import manouvre.game.Game;
+import manouvre.game.commands.CommandQueue;
+import manouvre.game.interfaces.Command;
+
 /**
  *
  * @author Piotr
  */
 public class VerySimpleDialog extends javax.swing.JFrame {
+    
+    String leftButtonText;
+    Command leftCommand; 
+    String rightButtonText; 
+    Command rightCommand; 
+    CommandQueue cmd; 
+    Game game;
 
+    public VerySimpleDialog(String leftButtonText, Command leftCommand, String rightButtonText, Command rightCommand, CommandQueue cmd, Game game) {
+        
+        initComponents();
+        this.leftButtonText = leftButtonText;
+        this.leftCommand = leftCommand;
+        this.rightButtonText = rightButtonText;
+        this.rightCommand = rightCommand;
+        this.cmd = cmd;
+        this.game = game;
+        
+        jButton1.setText(leftButtonText);
+        jButton2.setText(rightButtonText);
+        
+        this.setVisible(true);
+    }
     /**
      * Creates new form VerySimpleDialog
      */
+    
+    
     public VerySimpleDialog() {
+        
         initComponents();
+        
+        
     }
 
     /**
@@ -33,8 +64,18 @@ public class VerySimpleDialog extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("jButton2");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -54,6 +95,30 @@ public class VerySimpleDialog extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+      if(leftCommand != null)   {
+            /*
+            Execute command locally and remotely
+            */
+            cmd.storeAndExecuteAndSend(leftCommand);
+            
+        }
+        
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if(rightCommand != null)   {
+            /*
+            Execute command locally and remotely
+            */
+            cmd.storeAndExecuteAndSend(leftCommand);
+            
+        }
+        
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

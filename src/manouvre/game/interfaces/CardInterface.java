@@ -42,7 +42,7 @@ public interface CardInterface {
     /*
     HQ card types
     */
-    public static int COMMANDER = 3;
+   // public static int COMMANDER = 3; NOT IN USE
     public static int WITHDRAW = 4;
     public static int SUPPLY = 5;
     public static int GUERRILLAS = 6;
@@ -62,6 +62,7 @@ public interface CardInterface {
             
     public static int MOVE_ACTION = 500;
     public static int PICK_ACTION = 501;
+    public static int MULTIPLE_PICK_ACTION = 502;
     
     /*
     Return CardID 
@@ -114,7 +115,7 @@ public interface CardInterface {
     /*
     Returns leder command string
     */
-    public String getLederCommand();
+    public int getLederCommand();
     /*
     Returns leder combat value
     */

@@ -216,7 +216,11 @@ public class Card implements CardInterface, Serializable{
     
     public int getAtionType(int phase){
         
-        if(getHQType()== Card.FORCED_MARCH )
+        if(getCardType() == Card.HQLEADER)
+            return Card.MULTIPLE_PICK_ACTION;
+        if(getHQType()== Card.FORCED_MARCH || 
+           getHQType()== Card.WITHDRAW     
+                )
             return Card.MOVE_ACTION;
         if(getHQType()== Card.SUPPLY) 
         {
@@ -331,10 +335,10 @@ public class Card implements CardInterface, Serializable{
          else return 99;
     }
 
-    public String getLederCommand() {
+    public int getLederCommand() {
          if(!LederCommand.equals(""))
-        return LederCommand;
-         else return "99";
+            return Integer.parseInt(LederCommand);
+         else return 99;
     }
 
     public int getLederCombat() {
@@ -497,27 +501,20 @@ public class Card implements CardInterface, Serializable{
     Check if card can be upped
     */
  
-    public boolean getAvailableForPhase(int phase){
+    public boolean getAvailableForPhase(Game game){
+        int phase=game.getPhase();
         switch(phase){
             case Game.SETUP:
-                 setAvailableForDefance(false);
-                 setAvailableForSupport(false);
                  return false;
                  
             case Game.DISCARD:
-                 setAvailableForDefance(false);
-                  setAvailableForSupport(false);
                 return true;
               
             case Game.DRAW:
-                 setAvailableForDefance(false);
-                  setAvailableForSupport(false);
                 if(getHQType() == Card.SCOUT) 
                     return true;
                 else return false;
             case Game.MOVE:
-                 setAvailableForDefance(false);
-                  setAvailableForSupport(false);
               if(  getHQType() != Card.REDOUBDT 
                        || getHQType() != Card.REGROUP
                        || getHQType() != Card.SKIRMICH
@@ -528,16 +525,24 @@ public class Card implements CardInterface, Serializable{
                     return true;
                 else return false;
             case Game.COMBAT:  
-                 if(  getHQType() != Card.REDOUBDT  
+                 if((game.getCombat().getState()==Combat.INITIALIZING_COMBAT)&&  //at the start of the battle
+                         (getHQType() != Card.REDOUBDT  
                          || getHQType() != Card.REGROUP 
                          || getHQType()  != Card.SUPPLY
                          || getHQType()  != Card.FORCED_MARCH
-                         )
+                         ))
                     return true;
+                  if((game.getCombat().getState()==Combat.PICK_DEFENSE_CARDS)&&
+                          (!game.getCardCommandFactory().getOpponentCard().getPlayiningMode().equals("BOMBARD"))&&  //at the defence part of the battle but not in BOMBARD
+                          (game.getCardCommandFactory().getAttackedUnit().getName().equals(getCardName())||
+                          (getCardType()==CardInterface.HQLEADER)))
+                          return true;
+                  if((game.getCombat().getState()==Combat.PLAY_SUPPORTING_CARDS)&&  //at the support part of the battle
+                          (game.getCardCommandFactory().getAttackedUnit().getName().equals(getCardName())||
+                          getCardType()==CardInterface.HQLEADER))
+                          return true;
                 else return false;
             case Game.RESTORATION:
-                 setAvailableForDefance(false);
-                  setAvailableForSupport(false);
                 if(getHQType() == Card.REDOUBDT ||
                         getHQType() == Card.REGROUP
                     )
@@ -563,7 +568,7 @@ public class Card implements CardInterface, Serializable{
     @Override
     public boolean canBePlayed(Game game) {
         
-        if(getAvailableForPhase(game.getPhase()))
+        if(getAvailableForPhase(game))
         {
             switch (getCardType()) {
             
@@ -599,6 +604,14 @@ public class Card implements CardInterface, Serializable{
                 {
                     game.getCurrentPlayer().getLastMovedUnit().setSelected(true);
                     game.getMap().setUnitSelected(true);
+                    break;
+                }
+                
+                case Card.WITHDRAW:
+                {
+                    game.getCardCommandFactory().getAttackedUnit().setSelected(true);
+                    game.getMap().setUnitSelected(true);
+                    break;
                 }
             
             } break;
@@ -624,6 +637,12 @@ public class Card implements CardInterface, Serializable{
                 {
                     if(game.getCurrentPlayer().getLastMovedUnit()!= null)
                          game.getCurrentPlayer().getLastMovedUnit().setSelected(false);
+                    game.getMap().setUnitSelected(false);
+                    break;
+                }
+                case Card.WITHDRAW:
+                {
+                    game.getCardCommandFactory().getAttackedUnit().setSelected(false);
                     game.getMap().setUnitSelected(false);
                     break;
                 }
@@ -665,22 +684,4 @@ public class Card implements CardInterface, Serializable{
     public void setMouseOverCard(boolean mouseOverCard) {
         this.mouseOverCard = mouseOverCard;
     }
-
-    public boolean isAvailableForDefance() {
-        return availableForDefance;
-    }
-
-    public void setAvailableForDefance(boolean availableForDefance) {
-        this.availableForDefance = availableForDefance;
-    }
-
-    public boolean isAvailableForSupport() {
-        return availableForSupport;
-    }
-
-    public void setAvailableForSupport(boolean availableForSupport) {
-        this.availableForSupport = availableForSupport;
-    }
-    
-    
 }

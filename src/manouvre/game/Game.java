@@ -50,7 +50,11 @@ public final class Game implements Serializable{
     CardCommandFactory cardCommandFactory;
     
     CardSet tablePile,tablePileDefPart;
-
+    /*
+    Describes and calculate combats
+    */
+    Combat combat;
+    
     public Game(ArrayList<Player> players) {
         this.hostPlayer = players.get(0);
         this.guestPlayer = players.get(1);
@@ -117,6 +121,14 @@ public final class Game implements Serializable{
 
     public boolean isServer() {
         return isServer;
+    }
+
+    public Combat getCombat() {
+        return combat;
+    }
+
+    public void setCombat(Combat combat) {
+        this.combat = combat;
     }
     
     
@@ -485,6 +497,16 @@ public final class Game implements Serializable{
             }
         }
         return null;
+    
+    }
+    public int getNumberOfSupportingUnit(){
+        int numberOFSupUnits = 0;
+        for (Unit unitSearch : getCurrentPlayer().getArmy()) {
+            if (unitSearch.isSupporting()) {
+                numberOFSupUnits ++;
+            }
+        }
+        return numberOFSupUnits;
     
     }
     

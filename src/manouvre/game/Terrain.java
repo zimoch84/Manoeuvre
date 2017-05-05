@@ -157,10 +157,15 @@ public class Terrain  implements TerrainInterface, Serializable {
         
     @Override
     public int getAttackBonus(TerrainInterface attackingTile) {
-       if(attackingTile.getType()!= Terrain.HILL  )
+       if(getType() == Terrain.HILL)
+       {
+           if(attackingTile.getType()!= Terrain.HILL  )
            return 2;
        
-       else return 0;
+           else return 0;
+       }
+       
+       return 0;
        
        
     }

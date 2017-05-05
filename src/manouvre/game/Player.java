@@ -111,20 +111,24 @@ public class Player  implements Serializable{
         //this.tablePile = new CardSet();
 
         if(nation==CardInterface.AU){//btestfalse
-            hand.addCardToThisSet(drawPile.getCardByName("Johann Dragoons", true));
-//            hand.addCardToThisSet(drawPile.getCardByName("Guerrillas", true));
-//            hand.addCardToThisSet(drawPile.getCardByName("Supply", true));
-            hand.addCardsFromTheTopOfOtherSet(4, drawPile, false, true);
+            hand.addCardToThisSet(drawPile.getCardByName("3rd  Regiment", true));
+            hand.addCardToThisSet(drawPile.getCardByName("3rd  Regiment", true));
+           hand.addCardToThisSet(drawPile.getCardByName("Guerrillas", true));
+           hand.addCardToThisSet(drawPile.getCardByName("Archduke Charles", true));
+            hand.addCardToThisSet(drawPile.getCardByName("Withdraw", true));
+            //hand.addCardsFromTheTopOfOtherSet(1, drawPile, false, true);
         }
         else if(nation==CardInterface.FR){
             hand.addCardToThisSet(drawPile.getCardByName("2nd Regiment Legere", true));
             hand.addCardToThisSet(drawPile.getCardByName("2nd Regiment Legere", true));
-//             hand.addCardToThisSet(drawPile.getCardByName("2nd Regiment Legere", true));
-//            hand.addCardToThisSet(drawPile.getCardByName("2nd Regiment Legere", true));
-//             hand.addCardToThisSet(drawPile.getCardByName("2nd Regiment Legere", true));
+            hand.addCardToThisSet(drawPile.getCardByName("2nd Regiment Legere", true));
+            hand.addCardToThisSet(drawPile.getCardByName("2nd Regiment Legere", true));
+            hand.addCardToThisSet(drawPile.getCardByName("2nd Regiment Legere", true));
 //            hand.addCardToThisSet(drawPile.getCardByName("Forced March", true));
-//            hand.addCardToThisSet(drawPile.getCardByName("Supply", true));
-            hand.addCardsFromTheTopOfOtherSet(3, drawPile, false, true);
+//            hand.addCardToThisSet(drawPile.getCardByName("Nicolas Soult", true));
+//            hand.addCardToThisSet(drawPile.getCardByName("Withdraw", true));
+            
+           //hand.addCardsFromTheTopOfOtherSet(2, drawPile, false, true);
         } else
         hand.addCardsFromTheTopOfOtherSet(5, drawPile, false, true);
         

@@ -5,7 +5,6 @@
  */
 package manouvre.gui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -13,19 +12,14 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import javax.swing.JRootPane;
-import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
 import manouvre.game.Card;
 import manouvre.game.CardSet;
 import manouvre.game.Game;
 import manouvre.game.commands.CommandQueue;
-import manouvre.game.interfaces.CardInterface;
 import manouvre.game.interfaces.ClientInterface;
-import manouvre.network.client.Message;
-import manouvre.network.client.SocketClient;
 import manouvre.game.interfaces.Command;
 
 /**
@@ -52,7 +46,7 @@ public class SupportDialog extends javax.swing.JFrame {
     
     int cropFrame=30;
         double resizeFactor=0.7;
-        int cardPaddingLeftDef=0;
+        int cardPaddingLeftDef=20;
         int cardPaddingTopDef=10;
         int width=(int)((260-2*cropFrame)*resizeFactor);
         int height=(int)((375-2*cropFrame)*resizeFactor);
@@ -428,6 +422,8 @@ public class SupportDialog extends javax.swing.JFrame {
             cmdQueue.storeAndExecuteAndSend(cancelCommand);
 
         }
+        //use the same dialog as for defensive for now
+        cmdQueue.storeAndExecuteAndSend(game.getCardCommandFactory().createMoveDefensiveCardsToTableCommand(game.getCardCommandFactory().getPickedDefendingCards()));
         this.dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
 

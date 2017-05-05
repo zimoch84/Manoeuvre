@@ -138,20 +138,20 @@
                 <Property name="text" type="java.lang.String" value="During Attack"/>
               </Properties>
               <SubComponents>
-                <MenuItem class="javax.swing.JCheckBoxMenuItem" name="cardsSelectingAsDefensive">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Cards selected as Defensive"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cardsSelectingAsDefensiveActionPerformed"/>
-                  </Events>
-                </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="AttackingDialogMenu">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="AttackingDialog"/>
+                    <Property name="text" type="java.lang.String" value="AttackingDialog BOMBARD"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AttackingDialogMenuActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem7">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="AttackingDialog ASSAULT"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem7ActionPerformed"/>
                   </Events>
                 </MenuItem>
               </SubComponents>
