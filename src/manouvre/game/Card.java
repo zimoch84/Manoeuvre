@@ -293,6 +293,27 @@ public class Card implements CardInterface, Serializable{
         return 99; //if else return wrong value
     }
 
+    public int getUnitDiceValue(){
+        switch(getPlayingCardMode()){
+            case Card.BOMBARD :
+            {
+                return getUnitBombard();
+            }
+            case Card.ASSAULT : {
+                return getUnitAttack();
+            
+            }
+            case Card.VOLLEY :
+            {
+                return getUnitVolley();
+            
+            }
+            
+            default: return getUnitAttack();
+        }
+            
+    }
+    
     public int getUnitAttack() { 
         if(!UnitAttack.equals(""))
         return Dice.diceTypeToInt(UnitAttack); //if else return wrong value
@@ -525,19 +546,21 @@ public class Card implements CardInterface, Serializable{
                     return true;
                 else return false;
             case Game.COMBAT:  
-                 if((game.getCombat().getState()==Combat.INITIALIZING_COMBAT)&&  //at the start of the battle
+                 if(
+                         (game.getCombat() != null ? (game.getCombat().getState()==Combat.INITIALIZING_COMBAT) : true) &&  //at the start of the battle
                          (getHQType() != Card.REDOUBDT  
                          || getHQType() != Card.REGROUP 
                          || getHQType()  != Card.SUPPLY
                          || getHQType()  != Card.FORCED_MARCH
                          ))
                     return true;
-                  if((game.getCombat().getState()==Combat.PICK_DEFENSE_CARDS)&&
-                          (!game.getCardCommandFactory().getOpponentCard().getPlayiningMode().equals("BOMBARD"))&&  //at the defence part of the battle but not in BOMBARD
+                  if((game.getCombat() != null ? (game.getCombat().getState()==Combat.PICK_DEFENSE_CARDS) : true) &&
+                          (game.getCombat() != null ? (!game.getCardCommandFactory().getOpponentCard().getPlayiningMode().equals("BOMBARD")) : true) &&  //at the defence part of the battle but not in BOMBARD
                           (game.getCardCommandFactory().getAttackedUnit().getName().equals(getCardName())||
                           (getCardType()==CardInterface.HQLEADER)))
                           return true;
-                  if((game.getCombat().getState()==Combat.PLAY_SUPPORTING_CARDS)&&  //at the support part of the battle
+                  if(
+                          (game.getCombat() != null ?(game.getCombat().getState()==Combat.PLAY_SUPPORTING_CARDS) : true ) &&  //at the support part of the battle
                           (game.getCardCommandFactory().getAttackedUnit().getName().equals(getCardName())||
                           getCardType()==CardInterface.HQLEADER))
                           return true;

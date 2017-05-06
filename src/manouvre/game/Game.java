@@ -592,6 +592,33 @@ public final class Game implements Serializable{
      
     }
     
+    public Unit getUnitByName(String name){
+    
+        for(Unit unitSearch: currentPlayer.getArmy()){
+        
+            if(unitSearch.getName().equals(name))
+            {
+                return unitSearch;
+              }
+            
+        
+        }
+        
+        for(Unit unitSearch: opponentPlayer.getArmy()){
+        
+            if(unitSearch.getName().equals(name))
+            {
+                return unitSearch;
+              }
+            
+        
+        }
+              
+        return null;
+        
+     
+    }
+     
      public boolean checkOpponentPlayerUnitAtPosition(Position position){
     
         for(Unit unitSearch: opponentPlayer.getArmy()){

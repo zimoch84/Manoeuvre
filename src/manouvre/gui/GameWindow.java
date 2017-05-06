@@ -44,6 +44,16 @@ import java.util.Observer;
 import manouvre.game.CardCommandFactory;
 import manouvre.game.Combat;
 import static java.lang.Math.abs;
+import manouvre.game.commands.CardCommands;
+import manouvre.game.commands.ThrowDiceCommand;
+import static java.lang.Math.abs;
+import manouvre.game.commands.CardCommands.CombatOutcomeCommand;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
 
 
 
@@ -175,10 +185,16 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                Command withdrawCommand;   // ccmdf.createRejectCardCommand();
                Command okCommand;//
                Command pickDefenseCardsCommand;
+               Combat combat = game.getCombat();
+               
+               Command defendCommand = new CardCommands.DefendCommand(combat.getCombatType(), combat.getDefenceCards(), game.getCurrentPlayer().getName());
+               
                AttackDialog ad = new AttackDialog(ccmdf.getOpponentCard().getPlayiningMode(), ccmdf.getOpponentCard(), 
                        ccmdf.getAttackedUnit(), client, cmdQueue, game);
                
               
+               ad.setOkCommand(defendCommand);
+               
                ad.setVisible(true);
                break;
                
@@ -193,6 +209,8 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                /*
                Create puruit dialog
                */
+               
+               CustomDialog cd = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Defending unit has withdrawn");
                break;
                
            }
@@ -212,6 +230,54 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            sd.setVisible(true);
            break;
            }
+            case CardCommandFactory.COMBAT_ACCEPTED: {
+          
+                Command coc = game.getCardCommandFactory().createOutcomeCombatCommand();
+ 
+                CustomDialog cd = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Throw your dice/s", cmdQueue, game);
+                cd.setOkCommand(coc);
+                
+            
+            break;
+            }
+           
+           case CardCommandFactory.COMBAT_NO_RESULT:
+           {
+ 
+           CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Combat ends with no result");
+           break;
+           }
+           
+           case CardCommandFactory.COMBAT_DEFENDER_TAKES_HIT:
+           {
+ 
+           CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Unit " + game.getCardCommandFactory().getAttackedUnit().getName() +  "takes 1 hit");
+           break;
+           }
+           
+           case CardCommandFactory.COMBAT_ATTACKER_TAKES_HIT:
+           {
+ 
+           CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Unit " + game.getCombat().getAttackingUnit().getName() +  "takes 1 hit");
+           break;
+           }
+           
+           case CardCommandFactory.COMBAT_ATTACKER_ELIMINATE:
+           {
+ 
+           CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Unit " + game.getCombat().getAttackingUnit().getName() +  "is eliminated");
+           break;
+           }
+           
+           
+           case CardCommandFactory.COMBAT_DEFENDER_ELIMINATE:
+           {
+ 
+           CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Unit " + game.getCardCommandFactory().getAttackedUnit().getName() + "is eliminated");
+           break;
+           }
+           
+           
            default :
                System.out.println("manouvre.gui.GameWindow.update() No such dialog Type" );
        

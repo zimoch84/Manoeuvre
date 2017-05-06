@@ -243,6 +243,7 @@ public class GameGUI {
             if(windowMode == CreateRoomWindow.AS_HOST)
             {
             for (UnitGUI drawUnit : currentPlayerArmy) {
+                if(!drawUnit.getUnit().isEliminated())
                 g.drawImage(drawUnit.getImg(), 
                         drawUnit.getUnit().getPosition().getMouseX() + MapGUI.PIECES_START_X,
                         drawUnit.getUnit().getPosition().getMouseY() + MapGUI.PIECES_START_Y,
@@ -277,6 +278,7 @@ public class GameGUI {
             else if(windowMode == CreateRoomWindow.AS_GUEST)
             {
                for (UnitGUI drawUnit : currentPlayerArmy) {
+                if(!drawUnit.getUnit().isEliminated())
                 g.drawImage(drawUnit.getImg(), 
                         drawUnit.getUnit().getPosition().transpoze().getMouseX() + MapGUI.PIECES_START_X,
                         drawUnit.getUnit().getPosition().transpoze().getMouseY() + MapGUI.PIECES_START_Y,
@@ -295,7 +297,7 @@ public class GameGUI {
                         )
                 {
                     g.setColor(Color.red);
-                    
+                    if(!drawUnit.getUnit().isEliminated())
                     g.drawRoundRect(
                                 drawUnit.getUnit().getPosition().transpoze().getMouseX() + gapSelection, 
                                 drawUnit.getUnit().getPosition().transpoze().getMouseY() + gapSelection, 
@@ -315,11 +317,13 @@ public class GameGUI {
         {
 
             for (UnitGUI drawUnit : currentPlayerArmy) {
-                drawImageOnPosition(g, drawUnit.getUnit().getPosition(), drawUnit.getImg());
+                if(!drawUnit.getUnit().isEliminated())
+                    drawImageOnPosition(g, drawUnit.getUnit().getPosition(), drawUnit.getImg());
                 
             }
             for (UnitGUI drawUnit : opponnetPlayerArmy) {
-                 drawImageOnPosition(g, drawUnit.getUnit().getPosition(), drawUnit.getImg());
+                if(!drawUnit.getUnit().isEliminated())
+                     drawImageOnPosition(g, drawUnit.getUnit().getPosition(), drawUnit.getImg());
                 }
             }
 
@@ -721,7 +725,8 @@ public class GameGUI {
                 if(cardClicked.getAvailableForPhase(game)){ //select card if it is playable
                 if(!cardClicked.isSelected()) {//if not selected
                     cardClicked.setSelected(true);
-                    if(game.getPhase()==Game.MOVE||(game.getPhase()==Game.COMBAT&&game.getCombat().getState()==Combat.ATTACKER_CHOSES))//in this phase it is possible to select ONE card, thats why all have to be unselected before click
+                    if(game.getPhase()==Game.MOVE||(game.getPhase()==Game.COMBAT
+                            &&game.getCombat().getState()==Combat.ATTACKER_CHOSES))//in this phase it is possible to select ONE card, thats why all have to be unselected before click
                     {
                         game.getCardCommandFactory().setPlayingCard(cardClicked);
                         triggerCardActionOnSelection(cardClicked);
@@ -1023,21 +1028,22 @@ public class GameGUI {
     
     private void paintDices(Graphics g){
         final int DICE_GAP = 10;
-        final int STARTING_D6_X = 300;
+        final int STARTING_D6_X = 480;
         final int STARTING_D6_Y = 30;
         
-        final int STARTING_D8_X = 400;
-        final int STARTING_D8_Y = 120;
+        final int STARTING_D8_X = STARTING_D6_X;
+        final int STARTING_D8_Y = STARTING_D6_Y + DiceGUI.D6SQUARE_HEIGHT ;
         
-        final int STARTING_D10_X = 400;
-        final int STARTING_D10_Y = 200;
+        final int STARTING_D10_X = STARTING_D6_X;
+        final int STARTING_D10_Y = STARTING_D8_Y + DiceGUI.D8SQUARE_HEIGHT ;
         
         
         
         int i=0;
+        
         if(!game.getCardCommandFactory().getD6dices().isEmpty())
             for(Dice d6  :  game.getCardCommandFactory().getD6dices() ){
-                i=i++;
+                i++;
                 DiceGUI d6gui = new DiceGUI(d6);
                 g.drawImage(d6gui.getImage(), 
                         STARTING_D6_X  - (i-1)* (int)(DiceGUI.D6SQUARE_WIDTH*DiceGUI.SCALE_FACTOR_D6), 
@@ -1051,6 +1057,9 @@ public class GameGUI {
         if(!game.getCardCommandFactory().getD8dices().isEmpty())
             for(Dice d8 : game.getCardCommandFactory().getD8dices() ){
                 i++;
+                
+                System.out.println("manouvre.gui.GameGUI.paintDices D8 () i :" + Integer.toString(i) + " /" + Integer.toString(STARTING_D8_X -  (i-1)* (int)(DiceGUI.D8SQUARE_WIDTH*DiceGUI.SCALE_FACTOR_D8)) );
+
                 DiceGUI d8gui = new DiceGUI(d8);
                 g.drawImage(d8gui.getImage(), STARTING_D8_X -  (i-1)* (int)(DiceGUI.D8SQUARE_WIDTH*DiceGUI.SCALE_FACTOR_D8) , STARTING_D8_Y , 
                         (int)(d8gui.getImage().getWidth()*DiceGUI.SCALE_FACTOR_D8),

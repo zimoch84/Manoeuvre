@@ -34,6 +34,15 @@ public class CardCommandFactory extends Observable implements Serializable{
     public final static String CARD_NOT_REJECTED = "CARD_NOT_REJECTED";
     public final static String DEFENDING_CARDS_PLAYED = "DEFENDING_CARDS_PLAYED";
     public final static String OPPONENT_WITHDRAW = "OPPONENT_WITHDRAW";
+    
+    
+    public final static String COMBAT_NO_RESULT = "COMBAT_NO_RESULT";
+    public final static String COMBAT_DEFENDER_TAKES_HIT = "COMBAT_DEFENDER_TAKES_HIT";
+    public final static String COMBAT_ATTACKER_TAKES_HIT = "COMBAT_ATTACKER_TAKES_HIT";
+    public final static String COMBAT_DEFENDER_ELIMINATE = "COMBAT_ELIMINATE";
+    public final static String COMBAT_ATTACKER_ELIMINATE = "COMBAT_ATTCACKER_ELIMINATE";
+    public final static String COMBAT_ACCEPTED = "COMBAT_BOMBARD_ACCEPTED";
+    
      
     Card playingCard, opponentCard;
     
@@ -66,7 +75,7 @@ public class CardCommandFactory extends Observable implements Serializable{
         d6dices = new ArrayList<>();
         d8dices = new ArrayList<>();
         d10dices = new ArrayList<>(); 
-        fakeDices();
+       // fakeDices();
         
     }
 
@@ -368,6 +377,8 @@ public class CardCommandFactory extends Observable implements Serializable{
     {
     d6dices.add(new Dice(Dice.D6));
     d6dices.add(new Dice(Dice.D6));
+    d6dices.add(new Dice(Dice.D6));
+    d6dices.add(new Dice(Dice.D6));
     d10dices.add(new Dice(Dice.D10));
     d10dices.add(new Dice(Dice.D10));
     d8dices.add(new Dice(Dice.D8));
@@ -411,4 +422,22 @@ public class CardCommandFactory extends Observable implements Serializable{
     public Command createMoveDefensiveCardsToTableCommand(ArrayList<Card> cards){
         return new CardCommands.MoveDefensiveCardsToTableCommand(cards, game.getCurrentPlayer().getName());
     }
+    
+    public Command createOutcomeCombatCommand(){
+      
+        Combat combat = game.getCombat();
+        ThrowDiceCommand td = new ThrowDiceCommand(game.getCurrentPlayer().getName(), combat.getAttackCards());
+        return new CardCommands.CombatOutcomeCommand(   game.getCurrentPlayer().getName(),combat, td    );
+    }
+    
+    public ArrayList<Dice> getAllDices(){
+        ArrayList<Dice> returnDices = new ArrayList<>();
+    
+        returnDices.addAll(d6dices);
+        returnDices.addAll(d8dices);
+        returnDices.addAll(d10dices);
+    
+    return returnDices;
+    }
+    
 }

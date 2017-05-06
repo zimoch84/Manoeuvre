@@ -112,17 +112,17 @@ public class AttackDialog extends javax.swing.JFrame {
             jLabel6.setText("Enemy Bombard:");
             defenceTxt.setEnabled(false);
             cancelButton.setEnabled(false);
-                switch(game.getCombat().getAssaultOutcome()){
-                    case Combat.DEFFENDER_TAKES_HIT:{
-                        jLabel3.setEnabled(true);
-                        break;
-                    }
-                    default:{
-                        jLabel3.setForeground(Color.WHITE);
-                        jLabel3.setText("NO EFFEKT!");
-                        jLabel3.setEnabled(true);
-                    }
-                }
+//                switch(game.getCombat().getAssaultOutcome()){
+//                    case Combat.DEFFENDER_TAKES_HIT:{
+//                        jLabel3.setEnabled(true);
+//                        break;
+//                    }
+//                    default:{
+//                        jLabel3.setForeground(Color.WHITE);
+//                        jLabel3.setText("NO EFFEKT!");
+//                        jLabel3.setEnabled(true);
+//                    }
+//                }
         }
         else{
              jLabel3.setText("Attack=");
@@ -424,8 +424,8 @@ public class AttackDialog extends javax.swing.JFrame {
             
         }
         
-        if(attackType.equals("BOMBARD")) this.dispose();
-               else cmdQueue.storeAndExecuteAndSend(game.getCardCommandFactory().createMoveDefensiveCardsToTableCommand(game.getCardCommandFactory().getPickedDefendingCards()));
+        //if(attackType.equals("BOMBARD")) this.dispose();
+      //         else cmdQueue.storeAndExecuteAndSend(game.getCardCommandFactory().createMoveDefensiveCardsToTableCommand(game.getCardCommandFactory().getPickedDefendingCards()));
         this.dispose();
         
     }//GEN-LAST:event_okButtonActionPerformed

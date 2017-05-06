@@ -28,14 +28,15 @@ public class ThrowDiceCommand implements Command{
     public ThrowDiceCommand(String playerName, ArrayList<Card> cards) {
     this.playerName = playerName;
     this.cards = cards;
-    }
-
-    @Override
-    public void execute(Game game) {
-       
-        for(Card checkCard: cards )
+    
+    d6dices = new ArrayList<>();
+    d8dices = new ArrayList<>();
+    d10dices = new ArrayList<>();
+    
+    if(!cards.isEmpty())
+    for(Card checkCard: cards )
         {
-        switch(checkCard.getUnitAttack()){
+        switch(checkCard.getUnitDiceValue()){
         
             case DiceInterface.DICE1d6:{
                 d6dices.add(new Dice(Dice.D6));
@@ -56,7 +57,7 @@ public class ThrowDiceCommand implements Command{
                 break;
             }
             case DiceInterface.DICE1d10:{
-                d10dices.add(new Dice(Dice.D8));
+                d10dices.add(new Dice(Dice.D10));
                 break;
             }
             case DiceInterface.DICE2d10:{
@@ -66,10 +67,19 @@ public class ThrowDiceCommand implements Command{
             }
         }
         }
-        
+        if(!d6dices.isEmpty())
         for(Dice dice : d6dices){dice.generateResult();}
+        if(!d8dices.isEmpty())
         for(Dice dice : d8dices){dice.generateResult();}
+        if(!d10dices.isEmpty())
         for(Dice dice : d10dices){dice.generateResult();}
+    
+    }
+
+    @Override
+    public void execute(Game game) {
+       
+        
     
         game.getCardCommandFactory().setD6dices(d6dices);
         game.getCardCommandFactory().setD8dices(d8dices);
@@ -92,7 +102,7 @@ public class ThrowDiceCommand implements Command{
     
     @Override
     public String logCommand(){
-        return new String(playerName + " draw dices" );
+        return new String(playerName + " thow dices" );
     
     }
 

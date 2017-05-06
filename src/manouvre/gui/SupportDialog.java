@@ -297,6 +297,11 @@ public class SupportDialog extends javax.swing.JFrame {
         jLabel4.setText("attack, and");
 
         jButton2.setText("THROW DICES");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -438,6 +443,15 @@ public class SupportDialog extends javax.swing.JFrame {
 
         this.dispose();
     }//GEN-LAST:event_okButtonActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        
+        Command coc = game.getCardCommandFactory().createOutcomeCombatCommand();
+        cmdQueue.storeAndExecuteAndSend(coc);
+        this.dispose();
+        
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
