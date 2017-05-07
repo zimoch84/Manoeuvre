@@ -193,9 +193,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                
                Command defendCommand = new CardCommands.DefendCommand(combat.getCombatType(), combat.getDefenceCards(), game.getCurrentPlayer().getName());
                
-               ad = new AttackDialog(ccmdf.getOpponentCard().getPlayiningMode(), ccmdf.getOpponentCard(),
-
-                       ccmdf.getAttackedUnit(), client, cmdQueue, game);
+               ad = new AttackDialog(combat, client, cmdQueue, game);
                
               
                ad.setOkCommand(defendCommand);

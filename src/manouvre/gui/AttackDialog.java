@@ -40,7 +40,7 @@ public class AttackDialog extends javax.swing.JFrame {
     Card playedCard;
     Unit attackedUnit;
     
-    String attackType;
+    int attackType;
     
     ClientInterface client;
     CommandQueue cmdQueue;
@@ -53,11 +53,11 @@ public class AttackDialog extends javax.swing.JFrame {
         initComponents();
     }
 
-    public AttackDialog(String attackType, Card playedCard, Unit attackedUnit, ClientInterface client, CommandQueue cmdQueue, Game game) {
+    public AttackDialog(Combat combat, ClientInterface client, CommandQueue cmdQueue, Game game) {
         
-        this.attackType = attackType;
-        this.playedCard = playedCard;
-        this.attackedUnit = attackedUnit;
+        this.attackType = combat.getCombatType();
+        this.playedCard = combat.getAttackCard();
+        this.attackedUnit = combat.getDefendingUnit();
         this.client = client;
         this.cmdQueue = cmdQueue;
         this.game = game;
@@ -102,7 +102,7 @@ public class AttackDialog extends javax.swing.JFrame {
     }
     
     private void setTheFrameAccordingToAttackType(){
-        if(attackType.equals("BOMBARD")){
+        if(attackType == Combat.BOMBARD ){
             okButton.setText("OK");
             jLabel1.setEnabled(false); //choose from
             nrOfDefendingCardsTxt.setEnabled(false);
@@ -424,8 +424,10 @@ public class AttackDialog extends javax.swing.JFrame {
             
         }
         
-        if(attackType.equals("BOMBARD")) this.dispose();
-               else cmdQueue.storeAndExecuteAndSend(game.getCardCommandFactory().createMoveDefensiveCardsToTableCommand(game.getCardCommandFactory().getPickedDefendingCards()));
+        if(attackType != Combat.BOMBARD)
+        {
+            cmdQueue.storeAndExecuteAndSend(game.getCardCommandFactory().createMoveDefensiveCardsToTableCommand(game.getCardCommandFactory().getPickedDefendingCards()));
+        }
         this.dispose();
         
     }//GEN-LAST:event_okButtonActionPerformed
