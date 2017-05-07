@@ -741,7 +741,7 @@ public class GameGUI {
         Card cardClicked=getCardFromMousePosition(mouseX,mouseY);
         if(cardClicked!=null)
         {
-           //select card if it is playable 
+           //select card if it is    playable 
             if(cardClicked.getAvailableForPhase(game))
             { 
                 //if not selected

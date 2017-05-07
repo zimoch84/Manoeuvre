@@ -218,7 +218,7 @@ public class ServerMessageHandler {
                     /*
                     Executing command over game on server
                     */
-                    executeCommand.execute(gameRoom.getGame());
+                    //executeCommand.execute(gameRoom.getGame());
                     
                     /*
                     Send command to opponent with the same message

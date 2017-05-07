@@ -278,7 +278,7 @@ public class Combat implements Serializable{
     {
         if(attackValue <  defenceValue) return ATTACKER_TAKES_HIT;
         
-        if(attackValue < defenceValue) return NO_EFFECT; // if(defenceValue == attackValue) 
+        if(attackValue == defenceValue) return NO_EFFECT; // if(defenceValue == attackValue) 
         
         if(attackValue > defenceValue && attackValue <  defenceValue * 2 ) return DEFENDER_CHOSES;
         
