@@ -80,7 +80,7 @@ public class CardDialog extends javax.swing.JFrame {
         int x = (dim.width-w)/2;
         int y = (dim.height-h)/2;
         this.setLocation(x, y);
-       
+        jLabel1.setText(game.getCurrentPlayer().getName() + ", " +jLabel1.getText() );
         setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }

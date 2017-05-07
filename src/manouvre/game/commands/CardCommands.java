@@ -303,8 +303,11 @@ public class CardCommands {
            if(!game.getCurrentPlayer().getName().equals(senderPlayerName)){
                game.getCardCommandFactory().setOpponentCard(attackingCard);
                game.getCardCommandFactory().notifyObservers(CardCommandFactory.ATTACK_DIALOG);
+               game.unlockGUI();
                
+           }else{
            }
+          
 
         }
 

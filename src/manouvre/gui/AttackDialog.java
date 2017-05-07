@@ -90,7 +90,7 @@ public class AttackDialog extends javax.swing.JFrame {
         setAttackPoints();
         chooseCardsAvailableForDefence();
         setDeffensivePoints();
-        labelTitle.setText(labelTitle.getText() + " " + attackType+"ED");
+        labelTitle.setText(game.getCurrentPlayer().getName() + ", "+labelTitle.getText() + " " + attackType+"ED");
        
         
          
