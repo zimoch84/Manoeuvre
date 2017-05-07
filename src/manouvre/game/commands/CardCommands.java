@@ -19,7 +19,6 @@ import manouvre.game.Unit;
 import manouvre.game.interfaces.CardCommandInterface;
 import manouvre.game.interfaces.Command;
 import manouvre.gui.CustomDialog;
-import manouvre.gui.GameGUI;
 
 /**
  *
@@ -297,24 +296,16 @@ public class CardCommands {
            moveToTableCommand.execute(game);
             
            game.setCombat(combat);
+           //now is the time for opponent to choose defensive cards
            game.getCombat().setState(Combat.PICK_DEFENSE_CARDS);
            game.getCardCommandFactory().setAttackedUnit(attackedUnit);
-           game.swapActivePlayer();
-           if(game.getCurrentPlayer().getName().equals(senderPlayerName)){
-               game.lockGUI();
-           }
-           else{
-              
-               game.setPhase(Game.COMBAT);//btestfalse - temporary -
-               game.unlockGUI();
-                      
+           
+           if(!game.getCurrentPlayer().getName().equals(senderPlayerName)){
                game.getCardCommandFactory().setOpponentCard(attackingCard);
                game.getCardCommandFactory().notifyObservers(CardCommandFactory.ATTACK_DIALOG);
                
            }
-           
-           
-          
+
         }
 
         @Override
@@ -453,24 +444,24 @@ public class CardCommands {
         @Override
         public void execute(Game game) {
                 for(Card card:cards){
-                    Card movingCard = game.getPlayerByName(senderPlayerName).getHand().getCardByCard(card);
-                    game.getTablePileDefPart().addCardToThisSet(movingCard);// Put cards on own table
-                    game.getPlayerByName(senderPlayerName).getHand().drawCardFromSet(movingCard);//remove cards from own hand
+                Card movingCard = game.getPlayerByName(senderPlayerName).getHand().getCardByCard(card);
+                game.getTablePileDefPart().addCardToThisSet(movingCard);// Put cards on own table
+                game.getPlayerByName(senderPlayerName).getHand().drawCardFromSet(movingCard);//remove cards from own hand
+               
                 }    
-                game.getCombat().calculateCombatValues();
-                game.getCombat().setState(Combat.PICK_SUPPORTING_CARDS);
-                game.swapActivePlayer();
+                //game.getCombat().calculateCombatValues();
                 if (game.getCurrentPlayer().getName().equals(senderPlayerName)) {
                     game.getCombat().setDefenceCards(cards);
-                    game.getCombat().calculateCombatValues();
-                    game.lockGUI();
+                   // game.getCardCommandFactory().clearDefendingCards();
+                    //do nothing
                 } else {
-                    game.unlockGUI();
-                    game.getCardCommandFactory().awakeObserver();
-                    game.getCardCommandFactory().notifyObservers(CardCommandFactory.DEFENDING_CARDS_PLAYED);
-                    game.getCardCommandFactory().resetFactory();
+
+                game.getCardCommandFactory().awakeObserver();
+                game.getCardCommandFactory().notifyObservers(CardCommandFactory.DEFENDING_CARDS_PLAYED);
+                game.getCardCommandFactory().resetFactory();
                 }
-        }
+            }
+ 
         @Override
         public void undo(Game game) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -570,7 +561,7 @@ public class CardCommands {
         ThrowDiceCommand td;
         String senderPlayerName;
 
-        public CombatOutcomeCommand(String senderPlayerName, Combat combat, ThrowDiceCommand td) {
+        public CombatOutcomeCommand(String senderPlayerName, Combat combat, ThrowDiceCommand td ) {
             this.combat = combat;
             this.td = td;
             this.senderPlayerName = senderPlayerName;
@@ -582,11 +573,14 @@ public class CardCommands {
             /*
             Set cardFactorywith dices
             */
-            td.execute(game);
+            if(game.getCurrentPlayer().getName().equals(senderPlayerName))
+            {
+                td.execute(game);
             
-            combat.setDices(game.getCardCommandFactory().getAllDices());
-
-            combat.calculateCombatValues();
+                combat.setDices(game.getCardCommandFactory().getAllDices());
+            
+                combat.calculateCombatValues();
+            }
             
             switch(combat.getOutcome()){
             
@@ -688,7 +682,7 @@ public class CardCommands {
                 }
             }
             
-           
+           game.setCombat(null);
            
           
         }

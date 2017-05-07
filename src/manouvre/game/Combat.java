@@ -275,23 +275,23 @@ public class Combat {
     
     private int getAssaultOutcome()
     {
-//        if(attackValue <  defenceValue) return ATTACKER_TAKES_HIT;
+        if(attackValue <  defenceValue) return ATTACKER_TAKES_HIT;
         
         if(attackValue < defenceValue) return NO_EFFECT; // if(defenceValue == attackValue) 
         
-//        if(attackValue > defenceValue && attackValue <  defenceValue * 2 ) return DEFENDER_CHOSES;
-//        
-//        if(attackValue >= defenceValue * 2  && attackValue <  defenceValue * 3 ) return ATTACKER_CHOSES;
-//        
-//        if(attackValue >= defenceValue * 3  && attackValue <  defenceValue * 4 ) return HIT_AND_RETREAT;
+        if(attackValue > defenceValue && attackValue <  defenceValue * 2 ) return DEFENDER_CHOSES;
         
-        if(attackValue >= defenceValue ) return ELIMINATE; //  if(attackValue >= defenceValue * 4 ) return ELIMINATE;
+        if(attackValue >= defenceValue * 2  && attackValue <  defenceValue * 3 ) return ATTACKER_CHOSES;
+        
+        if(attackValue >= defenceValue * 3  && attackValue <  defenceValue * 4 ) return HIT_AND_RETREAT;
+        
+         if(attackValue >= defenceValue * 4 ) return ELIMINATE;
         
         return NO_EFFECT;
     }
     public int getBombardOutcome()
     {
-        if(attackValue >  defenceValue) return ELIMINATE; //if(attackValue >  defenceValue) return DEFFENDER_TAKES_HIT;
+        if(attackValue >  defenceValue) return DEFFENDER_TAKES_HIT; 
         return NO_EFFECT;   
         
     }

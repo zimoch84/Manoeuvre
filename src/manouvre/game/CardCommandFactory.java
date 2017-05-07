@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Observable;
 import manouvre.game.commands.CardCommands;
+import manouvre.game.commands.RestoreUnitCommand;
 import manouvre.game.commands.ThrowDiceCommand;
 import manouvre.game.interfaces.CardCommandInterface;
 import manouvre.game.interfaces.Command;
@@ -257,6 +258,10 @@ public class CardCommandFactory extends Observable implements Serializable{
                 setCardCommand( new CardCommands.WithrdawCommand(attachedCommand, playingCard, game.getCurrentPlayer().getName()) );
                 return getCardCommand();
             }
+            case Card.SUPPLY : {
+                setCardCommand( new CardCommands.ForcedMarchCommand(attachedCommand, playingCard, game.getCurrentPlayer().getName()) );
+                return getCardCommand();
+            }
             default: {
                 setCardCommand(new CardCommands.MoveToTableCommand(playingCard, game.getCurrentPlayer().getName()));
                 return  getCardCommand();
@@ -265,6 +270,8 @@ public class CardCommandFactory extends Observable implements Serializable{
         }  
         case Card.UNIT :
         {
+            
+            if(game.getPhase() == Game.COMBAT)
             return new CardCommands.AttackCommand(
                     getAttackedUnit(), 
                     playingCard,
@@ -273,6 +280,9 @@ public class CardCommandFactory extends Observable implements Serializable{
                     game.getMap().getTerrainAtPosition(game.getSelectedUnit().getPosition()), 
                     game.getMap().getTerrainAtPosition(getAttackedUnit().getPosition())
             );
+            
+            return new RestoreUnitCommand(game.getCurrentPlayer().getName(), game.getSelectedUnit(), playingCard);
+            
             
         }    
             

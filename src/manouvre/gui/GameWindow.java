@@ -250,6 +250,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            {
  
            CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Combat ends with no result");
+           
            break;
            }
            
@@ -1885,8 +1886,8 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     
     private ArrayList<Position> getMovePositions(Card playingCard){
      
-            ArrayList<Position> movePositions = null;
-            if(gameGui.mapGui.isUnitSelected())
+            ArrayList<Position> movePositions = new ArrayList<>();
+            if(game.getSelectedUnit()!= null)
                 {   
                     Unit selectedUnit = game.getSelectedUnit();
                     switch(playingCard.getCardType()){
