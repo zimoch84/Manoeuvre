@@ -139,7 +139,6 @@ public class CardCommandFactory extends Observable implements Serializable{
 
     public void setOpponentCard(Card opponentCard) {
         this.opponentCard = opponentCard;
-        setChanged();
     }
     
     public void awakeObserver(){
