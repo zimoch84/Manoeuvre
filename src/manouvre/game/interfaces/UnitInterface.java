@@ -29,9 +29,5 @@ public interface UnitInterface {
         
     public boolean isInjured();
     
-    public void healUnit(int healValue);
-    
-    public void damageUnit(int damageValue);
-    
     
 }

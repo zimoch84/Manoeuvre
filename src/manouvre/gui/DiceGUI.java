@@ -28,7 +28,7 @@ public class DiceGUI {
     static final int D10SQUARE_HEIGHT = 100;
     
     
-    static final float SCALE_FACTOR_D6 = 0.75f;
+    static final float SCALE_FACTOR_D6 = 0.65f;
     static final float SCALE_FACTOR_D8 = 0.65f;
     static final float SCALE_FACTOR_D10 = 0.6f;
     

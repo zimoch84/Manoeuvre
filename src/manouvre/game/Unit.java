@@ -132,19 +132,29 @@ public class Unit implements UnitInterface, Serializable{
     public boolean isInjured() {
         return injured;
     }
-
-    @Override
-    public void healUnit(int healValue) {
-        
-        
-    }
-
-    @Override
-    public void damageUnit(int damageValue) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
     
+
+    public void takeHit(){
+    if (!isInjured())
+        injured = true;
+    else eliminated = true;
+  
+    }
+    
+    public void eliminate()
+    {
+        eliminated = true;
+    }
+    
+    public void restoreUnit()
+    {
+    
+        if(!eliminated)
+            injured = false;
+            
+    }
+   
     @Override
     public String toString(){
     return "Unit ID:[" + ID +"] Name: "  + name + " Army "+ army + " type "  + type + " Strenght [" + strenght +"/" + reducedStrength +"][Position:" + getPosition().toString()+"]";

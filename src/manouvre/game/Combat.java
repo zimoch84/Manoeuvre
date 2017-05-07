@@ -16,6 +16,13 @@ import manouvre.game.interfaces.DiceInterface;
 public class Combat {
     
     /*
+    Combat TYPE
+    */
+    public static final int ASSAULT = 202;
+    public static final int VOLLEY = 203;
+    public static final int BOMBARD = 204;
+    
+    /*
     COmbat flow
     */
     public static final int INITIALIZING_COMBAT= 0;
@@ -51,6 +58,7 @@ public class Combat {
     Terrain attackTerrain, defenseTerrain;
     
     ArrayList<Unit> supportingUnits;
+    int combatType;
     
 
     public Combat(int combatType, Unit attackingUnit, Card attackCard,Terrain attackTerrain, Unit defendingUnit, Terrain defenseTerrain) {
@@ -67,8 +75,10 @@ public class Combat {
     this.attackTerrain = attackTerrain;
     this.defenseTerrain = defenseTerrain;
     
+    this.combatType = attackCard.getPlayingCardMode();
+    
     this.state= INITIALIZING_COMBAT;
-    setDices(attackCards);
+    //setDices(attackCards);
     calculateBonuses();
     calculateCombatValues();
     
@@ -102,9 +112,9 @@ public class Combat {
         */
         attackValue=0;
         if(!attackCard.getPlayiningMode().equals("BOMBARD")){  //bomard do not get advantage of Unit Attack
-        attackValue += attackingUnit.getCurrentStrenght();
+        attackValue = attackingUnit.getCurrentStrenght();  }
         attackValue += attackBonus;
-        }
+      
         /*
         Dices 
         */
@@ -133,75 +143,78 @@ public class Combat {
         return dices;
     }
 
-    public void setDices(ArrayList<Card> cards) {
-    if(cards!=null)
-    for(Card checkCard: cards)
-        {
-        switch(checkCard.getUnitAttack()){ //if attack
-            case DiceInterface.DICE1d6:{
-                dices.add(new Dice(Dice.D6));
-                break;
-            }
-            case DiceInterface.DICE2d6:{
-                dices.add(new Dice(Dice.D6));
-                dices.add(new Dice(Dice.D6));
-                break;
-            }
-            case DiceInterface.DICE1d8:{
-                dices.add(new Dice(Dice.D8));
-                break;
-            }
-            case DiceInterface.DICE2d8:{
-                dices.add(new Dice(Dice.D8));
-                dices.add(new Dice(Dice.D8));
-                break;
-            }
-            case DiceInterface.DICE1d10:{
-                dices.add(new Dice(Dice.D8));
-                break;
-            }
-            case DiceInterface.DICE2d10:{
-                dices.add(new Dice(Dice.D10));
-                dices.add(new Dice(Dice.D10));
-                break;
-            }
-            case 99:{                              // if card has no attack- BOMBARD
-                switch(checkCard.getUnitBombard()){
-                    case DiceInterface.DICE1d6:{
-                        dices.add(new Dice(Dice.D6));
-                        break;
-                    }
-                    case DiceInterface.DICE2d6:{
-                        dices.add(new Dice(Dice.D6));
-                        dices.add(new Dice(Dice.D6));
-                        break;
-                    }
-                    case DiceInterface.DICE1d8:{
-                        dices.add(new Dice(Dice.D8));
-                        break;
-                    }
-                    case DiceInterface.DICE2d8:{
-                        dices.add(new Dice(Dice.D8));
-                        dices.add(new Dice(Dice.D8));
-                        break;
-                    }
-                    case DiceInterface.DICE1d10:{
-                        dices.add(new Dice(Dice.D8));
-                        break;
-                    }
-                    case DiceInterface.DICE2d10:{
-                        dices.add(new Dice(Dice.D10));
-                        dices.add(new Dice(Dice.D10));
-                        break;
-                    }
-                }
-            break;    
-            }    
-        }
+    public void setDices(ArrayList<Dice> dices)
+    {
+    this.dices = dices;
     }
-        
-        this.dices = dices;
-    }
+//    public void setDices(ArrayList<Card> cards) {
+//    for(Card checkCard: cards)
+//        {
+//        switch(checkCard.getUnitAttack()){ //if attack
+//            case DiceInterface.DICE1d6:{
+//                dices.add(new Dice(Dice.D6));
+//                break;
+//            }
+//            case DiceInterface.DICE2d6:{
+//                dices.add(new Dice(Dice.D6));
+//                dices.add(new Dice(Dice.D6));
+//                break;
+//            }
+//            case DiceInterface.DICE1d8:{
+//                dices.add(new Dice(Dice.D8));
+//                break;
+//            }
+//            case DiceInterface.DICE2d8:{
+//                dices.add(new Dice(Dice.D8));
+//                dices.add(new Dice(Dice.D8));
+//                break;
+//            }
+//            case DiceInterface.DICE1d10:{
+//                dices.add(new Dice(Dice.D8));
+//                break;
+//            }
+//            case DiceInterface.DICE2d10:{
+//                dices.add(new Dice(Dice.D10));
+//                dices.add(new Dice(Dice.D10));
+//                break;
+//            }
+//            case 99:{                              // if card has no attack- BOMBARD
+//                switch(checkCard.getUnitBombard()){
+//                    case DiceInterface.DICE1d6:{
+//                        dices.add(new Dice(Dice.D6));
+//                        break;
+//                    }
+//                    case DiceInterface.DICE2d6:{
+//                        dices.add(new Dice(Dice.D6));
+//                        dices.add(new Dice(Dice.D6));
+//                        break;
+//                    }
+//                    case DiceInterface.DICE1d8:{
+//                        dices.add(new Dice(Dice.D8));
+//                        break;
+//                    }
+//                    case DiceInterface.DICE2d8:{
+//                        dices.add(new Dice(Dice.D8));
+//                        dices.add(new Dice(Dice.D8));
+//                        break;
+//                    }
+//                    case DiceInterface.DICE1d10:{
+//                        dices.add(new Dice(Dice.D8));
+//                        break;
+//                    }
+//                    case DiceInterface.DICE2d10:{
+//                        dices.add(new Dice(Dice.D10));
+//                        dices.add(new Dice(Dice.D10));
+//                        break;
+//                    }
+//                }
+//            break;    
+//            }    
+//        }
+//    }
+//        
+//        this.dices = dices;
+//    }
     public ArrayList<Card> getAttackCards() {
         return attackCards;
     }
@@ -209,7 +222,7 @@ public class Combat {
     public void setAttackCards(ArrayList<Card> attackCards) {
         
         this.attackCards = attackCards;
-        setDices(attackCards);
+        //setDices(attackCards);
     }
 
     public ArrayList<Card> getDefenceCards() {
@@ -247,8 +260,20 @@ public class Combat {
         this.attackValue = attackValue;
     }
 
+   public int getOutcome()
+   {
+   switch(getCombatType()){
    
-    public int getAssaultOutcome()
+       case Combat.ASSAULT : 
+           return getAssaultOutcome();
+           
+       case Combat.BOMBARD: return getBombardOutcome();
+       default : return 0;
+   }
+   }
+    
+    
+    private int getAssaultOutcome()
     {
 //        if(attackValue <  defenceValue) return ATTACKER_TAKES_HIT;
         
@@ -270,4 +295,40 @@ public class Combat {
         return NO_EFFECT;   
         
     }
+
+    public int getCombatType() {
+        return combatType;
+    }
+
+    public Unit getAttackingUnit() {
+        return attackingUnit;
+    }
+
+    public Unit getDefendingUnit() {
+        return defendingUnit;
+    }
+
+    public int getDefenseBonus() {
+        return defenseBonus;
+    }
+
+    public int getAttackBonus() {
+        return attackBonus;
+    }
+
+    public Card getAttackCard() {
+        return attackCard;
+    }
+
+    public Terrain getAttackTerrain() {
+        return attackTerrain;
+    }
+
+    public Terrain getDefenseTerrain() {
+        return defenseTerrain;
+    }
+    
+    
+    
+    
 }

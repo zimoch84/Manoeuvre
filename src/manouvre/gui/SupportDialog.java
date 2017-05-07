@@ -347,6 +347,11 @@ public class SupportDialog extends javax.swing.JFrame {
         );
 
         thowDice.setText("Thow Dice");
+        thowDice.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                thowDiceActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -453,6 +458,12 @@ public class SupportDialog extends javax.swing.JFrame {
     private void attackTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attackTxtActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_attackTxtActionPerformed
+
+    private void thowDiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_thowDiceActionPerformed
+      Command coc = game.getCardCommandFactory().createOutcomeCombatCommand();
+        cmdQueue.storeAndExecuteAndSend(coc);
+        this.dispose();
+    }//GEN-LAST:event_thowDiceActionPerformed
 
     /**
      * @param args the command line arguments
