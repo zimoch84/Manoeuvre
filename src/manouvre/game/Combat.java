@@ -25,6 +25,7 @@ public class Combat {
     /*
     COmbat flow
     */
+    public static final int COMBAT_NOT_INITIALIZED= -1;
     public static final int INITIALIZING_COMBAT= 0;
     public static final int PICK_DEFENSE_CARDS= 1;
     public static final int PICK_SUPPORT_UNIT= 2;
@@ -59,7 +60,9 @@ public class Combat {
     
     ArrayList<Unit> supportingUnits;
     int combatType;
-    
+    public Combat(){
+        this.state=COMBAT_NOT_INITIALIZED;
+    }
 
     public Combat(int combatType, Unit attackingUnit, Card attackCard,Terrain attackTerrain, Unit defendingUnit, Terrain defenseTerrain) {
         

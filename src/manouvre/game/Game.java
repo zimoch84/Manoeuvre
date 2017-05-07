@@ -64,7 +64,7 @@ public final class Game implements Serializable{
         guestPlayer.setCards();  
         guestPlayer.generateUnits(); 
         cardCommandFactory = new CardCommandFactory(this);
-         
+         combat = new Combat();
         this.tablePile=new CardSet();
         this.tablePileDefPart=new CardSet();
         generateMap(); 
