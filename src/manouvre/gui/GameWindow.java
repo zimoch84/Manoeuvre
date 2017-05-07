@@ -1482,26 +1482,31 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             if(game.getPhase()==Game.DISCARD)
                 setActionButtonText();  //if selection was done discard button should be visible
 
-            if(ad!=null&&game.getPhase()==Game.COMBAT&&(game.getCombat().getState()==Combat.PICK_DEFENSE_CARDS)){
-                game.getCombat().setDefenceCards(game.getCardCommandFactory().getPickedDefendingCards());
-                game.getCombat().calculateCombatValues();
-                ad.setDeffensivePoints();
-                ad.setNrOfChosenCards(game.getCardCommandFactory().getPickedDefendingCards().size());
+            if(ad!=null&&game.getPhase()==Game.COMBAT&&(game.getCombat()!=null)){
+                switch(game.getCombat().getState()){
+                    case Combat.PICK_DEFENSE_CARDS:{
+                        game.getCombat().setDefenceCards(game.getCardCommandFactory().getPickedDefendingCards());
+                        game.getCombat().calculateCombatValues();
+                        ad.setDeffensivePoints();
+                        ad.setNrOfChosenCards(game.getCardCommandFactory().getPickedDefendingCards().size());
 
-                ad.revalidate();
-                //ad.repaint();
-            }
-            if(sd!=null&&game.getPhase()==Game.COMBAT&&(game.getCombat().getState()==Combat.PICK_SUPPORTING_CARDS)){
-                game.getCombat().setAttackCards(game.getCardCommandFactory().getAttackingCards());
-                game.getCombat().calculateCombatValues();
-                sd.setNrOfChosenCards(game.getCardCommandFactory().getPickedDefendingCards().size());
-                sd.setAttackPoints();
-                sd.revalidate();
-                //ad.repaint();
-            }
-        }else lockedButton.setText("LOCKED");
+                        ad.revalidate();
+                        //ad.repaint();
+                     }
+                    case Combat.PICK_SUPPORTING_CARDS:{
+                        game.getCombat().setAttackCards(game.getCardCommandFactory().getAttackingCards());
+                        game.getCombat().calculateCombatValues();
+                        sd.setNrOfChosenCards(game.getCardCommandFactory().getPickedDefendingCards().size());
+                        sd.setAttackPoints();
+                        sd.revalidate();
+                        //ad.repaint();
+                    }
+                }   
+            }else lockedButton.setText("LOCKED");
+        }
     }//GEN-LAST:event_playerHandPanelMouseClicked
 
+            
     private void playerHandPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseEntered
          // TODO add your handling code here:
          
