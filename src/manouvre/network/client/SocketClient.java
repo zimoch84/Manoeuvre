@@ -56,9 +56,12 @@ public class SocketClient implements Runnable, ClientInterface{
     
     public SocketClient(LoginWindow frame) throws IOException{
         welcome = frame; 
-        //this.serverAddr = "zimoch.insomnia247.nl"; 
-        socket = new Socket(InetAddress.getByName(serverAddr), port);
-            
+        //this.serverAddr = "zimoch.insomnia247.nl";
+        
+        
+        
+        //socket = new Socket(InetAddress.getByName(serverAddr), port);
+        socket = new Socket(frame.serverAddr, frame.port);   
         Out = new ObjectOutputStream(socket.getOutputStream());
         Out.flush();
         In = new ObjectInputStream(socket.getInputStream());
