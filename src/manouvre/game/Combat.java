@@ -28,8 +28,9 @@ public class Combat {
     public static final int INITIALIZING_COMBAT= 0;
     public static final int PICK_DEFENSE_CARDS= 1;
     public static final int PICK_SUPPORT_UNIT= 2;
-    public static final int PLAY_SUPPORTING_CARDS= 3;
+    public static final int PICK_SUPPORTING_CARDS= 3;
     public static final int THROW_DICES= 4;
+    public static final int WAIT_FOR_OPPONENT= 5;
     
     /*
     Outcome
@@ -85,7 +86,7 @@ public class Combat {
     }
     
     void calculateBonuses(){
-    
+        defenseBonus=0;
         defenseBonus = defenseTerrain.getDefenceBonus();
         attackBonus = attackTerrain.getAttackBonus(defenseTerrain);
     
@@ -97,9 +98,10 @@ public class Combat {
         /*
         Defense value
         */
-        
-        defenceValue = defendingUnit.getCurrentStrenght();
+        defenceValue=0;
+        defenceValue += defendingUnit.getCurrentStrenght();
         defenceValue += defenseBonus;
+        
         for(Card checkCards : defenceCards)
             {
         defenceValue +=  checkCards.getUnitDefence();
@@ -108,7 +110,7 @@ public class Combat {
         /*
         Attack value
         */
-        attackValue = 0;
+        attackValue=0;
         if(!attackCard.getPlayiningMode().equals("BOMBARD")){  //bomard do not get advantage of Unit Attack
         attackValue = attackingUnit.getCurrentStrenght();  }
         attackValue += attackBonus;
@@ -117,8 +119,7 @@ public class Combat {
         Dices 
         */
         for(Dice dice : dices)
-        {
-        attackValue += dice.getResult();
+        {attackValue += dice.getResult();
         }
         /*
         Supporting units
@@ -227,6 +228,9 @@ public class Combat {
     public ArrayList<Card> getDefenceCards() {
         return defenceCards;
     }
+     public void addDefenceCards(Card card) {
+        defenceCards.add(card);
+    }
 
     public void setDefenceCards(ArrayList<Card> defenceCards) {
         this.defenceCards = defenceCards;
@@ -271,23 +275,23 @@ public class Combat {
     
     private int getAssaultOutcome()
     {
-        if(attackValue <  defenceValue) return ATTACKER_TAKES_HIT;
+//        if(attackValue <  defenceValue) return ATTACKER_TAKES_HIT;
         
-        if(defenceValue == attackValue) return NO_EFFECT;
+        if(attackValue < defenceValue) return NO_EFFECT; // if(defenceValue == attackValue) 
         
-        if(attackValue > defenceValue && attackValue <  defenceValue * 2 ) return DEFENDER_CHOSES;
+//        if(attackValue > defenceValue && attackValue <  defenceValue * 2 ) return DEFENDER_CHOSES;
+//        
+//        if(attackValue >= defenceValue * 2  && attackValue <  defenceValue * 3 ) return ATTACKER_CHOSES;
+//        
+//        if(attackValue >= defenceValue * 3  && attackValue <  defenceValue * 4 ) return HIT_AND_RETREAT;
         
-        if(attackValue >= defenceValue * 2  && attackValue <  defenceValue * 3 ) return ATTACKER_CHOSES;
-        
-        if(attackValue >= defenceValue * 3  && attackValue <  defenceValue * 4 ) return HIT_AND_RETREAT;
-        
-        if(attackValue >= defenceValue * 4 ) return ELIMINATE;
+        if(attackValue >= defenceValue ) return ELIMINATE; //  if(attackValue >= defenceValue * 4 ) return ELIMINATE;
         
         return NO_EFFECT;
     }
     public int getBombardOutcome()
     {
-        if(attackValue >  defenceValue) return DEFFENDER_TAKES_HIT;
+        if(attackValue >  defenceValue) return ELIMINATE; //if(attackValue >  defenceValue) return DEFFENDER_TAKES_HIT;
         return NO_EFFECT;   
         
     }

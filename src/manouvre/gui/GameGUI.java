@@ -32,6 +32,8 @@ import manouvre.game.CardSet;
 import manouvre.game.Combat;
 import static java.lang.Math.round;
 import static java.lang.Math.round;
+import static java.lang.Math.round;
+import static java.lang.Math.round;
 
 
 
@@ -1320,17 +1322,8 @@ public class GameGUI {
 //    }
     
     
-    public boolean isLocked() {
-    return lockGUI;
-    }
 
-    public void lockGUI() {
-    this.lockGUI = true;
-    }
-    public void unlockGUI(){
-    this.lockGUI = false;
-    }
-            
+        
             
     
     public ArrayList<UnitGUI> getUnitsGui() {

@@ -19,6 +19,7 @@ import manouvre.game.Unit;
 import manouvre.game.interfaces.CardCommandInterface;
 import manouvre.game.interfaces.Command;
 import manouvre.gui.CustomDialog;
+import manouvre.gui.GameGUI;
 
 /**
  *
@@ -296,12 +297,16 @@ public class CardCommands {
            moveToTableCommand.execute(game);
             
            game.setCombat(combat);
-           game.getCombat().setState(Combat.PICK_DEFENSE_CARDS);//now is the time for opponent to choose defensive cards
+           game.getCombat().setState(Combat.PICK_DEFENSE_CARDS);
            game.getCardCommandFactory().setAttackedUnit(attackedUnit);
-           
-           if(!game.getCurrentPlayer().getName().equals(senderPlayerName)){
+           game.swapActivePlayer();
+           if(game.getCurrentPlayer().getName().equals(senderPlayerName)){
+               game.lockGUI();
+           }
+           else{
+              
                game.setPhase(Game.COMBAT);//btestfalse - temporary -
-               game.getCombat().setState(Combat.PICK_DEFENSE_CARDS);
+               game.unlockGUI();
                       
                game.getCardCommandFactory().setOpponentCard(attackingCard);
                game.getCardCommandFactory().notifyObservers(CardCommandFactory.ATTACK_DIALOG);
@@ -448,24 +453,24 @@ public class CardCommands {
         @Override
         public void execute(Game game) {
                 for(Card card:cards){
-                Card movingCard = game.getPlayerByName(senderPlayerName).getHand().getCardByCard(card);
-                game.getTablePileDefPart().addCardToThisSet(movingCard);// Put cards on own table
-                game.getPlayerByName(senderPlayerName).getHand().drawCardFromSet(movingCard);//remove cards from own hand
-               
+                    Card movingCard = game.getPlayerByName(senderPlayerName).getHand().getCardByCard(card);
+                    game.getTablePileDefPart().addCardToThisSet(movingCard);// Put cards on own table
+                    game.getPlayerByName(senderPlayerName).getHand().drawCardFromSet(movingCard);//remove cards from own hand
                 }    
                 game.getCombat().calculateCombatValues();
+                game.getCombat().setState(Combat.PICK_SUPPORTING_CARDS);
+                game.swapActivePlayer();
                 if (game.getCurrentPlayer().getName().equals(senderPlayerName)) {
                     game.getCombat().setDefenceCards(cards);
-                   // game.getCardCommandFactory().clearDefendingCards();
-                    //do nothing
+                    game.getCombat().calculateCombatValues();
+                    game.lockGUI();
                 } else {
-
-                game.getCardCommandFactory().awakeObserver();
-                game.getCardCommandFactory().notifyObservers(CardCommandFactory.DEFENDING_CARDS_PLAYED);
-                game.getCardCommandFactory().resetFactory();
+                    game.unlockGUI();
+                    game.getCardCommandFactory().awakeObserver();
+                    game.getCardCommandFactory().notifyObservers(CardCommandFactory.DEFENDING_CARDS_PLAYED);
+                    game.getCardCommandFactory().resetFactory();
                 }
-            }
- 
+        }
         @Override
         public void undo(Game game) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

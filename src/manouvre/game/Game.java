@@ -46,7 +46,7 @@ public final class Game implements Serializable{
     private Player hostPlayer;
     private Player guestPlayer;
     boolean isServer=true;  //if this will not change game is set on Server
-    
+    boolean lockGUI=false;  
     CardCommandFactory cardCommandFactory;
     
     CardSet tablePile,tablePileDefPart;
@@ -817,6 +817,15 @@ public final class Game implements Serializable{
     public void setTablePileDefPart(CardSet tablePileDefPart) {
         this.tablePileDefPart = tablePileDefPart;
     }
-    
+    public boolean isLocked() {
+    return lockGUI;
+    }
+
+    public void lockGUI() {
+    this.lockGUI = true;
+    }
+    public void unlockGUI(){
+    this.lockGUI = false;
+    }
 }
 

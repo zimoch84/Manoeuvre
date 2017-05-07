@@ -138,10 +138,10 @@ public class AttackDialog extends javax.swing.JFrame {
           
            nrOfDefendingCardsTxt.setText(Integer.toString(numberOfAvailableDeffendingCards));
     }
-     private void setAttackPoints(){
+     public void setAttackPoints(){
            attackTxt.setText(Integer.toString(game.getCombat().getAttackValue()));
     }
-      private void setDeffensivePoints(){
+      public void setDeffensivePoints(){
            defenceTxt.setText(Integer.toString(game.getCombat().getDefenceValue()));
     }
     private void setWithdrawButtonVisibility()
@@ -424,8 +424,8 @@ public class AttackDialog extends javax.swing.JFrame {
             
         }
         
-        //if(attackType.equals("BOMBARD")) this.dispose();
-      //         else cmdQueue.storeAndExecuteAndSend(game.getCardCommandFactory().createMoveDefensiveCardsToTableCommand(game.getCardCommandFactory().getPickedDefendingCards()));
+        if(attackType.equals("BOMBARD")) this.dispose();
+               else cmdQueue.storeAndExecuteAndSend(game.getCardCommandFactory().createMoveDefensiveCardsToTableCommand(game.getCardCommandFactory().getPickedDefendingCards()));
         this.dispose();
         
     }//GEN-LAST:event_okButtonActionPerformed
