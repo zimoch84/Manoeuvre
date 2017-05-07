@@ -347,6 +347,16 @@ public class GameGUI {
                         drawMultipleRectanglesOnPositions(g, movePositions, Color.red);
                         break;
                         }
+                    case Card.SUPPLY: 
+                        {
+                        if(game.getSelectedUnit()!= null)  {  
+                                Unit selectedUnit = game.getSelectedUnit();
+                                movePositions = game.getOneSquareMovements(selectedUnit.getPosition());
+                                drawMultipleRectanglesOnPositions(g, movePositions, Color.red);
+                        }
+                        break;
+                        }    
+                        
                     case Card.WITHDRAW: 
                         {
                         Unit attackedUnit = game.getCardCommandFactory().getAttackedUnit();
@@ -722,40 +732,57 @@ public class GameGUI {
     public void mouseClickedCard(int mouseX, int mouseY){
         Card cardClicked=getCardFromMousePosition(mouseX,mouseY);
         if(cardClicked!=null){
-                if(cardClicked.getAvailableForPhase(game)){ //select card if it is playable
-                if(!cardClicked.isSelected()) {//if not selected
-                    cardClicked.setSelected(true);
-                    if(game.getPhase()==Game.MOVE||(game.getPhase()==Game.COMBAT
-                            &&game.getCombat().getState()==Combat.ATTACKER_CHOSES))//in this phase it is possible to select ONE card, thats why all have to be unselected before click
-                    {
-                        game.getCardCommandFactory().setPlayingCard(cardClicked);
-                        triggerCardActionOnSelection(cardClicked);
-                        keepOneSelectedCard(cardClicked);
+                if(cardClicked.getAvailableForPhase(game))
+                { //select card if it is playable
+                    if(!cardClicked.isSelected()) {//if not selected
+                        cardClicked.setSelected(true);
+                        if(game.getPhase()==Game.MOVE||(game.getPhase()==Game.COMBAT
+                                &&( game.getCombat()!= null ? (game.getCombat().getState()==Combat.ATTACKER_CHOSES) : false) 
+                                )
+                                )//in this phase it is possible to select ONE card, thats why all have to be unselected before click
+                        {
+                            game.getCardCommandFactory().setPlayingCard(cardClicked);
+                            triggerCardActionOnSelection(cardClicked);
+                            keepOneSelectedCard(cardClicked);
+                        }
+                        else if (game.getPhase()==Game.COMBAT&&(
+                                (game.getCombat()!= null  ?
+                                    (game.getCombat().getState()==Combat.PICK_DEFENSE_CARDS) : false
+                                )))
+                                {//during defence
+                            game.getCardCommandFactory().addPickedDefendingCard(cardClicked);
+                            selectionSeq.add((Integer)cardClicked.getCardID()); 
+                        }
+                        else if (
+                            game.getPhase()==Game.COMBAT&&
+                                (
+                            game.getCombat()!= null  ? (game.getCombat().getState()==Combat.PICK_SUPPORT_UNIT) : false)
+                                )
+                        
+                        {//during support
+                            game.getCardCommandFactory().addPickedAttackingCard(cardClicked);
+                            selectionSeq.add((Integer)cardClicked.getCardID()); 
+                        }
+                        else selectionSeq.add((Integer)cardClicked.getCardID());
+
+                    if(game.getPhase()!=Game.DISCARD)
+                        currentPlayer.setPlayingCard(true);  //not playing cards on Table during Discard
+                    } 
+                    /*
+                    Unselect card that is is playable for this phase
+                    */
+                    else {
+                        triggerCardActionOnDeSelection(cardClicked);
+                        cardClicked.setSelected(false);
+                        Integer j=cardClicked.getCardID();
+                        selectionSeq.remove(j); //remove number Integer j, not position int i
+                        if (game.getPhase()==Game.COMBAT&&(game.getCombat().getState()==Combat.PICK_DEFENSE_CARDS)){
+                            game.getCardCommandFactory().removePickedDefendingCard(cardClicked);
+                        }
+                        else if (game.getPhase()==Game.COMBAT&&(game.getCombat().getState()==Combat.PICK_SUPPORT_UNIT)){//during support
+                            game.getCardCommandFactory().removePickedAttackingCard(cardClicked);
+                        }
                     }
-                    else if (game.getPhase()==Game.COMBAT&&(game.getCombat().getState()==Combat.PICK_DEFENSE_CARDS)){//during defence
-                        game.getCardCommandFactory().addPickedDefendingCard(cardClicked);
-                        selectionSeq.add((Integer)cardClicked.getCardID()); 
-                    }else if (game.getPhase()==Game.COMBAT&&(game.getCombat().getState()==Combat.PICK_SUPPORT_UNIT)){//during support
-                        game.getCardCommandFactory().addPickedAttackingCard(cardClicked);
-                        selectionSeq.add((Integer)cardClicked.getCardID()); 
-                    }
-                    else selectionSeq.add((Integer)cardClicked.getCardID());
-                    
-                if(game.getPhase()!=Game.DISCARD)
-                    currentPlayer.setPlayingCard(true);  //not playing cards on Table during Discard
-                }   
-                else {
-                    triggerCardActionOnDeSelection(cardClicked);
-                    cardClicked.setSelected(false);
-                    Integer j=cardClicked.getCardID();
-                    selectionSeq.remove(j); //remove number Integer j, not position int i
-                    if (game.getPhase()==Game.COMBAT&&(game.getCombat().getState()==Combat.PICK_DEFENSE_CARDS)){
-                        game.getCardCommandFactory().removePickedDefendingCard(cardClicked);
-                    }
-                    else if (game.getPhase()==Game.COMBAT&&(game.getCombat().getState()==Combat.PICK_SUPPORT_UNIT)){//during support
-                        game.getCardCommandFactory().removePickedAttackingCard(cardClicked);
-                    }
-                }
             }else
                 JOptionPane.showMessageDialog(null, "This card is not available in this phase", 
                      "Wrong Action", JOptionPane.OK_OPTION); 
@@ -862,7 +889,9 @@ public class GameGUI {
             g.drawString("on the Discard Pile",cardPaddingLeft+width*j+(gap*j)+0,54+190); 
             }
             g.fillPolygon(xPoints, yPoints, 3);
-            if(game.getPhase()==Game.COMBAT&&(game.getCombat().getState()==Combat.PICK_DEFENSE_CARDS)){  //put triangle under all selected in Defence mode
+            if(game.getPhase()==Game.COMBAT&&(
+                    (game.getCombat() != null ?
+                    ( game.getCombat().getState()==Combat.PICK_DEFENSE_CARDS ): false))){  //put triangle under all selected in Defence mode
                 for(int s=0; s<selectionSeq.size()-1; s++){
                     j=selectionSeq.get(s);              
                     j=handSetGui.getPositionInSetByCardID(j); 

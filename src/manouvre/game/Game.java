@@ -249,6 +249,30 @@ public final class Game implements Serializable{
         this.turn = turn;
     }
     
+    public ArrayList<Position> getCurrentPlayerNotMovedUnits()
+    { 
+        ArrayList<Position> units = new ArrayList<>();         
+        for(Unit unitSearch: currentPlayer.getArmy()){
+             if(!unitSearch.hasMoved())
+            {
+                units.add(unitSearch.getPosition());
+            }
+         }
+        return units;
+    }
+    
+    
+    public ArrayList<Position> getCurrentPlayerInjuredUnitPositions()
+    { 
+        ArrayList<Position> units = new ArrayList<>();         
+        for(Unit unitSearch: currentPlayer.getArmy()){
+             if(unitSearch.isInjured())
+            {
+                units.add(unitSearch.getPosition());
+            }
+         }
+        return units;
+    }
     
     public ArrayList<Position> getPossibleMovement(Unit unit){      
         ArrayList<Position> moves;         
@@ -486,7 +510,7 @@ public final class Game implements Serializable{
                 return unitSearch;
               }
         }
-       throw new NullPointerException() ;
+      return null;
              
     }
     
@@ -518,13 +542,8 @@ public final class Game implements Serializable{
             {
                 return unitSearch;
               }
-            
-        
-        }
-              
-        return null;
-        
-     
+       }
+       return null;
     }
     
     public Unit getOpponentPlayerUnitAtPosition(Position position){
@@ -552,11 +571,9 @@ public final class Game implements Serializable{
             {
                 return true;
               }
-            
-        
         }
               
-        return false;
+       return false;
         
      
     }
@@ -634,7 +651,7 @@ public final class Game implements Serializable{
         return false;
         
      
-    }
+    } 
     //-----------phases-----------
 //   SETUP = -1    
 //   DISCARD = 0;

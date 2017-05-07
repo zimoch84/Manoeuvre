@@ -22,6 +22,8 @@ public abstract class  Param {
     public static final int RESET_FACTORY = 9;
     public static final int THROW_DICE = 10;
     public static final int COMBAT = 11;
+    public static final int RESTORE_UNIT = 11;
+    
     
     
 }

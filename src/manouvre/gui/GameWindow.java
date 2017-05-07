@@ -1643,12 +1643,17 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                     }
                 } 
                 /*
-                We dont have selected unit
+                We have to select unit
                 */
                 else {
-                  /*
-                    TODO getPossibleUnitsToSelect() and select it - do regular Move
-                    */  
+                    
+                    if(!getPossibleUnitPostionToSelect().isEmpty())
+                        if(getPossibleUnitPostionToSelect().contains(clickedPos))
+                       {
+                        Unit selectedUnit = game.getCurrentPlayerUnitAtPosition(clickedPos);
+                        selectedUnit.setSelected(true);
+                       }
+
                 }
                 break;
                 }
@@ -1739,6 +1744,56 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         game.getCardCommandFactory().resetFactory();
         
     }
+    private ArrayList<Position> getPossibleUnitPostionToSelect(){
+    
+     if(game.getCurrentPlayer().isPlayingCard())
+        {
+            Card playingCard = game.getCardCommandFactory().getPlayingCard();
+            
+            
+            switch(playingCard.getCardType()){
+                case Card.HQCARD:
+                {
+                if(playingCard.getHQType() == Card.SUPPLY)
+                {
+                   if(game.getPhase() == Game.MOVE)
+                       return game.getCurrentPlayerNotMovedUnits();
+                   
+                   if(game.getPhase() == Game.RESTORATION)
+                     return game.getCurrentPlayerInjuredUnitPositions();
+                           
+                }
+                break;
+                }
+                case Card.UNIT:
+                {
+                    if(game.getPhase() == Game.RESTORATION)
+                    {
+                       ArrayList<Position>  positions = new ArrayList<>();
+                       positions.add(game.getCurrentPlayerUnitByName(playingCard.getCardName()).getPosition());
+                       return positions;
+                    }  
+                break;
+                }    
+                
+                case Card.HQLEADER:
+                {
+                    if(game.getPhase() == Game.RESTORATION)
+                     return game.getCurrentPlayerInjuredUnitPositions();
+                break;        
+                }    
+                
+                    
+                
+            }
+                
+        }
+    return null;
+    
+    
+    
+    }
+    
     private ArrayList<Position> getAvaliblePositionToSelect()
     {
         if(game.getCurrentPlayer().isPlayingCard())
@@ -1749,10 +1804,9 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                 {
                 if(playingCard.getHQType() == Card.SUPPLY)
                 {
-                   return null;
-                    /*
-                    GetNonDeadUnits beside that 1 has moved
-                    */
+                    if(game.getPhase() == Game.RESTORATION)
+                        return game.getCurrentPlayerInjuredUnitPositions();
+
                 }
                 break;
                 }
@@ -1760,13 +1814,19 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                 {
                     /*
                     calculate possible targets if we know playing Card Mode            
-                    */                    
-                    if(playingCard.getPlayingCardMode() > 0  )
-                    {
-                         game.getCardCommandFactory().setSelectedUnit(game.getSelectedUnit());
-                         game.getCardCommandFactory().calculateAttackingPositions();    
-                         return  game.getCardCommandFactory().getAttackingPositions();
+                    */    
+                    if(game.getPhase() == Game.COMBAT)
+                    {    if(playingCard.getPlayingCardMode() > 0  )
+                        {
+                             game.getCardCommandFactory().setSelectedUnit(game.getSelectedUnit());
+                             game.getCardCommandFactory().calculateAttackingPositions();    
+                             return  game.getCardCommandFactory().getAttackingPositions();
 
+                        }
+                    }
+                    if (game.getPhase() == Game.RESTORATION)
+                    {
+                       return  getPossibleUnitPostionToSelect();
                     }
                 
                 }    
