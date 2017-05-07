@@ -537,7 +537,7 @@ public class Card implements CardInterface, Serializable{
                           (game.getCardCommandFactory().getAttackedUnit().getName().equals(getCardName())||
                           (getCardType()==CardInterface.HQLEADER)))
                           return true;
-                  if((game.getCombat().getState()==Combat.PLAY_SUPPORTING_CARDS)&&  //at the support part of the battle
+                  if((game.getCombat().getState()==Combat.PICK_SUPPORTING_CARDS)&&  //at the support part of the battle
                           (game.getCardCommandFactory().getAttackedUnit().getName().equals(getCardName())||
                           getCardType()==CardInterface.HQLEADER))
                           return true;

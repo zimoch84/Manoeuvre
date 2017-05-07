@@ -44,6 +44,9 @@ import java.util.Observer;
 import manouvre.game.CardCommandFactory;
 import manouvre.game.Combat;
 import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
 
 
 
@@ -81,6 +84,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     private Image bgImage;
    
     AttackDialog ad;
+    SupportDialog sd;
     
     public CommandQueue cmdQueue;
     public CommandLogger cmdLogger;
@@ -175,7 +179,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                Command withdrawCommand;   // ccmdf.createRejectCardCommand();
                Command okCommand;//
                Command pickDefenseCardsCommand;
-               AttackDialog ad = new AttackDialog(ccmdf.getOpponentCard().getPlayiningMode(), ccmdf.getOpponentCard(), 
+               ad = new AttackDialog(ccmdf.getOpponentCard().getPlayiningMode(), ccmdf.getOpponentCard(), 
                        ccmdf.getAttackedUnit(), client, cmdQueue, game);
                
               
@@ -205,7 +209,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            {
            
 //           Command doNotRejectCard = ccmdf.createDoNotRejectCardCommand();
-           SupportDialog sd  = new SupportDialog(null,game.getCombat().getDefenceCards(), client, cmdQueue, game);
+           sd  = new SupportDialog(null,game.getCombat().getDefenceCards(), client, cmdQueue, game);
 //           cd.setOkCommand(doNotRejectCard);
 //           cd.setCancelCommand(rejectCard);   
            
@@ -247,11 +251,11 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             
     {
     if(game.getPhase()== Game.SETUP && game.getCurrentPlayer().isFinishedSetup() && !game.getOpponentPlayer().isFinishedSetup() )
-        gameGui.lockGUI();
+        game.lockGUI();
     else if(game.getPhase()!= Game.SETUP && !game.getCurrentPlayer().isActive())
-        gameGui.lockGUI();            
+        game.lockGUI();            
     else
-        gameGui.unlockGUI();
+        game.unlockGUI();
     }
     
     public void refreshAll(){
@@ -316,14 +320,14 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            case Game.DISCARD:
            {
             actionButton.setVisible(true);
-            actionButton.setEnabled(!gameGui.getSelectionSeqIsEmpty() && game.getCurrentPlayer().isActive() && !gameGui.isLocked());
+            actionButton.setEnabled(!gameGui.getSelectionSeqIsEmpty() && game.getCurrentPlayer().isActive() && !game.isLocked());
             actionButton.setText("Discard");
             break;
            }
            case Game.DRAW:
            {
              
-             actionButton.setEnabled(gameGui.getNumberOfDiscardedCards()>0 && game.getCurrentPlayer().isActive() && !gameGui.isLocked() );
+             actionButton.setEnabled(gameGui.getNumberOfDiscardedCards()>0 && game.getCurrentPlayer().isActive() && !game.isLocked() );
              actionButton.setText("Draw");
               break;
            }
@@ -333,7 +337,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             actionButton.setText("Move");
              if(game.getCurrentPlayer().hasMoved()) //this is not working with doing undo for Forced March - when rejected
             {
-            actionButton.setEnabled(game.getCurrentPlayer().isActive() && !gameGui.isLocked() );  
+            actionButton.setEnabled(game.getCurrentPlayer().isActive() && !game.isLocked() );  
             actionButton.setText("Undo");
             }
             else  actionButton.setEnabled(false);  
@@ -342,13 +346,13 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            }
            case Game.COMBAT:
            {
-            actionButton.setEnabled(game.getCurrentPlayer().isActive() && !gameGui.isLocked() );  
+            actionButton.setEnabled(game.getCurrentPlayer().isActive() && !game.isLocked() );  
             actionButton.setText("Combat");
              break;
            }
             case Game.RESTORATION:
            {
-            actionButton.setEnabled(game.getCurrentPlayer().isActive() && !gameGui.isLocked() );  
+            actionButton.setEnabled(game.getCurrentPlayer().isActive() && !game.isLocked() );  
             actionButton.setText("Restoration");
             break;
            }
@@ -425,33 +429,33 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            case Game.DISCARD:
            {
                
-            buttonToNextPhase.setEnabled(game.getCurrentPlayer().isActive() && !gameGui.isLocked() );
+            buttonToNextPhase.setEnabled(game.getCurrentPlayer().isActive() && !game.isLocked() );
             buttonToNextPhase.setText("End discard");
             break;
            }
            case Game.DRAW:
            {
             buttonToNextPhase.setText("End draw");
-            buttonToNextPhase.setEnabled(!game.getCurrentPlayer().hasDrawn() && game.getCurrentPlayer().isActive() && !gameGui.isLocked());
+            buttonToNextPhase.setEnabled(!game.getCurrentPlayer().hasDrawn() && game.getCurrentPlayer().isActive() && !game.isLocked());
             break;
            }
            
            case Game.MOVE:
            {
             buttonToNextPhase.setText("End move");
-            buttonToNextPhase.setEnabled(game.getCurrentPlayer().hasMoved() && !gameGui.isLocked() 
+            buttonToNextPhase.setEnabled(game.getCurrentPlayer().hasMoved() && !game.isLocked() 
                                         && game.getCurrentPlayer().isActive() );
             break;
            }
            case Game.COMBAT:
            {
-            buttonToNextPhase.setEnabled(game.getCurrentPlayer().isActive() && !gameGui.isLocked());
+            buttonToNextPhase.setEnabled(game.getCurrentPlayer().isActive() && !game.isLocked());
             buttonToNextPhase.setText("End combat");
              break;
            }
             case Game.RESTORATION:
            {
-            buttonToNextPhase.setEnabled(game.getCurrentPlayer().isActive() && !gameGui.isLocked());
+            buttonToNextPhase.setEnabled(game.getCurrentPlayer().isActive() && !game.isLocked());
             buttonToNextPhase.setText("End turn");
             break;
            }
@@ -474,7 +478,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     
     public void paintHand(Graphics g )                 
     {   
-        gameGui.paintHand(g); 
+      gameGui.paintHand(g); 
          
       
         
@@ -630,6 +634,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             }
         }
         ;
+        lockedButton = new javax.swing.JToggleButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         FindCard = new javax.swing.JMenuItem();
@@ -1067,6 +1072,13 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             .addGap(0, 192, Short.MAX_VALUE)
         );
 
+        lockedButton.setText("Lock/Unlock");
+        lockedButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lockedButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout rightSidePanelLayout = new javax.swing.GroupLayout(rightSidePanel);
         rightSidePanel.setLayout(rightSidePanelLayout);
         rightSidePanelLayout.setHorizontalGroup(
@@ -1081,7 +1093,10 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                     .addGroup(rightSidePanelLayout.createSequentialGroup()
                         .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(tablePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(chatPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(rightSidePanelLayout.createSequentialGroup()
+                                .addComponent(chatPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lockedButton))
                             .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 1, Short.MAX_VALUE))))
         );
@@ -1097,9 +1112,15 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                 .addComponent(tablePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(chatPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(rightSidePanelLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(chatPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(rightSidePanelLayout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(lockedButton)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         tablePanel.getAccessibleContext().setAccessibleName("");
@@ -1384,19 +1405,33 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
 
     
     private void playerHandPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseClicked
-        handMouseCoorX = evt.getPoint().x;
-	handMouseCoorY = evt.getPoint().y;        
-        gameGui.mouseClickedCard(handMouseCoorX,handMouseCoorY); 
-        setActionButtonText();  //when card is selected set the buttons
-        repaint();
-        if(game.getPhase()==Game.DISCARD)
-            setActionButtonText();  //if selection was done discard button should be visible
-        
-        if(ad!=null&&game.getPhase()==Game.COMBAT&&(game.getCombat().getState()==Combat.PICK_DEFENSE_CARDS)){
-            ad.setNrOfChosenCards(game.getCardCommandFactory().getPickedDefendingCards().size());
-            ad.revalidate();
-            //ad.repaint();
-        }
+        if(!game.isLocked()){
+            handMouseCoorX = evt.getPoint().x;
+            handMouseCoorY = evt.getPoint().y;        
+            gameGui.mouseClickedCard(handMouseCoorX,handMouseCoorY); 
+            setActionButtonText();  //when card is selected set the buttons
+            repaint();
+            if(game.getPhase()==Game.DISCARD)
+                setActionButtonText();  //if selection was done discard button should be visible
+
+            if(ad!=null&&game.getPhase()==Game.COMBAT&&(game.getCombat().getState()==Combat.PICK_DEFENSE_CARDS)){
+                game.getCombat().setDefenceCards(game.getCardCommandFactory().getPickedDefendingCards());
+                game.getCombat().calculateCombatValues();
+                ad.setDeffensivePoints();
+                ad.setNrOfChosenCards(game.getCardCommandFactory().getPickedDefendingCards().size());
+
+                ad.revalidate();
+                //ad.repaint();
+            }
+            if(sd!=null&&game.getPhase()==Game.COMBAT&&(game.getCombat().getState()==Combat.PICK_SUPPORTING_CARDS)){
+                game.getCombat().setAttackCards(game.getCardCommandFactory().getAttackingCards());
+                game.getCombat().calculateCombatValues();
+                sd.setNrOfChosenCards(game.getCardCommandFactory().getPickedDefendingCards().size());
+                sd.setAttackPoints();
+                sd.revalidate();
+                //ad.repaint();
+            }
+        }else lockedButton.setText("LOCKED");
     }//GEN-LAST:event_playerHandPanelMouseClicked
 
     private void playerHandPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseEntered
@@ -1410,30 +1445,32 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     }//GEN-LAST:event_playerHandPanelMouseExited
 
     private void playerHandPanelMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseMoved
-                int deafband=20; //repaint after mouse change of
-                int repaintAddedArea=20;//refreash little more than just the sqare
-                 final int CURR_X = playerHandPanel.getX();
-                 final int CURR_Y = playerHandPanel.getY();
-                 final int CURR_W = playerHandPanel.getWidth()+repaintAddedArea;
-                 final int CURR_H = playerHandPanel.getHeight()+3*repaintAddedArea;
-                handMouseCoorX = evt.getPoint().x;
-		handMouseCoorY = evt.getPoint().y;
+    if(!game.isLocked()){
+        int deafband=20; //repaint after mouse change of
+        int repaintAddedArea=20;//refreash little more than just the sqare
+         final int CURR_X = playerHandPanel.getX();
+         final int CURR_Y = playerHandPanel.getY();
+         final int CURR_W = playerHandPanel.getWidth()+repaintAddedArea;
+         final int CURR_H = playerHandPanel.getHeight()+3*repaintAddedArea;
+        handMouseCoorX = evt.getPoint().x;
+        handMouseCoorY = evt.getPoint().y;
+
+        gameGui.setMouseOverCard(handMouseCoorX, handMouseCoorY);
+        if(abs(handMouseCoorX-handMouseCoorXdeaf)>deafband){  //change repainting step
+            handMouseCoorXdeaf=handMouseCoorX;
+            //repaint(CURR_X, CURR_Y, CURR_W, CURR_H);
+            repaint();
+        }
+
+        if(abs(handMouseCoorY-handMouseCoorYdeaf)>deafband){
+            handMouseCoorYdeaf=handMouseCoorY; 
+           // repaint(CURR_X, CURR_Y, CURR_W, CURR_H);
+           repaint();
+        }
+        //System.out.println("x:" + handMouseCoorX + " y:"+handMouseCoorY);
+                
+    }else lockedButton.setText("LOCKED");
     
-                gameGui.setMouseOverCard(handMouseCoorX, handMouseCoorY);
-                if(abs(handMouseCoorX-handMouseCoorXdeaf)>deafband){  //change repainting step
-                    handMouseCoorXdeaf=handMouseCoorX;
-                    //repaint(CURR_X, CURR_Y, CURR_W, CURR_H);
-                    repaint();
-                }
-              
-                if(abs(handMouseCoorY-handMouseCoorYdeaf)>deafband){
-                    handMouseCoorYdeaf=handMouseCoorY; 
-                   // repaint(CURR_X, CURR_Y, CURR_W, CURR_H);
-                   repaint();
-                }
-                //System.out.println("x:" + handMouseCoorX + " y:"+handMouseCoorY);
-                
-                
     }//GEN-LAST:event_playerHandPanelMouseMoved
 
     private void mainMapPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainMapPanelMouseClicked
@@ -1442,7 +1479,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         If current player is active and have unlocked gui can move - else we lock interface
         */
         
-        if( game.getCurrentPlayer().isActive() && ! gameGui.isLocked() || game.getPhase() == Game.SETUP )
+        if( game.getCurrentPlayer().isActive() && ! game.isLocked() || game.getPhase() == Game.SETUP )
         {
         int x = evt.getPoint().x;
         int y = evt.getPoint().y;
@@ -1868,7 +1905,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             */
             if(!game.getOpponentPlayer().isFinishedSetup()  && game.getCurrentPlayer().isActive())
             {
-                gameGui.lockGUI();
+                game.lockGUI();
             
             }
             
@@ -2293,6 +2330,17 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
        
                                         
     }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void lockedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lockedButtonActionPerformed
+     if(game.isLocked()){
+          game.unlockGUI();
+          lockedButton.setText("UNLOCKED");
+     }else{
+         game.lockGUI();
+          lockedButton.setText("LOCKED");
+     }
+       
+    }//GEN-LAST:event_lockedButtonActionPerformed
  
 //    public void clientSend(Message message){
 //        clOTRegroup.JPGient.send(gameGui.discardSelCards());
@@ -2389,6 +2437,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     private javax.swing.JPanel jPanel2;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JToggleButton lockedButton;
     private javax.swing.JPanel mainMapPanel;
     private javax.swing.JPanel mainWindowPanel;
     private javax.swing.JPanel opoPlayerFlag;

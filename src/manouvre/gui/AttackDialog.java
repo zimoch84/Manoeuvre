@@ -138,10 +138,10 @@ public class AttackDialog extends javax.swing.JFrame {
           
            nrOfDefendingCardsTxt.setText(Integer.toString(numberOfAvailableDeffendingCards));
     }
-     private void setAttackPoints(){
+     public void setAttackPoints(){
            attackTxt.setText(Integer.toString(game.getCombat().getAttackValue()));
     }
-      private void setDeffensivePoints(){
+      public void setDeffensivePoints(){
            defenceTxt.setText(Integer.toString(game.getCombat().getDefenceValue()));
     }
     private void setWithdrawButtonVisibility()

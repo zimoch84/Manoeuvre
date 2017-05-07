@@ -37,7 +37,7 @@ public class CardCommandFactory extends Observable implements Serializable{
      
     Card playingCard, opponentCard;
     
-    ArrayList<Card> attackingCards;
+    ArrayList<Card> pickedAttackingCards;
    
     ArrayList<Position> attackingPositions;
     ArrayList<Card> pickedDefendingCards=new ArrayList<>();
@@ -112,7 +112,9 @@ public class CardCommandFactory extends Observable implements Serializable{
     }
 
     public Command getAttachedCommand() {
+        if(attachedCommand!=null)
         return attachedCommand;
+        return (Command)null;
     }
 
     public void setAttachedCommand(Command attachedCommand) {
@@ -120,7 +122,9 @@ public class CardCommandFactory extends Observable implements Serializable{
     }
 
     public Card getOpponentCard() {
+        if(opponentCard!=null)
         return opponentCard;
+        return (Card)null;
     }
 
     public void setOpponentCard(Card opponentCard) {
@@ -305,17 +309,17 @@ public class CardCommandFactory extends Observable implements Serializable{
     }
 
     public ArrayList<Card> getAttackingCards() {
-        return attackingCards;
+        return pickedAttackingCards;
     }
 
     public void setAttackingCards(ArrayList<Card> attackingCards) {
-        this.attackingCards = attackingCards;
+        this.pickedAttackingCards = attackingCards;
     }
      public void addPickedAttackingCard(Card card) {
-        this.attackingCards.add(card);
+        this.pickedAttackingCards.add(card);
     }
      public void removePickedAttackingCard(Card card) {
-        this.attackingCards.remove(card);
+        this.pickedAttackingCards.remove(card);
     }
 
     void prepareDices(ArrayList<Card> attackingCards){

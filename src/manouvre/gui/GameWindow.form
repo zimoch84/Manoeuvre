@@ -461,7 +461,11 @@
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="tablePanel" min="-2" max="-2" attributes="0"/>
-                                  <Component id="chatPanel" min="-2" pref="276" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Component id="chatPanel" min="-2" pref="276" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="lockedButton" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                                   <Component id="buttonsPanel" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="0" pref="1" max="32767" attributes="0"/>
@@ -484,9 +488,18 @@
                       <Component id="tablePanel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="buttonsPanel" min="-2" pref="128" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="chatPanel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="chatPanel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+                              <Component id="lockedButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1055,6 +1068,14 @@
                 </DimensionLayout>
               </Layout>
             </Container>
+            <Component class="javax.swing.JToggleButton" name="lockedButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Lock/Unlock"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lockedButtonActionPerformed"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
       </SubComponents>
