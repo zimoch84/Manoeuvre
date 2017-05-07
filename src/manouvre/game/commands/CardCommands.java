@@ -573,6 +573,9 @@ public class CardCommands {
             /*
             Set cardFactorywith dices
             */
+            game.getTablePile().clear();
+            game.getTablePileDefPart().clear();
+            
             if(game.getCurrentPlayer().getName().equals(senderPlayerName))
             {
                 td.execute(game);

@@ -5,6 +5,7 @@
  */
 package manouvre.game;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import manouvre.game.interfaces.DiceInterface;
 
@@ -13,7 +14,7 @@ import manouvre.game.interfaces.DiceInterface;
  * @author Piotr
  * Class to descrie flow and calculation of combat
  */
-public class Combat {
+public class Combat implements Serializable{
     
     /*
     Combat TYPE
@@ -60,9 +61,6 @@ public class Combat {
     
     ArrayList<Unit> supportingUnits;
     int combatType;
-    public Combat(){
-        this.state=COMBAT_NOT_INITIALIZED;
-    }
 
     public Combat(int combatType, Unit attackingUnit, Card attackCard,Terrain attackTerrain, Unit defendingUnit, Terrain defenseTerrain) {
         
