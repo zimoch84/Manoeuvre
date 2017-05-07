@@ -736,6 +736,7 @@ public class GameGUI {
                 { //select card if it is playable
                     if(!cardClicked.isSelected()) {//if not selected
                         cardClicked.setSelected(true);
+                        
                         if(game.getPhase()==Game.MOVE||(game.getPhase()==Game.COMBAT
                                 &&( game.getCombat()!= null ? (game.getCombat().getState()==Combat.ATTACKER_CHOSES) : false) 
                                 )
@@ -776,10 +777,14 @@ public class GameGUI {
                         cardClicked.setSelected(false);
                         Integer j=cardClicked.getCardID();
                         selectionSeq.remove(j); //remove number Integer j, not position int i
-                        if (game.getPhase()==Game.COMBAT&&(game.getCombat().getState()==Combat.PICK_DEFENSE_CARDS)){
+                        if (game.getPhase()==Game.COMBAT&&(
+                                
+                                (game.getCombat() != null ? (game.getCombat().getState()==Combat.PICK_DEFENSE_CARDS) : false))){
                             game.getCardCommandFactory().removePickedDefendingCard(cardClicked);
                         }
-                        else if (game.getPhase()==Game.COMBAT&&(game.getCombat().getState()==Combat.PICK_SUPPORT_UNIT)){//during support
+                        else if (game.getPhase()==Game.COMBAT&&(
+                                
+                                (game.getCombat()!= null ? (game.getCombat().getState()==Combat.PICK_SUPPORT_UNIT) : false))){//during support
                             game.getCardCommandFactory().removePickedAttackingCard(cardClicked);
                         }
                     }
@@ -788,6 +793,8 @@ public class GameGUI {
                      "Wrong Action", JOptionPane.OK_OPTION); 
         }
     }
+    
+
     
     private void triggerCardActionOnSelection(Card playingCard){
     
