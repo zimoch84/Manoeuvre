@@ -541,7 +541,7 @@ public class Card implements CardInterface, Serializable{
                 /*
                 Not unit
                 */
-              if(isHQCard())
+              if(isHQCard()){
                   /*
                   And not these cards
                   */
@@ -549,10 +549,11 @@ public class Card implements CardInterface, Serializable{
                      && getHQType() != Card.REGROUP
                      && getHQType() != Card.SKIRMICH
                      && getHQType()  != Card.WITHDRAW
-                   )
+                    )
                           
                         return true;
-                else return false;
+              }
+              else return false;
               
 //               case Game.COMBAT:  
 //                 if(  getHQType() != Card.REDOUBDT  
