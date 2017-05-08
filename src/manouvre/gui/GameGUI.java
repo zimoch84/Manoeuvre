@@ -777,6 +777,7 @@ public class GameGUI {
                             {
                                 if(game.getCombat().getState()!=stateTemp){  //reset selection if state was changing
                                 selectionSeq.clear();
+                                game.getCardCommandFactory().setPlayingCard(null);
                                 stateTemp=game.getCombat().getState();
                                 }  
                             switch(game.getCombat().getState())
