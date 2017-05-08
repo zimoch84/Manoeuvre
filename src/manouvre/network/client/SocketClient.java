@@ -242,14 +242,17 @@ public class SocketClient implements Runnable, ClientInterface{
                                     if(currentPlayer.isHost() )
                                     { 
                                         clientGame = new GameWindow( game , SocketClient.this,  CreateRoomWindow.AS_HOST );
+                                        setActiveWindow(clientGame);
                                     }
                                     else 
                                     { 
                                         clientGame = new GameWindow( game, SocketClient.this,  CreateRoomWindow.AS_GUEST );
+                                        setActiveWindow(clientGame);
                                     }
 
                                     clientGame.setVisible(true);
                                     roomWindow.setVisible(false);
+                                    mainChat.setVisible(false);
                                 } catch (IOException  ex) {
                                         keepRunning = false;
                                         System.out.println("SocketClient.run() invoke GameWindow IOException" + ex);

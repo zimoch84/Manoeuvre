@@ -81,21 +81,26 @@ public class Terrain  implements TerrainInterface, Serializable {
         return type;
     }
 
+    public String getTypeToString() {
+        String out ="";
+        switch (type){
+            case Terrain.CITY : out=  out + "City" ; break;
+            case Terrain.CLEAR: out = out + "Clear";break;
+            case Terrain.FIELDS: out = out + "Fields"; break;
+            case Terrain.FOREST : out=  out + "Forest" ; break;
+            case Terrain.HILL: out = out + "Hill"; break;
+            case Terrain.LAKE: out = out + "Lake"; break;
+            case Terrain.MARSH: out = out + "Marsh"; break;
+            default: out = out + " No definition " ;
+        }
+        return out;
+    }
+    
      @Override
     public String toString(){
     
         String out;
-        out = "Terrain Type:";
-        switch (type){
-            case Terrain.CITY : out=  out + " City" ; break;
-            case Terrain.CLEAR: out = out + " Clear";break;
-            case Terrain.FIELDS: out = out + " Fields"; break;
-            case Terrain.FOREST : out=  out + " Forest" ; break;
-            case Terrain.HILL: out = out + " Hill"; break;
-            case Terrain.LAKE: out = out + " Lake"; break;
-            case Terrain.MARSH: out = out + " Marsh"; break;
-            default: out = out + " No definition " ;
-        }
+        out = "Terrain Type: " + getTypeToString();
         return out;
             
             

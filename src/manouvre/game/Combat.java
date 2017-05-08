@@ -262,7 +262,7 @@ public class Combat implements Serializable{
         this.attackValue = attackValue;
     }
 
-   public int getOutcome()
+    public int getOutcome()
    {
    switch(getCombatType()){
    
