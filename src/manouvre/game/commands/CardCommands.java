@@ -19,6 +19,7 @@ import manouvre.game.Unit;
 import manouvre.game.interfaces.CardCommandInterface;
 import manouvre.game.interfaces.Command;
 import manouvre.gui.CustomDialog;
+import manouvre.network.server.UnoptimizedDeepCopy;
 
 /**
  *
@@ -294,10 +295,12 @@ public class CardCommands {
         public void execute(Game game) {
             
            moveToTableCommand.execute(game);
-            
-           game.setCombat(combat);
+           combat.setState(Combat.PICK_DEFENSE_CARDS);
+           Combat cloneCombat = (Combat) UnoptimizedDeepCopy.copy (combat);
+
+           game.setCombat(cloneCombat);
            //now is the time for opponent to choose defensive cards
-           game.getCombat().setState(Combat.PICK_DEFENSE_CARDS);
+           
            game.getCardCommandFactory().setAttackedUnit(attackedUnit);
            if(game.getCurrentPlayer().getName().equals(senderPlayerName)){
                   game.lockGUI(); 
@@ -514,7 +517,9 @@ public class CardCommands {
             /*
             If we dont have no card
             */
-            game.setCombat(combat);
+            Combat cloneCombat = (Combat) UnoptimizedDeepCopy.copy (combat);
+            
+            game.setCombat(cloneCombat);
             game.getCombat().setState(Combat.PICK_SUPPORTING_CARDS);
             switch(combatType) {
                 
