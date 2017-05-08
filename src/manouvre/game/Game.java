@@ -818,9 +818,11 @@ public final class Game implements Serializable{
 
     public void lockGUI() {
     this.lockGUI = true;
+    this.currentPlayer.getName();
     }
     public void unlockGUI(){
     this.lockGUI = false;
+     this.currentPlayer.getName();
     }
 }
 

@@ -274,7 +274,7 @@ public class SocketClient implements Runnable, ClientInterface{
                     */
                     clientGame.cmdQueue.storeAndExecute(executeCommand);
                     
-                    clientGame.checkPopUps();
+                  //  clientGame.checkPopUps();
                    
                     /*
                         Show command desc in console in game;

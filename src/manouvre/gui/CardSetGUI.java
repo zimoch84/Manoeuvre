@@ -16,9 +16,9 @@ import manouvre.game.CardSet;
  * @author Bartosz
  */
 
-public class CardSetGUI {
+    public class CardSetGUI {
    
-    
+   
     ArrayList<CardGUI> cardListGui = new ArrayList<CardGUI>();  
     CardSet cardSet;  //decide which cardSet shall be processed
    // CardGUI backCover;
@@ -48,7 +48,7 @@ public class CardSetGUI {
        cardListGui.add(i, new CardGUI(cardSet.getCardByPosInSet(i)));
        }
     }
-    public void getAllCardsImg(){
+    public void getAllCardsImg( ){
         for(int i=0; i<cardListGui.size(); i++){
            System.out.println("Card " +i+": " + cardListGui.get(i).imgFull);     
         }

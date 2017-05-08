@@ -47,11 +47,11 @@ public class CardCommandFactory extends Observable implements Serializable{
      
     Card playingCard, opponentCard;
     
-    ArrayList<Card> pickedAttackingCards;
+    ArrayList<Card> pickedAttackingCards=new ArrayList<>();;
    
     ArrayList<Position> attackingPositions;
     ArrayList<Card> pickedDefendingCards=new ArrayList<>();
-    ArrayList<Card> pickedSupportingCards=new ArrayList<>();
+//    ArrayList<Card> pickedSupportingCards=new ArrayList<>();
     
     Unit selectedUnit, attackedUnit;
     

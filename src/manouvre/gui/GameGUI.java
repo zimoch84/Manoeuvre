@@ -54,7 +54,7 @@ public class GameGUI {
     CardSetGUI drawSetGui;
     CardSetGUI tableSetGui,tableSetGuiDefPart;
     
-    
+    int stateTemp=0;
     BufferedImage  infoImage;
      CardCommandFactory cardFactory;
     /*
@@ -738,6 +738,7 @@ public class GameGUI {
         else System.err.println("CARD IS NOT SELECTED - check GameGui.java method: keepOneSelectedCard");
     }
     public void mouseClickedCard(int mouseX, int mouseY){
+       
         Card cardClicked=getCardFromMousePosition(mouseX,mouseY);
         if(cardClicked!=null)
         {
@@ -768,6 +769,10 @@ public class GameGUI {
                     */
                     else if (game.getPhase()==Game.COMBAT &&(game.getCombat()!= null))
                             {
+                                if(game.getCombat().getState()!=stateTemp){  //reset selection if state was changing
+                                selectionSeq.clear();
+                                stateTemp=game.getCombat().getState();
+                                }  
                             switch(game.getCombat().getState())
                                 {
 
@@ -777,7 +782,7 @@ public class GameGUI {
                                 selectionSeq.add((Integer)cardClicked.getCardID()); 
                                 break;
                                 }
-                                case Combat.PICK_SUPPORT_UNIT:
+                                case Combat.PICK_SUPPORTING_CARDS:
                                 {
                                 game.getCardCommandFactory().addPickedAttackingCard(cardClicked);
                                 selectionSeq.add((Integer)cardClicked.getCardID()); 
@@ -935,7 +940,7 @@ public class GameGUI {
             g.fillPolygon(xPoints, yPoints, 3);
             if(game.getPhase()==Game.COMBAT&&(
                     (game.getCombat() != null ?
-                    ( game.getCombat().getState()==Combat.PICK_DEFENSE_CARDS ): false))){  //put triangle under all selected in Defence mode
+                    ( game.getCombat().getState()==Combat.PICK_DEFENSE_CARDS||game.getCombat().getState()==Combat.PICK_SUPPORTING_CARDS): false))){  //put triangle under all selected in Defence mode
                 for(int s=0; s<selectionSeq.size()-1; s++){
                     j=selectionSeq.get(s);              
                     j=handSetGui.getPositionInSetByCardID(j); 

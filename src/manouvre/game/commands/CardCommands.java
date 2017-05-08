@@ -41,10 +41,11 @@ public class CardCommands {
                 Card movingCard = game.getPlayerByName(senderPlayerName).getHand().getCardByCard(card);
                 game.getTablePile().addCardToThisSet(movingCard);// Put cards on own table
                 game.getPlayerByName(senderPlayerName).getHand().drawCardFromSet(movingCard);//remove cards from own hand
-                
+                 game.swapActivePlayer();
                 if (game.getCurrentPlayer().getName().equals(senderPlayerName)) {
-                    //do nothing
+                    game.lockGUI();
                 } else {
+                     game.unlockGUI();
                     game.getCardCommandFactory().setOpponentCard(movingCard);
                 }
                 //repaint is made by CommandQueue
@@ -299,14 +300,16 @@ public class CardCommands {
            //now is the time for opponent to choose defensive cards
            game.getCombat().setState(Combat.PICK_DEFENSE_CARDS);
            game.getCardCommandFactory().setAttackedUnit(attackedUnit);
-           
-           if(!game.getCurrentPlayer().getName().equals(senderPlayerName)){
+           if(game.getCurrentPlayer().getName().equals(senderPlayerName)){
+                  game.lockGUI(); 
+               
+           }else{
                game.getCardCommandFactory().setOpponentCard(attackingCard);
                game.getCardCommandFactory().awakeObserver();
                game.getCardCommandFactory().notifyObservers(CardCommandFactory.ATTACK_DIALOG);
-               game.unlockGUI();
                
-           }else{
+               game.unlockGUI();
+            
            }
           
 
@@ -498,8 +501,10 @@ public class CardCommands {
         ArrayList<Card> defendCards;
         String senderPlayerName;
         int combatType;
+        Combat combat;
 
-        public DefendCommand(int combatType, ArrayList<Card> defendCards, String senderPlayerName) {
+        public DefendCommand(int combatType, ArrayList<Card> defendCards, String senderPlayerName, Combat combat) {
+            this.combat=combat;
             this.combatType = combatType;
             this.defendCards = defendCards;
             this.senderPlayerName = senderPlayerName;
@@ -510,6 +515,9 @@ public class CardCommands {
             /*
             If we dont have no card
             */
+            game.setCombat(combat);
+            game.getCombat().setState(Combat.PICK_SUPPORTING_CARDS);
+            game.swapActivePlayer();
             switch(combatType) {
                 
                 case  Combat.BOMBARD : {

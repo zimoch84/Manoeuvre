@@ -54,6 +54,30 @@ import static java.lang.Math.abs;
 import static java.lang.Math.abs;
 import static java.lang.Math.abs;
 import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
 
 
 
@@ -90,7 +114,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     
     private Image bgImage;
    
-    AttackDialog ad;
+    DefendDialog dd;
     SupportDialog sd;
     
     public CommandQueue cmdQueue;
@@ -191,14 +215,14 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
 
                Combat combat = game.getCombat();
                
-               Command defendCommand = new CardCommands.DefendCommand(combat.getCombatType(), combat.getDefenceCards(), game.getCurrentPlayer().getName());
+               Command defendCommand = new CardCommands.DefendCommand(combat.getCombatType(), game.getCardCommandFactory().getPickedDefendingCards(), game.getCurrentPlayer().getName(), game.getCombat());
                
-               ad = new AttackDialog(combat, client, cmdQueue, game);
+               dd = new DefendDialog(combat, client, cmdQueue, game);
                
               
-               ad.setOkCommand(defendCommand);
+               dd.setOkCommand(defendCommand);
                
-               ad.setVisible(true);
+               dd.setVisible(true);
                break;
                
            }
@@ -213,7 +237,8 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                Create puruit dialog
                */
                
-               CustomDialog cd = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Defending unit has withdrawn");
+               CustomDialog cd = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "BATTLE RESOULT: \n"
+                       + "Attack: " + game.getCombat().getAttackValue()+" vs Deffence: "+ game.getCombat().getDefenceValue() + "Defending unit has withdrawn");
                break;
                
            }
@@ -247,7 +272,8 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            case CardCommandFactory.COMBAT_NO_RESULT:
            {
  
-           CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Combat ends with no result");
+           CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "BATTLE RESOULT: \n"
+                       + "Attack: " + game.getCombat().getAttackValue()+" vs Deffence: "+ game.getCombat().getDefenceValue() + "\n No result");
            
            break;
            }
@@ -255,21 +281,24 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            case CardCommandFactory.COMBAT_DEFENDER_TAKES_HIT:
            {
  
-           CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Unit " + game.getCardCommandFactory().getAttackedUnit().getName() +  "takes 1 hit");
+           CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "BATTLE RESOULT: \n"
+                       + "Attack: " + game.getCombat().getAttackValue()+" vs Deffence: "+ game.getCombat().getDefenceValue() + "\n Unit " + game.getCardCommandFactory().getAttackedUnit().getName() +  "takes 1 hit");
            break;
            }
            
            case CardCommandFactory.COMBAT_ATTACKER_TAKES_HIT:
            {
  
-           CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Unit " + game.getCombat().getAttackingUnit().getName() +  "takes 1 hit");
+           CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "BATTLE RESOULT: \n"
+                       + "Attack: " + game.getCombat().getAttackValue()+" vs Deffence: "+ game.getCombat().getDefenceValue() + "\n Unit " + game.getCombat().getAttackingUnit().getName() +  "takes 1 hit");
            break;
            }
            
            case CardCommandFactory.COMBAT_ATTACKER_ELIMINATE:
            {
  
-           CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Unit " + game.getCombat().getAttackingUnit().getName() +  "is eliminated");
+           CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "BATTLE RESOULT: \n"
+                       + "Attack: " + game.getCombat().getAttackValue()+" vs Deffence: "+ game.getCombat().getDefenceValue() + "\n Unit " + game.getCombat().getAttackingUnit().getName() +  "is eliminated");
            break;
            }
            
@@ -277,7 +306,8 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            case CardCommandFactory.COMBAT_DEFENDER_ELIMINATE:
            {
  
-           CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Unit " + game.getCardCommandFactory().getAttackedUnit().getName() + "is eliminated");
+           CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "BATTLE RESOULT: \n"
+                       + "Attack: " + game.getCombat().getAttackValue()+" vs Deffence: "+ game.getCombat().getDefenceValue() + "\n Unit " + game.getCardCommandFactory().getAttackedUnit().getName() + "is eliminated");
            break;
            }
            
@@ -339,28 +369,28 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         gameGui.resetAllCardSets();
         
     }
-    public void  checkPopUps(){ 
-        
-            
-//show popup if card cen be cancelled
-        if(game.getCardCommandFactory().getPlayingCard()!=null){
-            if(game.getCardCommandFactory().getPlayingCard().getCanBeCancelled()){
-                Command rejectCard = game.getCardCommandFactory().createRejectCardCommand();
-                Command doNotRejectCard = game.getCardCommandFactory().createDoNotRejectCardCommand();
-                if(game.getCurrentPlayer().getHand().getCardByName("Guerrillas", false)!=null){//if player has Guerrillas
-                    CustomDialog dialog = new CustomDialog(CustomDialog.YES_NO_TYPE, game.getCurrentPlayer().getName()+" Your enemy played this card, will you reject?", cmdQueue, game);
-                    game.getCardCommandFactory().getPlayingCard().setCanBeCanceled(false);
-                    dialog.setOkCommand(rejectCard);
-                    dialog.setCancelCommand(doNotRejectCard);
-                } else{
-                    CustomDialog dialog = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, game.getCurrentPlayer().getName()+" Your enemy played this card, you can not reject..", cmdQueue, game);
-                    game.getCardCommandFactory().getPlayingCard().setCanBeCanceled(false);
-                    dialog.setOkCommand(doNotRejectCard);
-                    rejectCard=null;
-                }
-            }
-        }
-    }
+//    public void  checkPopUps(){ 
+//        
+//            
+////show popup if card cen be cancelled
+//        if(game.getCardCommandFactory().getPlayingCard()!=null){
+//            if(game.getCardCommandFactory().getPlayingCard().getCanBeCancelled()){
+//                Command rejectCard = game.getCardCommandFactory().createRejectCardCommand();
+//                Command doNotRejectCard = game.getCardCommandFactory().createDoNotRejectCardCommand();
+//                if(game.getCurrentPlayer().getHand().getCardByName("Guerrillas", false)!=null){//if player has Guerrillas
+//                    CustomDialog dialog = new CustomDialog(CustomDialog.YES_NO_TYPE, game.getCurrentPlayer().getName()+" Your enemy played this card, will you reject?", cmdQueue, game);
+//                    game.getCardCommandFactory().getPlayingCard().setCanBeCanceled(false);
+//                    dialog.setOkCommand(rejectCard);
+//                    dialog.setCancelCommand(doNotRejectCard);
+//                } else{
+//                    CustomDialog dialog = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, game.getCurrentPlayer().getName()+" Your enemy played this card, you can not reject..", cmdQueue, game);
+//                    game.getCardCommandFactory().getPlayingCard().setCanBeCanceled(false);
+//                    dialog.setOkCommand(doNotRejectCard);
+//                    rejectCard=null;
+//                }
+//            }
+//        }
+//    }
     
     private void setActionButtonText(){
         /*
@@ -701,6 +731,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         }
         ;
         lockedButton = new javax.swing.JToggleButton();
+        lockedButton1 = new javax.swing.JToggleButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         FindCard = new javax.swing.JMenuItem();
@@ -1145,6 +1176,13 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             }
         });
 
+        lockedButton1.setText("Active/NotActive");
+        lockedButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lockedButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout rightSidePanelLayout = new javax.swing.GroupLayout(rightSidePanel);
         rightSidePanel.setLayout(rightSidePanelLayout);
         rightSidePanelLayout.setHorizontalGroup(
@@ -1162,7 +1200,9 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                             .addGroup(rightSidePanelLayout.createSequentialGroup()
                                 .addComponent(chatPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lockedButton))
+                                .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lockedButton)
+                                    .addComponent(lockedButton1)))
                             .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 1, Short.MAX_VALUE))))
         );
@@ -1180,12 +1220,14 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                 .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(rightSidePanelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                         .addComponent(chatPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(rightSidePanelLayout.createSequentialGroup()
                         .addGap(3, 3, 3)
                         .addComponent(lockedButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lockedButton1)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
@@ -1262,6 +1304,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         });
         jMenu1.add(checkLos);
 
+        jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("freeMove");
         jMenu1.add(jCheckBoxMenuItem1);
 
@@ -1480,27 +1523,29 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             if(game.getPhase()==Game.DISCARD)
                 setActionButtonText();  //if selection was done discard button should be visible
 
-            if(ad!=null&&game.getPhase()==Game.COMBAT&&(game.getCombat()!=null)){
+            if(dd!=null&&game.getPhase()==Game.COMBAT&&(game.getCombat()!=null)){
                 switch(game.getCombat().getState()){
                     case Combat.PICK_DEFENSE_CARDS:{
                         game.getCombat().setDefenceCards(game.getCardCommandFactory().getPickedDefendingCards());
                         game.getCombat().calculateCombatValues();
-                        ad.setDeffensivePoints();
-                        ad.setNrOfChosenCards(game.getCardCommandFactory().getPickedDefendingCards().size());
+                        dd.setDeffensivePoints();
+                        dd.setNrOfChosenCards(game.getCardCommandFactory().getPickedDefendingCards().size());
 
-                        ad.revalidate();
+                        dd.revalidate();
                         //ad.repaint();
+                        break;
                      }
                     case Combat.PICK_SUPPORTING_CARDS:{
                         game.getCombat().setAttackCards(game.getCardCommandFactory().getAttackingCards());
                         game.getCombat().calculateCombatValues();
-                        sd.setNrOfChosenCards(game.getCardCommandFactory().getPickedDefendingCards().size());
+                        sd.setNrOfChosenCards(game.getCardCommandFactory().getAttackingCards().size());
                         sd.setAttackPoints();
                         sd.revalidate();
                         //ad.repaint();
+                        break;
                     }
                 }   
-            }else lockedButton.setText("LOCKED");
+            }
         }
     }//GEN-LAST:event_playerHandPanelMouseClicked
 
@@ -1539,9 +1584,11 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            repaint();
         }
         //System.out.println("x:" + handMouseCoorX + " y:"+handMouseCoorY);
-                
+        lockedButton.setText("UNLOCKED");        
     }else lockedButton.setText("LOCKED");
     
+    if(game.getCurrentPlayer().isActive()) lockedButton1.setText("ACTIVE"); 
+    else lockedButton1.setText("NOTACTIVE"); 
     }//GEN-LAST:event_playerHandPanelMouseMoved
 
     private void mainMapPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainMapPanelMouseClicked
@@ -1759,6 +1806,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     /*
         Confirmation dialog
         */
+       // game.lockGUI();
         CustomDialog dialog = 
                 new CustomDialog(CustomDialog.YES_NO_TYPE, 
                         "Are You sure to play that card? " ,
@@ -2472,6 +2520,16 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
      }
        
     }//GEN-LAST:event_lockedButtonActionPerformed
+
+    private void lockedButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lockedButton1ActionPerformed
+         if(game.getCurrentPlayer().isActive()){
+         game.getCurrentPlayer().setActive(false);
+          lockedButton.setText("UNACTIVE");
+     }else{
+         game.getCurrentPlayer().setActive(true);
+          lockedButton.setText("ACTIVE");
+     }
+    }//GEN-LAST:event_lockedButton1ActionPerformed
  
 //    public void clientSend(Message message){
 //        clOTRegroup.JPGient.send(gameGui.discardSelCards());
@@ -2569,6 +2627,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToggleButton lockedButton;
+    private javax.swing.JToggleButton lockedButton1;
     private javax.swing.JPanel mainMapPanel;
     private javax.swing.JPanel mainWindowPanel;
     private javax.swing.JPanel opoPlayerFlag;

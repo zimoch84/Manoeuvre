@@ -322,7 +322,9 @@ public class Card implements CardInterface, Serializable{
 
     public int getUnitDefence() {
         if(!UnitDefense.equals(""))
-        return Integer.parseInt(UnitDefense);
+            return Integer.parseInt(UnitDefense);
+        else if(!LederCombat.equals("")) 
+           return Integer.parseInt(LederCombat);
         else return 99;
     }
 
@@ -564,7 +566,7 @@ public class Card implements CardInterface, Serializable{
                  Popraw to
                  */
             case Game.COMBAT: 
-                if(!game.isLocked()){
+                {
                     if(
                          (game.getCombat() != null ? (game.getCombat().getState()==Combat.INITIALIZING_COMBAT) : false) &&  //at the start of the battle
                          (getHQType() != Card.REDOUBDT  

@@ -14,6 +14,7 @@ import manouvre.gui.CommandLogger;
 import manouvre.gui.GameWindow;
 import manouvre.game.interfaces.Command;
 import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
 
 /**
  *
@@ -85,7 +86,7 @@ class HostClient implements ClientInterface , Runnable{
             
                     Command executeCommand = msgIn.getCommand();
                     clientGameHost.cmdQueue.storeAndExecute(executeCommand);
-                    clientGameHost.checkPopUps();
+                   // clientGameHost.checkPopUps();
                     break;
         default:
              System.out.println("Host Client" + msgIn.toString()) ;
