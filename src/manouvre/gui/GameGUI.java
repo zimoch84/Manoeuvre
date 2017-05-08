@@ -738,7 +738,7 @@ public class GameGUI {
         else System.err.println("CARD IS NOT SELECTED - check GameGui.java method: keepOneSelectedCard");
     }
     public void mouseClickedCard(int mouseX, int mouseY){
-       
+        
         Card cardClicked=getCardFromMousePosition(mouseX,mouseY);
         if(cardClicked!=null)
         {
@@ -782,16 +782,20 @@ public class GameGUI {
                             switch(game.getCombat().getState())
                                 {
                                     case Combat.PICK_SUPPORTING_CARDS:
-                                    {
-                                        game.getCardCommandFactory().addPickedAttackingCard(cardClicked);
-                                        selectionSeq.add((Integer)cardClicked.getCardID()); 
-                                        break;
+                                    {   
+                                        if(game.getCurrentPlayer().isActive()){
+                                            game.getCardCommandFactory().addPickedAttackingCard(cardClicked);
+                                            selectionSeq.add((Integer)cardClicked.getCardID()); 
+                                            break;
+                                        }
                                     }
                                     case Combat.PICK_DEFENSE_CARDS:
                                     {
-                                        game.getCardCommandFactory().addPickedDefendingCard(cardClicked);
-                                        selectionSeq.add((Integer)cardClicked.getCardID()); 
-                                        break;
+                                        if(!game.getCurrentPlayer().isActive()){
+                                            game.getCardCommandFactory().addPickedDefendingCard(cardClicked);
+                                            selectionSeq.add((Integer)cardClicked.getCardID()); 
+                                            break;
+                                        }
                                     }
                                
                                 }

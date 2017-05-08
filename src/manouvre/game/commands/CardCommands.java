@@ -41,7 +41,6 @@ public class CardCommands {
                 Card movingCard = game.getPlayerByName(senderPlayerName).getHand().getCardByCard(card);
                 game.getTablePile().addCardToThisSet(movingCard);// Put cards on own table
                 game.getPlayerByName(senderPlayerName).getHand().drawCardFromSet(movingCard);//remove cards from own hand
-                 game.swapActivePlayer();
                 if (game.getCurrentPlayer().getName().equals(senderPlayerName)) {
                     game.lockGUI();
                 } else {
@@ -517,7 +516,6 @@ public class CardCommands {
             */
             game.setCombat(combat);
             game.getCombat().setState(Combat.PICK_SUPPORTING_CARDS);
-            game.swapActivePlayer();
             switch(combatType) {
                 
                 case  Combat.BOMBARD : {

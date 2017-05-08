@@ -1539,7 +1539,6 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
 
     
     private void playerHandPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseClicked
-        if(!game.isLocked()){
             handMouseCoorX = evt.getPoint().x;
             handMouseCoorY = evt.getPoint().y;        
             gameGui.mouseClickedCard(handMouseCoorX,handMouseCoorY); 
@@ -1551,27 +1550,30 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             if(game.getPhase()==Game.COMBAT&&(game.getCombat()!=null)){
                 switch(game.getCombat().getState()){
                     case Combat.PICK_DEFENSE_CARDS:{
-                        game.getCombat().setDefenceCards(game.getCardCommandFactory().getPickedDefendingCards());
-                        game.getCombat().calculateCombatValues();
-                        dd.setDeffensivePoints();
-                        dd.setNrOfChosenCards(game.getCardCommandFactory().getPickedDefendingCards().size());
+                        if(!game.getCurrentPlayer().isActive()){
+                            game.getCombat().setDefenceCards(game.getCardCommandFactory().getPickedDefendingCards());
+                            game.getCombat().calculateCombatValues();
+                            dd.setDeffensivePoints();
+                            dd.setNrOfChosenCards(game.getCardCommandFactory().getPickedDefendingCards().size());
 
-                        dd.revalidate();
-                        //ad.repaint();
-                        break;
+                            dd.revalidate();
+                            //ad.repaint();
+                            break;
+                        }
                      }
                     case Combat.PICK_SUPPORTING_CARDS:{
-                        game.getCombat().setAttackCards(game.getCardCommandFactory().getAttackingCards());
-                        game.getCombat().calculateCombatValues();
-                        sd.setNrOfChosenCards(game.getCardCommandFactory().getAttackingCards().size());
-                        sd.setAttackPoints();
-                        sd.revalidate();
-                        //ad.repaint();
-                        break;
+                         if(game.getCurrentPlayer().isActive()){
+                            game.getCombat().setAttackCards(game.getCardCommandFactory().getAttackingCards());
+                            game.getCombat().calculateCombatValues();
+                            sd.setNrOfChosenCards(game.getCardCommandFactory().getAttackingCards().size());
+                            sd.setAttackPoints();
+                            sd.revalidate();
+                            //ad.repaint();
+                            break;
+                         }
                     }
                 }   
             }
-        }
     }//GEN-LAST:event_playerHandPanelMouseClicked
 
             
@@ -1586,7 +1588,6 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     }//GEN-LAST:event_playerHandPanelMouseExited
 
     private void playerHandPanelMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseMoved
-    if(!game.isLocked()){
         int deafband=20; //repaint after mouse change of
         int repaintAddedArea=20;//refreash little more than just the sqare
          final int CURR_X = playerHandPanel.getX();
@@ -1610,7 +1611,6 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         }
         //System.out.println("x:" + handMouseCoorX + " y:"+handMouseCoorY);
         lockedButton.setText("UNLOCKED");        
-    }else lockedButton.setText("LOCKED");
     
     if(game.getCurrentPlayer().isActive()) lockedButton1.setText("ACTIVE"); 
     else lockedButton1.setText("NOTACTIVE"); 
