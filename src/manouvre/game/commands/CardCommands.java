@@ -285,9 +285,13 @@ public class CardCommands {
             this.moveToTableCommand = new CardCommands.MoveToTableCommand(attackingCard, senderPlayerName);
             this.senderPlayerName = senderPlayerName;
             
+            Card cloneCard = (Card) UnoptimizedDeepCopy.copy(attackingCard);
             
-            combat = new Combat(attackingCard.getPlayingCardMode(), attackingUnit, attackingCard, attackTerrain, defendingUnit, defenseTerrain);
+            this.combat = new Combat(cloneCard.getPlayingCardMode(), attackingUnit, attackingCard, attackTerrain, defendingUnit, defenseTerrain);
             
+            Combat cloneCombat = (Combat) UnoptimizedDeepCopy.copy (combat);
+            
+            this.combat = cloneCombat;
 
         }
 
@@ -296,9 +300,9 @@ public class CardCommands {
             
            moveToTableCommand.execute(game);
            combat.setState(Combat.PICK_DEFENSE_CARDS);
-           Combat cloneCombat = (Combat) UnoptimizedDeepCopy.copy (combat);
+          
 
-           game.setCombat(cloneCombat);
+           game.setCombat(combat);
            //now is the time for opponent to choose defensive cards
            
            game.getCardCommandFactory().setAttackedUnit(attackedUnit);
@@ -510,6 +514,9 @@ public class CardCommands {
             this.combatType = combatType;
             this.defendCards = defendCards;
             this.senderPlayerName = senderPlayerName;
+            Combat cloneCombat = (Combat) UnoptimizedDeepCopy.copy (combat);
+            this.combat = cloneCombat;
+            
         }
 
         @Override
@@ -517,9 +524,9 @@ public class CardCommands {
             /*
             If we dont have no card
             */
-            Combat cloneCombat = (Combat) UnoptimizedDeepCopy.copy (combat);
             
-            game.setCombat(cloneCombat);
+            
+            game.setCombat(combat);
             game.getCombat().setState(Combat.PICK_SUPPORTING_CARDS);
             switch(combatType) {
                 
