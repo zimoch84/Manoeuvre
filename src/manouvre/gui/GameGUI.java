@@ -441,11 +441,11 @@ public class GameGUI {
     g.setColor(color);
     g.drawRoundRect(
             (windowMode == CreateRoomWindow.AS_HOST) ? 
-                    position.getMouseX(): 
+                    position.getMouseX() + gapSelection: 
                     position.transpoze().getMouseX()
             + gapSelection,
             (windowMode == CreateRoomWindow.AS_HOST) ?
-                    position.getMouseY(): 
+                    position.getMouseY() + gapSelection: 
                     position.transpoze().getMouseY()
                     + gapSelection, 
             MapGUI.SQUARE_WIDTH - 2 * gapSelection, 
@@ -1113,6 +1113,37 @@ public class GameGUI {
         
     }
     
+    public void paintCalculationCombatPanel(Graphics g) {
+        
+        final int START_X_COMBAT_PANEL = 50;
+        final int START_Y_COMBAT_PANEL = 16;
+        final int Y_GAP = 50;
+        final int X_GAP = 50;
+        
+        g.setColor(Color.red);
+        
+        if(game.getCombat()!=null)
+            
+        {
+            Combat combat =  game.getCombat();
+            
+            g.drawString("Attack :" + combat.getAttackValue(), START_X_COMBAT_PANEL, START_Y_COMBAT_PANEL);
+            
+            g.drawString("Defense :" + combat.getDefenceValue(), START_X_COMBAT_PANEL, 2*START_Y_COMBAT_PANEL);
+            
+            g.drawString("Defense Terrain:" + combat.getDefenseTerrain().getTypeToString(), START_X_COMBAT_PANEL, 3*START_Y_COMBAT_PANEL);
+            
+            g.drawString("Terrain Defense Bonus :" + combat.getDefenseBonus(), START_X_COMBAT_PANEL, 4*START_Y_COMBAT_PANEL);
+            
+            g.drawString("Attacking Terrain:" + combat.getAttackTerrain().getTypeToString(), START_X_COMBAT_PANEL, 5*START_Y_COMBAT_PANEL);
+            
+            g.drawString("Terrain Attack Bonus :" + combat.getAttackBonus(), START_X_COMBAT_PANEL, 6*START_Y_COMBAT_PANEL);
+            
+            
+            
+        }
+    }
+    
     private void paintDices(Graphics g){
         final int DICE_GAP = 10;
         final int STARTING_D6_X = 480;
@@ -1145,7 +1176,7 @@ public class GameGUI {
             for(Dice d8 : game.getCardCommandFactory().getD8dices() ){
                 i++;
                 
-                System.out.println("manouvre.gui.GameGUI.paintDices D8 () i :" + Integer.toString(i) + " /" + Integer.toString(STARTING_D8_X -  (i-1)* (int)(DiceGUI.D8SQUARE_WIDTH*DiceGUI.SCALE_FACTOR_D8)) );
+                
 
                 DiceGUI d8gui = new DiceGUI(d8);
                 g.drawImage(d8gui.getImage(), STARTING_D8_X -  (i-1)* (int)(DiceGUI.D8SQUARE_WIDTH*DiceGUI.SCALE_FACTOR_D8) , STARTING_D8_Y , 

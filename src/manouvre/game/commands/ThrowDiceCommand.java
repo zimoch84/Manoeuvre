@@ -102,7 +102,28 @@ public class ThrowDiceCommand implements Command{
     
     @Override
     public String logCommand(){
-        return new String(playerName + " thow dices" );
+        
+        String out = playerName + " dices: d6 [";
+        if(!d6dices.isEmpty())
+        for(Dice dice : d6dices)
+        {  
+               out +=  String.valueOf(dice.getResult() ) + ",";
+        }   
+        out+= "] d8 [";
+        if(!d8dices.isEmpty())
+        for(Dice dice : d6dices)
+        {  
+               out +=  String.valueOf(dice.getResult() ) + ",";
+        }   
+        out+= "] d10 [";
+        if(!d10dices.isEmpty())
+        for(Dice dice : d6dices)
+        {  
+               out +=  String.valueOf(dice.getResult() ) + ",";
+        }   
+        out+= "] ";
+       
+        return out;
     
     }
 

@@ -709,7 +709,11 @@ public class CardCommands {
 
         @Override
         public String logCommand() {
-            return senderPlayerName + " generated outcome";
+            String log = td.logCommand();
+            
+            log += "Att Val :" + combat.getAttackValue()+ " " + "Att Val :" + combat.getAttackValue()+ " " +
+                   "Def Val :" + combat.getDefenceValue()+ " " + "Def Val :" + combat.getDefenseBonus()+ " " ;
+            return log;
         }
 
         @Override
