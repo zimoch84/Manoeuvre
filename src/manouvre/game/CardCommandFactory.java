@@ -47,10 +47,11 @@ public class CardCommandFactory extends Observable implements Serializable{
      
     Card playingCard, opponentCard;
     
-    ArrayList<Card> pickedAttackingCards=new ArrayList<>();;
+    ArrayList<Card> opponentCards=new ArrayList<>();  //oponent attacking cards
+    ArrayList<Card> pickedAttackingCards=new ArrayList<>(); //current player attacking cards
    
     ArrayList<Position> attackingPositions;
-    ArrayList<Card> pickedDefendingCards=new ArrayList<>();
+    ArrayList<Card> pickedDefendingCards=new ArrayList<>(); //current player defending cards
 //    ArrayList<Card> pickedSupportingCards=new ArrayList<>();
     
     Unit selectedUnit, attackedUnit;
@@ -61,7 +62,8 @@ public class CardCommandFactory extends Observable implements Serializable{
     
     
     boolean cancelCardMode;
-
+    int maxFromDices=0;
+    
     public boolean isCancelCardMode() {
         return cancelCardMode;
     }
@@ -139,6 +141,7 @@ public class CardCommandFactory extends Observable implements Serializable{
 
     public void setOpponentCard(Card opponentCard) {
         this.opponentCard = opponentCard;
+        this.opponentCards.add(opponentCard);
     }
     
     public void awakeObserver(){
@@ -340,14 +343,21 @@ public class CardCommandFactory extends Observable implements Serializable{
         this.pickedAttackingCards.remove(card);
     }
 
-    void prepareDices(ArrayList<Card> attackingCards){
-    
-        for(Card checkCard: attackingCards )
+    public void prepareDices(boolean countOponentAttack){
+       ArrayList<Card> tempClistCards= new ArrayList<>();
+    if(countOponentAttack){
+        tempClistCards= opponentCards; //just one card
+    }
+    else{
+       tempClistCards= pickedAttackingCards;
+    }
+        for(Card checkCard: tempClistCards )
         {
-        switch(checkCard.getUnitAttack()){
+        switch(checkCard.getUnitDiceValue()){
         
             case DiceInterface.DICE1d6:{
                 d6dices.add(new Dice(Dice.D6));
+                
                 break;
             }
             case DiceInterface.DICE2d6:{
@@ -373,17 +383,25 @@ public class CardCommandFactory extends Observable implements Serializable{
                 d10dices.add(new Dice(Dice.D10));
                 break;
             }
-           
+            
         }
-        }
+    }
         
-        for(Dice dice : d6dices){dice.setResult(6);}
-        for(Dice dice : d8dices){dice.setResult(8);}
-        for(Dice dice : d10dices){dice.setResult(10);}
-   
-        game.getCardCommandFactory().setD6dices(d6dices);
-        game.getCardCommandFactory().setD8dices(d8dices);
-        game.getCardCommandFactory().setD10dices(d10dices);
+//        for(Dice dice : d6dices){dice.setResult(6);}
+//        for(Dice dice : d8dices){dice.setResult(8);}
+//        for(Dice dice : d10dices){dice.setResult(10);}
+//   
+//        game.getCardCommandFactory().setD6dices(d6dices);
+//        game.getCardCommandFactory().setD8dices(d8dices);
+//        game.getCardCommandFactory().setD10dices(d10dices);
+    }
+    
+     public int getMaxFromDices() {
+        for (Dice dice: getAllDices())
+        {
+        maxFromDices += dice.getMax();
+        }
+        return maxFromDices;
     }
     
     void fakeDices()

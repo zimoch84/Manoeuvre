@@ -53,6 +53,7 @@ public class Combat implements Serializable{
     
     int defenceValue, attackValue, defenseBonus, attackBonus;
     
+    
     ArrayList<Dice> dices;
     
     Card attackCard; 
@@ -143,7 +144,7 @@ public class Combat implements Serializable{
     public ArrayList<Dice> getDices() {
         return dices;
     }
-
+    
     public void setDices(ArrayList<Dice> dices)
     {
     this.dices = dices;

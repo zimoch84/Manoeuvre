@@ -238,7 +238,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                */
                
                CustomDialog cd = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "BATTLE RESOULT: \n"
-                       + "Attack: " + game.getCombat().getAttackValue()+" vs Deffence: "+ game.getCombat().getDefenceValue() + "Defending unit has withdrawn");
+                       + "Attack: " + game.getCombat().getAttackValue()+" vs Deffence: "+ game.getCombat().getDefenceValue() + "\nDefending unit has withdrawn");
                break;
                
            }
@@ -1523,7 +1523,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             if(game.getPhase()==Game.DISCARD)
                 setActionButtonText();  //if selection was done discard button should be visible
 
-            if(dd!=null&&game.getPhase()==Game.COMBAT&&(game.getCombat()!=null)){
+            if(game.getPhase()==Game.COMBAT&&(game.getCombat()!=null)){
                 switch(game.getCombat().getState()){
                     case Combat.PICK_DEFENSE_CARDS:{
                         game.getCombat().setDefenceCards(game.getCardCommandFactory().getPickedDefendingCards());

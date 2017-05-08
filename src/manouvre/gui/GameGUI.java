@@ -54,7 +54,7 @@ public class GameGUI {
     CardSetGUI drawSetGui;
     CardSetGUI tableSetGui,tableSetGuiDefPart;
     
-    int stateTemp=0;
+    int stateTemp=Combat.INITIALIZING_COMBAT;
     BufferedImage  infoImage;
      CardCommandFactory cardFactory;
     /*
@@ -753,8 +753,7 @@ public class GameGUI {
                     /*
                     If we are in move phase or Combat phase  but not during combat
                     */
-                    if(game.getPhase()==Game.MOVE 
-                            || ( game.getPhase()==Game.COMBAT && (game.getCombat()==null)))
+                    if(game.getPhase()==Game.MOVE)
 
                         /* this phase it is possible 
                         to select ONE card, thats why all have to be unselected before click
@@ -764,6 +763,13 @@ public class GameGUI {
                         triggerCardActionOnSelection(cardClicked);
                         keepOneSelectedCard(cardClicked);
                         }
+                     
+                     if(game.getPhase()==Game.COMBAT && (game.getCombat()==null)){ //select first card in combat
+                        triggerCardActionOnSelection(cardClicked);
+                        keepOneSelectedCard(cardClicked);  
+                        game.getCardCommandFactory().setPlayingCard(cardClicked);
+                        game.getCardCommandFactory().addPickedAttackingCard(cardClicked);
+                     }
                     /*
                     If we in combat phase during combat
                     */
@@ -775,19 +781,19 @@ public class GameGUI {
                                 }  
                             switch(game.getCombat().getState())
                                 {
-
-                                case Combat.PICK_DEFENSE_CARDS:
-                                {
-                                game.getCardCommandFactory().addPickedDefendingCard(cardClicked);
-                                selectionSeq.add((Integer)cardClicked.getCardID()); 
-                                break;
-                                }
-                                case Combat.PICK_SUPPORTING_CARDS:
-                                {
-                                game.getCardCommandFactory().addPickedAttackingCard(cardClicked);
-                                selectionSeq.add((Integer)cardClicked.getCardID()); 
-                                break;
-                                }
+                                    case Combat.PICK_SUPPORTING_CARDS:
+                                    {
+                                        game.getCardCommandFactory().addPickedAttackingCard(cardClicked);
+                                        selectionSeq.add((Integer)cardClicked.getCardID()); 
+                                        break;
+                                    }
+                                    case Combat.PICK_DEFENSE_CARDS:
+                                    {
+                                        game.getCardCommandFactory().addPickedDefendingCard(cardClicked);
+                                        selectionSeq.add((Integer)cardClicked.getCardID()); 
+                                        break;
+                                    }
+                               
                                 }
                             }    
                     /*
@@ -811,6 +817,9 @@ public class GameGUI {
                 cardClicked.setSelected(false);
                 Integer j=cardClicked.getCardID();
                 selectionSeq.remove(j); //remove number Integer j, not position int i
+                if(game.getPhase()==Game.COMBAT && (game.getCombat()==null)){
+                    game.getCardCommandFactory().removePickedAttackingCard(cardClicked);
+                }
                 if (game.getPhase()==Game.COMBAT &&(game.getCombat()!= null))
                 {
                     switch(game.getCombat().getState())

@@ -87,19 +87,19 @@ public class Card implements CardInterface, Serializable{
     String CardFlag="";
     String CardImg="";                            
     String CardType="";
-    String UnitAttack="";				
-    String UnitDefense ="";
-    String UnitRange="";                            
-    String UnitBombard="";
-    String UnitVolley="";				
-    String UnitPursuit="";
-    String UnitWithdraw="";                             
+    String CardAttack="";				
+    String CardDefense ="";
+    String CardRange="";                            
+    String CardBombard="";
+    String CardVolley="";				
+    String CardPursuit="";
+    String CardWithdraw="";                             
     String LederCommand="";
     String LederCombat="";				
     String LederRally="";
     String LederPursuit="";                           
     String LederGrandBatt="";                          
-    String UnitDescr="";
+    String CardDescr="";
     String EnableMove="";
     String CanBeCanceledFromCSV="";
  			
@@ -136,19 +136,19 @@ public class Card implements CardInterface, Serializable{
             this.CardFlag = cards.get("CardFlag");
             this.CardImg = cards.get("CardImg");
             this.CardType = cards.get("CardType");
-            this.UnitAttack = cards.get("UnitAttack");
-            this.UnitDefense = cards.get("UnitDeffense");
-            this.UnitRange = cards.get("UnitRange");
-            this.UnitBombard = cards.get("UnitBombard");
-            this.UnitVolley = cards.get("UnitVolley");
-            this.UnitPursuit = cards.get("UnitPursuit");
-            this.UnitWithdraw = cards.get("UnitWithdraw");
+            this.CardAttack = cards.get("UnitAttack");
+            this.CardDefense = cards.get("UnitDeffense");
+            this.CardRange = cards.get("UnitRange");
+            this.CardBombard = cards.get("UnitBombard");
+            this.CardVolley = cards.get("UnitVolley");
+            this.CardPursuit = cards.get("UnitPursuit");
+            this.CardWithdraw = cards.get("UnitWithdraw");
             this.LederCommand = cards.get("LederCommand");
             this.LederCombat = cards.get("LederCombat");
             this.LederRally = cards.get("LederRally");
             this.LederPursuit = cards.get("LederPursuit");
             this.LederGrandBatt = cards.get("LederGrandBatt");
-            this.UnitDescr = cards.get("UnitDescr");
+            this.CardDescr = cards.get("UnitDescr");
             this.EnableMove = cards.get("EnableMove");
             this.CanBeCanceledFromCSV = cards.get("CanBeCancelled");
             setCanBeCanceled(getCanBeCanceledFromCsv());
@@ -187,19 +187,19 @@ public class Card implements CardInterface, Serializable{
             this.CardFlag = cards.get("CardFlag");
             this.CardImg = cards.get("CardImg");
             this.CardType = cards.get("CardType");
-            this.UnitAttack = cards.get("UnitAttack");
-            this.UnitDefense = cards.get("UnitDeffense");
-            this.UnitRange = cards.get("UnitRange");
-            this.UnitBombard = cards.get("UnitBombard");
-            this.UnitVolley = cards.get("UnitVolley");
-            this.UnitPursuit = cards.get("UnitPursuit");
-            this.UnitWithdraw = cards.get("UnitWithdraw");
+            this.CardAttack = cards.get("UnitAttack");
+            this.CardDefense = cards.get("UnitDeffense");
+            this.CardRange = cards.get("UnitRange");
+            this.CardBombard = cards.get("UnitBombard");
+            this.CardVolley = cards.get("UnitVolley");
+            this.CardPursuit = cards.get("UnitPursuit");
+            this.CardWithdraw = cards.get("UnitWithdraw");
             this.LederCommand = cards.get("LederCommand");
             this.LederCombat = cards.get("LederCombat");
             this.LederRally = cards.get("LederRally");
             this.LederPursuit = cards.get("LederPursuit");
             this.LederGrandBatt = cards.get("LederGrandBatt");
-            this.UnitDescr = cards.get("UnitDescr");
+            this.CardDescr = cards.get("UnitDescr");
             this.EnableMove = cards.get("EnableMove");
             this.CanBeCanceledFromCSV = cards.get("CanBeCancelled");
             setCanBeCanceled(getCanBeCanceledFromCsv());
@@ -315,46 +315,46 @@ public class Card implements CardInterface, Serializable{
     }
     
     public int getUnitAttack() { 
-        if(!UnitAttack.equals(""))
-        return Dice.diceTypeToInt(UnitAttack); //if else return wrong value
+        if(!CardAttack.equals(""))
+        return Dice.diceTypeToInt(CardAttack); //if else return wrong value
         else return 0;
     }
 
     public int getUnitDefence() {
-        if(!UnitDefense.equals(""))
-            return Integer.parseInt(UnitDefense);
+        if(!CardDefense.equals(""))
+            return Integer.parseInt(CardDefense);
         else if(!LederCombat.equals("")) 
            return Integer.parseInt(LederCombat);
         else return 99;
     }
 
     public int getUnitRange() {
-         if(!UnitRange.equals(""))
-        return Integer.parseInt(UnitRange);
+         if(!CardRange.equals(""))
+        return Integer.parseInt(CardRange);
          else return 0;
     }
 
     public int getUnitBombard() {
-         if(!UnitBombard.equals(""))
-        return Dice.diceTypeToInt(UnitBombard); 
+         if(!CardBombard.equals(""))
+        return Dice.diceTypeToInt(CardBombard); 
          else return 99;
     }
   
     public int getUnitVolley() {
-         if(!UnitVolley.equals(""))
-        return Dice.diceTypeToInt(UnitVolley); 
+         if(!CardVolley.equals(""))
+        return Dice.diceTypeToInt(CardVolley); 
          else return 99;
     }
 
     public int getUnitPursuit() {
-         if(!UnitPursuit.equals(""))
-        return Integer.parseInt(UnitPursuit);
+         if(!CardPursuit.equals(""))
+        return Integer.parseInt(CardPursuit);
          else return 99;
     }
 
     public int getUnitWithdraw() {
-         if(!UnitWithdraw.equals(""))
-        return Integer.parseInt(UnitWithdraw);
+         if(!CardWithdraw.equals(""))
+        return Integer.parseInt(CardWithdraw);
          else return 99;
     }
 
@@ -389,8 +389,8 @@ public class Card implements CardInterface, Serializable{
     }
 
     public String getUnitDescr() {
-         if(!UnitDescr.equals(""))
-        return UnitDescr;
+         if(!CardDescr.equals(""))
+        return CardDescr;
          else return "99";
     }
     public boolean getEnableMove() {
@@ -423,16 +423,16 @@ public class Card implements CardInterface, Serializable{
         ArrayList<Integer> cardPlayingModes = new ArrayList<Integer>();
        
         
-        if(!this.UnitAttack.equals("0")) 
+        if(!this.CardAttack.equals("0")) 
         {cardPlayingModes.add(Card.ASSAULT);
          
           }
-        if(this.UnitRange.equals("1") )
+        if(this.CardRange.equals("1") )
         {
         cardPlayingModes.add(Card.VOLLEY);
  
         }
-        if(this.UnitRange.equals("2") )
+        if(this.CardRange.equals("2") )
         {
         cardPlayingModes.add(Card.BOMBARD);
                 }
@@ -567,8 +567,7 @@ public class Card implements CardInterface, Serializable{
                  */
             case Game.COMBAT: 
                 {
-                    if(
-                         (game.getCombat() != null ? (game.getCombat().getState()==Combat.INITIALIZING_COMBAT) : false) &&  //at the start of the battle
+                    if((game.getCombat() != null ? (game.getCombat().getState()==Combat.INITIALIZING_COMBAT) : false) &&  //at the start of the battle
                          (getHQType() != Card.REDOUBDT  
                          || getHQType() != Card.REGROUP 
                          || getHQType()  != Card.SUPPLY
@@ -581,7 +580,7 @@ public class Card implements CardInterface, Serializable{
                     }
                     if((game.getCombat() != null ? (game.getCombat().getState()==Combat.PICK_DEFENSE_CARDS) : false) &&
                         //  (game.getCombat() != null ? (!game.getCardCommandFactory().getOpponentCard().getPlayiningMode().equals("BOMBARD")) : false) &&  //at the defence part of the battle but not in BOMBARD
-                          (game.getCardCommandFactory().getAttackedUnit().getName().equals(getCardName())||
+                          (game.getCardCommandFactory().getAttackedUnit().getName().equals(getCardName())&&getUnitAttack()!=0||
                           (getCardType()==CardInterface.HQLEADER)))
                           return true;
                     if(

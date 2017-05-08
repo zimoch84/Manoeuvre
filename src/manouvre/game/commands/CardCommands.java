@@ -45,7 +45,7 @@ public class CardCommands {
                 if (game.getCurrentPlayer().getName().equals(senderPlayerName)) {
                     game.lockGUI();
                 } else {
-                     game.unlockGUI();
+                    game.unlockGUI();
                     game.getCardCommandFactory().setOpponentCard(movingCard);
                 }
                 //repaint is made by CommandQueue
@@ -304,7 +304,7 @@ public class CardCommands {
                   game.lockGUI(); 
                
            }else{
-               game.getCardCommandFactory().setOpponentCard(attackingCard);
+               //game.getCardCommandFactory().setOpponentCard(attackingCard);  it exists in move to table
                game.getCardCommandFactory().awakeObserver();
                game.getCardCommandFactory().notifyObservers(CardCommandFactory.ATTACK_DIALOG);
                

@@ -193,7 +193,7 @@ public class SupportDialog extends javax.swing.JFrame {
         nrOfSupplyingCardsTxt = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        attackminTxt = new javax.swing.JTextField();
+        attackMinTxt = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         attackMaxTxt = new javax.swing.JTextField();
@@ -283,13 +283,13 @@ public class SupportDialog extends javax.swing.JFrame {
         jLabel11.setForeground(new java.awt.Color(255, 51, 51));
         jLabel11.setText("Your attack min:");
 
-        attackminTxt.setEditable(false);
-        attackminTxt.setForeground(new java.awt.Color(255, 51, 51));
-        attackminTxt.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        attackminTxt.setText("11");
-        attackminTxt.addActionListener(new java.awt.event.ActionListener() {
+        attackMinTxt.setEditable(false);
+        attackMinTxt.setForeground(new java.awt.Color(255, 51, 51));
+        attackMinTxt.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        attackMinTxt.setText("11");
+        attackMinTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                attackminTxtActionPerformed(evt);
+                attackMinTxtActionPerformed(evt);
             }
         });
 
@@ -333,7 +333,7 @@ public class SupportDialog extends javax.swing.JFrame {
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel11)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(attackminTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(attackMinTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -362,7 +362,7 @@ public class SupportDialog extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(attackminTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(attackMinTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -475,9 +475,9 @@ public class SupportDialog extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_nrOfSupplyingCardsTxtActionPerformed
 
-    private void attackminTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attackminTxtActionPerformed
+    private void attackMinTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attackMinTxtActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_attackminTxtActionPerformed
+    }//GEN-LAST:event_attackMinTxtActionPerformed
 
     private void thowDiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_thowDiceActionPerformed
       Command coc = game.getCardCommandFactory().createOutcomeCombatCommand();
@@ -557,7 +557,9 @@ public class SupportDialog extends javax.swing.JFrame {
            nrOfSupplyingCardsTxt.setText(Integer.toString(numberOfAvailableSupplyingCards));
     }
      public void setAttackPoints(){
-           attackminTxt.setText(Integer.toString(game.getCombat().getAttackValue()));
+            game.getCardCommandFactory().prepareDices(false);
+            attackMinTxt.setText(Integer.toString(game.getCombat().getAttackValue()+game.getCardCommandFactory().getAllDices().size()));
+            attackMaxTxt.setText(Integer.toString(game.getCombat().getAttackValue()+game.getCardCommandFactory().getMaxFromDices()));
     }
       public void setDeffensivePoints(){
            defenceTxt.setText(Integer.toString(game.getCombat().getDefenceValue()));
@@ -565,7 +567,7 @@ public class SupportDialog extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField attackMaxTxt;
-    private javax.swing.JTextField attackminTxt;
+    private javax.swing.JTextField attackMinTxt;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton cancelButton;
     private javax.swing.JTextField defenceTxt;

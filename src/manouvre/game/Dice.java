@@ -24,6 +24,7 @@ public class Dice implements Serializable{
     
     int type;
     int result;
+    int max;
 
     public Dice(int type) {
     
@@ -54,7 +55,29 @@ public class Dice implements Serializable{
     }
     
     }
-            
+    
+    public int getMax(){
+        switch(type){
+        
+        case Dice.D6:
+        {
+            max = 6;
+            break;
+        }
+        case Dice.D8:
+        {
+            max = 8;
+            break;
+        }
+        case Dice.D10:
+        {
+            max = 10;
+            break;
+        }
+      
+    }
+        return max;
+    }
     
     public static int diceTypeToInt(String diceType){
         switch (diceType){

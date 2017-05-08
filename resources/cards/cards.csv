@@ -252,7 +252,7 @@ CardID;CardName;CardFlag;CardImg;CardType;UnitAttack;UnitDeffense;UnitRange;Unit
 250;13th Infantry Regiment;PR;PR13Ra.JPG;Unit;2d8;5;;;;;;;;;;;;;0
 251;13th Infantry Regiment;PR;PR13Rb.JPG;Unit;2d6;4;;;;;;;;;;;;;0
 252;13th Infantry Regiment;PR;PR13Rc.JPG;Unit;2d6;3;;;;;;;;;;;;;0
-253;13th Infantry Regiment;PR;PR13Rd.JPG;Unit;1d10;3;1;2d6;;;;;;;;;;;0
+253;13th Infantry Regiment;PR;PR13Rd.JPG;Unit;1d10;3;1;;2d6;;;;;;;;;;0
 254;13th Infantry Regiment;PR;PR13Re.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
 255;25th Infantry Regiment;PR;PR25Ra.JPG;Unit;2d8;5;;;;;;;;;;;;;0
 256;25th Infantry Regiment;PR;PR25Rb.JPG;Unit;2d6;4;;;;;;;;;;;;;0
@@ -430,8 +430,8 @@ CardID;CardName;CardFlag;CardImg;CardType;UnitAttack;UnitDeffense;UnitRange;Unit
 428;2nd Infantry Regiment;US;US2Ib.JPG;Unit;2d6;5;;;;;;;;;;;;;0
 429;2nd Infantry Regiment;US;US2Ic.JPG;Unit;0;6;2;1d10;;;;;;;;;;;0
 430;4th Militia;US;US4Ma.JPG;Unit;2d6;5;;;;;3;;;;;;;;0
-431;4th Militia;US;US4Mb.JPG;Unit;2d6;5;1;0;2d6;;3;;;;;;;;0
-432;4th Militia;US;US4Mc.JPG;Unit;1d10;5;1;0;2d6;;3;;;;;;;;0
+431;4th Militia;US;US4Mb.JPG;Unit;2d6;5;1;;2d6;;3;;;;;;;;0
+432;4th Militia;US;US4Mc.JPG;Unit;1d10;5;1;;2d6;;3;;;;;;;;0
 433;4th Militia;US;US4Md.JPG;Unit;1d10;3;;;;;3;;;;;;;;0
 434;4th Militia;US;US4Me.JPG;Unit;0;5;2;1d10;;;;;;;;;;;0
 435;Volunteer Cavalry;US;USVCa.JPG;Unit;2d6;4;;;;3;;;;;;;;;0
