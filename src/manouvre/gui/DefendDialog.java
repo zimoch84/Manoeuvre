@@ -410,11 +410,9 @@ public class DefendDialog extends javax.swing.JFrame {
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         
         
-        if(withdrawCommand != null){
+        game.getCardCommandFactory().setPlayingCard(game.getCurrentPlayer().getHand().getCardByType(Card.WITHDRAW));
         
-            cmdQueue.storeAndExecuteAndSend(withdrawCommand);
-            
-        }
+        game.getCurrentPlayer().setPlayingCard(true);
         
         this.dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
