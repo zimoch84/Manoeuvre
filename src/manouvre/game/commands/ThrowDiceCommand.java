@@ -111,13 +111,13 @@ public class ThrowDiceCommand implements Command{
         }   
         out+= "] d8 [";
         if(!d8dices.isEmpty())
-        for(Dice dice : d6dices)
+        for(Dice dice : d8dices)
         {  
                out +=  String.valueOf(dice.getResult() ) + ",";
         }   
         out+= "] d10 [";
         if(!d10dices.isEmpty())
-        for(Dice dice : d6dices)
+        for(Dice dice : d10dices)
         {  
                out +=  String.valueOf(dice.getResult() ) + ",";
         }   

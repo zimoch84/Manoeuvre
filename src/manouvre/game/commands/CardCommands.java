@@ -576,9 +576,13 @@ public class CardCommands {
         String senderPlayerName;
 
         public CombatOutcomeCommand(String senderPlayerName, Combat combat, ThrowDiceCommand td ) {
-            this.combat = combat;
-            this.td = td;
+           
+            Combat tcombatclone = (Combat) UnoptimizedDeepCopy.copy (combat);
+            ThrowDiceCommand tdclone = (ThrowDiceCommand) UnoptimizedDeepCopy.copy (td);
+            this.td = tdclone;
+            this.combat = tcombatclone;
             this.senderPlayerName = senderPlayerName;
+            
         }
 
         @Override
@@ -713,8 +717,8 @@ public class CardCommands {
         public String logCommand() {
             String log = td.logCommand();
             
-            log += "Att Val :" + combat.getAttackValue()+ " " + "Att Val :" + combat.getAttackValue()+ " " +
-                   "Def Val :" + combat.getDefenceValue()+ " " + "Def Val :" + combat.getDefenseBonus()+ " " ;
+            log += "Att Val :" + combat.getAttackValue()+ " " + "Att Val :" + combat.getAttackBonus()+ " " +
+                   "Def Val :" + combat.getDefenceValue()+ " " + "Def Bon :" + combat.getDefenseBonus()+ " " ;
             return log;
         }
 
