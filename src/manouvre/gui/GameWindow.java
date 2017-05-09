@@ -347,13 +347,22 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     void checkLockingGUI()
             
     {
-    if(game.getPhase()== Game.SETUP && game.getCurrentPlayer().isFinishedSetup() && !game.getOpponentPlayer().isFinishedSetup() )
-        game.lockGUI();
-    else if(game.getPhase()!= Game.SETUP && !game.getCurrentPlayer().isActive())
-        game.lockGUI();            
-    else
-        game.unlockGUI();
-    }
+        if(game.getCombat()==null){
+                if(game.getPhase()== Game.SETUP && game.getCurrentPlayer().isFinishedSetup() && !game.getOpponentPlayer().isFinishedSetup() )
+                    game.lockGUI();
+                else if(game.getPhase()!= Game.SETUP && !game.getCurrentPlayer().isActive())
+                    game.lockGUI();            
+                else 
+                    game.unlockGUI();
+        }else{
+            if(game.getCurrentPlayer().isActive()&&game.getCombat().getState()==Combat.PICK_DEFENSE_CARDS){
+                game.lockGUI();
+            }else if(!game.getCurrentPlayer().isActive()&&game.getCombat().getState()==Combat.PICK_SUPPORTING_CARDS){
+                 game.lockGUI();
+            }
+                else game.unlockGUI();  
+        }
+    }   
     
     public void refreshAll(){
         checkLockingGUI();
@@ -1610,10 +1619,11 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            repaint();
         }
         //System.out.println("x:" + handMouseCoorX + " y:"+handMouseCoorY);
-        lockedButton.setText("UNLOCKED");        
     
     if(game.getCurrentPlayer().isActive()) lockedButton1.setText("ACTIVE"); 
     else lockedButton1.setText("NOTACTIVE"); 
+    if(game.isLocked()) lockedButton.setText("LOCKED"); 
+    else lockedButton.setText("UNLOCKED"); 
     }//GEN-LAST:event_playerHandPanelMouseMoved
 
     private void mainMapPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainMapPanelMouseClicked

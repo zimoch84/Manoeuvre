@@ -526,12 +526,15 @@ public class Card implements CardInterface, Serializable{
  
     public boolean getAvailableForPhase(Game game){
         int phase=game.getPhase();
+        if(game.isLocked()) return false;
         switch(phase){
             case Game.SETUP:
                  return false;
                  
             case Game.DISCARD:
+                if(game.getCurrentPlayer().isActive())
                 return true;
+                else return false;
               
             case Game.DRAW:
                 if(getHQType() == Card.SCOUT) 
@@ -545,12 +548,11 @@ public class Card implements CardInterface, Serializable{
                   /*
                   And not these cards
                   */
-                    if(getHQType() != Card.REDOUBDT 
+                    if((getHQType() != Card.REDOUBDT 
                      && getHQType() != Card.REGROUP
                      && getHQType() != Card.SKIRMICH
                      && getHQType()  != Card.WITHDRAW
-                    )
-                          
+                    ))
                         return true;
               }
               else return false;

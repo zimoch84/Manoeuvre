@@ -43,9 +43,7 @@ public class CardCommands {
                 game.getTablePile().addCardToThisSet(movingCard);// Put cards on own table
                 game.getPlayerByName(senderPlayerName).getHand().drawCardFromSet(movingCard);//remove cards from own hand
                 if (game.getCurrentPlayer().getName().equals(senderPlayerName)) {
-                    game.lockGUI();
                 } else {
-                    game.unlockGUI();
                     game.getCardCommandFactory().setOpponentCard(movingCard);
                 }
                 //repaint is made by CommandQueue
@@ -307,18 +305,12 @@ public class CardCommands {
            
            game.getCardCommandFactory().setAttackedUnit(attackedUnit);
            if(game.getCurrentPlayer().getName().equals(senderPlayerName)){
-                  game.lockGUI(); 
                
            }else{
                //game.getCardCommandFactory().setOpponentCard(attackingCard);  it exists in move to table
                game.getCardCommandFactory().awakeObserver();
                game.getCardCommandFactory().notifyObservers(CardCommandFactory.ATTACK_DIALOG);
-               
-               game.unlockGUI();
-            
            }
-          
-
         }
 
         @Override
@@ -595,8 +587,7 @@ public class CardCommands {
             /*
             Set cardFactorywith dices
             */
-            game.getTablePile().clear();
-            game.getTablePileDefPart().clear();
+           
             
             if(game.getCurrentPlayer().getName().equals(senderPlayerName))
             {
@@ -708,9 +699,10 @@ public class CardCommands {
             }
             
            game.setCombat(null);
-           
+            game.getTablePile().clear();
+            game.getTablePileDefPart().clear();
           
-        }
+    }
 
         @Override
         public void undo(Game game) {

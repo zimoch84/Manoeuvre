@@ -344,6 +344,10 @@ public class CardCommandFactory extends Observable implements Serializable{
     }
 
     public void prepareDices(boolean countOponentAttack){
+        d6dices.clear();
+        d8dices.clear();
+        d10dices.clear();
+        
        ArrayList<Card> tempClistCards= new ArrayList<>();
     if(countOponentAttack){
         tempClistCards= opponentCards; //just one card
@@ -375,7 +379,7 @@ public class CardCommandFactory extends Observable implements Serializable{
                 break;
             }
             case DiceInterface.DICE1d10:{
-                d10dices.add(new Dice(Dice.D8));
+                d10dices.add(new Dice(Dice.D10));
                 break;
             }
             case DiceInterface.DICE2d10:{
@@ -397,6 +401,7 @@ public class CardCommandFactory extends Observable implements Serializable{
     }
     
      public int getMaxFromDices() {
+        maxFromDices=0;
         for (Dice dice: getAllDices())
         {
         maxFromDices += dice.getMax();
