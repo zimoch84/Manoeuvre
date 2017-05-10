@@ -423,7 +423,7 @@ public class Card implements CardInterface, Serializable{
         ArrayList<Integer> cardPlayingModes = new ArrayList<Integer>();
        
         
-        if(!this.CardAttack.equals("0")) 
+        if(!this.CardAttack.equals("")) 
         {cardPlayingModes.add(Card.ASSAULT);
          
           }
