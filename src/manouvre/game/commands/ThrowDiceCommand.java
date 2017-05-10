@@ -66,16 +66,8 @@ public class ThrowDiceCommand implements Command{
                 break;
             }
         }
-        }
-        if(!d6dices.isEmpty())
-        for(Dice dice : d6dices){dice.generateResult();}
-        if(!d8dices.isEmpty())
-        for(Dice dice : d8dices){dice.generateResult();}
-        if(!d10dices.isEmpty())
-        for(Dice dice : d10dices){dice.generateResult();}
-    
     }
-
+    }
     @Override
     public void execute(Game game) {
        

@@ -731,6 +731,9 @@
                   </Events>
                 </Component>
                 <Component class="javax.swing.JTextField" name="sendText">
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="sendTextActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
