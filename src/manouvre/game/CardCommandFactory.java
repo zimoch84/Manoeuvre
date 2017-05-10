@@ -62,7 +62,7 @@ public class CardCommandFactory extends Observable implements Serializable{
     
     
     boolean cancelCardMode;
-    int maxFromDices=0;
+    int maxFromDices=0,minFromDices=0;
     
     public boolean isCancelCardMode() {
         return cancelCardMode;
@@ -343,70 +343,29 @@ public class CardCommandFactory extends Observable implements Serializable{
         this.pickedAttackingCards.remove(card);
     }
 
-    public void prepareDices(boolean countOponentAttack){
-        d6dices.clear();
-        d8dices.clear();
-        d10dices.clear();
-        
-       ArrayList<Card> tempClistCards= new ArrayList<>();
-    if(countOponentAttack){
-        tempClistCards= opponentCards; //just one card
-    }
-    else{
-       tempClistCards= pickedAttackingCards;
-    }
-        for(Card checkCard: tempClistCards )
-        {
-        switch(checkCard.getUnitDiceValue()){
-        
-            case DiceInterface.DICE1d6:{
-                d6dices.add(new Dice(Dice.D6));
-                
-                break;
-            }
-            case DiceInterface.DICE2d6:{
-                d6dices.add(new Dice(Dice.D6));
-                d6dices.add(new Dice(Dice.D6));
-                break;
-            }
-            case DiceInterface.DICE1d8:{
-                d8dices.add(new Dice(Dice.D8));
-                break;
-            }
-            case DiceInterface.DICE2d8:{
-                d8dices.add(new Dice(Dice.D8));
-                d8dices.add(new Dice(Dice.D8));
-                break;
-            }
-            case DiceInterface.DICE1d10:{
-                d10dices.add(new Dice(Dice.D10));
-                break;
-            }
-            case DiceInterface.DICE2d10:{
-                d10dices.add(new Dice(Dice.D10));
-                d10dices.add(new Dice(Dice.D10));
-                break;
-            }
-            
-        }
-    }
-        
-//        for(Dice dice : d6dices){dice.setResult(6);}
-//        for(Dice dice : d8dices){dice.setResult(8);}
-//        for(Dice dice : d10dices){dice.setResult(10);}
-//   
-//        game.getCardCommandFactory().setD6dices(d6dices);
-//        game.getCardCommandFactory().setD8dices(d8dices);
-//        game.getCardCommandFactory().setD10dices(d10dices);
+    public ArrayList<Card> chooseOpponentAttaker(boolean countOponent){
+           ArrayList<Card> tempCards=new ArrayList<>();  
+                if(countOponent) tempCards=opponentCards;//oponent attacking cards
+                else tempCards=pickedAttackingCards;//current player attacking cards
+        return tempCards;
     }
     
-     public int getMaxFromDices() {
+     public int getMaxFromDices(boolean countOponent) {
         maxFromDices=0;
-        for (Dice dice: getAllDices())
+        for (Card card: chooseOpponentAttaker(countOponent))
         {
-        maxFromDices += dice.getMax();
+        maxFromDices += card.getMaxFromCardMode();
         }
         return maxFromDices;
+    }
+     
+    public int getMinFromDices(boolean countOponent) {
+        minFromDices=0;
+        for (Card card: chooseOpponentAttaker(countOponent))
+        {
+        minFromDices += card.getMinFromCardMode();
+        }
+        return minFromDices;
     }
     
     void fakeDices()

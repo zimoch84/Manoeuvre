@@ -10,12 +10,12 @@ package manouvre.game.interfaces;
  * @author Bartosz
  */
 public interface DiceInterface {
-  public static int DICE1d6=0;
-  public static int DICE1d8=1;
-  public static int DICE1d10=2;
-  public static int DICE2d6=3;
-  public static int DICE2d8=4;
-  public static int DICE2d10=5;
+  public static int DICE1d6=6;
+  public static int DICE1d8=8;
+  public static int DICE1d10=10;
+  public static int DICE2d6=12;
+  public static int DICE2d8=16;
+  public static int DICE2d10=20;
     
   public int getDiceType();  
   

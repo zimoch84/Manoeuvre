@@ -128,8 +128,7 @@ public class DefendDialog extends javax.swing.JFrame {
     }
      public void setAttackPoints(){
         
-             game.getCardCommandFactory().prepareDices(true);
-             attackTxt.setText(Integer.toString(game.getCombat().getAttackValue()+game.getCardCommandFactory().getMaxFromDices()));
+             attackTxt.setText(Integer.toString(game.getCombat().getAttackValue()+game.getCardCommandFactory().getMaxFromDices(true)));
        
     }
       public void setDeffensivePoints(){

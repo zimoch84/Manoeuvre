@@ -44,7 +44,7 @@ public class CardCommands {
                 game.getPlayerByName(senderPlayerName).getHand().drawCardFromSet(movingCard);//remove cards from own hand
                 if (game.getCurrentPlayer().getName().equals(senderPlayerName)) {
                 } else {
-                    game.getCardCommandFactory().setOpponentCard(movingCard);
+                    game.getCardCommandFactory().setOpponentCard(card);
                 }
                 //repaint is made by CommandQueue
             }

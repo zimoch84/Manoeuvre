@@ -758,4 +758,22 @@ public class Card implements CardInterface, Serializable{
     public void setMouseOverCard(boolean mouseOverCard) {
         this.mouseOverCard = mouseOverCard;
     }
+//    public static int DICE1d6=6;
+//  public static int DICE1d8=8;
+//  public static int DICE1d10=10;
+//  public static int DICE2d6=12;
+//  public static int DICE2d8=16;
+//  public static int DICE2d10=20;
+    public int getMaxFromCardMode(){
+      return getUnitDiceValue();
+    }
+    public int getMinFromCardMode(){
+       if(getUnitDiceValue()>10)
+           return 2;
+       return 1;
+    }
+    
+        
+    
+    
 }
