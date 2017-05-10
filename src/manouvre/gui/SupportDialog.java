@@ -557,9 +557,9 @@ public class SupportDialog extends javax.swing.JFrame {
            nrOfSupplyingCardsTxt.setText(Integer.toString(numberOfAvailableSupplyingCards));
     }
      public void setAttackPoints(){
-            game.getCardCommandFactory().prepareDices(false);
-            attackMinTxt.setText(Integer.toString(game.getCombat().getAttackValue()+game.getCardCommandFactory().getAllDices().size()));
-            attackMaxTxt.setText(Integer.toString(game.getCombat().getAttackValue()+game.getCardCommandFactory().getMaxFromDices()));
+          //  game.getCardCommandFactory().prepareDices(false);
+        //    attackMinTxt.setText(Integer.toString(game.getCombat().getAttackValue()+game.getCardCommandFactory().getAllDices().size()));
+         //   attackMaxTxt.setText(Integer.toString(game.getCombat().getAttackValue()+game.getCardCommandFactory().getMaxFromDices()));
     }
       public void setDeffensivePoints(){
            defenceTxt.setText(Integer.toString(game.getCombat().getDefenceValue()));

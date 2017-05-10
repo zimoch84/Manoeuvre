@@ -43,40 +43,7 @@ import java.util.Observable;
 import java.util.Observer;
 import manouvre.game.CardCommandFactory;
 import manouvre.game.Combat;
-import static java.lang.Math.abs;
 import manouvre.game.commands.CardCommands;
-import manouvre.game.commands.ThrowDiceCommand;
-import static java.lang.Math.abs;
-import manouvre.game.commands.CardCommands.CombatOutcomeCommand;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
 import static java.lang.Math.abs;
 
 
@@ -238,7 +205,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                Create puruit dialog
                */
                
-               CustomDialog cd = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "BATTLE RESOULT: \n"
+               CustomDialog cd = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "BATTLE RESULT: \n"
                        + "Attack: " + game.getCombat().getAttackValue()+" vs Deffence: "+ game.getCombat().getDefenceValue() + "\nDefending unit has withdrawn");
                break;
                
@@ -273,7 +240,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            case CardCommandFactory.COMBAT_NO_RESULT:
            {
  
-           CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "BATTLE RESOULT: \n"
+           CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "BATTLE RESULT: \n"
                        + "Attack: " + game.getCombat().getAttackValue()+" vs Deffence: "+ game.getCombat().getDefenceValue() + "\n No result");
            
            break;
@@ -282,7 +249,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            case CardCommandFactory.COMBAT_DEFENDER_TAKES_HIT:
            {
  
-           CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "BATTLE RESOULT: \n"
+           CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "BATTLE RESULT: \n"
                        + "Attack: " + game.getCombat().getAttackValue()+" vs Deffence: "+ game.getCombat().getDefenceValue() + "\n Unit " + game.getCardCommandFactory().getAttackedUnit().getName() +  "takes 1 hit");
            break;
            }
@@ -290,7 +257,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            case CardCommandFactory.COMBAT_ATTACKER_TAKES_HIT:
            {
  
-           CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "BATTLE RESOULT: \n"
+           CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "BATTLE RESULT: \n"
                        + "Attack: " + game.getCombat().getAttackValue()+" vs Deffence: "+ game.getCombat().getDefenceValue() + "\n Unit " + game.getCombat().getAttackingUnit().getName() +  "takes 1 hit");
            break;
            }
@@ -298,7 +265,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            case CardCommandFactory.COMBAT_ATTACKER_ELIMINATE:
            {
  
-           CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "BATTLE RESOULT: \n"
+           CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "BATTLE RESOLT: \n"
                        + "Attack: " + game.getCombat().getAttackValue()+" vs Deffence: "+ game.getCombat().getDefenceValue() + "\n Unit " + game.getCombat().getAttackingUnit().getName() +  "is eliminated");
            break;
            }
@@ -307,7 +274,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            case CardCommandFactory.COMBAT_DEFENDER_ELIMINATE:
            {
  
-           CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "BATTLE RESOULT: \n"
+           CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "BATTLE RESULT: \n"
                        + "Attack: " + game.getCombat().getAttackValue()+" vs Deffence: "+ game.getCombat().getDefenceValue() + "\n Unit " + game.getCardCommandFactory().getAttackedUnit().getName() + "is eliminated");
            break;
            }
@@ -985,6 +952,12 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         sendMessageButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 sendMessageButtonActionPerformed(evt);
+            }
+        });
+
+        sendText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sendTextActionPerformed(evt);
             }
         });
 
@@ -2155,10 +2128,11 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     private void sendMessageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendMessageButtonActionPerformed
         String msg = sendText.getText();
         String target = "All";
-
+        
+        printOnChat(msg);
         if(!msg.isEmpty() && !target.isEmpty()){
             sendText.setText("");
-            client.send(new Message("message", game.getCurrentPlayer().getName(), msg, target));
+            client.send(new Message(Message.CHAT_IN_ROOM, game.getCurrentPlayer().getName(), msg, game.getOpponentPlayer().getName()));
         }
     }//GEN-LAST:event_sendMessageButtonActionPerformed
 
@@ -2565,6 +2539,16 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
           lockedButton.setText("ACTIVE");
      }
     }//GEN-LAST:event_lockedButton1ActionPerformed
+
+    private void sendTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendTextActionPerformed
+        String msg = sendText.getText();
+        String target = game.getOpponentPlayer().getName();
+        if(!msg.isEmpty() && !target.isEmpty()){
+          
+            client.send(new Message(Message.CHAT_IN_ROOM, game.getCurrentPlayer().getName(), msg, target));
+        }
+        sendText.setText("");
+    }//GEN-LAST:event_sendTextActionPerformed
  
 //    public void clientSend(Message message){
 //        clOTRegroup.JPGient.send(gameGui.discardSelCards());

@@ -591,16 +591,17 @@ public class CardCommands {
             /*
             Set cardFactorywith dices
             */
-           
+            
             
             if(game.getCurrentPlayer().getName().equals(senderPlayerName))
             {
                 td.execute(game);
-            
+                            
                 combat.setDices(game.getCardCommandFactory().getAllDices());
             
                 combat.calculateCombatValues();
             }
+            game.setCombat(combat);
             
             switch(combat.getOutcome()){
             
