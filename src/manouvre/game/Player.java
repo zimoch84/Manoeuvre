@@ -6,6 +6,7 @@
 package manouvre.game;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import manouvre.game.interfaces.CardInterface;
 
 /**
@@ -187,6 +188,19 @@ public class Player  implements Serializable{
     public Unit[] getArmy() {
         return army;
     }
+    
+    ArrayList<Position> getArmyPositions(){
+     
+       ArrayList<Position> unitsPositions = new ArrayList<>();
+       Unit[] units = getArmy();
+        
+    for (int i=0;i<getArmy().length;i++)
+             {
+                if(!units[i].isEliminated())
+                        unitsPositions.add(units[i].getPosition());
+             }
+             return unitsPositions;
+    }
 
     public void setArmy(Unit[] army) {
         this.army = army;
@@ -278,6 +292,19 @@ public class Player  implements Serializable{
         
     }
     
+    public Unit getUnitByPosition(Position position){
+    
+           for(Unit unitSearch: getArmy()){
+        
+            if(unitSearch.getPosition().equals(position))
+            {
+                return unitSearch;
+            }
 
+        }
+              
+        return null;
+    
+    }
     
 }

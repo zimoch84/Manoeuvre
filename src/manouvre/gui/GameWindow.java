@@ -1636,7 +1636,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             }
         /*
         If unit is selected find which unit to move and move into
-        */
+            */
         else  
         {
             if(!game.getCurrentPlayer().hasMoved() || gameGui.freeMove)

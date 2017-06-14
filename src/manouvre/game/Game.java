@@ -605,6 +605,45 @@ public final class Game implements Serializable{
         
      
     }
+     
+    public ArrayList<Position> getCurrentPlayerAvalibleUnitToSelect(){
+    
+     switch (getPhase()){
+        
+            case Game.SETUP :
+            {
+           
+                return getCurrentPlayer().getArmyPositions();
+                
+            }
+            
+            case Game.DISCARD :
+                
+                return null;
+                
+            case Game.MOVE:
+                return getCurrentPlayer().getArmyPositions();
+               
+            case Game.COMBAT:
+                    
+                return getCurrentPlayer().getArmyPositions();
+                /*
+                TODO implement many more cases with combat mode
+                */
+            
+            case Game.RESTORATION:
+                
+                return null;
+                
+                /*
+                TODO create funcion to get Units selected by card
+                */
+          
+        }
+        
+     return null;
+        
+    }
     
     public Unit getUnitByName(String name){
     
