@@ -170,11 +170,11 @@ public final class Game implements Serializable{
 
     
     public ArrayList<Position> getPossibleBombard(Unit unit){
-    return null;
+                return getLOS(unit, 2);
     };
     
     public ArrayList<Position> getPossibleVolley(Unit unit){
-        return null;   
+            return getLOS(unit, 1);
     };
     public ArrayList<Position> getOneSquarePositions(Position unitPosition){
         ArrayList<Position> positions = new ArrayList<>();

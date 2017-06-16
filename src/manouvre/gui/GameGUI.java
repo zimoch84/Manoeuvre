@@ -66,7 +66,6 @@ public class GameGUI {
     final int gapSelection = 5;
     final int gapUnit = 7;
     
-    ArrayList<Integer> selectionSeq = new ArrayList<Integer>();
     
     int windowMode;
     
@@ -721,7 +720,7 @@ public class GameGUI {
     int liftCardIfSelectedBy=20;//pixels if card selected
     
     public void phaseChanged(){
-         selectionSeq.clear();//clear selection if phase was changed
+         game.getCurrentPlayer().getHand().selectionSeq.clear();//clear selection if phase was changed
              for (int i=0; i<handSetGui.cardsLeftInSet(); i++){  
               handSetGui.getCardByPosInSet(i).getCard().setSelected(false);   
              }
@@ -730,10 +729,10 @@ public class GameGUI {
         for (int i=0; i<handSetGui.getCardSet().cardsLeftInSet(); i++){ 
             handSetGui.getCardSet().getCardByPosInSet(i).setSelected(false);
         }
-        selectionSeq.clear();
+        game.getCurrentPlayer().getHand().selectionSeq.clear();
         if(handSetGui.getCardSet().getCardByCard(cardClicked)!=null){
         handSetGui.getCardSet().getCardByCard(cardClicked).setSelected(true);
-        selectionSeq.add((Integer)cardClicked.getCardID());
+        game.getCurrentPlayer().getHand().selectionSeq.add((Integer)cardClicked.getCardID());
         }
         else System.err.println("CARD IS NOT SELECTED - check GameGui.java method: keepOneSelectedCard");
     }
@@ -776,7 +775,7 @@ public class GameGUI {
                     else if (game.getPhase()==Game.COMBAT &&(game.getCombat()!= null))
                             {
                                 if(game.getCombat().getState()!=stateTemp){  //reset selection if state was changing
-                                selectionSeq.clear();
+                                game.getCurrentPlayer().getHand().selectionSeq.clear();
                                 stateTemp=game.getCombat().getState();
                                 }  
                             switch(game.getCombat().getState())
@@ -785,7 +784,7 @@ public class GameGUI {
                                     {   
                                         if(game.getCurrentPlayer().isActive()){
                                             game.getCardCommandFactory().addPickedAttackingCard(cardClicked);
-                                            selectionSeq.add((Integer)cardClicked.getCardID()); 
+                                            game.getCurrentPlayer().getHand().selectionSeq.add((Integer)cardClicked.getCardID()); 
                                             break;
                                         }
                                     }
@@ -793,7 +792,7 @@ public class GameGUI {
                                     {
                                         if(!game.getCurrentPlayer().isActive()){
                                             game.getCardCommandFactory().addPickedDefendingCard(cardClicked);
-                                            selectionSeq.add((Integer)cardClicked.getCardID()); 
+                                            game.getCurrentPlayer().getHand().selectionSeq.add((Integer)cardClicked.getCardID()); 
                                             break;
                                         }
                                     }
@@ -803,7 +802,7 @@ public class GameGUI {
                     /*
                     We are in other phases than MOVE and COMBAT
                     */
-                    else selectionSeq.add((Integer)cardClicked.getCardID());
+                    else game.getCurrentPlayer().getHand().selectionSeq.add((Integer)cardClicked.getCardID());
 
                     /*
                 Set playingCard always but Discard phase
@@ -820,7 +819,7 @@ public class GameGUI {
                 triggerCardActionOnDeSelection(cardClicked);
                 cardClicked.setSelected(false);
                 Integer j=cardClicked.getCardID();
-                selectionSeq.remove(j); //remove number Integer j, not position int i
+                game.getCurrentPlayer().getHand().selectionSeq.remove(j); //remove number Integer j, not position int i
                 if(game.getPhase()==Game.COMBAT && (game.getCombat()==null)){
                     game.getCardCommandFactory().removePickedAttackingCard(cardClicked);
                 }
@@ -939,8 +938,8 @@ public class GameGUI {
         CardSet hand=currentPlayer.getHand();
         int cardPaddingTopTemp=cardPaddingTop;
         Integer j=0;
-        if(!selectionSeq.isEmpty()){
-            j=selectionSeq.get(selectionSeq.size()-1);              
+        if(!hand.selectionSeq.isEmpty()){
+            j=hand.selectionSeq.get(hand.selectionSeq.size()-1);              
             j=handSetGui.getPositionInSetByCardID(j); 
             int[] xPoints={cardPaddingLeft+35+width*j+(gap*j),cardPaddingLeft+95+width*j+(gap*j),cardPaddingLeft+35+(95-35)/2+width*j+(gap*j)};
             int[] yPoints={cardPaddingTop+180,cardPaddingTop+180,cardPaddingTop+170};
@@ -954,8 +953,8 @@ public class GameGUI {
             if(game.getPhase()==Game.COMBAT&&(
                     (game.getCombat() != null ?
                     ( game.getCombat().getState()==Combat.PICK_DEFENSE_CARDS||game.getCombat().getState()==Combat.PICK_SUPPORTING_CARDS): false))){  //put triangle under all selected in Defence mode
-                for(int s=0; s<selectionSeq.size()-1; s++){
-                    j=selectionSeq.get(s);              
+                for(int s=0; s<hand.selectionSeq.size()-1; s++){
+                    j=hand.selectionSeq.get(s);              
                     j=handSetGui.getPositionInSetByCardID(j); 
                     int[] xPoints2={cardPaddingLeft+35+width*j+(gap*j),cardPaddingLeft+95+width*j+(gap*j),cardPaddingLeft+35+(95-35)/2+width*j+(gap*j)};
                     int[] yPoints2={cardPaddingTop+180,cardPaddingTop+180,cardPaddingTop+170};
@@ -987,17 +986,17 @@ public class GameGUI {
     }
     
     public void playSelectedCard(){
-         for (int i=0; i<selectionSeq.size(); i++){   
-            currentPlayer.getHand().dealCardToOtherSetByCardID(selectionSeq.get(i),  game.getTablePile());
+         for (int i=0; i<game.getCurrentPlayer().getHand().selectionSeq.size(); i++){   
+            currentPlayer.getHand().dealCardToOtherSetByCardID(game.getCurrentPlayer().getHand().selectionSeq.get(i),  game.getTablePile());
             }
-            selectionSeq.clear();
+            game.getCurrentPlayer().getHand().selectionSeq.clear();
             resetAllCardSets();
     
     }
     
 
     public boolean getSelectionSeqIsEmpty() {
-        return selectionSeq.isEmpty();
+        return game.getCurrentPlayer().getHand().selectionSeq.isEmpty();
     }
     
     private BufferedImage cropImage(Image img, int x, int y, int width, int height){
@@ -1438,7 +1437,7 @@ public class GameGUI {
         //done on hand itseld not on HandGui
         ArrayList<Integer> selectionSeqTemp = new ArrayList<Integer>();
         selectionSeqTemp.clear();
-        for (Integer i : this.selectionSeq) {
+        for (Integer i : game.getCurrentPlayer().getHand().selectionSeq) {
             //make a copy to loose referance
             selectionSeqTemp.add(i);
         }
@@ -1451,7 +1450,7 @@ public class GameGUI {
         //        for (int i=0; i<selectionSeq.size(); i++){
         //            currentPlayer.getHand().dealCardToOtherSetByCardID(selectionSeq.get(i),  currentPlayer.getDiscardPile());
         //           }
-        this.selectionSeq.clear();
+        game.getCurrentPlayer().getHand().selectionSeq.clear();
         this.handSetGui.reSet(); //reset GUI
         this.discardSetGui.reSet(); //reset GUI
         this.drawSetGui.reSet(); //reset GUI

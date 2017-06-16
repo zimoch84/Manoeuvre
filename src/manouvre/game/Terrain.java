@@ -192,7 +192,7 @@ public class Terrain  implements TerrainInterface, Serializable {
     @Override
     public boolean isBlockingLOS() {
           
-        if(isOccupiedByUnit || blockingLOS) 
+        if(isOccupiedByUnit) 
             return true;
         else return blockingLOS;
             
