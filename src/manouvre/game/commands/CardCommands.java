@@ -187,8 +187,10 @@ public class CardCommands {
                 //do nothing special
             } else {
                 game.getCardCommandFactory().setIncomingCardCommand(this); //set this comand to be able to reject it
+                game.getCardCommandFactory().awakeObserver();
+                game.getCardCommandFactory().notifyObservers(CardCommandFactory.CARD_DIALOG);
             }
-            game.getCardCommandFactory().notifyObservers(CardCommandFactory.CARD_DIALOG);
+             
         }
 
         @Override

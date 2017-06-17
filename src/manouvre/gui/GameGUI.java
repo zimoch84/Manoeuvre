@@ -763,7 +763,7 @@ public class GameGUI {
                         keepOneSelectedCard(cardClicked);
                         }
                      
-                     if(game.getPhase()==Game.COMBAT && (game.getCombat()==null)){ //select first card in combat
+                    else if(game.getPhase()==Game.COMBAT && (game.getCombat()==null)){ //select first card in combat
                         triggerCardActionOnSelection(cardClicked);
                         keepOneSelectedCard(cardClicked);  
                         game.getCardCommandFactory().setPlayingCard(cardClicked);
@@ -802,6 +802,11 @@ public class GameGUI {
                     /*
                     We are in other phases than MOVE and COMBAT
                     */
+                    else if(game.getPhase()==Game.RESTORATION){
+                        game.getCardCommandFactory().setPlayingCard(cardClicked);
+                        triggerCardActionOnSelection(cardClicked);
+                        keepOneSelectedCard(cardClicked);
+                    }
                     else game.getCurrentPlayer().getHand().selectionSeq.add((Integer)cardClicked.getCardID());
 
                     /*
