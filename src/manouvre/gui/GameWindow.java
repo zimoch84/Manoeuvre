@@ -1749,6 +1749,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                     showCannotPlayCardDialog();    
                 else 
                 {
+                showCardNoValidTargetDialog();
                 game.getCardCommandFactory().resetPlayingCard();
                 this.repaint();
                 }   
@@ -1802,7 +1803,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                         "Are You sure to play that card? " ,
                         cmdQueue, game);
         try {
-            dialog.setOkCommand(game.getCardCommandFactory().createCardCommand());
+                dialog.setOkCommand(game.getCardCommandFactory().createCardCommand());
             dialog.setCancelCommand(game.getCardCommandFactory().resetFactoryCommand());
             
             //dialog.setCancelCommand(moveUnit);
@@ -1824,6 +1825,19 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         game.getCardCommandFactory().resetFactory();
         
     }
+    private void showCardNoValidTargetDialog(){
+    /*
+        Confirmation dialog
+        */
+        CustomDialog dialog = 
+                new CustomDialog(CustomDialog.CONFIRMATION_TYPE, 
+                        "This card doesn't have valid target",
+                        cmdQueue, game);
+        dialog.setVisible(true);
+        game.getCardCommandFactory().resetFactory();
+        
+    }
+    
     private ArrayList<Position> getPossibleUnitPostionToSelect(){
     
      if(game.getCurrentPlayer().isPlayingCard())

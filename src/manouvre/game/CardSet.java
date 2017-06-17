@@ -36,6 +36,7 @@ public class CardSet implements CardSetInterface, Serializable{
     private Random randomGener = new Random();
 
     public ArrayList<Card> cardList = new ArrayList<Card>();
+    public ArrayList<Integer> selectionSeq = new ArrayList<Integer>();
 
     /**
      * Establish object for CARD DECK 

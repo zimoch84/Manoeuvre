@@ -283,8 +283,13 @@ public class CardCommandFactory extends Observable implements Serializable{
                     game.getMap().getTerrainAtPosition(getAttackedUnit().getPosition())
             );
             else  if(game.getPhase() == Game.RESTORATION)
-                return new RestoreUnitCommand(game.getCurrentPlayer().getName(), game.getSelectedUnit(), playingCard);
-            
+            {
+                Command restoreCommand = new RestoreUnitCommand(game.getCurrentPlayer().getName(),
+                        game.getSelectedUnit(),
+                        playingCard);
+                return restoreCommand;
+                
+            }
             
         }    
             
