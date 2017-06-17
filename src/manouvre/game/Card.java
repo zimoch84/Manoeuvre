@@ -526,36 +526,34 @@ public class Card implements CardInterface, Serializable{
  
     public boolean getAvailableForPhase(Game game){
         int phase=game.getPhase();
-        if(game.isLocked()) return false;
+        if(game.isLocked()) return false;  //locked means that GUI is locked
         switch(phase){
             case Game.SETUP:
-                 return false;
+                 return false; //not possible to select card, only units available
                  
             case Game.DISCARD:
-                if(game.getCurrentPlayer().isActive())
                 return true;
-                else return false;
               
             case Game.DRAW:
-                if(getHQType() == Card.SCOUT) 
-                    return true;
-                else return false;
+                    if(getHQType() == Card.SCOUT ) 
+                        return true;
+                    else return false;
             case Game.MOVE:
                 /*
                 Not unit
                 */
-              if(isHQCard()){
-                  /*
-                  And not these cards
-                  */
-                    if((getHQType() != Card.REDOUBDT 
-                     && getHQType() != Card.REGROUP
-                     && getHQType() != Card.SKIRMICH
-                     && getHQType()  != Card.WITHDRAW
-                    ))
+                if(isHQCard()){
+                    /*
+                    And not these cards
+                    */
+                      if((getHQType() != Card.REDOUBDT 
+                       && getHQType() != Card.REGROUP
+                       && getHQType() != Card.SKIRMICH
+                       && getHQType()  != Card.WITHDRAW
+                      ))
                         return true;
-              }
-              else return false;
+                    }
+                    else return false;
               
 //               case Game.COMBAT:  
 //                 if(  getHQType() != Card.REDOUBDT  
@@ -570,28 +568,61 @@ public class Card implements CardInterface, Serializable{
                  */
             case Game.COMBAT: 
                 {
-                    if((game.getCombat() != null ? (game.getCombat().getState()==Combat.INITIALIZING_COMBAT) : false) &&  //at the start of the battle
-                         (getHQType() != Card.REDOUBDT  
-                         || getHQType() != Card.REGROUP 
-                         || getHQType()  != Card.SUPPLY
-                         || getHQType()  != Card.FORCED_MARCH))
-                    return true;
+                    if(game.getCombat() != null){
+                        switch(game.getCombat().getState()){
+                            case Combat.INITIALIZING_COMBAT:
+                                for(int i=0; i<game.getCurrentPlayer().getArmy().length;i++)
+                                    if(game.getCurrentPlayer().getArmy()[i].getName().equals(getCardName()))
+                                    return true;
+                            case Combat.PICK_DEFENSE_CARDS:
+                                if(game.getCardCommandFactory().getAttackedUnit().getName().equals(getCardName())&&getUnitDefence()!=0||
+                                    (getCardType()==CardInterface.HQLEADER))
+                                        return true;
+                                return false;
+                            case Combat.PICK_SUPPORTING_CARDS:
+                                if(game.getCardCommandFactory().getAttackedUnit().getName().equals(getCardName())||
+                                    (getCardType()==CardInterface.HQLEADER))
+                                        return true;
+                                return false;
+                                        
+                        }
+                    }
                     else{
                         for(int i=0; i<game.getCurrentPlayer().getArmy().length;i++)
-                        if(game.getCurrentPlayer().getArmy()[i].getName().equals(getCardName()))
-                            return true;
-                    }
-                    if((game.getCombat() != null ? (game.getCombat().getState()==Combat.PICK_DEFENSE_CARDS) : false) &&
-                        //  (game.getCombat() != null ? (!game.getCardCommandFactory().getOpponentCard().getPlayiningMode().equals("BOMBARD")) : false) &&  //at the defence part of the battle but not in BOMBARD
-                          (game.getCardCommandFactory().getAttackedUnit().getName().equals(getCardName())&&getUnitAttack()!=0||
-                          (getCardType()==CardInterface.HQLEADER)))
-                          return true;
-                    if(
-                          (game.getCombat() != null ?(game.getCombat().getState()==Combat.PICK_SUPPORTING_CARDS) : false ) &&  //at the support part of the battle
-                          (game.getCardCommandFactory().getAttackedUnit().getName().equals(getCardName())||
-                          getCardType()==CardInterface.HQLEADER))
-                          return true;
-                    else return false;
+                            if(game.getCurrentPlayer().getArmy()[i].getName().equals(getCardName()))
+                                return true;
+                    } 
+                        
+//if(getHQType() != Card.REDOUBDT  
+//                                || getHQType() != Card.REGROUP 
+//                                || getHQType()  != Card.SUPPLY
+//                                || getHQType()  != Card.FORCED_MARCH)
+//                                    return true;
+//                                 return false;) 
+//                        return false;
+                    
+//                    if((game.getCombat() != null ? (game.getCombat().getState()==Combat.INITIALIZING_COMBAT) : false) &&  //at the start of the battle
+//                         (getHQType() != Card.REDOUBDT  
+//                         || getHQType() != Card.REGROUP 
+//                         || getHQType()  != Card.SUPPLY
+//                         || getHQType()  != Card.FORCED_MARCH))
+//                    return true;
+//                    else{
+//                        for(int i=0; i<game.getCurrentPlayer().getArmy().length;i++)
+//                        if(game.getCurrentPlayer().getArmy()[i].getName().equals(getCardName()))
+//                            return true;
+//                    }
+//                    if((game.getCombat() != null ? (game.getCombat().getState()==Combat.PICK_DEFENSE_CARDS) : false) &&
+//                        //  (game.getCombat() != null ? (!game.getCardCommandFactory().getOpponentCard().getPlayiningMode().equals("BOMBARD")) : false) &&  //at the defence part of the battle but not in BOMBARD
+//                          (game.getCardCommandFactory().getAttackedUnit().getName().equals(getCardName())&&getUnitAttack()!=0||
+//                          (getCardType()==CardInterface.HQLEADER)))
+//                          return true;
+//                    if(
+//                          (game.getCombat() != null ?(game.getCombat().getState()==Combat.PICK_SUPPORTING_CARDS) : false ) &&  //at the support part of the battle
+//                          (game.getCardCommandFactory().getAttackedUnit().getName().equals(getCardName())||
+//                          getCardType()==CardInterface.HQLEADER))
+//                          return true;
+//                    else return false;
                 }
             case Game.RESTORATION:
                 if(isHQCard())

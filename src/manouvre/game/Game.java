@@ -863,5 +863,30 @@ public final class Game implements Serializable{
     this.lockGUI = false;
      this.currentPlayer.getName();
     }
+    
+     public void checkLockingGUI()
+    {
+        if(getCombat()==null){
+                if(getPhase()== Game.SETUP && getCurrentPlayer().isFinishedSetup() && !getOpponentPlayer().isFinishedSetup() )
+                    lockGUI();
+                else if(getPhase()!= Game.SETUP && !getCurrentPlayer().isActive())
+                    lockGUI();            
+                else 
+                    unlockGUI();
+        }else{
+            
+            if(getCombat().getState()==Combat.PICK_DEFENSE_CARDS){
+                if(getCurrentPlayer().isActive())
+                        lockGUI();
+                else unlockGUI();
+            }
+            if(getCombat().getState()==Combat.PICK_SUPPORTING_CARDS){
+                if(getCurrentPlayer().isActive())
+                    unlockGUI();
+                else lockGUI();
+            }
+//            else game.unlockGUI();  
+        }
+    }   
 }
 

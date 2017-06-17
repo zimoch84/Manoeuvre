@@ -90,11 +90,22 @@ public class DefendDialog extends javax.swing.JFrame {
         setAttackPoints();
         chooseCardsAvailableForDefence();
         setDeffensivePoints();
-        labelTitle.setText(game.getCurrentPlayer().getName() + ", "+labelTitle.getText() + " " + attackType+"ED");
+        String attackTypeString="??";
+        switch(attackType){
+            case Combat.ASSAULT:
+                attackTypeString="ASSOULT";
+                break;
+            case Combat.BOMBARD:
+                attackTypeString="BOMBARD";
+                break;
+            case Combat.VOLLEY:
+                attackTypeString="VOLLEY";
+                break;
+        }
+        labelTitle.setText(game.getCurrentPlayer().getName() + ", "+labelTitle.getText() + " " + attackTypeString+"ED");
        
         
-         
-            
+               
         
         setVisible(true);
         this.setAlwaysOnTop (true);
@@ -184,7 +195,6 @@ public class DefendDialog extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         defenceTxt = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.FlowLayout());
@@ -327,13 +337,6 @@ public class DefendDialog extends javax.swing.JFrame {
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
-        jButton1.setText("refresh..");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -343,8 +346,6 @@ public class DefendDialog extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(27, 27, 27)
                         .addComponent(cancelButton)
-                        .addGap(34, 34, 34)
-                        .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(okButton))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -379,8 +380,7 @@ public class DefendDialog extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelButton)
-                    .addComponent(okButton)
-                    .addComponent(jButton1))
+                    .addComponent(okButton))
                 .addContainerGap())
         );
 
@@ -427,11 +427,6 @@ public class DefendDialog extends javax.swing.JFrame {
     private void defenceTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_defenceTxtActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_defenceTxtActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        this.repaint();
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -518,7 +513,6 @@ public class DefendDialog extends javax.swing.JFrame {
     private javax.swing.JTextField attackTxt;
     private javax.swing.JButton cancelButton;
     private javax.swing.JTextField defenceTxt;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;

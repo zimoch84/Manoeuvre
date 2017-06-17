@@ -62,7 +62,7 @@ public class CardCommandFactory extends Observable implements Serializable{
     
     
     boolean cancelCardMode;
-    int maxFromDices=0,minFromDices=0;
+    int minFromDices=0;
     
     public boolean isCancelCardMode() {
         return cancelCardMode;
@@ -351,7 +351,7 @@ public class CardCommandFactory extends Observable implements Serializable{
     }
     
      public int getMaxFromDices(boolean countOponent) {
-        maxFromDices=0;
+        int maxFromDices=0;
         for (Card card: chooseOpponentAttaker(countOponent))
         {
         maxFromDices += card.getMaxFromCardMode();

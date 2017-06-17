@@ -301,6 +301,7 @@ public class CardCommands {
           
 
            game.setCombat(combat);
+           game.checkLockingGUI();
            //now is the time for opponent to choose defensive cards
            
            game.getCardCommandFactory().setAttackedUnit(attackedUnit);
@@ -506,8 +507,8 @@ public class CardCommands {
             this.combatType = combatType;
             this.defendCards = defendCards;
             this.senderPlayerName = senderPlayerName;
-            Combat cloneCombat = (Combat) UnoptimizedDeepCopy.copy (combat);
-            this.combat = cloneCombat;
+//            Combat cloneCombat = (Combat) UnoptimizedDeepCopy.copy (combat);  //btest
+//            this.combat = cloneCombat;
             
         }
 

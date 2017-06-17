@@ -99,7 +99,7 @@ public class SupportDialog extends javax.swing.JFrame {
         
          jLabel1.setText(game.getCurrentPlayer().getName() + ", "+jLabel1.getText() );
        
-        setTextAreas();
+        setTextAreas();  //defence and attack
         setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }

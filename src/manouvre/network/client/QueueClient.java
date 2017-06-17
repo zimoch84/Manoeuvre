@@ -82,8 +82,6 @@ class HostClient implements ClientInterface , Runnable{
         
     switch( msgIn.getMessageType() ){
         case Message.COMMAND:
-            
-            
                     Command executeCommand = msgIn.getCommand();
                     clientGameHost.cmdQueue.storeAndExecute(executeCommand);
                    // clientGameHost.checkPopUps();

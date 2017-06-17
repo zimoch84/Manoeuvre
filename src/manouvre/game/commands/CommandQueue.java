@@ -36,19 +36,19 @@ public class CommandQueue {
     
 
     public void storeAndExecute(Command cmd) {
-      this.commands.add(cmd);
-      cmd.execute(game);
-      commandLogger.log(cmd);
-      
-      
-      gameWindow.refreshAll();
-      gameWindow.repaint();
+        this.commands.add(cmd);
+        cmd.execute(game);
+        commandLogger.log(cmd);
+
+
+        gameWindow.refreshAll();
+        gameWindow.repaint();
         
-      System.err.println("CommandQueue.storeAndExecute() " + cmd.toString() + " "
+        System.err.println("CommandQueue.storeAndExecute() " + cmd.toString() + " "
               + game.getCurrentPlayer().getName() + " Phase" + 
               game.getPhaseName(game.getPhase()));
      
-     // cmd=null;//I thing we should delete commands after completion
+     // cmd=null;//I think we should delete commands after completion
       
    }
     
@@ -59,7 +59,7 @@ public class CommandQueue {
       
       gameWindow.refreshAll();
       gameWindow.repaint();
-     // cmd=null;//I thing we should delete commands  after completion
+     // cmd=null;//I think we should delete commands  after completion
    }
     
     public void storeAndExecuteAndSend(Command cmd) {
@@ -76,7 +76,7 @@ public class CommandQueue {
       
         message.setCommand(cmd);
         client.send(message);
-       // cmd=null;//I thing we should delete commands after completion
+       // cmd=null;//I think we should delete commands after completion
         
         
       

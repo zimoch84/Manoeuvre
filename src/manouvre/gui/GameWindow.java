@@ -311,28 +311,10 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
      
     }
     
-    void checkLockingGUI()
-            
-    {
-        if(game.getCombat()==null){
-                if(game.getPhase()== Game.SETUP && game.getCurrentPlayer().isFinishedSetup() && !game.getOpponentPlayer().isFinishedSetup() )
-                    game.lockGUI();
-                else if(game.getPhase()!= Game.SETUP && !game.getCurrentPlayer().isActive())
-                    game.lockGUI();            
-                else 
-                    game.unlockGUI();
-        }else{
-            if(game.getCurrentPlayer().isActive()&&game.getCombat().getState()==Combat.PICK_DEFENSE_CARDS){
-                game.lockGUI();
-            }else if(!game.getCurrentPlayer().isActive()&&game.getCombat().getState()==Combat.PICK_SUPPORTING_CARDS){
-                 game.lockGUI();
-            }
-                else game.unlockGUI();  
-        }
-    }   
+  
     
     public void refreshAll(){
-        checkLockingGUI();
+        game.checkLockingGUI();
         setActionButtonText();
         setPhaseLabelText();
         gameTurnCounter.setText(Integer.toString(game.getTurn()));
