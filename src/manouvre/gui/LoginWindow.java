@@ -118,7 +118,12 @@ public class LoginWindow extends javax.swing.JFrame {
 
         jLabel3.setText("Server");
 
-        IPField.setText("25.141.136.198");
+        IPField.setText("localhost");
+        IPField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                IPFieldActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Port");
 
@@ -206,6 +211,7 @@ public class LoginWindow extends javax.swing.JFrame {
     private void loginToServer(ActionEvent evt){
         username = jUserTextField.getText();
         
+        
         password = Arrays.toString(jPasswordField.getPassword());
         
         player = new Player(username);
@@ -246,6 +252,10 @@ public class LoginWindow extends javax.swing.JFrame {
     private void jUserTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jUserTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jUserTextFieldActionPerformed
+
+    private void IPFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IPFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_IPFieldActionPerformed
 
     /**
      * @param args the command line arguments
