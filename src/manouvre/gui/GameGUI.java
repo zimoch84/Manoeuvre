@@ -197,9 +197,9 @@ public class GameGUI {
                     (MapGUI.SQUARE_WIDTH/2)
                    ,  (i) * MapGUI.SQUARE_WIDTH + MapGUI.BOARD_START_Y + (MapGUI.SQUARE_WIDTH/2))
                     ;
-                }
-            
-        }
+                    }
+
+            }
     }
     
     private void drawSelection(Graphics g){

@@ -34,7 +34,7 @@ public class MapPickUnitMovePositionState implements MapState{
         }
         
         
-        ArrayList<Position> avalaiblePositions =  game.getCurrentPlayerAvalibleUnitToSelect();
+        ArrayList<Position> avalaiblePositions =  game.getCurrentPlayerAvalibleMoveUnitPositions();
         switch (game.getPhase()){
             case Game.SETUP :
             {

@@ -47,6 +47,10 @@ public class MapInputStateHandler {
             case PICK_ONE_UNIT : currentState = new MapPickAvalibleUnitState();
             break;
             
+            case PICK_MOVE_POSITION : currentState = new MapPickUnitMovePositionState();
+            break;
+                       
+            
             case CARD_PLAYING_STATE : currentState = new MapCardPlayingState();
             break;
             
@@ -60,6 +64,7 @@ public class MapInputStateHandler {
            // break;
             
             default: currentState = new MapPickNoneState();
+            break;
         
         }
  

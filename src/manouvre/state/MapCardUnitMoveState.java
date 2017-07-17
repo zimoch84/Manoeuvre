@@ -27,6 +27,7 @@ public class MapCardUnitMoveState implements MapState{
     public void handleInput(Position pos, Game game, CommandQueue cmdQueue , MapInputStateHandler handler) {
        
                 Card playingCard = game.getCardCommandFactory().getPlayingCard();
+                
                 Unit selectedUnit = game.getSelectedUnit();
                 
                 if(getMovePositions(playingCard, game).contains(pos))
@@ -132,6 +133,7 @@ private ArrayList<Position> getMovePositions(Card playingCard, Game game){
             if(game.getSelectedUnit()!= null)
                 {   
                     Unit selectedUnit = game.getSelectedUnit();
+
                     switch(playingCard.getCardType()){
                         
                         case Card.HQCARD :

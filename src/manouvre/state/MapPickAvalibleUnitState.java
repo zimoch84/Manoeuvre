@@ -27,10 +27,10 @@ public class MapPickAvalibleUnitState implements MapState{
             
         {
             game.getCurrentPlayer().getUnitByPosition(pos).setSelected(true);
-        
+            game.getMap().setUnitSelected(true);
           
         
-            if(game.getCardCommandFactory().getPlayingCard() != null) 
+            if(game.getCardCommandFactory().getPlayingCard() == null) 
         
             {
                 if(game.getPhase() == Game.SETUP || game.getPhase() == Game.MOVE )
