@@ -5,27 +5,20 @@
  */
 package manouvre.gui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import javax.swing.JRootPane;
-import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
 import manouvre.game.Card;
 import manouvre.game.CardSet;
 import manouvre.game.Combat;
-import static manouvre.game.Combat.DEFFENDER_TAKES_HIT;
 import manouvre.game.Game;
 import manouvre.game.Unit;
 import manouvre.game.commands.CommandQueue;
-import manouvre.game.interfaces.CardInterface;
 import manouvre.game.interfaces.ClientInterface;
-import manouvre.network.client.Message;
-import manouvre.network.client.SocketClient;
 import manouvre.game.interfaces.Command;
 
 /**

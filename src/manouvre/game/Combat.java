@@ -32,7 +32,10 @@ public class Combat implements Serializable{
     public static final int PICK_SUPPORT_UNIT= 2;
     public static final int PICK_SUPPORTING_CARDS= 3;
     public static final int THROW_DICES= 4;
-    public static final int WAIT_FOR_OPPONENT= 5;
+    public static final int PURSUIT= 5;
+    public static final int WAIT_FOR_OPPONENT= 6;
+    
+    
     
     /*
     Outcome
@@ -46,9 +49,12 @@ public class Combat implements Serializable{
     public static final int NO_EFFECT= 15;
 
    
-    Unit attackingUnit, defendingUnit;
+    Unit initAttackUnit, defendingUnit;
+    ArrayList<Unit> attackingUnits;        
 
-
+    /*
+    Descibe state of the combat 
+    */
     int state;
     
     int defenceValue, attackValue, defenseBonus, attackBonus;
@@ -60,19 +66,20 @@ public class Combat implements Serializable{
     ArrayList<Card> attackCards, defenceCards;
     Terrain attackTerrain, defenseTerrain;
     
-    ArrayList<Unit> supportingUnits;
+    
     int combatType;
 
-    public Combat(int combatType, Unit attackingUnit, Card attackCard,Terrain attackTerrain, Unit defendingUnit, Terrain defenseTerrain) {
+    public Combat(int combatType, Unit initAttackUnit, Card attackCard,Terrain attackTerrain, Unit defendingUnit, Terrain defenseTerrain) {
         
-    this.attackingUnit = attackingUnit;
+    this.initAttackUnit = initAttackUnit;
     this.defendingUnit = defendingUnit;
     this.attackCards = new ArrayList<>();
     this.defenceCards = new ArrayList<>();
     this.dices = new ArrayList<>();
-    this.supportingUnits = new ArrayList<>();
+    this.attackingUnits = new ArrayList<>();
     this.attackCard = attackCard;
     this.attackCards.add(attackCard);
+    this.attackingUnits.add(initAttackUnit);
     
     this.attackTerrain = attackTerrain;
     this.defenseTerrain = defenseTerrain;
@@ -114,7 +121,7 @@ public class Combat implements Serializable{
         */
         attackValue=0;
         if(!attackCard.getPlayiningMode().equals("BOMBARD")){  //bomard do not get advantage of Unit Attack
-        attackValue = attackingUnit.getCurrentStrenght();  }
+        attackValue = initAttackUnit.getCurrentStrenght();  }
         attackValue += attackBonus;
       
         /*
@@ -126,7 +133,7 @@ public class Combat implements Serializable{
         /*
         Supporting units
         */
-        for (Unit unit: supportingUnits)
+        for (Unit unit: attackingUnits)
         {
         attackValue += unit.getCurrentStrenght();
         }
@@ -239,11 +246,11 @@ public class Combat implements Serializable{
     }
 
     public ArrayList<Unit> getSupportingUnits() {
-        return supportingUnits;
+        return attackingUnits;
     }
 
     public void setSupportingUnits(ArrayList<Unit> supportingUnits) {
-        this.supportingUnits = supportingUnits;
+        this.attackingUnits = supportingUnits;
     }
 
     public int getDefenceValue() {
@@ -303,7 +310,7 @@ public class Combat implements Serializable{
     }
 
     public Unit getAttackingUnit() {
-        return attackingUnit;
+        return initAttackUnit;
     }
 
     public Unit getDefendingUnit() {
@@ -330,7 +337,132 @@ public class Combat implements Serializable{
         return defenseTerrain;
     }
     
+    public boolean isAttackerNotRequiredToAdvance(){
+        /*
+        If supoprting card doesnt have "Not required to advance" feature then attacker have to advance
+        */
+        if(attackCard.isNotRequredToAdvanceAfterAttack())
+        {
+            if(!attackCards.isEmpty())
+            {
+                for(Card attackCard :attackCards)
+                {
+                    /*
+                    If supoprting card doesnt have "Not required to advance" feature then attacker have to advance
+                    */
+                    if(!attackCard.isNotRequredToAdvanceAfterAttack())
+                        return false; 
+                }
+                /*
+                If all of supporting cards have "Not requred to advance"
+                */
+                return true;
+            }
+            /*
+            If attacker doesnt have supporting cards
+            */
+            else return true;
+        } 
+        
+        return false;
+        
+        
+    }
+    /*
+    Returns units that was involved in combat 
+    */
     
+    public ArrayList<Unit> getUnitThatCanAdvance(){
+        
+        ArrayList<Unit> advancenits = new ArrayList<>();
+           
+        advancenits.add(initAttackUnit);
+        
+        for(Unit attackUnit :attackingUnits)
+                    {
+        if(attackUnit.isSupporting()   ) ;
+                   advancenits.add(attackUnit) ;
+        }
+        return advancenits;
     
+    }
+    
+    public boolean canAttackerPursue(){
+    
+            /*
+        Find unit that advanced and check if it is Calvary with proper Card
+        */
+        
+        for(Unit attackingUnit: attackingUnits)
+                
+                if(attackingUnit.hasAdvanced())
+                {
+                    
+                    if(attackCards.contains(attackingUnit))
+                    {
+                        for(Card checkingCard : attackCards)
+                        {
+                            if(checkingCard.equals(attackingUnit))
+                            {
+                                if(checkingCard.canPursue()){
+                                    return true;
+                                }
+                            }
+                                
+                        }
+                    }
+                }
+                    
+       return false;
+        
+    }
+    public ArrayList<Card> getPursuitCards(){
+        
+        ArrayList<Card> pursueCards = new ArrayList<>();
+           
+          for(Unit attackingUnit: attackingUnits)
+                
+                if(attackingUnit.hasAdvanced())
+                {
+                    
+                    if(attackCards.contains(attackingUnit))
+                    {
+                        for(Card checkingCard : attackCards)
+                        {
+                            if(checkingCard.equals(attackingUnit))
+                            {
+                                if(checkingCard.canPursue()){
+                                    pursueCards.add(checkingCard);
+                                }
+                            }
+                                
+                        }
+                    }
+                }
+          
+          return pursueCards;
+                  
+    }
+    
+    public void endCombat(Game game)
+            
+    {
+        
+        /*
+        Clear advance flag after combat
+        */
+        
+        for(Unit unit: game.getCurrentPlayer().getArmy())
+            
+        {
+            if(unit.hasAdvanced())
+                unit.setAdvanced(false);
+                
+            if(unit.isSupporting())
+                unit.setSupporting(false);
+            
+        }
+    
+    }
     
 }

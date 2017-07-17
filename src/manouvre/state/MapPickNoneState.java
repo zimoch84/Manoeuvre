@@ -5,17 +5,22 @@
  */
 package manouvre.state;
 
-
 import manouvre.game.Game;
 import manouvre.game.Position;
 import manouvre.game.commands.CommandQueue;
 
 /**
  *
- * @author Piotr Grudzień
+ * @author piotr_grudzien
  */
-public interface MapState {
-    
-    public void handleInput(Position pos, Game game, CommandQueue cmdQueue, MapInputStateHandler handler );
+public class MapPickNoneState  implements MapState{
+
+    @Override
+    public void handleInput(Position pos, Game game, CommandQueue cmdQueue, MapInputStateHandler handler) {
+       
+        /*
+        Do nothing
+        */
+    }
     
 }

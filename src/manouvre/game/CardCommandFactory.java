@@ -13,7 +13,7 @@ import manouvre.game.commands.RestoreUnitCommand;
 import manouvre.game.commands.ThrowDiceCommand;
 import manouvre.game.interfaces.CardCommandInterface;
 import manouvre.game.interfaces.Command;
-import manouvre.game.interfaces.DiceInterface;
+
 
 /**
  * Class to serve for whole card flow in game.

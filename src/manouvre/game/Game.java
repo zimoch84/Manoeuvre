@@ -52,6 +52,7 @@ public final class Game implements Serializable{
     Describes and calculate combats
     */
     Combat combat;
+    public boolean freeMove = false;
     
     public Game(ArrayList<Player> players) {
         this.hostPlayer = players.get(0);
@@ -644,6 +645,47 @@ public final class Game implements Serializable{
      return null;
         
     }
+    public ArrayList<Position> getCurrentPlayerAvalibleMoveUnitPositions(){
+    
+     switch (getPhase()){
+        
+            case Game.SETUP :
+            {
+           
+                return getSetupPossibleMovement();
+                
+            }
+            
+            case Game.DISCARD :
+                
+                return null;
+                
+            case Game.MOVE:
+                Unit selectedUnit = getSelectedUnit();
+                ArrayList<Position> movePositions;
+                return getPossibleMovement(selectedUnit);
+               
+            case Game.COMBAT:
+                    
+                return getCurrentPlayer().getArmyPositions();
+                /*
+                TODO implement many more cases with combat mode
+                */
+            
+            case Game.RESTORATION:
+                
+                return null;
+                
+                /*
+                TODO create funcion to get Units selected by card
+                */
+          
+        }
+        
+     return null;
+        
+    }
+    
     
     public Unit getUnitByName(String name){
     

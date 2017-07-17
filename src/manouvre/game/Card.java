@@ -214,6 +214,23 @@ public class Card implements CardInterface, Serializable{
          
      }
     
+     @Override
+     public boolean equals(Object in){
+     
+         if(in instanceof Card){
+            Card cardIn = (Card) in;
+            if (cardIn.chosenID == this.chosenID) return true;
+         }
+         if(in instanceof Unit){
+            Unit unitIn = (Unit) in;
+                if (unitIn.name.equals(this.CardName)) return true;
+         }
+             
+         return false;
+             
+     
+     }
+     
     public int getAtionType(int phase){
         
         if(getCardType() == Card.HQLEADER)
@@ -346,6 +363,13 @@ public class Card implements CardInterface, Serializable{
          else return 99;
     }
 
+    public boolean canPursue(){
+        if(!CardPursuit.equals("")) 
+            return true;
+            else return false;
+        
+    }
+    
     public int getUnitPursuit() {
          if(!CardPursuit.equals(""))
         return Integer.parseInt(CardPursuit);
@@ -501,8 +525,11 @@ public class Card implements CardInterface, Serializable{
     }
 
     @Override
-    public boolean isRequredToAdvanceAfterAttack() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean isNotRequredToAdvanceAfterAttack() {
+       
+        if (this.CardDescr.equals("Not required to advance") )
+                return true;
+        else return false;
     }
 
     @Override
@@ -773,15 +800,6 @@ public class Card implements CardInterface, Serializable{
         this.canBeCanceled = canBeCanceled;
     }
     
-    @Override
-    public boolean equals(Object in){
-    
-        Card p = (Card) in;
-        if(this.getCardID()==p.getCardID()) return true;
-        
-        else return false;
-    }
-
     public boolean isMouseOverCard() {
         return mouseOverCard;
     }

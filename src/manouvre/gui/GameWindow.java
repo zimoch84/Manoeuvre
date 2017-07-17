@@ -45,6 +45,7 @@ import manouvre.game.CardCommandFactory;
 import manouvre.game.Combat;
 import manouvre.game.commands.CardCommands;
 import static java.lang.Math.abs;
+import manouvre.state.MapInputStateHandler;
 
 
 
@@ -86,6 +87,8 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     
     public CommandQueue cmdQueue;
     public CommandLogger cmdLogger;
+    
+    private MapInputStateHandler mapInputHandler;
  
     /*
     This is main contructor
@@ -100,7 +103,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         this.client = passSocket;
         this.cmdLogger = new CommandLogger(this);
         this.cmdQueue = new CommandQueue(game, cmdLogger, this, passSocket);
-        
+        this.mapInputHandler = new MapInputStateHandler();
         
         /*
         Sets current Player based on HOST/GUEST settings
@@ -196,7 +199,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            }
            case CardCommandFactory.CARD_REJECTED:
            {
-               new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Your card was rejected by opponent");
+               new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Your card was cancelled by opponent");
                break;
            }
            case CardCommandFactory.OPPONENT_WITHDRAW:
@@ -205,14 +208,14 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                Create puruit dialog
                */
                
-               CustomDialog cd = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "BATTLE RESULT: \n"
+               CustomDialog cd = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Battle Result: \n"
                        + "Attack: " + game.getCombat().getAttackValue()+" vs Deffence: "+ game.getCombat().getDefenceValue() + "\nDefending unit has withdrawn");
                break;
                
            }
            case CardCommandFactory.CARD_NOT_REJECTED:
            {
-               new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Your card was not rejected by opponent");
+               new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Your card was not cancelled by opponent");
                break;
            }
             case CardCommandFactory.DEFENDING_CARDS_PLAYED:
@@ -779,9 +782,6 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             }
         });
         mainMapPanel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                mainMapPanelMouseReleased(evt);
-            }
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 mainMapPanelMouseClicked(evt);
             }
@@ -790,6 +790,12 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 mainMapPanelMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                mainMapPanelMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                mainMapPanelMouseReleased(evt);
             }
         });
 
@@ -1504,8 +1510,14 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     
     private void playerHandPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseClicked
             handMouseCoorX = evt.getPoint().x;
-            handMouseCoorY = evt.getPoint().y;        
-            gameGui.mouseClickedCard(handMouseCoorX,handMouseCoorY); 
+            handMouseCoorY = evt.getPoint().y;    
+            
+            Card cardClicked=gameGui.getCardFromMousePosition(handMouseCoorX,handMouseCoorY);
+            
+            if(cardClicked != null)
+                mapInputHandler.setState(MapInputStateHandler.CARD_PLAYING_STATE);
+            
+            gameGui.mouseClickedCard(cardClicked); 
             setActionButtonText();  //when card is selected set the buttons
             repaint();
             if(game.getPhase()==Game.DISCARD)
@@ -1583,211 +1595,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
 
     private void mainMapPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainMapPanelMouseClicked
         
-        /*
-        If current player is active and have unlocked gui can move - else we lock interface
-        */
         
-        if( game.getCurrentPlayer().isActive() && ! game.isLocked() || game.getPhase() == Game.SETUP )
-        {
-        int x = evt.getPoint().x;
-        int y = evt.getPoint().y;
-        Position clickedPos = Position.getPositionFromMouse(x, y);
-        if(windowMode == CreateRoomWindow.AS_GUEST)
-                    clickedPos = clickedPos.transpoze();
-        
-        //player must be in correct phase to be able to move units 
-        if((game.getPhase()==Game.MOVE || game.getPhase() == Game.SETUP) && !game.getCurrentPlayer().isPlayingCard())
-        { 
-  
-        if(!gameGui.mapGui.isUnitSelected() )
-            {
-                if(clickedPos != null)
-                {
-                    game.getMap().getTerrainAtPosition(clickedPos).setSelected(true);           
-                    System.out.println("manouvre.gui.GameWindow.mainMapPanelMouseClicked() " + clickedPos);
-                    /*
-                    If player clicks on unit select it
-                    */    
-                    if(game.checkCurrentPlayerUnitAtPosition(clickedPos) ) {
-                           gameGui.mapGui.setUnitSelected(true);
-                           game.getMap().getTerrainAtPosition(clickedPos).setIsOccupiedByUnit(true);
-                           gameGui.getUnitGuiOnMapGui(clickedPos).getUnit().setSelected(true);
-                       }
-                }
-            this.repaint();
-            }
-        /*
-        If unit is selected find which unit to move and move into
-            */
-        else  
-        {
-            if(!game.getCurrentPlayer().hasMoved() || gameGui.freeMove)
-            {
-            Unit selectedUnit = game.getSelectedUnit();
-            ArrayList<Position> movePositions;
-                if(game.getPhase() == Game.SETUP || gameGui.freeMove )
-                {
-                    movePositions = game.getSetupPossibleMovement();
-                }
-                /*
-                There is no setup and we don playing card 
-                */
-                else{
-                     movePositions = game.getPossibleMovement(selectedUnit);
-                }
-               /*
-                Check if we can move to clicked position
-                If we clicked on other position that selected unit.
-                */ 
-             if(!selectedUnit.getPosition().equals(clickedPos) && movePositions.contains(clickedPos))
-                    {
-                    MoveUnitCommand moveUnit = new MoveUnitCommand(game.getCurrentPlayer().getName() , selectedUnit,  clickedPos);
-                        /*
-                      If we done play card and we are not in setup
-                      */
-                        if(game.getPhase() != Game.SETUP)
-                        {        
-                        cmdQueue.storeAndExecuteAndSend(moveUnit);
-                        gameGui.unselectAllUnits();  
-                        }
-                        /*
-                        If we dont play card or we are in setup
-                        */
-                        else 
-                        {   
-                        /*
-                        Just execute on client
-                        */
-                        cmdQueue.storeAndExecute(moveUnit);
-                        gameGui.unselectAllUnits();   
-                        }
-                 }
-                else{ 
-                //Unselect all if not clicked at allowed move
-                gameGui.unselectAllUnits(); 
-                mainMapPanel.repaint();
-                }
-            }
- 
-            /*
-            If we moved already put popup to shop popup that
-            */
-            else 
-            {
-                CustomDialog cd = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "You have moved already, \n play card or proceed to next phase");
-                cd.setVisible(true);
-                gameGui.unselectAllUnits();
-                this.repaint();
-           }
-        }            
-        }
-
-        else if (game.getCurrentPlayer().isPlayingCard())
-        {
-             /*
-            Phase 1 either player has selected unit or has to selelect it
-            */
-            
-            Card playingCard = game.getCardCommandFactory().getPlayingCard();
-            
-            switch (playingCard.getAtionType(game.getPhase())){
-                
-                case Card.MOVE_ACTION:
-                {
-                    /*
-                    We have unit selected
-                    */
-                if(game.getSelectedUnit()!= null)
-                {  
-                Unit selectedUnit = game.getSelectedUnit();
-                if(!getMovePositions(playingCard).isEmpty())
-                    if(getMovePositions(playingCard).contains(clickedPos))
-                    {
-                        MoveUnitCommand moveUnit = new MoveUnitCommand(game.getCurrentPlayer().getName() , selectedUnit,  clickedPos);
-                        /*
-                        We attach move command to wrap it to postpone execution in card command
-                        */
-                        game.getCardCommandFactory().setAttachedCommand(moveUnit);
-                        /*
-                        Confirmation dialog
-                        */
-                        showConfirmationCardDialog();
-                    }
-                    /*
-                    Deselect card and clear Card Factory
-                    */
-                    else {
-                        game.getCardCommandFactory().resetPlayingCard();
-                        this.repaint();
-                    }
-                } 
-                /*
-                We have to select unit
-                */
-                else {
-                    
-                    if(!getPossibleUnitPostionToSelect().isEmpty())
-                        if(getPossibleUnitPostionToSelect().contains(clickedPos))
-                       {
-                        Unit selectedUnit = game.getCurrentPlayerUnitAtPosition(clickedPos);
-                        selectedUnit.setSelected(true);
-                       }
-
-                }
-                break;
-                }
-                case Card.PICK_ACTION:    
-                {
-                if(!getAvaliblePositionToSelect().isEmpty())    
-                    if(getAvaliblePositionToSelect().contains(clickedPos))
-                    {
-                        Unit attackedUnit = game.getOpponentPlayerUnitAtPosition(clickedPos);
-                        game.getCardCommandFactory().setAttackedUnit(attackedUnit);
-                        showConfirmationCardDialog();
-                    }
-                    else 
-                    showCannotPlayCardDialog();    
-                else 
-                {
-                showCardNoValidTargetDialog();
-                game.getCardCommandFactory().resetPlayingCard();
-                this.repaint();
-                }   
-                break;
-                }
-                case Card.MULTIPLE_PICK_ACTION:    
-                {
-                int availaibleUnits = getAvaliblePositionToSelect().size();
-                
-                if(availaibleUnits>0) 
-                    {
-                    int commandValue =game.getCardCommandFactory().getPlayingCard().getLederCommand();
-                    
-                    int maxSelections = ( commandValue > availaibleUnits ? availaibleUnits : commandValue );
-                    /*
-                    If we need to select more 
-                    */
-                    if(game.getNumberOfSupportingUnit() < maxSelections)
-                    {    
-                        if(getAvaliblePositionToSelect().contains(clickedPos))
-                        {
-                           game.getCurrentPlayerUnitAtPosition(clickedPos).setSupporting(true);
-                           if(game.getNumberOfSupportingUnit() == maxSelections)
-                                    showConfirmationCardDialog();
-                        }
-                        else this.repaint();
-                    }
-                    }
-                else 
-                showCannotPlayCardDialog();    
-                game.getCardCommandFactory().resetPlayingCard();
-                this.repaint();
-                break;
-                }
-                
-            }}
-      
-        }
         
     }//GEN-LAST:event_mainMapPanelMouseClicked
     private void mainMapPanelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainMapPanelMouseReleased
@@ -2448,7 +2256,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     }//GEN-LAST:event_jMenu1ActionPerformed
 
     private void jMenu1MenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_jMenu1MenuSelected
-        gameGui.freeMove = !gameGui.freeMove;
+        game.freeMove = !game.freeMove;
         repaint();// TODO add your handling code here:
     }//GEN-LAST:event_jMenu1MenuSelected
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
@@ -2545,6 +2353,217 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         }
         sendText.setText("");
     }//GEN-LAST:event_sendTextActionPerformed
+
+    private void mainMapPanelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainMapPanelMousePressed
+      /*
+        If current player is active and have unlocked gui can move - else we lock interface
+        */
+        
+        if( game.getCurrentPlayer().isActive() && ! game.isLocked() || game.getPhase() == Game.SETUP )
+        {
+        int x = evt.getPoint().x;
+        int y = evt.getPoint().y;
+        Position clickedPos = Position.getPositionFromMouse(x, y);
+        if(windowMode == CreateRoomWindow.AS_GUEST)
+                    clickedPos = clickedPos.transpoze();
+        
+        
+        //mapInputHandler.handle(clickedPos, game, cmdQueue);
+        
+        //player must be in correct phase to be able to move units 
+        if((game.getPhase()==Game.MOVE || game.getPhase() == Game.SETUP) && !game.getCurrentPlayer().isPlayingCard())
+        { 
+  
+        if(!gameGui.mapGui.isUnitSelected() )
+            {
+                if(clickedPos != null)
+                {
+                    game.getMap().getTerrainAtPosition(clickedPos).setSelected(true);           
+                    System.out.println("manouvre.gui.GameWindow.mainMapPanelMouseClicked() " + clickedPos);
+                    /*
+                    If player clicks on unit select it
+                    */    
+                    if(game.checkCurrentPlayerUnitAtPosition(clickedPos) ) {
+                           gameGui.mapGui.setUnitSelected(true);
+                           game.getMap().getTerrainAtPosition(clickedPos).setIsOccupiedByUnit(true);
+                           gameGui.getUnitGuiOnMapGui(clickedPos).getUnit().setSelected(true);
+                       }
+                }
+            this.repaint();
+            }
+        /*
+        If unit is selected find which unit to move and move into
+            */
+        else  
+        {
+            if(!game.getCurrentPlayer().hasMoved() || game.freeMove)
+            {
+            Unit selectedUnit = game.getSelectedUnit();
+            ArrayList<Position> movePositions;
+                if(game.getPhase() == Game.SETUP || game.freeMove )
+                {
+                    movePositions = game.getSetupPossibleMovement();
+                }
+                /*
+                There is no setup and we don playing card 
+                */
+                else{
+                     movePositions = game.getPossibleMovement(selectedUnit);
+                }
+               /*
+                Check if we can move to clicked position
+                If we clicked on other position that selected unit.
+                */ 
+             if(!selectedUnit.getPosition().equals(clickedPos) && movePositions.contains(clickedPos))
+                    {
+                    MoveUnitCommand moveUnit = new MoveUnitCommand(game.getCurrentPlayer().getName() , selectedUnit,  clickedPos);
+                        /*
+                      If we done play card and we are not in setup
+                      */
+                        if(game.getPhase() != Game.SETUP)
+                        {        
+                        cmdQueue.storeAndExecuteAndSend(moveUnit);
+                        gameGui.unselectAllUnits();  
+                        }
+                        /*
+                        If we dont play card or we are in setup
+                        */
+                        else 
+                        {   
+                        /*
+                        Just execute on client
+                        */
+                        cmdQueue.storeAndExecute(moveUnit);
+                        gameGui.unselectAllUnits();   
+                        }
+                 }
+                else{ 
+                //Unselect all if not clicked at allowed move
+                gameGui.unselectAllUnits(); 
+                mainMapPanel.repaint();
+                }
+            }
+ 
+            /*
+            If we moved already put popup to shop popup that
+            */
+            else 
+            {
+                CustomDialog cd = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "You have moved already, \n play card or proceed to next phase");
+                cd.setVisible(true);
+                gameGui.unselectAllUnits();
+                this.repaint();
+           }
+        }            
+        }
+
+        else if (game.getCurrentPlayer().isPlayingCard())
+        {
+             /*
+            Phase 1 either player has selected unit or has to selelect it
+            */
+            
+            Card playingCard = game.getCardCommandFactory().getPlayingCard();
+            
+            switch (playingCard.getAtionType(game.getPhase())){
+                
+                case Card.MOVE_ACTION:
+                {
+                    /*
+                    We have unit selected
+                    */
+                if(game.getSelectedUnit()!= null)
+                {  
+                Unit selectedUnit = game.getSelectedUnit();
+                if(!getMovePositions(playingCard).isEmpty())
+                    if(getMovePositions(playingCard).contains(clickedPos))
+                    {
+                        MoveUnitCommand moveUnit = new MoveUnitCommand(game.getCurrentPlayer().getName() , selectedUnit,  clickedPos);
+                        /*
+                        We attach move command to wrap it to postpone execution in card command
+                        */
+                        game.getCardCommandFactory().setAttachedCommand(moveUnit);
+                        /*
+                        Confirmation dialog
+                        */
+                        showConfirmationCardDialog();
+                    }
+                    /*
+                    Deselect card and clear Card Factory
+                    */
+                    else {
+                        game.getCardCommandFactory().resetPlayingCard();
+                        this.repaint();
+                    }
+                } 
+                /*
+                We have to select unit
+                */
+                else {
+                    
+                    if(!getPossibleUnitPostionToSelect().isEmpty())
+                        if(getPossibleUnitPostionToSelect().contains(clickedPos))
+                       {
+                        Unit selectedUnit = game.getCurrentPlayerUnitAtPosition(clickedPos);
+                        selectedUnit.setSelected(true);
+                       }
+
+                }
+                break;
+                }
+                case Card.PICK_ACTION:    
+                {
+                if(!getAvaliblePositionToSelect().isEmpty())    
+                    if(getAvaliblePositionToSelect().contains(clickedPos))
+                    {
+                        Unit attackedUnit = game.getOpponentPlayerUnitAtPosition(clickedPos);
+                        game.getCardCommandFactory().setAttackedUnit(attackedUnit);
+                        showConfirmationCardDialog();
+                    }
+                    else 
+                    showCannotPlayCardDialog();    
+                else 
+                {
+                showCardNoValidTargetDialog();
+                game.getCardCommandFactory().resetPlayingCard();
+                this.repaint();
+                }   
+                break;
+                }
+                case Card.MULTIPLE_PICK_ACTION:    
+                {
+                int availaibleUnits = getAvaliblePositionToSelect().size();
+                
+                if(availaibleUnits>0) 
+                    {
+                    int commandValue =game.getCardCommandFactory().getPlayingCard().getLederCommand();
+                    
+                    int maxSelections = ( commandValue > availaibleUnits ? availaibleUnits : commandValue );
+                    /*
+                    If we need to select more 
+                    */
+                    if(game.getNumberOfSupportingUnit() < maxSelections)
+                    {    
+                        if(getAvaliblePositionToSelect().contains(clickedPos))
+                        {
+                           game.getCurrentPlayerUnitAtPosition(clickedPos).setSupporting(true);
+                           if(game.getNumberOfSupportingUnit() == maxSelections)
+                                    showConfirmationCardDialog();
+                        }
+                        else this.repaint();
+                    }
+                    }
+                else 
+                showCannotPlayCardDialog();    
+                game.getCardCommandFactory().resetPlayingCard();
+                this.repaint();
+                break;
+                }
+                
+            }}
+      
+        }
+    }//GEN-LAST:event_mainMapPanelMousePressed
  
 //    public void clientSend(Message message){
 //        clOTRegroup.JPGient.send(gameGui.discardSelCards());

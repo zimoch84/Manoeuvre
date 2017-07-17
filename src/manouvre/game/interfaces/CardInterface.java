@@ -150,7 +150,7 @@ public interface CardInterface {
     /*
     Is required to advance
     */
-    public boolean isRequredToAdvanceAfterAttack();   
+    public boolean isNotRequredToAdvanceAfterAttack();   
     /*
     checks if Leader Rally successfully resolve
     true - test passed

@@ -40,6 +40,11 @@ public class Unit implements UnitInterface, Serializable{
     boolean selected; 
     boolean hasMoved = false;
     boolean hasAttacked =false;
+    /*
+    If unit advanced in combat
+    */
+    boolean advanced = false;
+    
     boolean retrieving;
     boolean showLOS = false;
     
@@ -118,6 +123,31 @@ public class Unit implements UnitInterface, Serializable{
     }
         
    
+    @Override
+    public boolean equals(Object in){
+     
+         if(in instanceof Unit){
+            Unit unitIn = (Unit) in;
+                if (unitIn.name.equals(this.name)) return true;
+         }
+         if(in instanceof Card){
+            Card cardIn = (Card) in;
+            if (cardIn.CardName.equals(this.name)) return true;
+         }
+        return false;
+     }
+
+    public boolean hasAdvanced() {
+        return advanced;
+    }
+
+    public void setAdvanced(boolean advanced) {
+        this.advanced = advanced;
+    }
+    
+    
+    
+    
     @Override
     public int getType() {
         return type;

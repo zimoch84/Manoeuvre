@@ -9,7 +9,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.JRootPane;
-import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -17,8 +16,6 @@ import javax.swing.text.StyledDocument;
 import manouvre.game.Game;
 import manouvre.game.commands.CommandQueue;
 import manouvre.game.interfaces.ClientInterface;
-import manouvre.network.client.Message;
-import manouvre.network.client.SocketClient;
 import manouvre.game.interfaces.Command;
 
 /**
@@ -37,6 +34,8 @@ public class CustomDialog extends javax.swing.JFrame {
     public static final int YES_NO_UNDO_TYPE = 4;
     public static final int YES_NO_WITH_CARD = 5;
     public static final int THROW_DICE = 6;
+    public static final int WANT_TO_ADVANCE = 7;
+    public static final int WANT_TO_PURSUIT = 8;
     
     
     int dialogType;
@@ -129,7 +128,8 @@ public class CustomDialog extends javax.swing.JFrame {
                 okButton.setLabel("Yes");
                 cancelButton.setVisible(true);
                 cancelButton.setLabel("No");
-                break;    
+                break; 
+                
             
                        
         }

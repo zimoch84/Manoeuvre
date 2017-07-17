@@ -31,9 +31,6 @@ import javax.swing.JOptionPane;
 import manouvre.game.CardSet;
 import manouvre.game.Combat;
 import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
-import static java.lang.Math.round;
 
 
 
@@ -70,7 +67,6 @@ public class GameGUI {
     int windowMode;
     
     boolean lockGUI=false;
-    boolean freeMove = false;
     
     CommandQueue cmdQueue;
     
@@ -216,7 +212,7 @@ public class GameGUI {
             ArrayList<Position> movePositions;
 
             if(selectedUnit != null)
-            if(game.getPhase() == Game.SETUP || freeMove)
+            if(game.getPhase() == Game.SETUP || game.freeMove)
             {
                 movePositions = game.getSetupPossibleMovement();
                 drawMultipleRectanglesOnPositions(g, movePositions, Color.blue);
@@ -736,9 +732,9 @@ public class GameGUI {
         }
         else System.err.println("CARD IS NOT SELECTED - check GameGui.java method: keepOneSelectedCard");
     }
-    public void mouseClickedCard(int mouseX, int mouseY){
+    public void mouseClickedCard(Card cardClicked){
         
-        Card cardClicked=getCardFromMousePosition(mouseX,mouseY);
+        
         if(cardClicked!=null)
         {
            //select card if it is    playable 
