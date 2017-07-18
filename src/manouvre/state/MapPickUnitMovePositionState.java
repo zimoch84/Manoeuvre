@@ -5,6 +5,7 @@
  */
 package manouvre.state;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import manouvre.game.Game;
 import manouvre.game.Position;
@@ -17,7 +18,7 @@ import manouvre.gui.CustomDialog;
  *
  * @author xeon
  */
-public class MapPickUnitMovePositionState implements MapState{
+public class MapPickUnitMovePositionState implements MapState, Serializable{
 
     @Override
     public void handleInput(Position pos, Game game, CommandQueue cmdQueue , MapInputStateHandler handler) {

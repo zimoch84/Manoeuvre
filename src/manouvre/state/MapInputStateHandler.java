@@ -5,7 +5,8 @@
  */
 package manouvre.state;
 
-import java.util.ArrayList;
+
+import java.io.Serializable;
 import manouvre.game.Game;
 import manouvre.game.Position;
 import manouvre.game.commands.CommandQueue;
@@ -14,7 +15,7 @@ import manouvre.game.commands.CommandQueue;
  *
  * @author xeon
  */
-public class MapInputStateHandler {
+public class MapInputStateHandler implements Serializable{
     
     public final static int NOSELECTION = 0;
     public final static int PICK_ONE_UNIT = 1;
@@ -87,5 +88,33 @@ public class MapInputStateHandler {
             currentState.handleInput(pos, game, cmdQueue, this);
     }
     
+    
+    public void setInitStateForPhase (Game game){
+    
+      
+            switch (game.getPhase())
+            {
+                
+                case Game.SETUP : setState(MapInputStateHandler.NOSELECTION);
+                break;
+                
+                case Game.DISCARD : setState(MapInputStateHandler.NOSELECTION);
+                break;
+                
+                case Game.MOVE : setState(MapInputStateHandler.PICK_ONE_UNIT);
+                break;
+                
+                case Game.COMBAT : setState(MapInputStateHandler.NOSELECTION);
+                break;
+                
+                case Game.RESTORATION : setState(MapInputStateHandler.NOSELECTION);
+                break;
+                
+                                
+                
+                
+            }
+    
+    }
     
 }

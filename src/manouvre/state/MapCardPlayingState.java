@@ -5,6 +5,7 @@
  */
 package manouvre.state;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,7 +14,6 @@ import manouvre.game.Game;
 import manouvre.game.Position;
 import manouvre.game.Unit;
 import manouvre.game.commands.CommandQueue;
-import manouvre.game.commands.MoveUnitCommand;
 import manouvre.gui.CustomDialog;
 import manouvre.gui.GameWindow;
 
@@ -21,7 +21,7 @@ import manouvre.gui.GameWindow;
  *
  * @author xeon
  */
-public class MapCardPlayingState implements MapState{
+public class MapCardPlayingState implements MapState, Serializable{
 
     @Override
     public void handleInput(Position pos, Game game, CommandQueue cmdQueue , MapInputStateHandler handler) {
@@ -128,7 +128,7 @@ private ArrayList<Position> getMovePositions(Card playingCard, Game game){
                                    break;
                                 }
                                 case Card.SUPPLY:
-                                {
+                                {   
                                    movePositions = game.getPossibleMovement(selectedUnit); 
                                    break;
                                 }

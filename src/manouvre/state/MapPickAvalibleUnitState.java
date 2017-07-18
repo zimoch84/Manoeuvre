@@ -5,7 +5,7 @@
  */
 package manouvre.state;
 
-import java.awt.Graphics;
+import java.io.Serializable;
 import java.util.ArrayList;
 import manouvre.game.Game;
 import manouvre.game.Position;
@@ -15,7 +15,7 @@ import manouvre.game.commands.CommandQueue;
  *
  * @author xeon
  */
-public class MapPickAvalibleUnitState implements MapState{
+public class MapPickAvalibleUnitState implements MapState, Serializable{
     
     
 

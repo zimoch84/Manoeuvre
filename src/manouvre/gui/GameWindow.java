@@ -24,7 +24,6 @@ import manouvre.game.Game;
 import manouvre.game.Player;
 import manouvre.game.Position;
 import manouvre.game.Unit;
-import manouvre.game.commands.MoveUnitCommand;
 import manouvre.game.interfaces.FrameInterface;
 import java.util.Arrays;
 import manouvre.game.commands.SetupPositionCommand;
@@ -88,7 +87,6 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     public CommandQueue cmdQueue;
     public CommandLogger cmdLogger;
     
-    private MapInputStateHandler mapInputHandler;
  
     /*
     This is main contructor
@@ -103,7 +101,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         this.client = passSocket;
         this.cmdLogger = new CommandLogger(this);
         this.cmdQueue = new CommandQueue(game, cmdLogger, this, passSocket);
-        this.mapInputHandler = new MapInputStateHandler();
+        
         
         /*
         Sets current Player based on HOST/GUEST settings
@@ -1515,7 +1513,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             Card cardClicked=gameGui.getCardFromMousePosition(handMouseCoorX,handMouseCoorY);
             
             if(cardClicked != null)
-                mapInputHandler.setState(MapInputStateHandler.CARD_PLAYING_STATE);
+                game.mapInputHandler.setState(MapInputStateHandler.CARD_PLAYING_STATE);
             
             gameGui.mouseClickedCard(cardClicked); 
             setActionButtonText();  //when card is selected set the buttons
@@ -2368,7 +2366,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                     clickedPos = clickedPos.transpoze();
         
         
-        mapInputHandler.handle(clickedPos, game, cmdQueue);
+        game.mapInputHandler.handle(clickedPos, game, cmdQueue);
         repaint();
         //player must be in correct phase to be able to move units 
 //        if((game.getPhase()==Game.MOVE || game.getPhase() == Game.SETUP) && !game.getCurrentPlayer().isPlayingCard())

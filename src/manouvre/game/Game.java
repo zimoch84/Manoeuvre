@@ -12,6 +12,7 @@ import static manouvre.game.interfaces.PositionInterface.COLUMN_H;
 import static manouvre.game.interfaces.PositionInterface.ROW_8;
 import manouvre.gui.CreateRoomWindow;
 import manouvre.network.server.UnoptimizedDeepCopy;
+import manouvre.state.MapInputStateHandler;
 
 /**
  *
@@ -53,6 +54,7 @@ public final class Game implements Serializable{
     */
     Combat combat;
     public boolean freeMove = false;
+    public MapInputStateHandler mapInputHandler;
     
     public Game(ArrayList<Player> players) {
         this.hostPlayer = players.get(0);
@@ -76,6 +78,7 @@ public final class Game implements Serializable{
         this.turn=1;
         setPhase(Game.SETUP);
         
+        mapInputHandler = new MapInputStateHandler();
         
     }
      
@@ -237,6 +240,8 @@ public final class Game implements Serializable{
     
     public void nextTurn(){
         turn++;
+        if(getCurrentPlayer().isActive())
+            mapInputHandler.setInitStateForPhase(this);
         }
 
     public int getTurn() {
@@ -744,6 +749,14 @@ public final class Game implements Serializable{
     
     public void nextPhase(){
         if(getPhase()<Game.MAX_PHASES)setPhase(getPhase()+1);
+        
+        /*
+        Initialize states
+        */
+        if(getCurrentPlayer().isActive())
+            mapInputHandler.setInitStateForPhase(this);
+                      
+        
     }
      public String getPhaseName(int phase){
       
@@ -781,9 +794,14 @@ public final class Game implements Serializable{
 
     public void setPhase(int phase) {
         this.phase = phase;
-        System.out.println("manouvre.game.Game.setPhase() " +  
-                ( currentPlayer != null ? getCurrentPlayer().getName() : "Brak curr" )+ " " +   
-                 " Phase: " +  getPhaseName(phase) );
+        
+         /*
+        Initialize states
+        */
+        if(getCurrentPlayer() != null)
+            if(getCurrentPlayer().isActive())
+                   mapInputHandler.setInitStateForPhase(this);
+ 
     } 
        
     void setFirstPlayer(){

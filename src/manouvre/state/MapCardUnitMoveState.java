@@ -5,6 +5,7 @@
  */
 package manouvre.state;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,7 +22,7 @@ import manouvre.gui.GameWindow;
  *
  * @author xeon
  */
-public class MapCardUnitMoveState implements MapState{
+public class MapCardUnitMoveState implements MapState, Serializable{
 
     @Override
     public void handleInput(Position pos, Game game, CommandQueue cmdQueue , MapInputStateHandler handler) {

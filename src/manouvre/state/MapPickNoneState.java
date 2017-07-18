@@ -5,6 +5,7 @@
  */
 package manouvre.state;
 
+import java.io.Serializable;
 import manouvre.game.Game;
 import manouvre.game.Position;
 import manouvre.game.commands.CommandQueue;
@@ -13,7 +14,7 @@ import manouvre.game.commands.CommandQueue;
  *
  * @author piotr_grudzien
  */
-public class MapPickNoneState  implements MapState{
+public class MapPickNoneState  implements MapState, Serializable{
 
     @Override
     public void handleInput(Position pos, Game game, CommandQueue cmdQueue, MapInputStateHandler handler) {
