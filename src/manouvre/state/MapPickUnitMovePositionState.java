@@ -26,7 +26,7 @@ public class MapPickUnitMovePositionState implements MapState, Serializable{
         Unit selectedUnit = game.getSelectedUnit();
         
         
-        if(game.getCurrentPlayer().hasMoved()){
+        if(game.getCurrentPlayer().hasMoved() && ! game.freeMove){
         CustomDialog cd = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "You have moved already, \n play card or proceed to next phase");
         cd.setVisible(true);
         game.unselectAllUnits();
@@ -36,22 +36,7 @@ public class MapPickUnitMovePositionState implements MapState, Serializable{
         
         
         ArrayList<Position> avalaiblePositions =  game.getCurrentPlayerAvalibleMoveUnitPositions();
-        switch (game.getPhase()){
-            case Game.SETUP :
-            {
-        
-                 game.getSetupPossibleMovement();
-                 break;
-                
-            }
-            case Game.MOVE:
-                
-                ArrayList<Position> movePositions;
-                game.getPossibleMovement(selectedUnit);
-                break;
-        }      
-        
-        
+
         if(avalaiblePositions.contains(pos))
         {
            MoveUnitCommand moveUnit = new MoveUnitCommand(game.getCurrentPlayer().getName() , selectedUnit,  pos);
@@ -62,12 +47,12 @@ public class MapPickUnitMovePositionState implements MapState, Serializable{
             {        
             cmdQueue.storeAndExecuteAndSend(moveUnit);
             game.unselectAllUnits();  
-            handler.setState(MapInputStateHandler.NOSELECTION);
+            handler.setState(MapInputStateHandler.PICK_ONE_UNIT);
             }
             /*
             If we dont play card or we are in setup
             */
-            if(game.getPhase() == Game.SETUP || game.freeMove)
+            if(game.getPhase() == Game.SETUP)
             {   
             /*
             Just execute on client

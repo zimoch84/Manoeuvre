@@ -306,7 +306,9 @@ public class CardCommands {
            game.checkLockingGUI();
            //now is the time for opponent to choose defensive cards
            
-           game.getCardCommandFactory().setAttackedUnit(attackedUnit);
+           game.getCardCommandFactory().setAttackedUnit(
+                   game.getUnitByName(attackedUnit.getName())
+           );
            if(game.getCurrentPlayer().getName().equals(senderPlayerName)){
                
            }else{

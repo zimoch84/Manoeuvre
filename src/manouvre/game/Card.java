@@ -725,6 +725,8 @@ public class Card implements CardInterface, Serializable{
                 case Card.WITHDRAW:
                 {
                     if(game.getPhase() == Game.COMBAT){
+                    
+                    //game.getCurrentPlayerUnitAtPosition(game.getCardCommandFactory().getAttackedUnit().getPosition()).setSelected(true);
                     game.getCardCommandFactory().getAttackedUnit().setSelected(true);
                     game.getMap().setUnitSelected(true);
                     }

@@ -2282,7 +2282,8 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                     game.getMap().getTerrainAtPosition(getAttackedUnit().getPosition())
          */
         game.getCardCommandFactory().setAttackedUnit(game.getOpponentPlayer().getArmy()[1]);//setAttacked unit
-         game.getCardCommandFactory().getPlayingCard().setPlayingCardMode(Card.BOMBARD);
+        
+        game.getCardCommandFactory().getPlayingCard().setPlayingCardMode(Card.BOMBARD);
         
         Command attack = game.getCardCommandFactory().createCardCommand();
         cmdQueue.storeAndExecuteAndSend(attack);

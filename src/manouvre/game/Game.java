@@ -652,6 +652,9 @@ public final class Game implements Serializable{
     }
     public ArrayList<Position> getCurrentPlayerAvalibleMoveUnitPositions(){
     
+     if(freeMove) 
+            return getSetupPossibleMovement();
+        
      switch (getPhase()){
         
             case Game.SETUP :

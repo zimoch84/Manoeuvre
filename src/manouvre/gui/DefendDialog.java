@@ -20,6 +20,7 @@ import manouvre.game.Unit;
 import manouvre.game.commands.CommandQueue;
 import manouvre.game.interfaces.ClientInterface;
 import manouvre.game.interfaces.Command;
+import manouvre.state.MapInputStateHandler;
 
 /**
  *
@@ -401,12 +402,19 @@ public class DefendDialog extends javax.swing.JFrame {
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         
-        
+        /*
+        Setting variables
+        */
         game.getCardCommandFactory().setPlayingCard(game.getCurrentPlayer().getHand().getCardByType(Card.WITHDRAW));
-        
+        game.getCardCommandFactory().getPlayingCard().actionOnSelection(game);
         game.getCurrentPlayer().setPlayingCard(true);
-        
         this.dispose();
+        //Show dialog
+        
+        game.mapInputHandler.setState(MapInputStateHandler.PICK_MOVE_POSITION_BY_CARD);
+        
+        
+        
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void attackTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attackTxtActionPerformed
