@@ -22,7 +22,7 @@ import manouvre.gui.GameWindow;
  *
  * @author xeon
  */
-public class MapCardUnitMoveState implements MapState, Serializable{
+public class MapCardMoveUnitState implements MapState, Serializable{
 
     @Override
     public void handleInput(Position pos, Game game, CommandQueue cmdQueue , MapInputStateHandler handler) {
@@ -61,6 +61,7 @@ public class MapCardUnitMoveState implements MapState, Serializable{
     }
 private ArrayList<Position> getPossibleUnitPostionToSelect(Game game){
     
+     ArrayList<Position> returnPositions = new ArrayList<>();
      if(game.getCurrentPlayer().isPlayingCard())
         {
             Card playingCard = game.getCardCommandFactory().getPlayingCard();
@@ -78,15 +79,21 @@ private ArrayList<Position> getPossibleUnitPostionToSelect(Game game){
                      return game.getCurrentPlayerInjuredUnitPositions();
                            
                 }
+                if(playingCard.getHQType() == Card.WITHDRAW)   
+                    {
+                    returnPositions.add(game.getCombat().getDefendingUnit().getPosition());
+                    return returnPositions;
+      
+                    }
+                
                 break;
                 }
                 case Card.UNIT:
                 {
                     if(game.getPhase() == Game.RESTORATION)
                     {
-                       ArrayList<Position>  positions = new ArrayList<>();
-                       positions.add(game.getCurrentPlayerUnitByName(playingCard.getCardName()).getPosition());
-                       return positions;
+                       returnPositions.add(game.getCurrentPlayerUnitByName(playingCard.getCardName()).getPosition());
+                       return returnPositions;
                     }  
                 break;
                 }    

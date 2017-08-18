@@ -27,6 +27,9 @@ public class CardDialog extends javax.swing.JFrame {
     /**
      * Creates new form CardDialog
      */
+    
+    
+    
     Command okCommand;
     Command cancelCommand;
     

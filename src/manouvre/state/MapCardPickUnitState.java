@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import manouvre.game.Card;
+import manouvre.game.CardCommandFactory;
+import manouvre.game.Combat;
 import manouvre.game.Game;
 import manouvre.game.Position;
 import manouvre.game.Unit;
@@ -21,7 +23,7 @@ import manouvre.gui.GameWindow;
  *
  * @author xeon
  */
-public class MapCardUnitPickState implements MapState, Serializable{
+public class MapCardPickUnitState implements MapState, Serializable{
 
     @Override
     public void handleInput(Position pos, Game game, CommandQueue cmdQueue , MapInputStateHandler handler) {
@@ -30,9 +32,37 @@ public class MapCardUnitPickState implements MapState, Serializable{
             if(!getPossibleUnitPostionToSelect(game).isEmpty())
                 if(getPossibleUnitPostionToSelect(game).contains(pos))
                     {
-                     Unit selectedUnit = game.getCurrentPlayerUnitAtPosition(pos);
-                     selectedUnit.setSelected(true);
+                     Unit pickedUnit = game.getCurrentPlayerUnitAtPosition(pos);
+                     
+                     Card playingCard = game.getCardCommandFactory().getPlayingCard();
+                            switch(playingCard.getCardType()){
+                                case Card.UNIT:{
+                                    
+                                    Combat combat = game.getCombat() ;
+                                    if(combat != null)
+                                        /*
+                                        If its withdraw then select attacking unit position
+                                        */
+                                        if(combat.getState() == Combat.WITHRDAW) 
+                                        {
+                                            pickedUnit.setSelected(true);
+                                            /*
+                                            Chosen unit to advance
+                                            */
+                                            pickedUnit.setAdvanced(true);
+                                            game.getCardCommandFactory().awakeObserver();
+                                            game.getCardCommandFactory().notifyObservers(CardCommandFactory.PICKED_ADVANCE);
+                                            
+                                            
+                                            
+                                        }
+                                   
+                                break;
+                                } 
+                            }
                     }
+                    
+                    
    }
     
  private ArrayList<Position> getPossibleUnitPostionToSelect(Game game){
@@ -47,18 +77,44 @@ public class MapCardUnitPickState implements MapState, Serializable{
                 case Card.HQCARD:
                 {
                 if(playingCard.getHQType() == Card.SUPPLY)
-                {
-                   if(game.getPhase() == Game.MOVE)
-                       return game.getCurrentPlayerNotMovedUnits();
-                   
-                   if(game.getPhase() == Game.RESTORATION)
-                     return game.getCurrentPlayerInjuredUnitPositions();
-                           
-                }
+                    {
+                       if(game.getPhase() == Game.MOVE)
+                           return game.getCurrentPlayerNotMovedUnits();
+
+                       if(game.getPhase() == Game.RESTORATION)
+                         return game.getCurrentPlayerInjuredUnitPositions();
+                    }
+                /*
+                Defending player 
+                */
+                if(playingCard.getHQType() == Card.WITHDRAW)   
+                    {
+                           returnPositions.add(game.getCombat().getDefendingUnit().getPosition());
+                           return returnPositions;
+                        
+                    }
+                    
+                    
                 break;
                 }
                 case Card.UNIT:
                 {
+                    /*
+                    Attacking player has unit set as playnig card
+                    */
+                    Combat combat = game.getCombat() ;
+                    if(combat != null)
+                        /*
+                        If its withdraw then select attacking unit position
+                        */
+                        if(combat.getState() == Combat.WITHRDAW) 
+                        {
+                           returnPositions.add(combat.getAttackingUnit().getPosition());
+                           return returnPositions;
+                        }
+                            
+                    
+                    
                     if(game.getPhase() == Game.RESTORATION)
                     {
                        ArrayList<Position>  positions = new ArrayList<>();
@@ -66,7 +122,9 @@ public class MapCardUnitPickState implements MapState, Serializable{
                        return positions;
                     }  
                 break;
-                }    
+                }   
+                
+                
                 
                 case Card.HQLEADER:
                 {

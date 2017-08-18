@@ -6,7 +6,6 @@
 package manouvre.game.commands;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import manouvre.game.Card;
 import manouvre.game.CardCommandFactory;
 import manouvre.game.CardSet;
@@ -18,7 +17,6 @@ import manouvre.game.Terrain;
 import manouvre.game.Unit;
 import manouvre.game.interfaces.CardCommandInterface;
 import manouvre.game.interfaces.Command;
-import manouvre.gui.CustomDialog;
 import manouvre.network.server.UnoptimizedDeepCopy;
 
 /**
@@ -238,10 +236,24 @@ public class CardCommands {
 
             moveToTableCommand.execute(game);
             moveUnitCommand.execute(game);
-            game.getCardCommandFactory().notifyObservers(CardCommandFactory.CARD_DIALOG);
             
-            game.getCardCommandFactory().resetFactory();
+            game.getCombat().setState(Combat.WITHRDAW);
             
+            /*
+            Setting non active after choosing withdraw position on map to avoid 
+            */
+            if(game.getCurrentPlayer().getName().equals(senderPlayerName))
+                
+            {  
+                game.getCurrentPlayer().setActive(false);
+               
+            }
+        
+            else
+            { 
+                 game.getCardCommandFactory().notifyObservers(CardCommandFactory.OPPONENT_WITHDRAW);
+                 
+            }
         }
 
         @Override
@@ -303,6 +315,9 @@ public class CardCommands {
           
 
            game.setCombat(combat);
+           /*
+           TODO: zmienic na stany ręki
+           */
            game.checkLockingGUI();
            //now is the time for opponent to choose defensive cards
            
@@ -310,6 +325,8 @@ public class CardCommands {
                    game.getUnitByName(attackedUnit.getName())
            );
            if(game.getCurrentPlayer().getName().equals(senderPlayerName)){
+               
+               game.getCurrentPlayer().setAttacked(true);
                
            }else{
                //game.getCardCommandFactory().setOpponentCard(attackingCard);  it exists in move to table

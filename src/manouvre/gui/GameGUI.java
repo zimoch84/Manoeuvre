@@ -378,20 +378,27 @@ public class GameGUI {
                        
                             if(game.getPhase() == Game.COMBAT)
                                 /*
-                                Draw possible targets if we know playing Card Mode            
-                                */                    
-                                if(playingCard.getPlayingCardMode() > 0  )
-                                {
-                                     cardFactory.setSelectedUnit(attackingUnit);
-                                     cardFactory.calculateAttackingPositions();
+                                Draw possible targets if we know playing Card Mode
+                                if combat is null that means that is not initialized
+                                
+                                */       
+                                if(game.getCombat() == null)
+                                    
+                                    {
+                                    if(playingCard.getPlayingCardMode() > 0  )
+                                    {
+                                         cardFactory.setSelectedUnit(attackingUnit);
+                                         cardFactory.calculateAttackingPositions();
 
-                                     if(!cardFactory.getAttackingPositions().isEmpty())
-                                     drawArrowToPositions(g, 
-                                             attackingUnit.getPosition(),
-                                             cardFactory.getAttackingPositions()
-                                     );
+                                         if(!cardFactory.getAttackingPositions().isEmpty())
+                                         drawArrowToPositions(g, 
+                                                 attackingUnit.getPosition(),
+                                                 cardFactory.getAttackingPositions()
+                                         );
 
-                                }
+                                    }
+                                    }
+                                
                            
                     }    
                     
@@ -564,34 +571,9 @@ public class GameGUI {
         Unit selectedUnit = game.getSelectedUnit();
         if(selectedUnit != null)
             if(selectedUnit.isRetriving()) 
-                
-                for (Position retrivingPositons: game.getRetreatPositions(selectedUnit))
-                {
-                    
-                    drawArrowLine(g,
-                    (windowMode == CreateRoomWindow.AS_HOST) ? 
-                            selectedUnit.getPosition().getMouseX() +  MapGUI.PIECE_WIDTH / 2 
-                            :
-                            selectedUnit.getPosition().transpoze().getMouseX() +  MapGUI.PIECE_WIDTH / 2
-                            ,
-                    (windowMode == CreateRoomWindow.AS_HOST)
-                            ?
-                            selectedUnit.getPosition().getMouseY() +  MapGUI.PIECE_HEIGHT / 2
-                            :        
-                            selectedUnit.getPosition().transpoze().getMouseY() +  MapGUI.PIECE_HEIGHT / 2        
-                                    ,                    
-                    (windowMode == CreateRoomWindow.AS_HOST) ?
-                            retrivingPositons.getMouseX() + MapGUI.PIECE_WIDTH / 2
-                            :
-                            retrivingPositons.transpoze().getMouseX() + MapGUI.PIECE_WIDTH / 2        
-                            ,
-                    (windowMode == CreateRoomWindow.AS_HOST) ?
-                            retrivingPositons.getMouseY() +  MapGUI.PIECE_WIDTH / 2
-                            :
-                            retrivingPositons.transpoze().getMouseY() +  MapGUI.PIECE_WIDTH / 2      
-                    , 10,15)
-                            ;
-                    }
+                     
+                drawArrowToPositions(g,  selectedUnit.getPosition(), game.getRetreatPositions(selectedUnit));
+                       
             }
     
       

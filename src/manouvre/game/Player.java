@@ -40,7 +40,7 @@ public class Player  implements Serializable{
     /*
     Is player currently playing and is first player
     */
-    boolean active, first, moved, draw;
+    boolean active, first, moved, draw , attacked;
     
     Unit[] army;
  
@@ -67,6 +67,7 @@ public class Player  implements Serializable{
         setMoved(false);
         setDraw(false);
         setPlayingCard(false);
+        setAttacked(false);
         
     }
 
@@ -248,6 +249,15 @@ public class Player  implements Serializable{
         return moved;
     }
 
+    public boolean hasAttacked() {
+        return attacked;
+    }
+
+    public void setAttacked(boolean attacked) {
+        this.attacked = attacked;
+    }
+
+    
     public void setMoved(boolean moved) {
         this.moved = moved;
     }

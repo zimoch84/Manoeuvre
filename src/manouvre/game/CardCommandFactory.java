@@ -35,6 +35,7 @@ public class CardCommandFactory extends Observable implements Serializable{
     public final static String CARD_NOT_REJECTED = "CARD_NOT_REJECTED";
     public final static String DEFENDING_CARDS_PLAYED = "DEFENDING_CARDS_PLAYED";
     public final static String OPPONENT_WITHDRAW = "OPPONENT_WITHDRAW";
+    public final static String PICKED_ADVANCE = "PLAYER_CHOSEN_ADVANCE_UNIT";
     
     
     public final static String COMBAT_NO_RESULT = "COMBAT_NO_RESULT";

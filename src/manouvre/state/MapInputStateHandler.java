@@ -25,6 +25,12 @@ public class MapInputStateHandler implements Serializable{
     public final static int PICK_MOVE_POSITION_BY_CARD = 5;
     public final static int CARD_PLAYING_STATE = 6;
        
+    /*
+    Takes two valuse PICK_ONE_UNIT or PICK_MULTIPLE_UNITS
+    default takes 1 unit.
+    */
+    public int unitSelectionMode = PICK_ONE_UNIT;
+    
     
     
     public MapState currentState, previousState;
@@ -53,18 +59,18 @@ public class MapInputStateHandler implements Serializable{
                        
             
             case CARD_PLAYING_STATE : currentState = new MapCardPlayingState();
+            break;  
+            
+            case PICK_UNIT_BY_CARD : currentState = new MapCardPickUnitState();
             break;
             
-            case PICK_UNIT_BY_CARD : currentState = new MapCardUnitPickState();
-            break;
-            
-            case PICK_MOVE_POSITION_BY_CARD : currentState = new MapCardUnitMoveState();
+            case PICK_MOVE_POSITION_BY_CARD : currentState = new MapCardMoveUnitState();
             break;
             
            // case MULTIPLE_PICK : currentState = new CardMultipleSelectionState();
            // break;
             
-            default: currentState = new MapPickNoneState();
+            default: currentState = new MapPickAvalibleUnitState();
             break;
         
         }

@@ -26,6 +26,9 @@ public class MapPickAvalibleUnitState implements MapState, Serializable{
         if(avalaiblePositions.contains(pos))
             
         {
+            if(handler.unitSelectionMode == MapInputStateHandler.PICK_ONE_UNIT)
+                   game.unselectAllUnits();
+            
             game.getCurrentPlayer().getUnitByPosition(pos).setSelected(true);
             game.getMap().setUnitSelected(true);
           

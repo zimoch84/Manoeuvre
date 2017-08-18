@@ -474,31 +474,7 @@ public final class Game implements Serializable{
              map.getTerrainAtXY(unit.getPosition().getX(), unit.getPosition().getY()).setIsOccupiedByUnit(true);
          
      }
-    /**
-     * Places unit on map
-     * @param player
-     * @param unit
-     * @param placePosition 
-     *
-     */
-    public void placeUnit(Player player, Unit unit){
-    
-      map.getTerrainAtXY(unit.getPosition().getX(), unit.getPosition().getY()).setIsOccupiedByUnit(true);
-      
-    
-    }
-    
-    public void moveUnit(Unit unit, Position newPosition){
-    
-      map.getTerrainAtXY(unit.getPosition().getX(), unit.getPosition().getY()).setIsOccupiedByUnit(false);
-      map.getTerrainAtXY(newPosition.getX(), newPosition.getY()).setIsOccupiedByUnit(true);
-
-      getCurrentPlayerUnitAtPosition(unit.getPosition()).setPosition(newPosition);
-      
-      
-          
-    }
-    
+ 
     public Unit searchUnit(Unit unit){
     
         for(Unit unitSearch : hostPlayer.getArmy())
@@ -517,15 +493,54 @@ public final class Game implements Serializable{
              
     }
     
+    public Unit getAdvancedUnit(){
+     for (Unit unitSearch : getCurrentPlayer().getArmy()) {
+            if (unitSearch.hasAdvanced()) {
+                return unitSearch;
+            }
+        }
+    return null;
+    }
+    
+    public Unit getRetrievedUnit(){
+     for (Unit unitSearch : getCurrentPlayer().getArmy()) {
+            if (unitSearch.isRetriving()) {
+                return unitSearch;
+            }
+        }
+    return null;
+    }
+    
+    /*
+    Gets first selected unit  - in single selection mode its only one selected unit
+    */
+    
     public Unit getSelectedUnit(){
      for (Unit unitSearch : getCurrentPlayer().getArmy()) {
             if (unitSearch.isSelected()) {
                 return unitSearch;
             }
         }
-        return null;
+    return null;
+    }
+    
+    /*
+    In multiple selection mode 
+    */
+     public ArrayList<Unit> getSelectedUnits(){
+         
+         ArrayList<Unit> selectedUnits = new ArrayList<>();
+         
+         for (Unit unitSearch : getCurrentPlayer().getArmy()) {
+            if (unitSearch.isSelected()) {
+                selectedUnits.add(unitSearch);
+           }
+        }
+        return selectedUnits;
     
     }
+    
+    
     public int getNumberOfSupportingUnit(){
         int numberOFSupUnits = 0;
         for (Unit unitSearch : getCurrentPlayer().getArmy()) {
@@ -557,13 +572,10 @@ public final class Game implements Serializable{
             {
                 return unitSearch;
               }
-            
-        
+
         }
-              
-        return null;
-        
-     
+       return null;
+
     }
     
     public boolean checkCurrentPlayerUnitAtPosition(Position position){
@@ -589,11 +601,8 @@ public final class Game implements Serializable{
                 return true;
               }
         }
-              
         return false;
-        
-     
-    }
+     }
     
      public Unit getCurrentPlayerUnitByName(String name){
     
@@ -738,7 +747,7 @@ public final class Game implements Serializable{
         
      
     } 
-    //-----------phases-----------
+//-----------phases-----------
 //   SETUP = -1    
 //   DISCARD = 0;
 //   DRAW = 1;
@@ -920,11 +929,10 @@ public final class Game implements Serializable{
 
     public void lockGUI() {
     this.lockGUI = true;
-    this.currentPlayer.getName();
+    
     }
     public void unlockGUI(){
     this.lockGUI = false;
-     this.currentPlayer.getName();
     }
     
      public void checkLockingGUI()
@@ -948,6 +956,8 @@ public final class Game implements Serializable{
                     unlockGUI();
                 else lockGUI();
             }
+            
+            
 //            else game.unlockGUI();  
         }
     }   

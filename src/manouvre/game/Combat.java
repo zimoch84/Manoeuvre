@@ -28,12 +28,13 @@ public class Combat implements Serializable{
     */
     public static final int COMBAT_NOT_INITIALIZED= -1;
     public static final int INITIALIZING_COMBAT= 0;
-    public static final int PICK_DEFENSE_CARDS= 1;
-    public static final int PICK_SUPPORT_UNIT= 2;
-    public static final int PICK_SUPPORTING_CARDS= 3;
-    public static final int THROW_DICES= 4;
-    public static final int PURSUIT= 5;
-    public static final int WAIT_FOR_OPPONENT= 6;
+    public static final int WITHRDAW= 1;
+    public static final int PICK_DEFENSE_CARDS= 2;
+    public static final int PICK_SUPPORT_UNIT= 3;
+    public static final int PICK_SUPPORTING_CARDS= 4;
+    public static final int THROW_DICES= 5;
+    public static final int PURSUIT= 6;
+    public static final int WAIT_FOR_OPPONENT= 7;
     
     
     
