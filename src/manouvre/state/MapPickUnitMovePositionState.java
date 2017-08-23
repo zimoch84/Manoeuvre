@@ -13,12 +13,14 @@ import manouvre.game.Unit;
 import manouvre.game.commands.CommandQueue;
 import manouvre.game.commands.MoveUnitCommand;
 import manouvre.gui.CustomDialog;
+import org.apache.logging.log4j.LogManager;
 
 /**
  *
  * @author xeon
  */
 public class MapPickUnitMovePositionState implements MapState, Serializable{
+private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(MapPickAvalibleUnitState.class.getName());   
 
     @Override
     public void handleInput(Position pos, Game game, CommandQueue cmdQueue , MapInputStateHandler handler) {
@@ -29,7 +31,10 @@ public class MapPickUnitMovePositionState implements MapState, Serializable{
         if(game.getCurrentPlayer().hasMoved() && ! game.freeMove){
         CustomDialog cd = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "You have moved already, \n play card or proceed to next phase");
         cd.setVisible(true);
+        
+        LOGGER.debug(game.getCurrentPlayer().getName() + " game.unselectAllUnits()" );
         game.unselectAllUnits();
+        LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT" );
         handler.setState(MapInputStateHandler.PICK_ONE_UNIT);
         return;
         }
@@ -46,7 +51,9 @@ public class MapPickUnitMovePositionState implements MapState, Serializable{
             if(game.getPhase() == Game.MOVE )
             {        
             cmdQueue.storeAndExecuteAndSend(moveUnit);
-            game.unselectAllUnits();  
+            LOGGER.debug(game.getCurrentPlayer().getName() + " game.unselectAllUnits()" );
+            game.unselectAllUnits(); 
+            LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT" );
             handler.setState(MapInputStateHandler.PICK_ONE_UNIT);
             }
             /*
@@ -58,7 +65,9 @@ public class MapPickUnitMovePositionState implements MapState, Serializable{
             Just execute on client
             */
             cmdQueue.storeAndExecute(moveUnit);
+            LOGGER.debug(game.getCurrentPlayer().getName() + " game.unselectAllUnits()" );
             game.unselectAllUnits();  
+            LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT" );
             handler.setState(MapInputStateHandler.PICK_ONE_UNIT);
             }
             
@@ -66,7 +75,9 @@ public class MapPickUnitMovePositionState implements MapState, Serializable{
             
         else
         {
+            LOGGER.debug(game.getCurrentPlayer().getName() + " game.unselectAllUnits()" );
             game.unselectAllUnits();
+            LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT" );
             handler.setState(MapInputStateHandler.PICK_ONE_UNIT);
         }
             

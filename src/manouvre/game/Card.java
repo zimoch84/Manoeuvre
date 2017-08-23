@@ -717,7 +717,7 @@ public class Card implements CardInterface, Serializable{
                 {
                     if(game.getPhase() == Game.MOVE){
                     game.getCurrentPlayer().getLastMovedUnit().setSelected(true);
-                    game.getMap().setUnitSelected(true);
+                    
                     }
                     break;
                 }
@@ -728,7 +728,7 @@ public class Card implements CardInterface, Serializable{
                     
                     //game.getCurrentPlayerUnitAtPosition(game.getCardCommandFactory().getAttackedUnit().getPosition()).setSelected(true);
                     game.getCardCommandFactory().getAttackedUnit().setSelected(true);
-                    game.getMap().setUnitSelected(true);
+                    
                     }
                     break;
                 }
@@ -743,7 +743,7 @@ public class Card implements CardInterface, Serializable{
         case Card.UNIT:
         {
                 game.getCurrentPlayerUnitByName(getCardName()).setSelected(true);
-                game.getMap().setUnitSelected(true);
+                game.getCardCommandFactory().calculateAttackingPositions(game.getSelectedUnit());
                 break;
         }    
             
@@ -763,7 +763,7 @@ public class Card implements CardInterface, Serializable{
                      {
                             if(game.getCurrentPlayer().getLastMovedUnit()!= null)
                              game.getCurrentPlayer().getLastMovedUnit().setSelected(false);
-                            game.getMap().setUnitSelected(false);
+                           
                      }
                     break;
                 }
@@ -772,7 +772,7 @@ public class Card implements CardInterface, Serializable{
                     if(game.getPhase() == Game.COMBAT)
                     {
                         game.getCardCommandFactory().getAttackedUnit().setSelected(false);
-                        game.getMap().setUnitSelected(false);
+                       
                     }
                     break;
                 }
@@ -787,7 +787,7 @@ public class Card implements CardInterface, Serializable{
         {   
                 if(game.getCurrentPlayerUnitByName(getCardName())!= null)
                     game.getCurrentPlayerUnitByName(getCardName()).setSelected(false);
-                game.getMap().setUnitSelected(false);
+                
                 break;
         }     
     }
@@ -825,6 +825,14 @@ public class Card implements CardInterface, Serializable{
     }
     
         
+    @Override
+    public String toString()
+    {
+    
+    return ("ID [" + CardID + "] " + getCardName() + ( getPlayiningMode()!=null  ?  " playing mode " + getPlayiningMode() : null) )  ;
+    
+    }
+    
     
     
 }

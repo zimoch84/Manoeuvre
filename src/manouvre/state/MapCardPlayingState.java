@@ -16,6 +16,7 @@ import manouvre.game.Unit;
 import manouvre.game.commands.CommandQueue;
 import manouvre.gui.CustomDialog;
 import manouvre.gui.GameWindow;
+import org.apache.logging.log4j.LogManager;
 
 /**
  *
@@ -23,6 +24,7 @@ import manouvre.gui.GameWindow;
  */
 public class MapCardPlayingState implements MapState, Serializable{
 
+    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(MapCardPlayingState.class.getName());
     @Override
     public void handleInput(Position pos, Game game, CommandQueue cmdQueue , MapInputStateHandler handler) {
        
@@ -35,13 +37,16 @@ public class MapCardPlayingState implements MapState, Serializable{
                 {  
                 Unit selectedUnit = game.getSelectedUnit();
                 if(!getMovePositions(playingCard, game).isEmpty())
-                    
+                {
+                    LOGGER.debug(game.getCurrentPlayer().getName() + " zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION_BY_CARD");
                     handler.setState(MapInputStateHandler.PICK_MOVE_POSITION_BY_CARD);
-                    /*
+                }   /*
                     Deselect card and clear Card Factory
                     */
                 else {
+                        LOGGER.debug(game.getCurrentPlayer().getName() + " game.getCardCommandFactory().resetPlayingCard();");
                         game.getCardCommandFactory().resetPlayingCard();
+                        LOGGER.debug(game.getCurrentPlayer().getName() + " handler.setPreviousState()");
                         handler.setPreviousState();
                         
                     }
@@ -51,7 +56,8 @@ public class MapCardPlayingState implements MapState, Serializable{
                 */
                 else {
                     if(!getPossibleUnitPostionToSelect(game).isEmpty())
-                         handler.setState(MapInputStateHandler.PICK_UNIT_BY_CARD);
+                    LOGGER.debug(game.getCurrentPlayer().getName() + " zmiana stanu na MapInputStateHandler.PICK_UNIT_BY_CARD");
+                    handler.setState(MapInputStateHandler.PICK_UNIT_BY_CARD);
 
                     }
                 break;
@@ -171,9 +177,8 @@ private ArrayList<Position> getMovePositions(Card playingCard, Game game){
                     if(game.getPhase() == Game.COMBAT)
                     {    if(playingCard.getPlayingCardMode() > 0  )
                         {
-                             game.getCardCommandFactory().setSelectedUnit(game.getSelectedUnit());
-                             game.getCardCommandFactory().calculateAttackingPositions();    
-                             return  game.getCardCommandFactory().getAttackingPositions();
+                            game.getCardCommandFactory().calculateAttackingPositions(game.getSelectedUnit());    
+                            return  game.getCardCommandFactory().getAttackingPositions();
 
                         }
                     }
@@ -275,6 +280,7 @@ protected void showCannotPlayCardDialog(CommandQueue cmdQueue, Game game){
                         "You cannot play this card",
                         cmdQueue, game);
         dialog.setVisible(true);
+          LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().resetFactory()");
         game.getCardCommandFactory().resetFactory();
         
 
@@ -288,6 +294,7 @@ protected void showCannotPlayCardDialog(CommandQueue cmdQueue, Game game){
                         "This card doesn't have valid target",
                         cmdQueue, game);
         dialog.setVisible(true);
+          LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().resetFactory()");
         game.getCardCommandFactory().resetFactory();
         
     }

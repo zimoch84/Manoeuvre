@@ -45,6 +45,7 @@ import manouvre.game.Combat;
 import manouvre.game.commands.CardCommands;
 import static java.lang.Math.abs;
 import manouvre.state.MapInputStateHandler;
+import org.apache.logging.log4j.LogManager;
 
 
 
@@ -68,6 +69,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     private int handMouseCoorXdeaf=0;
     private int handMouseCoorYdeaf=0;
    
+    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(GameWindow.class.getName());
     
     CardSetGUI cardSetsGUI;
     int windowMode;
@@ -206,6 +208,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                Create puruit dialog
                */
                PursuitDialog pursuitDialog = new PursuitDialog(client, cmdQueue, game);
+               LOGGER.debug(game.getCurrentPlayer().getName() + " zmiana stanu na MapInputStateHandler.PICK_UNIT_BY_CARD");
                game.mapInputHandler.setState(MapInputStateHandler.PICK_UNIT_BY_CARD);
                break;
                
@@ -1512,8 +1515,11 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             Card cardClicked=gameGui.getCardFromMousePosition(handMouseCoorX,handMouseCoorY);
             
             if(cardClicked != null)
+                {
+                LOGGER.debug(game.getCurrentPlayer().getName() + " zmiana stanu na MapInputStateHandler.CARD_PLAYING_STATE") ;
                 game.mapInputHandler.setState(MapInputStateHandler.CARD_PLAYING_STATE);
-            
+                }
+                
             gameGui.mouseClickedCard(cardClicked); 
             setActionButtonText();  //when card is selected set the buttons
             repaint();
@@ -1717,8 +1723,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                     if(game.getPhase() == Game.COMBAT)
                     {    if(playingCard.getPlayingCardMode() > 0  )
                         {
-                             game.getCardCommandFactory().setSelectedUnit(game.getSelectedUnit());
-                             game.getCardCommandFactory().calculateAttackingPositions();    
+                             game.getCardCommandFactory().calculateAttackingPositions(game.getSelectedUnit());    
                              return  game.getCardCommandFactory().getAttackingPositions();
 
                         }
@@ -1894,7 +1899,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             if(!game.getOpponentPlayer().isFinishedSetup()  && game.getCurrentPlayer().isActive())
             {
                 game.lockGUI();
-                
+                LOGGER.debug(game.getCurrentPlayer().getName() + "Zmiana stanu MapInputStateHandler.NOSELECTION");
                 game.mapInputHandler.setState(MapInputStateHandler.NOSELECTION);
             
             }
@@ -2369,15 +2374,10 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         
         
         game.mapInputHandler.handle(clickedPos, game, cmdQueue);
-        repaint();
+            repaint();
        
     }//GEN-LAST:event_mainMapPanelMousePressed
  
-//    public void clientSend(Message message){
-//        clOTRegroup.JPGient.send(gameGui.discardSelCards());
-//        this.repaint();OTRegroup.JPG
-//    }
-
     public GameGUI getGameGui() {
         return gameGui;
     }

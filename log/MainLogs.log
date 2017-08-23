@@ -1,0 +1,72 @@
+2017-08-23 15:57:18 [AWT-EventQueue-0] DEBUG GameWindow.buttonToNextPhaseActionPerformed line 1902 - BartekZmiana stanu MapInputStateHandler.NOSELECTION
+2017-08-23 15:57:18 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 57 - Bartek Zmiana stanu na NOSELECTION
+2017-08-23 15:57:21 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has finished setup
+2017-08-23 15:57:24 [Thread-2] DEBUG MapInputStateHandler.setInitStateForPhase line 139 - Bartek setInitStateForPhase 
+2017-08-23 15:57:24 [Thread-2] DEBUG MapInputStateHandler.setState line 57 - Bartek Zmiana stanu na NOSELECTION
+2017-08-23 15:57:24 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr has finished setup
+2017-08-23 15:57:24 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 139 - Bartek setInitStateForPhase 
+2017-08-23 15:57:24 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 139 - Bartek setInitStateForPhase 
+2017-08-23 15:57:24 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 64 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-08-23 15:57:25 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has drawn 0 cards
+2017-08-23 15:57:26 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 139 - Bartek setInitStateForPhase 
+2017-08-23 15:57:26 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 57 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-08-23 15:57:26 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 139 - Bartek setInitStateForPhase 
+2017-08-23 15:57:26 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 57 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-08-23 15:57:26 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 64 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-08-23 15:57:26 [Thread-1] DEBUG NextPhaseCommand.execute line 64 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-08-23 15:57:26 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek moved to the next phase Draw
+2017-08-23 15:57:27 [Thread-1] DEBUG NextPhaseCommand.execute line 64 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-08-23 15:57:27 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek moved to the next phase Move
+2017-08-23 15:57:31 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 33 - Bartekgame.unselectAllUnits()
+2017-08-23 15:57:31 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 1st Cuirassiers has been  deselected
+2017-08-23 15:57:31 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 2nd Regiment Legere has been  deselected
+2017-08-23 15:57:31 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 4th Regiment Suisse has been  deselected
+2017-08-23 15:57:31 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 8th Regiment Legere has been  deselected
+2017-08-23 15:57:31 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 19th Regiment Legere has been  deselected
+2017-08-23 15:57:31 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 45th Regiment Legere has been  deselected
+2017-08-23 15:57:31 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit Guard Cavalry has been  deselected
+2017-08-23 15:57:31 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit Imperial Guard has been  deselected
+2017-08-23 15:57:31 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 2nd Regiment Legere has been  seleced
+2017-08-23 15:57:31 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 43 - Bartek Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION
+2017-08-23 15:57:31 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 57 - Bartek Zmiana stanu na PICK_MOVE_POSITION
+2017-08-23 15:57:32 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 2nd Regiment Legere has been  deselected
+2017-08-23 15:57:32 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 1st Cuirassiers has been  deselected
+2017-08-23 15:57:32 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 2nd Regiment Legere has been  deselected
+2017-08-23 15:57:32 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 4th Regiment Suisse has been  deselected
+2017-08-23 15:57:32 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 8th Regiment Legere has been  deselected
+2017-08-23 15:57:32 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 19th Regiment Legere has been  deselected
+2017-08-23 15:57:32 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 45th Regiment Legere has been  deselected
+2017-08-23 15:57:32 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit Guard Cavalry has been  deselected
+2017-08-23 15:57:32 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit Imperial Guard has been  deselected
+2017-08-23 15:57:32 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 54 - Bartek game.unselectAllUnits()
+2017-08-23 15:57:32 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 1st Cuirassiers has been  deselected
+2017-08-23 15:57:32 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 2nd Regiment Legere has been  deselected
+2017-08-23 15:57:32 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 4th Regiment Suisse has been  deselected
+2017-08-23 15:57:32 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 8th Regiment Legere has been  deselected
+2017-08-23 15:57:32 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 19th Regiment Legere has been  deselected
+2017-08-23 15:57:32 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 45th Regiment Legere has been  deselected
+2017-08-23 15:57:32 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit Guard Cavalry has been  deselected
+2017-08-23 15:57:32 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit Imperial Guard has been  deselected
+2017-08-23 15:57:32 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 56 - Bartek Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT
+2017-08-23 15:57:32 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 57 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-08-23 15:57:33 [Thread-1] DEBUG Unit.setSelected line 117 - Unit 1st  Regiment has been  deselected
+2017-08-23 15:57:33 [Thread-1] DEBUG Unit.setSelected line 117 - Unit 3rd  Regiment has been  deselected
+2017-08-23 15:57:33 [Thread-1] DEBUG Unit.setSelected line 117 - Unit 4th  Regiment has been  deselected
+2017-08-23 15:57:33 [Thread-1] DEBUG Unit.setSelected line 117 - Unit 6th Grenzers has been  deselected
+2017-08-23 15:57:33 [Thread-1] DEBUG Unit.setSelected line 117 - Unit 9th Regiment has been  deselected
+2017-08-23 15:57:33 [Thread-1] DEBUG Unit.setSelected line 117 - Unit 14th Regiment has been  deselected
+2017-08-23 15:57:33 [Thread-1] DEBUG Unit.setSelected line 117 - Unit Johann Dragoons has been  deselected
+2017-08-23 15:57:33 [Thread-1] DEBUG Unit.setSelected line 117 - Unit O'Reilly Chevaulegers has been  deselected
+2017-08-23 15:57:33 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has moved unit 2nd Regiment Legere to position Position X: 1 Position Y: 3
+2017-08-23 15:57:33 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 139 - Bartek setInitStateForPhase 
+2017-08-23 15:57:33 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 57 - Bartek Zmiana stanu na NOSELECTION
+2017-08-23 15:57:33 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 139 - Bartek setInitStateForPhase 
+2017-08-23 15:57:33 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 57 - Bartek Zmiana stanu na NOSELECTION
+2017-08-23 15:57:33 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 64 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-08-23 15:57:34 [Thread-1] DEBUG NextPhaseCommand.execute line 64 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-08-23 15:57:34 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek moved to the next phase Combat
+2017-08-23 15:57:36 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1519 - Bartek zmiana stanu na MapInputStateHandler.CARD_PLAYING_STATE
+2017-08-23 15:57:36 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 57 - Bartek Zmiana stanu na CARD_PLAYING_STATE
+2017-08-23 15:57:36 [AWT-EventQueue-0] DEBUG GameGUI.mouseClickedCard line 724 - Bartek mouseClickedCard ID [129] 2nd Regiment Legerenull
+2017-08-23 15:57:36 [AWT-EventQueue-0] DEBUG GameGUI.triggerCardActionOnSelection line 850 - Bartek triggerCardActionOnSelection ID [129] 2nd Regiment Legerenull
+2017-08-23 15:57:36 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 2nd Regiment Legere has been  seleced

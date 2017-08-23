@@ -81,7 +81,7 @@ public class MapGUI{
     this.windowMode = windowMode;
     
     this.terrainsGUI = new TerrainGUI[8][8];
-    map.unitSelected = false;
+  
     loadTerrains();
     background= ImageIO.read( new File("resources\\backgrounds\\table800_800.jpg" ));
     
@@ -128,17 +128,7 @@ public class MapGUI{
         this.terrainsGUI = terrainsGUI;
     }
 
-         
-    public boolean isUnitSelected() {
-        
-        
-        return map.unitSelected;
-    }
-
-    public void setUnitSelected(boolean unitSelected) {
-        map.unitSelected = unitSelected;
-    }
-
+ 
     public Map getMap() {
         return map;
     }

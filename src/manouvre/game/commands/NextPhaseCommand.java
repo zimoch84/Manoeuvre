@@ -8,13 +8,14 @@ package manouvre.game.commands;
 import manouvre.game.Game;
 import manouvre.game.Param;
 import manouvre.game.interfaces.Command;
+import org.apache.logging.log4j.LogManager;
 
 /**
  *
  * @author Piotr
  */
 public class NextPhaseCommand implements Command{
-
+    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(NextPhaseCommand.class.getName());     
     String activePlayerName;
     int phase;
     public NextPhaseCommand(String playerName, int phase) {
@@ -60,6 +61,7 @@ public class NextPhaseCommand implements Command{
         game.nextPhase();
         game.getMap().unselectAllTerrains();
         game.getPlayerByName(activePlayerName).resetPlayer();
+        LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().resetFactory()");
         game.getCardCommandFactory().resetFactory();
     }
 

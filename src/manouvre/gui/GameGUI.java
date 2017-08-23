@@ -31,6 +31,7 @@ import javax.swing.JOptionPane;
 import manouvre.game.CardSet;
 import manouvre.game.Combat;
 import static java.lang.Math.round;
+import org.apache.logging.log4j.LogManager;
 
 
 
@@ -39,6 +40,8 @@ import static java.lang.Math.round;
  * @author Bartosz
  */
 public class GameGUI {
+    
+    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(GameGUI.class.getName());
     
     Game game;
     ArrayList<UnitGUI> currentPlayerArmy = new ArrayList<UnitGUI>(); 
@@ -53,7 +56,7 @@ public class GameGUI {
     
     int stateTemp=Combat.INITIALIZING_COMBAT;
     BufferedImage  infoImage;
-     CardCommandFactory cardFactory;
+    CardCommandFactory cardFactory;
     /*
     Wielkosc ramki stolu w kwadracie w pikselach
     */
@@ -205,28 +208,27 @@ public class GameGUI {
     private void drawSelection(Graphics g){
    
     if(!game.getCurrentPlayer().isPlayingCard())
-        if (mapGui.isUnitSelected() ) 
-            {
-
-            Unit selectedUnit = game.getSelectedUnit();
-            ArrayList<Position> movePositions;
-
-            if(selectedUnit != null)
-            if(game.getPhase() == Game.SETUP || game.freeMove)
-            {
-                movePositions = game.getSetupPossibleMovement();
-                drawMultipleRectanglesOnPositions(g, movePositions, Color.blue);
-            }
-            else if (selectedUnit.isRetriving())
-            {
-                return;
-            }
-            else
-            {
-                movePositions = game.getPossibleMovement(selectedUnit);
-                drawMultipleRectanglesOnPositions(g, movePositions, Color.blue);
-            }
-       }
+     {
+         Unit selectedUnit = game.getSelectedUnit();
+            if (selectedUnit != null ) 
+                {
+                ArrayList<Position> movePositions;
+                if(game.getPhase() == Game.SETUP || game.freeMove)
+                {
+                    movePositions = game.getSetupPossibleMovement();
+                    drawMultipleRectanglesOnPositions(g, movePositions, Color.blue);
+                }
+                else if (selectedUnit.isRetriving())
+                {
+                    return;
+                }
+                else
+                {
+                    movePositions = game.getPossibleMovement(selectedUnit);
+                    drawMultipleRectanglesOnPositions(g, movePositions, Color.blue);
+                }
+           }
+     }
 
     }
     private void drawArmy(Graphics g){
@@ -331,7 +333,8 @@ public class GameGUI {
         {
             ArrayList<Position> movePositions;
             Card playingCard = cardFactory.getCurrentPlayedCard();
-        if(playingCard != null)
+        
+            if(playingCard != null)
             switch (playingCard.getCardType()){
                 case Card.HQCARD :
                 {
@@ -368,38 +371,39 @@ public class GameGUI {
                     /*
                     Draw selection of unit that matches playing card
                     */
-                    
-                    
-                        if(game.checkCurrentPlayerUnitByName(playingCard.getCardName()))
-                        {
-                            Unit attackingUnit = game.getCurrentPlayerUnitByName(playingCard.getCardName());
-                            Position unitPosition = attackingUnit.getPosition();
-                            drawRectangleOnPosition(g, unitPosition, Color.red);
-                       
-                            if(game.getPhase() == Game.COMBAT)
-                                /*
-                                Draw possible targets if we know playing Card Mode
-                                if combat is null that means that is not initialized
-                                
-                                */       
-                                if(game.getCombat() == null)
-                                    
-                                    {
-                                    if(playingCard.getPlayingCardMode() > 0  )
-                                    {
-                                         cardFactory.setSelectedUnit(attackingUnit);
-                                         cardFactory.calculateAttackingPositions();
+                if(game.checkCurrentPlayerUnitByName(playingCard.getCardName()))
+                {
+                    Unit attackingUnit = game.getCurrentPlayerUnitByName(playingCard.getCardName());
+                    Position unitPosition = attackingUnit.getPosition();
+                    drawRectangleOnPosition(g, unitPosition, Color.red);
 
-                                         if(!cardFactory.getAttackingPositions().isEmpty())
-                                         drawArrowToPositions(g, 
-                                                 attackingUnit.getPosition(),
-                                                 cardFactory.getAttackingPositions()
-                                         );
+                    if(game.getPhase() == Game.COMBAT)
+                        /*
+                        Draw possible targets if we know playing Card Mode
+                        if combat is null that means that is not initialized
 
-                                    }
-                                    }
-                                
+                        */       
+                        if(game.getCombat() == null )
                            
+                            {
+                                /*
+                                If we have chosen attack type
+                                */
+                            if(playingCard.getPlayingCardMode() > 0  )
+                                /*
+                                If we are in Combat.INITIALIZING_COMBAT phase
+                                */
+                                if(game.getCombat().getState() == Combat.INITIALIZING_COMBAT)
+                                    {
+                                    if(!cardFactory.getAttackingPositions().isEmpty())
+                                        drawArrowToPositions(g, 
+                                        attackingUnit.getPosition(),
+                                        cardFactory.getAttackingPositions(),
+                                        Color.RED
+                                                            );
+
+                                    }
+                            }
                     }    
                     
                 break;    
@@ -472,8 +476,9 @@ public class GameGUI {
     Draw arrows to position
     */
     
-    private  void drawArrowToPositions(Graphics g , Position fromPosition, ArrayList<Position> toPositions){
+    private  void drawArrowToPositions(Graphics g , Position fromPosition, ArrayList<Position> toPositions, Color color){
     
+        g.setColor(color);
     for (Position losPositons: toPositions  )
                 {
                     drawArrow(g,
@@ -566,13 +571,13 @@ public class GameGUI {
     
     private void drawRetrieving(Graphics g){
      
-    if (mapGui.isUnitSelected() ){
+    if (game.getSelectedUnit()!= null){
         
         Unit selectedUnit = game.getSelectedUnit();
         if(selectedUnit != null)
             if(selectedUnit.isRetriving()) 
                      
-                drawArrowToPositions(g,  selectedUnit.getPosition(), game.getRetreatPositions(selectedUnit));
+                drawArrowToPositions(g,  selectedUnit.getPosition(), game.getRetreatPositions(selectedUnit), Color.GREEN);
                        
             }
     
@@ -582,7 +587,7 @@ public class GameGUI {
     
     private void drawLOS(Graphics g){
     
-        if (mapGui.isUnitSelected()){
+        if (game.getSelectedUnit()!= null){
         
         Unit selectedUnit = game.getSelectedUnit();
         
@@ -716,7 +721,7 @@ public class GameGUI {
     }
     public void mouseClickedCard(Card cardClicked){
         
-        
+        LOGGER.debug(game.getCurrentPlayer().getName() + " mouseClickedCard " + cardClicked.toString());
         if(cardClicked!=null)
         {
            //select card if it is    playable 
@@ -742,10 +747,11 @@ public class GameGUI {
                         }
                      
                     else if(game.getPhase()==Game.COMBAT && (game.getCombat()==null)){ //select first card in combat
-                        triggerCardActionOnSelection(cardClicked);
-                        keepOneSelectedCard(cardClicked);  
                         game.getCardCommandFactory().setPlayingCard(cardClicked);
                         game.getCardCommandFactory().addPickedAttackingCard(cardClicked);
+                        triggerCardActionOnSelection(cardClicked);
+                        keepOneSelectedCard(cardClicked);  
+                        
                      }
                     /*
                     If we in combat phase during combat
@@ -835,34 +841,53 @@ public class GameGUI {
     
     private void triggerCardActionOnSelection(Card playingCard){
     
+         
          if(playingCard.canBePlayed(game))
             {
             /*
             Trigger action on selection
             */
-            playingCard.actionOnSelection(game);
+            LOGGER.debug(game.getCurrentPlayer().getName() + " triggerCardActionOnSelection " + playingCard.toString());
+ 
+            switch(playingCard.getCardType()){
             
-            /*
-            If card have only 1 attacking mode set it here to avoid custom dialog
-            If card have 2 attacking mode then later we'll ask user about which mode he choses
-            */
+                case Card.UNIT :
+                {
+                 /*
+                If card have only 1 attacking mode set it here to avoid custom dialog
+                If card have 2 attacking mode then later we'll ask user about which mode he choses
+                */
                 if(playingCard.getCardType() == Card.UNIT)
                 {
                     if(playingCard.getPlayingPossibleCardModes().size() == 1 )
+                    {
                         playingCard.setPlayingCardMode(playingCard.getPlayingPossibleCardModes().get(0));
+                        playingCard.actionOnSelection(game);
+                    }
+                    else 
+                    {
+                       
+                        /*
+                        TODO Create dialog to choose 
+                        */
+                    }
                 }
-            
+                break;
+                }
+                default:  playingCard.actionOnSelection(game);
+            }
             }
     
     }
     
     private void triggerCardActionOnDeSelection(Card playingCard){
-    
+            LOGGER.debug(game.getCurrentPlayer().getName() + " triggerCardActionOnDeSelection " + playingCard.toString());
             /*
             Trigger action on selection
             */
             playingCard.actionOnDeselection(game);
             
+            LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().resetFactory()");
             game.getCardCommandFactory().resetFactory();
     
     }

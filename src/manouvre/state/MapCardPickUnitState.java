@@ -18,13 +18,14 @@ import manouvre.game.Unit;
 import manouvre.game.commands.CommandQueue;
 import manouvre.gui.CustomDialog;
 import manouvre.gui.GameWindow;
+import org.apache.logging.log4j.LogManager;
 
 /**
  *
  * @author xeon
  */
 public class MapCardPickUnitState implements MapState, Serializable{
-
+private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(MapCardPickUnitState.class.getName());     
     @Override
     public void handleInput(Position pos, Game game, CommandQueue cmdQueue , MapInputStateHandler handler) {
        
@@ -170,6 +171,7 @@ private void showCannotPlayCardDialog(CommandQueue cmdQueue, Game game){
                         "You cannot play this card",
                         cmdQueue, game);
         dialog.setVisible(true);
+        LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().resetFactory()");
         game.getCardCommandFactory().resetFactory();
         
 
@@ -183,6 +185,7 @@ private void showCannotPlayCardDialog(CommandQueue cmdQueue, Game game){
                         "This card doesn't have valid target",
                         cmdQueue, game);
         dialog.setVisible(true);
+          LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().resetFactory()");
         game.getCardCommandFactory().resetFactory();
         
     }

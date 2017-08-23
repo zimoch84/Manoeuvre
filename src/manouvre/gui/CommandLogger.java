@@ -24,7 +24,9 @@ public class CommandLogger {
     }
       
     public void log(Command command){
-                  
+            
+        
+        
         frame.printOnChat(command.logCommand());
        
         

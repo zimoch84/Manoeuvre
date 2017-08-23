@@ -12,6 +12,8 @@ import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import manouvre.game.interfaces.UnitInterface;
+import manouvre.gui.GameWindow;
+import org.apache.logging.log4j.LogManager;
 
 /**
  *
@@ -20,6 +22,7 @@ import manouvre.game.interfaces.UnitInterface;
 public class Unit implements UnitInterface, Serializable{
 
     private static final long serialVersionUID = 46321L;
+    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(Unit.class.getName());
     
     Player owner;
 
@@ -111,6 +114,7 @@ public class Unit implements UnitInterface, Serializable{
     }
 
     public void setSelected(boolean selected) {
+        LOGGER.debug("Unit " + name + " has been " + (selected ?  " seleced"  : " deselected") );
         this.selected = selected;
     }
 

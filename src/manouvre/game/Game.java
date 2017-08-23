@@ -78,7 +78,7 @@ public final class Game implements Serializable{
         this.turn=1;
         setPhase(Game.SETUP);
         
-        mapInputHandler = new MapInputStateHandler();
+        mapInputHandler = new MapInputStateHandler(this);
         
     }
      
@@ -893,7 +893,6 @@ public final class Game implements Serializable{
     
     for (Unit unit: currentPlayer.getArmy()){
              unit.setSelected(false);
-             getMap().setUnitSelected(false);
              getMap().unselectAllTerrains();
        }
        

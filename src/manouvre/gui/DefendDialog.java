@@ -21,6 +21,8 @@ import manouvre.game.commands.CommandQueue;
 import manouvre.game.interfaces.ClientInterface;
 import manouvre.game.interfaces.Command;
 import manouvre.state.MapInputStateHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -28,6 +30,9 @@ import manouvre.state.MapInputStateHandler;
  */
 public class DefendDialog extends javax.swing.JFrame {
 
+    
+    private static final Logger LOGGER = LogManager.getLogger(DefendDialog.class.getName());
+    
     Command okCommand;
     Command withdrawCommand;
     
@@ -412,6 +417,7 @@ public class DefendDialog extends javax.swing.JFrame {
         this.dispose();
         //Show dialog
         
+        LOGGER.debug(game.getCurrentPlayer().getName() + " zmiana Stanu na MapInputStateHandler.PICK_MOVE_POSITION_BY_CARD");
         game.mapInputHandler.setState(MapInputStateHandler.PICK_MOVE_POSITION_BY_CARD);
         
         

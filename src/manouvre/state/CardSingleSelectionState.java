@@ -8,6 +8,8 @@ package manouvre.state;
 import manouvre.game.Card;
 import manouvre.game.CardSet;
 import manouvre.game.Game;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -15,6 +17,9 @@ import manouvre.game.Game;
  */
 public class CardSingleSelectionState implements CardInputState{
 
+    private static final Logger LOGGER = LogManager.getLogger(CardSingleSelectionState.class.getName());
+    
+    
     @Override
     public void handleInput(Card card, Game game) {
         
@@ -67,7 +72,7 @@ public class CardSingleSelectionState implements CardInputState{
             Trigger action on selection
             */
             playingCard.actionOnDeselection(game);
-            
+            LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().resetFactory()");
             game.getCardCommandFactory().resetFactory();
     
     }

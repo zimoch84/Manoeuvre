@@ -19,8 +19,7 @@ public class Map implements MapInterface, Serializable{
 
     private static final long serialVersionUID = 4665321L;
     Terrain[][] terrains ;
-    public boolean unitSelected;
-
+   
     public Map() {
         this.terrains = new Terrain[8][8];
         generateMap();
@@ -110,14 +109,4 @@ public class Map implements MapInterface, Serializable{
         }
     }
 
-    public boolean isUnitSelected() {
-        return unitSelected;
     }
-
-    public void setUnitSelected(boolean unitSelected) {
-        this.unitSelected = unitSelected;
-    }
-        
-    
-    
-}

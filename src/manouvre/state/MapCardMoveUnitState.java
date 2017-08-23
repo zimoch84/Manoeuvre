@@ -17,6 +17,7 @@ import manouvre.game.commands.CommandQueue;
 import manouvre.game.commands.MoveUnitCommand;
 import manouvre.gui.CustomDialog;
 import manouvre.gui.GameWindow;
+import org.apache.logging.log4j.LogManager;
 
 /**
  *
@@ -24,6 +25,8 @@ import manouvre.gui.GameWindow;
  */
 public class MapCardMoveUnitState implements MapState, Serializable{
 
+    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(MapCardMoveUnitState.class.getName());
+    
     @Override
     public void handleInput(Position pos, Game game, CommandQueue cmdQueue , MapInputStateHandler handler) {
        
@@ -42,14 +45,16 @@ public class MapCardMoveUnitState implements MapState, Serializable{
                     Confirmation dialog
                     */
                     showConfirmationCardDialog(cmdQueue, game);
-                    
+                    LOGGER.debug(game.getCurrentPlayer().getName() + " zmiana stanu na MapInputStateHandler.NOSELECTION");
                     handler.setState(MapInputStateHandler.NOSELECTION);
                 }
                 /*
                 Deselect card and clear Card Factory
                 */
                 else {
+                    LOGGER.debug(game.getCurrentPlayer().getName() + " game.getCardCommandFactory().resetPlayingCard();");
                     game.getCardCommandFactory().resetPlayingCard();
+                    LOGGER.debug(game.getCurrentPlayer().getName() + " zmiana stanu na MapInputStateHandler.NOSELECTION");
                     handler.setState(MapInputStateHandler.NOSELECTION);
 
                 }

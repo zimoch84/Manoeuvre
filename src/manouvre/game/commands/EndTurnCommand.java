@@ -8,6 +8,7 @@ package manouvre.game.commands;
 import manouvre.game.Game;
 import manouvre.game.Param;
 import manouvre.game.interfaces.Command;
+import org.apache.logging.log4j.LogManager;
 
 /**
  *
@@ -15,7 +16,7 @@ import manouvre.game.interfaces.Command;
  */
 public class EndTurnCommand implements Command{
 
-    
+    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(EndTurnCommand.class.getName());  
     String activePlayerName;
     int phase;
     public EndTurnCommand(String playerName) {
@@ -31,6 +32,7 @@ public class EndTurnCommand implements Command{
         game.setPhase(Game.DISCARD);
         game.getMap().unselectAllTerrains();
         game.getPlayerByName(activePlayerName).resetPlayer();
+        LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().resetFactory()");
         game.getCardCommandFactory().resetFactory();
         
         

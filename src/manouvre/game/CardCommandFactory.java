@@ -158,12 +158,11 @@ public class CardCommandFactory extends Observable implements Serializable{
     }
     
     public void resetPlayingCard(){
-        
         if(playingCard != null) 
+        {
             this.playingCard.setSelected(false) ;
-       else 
-             this.playingCard = null;
-        
+            this.playingCard = null;
+        }
         game.getCurrentPlayer().setPlayingCard(false);
     }
 
@@ -187,16 +186,15 @@ public class CardCommandFactory extends Observable implements Serializable{
     
     }
     
-    public void calculateAttackingPositions(){
+    public void calculateAttackingPositions(Unit attackingUnit){
         ArrayList<Position> attackPossiblePositions;
         ArrayList<Position>  attackPositions  = new ArrayList<Position>();      
         
         
-
         if(playingCard.getPlayingCardMode()== Card.ASSAULT 
         || playingCard.getPlayingCardMode()== Card.VOLLEY)
             {
-            attackPossiblePositions= game.getPossibleAssault(selectedUnit);
+            attackPossiblePositions= game.getPossibleAssault(attackingUnit);
             for(Position checkPosition : attackPossiblePositions)
             {
                 if(game.checkOpponentPlayerUnitAtPosition(checkPosition))
@@ -208,7 +206,7 @@ public class CardCommandFactory extends Observable implements Serializable{
         else if (playingCard.getPlayingCardMode()== Card.BOMBARD) 
         {    
         {
-            attackPossiblePositions= game.getLOS(selectedUnit, 2);
+            attackPossiblePositions= game.getLOS(attackingUnit, 2);
             for(Position checkPosition : attackPossiblePositions)
             {
                 if(game.checkOpponentPlayerUnitAtPosition(checkPosition))

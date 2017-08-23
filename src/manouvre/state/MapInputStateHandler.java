@@ -10,12 +10,17 @@ import java.io.Serializable;
 import manouvre.game.Game;
 import manouvre.game.Position;
 import manouvre.game.commands.CommandQueue;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
  * @author xeon
  */
 public class MapInputStateHandler implements Serializable{
+    
+    Logger LOGGER;
+    Game game;
     
     public final static int NOSELECTION = 0;
     public final static int PICK_ONE_UNIT = 1;
@@ -35,7 +40,11 @@ public class MapInputStateHandler implements Serializable{
     
     public MapState currentState, previousState;
 
-    public MapInputStateHandler() {
+    public MapInputStateHandler(Game game) {
+        
+        this.game = game;
+        LOGGER = LogManager.getLogger(MapInputStateHandler.class.getName());
+        
        // this.arrayOfStates = new ArrayList();
         currentState = new MapPickAvalibleUnitState();
         //arrayofStates.add(currentState);O
@@ -44,6 +53,8 @@ public class MapInputStateHandler implements Serializable{
     
     public void setState(int nextState)
     {
+      
+        LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na " + getStateName(nextState) );
         previousState = currentState;
         
         switch(nextState)
@@ -89,6 +100,34 @@ public class MapInputStateHandler implements Serializable{
      
     }
      
+    private String getStateName(int stateId){
+    
+    switch(stateId)
+        {
+            case NOSELECTION : return "NOSELECTION";
+           
+            
+            case PICK_ONE_UNIT : return "PICK_ONE_UNIT";
+            
+            
+            case PICK_MOVE_POSITION : return "PICK_MOVE_POSITION";
+            
+                       
+            
+            case CARD_PLAYING_STATE : return "CARD_PLAYING_STATE";
+            
+            
+            case PICK_UNIT_BY_CARD : return "PICK_UNIT_BY_CARD";
+            
+            
+            case PICK_MOVE_POSITION_BY_CARD : return "PICK_MOVE_POSITION_BY_CARD";
+           
+            
+            default:  return "DEFAULT";
+           
+    }
+    }
+    
     public void handle(Position pos, Game game, CommandQueue cmdQueue)
     {
             currentState.handleInput(pos, game, cmdQueue, this);
@@ -97,7 +136,7 @@ public class MapInputStateHandler implements Serializable{
     
     public void setInitStateForPhase (Game game){
     
-      
+        LOGGER.debug(game.getCurrentPlayer().getName() + " setInitStateForPhase "  );
             switch (game.getPhase())
             {
                 

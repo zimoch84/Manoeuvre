@@ -12,6 +12,7 @@ import manouvre.gui.CommandLogger;
 import manouvre.gui.GameWindow;
 import manouvre.network.client.Message;
 import manouvre.game.interfaces.Command;
+import org.apache.logging.log4j.LogManager;
 
 /**
  *
@@ -21,6 +22,8 @@ public class CommandQueue {
     
     ArrayList<Command> commands = new ArrayList<Command>();
     Game game;
+    
+    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(CommandQueue.class.getName());   
     
     CommandLogger commandLogger;
     GameWindow gameWindow;
@@ -38,17 +41,13 @@ public class CommandQueue {
     public void storeAndExecute(Command cmd) {
         this.commands.add(cmd);
         cmd.execute(game);
+        
+        LOGGER.debug(game.getCurrentPlayer().getName() + " wykonano command " + cmd.logCommand());
         commandLogger.log(cmd);
 
 
         gameWindow.refreshAll();
         gameWindow.repaint();
-        
-        System.err.println("CommandQueue.storeAndExecute() " + cmd.toString() + " "
-              + game.getCurrentPlayer().getName() + " Phase" + 
-              game.getPhaseName(game.getPhase()));
-     
-     // cmd=null;//I think we should delete commands after completion
       
    }
     
@@ -56,7 +55,8 @@ public class CommandQueue {
       this.commands.add(cmd);
       cmd.execute(game);
       
-      
+      LOGGER.debug(game.getCurrentPlayer().getName() + " wykonano command " + cmd.logCommand()
+      );
       gameWindow.refreshAll();
       gameWindow.repaint();
      // cmd=null;//I think we should delete commands  after completion
@@ -66,6 +66,8 @@ public class CommandQueue {
         this.commands.add(cmd);
         cmd.execute(game); //execute locally
         commandLogger.log(cmd);
+        
+        
         
         gameWindow.refreshAll();
         gameWindow.repaint();

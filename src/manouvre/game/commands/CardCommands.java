@@ -18,15 +18,16 @@ import manouvre.game.Unit;
 import manouvre.game.interfaces.CardCommandInterface;
 import manouvre.game.interfaces.Command;
 import manouvre.network.server.UnoptimizedDeepCopy;
+import org.apache.logging.log4j.LogManager;
 
 /**
  *
  * @author Piotr
  */
 public class CardCommands {
-
+    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(CardCommands.class.getName());  
     public static class MoveToTableCommand implements CardCommandInterface {
-
+    
         Card card;
         String senderPlayerName;
 
@@ -133,10 +134,12 @@ public class CardCommands {
         @Override
         public void execute(Game game) {
             if (game.getCurrentPlayer().getName().equals(senderPlayerName)) {
+                LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().resetFactory()");
                 game.getCardCommandFactory().resetFactory();
             } else {
                 game.getCardCommandFactory().awakeObserver();
                 game.getCardCommandFactory().notifyObservers(CardCommandFactory.CARD_NOT_REJECTED);
+                LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().resetFactory()");
                 game.getCardCommandFactory().resetFactory();
             }
         }
@@ -212,6 +215,7 @@ public class CardCommands {
         public void cancel(Game game) {
             moveUnitCommand.undo(game);
             game.getCurrentPlayer().setMoved(true);
+            LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().resetFactory()");
             game.getCardCommandFactory().resetFactory();
         }
 
@@ -277,6 +281,7 @@ public class CardCommands {
         public void cancel(Game game) {
             moveUnitCommand.undo(game);
             game.getCurrentPlayer().setMoved(true);
+            LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().resetFactory()");
             game.getCardCommandFactory().resetFactory();
         }
 
@@ -438,6 +443,7 @@ public class CardCommands {
 
         @Override
         public void execute(Game game) {
+            LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().resetFactory()");
             game.getCardCommandFactory().resetFactory();
 
         }
@@ -485,6 +491,7 @@ public class CardCommands {
 
                 game.getCardCommandFactory().awakeObserver();
                 game.getCardCommandFactory().notifyObservers(CardCommandFactory.DEFENDING_CARDS_PLAYED);
+                LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().resetFactory()");
                 game.getCardCommandFactory().resetFactory();
                 }
             }

@@ -59,9 +59,10 @@ public class Player  implements Serializable{
     public void resetPlayer(){
     
     for(Unit unit : getArmy()) {
-        
-        unit.setMoved(false);
-        unit.setSelected(false);
+        if(unit.hasMoved())
+             unit.setMoved(false);
+        if(unit.isSelected())
+            unit.setSelected(false);
     
     }
         setMoved(false);
