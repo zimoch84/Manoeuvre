@@ -12,6 +12,7 @@ import static manouvre.game.interfaces.PositionInterface.COLUMN_H;
 import static manouvre.game.interfaces.PositionInterface.ROW_8;
 import manouvre.gui.CreateRoomWindow;
 import manouvre.network.server.UnoptimizedDeepCopy;
+import manouvre.state.CardStateHandler;
 import manouvre.state.MapInputStateHandler;
 
 /**
@@ -55,6 +56,7 @@ public final class Game implements Serializable{
     Combat combat;
     public boolean freeMove = false;
     public MapInputStateHandler mapInputHandler;
+    public CardStateHandler cardStateHandler;
     
     public Game(ArrayList<Player> players) {
         this.hostPlayer = players.get(0);
@@ -67,8 +69,8 @@ public final class Game implements Serializable{
         guestPlayer.setCards();  
         guestPlayer.generateUnits(); 
         cardCommandFactory = new CardCommandFactory(this);
-        this.tablePile=new CardSet();
-        this.tablePileDefPart=new CardSet();
+        this.tablePile=new CardSet("TABLE");
+        this.tablePileDefPart=new CardSet("TABLE_DEFENDING");
         generateMap(); 
         
         placeUnitsOnMap(hostPlayer);
@@ -78,7 +80,11 @@ public final class Game implements Serializable{
         this.turn=1;
         setPhase(Game.SETUP);
         
+        /*
+        Create handlers
+        */
         mapInputHandler = new MapInputStateHandler(this);
+        cardStateHandler = new CardStateHandler(this);
         
     }
      
@@ -766,9 +772,10 @@ public final class Game implements Serializable{
         Initialize states
         */
         if(getCurrentPlayer().isActive())
+        {   
             mapInputHandler.setInitStateForPhase(this);
-                      
-        
+            cardStateHandler.setInitStateForPhase(this);
+        }
     }
      public String getPhaseName(int phase){
       
@@ -812,7 +819,10 @@ public final class Game implements Serializable{
         */
         if(getCurrentPlayer() != null)
             if(getCurrentPlayer().isActive())
-                   mapInputHandler.setInitStateForPhase(this);
+            {
+                mapInputHandler.setInitStateForPhase(this);
+                cardStateHandler.setInitStateForPhase(this);
+            }
  
     } 
        
@@ -891,7 +901,7 @@ public final class Game implements Serializable{
 
     public void unselectAllUnits(){
     
-    for (Unit unit: currentPlayer.getArmy()){
+    for (Unit unit: getSelectedUnits()){
              unit.setSelected(false);
              getMap().unselectAllTerrains();
        }
@@ -907,21 +917,6 @@ public final class Game implements Serializable{
             
     }
 
-    public CardSet getTablePile() {
-        return tablePile;
-    }
-
-    public void setTablePile(CardSet tablePile) {
-        this.tablePile = tablePile;
-    }
-
-    public CardSet getTablePileDefPart() {
-        return tablePileDefPart;
-    }
-
-    public void setTablePileDefPart(CardSet tablePileDefPart) {
-        this.tablePileDefPart = tablePileDefPart;
-    }
     public boolean isLocked() {
     return lockGUI;
     }

@@ -38,8 +38,8 @@ public class CardCommands {
 
         @Override
         public void execute(Game game) {
-                Card movingCard = game.getPlayerByName(senderPlayerName).getHand().getCardByCard(card);
-                game.getTablePile().addCardToThisSet(movingCard);// Put cards on own table
+                Card movingCard = game.getPlayerByName(senderPlayerName).getHand().getCard(card);
+                game.getCurrentPlayer().getTablePile().addCard(movingCard);// Put cards on own table
                 game.getPlayerByName(senderPlayerName).getHand().drawCardFromSet(movingCard);//remove cards from own hand
                 if (game.getCurrentPlayer().getName().equals(senderPlayerName)) {
                 } else {
@@ -93,10 +93,10 @@ public class CardCommands {
                 game.getCardCommandFactory().notifyObservers(CardCommandFactory.CARD_REJECTED);
             }
             //all players do the same
-            game.getPlayerByName(senderPlayerName).getDiscardPile().addCardToThisSet(game.getTablePile().drawCardFromSet(card));
+            game.getPlayerByName(senderPlayerName).getDiscardPile().addCard(game.getCurrentPlayer().getTablePile().drawCardFromSet(card));
             incomingCardCommand.cancel(game);
             Card guerrillas = game.getPlayerByName(senderPlayerName).getHand().getCardByName("Guerrillas", true);
-            game.getPlayerByName(senderPlayerName).getDiscardPile().addCardToThisSet(guerrillas);
+            game.getPlayerByName(senderPlayerName).getDiscardPile().addCard(guerrillas);
 
         }
 
@@ -375,10 +375,10 @@ public class CardCommands {
         @Override
         public void execute(Game game) {
             if (game.getCurrentPlayer().getName().equals(senderPlayerName)) {
-                game.getCurrentPlayer().getHand().addCardsFromOtherSet(numberOfChosenCards, cardSet, true, deleteCards);//add to own hand
+                game.getCurrentPlayer().getDrawPile().moveTopXCardsTo(numberOfChosenCards, game.getCurrentPlayer().getHand() );//add to own hand
 
             } else {
-                game.getOpponentPlayer().getHand().addCardsFromOtherSet(numberOfChosenCards, cardSet, true, deleteCards); //add cards to opponent hand
+                game.getOpponentPlayer().getDrawPile().moveTopXCardsTo(numberOfChosenCards, game.getOpponentPlayer().getHand() ); //add cards to opponent hand
                 //repaint is made by CommandQueue
             }
         }
@@ -414,7 +414,10 @@ public class CardCommands {
 
         @Override
         public void execute(Game game) {
-            game.getTablePile().clear();
+            game.getCurrentPlayer().getTablePile().moveTopXCardsTo(
+            game.getCurrentPlayer().getTablePile().cardsLeftInSet(), 
+            game.getCurrentPlayer().getDiscardPile()
+            );
         }
 
         @Override
@@ -477,8 +480,8 @@ public class CardCommands {
         @Override
         public void execute(Game game) {
                 for(Card card:cards){
-                Card movingCard = game.getPlayerByName(senderPlayerName).getHand().getCardByCard(card);
-                game.getTablePileDefPart().addCardToThisSet(movingCard);// Put cards on own table
+                Card movingCard = game.getPlayerByName(senderPlayerName).getHand().getCard(card);
+                game.getCurrentPlayer().getTablePile().addCard(movingCard);// Put cards on own table
                 game.getPlayerByName(senderPlayerName).getHand().drawCardFromSet(movingCard);//remove cards from own hand
                
                 }    
@@ -731,11 +734,12 @@ public class CardCommands {
                      break;  
                 }
             }
+    game.setCombat(null);
+    game.getCurrentPlayer().getTablePile().moveTopXCardsTo(
+            game.getCurrentPlayer().getTablePile().cardsLeftInSet(), 
+            game.getCurrentPlayer().getDiscardPile()
+            );
             
-           game.setCombat(null);
-            game.getTablePile().clear();
-            game.getTablePileDefPart().clear();
-          
     }
 
         @Override

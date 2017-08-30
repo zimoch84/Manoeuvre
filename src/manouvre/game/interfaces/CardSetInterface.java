@@ -9,42 +9,19 @@ import manouvre.game.Card;
  */
 public interface CardSetInterface {
 
-   
-   /**
-   * Shuffle DECK into a random order
-   */
-   public void makeDeck(int range);
-   
-   /**
-    * Add random cards from the DECK to HAND
-    * @param range
-    * @param otherCardSet 
-    */
-   public void addRandomCardsFromOtherSet(int range, CardSetInterface otherCardSet);
-   
    /**
     * Deal the card to another set, f.ex. to USED CADS
     * @param cardToDeal
     * @param otherCardSet 
     */
-   public void dealCardToOtherSet(Card cardToDeal, CardSetInterface otherCardSet);
+   public void moveCardTo(Card cardToDeal, CardSetInterface otherCardSet);
    
    /**
     * Add specyfic card to this set
     * @param newCard 
     */
-   public void addCardToThisSet(Card newCard);
+   public void addCard(Card newCard);
    
-   /**
-    * Deal random card from this set
-    * @return 
-    */
-   public Card dealRandomCardFromThisSet();
-   
-   /**
-    * Show all the Card Names in the set
-    */
-   public ArrayList<String> getAllCardsNamesFromSet();
    
    /**
     * Return card based on its position in the set

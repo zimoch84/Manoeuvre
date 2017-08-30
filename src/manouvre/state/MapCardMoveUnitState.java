@@ -50,13 +50,17 @@ public class MapCardMoveUnitState implements MapState, Serializable{
                 }
                 /*
                 Deselect card and clear Card Factory
+                or do nothing 
                 */
                 else {
+                    /*
                     LOGGER.debug(game.getCurrentPlayer().getName() + " game.getCardCommandFactory().resetPlayingCard();");
                     game.getCardCommandFactory().resetPlayingCard();
                     LOGGER.debug(game.getCurrentPlayer().getName() + " zmiana stanu na MapInputStateHandler.NOSELECTION");
+              
+                    game.unselectAllUnits();
                     handler.setState(MapInputStateHandler.NOSELECTION);
-
+                        */
                 }
                 
 

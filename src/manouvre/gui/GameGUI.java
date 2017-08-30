@@ -5,7 +5,6 @@
  */
 package manouvre.gui;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -28,9 +27,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import manouvre.game.Dice;
 import javax.swing.JOptionPane;
-import manouvre.game.CardSet;
 import manouvre.game.Combat;
-import static java.lang.Math.round;
 import org.apache.logging.log4j.LogManager;
 
 
@@ -43,16 +40,20 @@ public class GameGUI {
     
     private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(GameGUI.class.getName());
     
+     //-------- CARDS - BOTTOM OF THE SCREEN -----------------------------------
+    
+    //int width=round(CardGUI.CARD_WIDTH*CardGUI.SCALE_FACTOR), height=round(CardGUI.CARD_HEIGHT*CardGUI.SCALE_FACTOR);
+    
+    
+    
     Game game;
     ArrayList<UnitGUI> currentPlayerArmy = new ArrayList<UnitGUI>(); 
     ArrayList<UnitGUI> opponnetPlayerArmy = new ArrayList<UnitGUI>(); 
     MapGUI mapGui;
-    CardSetGUI handSetGui;
-
+    
     Player currentPlayer;
-    CardSetGUI discardSetGui;
-    CardSetGUI drawSetGui;
-    CardSetGUI tableSetGui,tableSetGuiDefPart;
+    
+    CardSetGUI cardSetsGUI;
     
     int stateTemp=Combat.INITIALIZING_COMBAT;
     BufferedImage  infoImage;
@@ -61,8 +62,7 @@ public class GameGUI {
     Wielkosc ramki stolu w kwadracie w pikselach
     */
     final int BACKGRNDTABLE = 678;
-    int numberOfDiscardedCards=0;
-    
+ 
     final int gapSelection = 5;
     final int gapUnit = 7;
     
@@ -81,11 +81,11 @@ public class GameGUI {
         this.mapGui = new MapGUI(game.getMap(), windowMode);
         this.generateUnitsUI();
         
-        this.handSetGui = new CardSetGUI(currentPlayer.getHand());
-        this.discardSetGui = new CardSetGUI(currentPlayer.getDiscardPile());
-        this.drawSetGui = new CardSetGUI(currentPlayer.getDrawPile());//empty
-        this.tableSetGui = new CardSetGUI(game.getTablePile());//empty
-        this.tableSetGuiDefPart = new CardSetGUI(game.getTablePileDefPart());//empty
+        this.cardSetsGUI = new CardSetGUI(game);
+        
+//        this.handSetGui = new CardSetGUI(currentPlayer.getHand());
+//        this.discardSetGui = new CardSetGUI(currentPlayer.getDiscardPile());
+//        this.drawSetGui = new CardSetGUI(currentPlayer.getDrawPile());//empty
         this.cardFactory = game.getCardCommandFactory();
         this.cmdQueue=cmdQueue;
                
@@ -120,13 +120,13 @@ public class GameGUI {
         */
         drawBorder(g);
         /*
-        Draws selection
-         */
-        drawSelection(g);
-        /*
         Draw units
          */
         drawArmy(g);
+         /*
+        Draws selection
+         */
+        drawSelection(g);
         /*
         Draw retrieving arrows
         */
@@ -142,7 +142,7 @@ public class GameGUI {
         
        
     }
-    private void drawTerrains(Graphics g){
+      private void drawTerrains(Graphics g){
     
     if(windowMode == CreateRoomWindow.AS_HOST)
         for (TerrainGUI terrainGUI : mapGui.getTerrainsGUI()) {
@@ -212,6 +212,7 @@ public class GameGUI {
          Unit selectedUnit = game.getSelectedUnit();
             if (selectedUnit != null ) 
                 {
+                drawRectangleOnPosition(g, selectedUnit.getPosition(), Color.WHITE);
                 ArrayList<Position> movePositions;
                 if(game.getPhase() == Game.SETUP || game.freeMove)
                 {
@@ -349,11 +350,18 @@ public class GameGUI {
                         }
                     case Card.SUPPLY: 
                         {
+                            
+                            
                         if(game.getSelectedUnit()!= null)  {  
                                 Unit selectedUnit = game.getSelectedUnit();
-                                movePositions = game.getOneSquareMovements(selectedUnit.getPosition());
+                                movePositions = game.getPossibleMovement(selectedUnit);
                                 drawMultipleRectanglesOnPositions(g, movePositions, Color.red);
                         }
+                        
+                        else {
+                                drawMultipleRectanglesOnPositions(g, game.getCurrentPlayerNotMovedUnits(), Color.BLUE);
+                        }
+                        
                         break;
                         }    
                         
@@ -384,25 +392,19 @@ public class GameGUI {
 
                         */       
                         if(game.getCombat() == null )
-                           
                             {
                                 /*
                                 If we have chosen attack type
                                 */
                             if(playingCard.getPlayingCardMode() > 0  )
-                                /*
-                                If we are in Combat.INITIALIZING_COMBAT phase
-                                */
-                                if(game.getCombat().getState() == Combat.INITIALIZING_COMBAT)
-                                    {
-                                    if(!cardFactory.getAttackingPositions().isEmpty())
-                                        drawArrowToPositions(g, 
-                                        attackingUnit.getPosition(),
-                                        cardFactory.getAttackingPositions(),
-                                        Color.RED
-                                                            );
-
-                                    }
+                               
+                                if(!cardFactory.getAttackingPositions().isEmpty())
+                                    drawArrowToPositions(g, 
+                                    attackingUnit.getPosition(),
+                                    cardFactory.getAttackingPositions(),
+                                    Color.RED
+                                    );
+      
                             }
                     }    
                     
@@ -633,12 +635,8 @@ public class GameGUI {
             opponnetPlayerArmy.add(new UnitGUI(unit));
         }
     }
-
-   void unselectAllUnits() {
-        game.unselectAllUnits();
-       
-    }
-    
+  
+  
     public Game getGame() {
         return game;
     }
@@ -693,29 +691,21 @@ public class GameGUI {
     }
     
     
- //-------- CARDS - BOTTOM OF THE SCREEN -----------------------------------
-    //scale factor for Cards//Normally cards has 260x375 pixels
-    int width=round(CardGUI.CARD_WIDTH*CardGUI.SCALE_FACTOR), height=round(CardGUI.CARD_HEIGHT*CardGUI.SCALE_FACTOR);
-    int cardPaddingTop=40;
-    int cardPaddingLeft=10;
-    int gap = 5; 
-    int oneThirdCard; //set during mouse move
-    int liftCardIfSelectedBy=20;//pixels if card selected
+
     
     public void phaseChanged(){
          game.getCurrentPlayer().getHand().selectionSeq.clear();//clear selection if phase was changed
-             for (int i=0; i<handSetGui.cardsLeftInSet(); i++){  
-              handSetGui.getCardByPosInSet(i).getCard().setSelected(false);   
-             }
+          
+        
     }
     public void keepOneSelectedCard(Card cardClicked){
-        for (int i=0; i<handSetGui.getCardSet().cardsLeftInSet(); i++){ 
-            handSetGui.getCardSet().getCardByPosInSet(i).setSelected(false);
+        for (int i=0; i< game.getCurrentPlayer().getHand().cardsLeftInSet(); i++){ 
+            game.getCurrentPlayer().getHand().getCardByPosInSet(i).setSelected(false);
         }
         game.getCurrentPlayer().getHand().selectionSeq.clear();
-        if(handSetGui.getCardSet().getCardByCard(cardClicked)!=null){
-        handSetGui.getCardSet().getCardByCard(cardClicked).setSelected(true);
-        game.getCurrentPlayer().getHand().selectionSeq.add((Integer)cardClicked.getCardID());
+        if(game.getCurrentPlayer().getHand().getCard(cardClicked)!=null){
+        game.getCurrentPlayer().getHand().getCard(cardClicked).setSelected(true);
+        game.getCurrentPlayer().getHand().selectionSeq.add(cardClicked);
         }
         else System.err.println("CARD IS NOT SELECTED - check GameGui.java method: keepOneSelectedCard");
     }
@@ -768,7 +758,7 @@ public class GameGUI {
                                     {   
                                         if(game.getCurrentPlayer().isActive()){
                                             game.getCardCommandFactory().addPickedAttackingCard(cardClicked);
-                                            game.getCurrentPlayer().getHand().selectionSeq.add((Integer)cardClicked.getCardID()); 
+                                            game.getCurrentPlayer().getHand().selectionSeq.add(cardClicked); 
                                             break;
                                         }
                                     }
@@ -776,7 +766,7 @@ public class GameGUI {
                                     {
                                         if(!game.getCurrentPlayer().isActive()){
                                             game.getCardCommandFactory().addPickedDefendingCard(cardClicked);
-                                            game.getCurrentPlayer().getHand().selectionSeq.add((Integer)cardClicked.getCardID()); 
+                                            game.getCurrentPlayer().getHand().selectionSeq.add(cardClicked); 
                                             break;
                                         }
                                     }
@@ -791,7 +781,7 @@ public class GameGUI {
                         triggerCardActionOnSelection(cardClicked);
                         keepOneSelectedCard(cardClicked);
                     }
-                    else game.getCurrentPlayer().getHand().selectionSeq.add((Integer)cardClicked.getCardID());
+                    else game.getCurrentPlayer().getHand().selectionSeq.add(cardClicked);
 
                     /*
                 Set playingCard always but Discard phase
@@ -837,8 +827,7 @@ public class GameGUI {
         
     }
     
-
-    
+   
     private void triggerCardActionOnSelection(Card playingCard){
     
          
@@ -857,21 +846,23 @@ public class GameGUI {
                 If card have only 1 attacking mode set it here to avoid custom dialog
                 If card have 2 attacking mode then later we'll ask user about which mode he choses
                 */
-                if(playingCard.getCardType() == Card.UNIT)
-                {
-                    if(playingCard.getPlayingPossibleCardModes().size() == 1 )
+                
+                if(game.getPhase() != Game.RESTORATION)
+                    if(playingCard.getCardType() == Card.UNIT)
                     {
-                        playingCard.setPlayingCardMode(playingCard.getPlayingPossibleCardModes().get(0));
-                        playingCard.actionOnSelection(game);
+                        if(playingCard.getPlayingPossibleCardModes().size() == 1 )
+                        {
+                            playingCard.setPlayingCardMode(playingCard.getPlayingPossibleCardModes().get(0));
+                            playingCard.actionOnSelection(game);
+                        }
+                        else 
+                        {
+
+                            /*
+                            TODO Create dialog to choose 
+                            */
+                        }
                     }
-                    else 
-                    {
-                       
-                        /*
-                        TODO Create dialog to choose 
-                        */
-                    }
-                }
                 break;
                 }
                 default:  playingCard.actionOnSelection(game);
@@ -892,120 +883,68 @@ public class GameGUI {
     
     }
     
-    public Card getCardFromMousePosition(int mouseCoorX, int mouseCoorY){
-        setInfoImage(null);
-        for (int i=0; i<handSetGui.cardsLeftInSet(); i++){
-            int mouseYmin = cardPaddingTop;
-            if(handSetGui.getCardByPosInSet(i).getCard().isMouseOverCard()||handSetGui.getCardByPosInSet(i).getCard().isSelected())
-                mouseYmin=mouseYmin-liftCardIfSelectedBy;
-            int mouseYmax = cardPaddingTop+height;
-            int mouseXmin = cardPaddingLeft+(gap*i)+width*(i);
-            int mouseXmax = cardPaddingLeft+(gap*i)+width*(i+1);
-            oneThirdCard = (mouseYmin+(mouseYmax-mouseYmin))/3;
-            
-            if(mouseCoorY>mouseYmin && mouseCoorY<mouseYmax){ // if mouse is in row with cards
-                if (mouseCoorX>mouseXmin && mouseCoorX<mouseXmax){ //if mouse is in th collon with card
-                     if(mouseCoorY>oneThirdCard*2){//bottom card selection
-                        int x=0,y=375/2,w=260,h=375/2; //cropp image
-                        Image image = cropImage(handSetGui.getCardByPosInSet(i).getImgFull(),x,y,w,h);
-                        setInfoImage((BufferedImage)image);
-                    }
-                    if(oneThirdCard<mouseCoorY && mouseCoorY<=oneThirdCard*2){//middle card selection
-                        int x=0,y=375/4,w=260,h=375/2; //cropp image
-                        Image image = cropImage(handSetGui.getCardByPosInSet(i).getImgFull(),x,y,w,h);
-                        setInfoImage((BufferedImage)image);
-                    }
-                    if(mouseCoorY<=oneThirdCard){//top card selection
-                        int x=0,y=0,w=260,h=375/2; //cropp image
-                        Image image = cropImage(handSetGui.getCardByPosInSet(i).getImgFull(),x,y,w,h);
-                        setInfoImage((BufferedImage)image);
-                    }
-                    return handSetGui.getCardByPosInSet(i).getCard();
-                }
-            }
-        }
-        return (Card)null;
-    }
+
 
     
-    public void setMouseOverCard(int mouseX, int mouseY){
-        for (int i=0; i<handSetGui.cardsLeftInSet(); i++){
-            handSetGui.getCardByPosInSet(i).getCard().setMouseOverCard(false);//delete all selections first
-        }
-        Card cardOverMouse=getCardFromMousePosition(mouseX,mouseY);
-        if(cardOverMouse!=null){
-            cardOverMouse.setMouseOverCard(true);
-        }
-        else{
-           // System.err.println("card null");
-        }
-    }
+   
     
     public void paintHand(Graphics g)                 
     {   
-        CardSet hand=currentPlayer.getHand();
-        int cardPaddingTopTemp=cardPaddingTop;
-        Integer j=0;
-        if(!hand.selectionSeq.isEmpty()){
-            j=hand.selectionSeq.get(hand.selectionSeq.size()-1);              
-            j=handSetGui.getPositionInSetByCardID(j); 
-            int[] xPoints={cardPaddingLeft+35+width*j+(gap*j),cardPaddingLeft+95+width*j+(gap*j),cardPaddingLeft+35+(95-35)/2+width*j+(gap*j)};
-            int[] yPoints={cardPaddingTop+180,cardPaddingTop+180,cardPaddingTop+170};
-            g.setColor(Color.white);
-            g.setFont(new Font("Bookman Old Style", 1, 11));
-            if(game.getPhase()==Game.DISCARD){
-            g.drawString("This card will be visible",cardPaddingLeft+width*j+(gap*j)-10,41+190);
-            g.drawString("on the Discard Pile",cardPaddingLeft+width*j+(gap*j)+0,54+190); 
-            }
-            g.fillPolygon(xPoints, yPoints, 3);
-            if(game.getPhase()==Game.COMBAT&&(
-                    (game.getCombat() != null ?
-                    ( game.getCombat().getState()==Combat.PICK_DEFENSE_CARDS||game.getCombat().getState()==Combat.PICK_SUPPORTING_CARDS): false))){  //put triangle under all selected in Defence mode
-                for(int s=0; s<hand.selectionSeq.size()-1; s++){
-                    j=hand.selectionSeq.get(s);              
-                    j=handSetGui.getPositionInSetByCardID(j); 
-                    int[] xPoints2={cardPaddingLeft+35+width*j+(gap*j),cardPaddingLeft+95+width*j+(gap*j),cardPaddingLeft+35+(95-35)/2+width*j+(gap*j)};
-                    int[] yPoints2={cardPaddingTop+180,cardPaddingTop+180,cardPaddingTop+170};
-                    g.setColor(Color.white);
-                    g.fillPolygon(xPoints2, yPoints2, 3);
-                }
-            }
-            
-        }  
-        for (int i=0; i<handSetGui.cardsLeftInSet(); i++) {   
-            if((handSetGui.getCardByPosInSet(i).getCard().isMouseOverCard()|| handSetGui.getCardByPosInSet(i).getCard().isSelected()) 
-                    && (hand.getCardByPosInSet(i).getAvailableForPhase(game)))
-                    cardPaddingTopTemp=cardPaddingTop-20;
-            else cardPaddingTopTemp=cardPaddingTop;
-            
-            g.drawImage(handSetGui.getCardByPosInSet(i).getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTopTemp, width, height, null);  
-        }
-    }
-    public void resetAllCardSets(){
-        handSetGui.reSet(); //reset GUI
-        discardSetGui.reSet(); //reset GUI
-        drawSetGui.reSet(); //reset GUI
-        tableSetGui.reSet();
+        cardSetsGUI.paintHand(g, game);
         
+//        CardSet hand=currentPlayer.getHand();
+//        int cardPaddingTopTemp=cardPaddingTop;
+//        Integer j=0;
+//        if(!hand.selectionSeq.isEmpty()){
+//            Card card =hand.selectionSeq.get(hand.selectionSeq.size()-1);              
+//            j=hand.getPositionInSet(card); 
+//            int[] xPoints={cardPaddingLeft+35+width*j+(gap*j),cardPaddingLeft+95+width*j+(gap*j),cardPaddingLeft+35+(95-35)/2+width*j+(gap*j)};
+//            int[] yPoints={cardPaddingTop+180,cardPaddingTop+180,cardPaddingTop+170};
+//            g.setColor(Color.white);
+//            g.setFont(new Font("Bookman Old Style", 1, 11));
+//            if(game.getPhase()==Game.DISCARD){
+//            g.drawString("This card will be visible",cardPaddingLeft+width*j+(gap*j)-10,41+190);
+//            g.drawString("on the Discard Pile",cardPaddingLeft+width*j+(gap*j)+0,54+190); 
+//            }
+//            g.fillPolygon(xPoints, yPoints, 3);
+//            if(game.getPhase()==Game.COMBAT&&(
+//                    (game.getCombat() != null ?
+//                    ( game.getCombat().getState()==Combat.PICK_DEFENSE_CARDS||game.getCombat().getState()==Combat.PICK_SUPPORTING_CARDS): false))){  //put triangle under all selected in Defence mode
+//                for(int s=0; s<hand.selectionSeq.size()-1; s++){
+//                    //j=hand.selectionSeq.get(s);              
+//                    j=hand.getPositionInSet(card); 
+//                    int[] xPoints2={cardPaddingLeft+35+width*j+(gap*j),cardPaddingLeft+95+width*j+(gap*j),cardPaddingLeft+35+(95-35)/2+width*j+(gap*j)};
+//                    int[] yPoints2={cardPaddingTop+180,cardPaddingTop+180,cardPaddingTop+170};
+//                    g.setColor(Color.white);
+//                    g.fillPolygon(xPoints2, yPoints2, 3);
+//                }
+//            }
+//            
+//        }  
+//        for (int i=0; i<hand.cardsLeftInSet(); i++) {   
+//            if((hand.getCardByPosInSet(i).isMouseOverCard()|| hand.getCardByPosInSet(i).isSelected()) 
+//                    && (hand.getCardByPosInSet(i).getAvailableForPhase(game)))
+//                    cardPaddingTopTemp=cardPaddingTop-20;
+//            else cardPaddingTopTemp=cardPaddingTop;
+//            
+//            g.drawImage(handSetGui.getCardByPosInSet(i).getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTopTemp, width, height, null);  
+//        }
     }
+
     
-    public int getNumberOfDiscardedCards(){
-    return currentPlayer.getHand().getCardSetSize()-currentPlayer.getHand().cardsLeftInSet();
-    }
+   
     
     public void playSelectedCard(){
          for (int i=0; i<game.getCurrentPlayer().getHand().selectionSeq.size(); i++){   
-            currentPlayer.getHand().dealCardToOtherSetByCardID(game.getCurrentPlayer().getHand().selectionSeq.get(i),  game.getTablePile());
+            currentPlayer.getHand().moveCardTo(game.getCurrentPlayer().getHand().selectionSeq.get(i),  
+                    currentPlayer.getTablePile());
             }
             game.getCurrentPlayer().getHand().selectionSeq.clear();
-            resetAllCardSets();
+            
+            cardSetsGUI.loadAllSets();
     
     }
-    
-
-    public boolean getSelectionSeqIsEmpty() {
-        return game.getCurrentPlayer().getHand().selectionSeq.isEmpty();
-    }
+  
     
     private BufferedImage cropImage(Image img, int x, int y, int width, int height){
         BufferedImage buffImage = (BufferedImage)img;
@@ -1013,48 +952,41 @@ public class GameGUI {
     }
             
     public void paintDiscard(Graphics g, boolean paintOpponent){
-        CardGUI cardGui;
-        int x=35,y=40,w=195,h=300; //cropp image
-        int width=round(w*CardGUI.SCALE_FACTOR), height=round(h*CardGUI.SCALE_FACTOR);
-        int cardPaddingTop=20;
-        int cardPaddingLeft=8;
-        if (paintOpponent==true){
-            if(game.getOpponentPlayer().getDiscardPile().cardsLeftInSet()>0){
-                cardGui=new CardGUI(game.getOpponentPlayer().getDiscardPile().lastCardFromThisSet(false));
-                Image image = cropImage(cardGui.getImgFull(),x,y,w,h);
-                 g.drawImage(image, cardPaddingLeft, cardPaddingTop, width, height, null);  
-            }
-            else{
-                g.setColor(Color.white);
-                g.setFont(new Font("Bookman Old Style", 1, 20));
-                g.drawString("No Card",20,100);  
-            }   
-        }
-        else{
-            if(discardSetGui.cardsLeftInSet()>0){
-                Image image = cropImage(discardSetGui.getCardByPosInSet(discardSetGui.cardsLeftInSet()-1).getImgFull(),x,y,w,h);
-                g.drawImage(image, cardPaddingLeft, cardPaddingTop, width, height, null);  
-            }
-            else{
-                g.setColor(Color.white);
-                g.setFont(new Font("Bookman Old Style", 1, 20));
-                g.drawString("No Card",20,100);  
-            }
-        }
+        
+        cardSetsGUI.paintDiscard(g, paintOpponent, game);
+        
+//        CardGUI cardGui;
+//        int x=35,y=40,w=195,h=300; //cropp image
+//        int width=round(w*CardGUI.SCALE_FACTOR), height=round(h*CardGUI.SCALE_FACTOR);
+//        int cardPaddingTop=20;
+//        int cardPaddingLeft=8;
+//        if (paintOpponent==true){
+//            if(game.getOpponentPlayer().getDiscardPile().cardsLeftInSet()>0){
+//                cardGui=new CardGUI(game.getOpponentPlayer().getDiscardPile().getLastCard(false));
+//                Image image = cropImage(cardGui.getImgFull(),x,y,w,h);
+//                 g.drawImage(image, cardPaddingLeft, cardPaddingTop, width, height, null);  
+//            }
+//            else{
+//                g.setColor(Color.white);
+//                g.setFont(new Font("Bookman Old Style", 1, 20));
+//                g.drawString("No Card",20,100);  
+//            }   
+//        }
+//        else{
+//            if(discardSetGui.cardsLeftInSet()>0){
+//                Image image = cropImage(discardSetGui.getCardByPosInSet(discardSetGui.cardsLeftInSet()-1).getImgFull(),x,y,w,h);
+//                g.drawImage(image, cardPaddingLeft, cardPaddingTop, width, height, null);  
+//            }
+//            else{
+//                g.setColor(Color.white);
+//                g.setFont(new Font("Bookman Old Style", 1, 20));
+//                g.drawString("No Card",20,100);  
+//            }
+//        }
     }
     
     public void paintDrawLeft(Graphics g, boolean paintOpponent){
-        int cardPaddingTop=55;
-        int cardPaddingLeft=5;
-        Integer drawLeft;
-        if (paintOpponent==true)
-            drawLeft=game.getOpponentPlayer().getDrawPile().cardsLeftInSet();
-        else 
-            drawLeft=drawSetGui.cardsLeftInSet();
-
-        g.setColor(Color.white);
-        g.setFont(new Font("Bookman Old Style", 1, 50));        
-        g.drawString(drawLeft.toString(),cardPaddingLeft,cardPaddingTop); 
+        cardSetsGUI.paintDrawLeft(g, paintOpponent);
     }
     
    private static void drawStringMultiLine(Graphics g, String text, int lineWidth, int x, int y) {
@@ -1080,43 +1012,34 @@ public class GameGUI {
 }
     
     public void paintTablePanel(Graphics g){
-        Integer tempInt;
-        String tempString;
-        int gap=5;
-        float f=0.41f; //scale factor //Normally cards has 260x375 pixels
-        int width=round(260*f), height=round(375*f);
-        int cardPaddingTop=16;
-        int cardPaddingLeft=10;
-        int cardPaddingTopText=138;
         
-        if(tableSetGui.cardsLeftInSet()==0){  //paint NO CARD
-            g.setColor(Color.white);
-            g.setFont(new Font("Bookman Old Style", 1, 20));
-            g.drawString("No Card",20,100);  
-        }
-        for (int i=0; i<tableSetGui.cardsLeftInSet(); i++){  
-            g.drawImage(tableSetGui.getCardByPosInSet(i).getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTop, width, height, null);
-        }
+        cardSetsGUI.paintTablePanel(g);
+//        Integer tempInt;
+//        String tempString;
+//        int gap=5;
+//        float f=0.41f; //scale factor //Normally cards has 260x375 pixels
+//        int width=round(260*f), height=round(375*f);
+//        int cardPaddingTop=16;
+//        int cardPaddingLeft=10;
+//        int cardPaddingTopText=138;
+//        
+//        if(tableSetGui.cardsLeftInSet()==0){  //paint NO CARD
+//            g.setColor(Color.white);
+//            g.setFont(new Font("Bookman Old Style", 1, 20));
+//            g.drawString("No Card",20,100);  
+//        }
+//        for (int i=0; i<tableSetGui.cardsLeftInSet(); i++){  
+//            g.drawImage(tableSetGui.getCardByPosInSet(i).getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTop, width, height, null);
+//        }
         paintDices(g);
         
-        paintDefenceCardsOnTheTable(g);
+        //paintDefenceCardsOnTheTable(g);
         
        
     }
    
     public void paintDefenceCardsOnTheTable(Graphics g){
-        int cropFrame=30;
-        double resizeFactor=0.4;
-        int cardPaddingLeftDef=80;
-        int width=(int)((260-2*cropFrame)*resizeFactor);
-        int height=(int)((375-2*cropFrame)*resizeFactor);
-        int gapDef=50;
-       
-        tableSetGuiDefPart.reSet();
-            for (int i=0; i<tableSetGuiDefPart.cardsLeftInSet(); i++){  
-                Image image = tableSetGuiDefPart.getCardByPosInSet(i).getImgSmall(cropFrame);
-                g.drawImage(image, cardPaddingLeftDef+(width-gapDef)*i, cardPaddingTop+gapDef*i, width, height, null);
-            }
+        cardSetsGUI.paintDefenceCardsOnTheTable(g);
     }
    
     public void paintCombatPanel(Graphics g){ //paint all the details of the cards and units on the table
@@ -1248,175 +1171,6 @@ public class GameGUI {
         this.infoImage = infoImage;
     }
     
-    
-    
-//    ArrayList<Position> movePositions=null;
-//    public void drawPossibleMovements(){
-//        Unit selectedUnit = game.getSelectedUnit();
-//         movePositions=null;
-//                if(game.getPhase() == Game.SETUP)
-//                {
-//                    movePositions = game.getSetupPossibleMovement();
-//                }
-//                else if (currentPlayer.isPlayingCard()) //if playin' a card
-//                {
-//                    switch (currentPlayer.getCardCommandFactory().getPlayingCard().getHQType()){
-//                        case Card.FORCED_MARCH:
-//                        movePositions = game.getOneSquareMovements(selectedUnit.getPosition()); //Forced amarch
-//                        break;
-//                    }   
-//                }
-//                else{
-//                     movePositions = game.getPossibleMovement(selectedUnit);
-//                }
-//    }
-//    public void paintUnitSelection(int mouseX, int mouseY, CommandQueue cmdQueue){
-//       
-//    int x=mouseX;
-//    int y=mouseY;
-//    if(game.getPhase()==Game.MOVE || game.getPhase() == Game.SETUP )//player must be in correct phase to be able to move units    
-//    { 
-//    if(checkIfPossibleToSelectUnit()){  //if it is legal to select new unit event select automatically if neccesery
-//        if(!mapGui.isUnitSelected())
-//        {
-//            for(TerrainGUI terrainGUI: mapGui.getTerrainsGUI())
-//            {
-//            terrainGUI.setSelected(false);
-//            if(windowMode == CreateRoomWindow.AS_HOST)
-//                {   
-//                  if(terrainGUI.getPos().checkIfMouseFitInPositon(x, y))
-//                        {
-//                        terrainGUI.setSelected(true);
-//                        Position selectedPosition = terrainGUI.getPos();
-//                        System.out.println("manouvre.gui.GameWindow.mainMapPanelMouseClicked() " + terrainGUI.getPos());
-//                        if(game.checkCurrentPlayerUnitAtPosition(selectedPosition) ) {
-//                            mapGui.setUnitSelected(true);
-//                            getUnitGuiOnMapGui(selectedPosition).getUnit().setSelected(true);
-//                            }
-//                        }
-//                }
-//            else if(windowMode == CreateRoomWindow.AS_GUEST)
-//            {   
-//                if(terrainGUI.getPos().transpoze().checkIfMouseFitInPositon(x, y))
-//                {
-//                    terrainGUI.setSelected(true);
-//                    Position selectedPosition = terrainGUI.getPos();
-//                    System.out.println("manouvre.gui.GameWindow.mainMapPanelMouseClicked() " + terrainGUI.getPos());
-//                    if(game.checkCurrentPlayerUnitAtPosition(selectedPosition) ) {
-//                        mapGui.setUnitSelected(true);
-//                        getUnitGuiOnMapGui(selectedPosition).getUnit().setSelected(true);
-//
-//                    }
-//                }    
-//
-//            }   
-//            }
-//        }  
-//
-//    /*
-//    If unit is selected find which unit to move and move into
-//    */
-//        else if (mapGui.isUnitSelected())  {
-//            Unit selectedUnit = game.getSelectedUnit();
-//            Position clickedPosition = new Position(Position.convertMouseXToX(x), Position.convertMouseYToY(y));
-//            if(windowMode == CreateRoomWindow.AS_GUEST)
-//                    clickedPosition = clickedPosition.transpoze();
-//            if(!selectedUnit.getPosition().equals(clickedPosition))
-//            {
-//                System.out.println("manouvre.gui.ClientUI.mainMapPanelMouseClicked().clickedPosition :" + clickedPosition) ;
-//                drawPossibleMovements();
-//
-//
-//                for(Position checkPosition: movePositions){
-//
-//                    if(checkPosition.equals(clickedPosition))
-//                    {
-//
-//                        MoveUnitCommand moveUnit = new MoveUnitCommand(currentPlayer.getName() , selectedUnit,  clickedPosition);
-//
-//                        if(!currentPlayer.isPlayingCard() && (game.getPhase() != Game.SETUP) )
-//                        {        
-//                                cmdQueue.storeAndExecuteAndSend(moveUnit);
-//                        }
-//
-//                        /*
-//                        Regular move has to be send but not the move from HQ or else cards
-//                        */
-//                        else if(currentPlayer.isPlayingCard())
-//                        {   /*
-//                            We attach move command to wrap it to postpone execution in card command
-//                            */
-//                            currentPlayer.getCardCommandFactory().setAttachedCommand(moveUnit);
-//                            /*
-//                            Confirmation dialog
-//                            */
-//                            /*CustomDialog dialog = new CustomDialog(CustomDialog.YES_NO_UNDO_TYPE, "Are You sure to play that card? " , client, game);
-//
-//                            try {
-//                                dialog.setOkCommand(currentPlayer.getCardCommandFactory().createCardCommand());
-//                                dialog.setCancelCommand(moveUnit);
-//                            } catch (Exception ex) {
-//                                Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
-//                            }
-//                            dialog.setVisible(true);
-//                            */
-//                            currentPlayer.setPlayingCard(false);
-//                        }
-//
-//                        else 
-//                        {   
-//                            /*
-//                            Just execute on socketClient
-//                            */
-//                            cmdQueue.storeAndExecute(moveUnit);
-//
-//                        }
-//                        //Unselect all
-//                        unselectAllUnits();
-//                        //exit loop
-//                        break;
-//                    }
-//                }
-//
-//            }
-//            /*
-//            Clicking on the same unit - deselects it.
-//            */
-//            else
-//            {
-//                unselectAllUnits();
-//            }
-//
-//            // game.moveUnit(  , newPosition);
-//
-//        }
-//    }
-//    }
-//    }
-//    
-//    public boolean checkIfPossibleToSelectUnit(){ //if it is legal to select new unit event select automatically if neccesery
-//        if (currentPlayer.hasMoved()){//if player has already moved
-//            if(currentPlayer.isPlayingCard()){//but playin' a card
-//                switch (currentPlayer.getCardCommandFactory().getPlayingCard().getHQType()){
-//                    case Card.FORCED_MARCH:{//if force march select last moved unit automaticaly
-//                            getUnitGuiThatHasMoved().getUnit().setSelected(true);
-//                            mapGui.setUnitSelected(true);
-//                            return true;
-//                        }
-//                    default: return false;
-//                }
-//                
-//            }
-//            return false;
-//        }
-//        return true;
-//    }
-    
-    
-
-        
-            
-    
     public ArrayList<UnitGUI> getUnitsGui() {
         return currentPlayerArmy;
     }
@@ -1424,54 +1178,5 @@ public class GameGUI {
     public void setUnitsGui(ArrayList<UnitGUI> unitsGui) {
         this.currentPlayerArmy = unitsGui;
     }
-    public CardSetGUI getHandSetGui() {
-        return handSetGui;
-    }
-
-    public Message drawCards() {
-        //draw a card from a pile
-        //execute externally
-        this.numberOfDiscardedCards = this.getNumberOfDiscardedCards();
-        DrawCardCommand drawCard = new DrawCardCommand(this.numberOfDiscardedCards, this.currentPlayer.getName());
-        Message drawCardMessage = new Message(Message.COMMAND, this.currentPlayer.getName(), Message.DRAW_CARD_COMMAND, "IN_CHANNEL");
-        drawCardMessage.setCommand(drawCard);
-        //execute locally
-        drawCard.execute(this.game);
-        this.resetAllCardSets();
-        return drawCardMessage;
-    }
-
-    public Message discardSelCards() {
-        //done on hand itseld not on HandGui
-        ArrayList<Integer> selectionSeqTemp = new ArrayList<Integer>();
-        selectionSeqTemp.clear();
-        for (Integer i : game.getCurrentPlayer().getHand().selectionSeq) {
-            //make a copy to loose referance
-            selectionSeqTemp.add(i);
-        }
-        //execute externally
-        DiscardCardCommand discardCard = new DiscardCardCommand(selectionSeqTemp, this.currentPlayer.getName());
-        Message discardCardMessage = new Message(Message.COMMAND, this.currentPlayer.getName(), Message.DISCARD_CARD_COMMAND, "IN_CHANNEL");
-        discardCardMessage.setCommand(discardCard);
-        //execute locally
-        discardCard.execute(this.game);
-        //        for (int i=0; i<selectionSeq.size(); i++){
-        //            currentPlayer.getHand().dealCardToOtherSetByCardID(selectionSeq.get(i),  currentPlayer.getDiscardPile());
-        //           }
-        game.getCurrentPlayer().getHand().selectionSeq.clear();
-        this.handSetGui.reSet(); //reset GUI
-        this.discardSetGui.reSet(); //reset GUI
-        this.drawSetGui.reSet(); //reset GUI
-        return discardCardMessage;
-    }
-
-    public CardSetGUI getTableSetGuiDefPart() {
-        return tableSetGuiDefPart;
-    }
-
-    public void setTableSetGuiDefPart(CardSetGUI tableSetGuiDefPart) {
-        this.tableSetGuiDefPart = tableSetGuiDefPart;
-    }
-    
-     
+  
 }

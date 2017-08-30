@@ -676,7 +676,9 @@ public class Card implements CardInterface, Serializable{
         this.selected = selected;
     }
 
-    
+    /*
+    Checks if situation on board let card be played
+    */
     
     @Override
     public boolean canBePlayed(Game game) {
@@ -693,6 +695,12 @@ public class Card implements CardInterface, Serializable{
                     return true;
                 }
                 break;
+                case Card.SUPPLY :
+                if(game.getCurrentPlayer().hasMoved()) {
+                return true;
+                }
+                break;
+                
                 }
             
             case Card.UNIT:
@@ -778,7 +786,7 @@ public class Card implements CardInterface, Serializable{
                 }
                 case Card.SUPPLY:
                 {
-                    break;
+                     game.unselectAllUnits();
                 }
             
             }
@@ -824,12 +832,12 @@ public class Card implements CardInterface, Serializable{
        return 1;
     }
     
-        
+ 
     @Override
     public String toString()
     {
     
-    return ("ID [" + CardID + "] " + getCardName() + ( getPlayiningMode()!=null  ?  " playing mode " + getPlayiningMode() : null) )  ;
+    return ("ID [" + CardID + "] " + getCardName() + ( getPlayiningMode()!=null  ?  " playing mode " + getPlayiningMode() : "") )  ;
     
     }
     

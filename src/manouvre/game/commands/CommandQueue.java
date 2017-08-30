@@ -45,7 +45,7 @@ public class CommandQueue {
         LOGGER.debug(game.getCurrentPlayer().getName() + " wykonano command " + cmd.logCommand());
         commandLogger.log(cmd);
 
-
+        
         gameWindow.refreshAll();
         gameWindow.repaint();
       

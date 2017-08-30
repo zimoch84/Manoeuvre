@@ -5,6 +5,7 @@
  */
 package manouvre.game.commands;
 import java.util.ArrayList;
+import manouvre.game.Card;
 
 import manouvre.game.Game;
 import manouvre.game.Param;
@@ -17,26 +18,37 @@ import manouvre.game.interfaces.Command;
  */
 public class DiscardCardCommand implements Command {
    
-    ArrayList<Integer> selectionSeq;
+    ArrayList<Card> selectionSeq;
     String senderPlayerName;
     
-    public DiscardCardCommand(ArrayList<Integer> selectionSeq, String senderPlayerName) {
+    public DiscardCardCommand(ArrayList<Card> selectionSeq, String senderPlayerName) {
        this.selectionSeq=selectionSeq;
        this.senderPlayerName=senderPlayerName;
     }
     
     @Override
     public void execute(Game game) {  
-       if(!game.isServer())
-       game.getCurrentPlayer().getName(); //temp just for check where we are
          
-           for (int i=0; i<selectionSeq.size(); i++){   
-           game.getPlayerByName(senderPlayerName).
-                   getHand().dealCardToOtherSetByCardID(
-                           selectionSeq.get(i),  
-                           game.getPlayerByName(senderPlayerName).
-                                   getDiscardPile());
+    for (int i=0; i<selectionSeq.size(); i++){   
+           
+        game.getPlayerByName(senderPlayerName).
+            getHand().moveCardTo(
+                    selectionSeq.get(i),  
+                    game.getPlayerByName(senderPlayerName).
+                            getDiscardPile()
+
+           );
            }
+    if(game.getPlayerByName(senderPlayerName).equals(game.getCurrentPlayer().getName() ))
+        
+    {
+        /*
+        Empty selecttion
+        */
+        game.getCurrentPlayer().getHand().selectionSeq.clear();
+    }
+   
+    
        
     }
     

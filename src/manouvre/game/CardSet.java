@@ -6,10 +6,10 @@
 package manouvre.game;
 
 import java.io.Serializable;
-import java.util.Random;
 import java.util.ArrayList;
 import java.util.Collections;
-import javax.swing.JOptionPane;
+import java.util.Comparator;
+import java.util.Observable;
 import manouvre.game.interfaces.CardInterface;
 
 import manouvre.game.interfaces.CardSetInterface;
@@ -21,22 +21,17 @@ import manouvre.game.interfaces.CardSetInterface;
  */
 
 
-public class CardSet implements CardSetInterface, Serializable{
+public class CardSet extends Observable implements CardSetInterface, Serializable{
     
     private static final long serialVersionUID = 455321L;
-    private int cardSetSize=0;           // each army includes an Action Deck of 80 cards. 
-
+    private int cardSetSize=0;           // each army includes an Action Deck of 60 cards. 
  
-    
     private int nation;
-    private int cardID;
-    
     boolean cardSelected;
+    public String name;
     
-    private Random randomGener = new Random();
-
     public ArrayList<Card> cardList = new ArrayList<Card>();
-    public ArrayList<Integer> selectionSeq = new ArrayList<Integer>();
+    public ArrayList<Card> selectionSeq = new ArrayList<Card>();
 
     /**
      * Establish object for CARD DECK 
@@ -48,18 +43,23 @@ public class CardSet implements CardSetInterface, Serializable{
         this.cardSetSize=size;
         this.nation=nation;
         makeDeck(size); 
+        this.name = "DRAW";
+        
     }
     /**
      * Establish object for HAND 
      */
     public CardSet(int size){
          this.cardSetSize=size; 
+         this.name = "HAND";
+        
     } 
     /**
     * Establish empty object for USED CARDS 
     */
-    public CardSet(){ 
+    public CardSet(String name){ 
         this.cardSetSize=60;
+        this.name = name;
     }
 
     public boolean isCardSelected() {
@@ -70,106 +70,66 @@ public class CardSet implements CardSetInterface, Serializable{
         this.cardSelected = cardSelected;
     }
     
-    
+
     //-----------------DECK------------------------------------------------
     /**
      * Get cards for specific nation out of all (480) 
      * @param range 
      */
     public void makeDeck(int range) {   
+        int cardID = 0;
         for (int i=0; i<range; i++){
-        switch (nation){
-            case CardInterface.BR:
-                cardID=i; 
-                break;
-            case CardInterface.AU:  //1
-                cardID=i+60;
-                break;
-            case CardInterface.FR:
-                cardID=i+2*60;
-                break;
-            case CardInterface.OT:
-                cardID=i+3*60;
-                break;
-            case CardInterface.PR:
-                cardID=i+4*60;    
-                break;
-            case CardInterface.RU:
-                cardID=i+5*60;
-                break;
-            case CardInterface.SP:
-                cardID=i+6*60;  
-                break;
-            case CardInterface.US:
-                cardID=i+7*60;   
-                break;
-        } 
-        cardList.add(i, new Card(cardID));
-        randomizeCards(cardList);
-        }
+            switch (nation){
+                case CardInterface.BR:
+                    cardID=i; 
+                    break;
+                case CardInterface.AU:  //1
+                    cardID=i+60;
+                    break;
+                case CardInterface.FR:
+                    cardID=i+2*60;
+                    break;
+                case CardInterface.OT:
+                    cardID=i+3*60;
+                    break;
+                case CardInterface.PR:
+                    cardID=i+4*60;    
+                    break;
+                case CardInterface.RU:
+                    cardID=i+5*60;
+                    break;
+                case CardInterface.SP:
+                    cardID=i+6*60;  
+                    break;
+                case CardInterface.US:
+                    cardID=i+7*60;   
+                    break;
+                } 
+                cardList.add(new Card(cardID));
+            }   
+        randomizeCards();
      
     }
     //------------------HAND----------------------------------------
-    /**
-     * shuffle range of cards to this Set from another Set. F.ex. 6 cards to HAND from CARD DECK
-     * @param range - number of the cards
-     * @param otherCardSet - other set of Cards
-     *  
-     */
-    public void addRandomCardsFromOtherSet(int range, CardSetInterface otherCardSet){ //add the card from another Set (f.ex. Deck)
-       Card randomCard;     
-       for(int i=0; i<range; i++){
-           randomCard=otherCardSet.dealRandomCardFromThisSet();
-       
-       if (cardList.size()<cardSetSize){  //if it is possible to add the card  
-           cardList.add(randomCard);  //add the card
-       }
-
-       }    
-  
-    }
     /**
      * Adds number of cards to this set, from the top of the sepecyfied other set
      * @param range - number of cards to be moved
      * @param otherCardSet - specyfy name of the other set
      * @param setPlayable  - set as playable TRUE or not playable FALSE
      */
-    public void addCardsFromTheTopOfOtherSet(int range, CardSet otherCardSet, boolean setPlayable, boolean deleteCard){
-        Card temp;
-        for(int i=0; i<range; i++){   
-        temp=otherCardSet.lastCardFromThisSet(deleteCard);
-        if(temp!=null) {    
-            if (cardList.size()<cardSetSize){  //if it is possible to add the card  
-                cardList.add(temp);  //add the card
-            }
-            else System.err.println("Too many cards in:"+cardList.getClass().getName()+", sent from: "+ otherCardSet.getClass().getName());
-            } 
-        else {
-            JOptionPane.showMessageDialog(null, "No more cards to draw", 
-                     "Wrong Action", JOptionPane.OK_OPTION); 
-            break;
-        }
-        }
-        
+    public void moveTopXCardsTo(int range, CardSet otherCardSet){
+
+    for(int i=0; i<range; i++)  
+        moveCardTo(getLastCard(true), otherCardSet);
     }
-     public void addCardsFromOtherSet(int range, CardSet otherCardSet, boolean setPlayable, boolean deleteCards){
-        Card temp;
-        for(int i=0; i<range; i++){   
-        temp=otherCardSet.getCardByPosInSet(i);
-         
-       if (cardList.size()<cardSetSize){  //if it is possible to add the card  
-           cardList.add(temp);  //add the card
-       }
-       else System.err.println("Too many cards in:"+cardList.getClass().getName()+", sent from: "+ otherCardSet.getClass().getName());
-       }  
-       if(deleteCards)otherCardSet.clear(range);
-    }
-      public void clear(int range){ //remove first "range" cards set
+
+     
+     public void clear(int range){ //remove first "range" cards set
           for(int i=0; i<range; i++){
              cardList.remove(0); 
           }
       }
-      public void clear(){ //remove first "range" cards set
+      public void clear(){ 
         cardList.clear(); 
       }
     /**
@@ -177,52 +137,38 @@ public class CardSet implements CardSetInterface, Serializable{
      * @param remove - if TRUE last card will be removed from the stack
      * @return 
      */
-    public Card lastCardFromThisSet(boolean remove){
-        int size=cardsLeftInSet();
-        if(size>0){
-        Card temp = getCardByPosInSet(size-1);
-        if(remove)removeCardFromThisSet(getCardByPosInSet(size-1));
+    public Card getLastCard(boolean remove){
+        if(cardsLeftInSet()>0){
+        Card temp = getCardByPosInSet(cardsLeftInSet()-1);
+        if(remove)
+            removeCardFromThisSet(getCardByPosInSet(cardsLeftInSet()-1));
         return temp;
         }
-        
-        return null;
+     return null;
     }
-    
-    
     /**
      * Dealing a card to another set based on Object. F.ex. from HAND to USED CARDS
      * @param cardToDeal - card object to be given away
      * @param otherCardSet - where this card should go
      */
-     public void dealCardToOtherSet(Card cardToDeal, CardSetInterface otherCardSet) {
-        Card temp=cardList.get(cardList.indexOf(cardToDeal));
-        otherCardSet.addCardToThisSet(temp);
-        cardList.remove(cardToDeal);
-        
+    public void moveCardTo(Card card, CardSetInterface otherSet)
+    {
+     if(cardList.size() > 0 )   
+     {   
+         if(cardList.contains(card))
+            {
+                cardList.remove(card);
+                otherSet.addCard(card);
+                
+                if(cardList.size() == 0 && name.equals("DRAW") )   
+                    notifyObservers("LAST_CARD_DRAWN");
+                
+            }
+     }
+     else 
+         notifyObservers("LAST_CARD_DRAWN");
     }
-    public void dealCardToOtherSetByCardID(int cardIDToDeal, CardSetInterface otherCardSet) { 
-        for (int i=0; i<cardList.size(); i++){
-                if(cardList.get(i).getCardID()==cardIDToDeal){
-                    Card temp=cardList.get(i);
-                    otherCardSet.addCardToThisSet(temp);
-                    cardList.remove(i);
-                }
-            }       
-    }
-    
-     /**
-     * Dealing a card to another set based on Object. F.ex. from HAND to USED CARDS
-     * @param cardHandPos - position in the hand
-     * @param otherCardSet - where this card should go
-     */
-     public void dealCardToOtherSetByHandPos(int cardHandPos, CardSetInterface otherCardSet) {
-        Card temp=cardList.get(cardHandPos);
-        otherCardSet.addCardToThisSet(temp);
-        cardList.remove(cardHandPos);
-        
-    }
-     
-     public Card drawCardFromSet(Card card){
+    public Card drawCardFromSet(Card card){
         if(cardList.size()>0&&cardList.contains(card)){
         Card t_card=cardList.get(cardList.indexOf(card));
         cardList.remove(card);
@@ -232,25 +178,23 @@ public class CardSet implements CardSetInterface, Serializable{
      }
     
     //--------------GENERAL FOR ALL----------------------------
-    public void addCardToThisSet(Card newCard){
+    @Override
+    public void addCard(Card newCard){
         if (cardList.size()<cardSetSize){  //if it is possible to add the card  
-           cardList.add(newCard);  //add the card
+            cardList.add(newCard);  //add the card
         }
         else{
            System.out.println("CardSet is Full. No more cards allowed");
         }          
     }  
-    public Card dealRandomCardFromThisSet(){
-         int randomCard=randomGener.nextInt(cardList.size());
-         Card tempCard=cardList.get(randomCard);
-         cardList.remove(randomCard);
-         return  tempCard;  
-     }
-    
+   
     public void removeCardFromThisSet(Card removedCard){
          cardList.remove(removedCard);
         
      }
+    /*
+    TODO:Remove this
+    */
     
     public ArrayList<String> getAllCardsNamesFromSet(){
         ArrayList<String> cardNames = new ArrayList<>();
@@ -260,12 +204,7 @@ public class CardSet implements CardSetInterface, Serializable{
     }
     return cardNames;
     }  
-    public void getAllCardsIDFromSet(){
-    for(int i=0; i<cardList.size(); i++){
-       System.out.println("Card " +i+": " + cardList.get(i).getCardID());     
-    }
-    }  
-    
+        
     public Card getCardByPosInSet(int cardPosition){
        return cardList.get(cardPosition);     
     }
@@ -291,6 +230,10 @@ public class CardSet implements CardSetInterface, Serializable{
         return (Card)null;
     }
     
+    public int getPositionInSet(Card card) {
+        return cardList.indexOf(card);
+     }
+    
     public String getCardNameByPosInSet(int cardPosition){
        return cardList.get(cardPosition).getCardName();     
     }
@@ -309,49 +252,24 @@ public class CardSet implements CardSetInterface, Serializable{
      * Sorts the card in set by ID
      */
     public void sortCard(){
-        Card temp;
-        boolean sorted=false;
-        int time=0; 
-        
-        while(!sorted){
-           for (int i=0; i<(cardList.size()-1) ; i++){
-               if (cardList.get(i).getCardID()>cardList.get(i+1).getCardID()){
-                   temp=cardList.get(i);
-                   cardList.set(i, cardList.get(i+1));
-                   cardList.set(i+1, temp);
-                  
-                    time++;
-                    i=-1; //if this was performed we have to be sure that the numbers are correct start from begining
-                    if (time>500){    
-                        sorted=true;
-                        System.err.println("SORTING LOOP FAILURE");
-                        break;
-                    }//stop the loop if failure
-               }
-               else sorted=true;   
-           }  
-       }
-       
-     getAllCardsIDFromSet();
-    }
-    
-    public void randomizeCards(ArrayList<Card> cardset){
-        Collections.shuffle(cardset);
-       }
-       
-  
-    
- 
-     public int getPositionInSetByCardID(int cardID) {
-        for (int i=0; i<cardList.size(); i++){
-            if(cardList.get(i).getCardID()==cardID){
-                return i;
-            }
+        cardList.sort( 
+        new Comparator<Card>() {
+        @Override
+        public int compare(Card card1, Card card2){
+            if (card1.getCardID() > card2.getCardID()) 
+                return 0 ;
+            else return 1 ;
         }
-        return 99;
-     }
-        
-     public int getCardSetSize() {
+        }
+        );
+        }
+    
+    private void randomizeCards(){
+        Collections.shuffle(cardList);
+    }
+  
+       
+    public int getCardSetSize() {
         return cardSetSize;
     }
      
@@ -365,12 +283,9 @@ public class CardSet implements CardSetInterface, Serializable{
      
      }
      
-    public Card getCardByCard(Card card){
-        for(Card checkCard : cardList){
-            if(checkCard.equals(card))
-            {
-                return checkCard;
-            }
+    public Card getCard(Card card){
+        if(cardList.contains(card)){
+              return  cardList.get(cardList.indexOf(card));
         }
         return null;
     }

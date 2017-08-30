@@ -5,7 +5,6 @@
  */
 package manouvre.state;
 
-import java.awt.Graphics;
 import manouvre.game.Card;
 import manouvre.game.Game;
 
@@ -16,6 +15,6 @@ import manouvre.game.Game;
  */
 public interface CardInputState {
     
-    public void handleInput(Card pos,Game game);
+    public void handleInput(Card card,Game game);
     
 }

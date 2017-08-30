@@ -31,6 +31,7 @@ public class Player  implements Serializable{
     CardSet hand;
     CardSet drawPile;
     CardSet discardPile;
+    CardSet tablePile;
     //CardSet tablePile; //TABLE WILL BE ONE INSTANCE FOR GAME; OUTSIDE FROM PLAYERS; mede in Game.java
     /*
     Field to store whole card flow needed data.
@@ -110,30 +111,31 @@ public class Player  implements Serializable{
         this.drawPile = new CardSet(60,nation); 
         this.hand = new CardSet(5);     
              
-        this.discardPile = new CardSet();
+        this.discardPile = new CardSet("DISCARD");
+        this.tablePile = new CardSet("TABLE");
         //this.tablePile = new CardSet();
 
         if(nation==CardInterface.AU){//btestfalse
-            hand.addCardToThisSet(drawPile.getCardByName("3rd  Regiment", true));
-            hand.addCardToThisSet(drawPile.getCardByName("3rd  Regiment", true));
-           hand.addCardToThisSet(drawPile.getCardByName("Guerrillas", true));
-           hand.addCardToThisSet(drawPile.getCardByName("Archduke Charles", true));
-            hand.addCardToThisSet(drawPile.getCardByName("Withdraw", true));
+            hand.addCard(drawPile.getCardByName("3rd  Regiment", true));
+            hand.addCard(drawPile.getCardByName("3rd  Regiment", true));
+           hand.addCard(drawPile.getCardByName("Guerrillas", true));
+           hand.addCard(drawPile.getCardByName("Archduke Charles", true));
+            hand.addCard(drawPile.getCardByName("Withdraw", true));
             //hand.addCardsFromTheTopOfOtherSet(1, drawPile, false, true);
         }
         else if(nation==CardInterface.FR){
-            hand.addCardToThisSet(drawPile.getCardByName("2nd Regiment Legere", true));
-            hand.addCardToThisSet(drawPile.getCardByName("2nd Regiment Legere", true));
-//             hand.addCardToThisSet(drawPile.getCardByName("2nd Regiment Legere", true));
-//              hand.addCardToThisSet(drawPile.getCardByName("2nd Regiment Legere", true));
-//               hand.addCardToThisSet(drawPile.getCardByName("2nd Regiment Legere", true));
-            hand.addCardToThisSet(drawPile.getCardByName("Forced March", true));
-            hand.addCardToThisSet(drawPile.getCardByName("Supply", true));
-            hand.addCardToThisSet(drawPile.getCardByName("Withdraw", true));
+            hand.addCard(drawPile.getCardByName("2nd Regiment Legere", true));
+            hand.addCard(drawPile.getCardByName("2nd Regiment Legere", true));
+//             hand.addCard(drawPile.getCardByName("2nd Regiment Legere", true));
+//              hand.addCard(drawPile.getCardByName("2nd Regiment Legere", true));
+//               hand.addCard(drawPile.getCardByName("2nd Regiment Legere", true));
+            hand.addCard(drawPile.getCardByName("Forced March", true));
+            hand.addCard(drawPile.getCardByName("Supply", true));
+            hand.addCard(drawPile.getCardByName("Withdraw", true));
             
            //hand.addCardsFromTheTopOfOtherSet(2, drawPile, false, true);
         } else
-        hand.addCardsFromTheTopOfOtherSet(5, drawPile, false, true);
+        discardPile.moveTopXCardsTo(5, hand);
         
         hand.sortCard();  
     }
@@ -212,7 +214,15 @@ public class Player  implements Serializable{
     public CardSet getDiscardPile() {
         return discardPile;
     }
-    
+
+    public CardSet getTablePile() {
+        return tablePile;
+    }
+
+    public void setTablePile(CardSet tablePile) {
+        this.tablePile = tablePile;
+    }
+     
     public void setActive(boolean active) {
         this.active = active;
     }

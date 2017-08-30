@@ -29,14 +29,14 @@ public class DrawCardCommand implements Command {
 
     @Override
     public void execute(Game game) {  
-         if(!game.isServer())
-         game.getCurrentPlayer().getName(); //temp just for check where we are
-            game.getPlayerByName(senderPlayerName).getHand().addCardsFromTheTopOfOtherSet(
-                    numberOfDrawnCards, game.getPlayerByName(senderPlayerName).getDrawPile(), false, true);
-            game.getPlayerByName(senderPlayerName).getHand().sortCard();
-            game.getPlayerByName(senderPlayerName).setDraw(true);
-            
-     
+
+    game.getPlayerByName(senderPlayerName).getDrawPile().moveTopXCardsTo(
+            numberOfDrawnCards,
+            game.getPlayerByName(senderPlayerName).getHand()
+            );
+    game.getPlayerByName(senderPlayerName).getHand().sortCard();
+    game.getPlayerByName(senderPlayerName).setDraw(true);
+
     }
     
     @Override

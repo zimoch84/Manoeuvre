@@ -5,26 +5,34 @@
  */
 package manouvre.state;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import manouvre.game.Card;
+import manouvre.game.Game;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
  * @author xeon
  */
-public class CardStateHandler {
+public class CardStateHandler implements Serializable{
     
     public final static int NOSELECTION = 0;
     public final static int PICK_ONLY_ONE = 1;
     public final static int MULTIPLE_PICK = 2;
     
+    Logger LOGGER;
+    Game game;
+    
     ArrayList<CardInputState> arrayOfStates;
-    public CardInputState currentState, previosState;
+    private CardInputState currentState, previosState;
 
-    public CardStateHandler() {
-       // this.arrayOfStates = new ArrayList();
+    public CardStateHandler(Game game) {
+        this.game = game;
         currentState = new CardsNoSelectionState();
         //arrayofStates.add(currentState);O
-    
+        LOGGER = LogManager.getLogger(CardStateHandler.class.getName());
     }
     
     public void setState(int nextState)
@@ -45,6 +53,7 @@ public class CardStateHandler {
             default: currentState = new CardsNoSelectionState();
         
         }
+        LOGGER.debug(game.getCurrentPlayer().getName() + " setState "  + currentState );
  
     }
    
@@ -59,6 +68,39 @@ public class CardStateHandler {
         }
      
     }
-     
+   
+    public void setInitStateForPhase (Game game){
+    
+       
+            switch (game.getPhase())
+            {
+                
+                case Game.SETUP : setState(CardStateHandler.NOSELECTION);
+                break;
+                
+                case Game.DISCARD : setState(CardStateHandler.MULTIPLE_PICK);
+                break;
+                
+                case Game.DRAW : setState(CardStateHandler.PICK_ONLY_ONE);
+                break;
+                
+                case Game.MOVE : setState(CardStateHandler.PICK_ONLY_ONE);
+                break;
+                
+                case Game.COMBAT : setState(CardStateHandler.PICK_ONLY_ONE);
+                break;
+                
+                case Game.RESTORATION : setState(CardStateHandler.PICK_ONLY_ONE);
+                break;
+   
+            }
+          LOGGER.debug(game.getCurrentPlayer().getName() + " setInitStateForPhase " + currentState );
+    }
+    
+    public void handle(Card card, Game game)
+    {
+        currentState.handleInput(card, game);
+        
+    }
     
 }

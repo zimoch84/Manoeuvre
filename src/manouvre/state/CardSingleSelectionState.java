@@ -5,6 +5,7 @@
  */
 package manouvre.state;
 
+import java.io.Serializable;
 import manouvre.game.Card;
 import manouvre.game.CardSet;
 import manouvre.game.Game;
@@ -15,7 +16,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author xeon
  */
-public class CardSingleSelectionState implements CardInputState{
+public class CardSingleSelectionState implements CardInputState, Serializable{
 
     private static final Logger LOGGER = LogManager.getLogger(CardSingleSelectionState.class.getName());
     
@@ -25,6 +26,9 @@ public class CardSingleSelectionState implements CardInputState{
         
         if(!card.isSelected()) 
         {
+            LOGGER.debug(game.getCurrentPlayer().getName() + " zmiana stanu na MapInputStateHandler.CARD_PLAYING_STATE") ;
+            game.mapInputHandler.setState(MapInputStateHandler.CARD_PLAYING_STATE);
+            
             card.setSelected(true);
             game.getCardCommandFactory().setPlayingCard(card);
             triggerCardActionOnSelection(card, game);
@@ -85,12 +89,18 @@ public class CardSingleSelectionState implements CardInputState{
             hand.getCardByPosInSet(i).setSelected(false);
         }
         game.getCurrentPlayer().getHand().selectionSeq.clear();
-        if(hand.getCardByCard(card)!=null){
-        hand.getCardByCard(card).setSelected(true);
-        game.getCurrentPlayer().getHand().selectionSeq.add((Integer)card.getCardID());
+        if(hand.getCard(card)!=null){
+        hand.getCard(card).setSelected(true);
+        game.getCurrentPlayer().getHand().selectionSeq.add(card);
         }
         else System.err.println("CARD IS NOT SELECTED - check GameGui.java method: keepOneSelectedCard");
     }
+
+    @Override
+    public String toString() {
+        return "SINGLE_SELECTION";
+    }
    
+    
     
 }

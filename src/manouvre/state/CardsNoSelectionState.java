@@ -6,6 +6,7 @@
 package manouvre.state;
 
 import java.awt.Graphics;
+import java.io.Serializable;
 import manouvre.game.Card;
 import manouvre.game.Game;
 
@@ -13,7 +14,7 @@ import manouvre.game.Game;
  *
  * @author xeon
  */
-public class CardsNoSelectionState implements CardInputState{
+public class CardsNoSelectionState implements CardInputState, Serializable{
 
     @Override
     public void handleInput(Card card, Game game) {
@@ -24,4 +25,9 @@ public class CardsNoSelectionState implements CardInputState{
         
     }
 
+    @Override
+    public String toString() {
+        return "NOSELECTION";
+    }
+    
 }

@@ -33,9 +33,10 @@ public class MapCardPlayingState implements MapState, Serializable{
                 
                 case Card.MOVE_ACTION:
                 {
-                if(game.getSelectedUnit()!= null)
-                {  
                 Unit selectedUnit = game.getSelectedUnit();
+                if(selectedUnit != null)
+                {  
+                
                 if(!getMovePositions(playingCard, game).isEmpty())
                 {
                     LOGGER.debug(game.getCurrentPlayer().getName() + " zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION_BY_CARD");
@@ -57,19 +58,23 @@ public class MapCardPlayingState implements MapState, Serializable{
                 else {
                     if(!getPossibleUnitPostionToSelect(game).isEmpty())
                     LOGGER.debug(game.getCurrentPlayer().getName() + " zmiana stanu na MapInputStateHandler.PICK_UNIT_BY_CARD");
-                    handler.setState(MapInputStateHandler.PICK_UNIT_BY_CARD);
-
+                    game.getCurrentPlayerUnitAtPosition(pos).setSelected(true);
+                    handler.setState(MapInputStateHandler.PICK_MOVE_POSITION_BY_CARD);
                     }
                 break;
                 }
                 case Card.PICK_ACTION:    
                 {
-                if(!getAvaliblePositionToSelect(game).isEmpty())    
-                    if(getAvaliblePositionToSelect(game).contains(pos))
+                if(!getAvaliblePositionToSelect(game,handler).isEmpty())    
+                    if(getAvaliblePositionToSelect(game, handler).contains(pos))
                     {
-                        Unit attackedUnit = game.getOpponentPlayerUnitAtPosition(pos);
-                        game.getCardCommandFactory().setAttackedUnit(attackedUnit);
-                        showConfirmationCardDialog(cmdQueue, game);
+                        if(playingCard.getCardType() == Card.UNIT )
+                            {
+                                Unit attackedUnit = game.getOpponentPlayerUnitAtPosition(pos);
+                                game.getCardCommandFactory().setAttackedUnit(attackedUnit);
+                                showConfirmationCardDialog(cmdQueue, game);
+                            }
+
                     }
                     else 
                     showCannotPlayCardDialog(cmdQueue, game);    
@@ -85,7 +90,7 @@ public class MapCardPlayingState implements MapState, Serializable{
                 }
                 case Card.MULTIPLE_PICK_ACTION:    
                 {
-                int availaibleUnits = getAvaliblePositionToSelect(game).size();
+                int availaibleUnits = getAvaliblePositionToSelect(game, handler).size();
                 
                 if(availaibleUnits>0) 
                     {
@@ -97,7 +102,7 @@ public class MapCardPlayingState implements MapState, Serializable{
                     */
                     if(game.getNumberOfSupportingUnit() < maxSelections)
                     {    
-                        if(getAvaliblePositionToSelect(game).contains(pos))
+                        if(getAvaliblePositionToSelect(game, handler).contains(pos))
                         {
                            game.getCurrentPlayerUnitAtPosition(pos).setSupporting(true);
                            if(game.getNumberOfSupportingUnit() == maxSelections)
@@ -153,7 +158,7 @@ private ArrayList<Position> getMovePositions(Card playingCard, Game game){
                 }
     return movePositions;
 }
- protected ArrayList<Position> getAvaliblePositionToSelect(Game game)
+ protected ArrayList<Position> getAvaliblePositionToSelect(Game game, MapInputStateHandler handler)
     {
         if(game.getCurrentPlayer().isPlayingCard())
         {
@@ -163,6 +168,12 @@ private ArrayList<Position> getMovePositions(Card playingCard, Game game){
                 {
                 if(playingCard.getHQType() == Card.SUPPLY)
                 {
+                    if(game.getPhase() == Game.MOVE)
+                        
+                        if ( handler.currentState instanceof MapCardPlayingState)
+                            return game.getCurrentPlayerNotMovedUnits();
+                    
+                    
                     if(game.getPhase() == Game.RESTORATION)
                         return game.getCurrentPlayerInjuredUnitPositions();
 

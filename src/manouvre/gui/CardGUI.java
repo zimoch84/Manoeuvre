@@ -9,32 +9,32 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import manouvre.game.Card;
-import manouvre.game.CardSet;
-import manouvre.game.interfaces.CardInterface;
 
 /**
  *
  * @author Bartosz
  */
 public class CardGUI {
+
+    //-------- CARDS - BOTTOM OF THE SCREEN -----------------------------------
+    //scale factor for Cards//Normally cards has 260x375 pixels
+    
     Image imgFull;
-    int OverCard=0;
-    int Selected=0;
-    Card card;
-    int selectionSeq=0; //card was selected as selectionSeq in the row
-//    int posX;
-//    int posY;
     Image imgBackCover;
-   
+    Card card;
+
     public static final int CARD_WIDTH = 260;
     public static final int CARD_HEIGHT = 375;
+    //scale factor for Cards//Normally cards has 260x375 pixels
     public static final float SCALE_FACTOR= 0.5f;
+    public static final int  LIFTSELECTEDBY =20;//pixels if card selected
     
+    public static final int WIDTH = Math.round(CardGUI.CARD_WIDTH * CardGUI.SCALE_FACTOR);
+    public static final int HEIGHT = Math.round(CardGUI.CARD_HEIGHT * CardGUI.SCALE_FACTOR);
     /**
      * Gets the card image based on its ID in cards.csv 
      * @param ID    cardID
@@ -57,21 +57,21 @@ public class CardGUI {
     
     private String getBackCoverImgName(){
         switch (card.getCardFlag()){ //check first card in the list for flag
-            case CardInterface.BR:  
+            case Card.BR:  
                 return "BRMask.JPG";      
-            case CardInterface.FR: 
+            case Card.FR: 
                 return "FRMask.JPG";    
-            case CardInterface.RU: 
+            case Card.RU: 
                 return "RUMask.JPG";    
-            case CardInterface.PR: 
+            case Card.PR: 
                 return "PRMask.JPG";    
-            case CardInterface.AU: 
+            case Card.AU: 
                 return "AUMask.JPG";    
-            case CardInterface.SP: 
+            case Card.SP: 
                 return "SPMask.JPG";    
-            case CardInterface.OT: 
+            case Card.OT: 
                 return "OTMask.JPG";  
-            case CardInterface.US: 
+            case Card.US: 
                 return "USMask.JPG"; 
                 
         }   
@@ -110,13 +110,6 @@ public class CardGUI {
         BufferedImage buffImage = (BufferedImage)img;
         return buffImage.getSubimage(x, y, width, height);
     }
-    public void setOverCard(int isOverCard) {
-        this.OverCard = isOverCard;
-    }
-    
-     public int isOverCard() {
-        return OverCard;
-    }
 
     public int getFlag() {
         return card.getCardFlag();
@@ -132,4 +125,9 @@ public class CardGUI {
        return card;
    }
     
+    @Override
+    public String toString()
+    {
+    return card.toString();
+    }
 }

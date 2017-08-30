@@ -5,6 +5,7 @@
  */
 package manouvre.state;
 
+import java.io.Serializable;
 import manouvre.game.Card;
 import manouvre.game.Game;
 
@@ -12,7 +13,7 @@ import manouvre.game.Game;
  *
  * @author xeon
  */
-public class CardMultipleSelectionState implements CardInputState{
+public class CardMultipleSelectionState implements CardInputState, Serializable{
 
     @Override
     public void handleInput(Card card, Game game) {
@@ -20,16 +21,21 @@ public class CardMultipleSelectionState implements CardInputState{
         if(!card.isSelected()) 
         {
             card.setSelected(true);
-            game.getCurrentPlayer().getHand().selectionSeq.add((Integer)card.getCardID());
+            game.getCurrentPlayer().getHand().selectionSeq.add(card);
         }
         else 
         {
             card.setSelected(false);
-            game.getCurrentPlayer().getHand().selectionSeq.remove((Integer)card.getCardID()); 
+            game.getCurrentPlayer().getHand().selectionSeq.remove(card); 
      
         }       
         
         
+    }
+
+    @Override
+    public String toString() {
+        return "MULTIPLE_SELECTION";
     }
     
 }

@@ -65,13 +65,11 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     public Thread clientThread;
     public Player player;
     
-    private int handMouseCoorX,handMouseCoorY;
-    private int handMouseCoorXdeaf=0;
-    private int handMouseCoorYdeaf=0;
+
    
     private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(GameWindow.class.getName());
     
-    CardSetGUI cardSetsGUI;
+   
     int windowMode;
     
     /*
@@ -126,17 +124,13 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         title = title + (game.getCurrentPlayer().isFirst() ? " and first player" : " and second player");
 
         this.setTitle(title);
-        
+       
         
         initComponents();
-        
+         setActionButtonText();
+         setPhaseLabelText();
+         setNextPhaseButonText();
         game.getCardCommandFactory().addObserver(this);
-        
-        refreshAll();
-        
-        
-        
-    
         this.addWindowListener(new WindowListener() {
             @Override public void windowOpened(WindowEvent e) {}
             @Override public void windowClosing(WindowEvent e) { try{ client.send(new Message("message", game.getCurrentPlayer().getName(), ".bye", "SERVER")); clientThread.stop();  }catch(Exception ex){} }
@@ -154,6 +148,8 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     
     @Override
     public void update(Observable o, Object arg) {
+        
+        if(o instanceof CardCommandFactory){
         CardCommandFactory ccmdf = (CardCommandFactory) o;
         String dialogType = (String) arg;
         
@@ -286,9 +282,10 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            default :
                System.out.println("manouvre.gui.GameWindow.update() No such dialog Type" );
        
-       }
+        }
+        }
         
-    }
+     }
      
     public Game getGame() {
          return game;
@@ -322,45 +319,21 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         setPhaseLabelText();
         gameTurnCounter.setText(Integer.toString(game.getTurn()));
         setNextPhaseButonText(); 
-        
-        updateGui();
-        //checkIfNewCardCanBeRejected();
+ 
+        /*
+        Updates gui for card sets
+        */
+        gameGui.cardSetsGUI.loadAllSets();
+
     }
-    
-    public void updateGui(){
-        gameGui.resetAllCardSets();
-        
-    }
-//    public void  checkPopUps(){ 
-//        
-//            
-////show popup if card cen be cancelled
-//        if(game.getCardCommandFactory().getPlayingCard()!=null){
-//            if(game.getCardCommandFactory().getPlayingCard().getCanBeCancelled()){
-//                Command rejectCard = game.getCardCommandFactory().createRejectCardCommand();
-//                Command doNotRejectCard = game.getCardCommandFactory().createDoNotRejectCardCommand();
-//                if(game.getCurrentPlayer().getHand().getCardByName("Guerrillas", false)!=null){//if player has Guerrillas
-//                    CustomDialog dialog = new CustomDialog(CustomDialog.YES_NO_TYPE, game.getCurrentPlayer().getName()+" Your enemy played this card, will you reject?", cmdQueue, game);
-//                    game.getCardCommandFactory().getPlayingCard().setCanBeCanceled(false);
-//                    dialog.setOkCommand(rejectCard);
-//                    dialog.setCancelCommand(doNotRejectCard);
-//                } else{
-//                    CustomDialog dialog = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, game.getCurrentPlayer().getName()+" Your enemy played this card, you can not reject..", cmdQueue, game);
-//                    game.getCardCommandFactory().getPlayingCard().setCanBeCanceled(false);
-//                    dialog.setOkCommand(doNotRejectCard);
-//                    rejectCard=null;
-//                }
-//            }
-//        }
-//    }
-    
+     
     private void setActionButtonText(){
         /*
         If card is Selected change Label to "Play Card" 
         */
         if(game.getCurrentPlayer().getHand().isCardSelected() && game.getPhase() != Game.DISCARD )
         {
-             actionButton.setText("Play Card");
+            actionButton.setText("Play Card");
             actionButton.setEnabled(true);
             
         }
@@ -378,16 +351,22 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            case Game.DISCARD:
            {
             actionButton.setVisible(true);
-            actionButton.setEnabled(!gameGui.getSelectionSeqIsEmpty() && game.getCurrentPlayer().isActive() && !game.isLocked());
+            actionButton.setEnabled(
+                    !game.getCurrentPlayer().getHand().selectionSeq.isEmpty()
+                    && game.getCurrentPlayer().isActive() && !game.isLocked()
+            );
             actionButton.setText("Discard");
             break;
            }
            case Game.DRAW:
            {
              
-             actionButton.setEnabled(gameGui.getNumberOfDiscardedCards()>0 && game.getCurrentPlayer().isActive() && !game.isLocked() );
+             actionButton.setEnabled(
+                     game.getCurrentPlayer().getHand().getCardSetSize() < 5
+                     && game.getCurrentPlayer().isActive() 
+                     && !game.isLocked() );
              actionButton.setText("Draw");
-              break;
+             break;
            }
            case Game.MOVE:
            {
@@ -523,23 +502,18 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     } 
  
     public void drawCurrentPlayerFlag(Graphics g){
-    
         g.drawImage(gameGui.getFlagIcon(game.getCurrentPlayer()), 0, 0,64,56, null);
         
     }
     
-     public void drawOpponentPlayerFlag(Graphics g){
-    
+    public void drawOpponentPlayerFlag(Graphics g){
         g.drawImage(gameGui.getFlagIcon(game.getOpponentPlayer()), 0, 0,64,56, null);
-        
+   
     }
     
     public void paintHand(Graphics g )                 
     {   
       gameGui.paintHand(g); 
-         
-      
-        
     }
     
     private void paintCalculationCombatPanel(Graphics g){
@@ -1509,17 +1483,14 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
 
     
     private void playerHandPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseClicked
-            handMouseCoorX = evt.getPoint().x;
-            handMouseCoorY = evt.getPoint().y;    
-            
-            Card cardClicked=gameGui.getCardFromMousePosition(handMouseCoorX,handMouseCoorY);
+ 
+            Card cardClicked = gameGui.cardSetsGUI.getCardFromMousePosition(evt.getPoint().x,evt.getPoint().y);
             
             if(cardClicked != null)
-                {
-                LOGGER.debug(game.getCurrentPlayer().getName() + " zmiana stanu na MapInputStateHandler.CARD_PLAYING_STATE") ;
-                game.mapInputHandler.setState(MapInputStateHandler.CARD_PLAYING_STATE);
-                }
-                
+                game.cardStateHandler.handle(cardClicked, game);
+            
+            setActionButtonText();
+ /*
             gameGui.mouseClickedCard(cardClicked); 
             setActionButtonText();  //when card is selected set the buttons
             repaint();
@@ -1553,6 +1524,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                     }
                 }   
             }
+ */
     }//GEN-LAST:event_playerHandPanelMouseClicked
 
             
@@ -1567,6 +1539,10 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     }//GEN-LAST:event_playerHandPanelMouseExited
 
     private void playerHandPanelMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseMoved
+        
+        int handMouseCoorX,handMouseCoorY;
+        int handMouseCoorXdeaf=0;
+        int handMouseCoorYdeaf=0;
         int deafband=20; //repaint after mouse change of
         int repaintAddedArea=20;//refreash little more than just the sqare
          final int CURR_X = playerHandPanel.getX();
@@ -1576,7 +1552,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         handMouseCoorX = evt.getPoint().x;
         handMouseCoorY = evt.getPoint().y;
 
-        gameGui.setMouseOverCard(handMouseCoorX, handMouseCoorY);
+        gameGui.cardSetsGUI.setMouseOverCard(handMouseCoorX, handMouseCoorY);
         if(abs(handMouseCoorX-handMouseCoorXdeaf)>deafband){  //change repainting step
             handMouseCoorXdeaf=handMouseCoorX;
             //repaint(CURR_X, CURR_Y, CURR_W, CURR_H);
@@ -1821,10 +1797,15 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             case Game.DISCARD :
             {
                 
-                client.send(gameGui.discardSelCards());   
+                cmdQueue.storeAndExecuteAndSend(
+                game.getCardCommandFactory().createDiscardCommand()
+                );
+
                 if(allowDrawOnDiscard.isSelected())//if  Debug is active draw cards after Discard
                 {
-                    client.send(gameGui.drawCards());
+                    cmdQueue.storeAndExecuteAndSend(
+                        game.getCardCommandFactory().createDrawCommand()
+                        );
                     game.getCurrentPlayer().setDraw(false);
                 }     
                 setActionButtonText();
@@ -1915,7 +1896,11 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         }
         else if (game.getPhase() == Game.DISCARD)
         {
-        client.send(gameGui.drawCards());
+        if (game.getCurrentPlayer().getHand().cardsLeftInSet() < 5)
+                cmdQueue.storeAndExecuteAndSend(
+                    game.getCardCommandFactory().createDrawCommand()
+                );
+            
         Command nextPhaseCommand = new NextPhaseCommand(game.getCurrentPlayer().getName(), game.getPhase()+ 1);
         cmdQueue.storeAndExecuteAndSend(nextPhaseCommand);
         }

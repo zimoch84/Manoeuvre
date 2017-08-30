@@ -218,15 +218,7 @@ public class Unit implements UnitInterface, Serializable{
         setMoved(true);
             if(isSelected()) setSelected(false);
     }
-    
-    public boolean equals(Unit inUnit){
-    
-        if(this.name.equals(inUnit.name)) return true;
         
-        else return false;
-             
-    }
-    
     //Bart
     public boolean hasMoved() {
         return hasMoved;

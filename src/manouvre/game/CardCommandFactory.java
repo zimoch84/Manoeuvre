@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Observable;
 import manouvre.game.commands.CardCommands;
+import manouvre.game.commands.DiscardCardCommand;
+import manouvre.game.commands.DrawCardCommand;
 import manouvre.game.commands.RestoreUnitCommand;
 import manouvre.game.commands.ThrowDiceCommand;
 import manouvre.game.interfaces.CardCommandInterface;
@@ -160,10 +162,14 @@ public class CardCommandFactory extends Observable implements Serializable{
     public void resetPlayingCard(){
         if(playingCard != null) 
         {
+            playingCard.actionOnDeselection(game);
             this.playingCard.setSelected(false) ;
             this.playingCard = null;
+            
         }
         game.getCurrentPlayer().setPlayingCard(false);
+        
+        
     }
 
     public Unit getAttackedUnit() {
@@ -298,6 +304,18 @@ public class CardCommandFactory extends Observable implements Serializable{
     }
     }
     
+    public Command createDrawCommand(){
+    
+        int cardsToDraw = 5 - game.getCurrentPlayer().getHand().cardsLeftInSet();
+        DrawCardCommand drawCard = new DrawCardCommand(cardsToDraw, game.getCurrentPlayer().getName());
+        return  drawCard;
+    }
+    
+    
+    public Command createDiscardCommand(){
+    
+        return  new DiscardCardCommand(game.getCurrentPlayer().getHand().selectionSeq, game.getCurrentPlayer().getName());
+    }
     
     public Command resetFactoryCommand(){
         return new CardCommands.ResetCardFactory(game.getCurrentPlayer().getName());

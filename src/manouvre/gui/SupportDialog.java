@@ -66,7 +66,10 @@ public class SupportDialog extends javax.swing.JFrame {
        
         this.playedCard = playedCard;
          this.defCardsPlayerd=defCardsPlayerd;
-         this.defCardsPlayedGui=new CardSetGUI(defCardsPlayerd);
+         /*
+         TODO : remove this
+         */
+         //this.defCardsPlayedGui=new CardSetGUI(defCardsPlayerd);
         this.game = game;
         this.cmdQueue = cmdQueue;
         this.setUndecorated(true);
