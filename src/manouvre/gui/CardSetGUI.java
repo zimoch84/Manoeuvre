@@ -8,13 +8,15 @@ package manouvre.gui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import static java.lang.Math.round;
 import java.util.ArrayList;
+import java.util.Observable;
 import java.util.Observer;
 import manouvre.game.Card;
 import manouvre.game.CardSet;
 import manouvre.game.Game;
-
-//import java.awt.image.BufferedImage;
 
 /**
  * Retrives card picture/image
@@ -77,8 +79,8 @@ import manouvre.game.Game;
                 break;
             }
             case "DISCARD"  :{
-                 discardGUI = game.getCurrentPlayer().getDiscardPile().getLastCard(false);
-                 discardGUIOpponnent = game.getOpponentPlayer().getDiscardPile().getLastCard(false);
+                 discardGUI = new CardGUI(game.getCurrentPlayer().getDiscardPile().getLastCard(false));
+                 discardGUIOpponnent = new CardGUI(game.getOpponentPlayer().getDiscardPile().getLastCard(false));
                  break;
             }
             case "TABLE"  :{
@@ -112,7 +114,6 @@ import manouvre.game.Game;
         CardSet hand=game.getCurrentPlayer().getHand();
         int CARDPADDINGTOPTemp=CARDPADDINGTOP;
         Integer j=0;
-        // <editor-fold defaultstate="collapsed" desc="IF selection is not empty">     
         if(!hand.selectionSeq.isEmpty())
         {
             Card card =hand.selectionSeq.get(hand.selectionSeq.size()-1);              
@@ -127,11 +128,7 @@ import manouvre.game.Game;
                     }
             g.fillPolygon(xPoints, yPoints, 3);
          }
-        
-                 
-          
-        // </editor-fold>  
-        /*
+       /*
         Order of placing card in array is the same as 
         */
         for ( int i=0; i < handGUI.size(); i++) 
@@ -212,12 +209,12 @@ import manouvre.game.Game;
             }   
         }
         else{
-            if(discardGUI.size()>0){
+            if(discardGUI != null){
                 /*
                 We take first top card from list
                 */
                 Image image = 
-                cropImage(discardGUI.get(0).getImgFull(),x,y,w,h);
+                cropImage(discardGUI.getImgFull(),x,y,w,h);
                 g.drawImage(image, cardPaddingLeft, cardPaddingTop, width, height, null);  
             }
             else{
@@ -247,7 +244,7 @@ import manouvre.game.Game;
         return buffImage.getSubimage(x, y, width, height);
     }
          
-            public Card getCardFromMousePosition(int mouseCoorX, int mouseCoorY){
+    public Card getCardFromMousePosition(int mouseCoorX, int mouseCoorY){
       
         for (int i=0; i<game.getCurrentPlayer().getHand().cardsLeftInSet(); i++)
         {
