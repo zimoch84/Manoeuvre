@@ -69,11 +69,9 @@ private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogg
  private ArrayList<Position> getPossibleUnitPostionToSelect(Game game){
     
      ArrayList<Position> returnPositions = new ArrayList<>();
-     if(game.getCurrentPlayer().isPlayingCard())
+      Card playingCard = game.getCardCommandFactory().getPlayingCard();
+     if(playingCard!=null)
         {
-            Card playingCard = game.getCardCommandFactory().getPlayingCard();
-            
-            
             switch(playingCard.getCardType()){
                 case Card.HQCARD:
                 {

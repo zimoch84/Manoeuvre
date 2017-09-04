@@ -130,7 +130,7 @@ public class DefendDialog extends javax.swing.JFrame {
     private void chooseCardsAvailableForDefence(){
        
         CardSet hand=game.getCurrentPlayer().getHand();
-           for(int i=0; i<hand.cardsLeftInSet();i++){
+           for(int i=0; i<hand.size();i++){
                if(hand.getCardByPosInSet(i).getAvailableForPhase(game))numberOfAvailableDeffendingCards++;
            }
           
@@ -412,7 +412,6 @@ public class DefendDialog extends javax.swing.JFrame {
         */
         game.getCardCommandFactory().setPlayingCard(game.getCurrentPlayer().getHand().getCardByType(Card.WITHDRAW));
         game.getCardCommandFactory().getPlayingCard().actionOnSelection(game);
-        game.getCurrentPlayer().setPlayingCard(true);
         game.getCurrentPlayer().setActive(true);
         this.dispose();
         //Show dialog

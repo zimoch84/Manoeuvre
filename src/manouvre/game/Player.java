@@ -47,9 +47,6 @@ public class Player  implements Serializable{
  
     boolean host, finishedSetup;
 
-    boolean playingCard;
-    
-
     public Player(String name) {
         this.name = name;
         this.active = true;
@@ -68,7 +65,6 @@ public class Player  implements Serializable{
     }
         setMoved(false);
         setDraw(false);
-        setPlayingCard(false);
         setAttacked(false);
         
     }
@@ -295,14 +291,7 @@ public class Player  implements Serializable{
                 ) ;
 
     }
-     public boolean isPlayingCard() {
-        return playingCard;
-    }
-
-    public void setPlayingCard(boolean playingCard) {
-        this.playingCard = playingCard;
-    }
-    
+ 
     public Unit getLastMovedUnit(){
     
         for(Unit checkUnit: getArmy()){

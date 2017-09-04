@@ -120,7 +120,7 @@ public class CardSet extends Observable implements CardSetInterface, Serializabl
     public void moveTopXCardsTo(int range, CardSet otherCardSet){
 
     for(int i=0; i<range; i++)  
-        moveCardTo(getLastCard(true), otherCardSet);
+        moveCardTo(getLastCard(false), otherCardSet);
     }
 
      
@@ -138,10 +138,10 @@ public class CardSet extends Observable implements CardSetInterface, Serializabl
      * @return 
      */
     public Card getLastCard(boolean remove){
-        if(cardsLeftInSet()>0){
-        Card temp = getCardByPosInSet(cardsLeftInSet()-1);
+        if(size()>0){
+        Card temp = getCardByPosInSet(size()-1);
         if(remove)
-            removeCardFromThisSet(getCardByPosInSet(cardsLeftInSet()-1));
+            removeCardFromThisSet(getCardByPosInSet(size()-1));
         return temp;
         }
      return null;
@@ -245,7 +245,8 @@ public class CardSet extends Observable implements CardSetInterface, Serializabl
        return cardList.get(cardPosition).getCardID();     
     }
 
-    public int cardsLeftInSet() {
+    @Override
+    public int size() {
         return cardList.size();    
     }
     /**

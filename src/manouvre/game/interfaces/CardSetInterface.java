@@ -35,7 +35,7 @@ public interface CardSetInterface {
    * cards left decreases.  This function returns the 
    * number of cards that are still left in the deck.
    */
-   public int cardsLeftInSet();
+   public int size();
 
 
 }

@@ -79,7 +79,6 @@ public class Card implements CardInterface, Serializable{
     int countId=480;
     int countNation=8;
     int countCards=60;
-    int chosenID;
     String chosenName;
     
     String CardID="";
@@ -219,7 +218,7 @@ public class Card implements CardInterface, Serializable{
      
          if(in instanceof Card){
             Card cardIn = (Card) in;
-            if (cardIn.chosenID == this.chosenID) return true;
+            if (cardIn.CardID.equals(this.CardID)) return true;
          }
          if(in instanceof Unit){
             Unit unitIn = (Unit) in;
@@ -261,11 +260,7 @@ public class Card implements CardInterface, Serializable{
      return 0;   
           
     }
-     
-    public int getChosenID() {
-        return chosenID;
-    }
-    
+   
     public int getCardID() {
         return Integer.parseInt(CardID);
     }
@@ -837,7 +832,9 @@ public class Card implements CardInterface, Serializable{
     public String toString()
     {
     
-    return ("ID [" + CardID + "] " + getCardName() + ( getPlayiningMode()!=null  ?  " playing mode " + getPlayiningMode() : "") )  ;
+    return ("ID [" + CardID + "] " + getCardName() + ( getPlayiningMode()!=null  ?  " playing mode " + getPlayiningMode() : "") 
+            + ( isSelected() ?  " selected " : " deselected")
+            )  ;
     
     }
     

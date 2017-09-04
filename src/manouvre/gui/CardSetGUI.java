@@ -17,6 +17,7 @@ import java.util.Observer;
 import manouvre.game.Card;
 import manouvre.game.CardSet;
 import manouvre.game.Game;
+import static java.lang.Math.round;
 
 /**
  * Retrives card picture/image
@@ -68,7 +69,7 @@ import manouvre.game.Game;
      
     private void loadSet(CardSet cardSet) 
     {
-        if(cardSet.cardsLeftInSet() > 0 )
+        if(cardSet.size() > 0 )
         switch(cardSet.name){
             case "HAND"  :{
                 handGUI.clear();
@@ -79,7 +80,9 @@ import manouvre.game.Game;
                 break;
             }
             case "DISCARD"  :{
+                 if(game.getCurrentPlayer().getDiscardPile().getLastCard(false)!=null)
                  discardGUI = new CardGUI(game.getCurrentPlayer().getDiscardPile().getLastCard(false));
+                 if(game.getOpponentPlayer().getDiscardPile().getLastCard(false) != null)
                  discardGUIOpponnent = new CardGUI(game.getOpponentPlayer().getDiscardPile().getLastCard(false));
                  break;
             }
@@ -197,7 +200,7 @@ import manouvre.game.Game;
         int cardPaddingTop=20;
         int cardPaddingLeft=8;
         if (paintOpponent==true){
-            if(game.getOpponentPlayer().getDiscardPile().cardsLeftInSet()>0){
+            if(game.getOpponentPlayer().getDiscardPile().size()>0){
                 cardGui=new CardGUI(game.getOpponentPlayer().getDiscardPile().getLastCard(false));
                 Image image = cropImage(cardGui.getImgFull(),x,y,w,h);
                  g.drawImage(image, cardPaddingLeft, cardPaddingTop, width, height, null);  
@@ -230,9 +233,9 @@ import manouvre.game.Game;
         int cardPaddingLeft=5;
         Integer drawLeft;
         if (paintOpponent==true)
-            drawLeft=game.getOpponentPlayer().getDrawPile().cardsLeftInSet();
+            drawLeft=game.getOpponentPlayer().getDrawPile().size();
         else 
-            drawLeft=game.getOpponentPlayer().getDrawPile().cardsLeftInSet();
+            drawLeft=game.getOpponentPlayer().getDrawPile().size();
 
         g.setColor(Color.white);
         g.setFont(new Font("Bookman Old Style", 1, 50));        
@@ -246,7 +249,7 @@ import manouvre.game.Game;
          
     public Card getCardFromMousePosition(int mouseCoorX, int mouseCoorY){
       
-        for (int i=0; i<game.getCurrentPlayer().getHand().cardsLeftInSet(); i++)
+        for (int i=0; i<game.getCurrentPlayer().getHand().size(); i++)
         {
             int mouseYmin = CardSetGUI.CARDPADDINGTOP;
             int mouseYmax = CardSetGUI.CARDPADDINGTOP  + CardGUI.HEIGHT;
@@ -267,7 +270,7 @@ import manouvre.game.Game;
     } 
 
      public void setMouseOverCard(int mouseX, int mouseY){
-        for (int i=0; i<game.getCurrentPlayer().getHand().cardsLeftInSet(); i++){
+        for (int i=0; i<game.getCurrentPlayer().getHand().size(); i++){
             game.getCurrentPlayer().getHand().getCardByPosInSet(i).setMouseOverCard(false);//delete all selections first
         }
         Card cardOverMouse=getCardFromMousePosition(mouseX,mouseY);

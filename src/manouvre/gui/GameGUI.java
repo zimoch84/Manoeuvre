@@ -15,9 +15,6 @@ import java.util.ArrayList;
 import manouvre.game.Game;
 import manouvre.game.Position;
 import manouvre.game.Unit;
-import manouvre.game.commands.DiscardCardCommand;
-import manouvre.game.commands.DrawCardCommand;
-import manouvre.network.client.Message;
 import manouvre.game.commands.CommandQueue;
 import manouvre.game.Card;
 import manouvre.game.CardCommandFactory;
@@ -206,8 +203,9 @@ public class GameGUI {
     }
     
     private void drawSelection(Graphics g){
-   
-    if(!game.getCurrentPlayer().isPlayingCard())
+    
+    Card playingCard = game.getCardCommandFactory().getPlayingCard();
+    if(playingCard == null)
      {
          Unit selectedUnit = game.getSelectedUnit();
             if (selectedUnit != null ) 
@@ -330,19 +328,21 @@ public class GameGUI {
     }
     private void drawCardSelections(Graphics g){
     
-        if(currentPlayer.isPlayingCard())
+        Card playingCard = game.getCardCommandFactory().getPlayingCard();
+        if(playingCard!= null)
         {
             ArrayList<Position> movePositions;
-            Card playingCard = cardFactory.getCurrentPlayedCard();
-        
-            if(playingCard != null)
-            switch (playingCard.getCardType()){
+           
+           if(playingCard.canBePlayed(game))
+               
+           switch (playingCard.getCardType()){
                 case Card.HQCARD :
                 {
                     switch(playingCard.getHQType())
                     {
                     case Card.FORCED_MARCH: 
                         {
+                            
                         Unit lastMovedUnit = currentPlayer.getLastMovedUnit();
                         movePositions = game.getOneSquareMovements(lastMovedUnit.getPosition());
                         drawMultipleRectanglesOnPositions(g, movePositions, Color.red);
@@ -398,7 +398,7 @@ public class GameGUI {
                                 */
                             if(playingCard.getPlayingCardMode() > 0  )
                                
-                                if(!cardFactory.getAttackingPositions().isEmpty())
+                                if(cardFactory.getAttackingPositions() != null)
                                     drawArrowToPositions(g, 
                                     attackingUnit.getPosition(),
                                     cardFactory.getAttackingPositions(),
@@ -699,7 +699,7 @@ public class GameGUI {
         
     }
     public void keepOneSelectedCard(Card cardClicked){
-        for (int i=0; i< game.getCurrentPlayer().getHand().cardsLeftInSet(); i++){ 
+        for (int i=0; i< game.getCurrentPlayer().getHand().size(); i++){ 
             game.getCurrentPlayer().getHand().getCardByPosInSet(i).setSelected(false);
         }
         game.getCurrentPlayer().getHand().selectionSeq.clear();
@@ -787,7 +787,7 @@ public class GameGUI {
                 Set playingCard always but Discard phase
                 */
                     if(game.getPhase()!=Game.DISCARD)
-                            currentPlayer.setPlayingCard(true);  //not playing cards on Table during Discard
+                       game.getCardCommandFactory().setPlayingCard(cardClicked);  //not playing cards on Table during Discard
                 } 
 
             /*
@@ -921,7 +921,7 @@ public class GameGUI {
 //            }
 //            
 //        }  
-//        for (int i=0; i<hand.cardsLeftInSet(); i++) {   
+//        for (int i=0; i<hand.size(); i++) {   
 //            if((hand.getCardByPosInSet(i).isMouseOverCard()|| hand.getCardByPosInSet(i).isSelected()) 
 //                    && (hand.getCardByPosInSet(i).getAvailableForPhase(game)))
 //                    cardPaddingTopTemp=cardPaddingTop-20;
@@ -961,7 +961,7 @@ public class GameGUI {
 //        int cardPaddingTop=20;
 //        int cardPaddingLeft=8;
 //        if (paintOpponent==true){
-//            if(game.getOpponentPlayer().getDiscardPile().cardsLeftInSet()>0){
+//            if(game.getOpponentPlayer().getDiscardPile().size()>0){
 //                cardGui=new CardGUI(game.getOpponentPlayer().getDiscardPile().getLastCard(false));
 //                Image image = cropImage(cardGui.getImgFull(),x,y,w,h);
 //                 g.drawImage(image, cardPaddingLeft, cardPaddingTop, width, height, null);  
@@ -973,8 +973,8 @@ public class GameGUI {
 //            }   
 //        }
 //        else{
-//            if(discardSetGui.cardsLeftInSet()>0){
-//                Image image = cropImage(discardSetGui.getCardByPosInSet(discardSetGui.cardsLeftInSet()-1).getImgFull(),x,y,w,h);
+//            if(discardSetGui.size()>0){
+//                Image image = cropImage(discardSetGui.getCardByPosInSet(discardSetGui.size()-1).getImgFull(),x,y,w,h);
 //                g.drawImage(image, cardPaddingLeft, cardPaddingTop, width, height, null);  
 //            }
 //            else{
@@ -1023,12 +1023,12 @@ public class GameGUI {
 //        int cardPaddingLeft=10;
 //        int cardPaddingTopText=138;
 //        
-//        if(tableSetGui.cardsLeftInSet()==0){  //paint NO CARD
+//        if(tableSetGui.size()==0){  //paint NO CARD
 //            g.setColor(Color.white);
 //            g.setFont(new Font("Bookman Old Style", 1, 20));
 //            g.drawString("No Card",20,100);  
 //        }
-//        for (int i=0; i<tableSetGui.cardsLeftInSet(); i++){  
+//        for (int i=0; i<tableSetGui.size(); i++){  
 //            g.drawImage(tableSetGui.getCardByPosInSet(i).getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTop, width, height, null);
 //        }
         paintDices(g);

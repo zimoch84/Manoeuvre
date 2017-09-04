@@ -160,9 +160,9 @@ private ArrayList<Position> getMovePositions(Card playingCard, Game game){
 }
  protected ArrayList<Position> getAvaliblePositionToSelect(Game game, MapInputStateHandler handler)
     {
-        if(game.getCurrentPlayer().isPlayingCard())
-        {
-            Card playingCard = game.getCardCommandFactory().getPlayingCard();
+        Card playingCard = game.getCardCommandFactory().getPlayingCard();
+        if(playingCard!=null)
+        {   
             switch(playingCard.getCardType()){
                 case Card.HQCARD:
                 {
@@ -214,12 +214,10 @@ private ArrayList<Position> getMovePositions(Card playingCard, Game game){
     
     }
 protected ArrayList<Position> getPossibleUnitPostionToSelect(Game game){
-    
-     if(game.getCurrentPlayer().isPlayingCard())
+    Card playingCard = game.getCardCommandFactory().getPlayingCard();
+     if(playingCard!=null)
         {
-            Card playingCard = game.getCardCommandFactory().getPlayingCard();
-            
-            
+  
             switch(playingCard.getCardType()){
                 case Card.HQCARD:
                 {

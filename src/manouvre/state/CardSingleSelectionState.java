@@ -29,18 +29,20 @@ public class CardSingleSelectionState implements CardInputState, Serializable{
             LOGGER.debug(game.getCurrentPlayer().getName() + " zmiana stanu na MapInputStateHandler.CARD_PLAYING_STATE") ;
             game.mapInputHandler.setState(MapInputStateHandler.CARD_PLAYING_STATE);
             
-            card.setSelected(true);
-            game.getCardCommandFactory().setPlayingCard(card);
-            triggerCardActionOnSelection(card, game);
-            keepOneSelectedCard(card, game);
-
+            if(card.canBePlayed(game)){
+                card.setSelected(true);
+                game.getCardCommandFactory().setPlayingCard(card);
+                triggerCardActionOnSelection(card, game);
+                keepOneSelectedCard(card, game);
+            }
         }
 
         else 
         {   
+            if(card.canBePlayed(game)){
             card.setSelected(false); 
             triggerCardActionOnDeSelection(card, game);
-            
+            }
             
         }    
             
@@ -71,21 +73,21 @@ public class CardSingleSelectionState implements CardInputState, Serializable{
     }
     
     private void triggerCardActionOnDeSelection(Card playingCard, Game game){
-    
+        if(playingCard.canBePlayed(game)) { 
             /*
             Trigger action on selection
             */
             playingCard.actionOnDeselection(game);
             LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().resetFactory()");
             game.getCardCommandFactory().resetFactory();
-    
+        }
     }
 
     
     private void keepOneSelectedCard(Card card, Game game){
         CardSet hand = game.getCurrentPlayer().getHand();
         
-        for (int i=0; i<game.getCurrentPlayer().getHand().cardsLeftInSet(); i++){ 
+        for (int i=0; i<game.getCurrentPlayer().getHand().size(); i++){ 
             hand.getCardByPosInSet(i).setSelected(false);
         }
         game.getCurrentPlayer().getHand().selectionSeq.clear();

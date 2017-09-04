@@ -44,7 +44,7 @@ public class TestWindow extends javax.swing.JFrame {
         
     }
     private void setNumberOfPossibleCards(){
-        this.numberOfPossibleCards=game.getCurrentPlayer().getHand().getCardSetSize()-game.getCurrentPlayer().getHand().cardsLeftInSet();
+        this.numberOfPossibleCards=game.getCurrentPlayer().getHand().getCardSetSize()-game.getCurrentPlayer().getHand().size();
         this.tempNumberOfPossibleCards=numberOfPossibleCards;
         ProgressBar.setValue(numberOfPossibleCards);
         TextField.setText("Possible to select " + numberOfPossibleCards + " more"  );
@@ -380,7 +380,7 @@ public class TestWindow extends javax.swing.JFrame {
         
         ProgressBar.setValue(tempNumberOfPossibleCards);
         TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
-//        for(int i=0; i<testCards.cardsLeftInSet(); i++){
+//        for(int i=0; i<testCards.size(); i++){
 //        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
 //        }
     }//GEN-LAST:event_AmbushBoxActionPerformed
@@ -398,7 +398,7 @@ public class TestWindow extends javax.swing.JFrame {
         
         ProgressBar.setValue(tempNumberOfPossibleCards);
         TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
-//        for(int i=0; i<testCards.cardsLeftInSet(); i++){
+//        for(int i=0; i<testCards.size(); i++){
 //        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
 //        }
     }//GEN-LAST:event_EngineersBoxActionPerformed
@@ -415,7 +415,7 @@ public class TestWindow extends javax.swing.JFrame {
         
         ProgressBar.setValue(tempNumberOfPossibleCards);
         TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
-//        for(int i=0; i<testCards.cardsLeftInSet(); i++){
+//        for(int i=0; i<testCards.size(); i++){
 //        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
 //        }
     }//GEN-LAST:event_WithdrawBoxActionPerformed
@@ -437,7 +437,7 @@ public class TestWindow extends javax.swing.JFrame {
         } else CommitedAttackBox.setSelected(false);   
         ProgressBar.setValue(tempNumberOfPossibleCards);
         TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
-//        for(int i=0; i<testCards.cardsLeftInSet(); i++){
+//        for(int i=0; i<testCards.size(); i++){
 //        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
 //        }
        // this.repaint();
@@ -454,7 +454,7 @@ public class TestWindow extends javax.swing.JFrame {
         } else ForcedMarchBox.setSelected(false);   
         ProgressBar.setValue(tempNumberOfPossibleCards);
         TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
-//        for(int i=0; i<testCards.cardsLeftInSet(); i++){
+//        for(int i=0; i<testCards.size(); i++){
 //        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
 //        }
        // this.repaint();
@@ -471,7 +471,7 @@ public class TestWindow extends javax.swing.JFrame {
          } else GuerrillasBox.setSelected(false);   
         ProgressBar.setValue(tempNumberOfPossibleCards);
         TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
-//        for(int i=0; i<testCards.cardsLeftInSet(); i++){
+//        for(int i=0; i<testCards.size(); i++){
 //        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
 //        }
     }//GEN-LAST:event_GuerrillasBoxActionPerformed
@@ -487,7 +487,7 @@ public class TestWindow extends javax.swing.JFrame {
         } else RedoubtBox.setSelected(false);   
         ProgressBar.setValue(tempNumberOfPossibleCards);
         TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
-//        for(int i=0; i<testCards.cardsLeftInSet(); i++){
+//        for(int i=0; i<testCards.size(); i++){
 //        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
 //        }
     }//GEN-LAST:event_RedoubtBoxActionPerformed
@@ -503,7 +503,7 @@ public class TestWindow extends javax.swing.JFrame {
         } else RegroupBox.setSelected(false);   
         ProgressBar.setValue(tempNumberOfPossibleCards);
         TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
-//        for(int i=0; i<testCards.cardsLeftInSet(); i++){
+//        for(int i=0; i<testCards.size(); i++){
 //        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
 //        }
     }//GEN-LAST:event_RegroupBoxActionPerformed
@@ -519,7 +519,7 @@ public class TestWindow extends javax.swing.JFrame {
         } else ScoutBox.setSelected(false);   
         ProgressBar.setValue(tempNumberOfPossibleCards);
         TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
-//        for(int i=0; i<testCards.cardsLeftInSet(); i++){
+//        for(int i=0; i<testCards.size(); i++){
 //        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
 //        }
     }//GEN-LAST:event_ScoutBoxActionPerformed
@@ -535,7 +535,7 @@ public class TestWindow extends javax.swing.JFrame {
         } else SkirmishBox.setSelected(false);   
         ProgressBar.setValue(tempNumberOfPossibleCards);
         TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
-//        for(int i=0; i<testCards.cardsLeftInSet(); i++){
+//        for(int i=0; i<testCards.size(); i++){
 //        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
 //        }
     }//GEN-LAST:event_SkirmishBoxActionPerformed
@@ -551,7 +551,7 @@ public class TestWindow extends javax.swing.JFrame {
         } else SupplyBox.setSelected(false);   
         ProgressBar.setValue(tempNumberOfPossibleCards);
         TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
-//        for(int i=0; i<testCards.cardsLeftInSet(); i++){
+//        for(int i=0; i<testCards.size(); i++){
 //        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
 //        }
     }//GEN-LAST:event_SupplyBoxActionPerformed
@@ -583,7 +583,7 @@ public class TestWindow extends javax.swing.JFrame {
         } else RoyalEngineersBox.setSelected(false);   
         ProgressBar.setValue(tempNumberOfPossibleCards);
         TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
-//        for(int i=0; i<testCards.cardsLeftInSet(); i++){
+//        for(int i=0; i<testCards.size(); i++){
 //        System.out.println("Test Cards to be added: " + testCards.getCardNameByPosInSet(i));
 //        }
     }//GEN-LAST:event_RoyalEngineersBoxActionPerformed
@@ -599,7 +599,7 @@ public class TestWindow extends javax.swing.JFrame {
         
         ProgressBar.setValue(tempNumberOfPossibleCards);
         TextField.setText("Possible to select " + tempNumberOfPossibleCards + " more" );
-//        for(int i=0; i<testCards.cardsLeftInSet(); i++){
+//        for(int i=0; i<testCards.size(); i++){
 //        System.out.println("Test Cards to be added (i): " + testCards.getCardNameByPosInSet(i));
 //        }
     }//GEN-LAST:event_SpyBoxActionPerformed

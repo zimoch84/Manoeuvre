@@ -392,8 +392,8 @@ public class CardCommands {
         public String logCommand() {
             stringBuilder.setLength(0);//delete all string
 
-            stringBuilder.append(senderPlayerName + " has drawn " + cardSet.cardsLeftInSet() + "cards from Test Panel \n");
-            for (int i = 0; i < cardSet.cardsLeftInSet(); i++) {
+            stringBuilder.append(senderPlayerName + " has drawn " + cardSet.size() + "cards from Test Panel \n");
+            for (int i = 0; i < cardSet.size(); i++) {
                 stringBuilder.append(i + ": " + cardSet.getCardNameByPosInSet(i) + "\n");
             }
 
@@ -415,7 +415,7 @@ public class CardCommands {
         @Override
         public void execute(Game game) {
             game.getCurrentPlayer().getTablePile().moveTopXCardsTo(
-            game.getCurrentPlayer().getTablePile().cardsLeftInSet(), 
+            game.getCurrentPlayer().getTablePile().size(), 
             game.getCurrentPlayer().getDiscardPile()
             );
         }
@@ -736,7 +736,7 @@ public class CardCommands {
             }
     game.setCombat(null);
     game.getCurrentPlayer().getTablePile().moveTopXCardsTo(
-            game.getCurrentPlayer().getTablePile().cardsLeftInSet(), 
+            game.getCurrentPlayer().getTablePile().size(), 
             game.getCurrentPlayer().getDiscardPile()
             );
             

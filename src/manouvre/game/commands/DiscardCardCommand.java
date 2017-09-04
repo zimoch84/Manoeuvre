@@ -9,8 +9,10 @@ import manouvre.game.Card;
 
 import manouvre.game.Game;
 import manouvre.game.Param;
+import manouvre.game.Position;
 
 import manouvre.game.interfaces.Command;
+import manouvre.network.server.UnoptimizedDeepCopy;
 
 /**
  *
@@ -22,7 +24,8 @@ public class DiscardCardCommand implements Command {
     String senderPlayerName;
     
     public DiscardCardCommand(ArrayList<Card> selectionSeq, String senderPlayerName) {
-       this.selectionSeq=selectionSeq;
+       this.selectionSeq=
+                  (ArrayList<Card>) UnoptimizedDeepCopy.copy(selectionSeq);
        this.senderPlayerName=senderPlayerName;
     }
     
@@ -39,7 +42,7 @@ public class DiscardCardCommand implements Command {
 
            );
            }
-    if(game.getPlayerByName(senderPlayerName).equals(game.getCurrentPlayer().getName() ))
+    if(game.getPlayerByName(senderPlayerName).getName().equals(game.getCurrentPlayer().getName() ))
         
     {
         /*
@@ -61,7 +64,12 @@ public class DiscardCardCommand implements Command {
     
     @Override
     public String logCommand(){
-        return new String(senderPlayerName + " discarded " + selectionSeq.size() + " cards");
+        
+        String out = new String(senderPlayerName + " discarded ");
+        for (Card card :selectionSeq )
+            out += card.toString() + ", "; 
+         
+        return out;
     
     }
 

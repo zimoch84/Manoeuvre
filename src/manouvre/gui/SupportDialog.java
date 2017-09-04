@@ -553,7 +553,7 @@ public class SupportDialog extends javax.swing.JFrame {
     private void chooseCardsAvailableForSupport(){
        
         CardSet hand=game.getCurrentPlayer().getHand();
-           for(int i=0; i<hand.cardsLeftInSet();i++){
+           for(int i=0; i<hand.size();i++){
                if(hand.getCardByPosInSet(i).getAvailableForPhase(game))numberOfAvailableSupplyingCards++;
            }
           

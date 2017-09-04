@@ -46,6 +46,7 @@ import manouvre.game.commands.CardCommands;
 import static java.lang.Math.abs;
 import manouvre.state.MapInputStateHandler;
 import org.apache.logging.log4j.LogManager;
+import static java.lang.Math.abs;
 
 
 
@@ -362,7 +363,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            {
              
              actionButton.setEnabled(
-                     game.getCurrentPlayer().getHand().getCardSetSize() < 5
+                     (game.getCurrentPlayer().getHand().size()< 5)
                      && game.getCurrentPlayer().isActive() 
                      && !game.isLocked() );
              actionButton.setText("Draw");
@@ -473,7 +474,8 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            case Game.DRAW:
            {
             buttonToNextPhase.setText("End draw");
-            buttonToNextPhase.setEnabled(!game.getCurrentPlayer().hasDrawn() && game.getCurrentPlayer().isActive() && !game.isLocked());
+            buttonToNextPhase.setEnabled((  !game.getCurrentPlayer().hasDrawn() || game.getCurrentPlayer().getHand().size()==5)
+                    && game.getCurrentPlayer().isActive() && !game.isLocked());
             break;
            }
            
@@ -1487,9 +1489,12 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             Card cardClicked = gameGui.cardSetsGUI.getCardFromMousePosition(evt.getPoint().x,evt.getPoint().y);
             
             if(cardClicked != null)
-                game.cardStateHandler.handle(cardClicked, game);
-            
+            {   game.cardStateHandler.handle(cardClicked, game);
+                LOGGER.debug(game.getCurrentPlayer().getName() + " clicked card: " + cardClicked);
+            }
             setActionButtonText();
+            repaint();
+            
  /*
             gameGui.mouseClickedCard(cardClicked); 
             setActionButtonText();  //when card is selected set the buttons
@@ -1627,11 +1632,9 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     
     private ArrayList<Position> getPossibleUnitPostionToSelect(){
     
-     if(game.getCurrentPlayer().isPlayingCard())
+     Card playingCard = game.getCardCommandFactory().getPlayingCard();
+     if(playingCard!=null)
         {
-            Card playingCard = game.getCardCommandFactory().getPlayingCard();
-            
-            
             switch(playingCard.getCardType()){
                 case Card.HQCARD:
                 {
@@ -1677,10 +1680,10 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     
     private ArrayList<Position> getAvaliblePositionToSelect()
     {
-        if(game.getCurrentPlayer().isPlayingCard())
+         Card playingCard = game.getCardCommandFactory().getPlayingCard();
+        if(playingCard!=null)
         {
-            Card playingCard = game.getCardCommandFactory().getPlayingCard();
-            switch(playingCard.getCardType()){
+           switch(playingCard.getCardType()){
                 case Card.HQCARD:
                 {
                 if(playingCard.getHQType() == Card.SUPPLY)
@@ -1814,7 +1817,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             }
             case Game.DRAW:
             {
-//                client.send(gameGui.drawCards());
+                cmdQueue.storeAndExecuteAndSend(game.getCardCommandFactory().createDrawCommand());
                 setActionButtonText();
                 this.repaint();
                 break;
@@ -1896,13 +1899,26 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         }
         else if (game.getPhase() == Game.DISCARD)
         {
-        if (game.getCurrentPlayer().getHand().cardsLeftInSet() < 5)
+        if (game.getCurrentPlayer().getHand().size() < 5)
                 cmdQueue.storeAndExecuteAndSend(
                     game.getCardCommandFactory().createDrawCommand()
                 );
             
         Command nextPhaseCommand = new NextPhaseCommand(game.getCurrentPlayer().getName(), game.getPhase()+ 1);
         cmdQueue.storeAndExecuteAndSend(nextPhaseCommand);
+        }
+        else if (game.getPhase() == Game.DRAW)
+        {
+            if(game.getCurrentPlayer().getHand().size() < 5)
+            {
+                Command drawCommand = game.getCardCommandFactory().createDrawCommand();
+                cmdQueue.storeAndExecuteAndSend(drawCommand);
+            }
+            else 
+            {
+            Command nextPhaseCommand = new NextPhaseCommand(game.getCurrentPlayer().getName(), game.getPhase()+ 1);
+            cmdQueue.storeAndExecuteAndSend(nextPhaseCommand);    
+            }
         }
         else if (game.getPhase() == Game.RESTORATION)
         {
@@ -1938,7 +1954,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     }//GEN-LAST:event_FindCardActionPerformed
 
     private void MoveToTableCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MoveToTableCommandActionPerformed
-        if(game.getCardCommandFactory().getCurrentPlayedCard()!=null){
+        if(game.getCardCommandFactory().getPlayingCard()!=null){
             Command moveToTable = game.getCardCommandFactory().createCardCommand();
             
             cmdQueue.storeAndExecuteAndSend(moveToTable);
@@ -1957,10 +1973,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     }//GEN-LAST:event_checkLosActionPerformed
 
     private void mainMapPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainMapPanelMouseEntered
-        
-       
-        
-        
+   
     }//GEN-LAST:event_mainMapPanelMouseEntered
 
     private void mainMapPanelMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainMapPanelMouseMoved

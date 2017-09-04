@@ -186,7 +186,7 @@ public class SocketClient implements Runnable, ClientInterface{
                       /*
                         Run room window
                         */
-                        currentPlayer.setHost(true);
+                            currentPlayer.setHost(true);
                         java.awt.EventQueue.invokeLater(new Runnable() {
                             public void run() {
                                 roomWindow = new RoomWindow(SocketClient.this, currentPlayer, CreateRoomWindow.AS_HOST);

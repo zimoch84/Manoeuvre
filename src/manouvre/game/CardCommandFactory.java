@@ -167,8 +167,7 @@ public class CardCommandFactory extends Observable implements Serializable{
             this.playingCard = null;
             
         }
-        game.getCurrentPlayer().setPlayingCard(false);
-        
+       
         
     }
 
@@ -180,18 +179,7 @@ public class CardCommandFactory extends Observable implements Serializable{
         this.attackedUnit = attackedUnit;
         setChanged();
     }
-    
-    
-    
-        /*
-    Funtion to get current playing card
-    */
-    public Card getCurrentPlayedCard(){
-        
-        return playingCard;
-    
-    }
-    
+   
     public void calculateAttackingPositions(Unit attackingUnit){
         ArrayList<Position> attackPossiblePositions;
         ArrayList<Position>  attackPositions  = new ArrayList<Position>();      
@@ -244,8 +232,7 @@ public class CardCommandFactory extends Observable implements Serializable{
     */
     public Command createCardCommand() {
     
-    playingCard= getCurrentPlayedCard();
-        
+    if(playingCard != null)
     switch (playingCard.getCardType() ) {
     
         case Card.HQCARD :
@@ -302,11 +289,16 @@ public class CardCommandFactory extends Observable implements Serializable{
         return  getCardCommand();
     } //if any card selected temp
     }
+   /*
+    If we dont have command
+    */
+    throw new UnsupportedOperationException("we dont have command"); //To change body of generated methods, choose Tools | Templates.
+    
     }
     
     public Command createDrawCommand(){
     
-        int cardsToDraw = 5 - game.getCurrentPlayer().getHand().cardsLeftInSet();
+        int cardsToDraw = 5 - game.getCurrentPlayer().getHand().size();
         DrawCardCommand drawCard = new DrawCardCommand(cardsToDraw, game.getCurrentPlayer().getName());
         return  drawCard;
     }
