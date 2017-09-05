@@ -7,6 +7,7 @@ package manouvre.state;
 
 import manouvre.game.Card;
 import manouvre.game.Game;
+import manouvre.game.commands.CommandQueue;
 
 
 /**
@@ -15,6 +16,6 @@ import manouvre.game.Game;
  */
 public interface CardInputState {
     
-    public void handleInput(Card card,Game game);
+    public void handleInput(Card card,Game game, CommandQueue cmdQueue);
     
 }

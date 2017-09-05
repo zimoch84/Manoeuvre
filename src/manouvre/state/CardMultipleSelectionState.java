@@ -8,6 +8,7 @@ package manouvre.state;
 import java.io.Serializable;
 import manouvre.game.Card;
 import manouvre.game.Game;
+import manouvre.game.commands.CommandQueue;
 
 /**
  *
@@ -16,7 +17,7 @@ import manouvre.game.Game;
 public class CardMultipleSelectionState implements CardInputState, Serializable{
 
     @Override
-    public void handleInput(Card card, Game game) {
+    public void handleInput(Card card, Game game,CommandQueue cmdQueue) {
         
         if(!card.isSelected()) 
         {

@@ -10,7 +10,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import static java.lang.Math.round;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -31,6 +30,15 @@ import static java.lang.Math.round;
     public static final int CARDPADDINGTOP = 40;
     public static final int CARDPADDINGLEFT = 10;
     public static final int GAP = 5;
+    
+    /*
+    Table constans
+    */
+    
+    public static final int TABLE_CARD_PADDING_TOP_OPP = 20 ;
+    public static final int TABLE_CARD_PADDING_TOP = TABLE_CARD_PADDING_TOP_OPP + CardGUI.HEIGHT_TABLE + GAP;
+    
+    
    
     //private static final int ONETHIRDCARD = 30; //set during mouse move
     private static final int LIFTCARDIFSELECTEDBY = 20;//pixels if card selected
@@ -64,30 +72,48 @@ import static java.lang.Math.round;
         loadSet( game.getCurrentPlayer().getHand() );
         loadSet( game.getCurrentPlayer().getDiscardPile());
         loadSet( game.getCurrentPlayer().getTablePile());
+        loadOpponentTable( game.getOpponentPlayer().getTablePile());
     }
             
-     
+    
+    private void loadOpponentTable(CardSet cardSet)
+    {
+                
+            tableOpponentGUI.clear();
+            if(cardSet.size() > 0 )
+                for(Card card : cardSet.cardList)
+                {
+                 tableOpponentGUI.add(new CardGUI(card));
+                }
+        
+    }
+    
     private void loadSet(CardSet cardSet) 
     {
-        if(cardSet.size() > 0 )
+        
         switch(cardSet.name){
             case "HAND"  :{
                 handGUI.clear();
-                for(Card card : cardSet.cardList)
-                {
-                 handGUI.add(new CardGUI(card));
-                }
+                if(cardSet.size() > 0 )
+                    for(Card card : cardSet.cardList)
+                    {
+                     handGUI.add(new CardGUI(card));
+                    }
                 break;
             }
             case "DISCARD"  :{
+                if(cardSet.size() > 0 )
                  if(game.getCurrentPlayer().getDiscardPile().getLastCard(false)!=null)
-                 discardGUI = new CardGUI(game.getCurrentPlayer().getDiscardPile().getLastCard(false));
+                    discardGUI = new CardGUI(game.getCurrentPlayer().getDiscardPile().getLastCard(false));
+                
+                if(cardSet.size() > 0 )
                  if(game.getOpponentPlayer().getDiscardPile().getLastCard(false) != null)
-                 discardGUIOpponnent = new CardGUI(game.getOpponentPlayer().getDiscardPile().getLastCard(false));
-                 break;
+                    discardGUIOpponnent = new CardGUI(game.getOpponentPlayer().getDiscardPile().getLastCard(false));
+               break;
             }
             case "TABLE"  :{
                 tableGUI.clear();
+                if(cardSet.size() > 0 )
                 for(Card card : cardSet.cardList)
                 {
                  tableGUI.add(new CardGUI(card));
@@ -154,27 +180,37 @@ import static java.lang.Math.round;
     }  
 
     public void paintTablePanel(Graphics g){
-        Integer tempInt;
-        String tempString;
-        int gap=5;
-        float f=0.41f; //scale factor //Normally cards has 260x375 pixels
-        int width=round(260*f), height=round(375*f);
-        int cardPaddingTop=16;
-        int cardPaddingLeft=10;
-        int cardPaddingTopText=138;
         
-        if(tableGUI.size()==0){  //paint NO CARD
-            g.setColor(Color.white);
-            g.setFont(new Font("Bookman Old Style", 1, 20));
-            g.drawString("No Card",20,100);  
-        }
+        if(tableGUI.size()>0){  //paint NO CARD
         for (int i=0; i<tableGUI.size(); i++){  
-            g.drawImage(tableGUI.get(i).getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTop, width, height, null);
+            
+            
+        g.drawImage(tableGUI.get(i).getImgFull(), 
+                    CARDPADDINGLEFT + (CardGUI.WIDTH+GAP)*i, 
+                    TABLE_CARD_PADDING_TOP, 
+                    CardGUI.WIDTH_TABLE, 
+                    CardGUI.HEIGHT_TABLE,
+                    null);        
+        
+        }
+        
         }
      
+        if(tableOpponentGUI.size()>0){  //paint NO CARD
+        for (int i=0; i<tableOpponentGUI.size(); i++){  
+            
         
-        paintDefenceCardsOnTheTable(g);
+        g.drawImage(tableOpponentGUI.get(i).getImgFull(), 
+                    CARDPADDINGLEFT + (CardGUI.WIDTH+GAP)*i, 
+                    TABLE_CARD_PADDING_TOP_OPP, 
+                    CardGUI.WIDTH_TABLE, 
+                    CardGUI.HEIGHT_TABLE,
+                    null);        
         
+        }
+        
+        }
+     
        
     }  
     

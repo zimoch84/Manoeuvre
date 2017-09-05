@@ -8,6 +8,7 @@ package manouvre.game;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
+import manouvre.game.commands.CommandQueue;
 import static manouvre.game.interfaces.PositionInterface.COLUMN_H;
 import static manouvre.game.interfaces.PositionInterface.ROW_8;
 import manouvre.gui.CreateRoomWindow;
@@ -55,8 +56,13 @@ public final class Game implements Serializable{
     */
     Combat combat;
     public boolean freeMove = false;
+    
+    public boolean supressConfirmation = true;
+    
     public MapInputStateHandler mapInputHandler;
     public CardStateHandler cardStateHandler;
+    
+    CommandQueue cmdQueue;
     
     public Game(ArrayList<Player> players) {
         this.hostPlayer = players.get(0);
@@ -84,7 +90,7 @@ public final class Game implements Serializable{
         Create handlers
         */
         mapInputHandler = new MapInputStateHandler(this);
-        cardStateHandler = new CardStateHandler(this);
+        
         
     }
      
@@ -161,7 +167,16 @@ public final class Game implements Serializable{
     public Player getGuestPlayer() {
         return guestPlayer;
     }
-    
+
+    public CommandQueue getCmdQueue() {
+        return cmdQueue;
+    }
+
+    public void setCmdQueue(CommandQueue cmdQueue) {
+        this.cmdQueue = cmdQueue;
+        cardStateHandler = new CardStateHandler(this, this.cmdQueue);
+        
+    }
     
     public ArrayList<Position> getPossibleAssault(Unit unit){
     
@@ -885,18 +900,11 @@ public final class Game implements Serializable{
         getCurrentPlayer().setActive(true);
         getOpponentPlayer().setActive(false);
         }
-            
-            
-        
-    
+
     }
 
     public CardCommandFactory getCardCommandFactory() {
         return cardCommandFactory;
-    }
-
-    public void setCardCommandFactory(CardCommandFactory cardCommandFactory) {
-        this.cardCommandFactory = cardCommandFactory;
     }
 
     public void unselectAllUnits(){
@@ -907,7 +915,6 @@ public final class Game implements Serializable{
        }
        
     }
-   
     
     public String toString(){
     

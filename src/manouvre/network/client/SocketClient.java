@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.*;
 import manouvre.game.Game;
 import manouvre.game.Player;
+import manouvre.game.commands.CommandQueue;
 import manouvre.game.interfaces.ClientInterface;
 import manouvre.game.interfaces.FrameInterface;
 import manouvre.gui.CommandLogger;
@@ -51,6 +52,7 @@ public class SocketClient implements Runnable, ClientInterface{
     public ObjectOutputStream Out;
 
     CommandLogger commandLogger;
+    public CommandQueue cmdQueue;
     
     boolean keepRunning = true;
     
@@ -241,18 +243,23 @@ public class SocketClient implements Runnable, ClientInterface{
                                 try {
                                     if(currentPlayer.isHost() )
                                     { 
-                                        clientGame = new GameWindow( game , SocketClient.this,  CreateRoomWindow.AS_HOST );
-                                        setActiveWindow(clientGame);
+                                    clientGame = new GameWindow( game ,  CreateRoomWindow.AS_HOST );
+                                       
                                     }
                                     else 
                                     { 
-                                        clientGame = new GameWindow( game, SocketClient.this,  CreateRoomWindow.AS_GUEST );
-                                        setActiveWindow(clientGame);
+                                    clientGame = new GameWindow( game,  CreateRoomWindow.AS_GUEST );
                                     }
-
+                                    
+                                    setActiveWindow(clientGame);
+                                    SocketClient.this.cmdQueue = new CommandQueue(game, commandLogger,clientGame , SocketClient.this);
+                                    clientGame.setCmdQueue(cmdQueue);
+                                    game.setCmdQueue(cmdQueue);
+                                    
                                     clientGame.setVisible(true);
                                     roomWindow.setVisible(false);
                                     mainChat.setVisible(false);
+                                    
                                 } catch (IOException  ex) {
                                         keepRunning = false;
                                         System.out.println("SocketClient.run() invoke GameWindow IOException" + ex);

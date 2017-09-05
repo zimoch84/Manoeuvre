@@ -223,8 +223,11 @@ public class GameGUI {
                 }
                 else
                 {
-                    movePositions = game.getPossibleMovement(selectedUnit);
-                    drawMultipleRectanglesOnPositions(g, movePositions, Color.blue);
+                    if(!selectedUnit.hasMoved())
+                    {
+                        movePositions = game.getPossibleMovement(selectedUnit);
+                        drawMultipleRectanglesOnPositions(g, movePositions, Color.blue);
+                    }
                 }
            }
      }
@@ -853,7 +856,7 @@ public class GameGUI {
                         if(playingCard.getPlayingPossibleCardModes().size() == 1 )
                         {
                             playingCard.setPlayingCardMode(playingCard.getPlayingPossibleCardModes().get(0));
-                            playingCard.actionOnSelection(game);
+                            playingCard.actionOnSelection(game, cmdQueue);
                         }
                         else 
                         {
@@ -865,7 +868,7 @@ public class GameGUI {
                     }
                 break;
                 }
-                default:  playingCard.actionOnSelection(game);
+                default:  playingCard.actionOnSelection(game, cmdQueue);
             }
             }
     
@@ -1012,35 +1015,13 @@ public class GameGUI {
 }
     
     public void paintTablePanel(Graphics g){
-        
-        cardSetsGUI.paintTablePanel(g);
-//        Integer tempInt;
-//        String tempString;
-//        int gap=5;
-//        float f=0.41f; //scale factor //Normally cards has 260x375 pixels
-//        int width=round(260*f), height=round(375*f);
-//        int cardPaddingTop=16;
-//        int cardPaddingLeft=10;
-//        int cardPaddingTopText=138;
-//        
-//        if(tableSetGui.size()==0){  //paint NO CARD
-//            g.setColor(Color.white);
-//            g.setFont(new Font("Bookman Old Style", 1, 20));
-//            g.drawString("No Card",20,100);  
-//        }
-//        for (int i=0; i<tableSetGui.size(); i++){  
-//            g.drawImage(tableSetGui.getCardByPosInSet(i).getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTop, width, height, null);
-//        }
-        paintDices(g);
-        
-        //paintDefenceCardsOnTheTable(g);
-        
        
+        cardSetsGUI.paintTablePanel(g);
+        paintDices(g);
+    
     }
    
-    public void paintDefenceCardsOnTheTable(Graphics g){
-        cardSetsGUI.paintDefenceCardsOnTheTable(g);
-    }
+
    
     public void paintCombatPanel(Graphics g){ //paint all the details of the cards and units on the table
       

@@ -7,6 +7,7 @@ package manouvre.game;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import manouvre.game.commands.CommandQueue;
 import manouvre.game.interfaces.CardInterface;
 import manouvre.gui.CommandLogger;
 import manouvre.gui.CreateRoomWindow;
@@ -44,21 +45,37 @@ public class Maneuvre {  //Fake! this is temporary just to start game quick
           
           
           
+          
           System.out.println("manouvre.game.Maneuvre.main()"+ game.toString());
           
           QueueClient fakeClient = new QueueClient();
-          GameWindow clientGameHost = new GameWindow( game ,fakeClient.hostClient ,  CreateRoomWindow.AS_HOST );
+     
+          
+          GameWindow clientGameHost = new GameWindow( game ,  CreateRoomWindow.AS_HOST );
           Game game2 = (Game) UnoptimizedDeepCopy.copy (game);
-          GameWindow clientGameGuest = new GameWindow( game2 , fakeClient.guestClient,  CreateRoomWindow.AS_GUEST );
+          GameWindow clientGameGuest = new GameWindow( game2 , CreateRoomWindow.AS_GUEST );
+          
+          
           
           fakeClient.clientGameGuest = clientGameGuest;
           fakeClient.clientGameHost = clientGameHost;
           
           CommandLogger commandLoggerHost = new CommandLogger(clientGameHost);
           CommandLogger commandLoggerGuest = new CommandLogger(clientGameGuest);
+          
+         
                   
           fakeClient.commandLoggerHost = commandLoggerHost;
           fakeClient.commandLoggerGuest = commandLoggerGuest;
+          
+          CommandQueue cmdQueueHost = new CommandQueue(game, commandLoggerHost, clientGameHost, fakeClient.hostClient );
+           clientGameHost.setCmdQueue(cmdQueueHost);
+           game.setCmdQueue(cmdQueueHost);
+          
+          
+          CommandQueue cmdQueueGuest = new CommandQueue(game2, commandLoggerGuest, clientGameGuest, fakeClient.guestClient );
+           clientGameGuest.setCmdQueue(cmdQueueGuest);
+           game2.setCmdQueue(cmdQueueGuest);
           
           
           try {

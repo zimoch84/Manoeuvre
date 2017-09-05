@@ -61,8 +61,12 @@ public class NextPhaseCommand implements Command{
         game.nextPhase();
         game.getMap().unselectAllTerrains();
         game.getPlayerByName(activePlayerName).resetPlayer();
+        game.getCardCommandFactory().createCleanTableCommand().execute(game);
+        
         LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().resetFactory()");
         game.getCardCommandFactory().resetFactory();
+       
+        
     }
 
     @Override

@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import manouvre.game.Card;
 import manouvre.game.Game;
+import manouvre.game.commands.CommandQueue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,12 +25,14 @@ public class CardStateHandler implements Serializable{
     
     Logger LOGGER;
     Game game;
+    CommandQueue cmdQueue;
     
     ArrayList<CardInputState> arrayOfStates;
     private CardInputState currentState, previosState;
 
-    public CardStateHandler(Game game) {
+    public CardStateHandler(Game game, CommandQueue cmdQueue) {
         this.game = game;
+        this.cmdQueue = cmdQueue;
         currentState = new CardsNoSelectionState();
         //arrayofStates.add(currentState);O
         LOGGER = LogManager.getLogger(CardStateHandler.class.getName());
@@ -99,7 +102,7 @@ public class CardStateHandler implements Serializable{
     
     public void handle(Card card, Game game)
     {
-        currentState.handleInput(card, game);
+        currentState.handleInput(card, game, cmdQueue);
         
     }
     

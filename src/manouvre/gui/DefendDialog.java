@@ -411,7 +411,7 @@ public class DefendDialog extends javax.swing.JFrame {
         Setting variables
         */
         game.getCardCommandFactory().setPlayingCard(game.getCurrentPlayer().getHand().getCardByType(Card.WITHDRAW));
-        game.getCardCommandFactory().getPlayingCard().actionOnSelection(game);
+        game.getCardCommandFactory().getPlayingCard().actionOnSelection(game, cmdQueue);
         game.getCurrentPlayer().setActive(true);
         this.dispose();
         //Show dialog

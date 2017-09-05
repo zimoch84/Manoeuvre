@@ -9,6 +9,7 @@ import java.io.Serializable;
 import manouvre.game.Card;
 import manouvre.game.CardSet;
 import manouvre.game.Game;
+import manouvre.game.commands.CommandQueue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,7 +23,7 @@ public class CardSingleSelectionState implements CardInputState, Serializable{
     
     
     @Override
-    public void handleInput(Card card, Game game) {
+    public void handleInput(Card card, Game game, CommandQueue cmdQueue) {
         
         if(!card.isSelected()) 
         {
@@ -32,7 +33,7 @@ public class CardSingleSelectionState implements CardInputState, Serializable{
             if(card.canBePlayed(game)){
                 card.setSelected(true);
                 game.getCardCommandFactory().setPlayingCard(card);
-                triggerCardActionOnSelection(card, game);
+                triggerCardActionOnSelection(card, game, cmdQueue);
                 keepOneSelectedCard(card, game);
             }
         }
@@ -49,14 +50,14 @@ public class CardSingleSelectionState implements CardInputState, Serializable{
         
     }
     
-     private void triggerCardActionOnSelection(Card playingCard, Game game){
+     private void triggerCardActionOnSelection(Card playingCard, Game game, CommandQueue cmdQueue){
     
          if(playingCard.canBePlayed(game))
             {
             /*
             Trigger action on selection
             */
-            playingCard.actionOnSelection(game);
+            playingCard.actionOnSelection(game, cmdQueue);
             
             /*
             If card have only 1 attacking mode set it here to avoid custom dialog

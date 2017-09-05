@@ -39,10 +39,16 @@ public class CardCommands {
         @Override
         public void execute(Game game) {
                 Card movingCard = game.getPlayerByName(senderPlayerName).getHand().getCard(card);
-                game.getCurrentPlayer().getTablePile().addCard(movingCard);// Put cards on own table
-                game.getPlayerByName(senderPlayerName).getHand().drawCardFromSet(movingCard);//remove cards from own hand
-                if (game.getCurrentPlayer().getName().equals(senderPlayerName)) {
-                } else {
+  
+                game.getPlayerByName(senderPlayerName).getHand().moveCardTo(movingCard,
+                        game.getPlayerByName(senderPlayerName).getTablePile()
+                        );
+               
+                if (!game.getCurrentPlayer().getName().equals(senderPlayerName)) 
+                 {
+                    /*
+                    This is set to possible guirella this card by opponent
+                    */
                     game.getCardCommandFactory().setOpponentCard(card);
                 }
                 //repaint is made by CommandQueue
@@ -55,10 +61,7 @@ public class CardCommands {
 
         @Override
         public String logCommand() {
-            if (card.getCanBeCancelled()) {
-                return card.getCardName() + " cart moved to the table " + senderPlayerName + " have to wait for acceptance";
-                }
-            return card.getCardName() + " cart moved to the table";
+            return senderPlayerName  + " moved "  + card.getCardName()  + " to the table";
         }
 
         @Override
@@ -72,31 +75,31 @@ public class CardCommands {
         }
     }
 
-    public static class RejectCardCommand implements CardCommandInterface {
+    public static class GuerrillaCardCommand implements CardCommandInterface {
 
         Card card;
         String senderPlayerName;
         CardCommandInterface incomingCardCommand;
+        MoveToTableCommand moveToTable;
 
-        public RejectCardCommand(Card card, String senderPlayerName, CardCommandInterface incomingCardCommand) {
+        public GuerrillaCardCommand(Card card, String senderPlayerName, CardCommandInterface incomingCardCommand) {
             this.card = card;
             this.senderPlayerName = senderPlayerName;
             this.incomingCardCommand = incomingCardCommand;
+            this.moveToTable = new CardCommands.MoveToTableCommand(card, senderPlayerName);
         }
 
         @Override
         public void execute(Game game) {
-            if (game.getCurrentPlayer().getName().equals(senderPlayerName)) { //separate action for each player
-                //do nothing special
-            } else {
+            
+            moveToTable.execute(game);
+            incomingCardCommand.cancel(game);
+            
+            if (!game.getCurrentPlayer().getName().equals(senderPlayerName))
+            {
                 game.getCardCommandFactory().awakeObserver();
                 game.getCardCommandFactory().notifyObservers(CardCommandFactory.CARD_REJECTED);
             }
-            //all players do the same
-            game.getPlayerByName(senderPlayerName).getDiscardPile().addCard(game.getCurrentPlayer().getTablePile().drawCardFromSet(card));
-            incomingCardCommand.cancel(game);
-            Card guerrillas = game.getPlayerByName(senderPlayerName).getHand().getCardByName("Guerrillas", true);
-            game.getPlayerByName(senderPlayerName).getDiscardPile().addCard(guerrillas);
 
         }
 
@@ -107,7 +110,8 @@ public class CardCommands {
 
         @Override
         public String logCommand() {
-            return card.getCardName() + " cart rejected by " + senderPlayerName;
+            
+            return moveToTable.logCommand() + " " + card.getCardName() + " cart rejected by " + senderPlayerName;
         }
 
         @Override
@@ -374,13 +378,9 @@ public class CardCommands {
 
         @Override
         public void execute(Game game) {
-            if (game.getCurrentPlayer().getName().equals(senderPlayerName)) {
-                game.getCurrentPlayer().getDrawPile().moveTopXCardsTo(numberOfChosenCards, game.getCurrentPlayer().getHand() );//add to own hand
-
-            } else {
-                game.getOpponentPlayer().getDrawPile().moveTopXCardsTo(numberOfChosenCards, game.getOpponentPlayer().getHand() ); //add cards to opponent hand
-                //repaint is made by CommandQueue
-            }
+            game.getPlayerByName(senderPlayerName).getDrawPile().moveTopXCardsTo(numberOfChosenCards, 
+                    game.getPlayerByName(senderPlayerName).getHand()
+            );
         }
 
         @Override
@@ -408,8 +408,9 @@ public class CardCommands {
 
     public static class CleanTableCommand implements Command {    //just for test popup
 
-        public CleanTableCommand() {
-
+        String playerName;
+        public CleanTableCommand(String playerName) {
+            this.playerName = playerName;
         }
 
         @Override
@@ -418,6 +419,12 @@ public class CardCommands {
             game.getCurrentPlayer().getTablePile().size(), 
             game.getCurrentPlayer().getDiscardPile()
             );
+            
+            game.getOpponentPlayer().getTablePile().moveTopXCardsTo(
+            game.getOpponentPlayer().getTablePile().size(), 
+            game.getOpponentPlayer().getDiscardPile()
+            );
+            
         }
 
         @Override
@@ -427,7 +434,7 @@ public class CardCommands {
 
         @Override
         public String logCommand() {
-            return "Table cleard";
+            return "Player " + playerName + " cleared table";
         }
 
         @Override

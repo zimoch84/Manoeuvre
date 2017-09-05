@@ -167,7 +167,6 @@ public class CardCommandFactory extends Observable implements Serializable{
             this.playingCard = null;
             
         }
-       
         
     }
 
@@ -220,6 +219,7 @@ public class CardCommandFactory extends Observable implements Serializable{
         setAttackingPositions(null);
         resetPlayingCard();
         setSelectedUnit(null);
+        setOpponentCard(null);
         //setD10dices(null);
        // setD8dices(null);
        // setD6dices(null);
@@ -313,8 +313,8 @@ public class CardCommandFactory extends Observable implements Serializable{
         return new CardCommands.ResetCardFactory(game.getCurrentPlayer().getName());
     }
     
-    public Command createRejectCardCommand(){
-        return new CardCommands.RejectCardCommand(opponentCard, game.getCurrentPlayer().getName(), getIncomingCardCommand());
+    public Command createGuerrillaCardCommand(){
+        return new CardCommands.GuerrillaCardCommand(getPlayingCard(), game.getCurrentPlayer().getName(), getIncomingCardCommand());
     }
     public Command createDoNotRejectCardCommand(){
         return new CardCommands.DoNotRejectCardCommand(opponentCard, game.getCurrentPlayer().getName());
@@ -325,7 +325,7 @@ public class CardCommandFactory extends Observable implements Serializable{
     }
      
     public Command createCleanTableCommand(){
-        return new CardCommands.CleanTableCommand();
+        return new CardCommands.CleanTableCommand(game.getCurrentPlayer().getName());
     } 
      
     public CardCommandInterface getCardCommand() {

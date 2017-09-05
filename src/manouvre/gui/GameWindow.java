@@ -43,9 +43,9 @@ import java.util.Observer;
 import manouvre.game.CardCommandFactory;
 import manouvre.game.Combat;
 import manouvre.game.commands.CardCommands;
-import static java.lang.Math.abs;
 import manouvre.state.MapInputStateHandler;
 import org.apache.logging.log4j.LogManager;
+import manouvre.state.CardStateHandler;
 import static java.lang.Math.abs;
 
 
@@ -92,16 +92,16 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     /*
     This is main contructor
     */
-     public GameWindow(Game game, ClientInterface passSocket,  int windowMode) throws IOException{
+     public GameWindow(Game game, int windowMode) throws IOException{
         
         /*
          Game has generated players army , hand and comes from serwver
          */
         this.game = game;
         this.windowMode = windowMode;
-        this.client = passSocket;
+        
         this.cmdLogger = new CommandLogger(this);
-        this.cmdQueue = new CommandQueue(game, cmdLogger, this, passSocket);
+       
         
         
         /*
@@ -158,13 +158,19 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
        
            case CardCommandFactory.CARD_DIALOG:
            {
-           Command rejectCard = ccmdf.createRejectCardCommand();
-           Command doNotRejectCard = ccmdf.createDoNotRejectCardCommand();
-           CardDialog cd  = new CardDialog(new CardGUI (ccmdf.getOpponentCard()),null, client, cmdQueue, game);
-           cd.setOkCommand(doNotRejectCard);
-           cd.setCancelCommand(rejectCard);   
+            
+    
+           game.cardStateHandler.setState(CardStateHandler.PICK_ONLY_ONE);
            
-           cd.setVisible(true);
+
+               
+           //Command rejectCard = ccmdf.createGuerrillaCardCommand();
+           //Command doNotRejectCard = ccmdf.createDoNotRejectCardCommand();
+           //CardDialog cd  = new CardDialog(new CardGUI (ccmdf.getOpponentCard()),null, client, cmdQueue, game);
+           //cd.setOkCommand(doNotRejectCard);
+           //cd.setCancelCommand(rejectCard);   
+          
+           //cd.setVisible(true);
            break;
                
            }
@@ -174,7 +180,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            /*
                Create withdraw or ok dialog
                */
-               Command withdrawCommand;   // ccmdf.createRejectCardCommand();
+               Command withdrawCommand;   // ccmdf.createGuerrillaCardCommand();
                Command okCommand;//
                Command pickDefenseCardsCommand;
 
@@ -196,8 +202,8 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            }
            case CardCommandFactory.CARD_REJECTED:
            {
-               new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Your card was cancelled by opponent");
-               break;
+               //new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Your card was cancelled by opponent");
+              break;
            }
            case CardCommandFactory.OPPONENT_WITHDRAW:
            {
@@ -212,7 +218,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            }
            case CardCommandFactory.CARD_NOT_REJECTED:
            {
-               new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Your card was not cancelled by opponent");
+               //new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Your card was not cancelled by opponent");
                break;
            }
             case CardCommandFactory.DEFENDING_CARDS_PLAYED:
@@ -373,12 +379,23 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            {
             actionButton.setVisible(true);
             actionButton.setText("Move");
-             if(game.getCurrentPlayer().hasMoved()) //this is not working with doing undo for Forced March - when rejected
+//             if(game.getCurrentPlayer().hasMoved() && game.getCardCommandFactory().getPlayingCard() == null ) //this is not working with doing undo for Forced March - when rejected
+//                    {
+//                    actionButton.setEnabled(game.getCurrentPlayer().isActive() && !game.isLocked() );  
+//                    actionButton.setText("Undo");
+//                    }
+             /*
+             Guirellas decision
+             */
+            if (game.getCardCommandFactory().getOpponentCard() != null)
             {
-            actionButton.setEnabled(game.getCurrentPlayer().isActive() && !game.isLocked() );  
-            actionButton.setText("Undo");
+                actionButton.setVisible(true);
+                actionButton.setText("Accept Card");
+                actionButton.setEnabled(true);  
             }
-            else  actionButton.setEnabled(false);  
+            else 
+                 
+                 actionButton.setEnabled(false);  
             
              break;
            }
@@ -482,8 +499,11 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            case Game.MOVE:
            {
             buttonToNextPhase.setText("End move");
-            buttonToNextPhase.setEnabled(game.getCurrentPlayer().hasMoved() && !game.isLocked() 
-                                        && game.getCurrentPlayer().isActive() );
+            buttonToNextPhase.setEnabled(
+               game.getCurrentPlayer().hasMoved() && !game.isLocked() 
+            && game.getCurrentPlayer().isActive() 
+            &&(game.getCardCommandFactory().getPlayingCard() ==null)
+            );
             break;
            }
            case Game.COMBAT:
@@ -1779,12 +1799,21 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             {
                 gameGui.playSelectedCard();
                 this.repaint();
+                break;
             }
             
             case "Undo":
             
             cmdQueue.undoLastCommand();
-                
+            break;
+            
+            case  "Accept Card":
+                    
+            cmdQueue.storeAndExecuteAndSend(
+                    game.getCardCommandFactory().
+                            createDoNotRejectCardCommand());
+            break;
+            
             /*
             Else play action based on game turn 
             */
@@ -2380,9 +2409,15 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         return gameGui;
     }
 
-    public void setGameGui(GameGUI gameGui) {
-        this.gameGui = gameGui;
+    public CommandQueue getCmdQueue() {
+        return cmdQueue;
     }
+
+    public void setCmdQueue(CommandQueue cmdQueue) {
+        this.cmdQueue = cmdQueue;
+    }
+
+
     
     /**
 	 * check whether the mouse is currently over this piece

@@ -31,10 +31,15 @@ public class CardGUI {
     public static final int CARD_HEIGHT = 375;
     //scale factor for Cards//Normally cards has 260x375 pixels
     public static final float SCALE_FACTOR= 0.5f;
+    public static final float SCALE_FACTOR_TABLE= 0.43f;
+    
     public static final int  LIFTSELECTEDBY =20;//pixels if card selected
     
     public static final int WIDTH = Math.round(CardGUI.CARD_WIDTH * CardGUI.SCALE_FACTOR);
     public static final int HEIGHT = Math.round(CardGUI.CARD_HEIGHT * CardGUI.SCALE_FACTOR);
+    
+    public static final int WIDTH_TABLE = Math.round(CardGUI.CARD_WIDTH * CardGUI.SCALE_FACTOR_TABLE);
+    public static final int HEIGHT_TABLE = Math.round(CardGUI.CARD_HEIGHT * CardGUI.SCALE_FACTOR_TABLE);
     /**
      * Gets the card image based on its ID in cards.csv 
      * @param ID    cardID

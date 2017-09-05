@@ -44,6 +44,7 @@ public class MapCardMoveUnitState implements MapState, Serializable{
                     /*
                     Confirmation dialog
                     */
+                    
                     showConfirmationCardDialog(cmdQueue, game);
                     LOGGER.debug(game.getCurrentPlayer().getName() + " zmiana stanu na MapInputStateHandler.NOSELECTION");
                     handler.setState(MapInputStateHandler.NOSELECTION);
@@ -123,6 +124,9 @@ private ArrayList<Position> getPossibleUnitPostionToSelect(Game game){
     
     }
 private void showConfirmationCardDialog(CommandQueue cmdQueue, Game game){
+            
+    if(!game.supressConfirmation)
+    {
     /*
         Confirmation dialog
         */
@@ -140,6 +144,13 @@ private void showConfirmationCardDialog(CommandQueue cmdQueue, Game game){
             Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
         dialog.setVisible(true);
+        
+    }
+    
+    else 
+    {
+    cmdQueue.storeAndExecuteAndSend(game.getCardCommandFactory().createCardCommand());
+    }
         
     }
 private ArrayList<Position> getMovePositions(Card playingCard, Game game){

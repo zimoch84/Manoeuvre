@@ -71,6 +71,8 @@ import java.io.IOException;
 import com.csvreader.CsvReader;
 import java.io.Serializable;
 import java.util.ArrayList;
+import manouvre.game.commands.CommandQueue;
+import manouvre.state.MapInputStateHandler;
 
 
 public class Card implements CardInterface, Serializable{
@@ -548,7 +550,7 @@ public class Card implements CardInterface, Serializable{
  
     public boolean getAvailableForPhase(Game game){
         int phase=game.getPhase();
-        if(game.isLocked()) return false;  //locked means that GUI is locked
+       //if(game.isLocked()) return false;  //locked means that GUI is locked
         switch(phase){
             case Game.SETUP:
                  return false; //not possible to select card, only units available
@@ -564,7 +566,7 @@ public class Card implements CardInterface, Serializable{
                 /*
                 Not unit
                 */
-                if(isHQCard()){
+                    if(isHQCard()){
                     /*
                     And not these cards
                     */
@@ -572,6 +574,7 @@ public class Card implements CardInterface, Serializable{
                        && getHQType() != Card.REGROUP
                        && getHQType() != Card.SKIRMICH
                        && getHQType()  != Card.WITHDRAW
+                              
                       ))
                         return true;
                     }
@@ -696,6 +699,15 @@ public class Card implements CardInterface, Serializable{
                 }
                 break;
                 
+                case Card.GUERRILLAS :
+                if(
+                        game.getCardCommandFactory().getOpponentCard().getHQType() == Card.FORCED_MARCH ||
+                        game.getCardCommandFactory().getOpponentCard().getHQType() == Card.SUPPLY 
+                        ) {
+                return true;
+                }
+                break;
+                
                 }
             
             case Card.UNIT:
@@ -710,7 +722,7 @@ public class Card implements CardInterface, Serializable{
         return false;
     }
     
-    public void actionOnSelection(Game game){
+    public void actionOnSelection(Game game, CommandQueue cmdQueue){
     
     switch(getCardType()){
         case Card.HQCARD:
@@ -720,6 +732,7 @@ public class Card implements CardInterface, Serializable{
                 {
                     if(game.getPhase() == Game.MOVE){
                     game.getCurrentPlayer().getLastMovedUnit().setSelected(true);
+                    game.mapInputHandler.setState(MapInputStateHandler.PICK_MOVE_POSITION_BY_CARD);
                     
                     }
                     break;
@@ -737,6 +750,14 @@ public class Card implements CardInterface, Serializable{
                 }
                 case Card.SUPPLY:
                 {
+                    break;
+                }
+                
+                case Card.GUERRILLAS:
+                {
+                        game.getCardCommandFactory().setPlayingCard(this);
+                        cmdQueue.storeAndExecuteAndSend(game.getCardCommandFactory().createGuerrillaCardCommand());
+                    
                     break;
                 }
                 
