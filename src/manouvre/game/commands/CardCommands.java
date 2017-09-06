@@ -39,11 +39,14 @@ public class CardCommands {
         @Override
         public void execute(Game game) {
                 Card movingCard = game.getPlayerByName(senderPlayerName).getHand().getCard(card);
-  
+                movingCard.setPlayed(true);
+                
                 game.getPlayerByName(senderPlayerName).getHand().moveCardTo(movingCard,
                         game.getPlayerByName(senderPlayerName).getTablePile()
                         );
                
+                
+                
                 if (!game.getCurrentPlayer().getName().equals(senderPlayerName)) 
                  {
                     /*
@@ -189,12 +192,17 @@ public class CardCommands {
             moveToTableCommand.execute(game);
             moveUnitCommand.execute(game);
             if (game.getCurrentPlayer().getName().equals(senderPlayerName)) {
-                //do nothing special
+                
+                //LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().resetFactory()");
+                //game.getCardCommandFactory().resetFactory();
+                
             } else {
                 game.getCardCommandFactory().setIncomingCardCommand(this); //set this comand to be able to reject it
                 game.getCardCommandFactory().awakeObserver();
                 game.getCardCommandFactory().notifyObservers(CardCommandFactory.CARD_DIALOG);
             }
+            
+            
              
         }
 

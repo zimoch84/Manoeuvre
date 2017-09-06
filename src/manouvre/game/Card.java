@@ -108,11 +108,12 @@ public class Card implements CardInterface, Serializable{
     boolean canBeCanceled = false;
     
     boolean cardNotFound=false;
-
-    boolean justToTry;
- 
     boolean selected;
     boolean mouseOverCard;
+    /*
+    To indticate if card has been played
+    */
+    boolean played=false;
     /*
     Case if card is playing as an assoult or volley , bombard etc
     */
@@ -544,6 +545,15 @@ public class Card implements CardInterface, Serializable{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public boolean hasPlayed() {
+        return played;
+    }
+
+    public void setPlayed(boolean played) {
+        this.played = played;
+    }
+
+
     /*
     Check if card can be upped
     */
@@ -740,11 +750,13 @@ public class Card implements CardInterface, Serializable{
                 
                 case Card.WITHDRAW:
                 {
-                    if(game.getPhase() == Game.COMBAT){
-                    
-                    //game.getCurrentPlayerUnitAtPosition(game.getCardCommandFactory().getAttackedUnit().getPosition()).setSelected(true);
+                    if(game.getPhase() == Game.COMBAT && 
+                            game.getCardCommandFactory().getAttackedUnit()!= null
+                            ){
                     game.getCardCommandFactory().getAttackedUnit().setSelected(true);
-                    
+                    game.getCardCommandFactory().getAttackedUnit().setRetriving(true);
+                    game.getCurrentPlayer().setActive(true);
+                    game.mapInputHandler.setState(MapInputStateHandler.PICK_MOVE_POSITION);
                     }
                     break;
                 }
@@ -793,10 +805,13 @@ public class Card implements CardInterface, Serializable{
                 }
                 case Card.WITHDRAW:
                 {
-                    if(game.getPhase() == Game.COMBAT)
-                    {
-                        game.getCardCommandFactory().getAttackedUnit().setSelected(false);
-                       
+                    if(game.getPhase() == Game.COMBAT && 
+                            game.getCardCommandFactory().getAttackedUnit()!= null
+                            ){
+                    game.getCardCommandFactory().getAttackedUnit().setSelected(false);
+                    game.getCardCommandFactory().getAttackedUnit().setRetriving(false);
+                    game.getCurrentPlayer().setActive(false);
+                    game.mapInputHandler.setState(MapInputStateHandler.NOSELECTION);
                     }
                     break;
                 }

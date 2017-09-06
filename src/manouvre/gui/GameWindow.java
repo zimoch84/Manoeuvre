@@ -183,20 +183,28 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                Command withdrawCommand;   // ccmdf.createGuerrillaCardCommand();
                Command okCommand;//
                Command pickDefenseCardsCommand;
-
+                
+              
+               game.cardStateHandler.setState(CardStateHandler.MULTIPLE_PICK);
                
 
                Combat combat = game.getCombat();
                
-               Command defendCommand = new CardCommands.DefendCommand(combat.getCombatType(), game.getCardCommandFactory().getPickedDefendingCards(), game.getCurrentPlayer().getName(), game.getCombat());
+               Command defendCommand = 
+               new CardCommands.DefendCommand(
+                       combat.getCombatType(), 
+                       game.getCardCommandFactory().getPickedDefendingCards(), 
+                       game.getCurrentPlayer().getName(), 
+                       game.getCombat()
+               );
                
                
-               dd = new DefendDialog(combat, client, cmdQueue, game);
+               //dd = new DefendDialog(combat, client, cmdQueue, game);
                
               
-               dd.setOkCommand(defendCommand);
+               //dd.setOkCommand(defendCommand);
                
-               dd.setVisible(true);
+               //dd.setVisible(true);
                break;
                
            }

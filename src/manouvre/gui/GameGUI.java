@@ -346,15 +346,15 @@ public class GameGUI {
                     case Card.FORCED_MARCH: 
                         {
                             
-                        Unit lastMovedUnit = currentPlayer.getLastMovedUnit();
-                        movePositions = game.getOneSquareMovements(lastMovedUnit.getPosition());
-                        drawMultipleRectanglesOnPositions(g, movePositions, Color.red);
+                        if(!playingCard.hasPlayed()){
+                            Unit lastMovedUnit = currentPlayer.getLastMovedUnit();
+                            movePositions = game.getOneSquareMovements(lastMovedUnit.getPosition());
+                            drawMultipleRectanglesOnPositions(g, movePositions, Color.red);
+                        }
                         break;
                         }
                     case Card.SUPPLY: 
                         {
-                            
-                            
                         if(game.getSelectedUnit()!= null)  {  
                                 Unit selectedUnit = game.getSelectedUnit();
                                 movePositions = game.getPossibleMovement(selectedUnit);
@@ -894,44 +894,6 @@ public class GameGUI {
     public void paintHand(Graphics g)                 
     {   
         cardSetsGUI.paintHand(g, game);
-        
-//        CardSet hand=currentPlayer.getHand();
-//        int cardPaddingTopTemp=cardPaddingTop;
-//        Integer j=0;
-//        if(!hand.selectionSeq.isEmpty()){
-//            Card card =hand.selectionSeq.get(hand.selectionSeq.size()-1);              
-//            j=hand.getPositionInSet(card); 
-//            int[] xPoints={cardPaddingLeft+35+width*j+(gap*j),cardPaddingLeft+95+width*j+(gap*j),cardPaddingLeft+35+(95-35)/2+width*j+(gap*j)};
-//            int[] yPoints={cardPaddingTop+180,cardPaddingTop+180,cardPaddingTop+170};
-//            g.setColor(Color.white);
-//            g.setFont(new Font("Bookman Old Style", 1, 11));
-//            if(game.getPhase()==Game.DISCARD){
-//            g.drawString("This card will be visible",cardPaddingLeft+width*j+(gap*j)-10,41+190);
-//            g.drawString("on the Discard Pile",cardPaddingLeft+width*j+(gap*j)+0,54+190); 
-//            }
-//            g.fillPolygon(xPoints, yPoints, 3);
-//            if(game.getPhase()==Game.COMBAT&&(
-//                    (game.getCombat() != null ?
-//                    ( game.getCombat().getState()==Combat.PICK_DEFENSE_CARDS||game.getCombat().getState()==Combat.PICK_SUPPORTING_CARDS): false))){  //put triangle under all selected in Defence mode
-//                for(int s=0; s<hand.selectionSeq.size()-1; s++){
-//                    //j=hand.selectionSeq.get(s);              
-//                    j=hand.getPositionInSet(card); 
-//                    int[] xPoints2={cardPaddingLeft+35+width*j+(gap*j),cardPaddingLeft+95+width*j+(gap*j),cardPaddingLeft+35+(95-35)/2+width*j+(gap*j)};
-//                    int[] yPoints2={cardPaddingTop+180,cardPaddingTop+180,cardPaddingTop+170};
-//                    g.setColor(Color.white);
-//                    g.fillPolygon(xPoints2, yPoints2, 3);
-//                }
-//            }
-//            
-//        }  
-//        for (int i=0; i<hand.size(); i++) {   
-//            if((hand.getCardByPosInSet(i).isMouseOverCard()|| hand.getCardByPosInSet(i).isSelected()) 
-//                    && (hand.getCardByPosInSet(i).getAvailableForPhase(game)))
-//                    cardPaddingTopTemp=cardPaddingTop-20;
-//            else cardPaddingTopTemp=cardPaddingTop;
-//            
-//            g.drawImage(handSetGui.getCardByPosInSet(i).getImgFull(), cardPaddingLeft+(width+gap)*i, cardPaddingTopTemp, width, height, null);  
-//        }
     }
 
     
