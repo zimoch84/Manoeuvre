@@ -65,6 +65,10 @@ public class NextPhaseCommand implements Command{
         
         LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().resetFactory()");
         game.getCardCommandFactory().resetFactory();
+        if(game.getCombat() != null)
+            game.setCombat(null);
+        
+        
        
         
     }

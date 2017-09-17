@@ -409,11 +409,12 @@ public class GameGUI {
                                     );
       
                             }
+
                     }    
                     
                 break;    
                 }  
-                case Card.HQLEADER :{
+                case Card.LEADER :{
                 /*
                     If we have leader selected draw nothing
                     */
@@ -712,183 +713,7 @@ public class GameGUI {
         }
         else System.err.println("CARD IS NOT SELECTED - check GameGui.java method: keepOneSelectedCard");
     }
-    public void mouseClickedCard(Card cardClicked){
-        
-        LOGGER.debug(game.getCurrentPlayer().getName() + " mouseClickedCard " + cardClicked.toString());
-        if(cardClicked!=null)
-        {
-           //select card if it is    playable 
-            if(cardClicked.getAvailableForPhase(game))
-            { 
-                //if not selected
-                if(!cardClicked.isSelected()) 
-                {
-                    cardClicked.setSelected(true);
-
-                    /*
-                    If we are in move phase or Combat phase  but not during combat
-                    */
-                    if(game.getPhase()==Game.MOVE)
-
-                        /* this phase it is possible 
-                        to select ONE card, thats why all have to be unselected before click
-                        */
-                        {
-                        game.getCardCommandFactory().setPlayingCard(cardClicked);
-                        triggerCardActionOnSelection(cardClicked);
-                        keepOneSelectedCard(cardClicked);
-                        }
-                     
-                    else if(game.getPhase()==Game.COMBAT && (game.getCombat()==null)){ //select first card in combat
-                        game.getCardCommandFactory().setPlayingCard(cardClicked);
-                        game.getCardCommandFactory().addPickedAttackingCard(cardClicked);
-                        triggerCardActionOnSelection(cardClicked);
-                        keepOneSelectedCard(cardClicked);  
-                        
-                     }
-                    /*
-                    If we in combat phase during combat
-                    */
-                    else if (game.getPhase()==Game.COMBAT &&(game.getCombat()!= null))
-                            {
-                                if(game.getCombat().getState()!=stateTemp){  //reset selection if state was changing
-                                game.getCurrentPlayer().getHand().selectionSeq.clear();
-                                stateTemp=game.getCombat().getState();
-                                }  
-                            switch(game.getCombat().getState())
-                                {
-                                    case Combat.PICK_SUPPORTING_CARDS:
-                                    {   
-                                        if(game.getCurrentPlayer().isActive()){
-                                            game.getCardCommandFactory().addPickedAttackingCard(cardClicked);
-                                            game.getCurrentPlayer().getHand().selectionSeq.add(cardClicked); 
-                                            break;
-                                        }
-                                    }
-                                    case Combat.PICK_DEFENSE_CARDS:
-                                    {
-                                        if(!game.getCurrentPlayer().isActive()){
-                                            game.getCardCommandFactory().addPickedDefendingCard(cardClicked);
-                                            game.getCurrentPlayer().getHand().selectionSeq.add(cardClicked); 
-                                            break;
-                                        }
-                                    }
-                               
-                                }
-                            }    
-                    /*
-                    We are in other phases than MOVE and COMBAT
-                    */
-                    else if(game.getPhase()==Game.RESTORATION){
-                        game.getCardCommandFactory().setPlayingCard(cardClicked);
-                        triggerCardActionOnSelection(cardClicked);
-                        keepOneSelectedCard(cardClicked);
-                    }
-                    else game.getCurrentPlayer().getHand().selectionSeq.add(cardClicked);
-
-                    /*
-                Set playingCard always but Discard phase
-                */
-                    if(game.getPhase()!=Game.DISCARD)
-                       game.getCardCommandFactory().setPlayingCard(cardClicked);  //not playing cards on Table during Discard
-                } 
-
-            /*
-            Unselect card that is is playable for this phase
-            */
-            else 
-            {
-                triggerCardActionOnDeSelection(cardClicked);
-                cardClicked.setSelected(false);
-                Integer j=cardClicked.getCardID();
-                game.getCurrentPlayer().getHand().selectionSeq.remove(j); //remove number Integer j, not position int i
-                if(game.getPhase()==Game.COMBAT && (game.getCombat()==null)){
-                    game.getCardCommandFactory().removePickedAttackingCard(cardClicked);
-                }
-                if (game.getPhase()==Game.COMBAT &&(game.getCombat()!= null))
-                {
-                    switch(game.getCombat().getState())
-                    {
-                     case Combat.PICK_DEFENSE_CARDS:
-                        {
-                        game.getCardCommandFactory().removePickedDefendingCard(cardClicked);
-                        break;
-                        }
-                        case Combat.PICK_SUPPORT_UNIT:
-                        {
-                        game.getCardCommandFactory().removePickedAttackingCard(cardClicked);
-                        break;
-                        }
-                    }
-                }
-            }
-        }
-        else
-            JOptionPane.showMessageDialog(null, "This card is not available in this phase", 
-                 "Wrong Action", JOptionPane.OK_OPTION); 
-        }
-        
-    }
-    
    
-    private void triggerCardActionOnSelection(Card playingCard){
-    
-         
-         if(playingCard.canBePlayed(game))
-            {
-            /*
-            Trigger action on selection
-            */
-            LOGGER.debug(game.getCurrentPlayer().getName() + " triggerCardActionOnSelection " + playingCard.toString());
- 
-            switch(playingCard.getCardType()){
-            
-                case Card.UNIT :
-                {
-                 /*
-                If card have only 1 attacking mode set it here to avoid custom dialog
-                If card have 2 attacking mode then later we'll ask user about which mode he choses
-                */
-                
-                if(game.getPhase() != Game.RESTORATION)
-                    if(playingCard.getCardType() == Card.UNIT)
-                    {
-                        if(playingCard.getPlayingPossibleCardModes().size() == 1 )
-                        {
-                            playingCard.setPlayingCardMode(playingCard.getPlayingPossibleCardModes().get(0));
-                            playingCard.actionOnSelection(game, cmdQueue);
-                        }
-                        else 
-                        {
-
-                            /*
-                            TODO Create dialog to choose 
-                            */
-                        }
-                    }
-                break;
-                }
-                default:  playingCard.actionOnSelection(game, cmdQueue);
-            }
-            }
-    
-    }
-    
-    private void triggerCardActionOnDeSelection(Card playingCard){
-            LOGGER.debug(game.getCurrentPlayer().getName() + " triggerCardActionOnDeSelection " + playingCard.toString());
-            /*
-            Trigger action on selection
-            */
-            playingCard.actionOnDeselection(game);
-            
-            LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().resetFactory()");
-            game.getCardCommandFactory().resetFactory();
-    
-    }
-    
-
-
-    
    
     
     public void paintHand(Graphics g)                 
@@ -1036,7 +861,7 @@ public class GameGUI {
         
         int i=0;
         
-        if(!game.getCardCommandFactory().getD6dices().isEmpty())
+        if(game.getCardCommandFactory().getD6dices() != null)
             for(Dice d6  :  game.getCardCommandFactory().getD6dices() ){
                 i++;
                 DiceGUI d6gui = new DiceGUI(d6);
@@ -1049,7 +874,7 @@ public class GameGUI {
                         , null);
             } 
         i=0;
-        if(!game.getCardCommandFactory().getD8dices().isEmpty())
+        if(game.getCardCommandFactory().getD8dices()!= null)
             for(Dice d8 : game.getCardCommandFactory().getD8dices() ){
                 i++;
                 
@@ -1063,7 +888,7 @@ public class GameGUI {
                         null);
             } 
         i=0;
-        if(!game.getCardCommandFactory().getD10dices().isEmpty())
+        if(game.getCardCommandFactory().getD10dices()!= null)
             for(Dice d10 : game.getCardCommandFactory().getD10dices() ){
                 i++;
                 DiceGUI d10gui = new DiceGUI(d10);

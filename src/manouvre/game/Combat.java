@@ -7,7 +7,8 @@ package manouvre.game;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import manouvre.game.interfaces.DiceInterface;
+import manouvre.game.commands.CardCommands;
+import org.apache.logging.log4j.LogManager;
 
 /**
  *
@@ -15,7 +16,7 @@ import manouvre.game.interfaces.DiceInterface;
  * Class to descrie flow and calculation of combat
  */
 public class Combat implements Serializable{
-    
+     private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(CardCommands.class.getName());  
     /*
     Combat TYPE
     */
@@ -35,7 +36,7 @@ public class Combat implements Serializable{
     public static final int THROW_DICES= 5;
     public static final int PURSUIT= 6;
     public static final int WAIT_FOR_OPPONENT= 7;
-    
+    public static final int END_COMBAT= 7;
     
     
     /*
@@ -51,7 +52,10 @@ public class Combat implements Serializable{
 
    
     Unit initAttackUnit, defendingUnit;
-    ArrayList<Unit> attackingUnits;        
+    Card supportingLeader;
+    ArrayList<Unit> attackingUnits;     
+    
+    
 
     /*
     Descibe state of the combat 
@@ -70,7 +74,7 @@ public class Combat implements Serializable{
     
     int combatType;
 
-    public Combat(int combatType, Unit initAttackUnit, Card attackCard,Terrain attackTerrain, Unit defendingUnit, Terrain defenseTerrain) {
+    public Combat(Unit initAttackUnit, Card attackCard,Terrain attackTerrain, Unit defendingUnit, Terrain defenseTerrain) {
         
     this.initAttackUnit = initAttackUnit;
     this.defendingUnit = defendingUnit;
@@ -121,7 +125,8 @@ public class Combat implements Serializable{
         Attack value
         */
         attackValue=0;
-        if(!attackCard.getPlayiningMode().equals("BOMBARD")){  //bomard do not get advantage of Unit Attack
+        //bomard do not get advantage of Unit Attack
+        if(attackCard.getPlayingCardMode()!=Card.BOMBARD){  
         attackValue = initAttackUnit.getCurrentStrenght();  }
         attackValue += attackBonus;
       
@@ -136,8 +141,10 @@ public class Combat implements Serializable{
         */
         for (Unit unit: attackingUnits)
         {
-        attackValue += unit.getCurrentStrenght();
+        if(unit.isSupporting())
+            attackValue += unit.getCurrentStrenght();
         }
+        
         
     }
 
@@ -157,74 +164,7 @@ public class Combat implements Serializable{
     {
     this.dices = dices;
     }
-//    public void setDices(ArrayList<Card> cards) {
-//    for(Card checkCard: cards)
-//        {
-//        switch(checkCard.getUnitAttack()){ //if attack
-//            case DiceInterface.DICE1d6:{
-//                dices.add(new Dice(Dice.D6));
-//                break;
-//            }
-//            case DiceInterface.DICE2d6:{
-//                dices.add(new Dice(Dice.D6));
-//                dices.add(new Dice(Dice.D6));
-//                break;
-//            }
-//            case DiceInterface.DICE1d8:{
-//                dices.add(new Dice(Dice.D8));
-//                break;
-//            }
-//            case DiceInterface.DICE2d8:{
-//                dices.add(new Dice(Dice.D8));
-//                dices.add(new Dice(Dice.D8));
-//                break;
-//            }
-//            case DiceInterface.DICE1d10:{
-//                dices.add(new Dice(Dice.D8));
-//                break;
-//            }
-//            case DiceInterface.DICE2d10:{
-//                dices.add(new Dice(Dice.D10));
-//                dices.add(new Dice(Dice.D10));
-//                break;
-//            }
-//            case 99:{                              // if card has no attack- BOMBARD
-//                switch(checkCard.getUnitBombard()){
-//                    case DiceInterface.DICE1d6:{
-//                        dices.add(new Dice(Dice.D6));
-//                        break;
-//                    }
-//                    case DiceInterface.DICE2d6:{
-//                        dices.add(new Dice(Dice.D6));
-//                        dices.add(new Dice(Dice.D6));
-//                        break;
-//                    }
-//                    case DiceInterface.DICE1d8:{
-//                        dices.add(new Dice(Dice.D8));
-//                        break;
-//                    }
-//                    case DiceInterface.DICE2d8:{
-//                        dices.add(new Dice(Dice.D8));
-//                        dices.add(new Dice(Dice.D8));
-//                        break;
-//                    }
-//                    case DiceInterface.DICE1d10:{
-//                        dices.add(new Dice(Dice.D8));
-//                        break;
-//                    }
-//                    case DiceInterface.DICE2d10:{
-//                        dices.add(new Dice(Dice.D10));
-//                        dices.add(new Dice(Dice.D10));
-//                        break;
-//                    }
-//                }
-//            break;    
-//            }    
-//        }
-//    }
-//        
-//        this.dices = dices;
-//    }
+
     public ArrayList<Card> getAttackCards() {
         return attackCards;
     }
@@ -235,6 +175,30 @@ public class Combat implements Serializable{
         //setDices(attackCards);
     }
 
+    public void addDefenceCard(Card defenceCard)
+    {
+        defenceCards.add(defenceCard);
+        calculateCombatValues();
+    }
+    
+    public void removeDefenceCard(Card defenceCard)
+    {
+        defenceCards.remove(defenceCard);
+        calculateCombatValues();
+    }
+    public void addAttackCard(Card attackCard)
+    {
+        attackCards.add(attackCard);
+        calculateCombatValues();
+    }
+    
+    public void removeAttackCard(Card attackCard)
+    {
+        attackCards.remove(attackCard);
+        calculateCombatValues();
+    }
+    
+    
     public ArrayList<Card> getDefenceCards() {
         return defenceCards;
     }
@@ -305,11 +269,30 @@ public class Combat implements Serializable{
         return NO_EFFECT;   
         
     }
+    
+    public int getPursuitOutcome(Card card, Dice dice)
+    {
+        if(dice.getResult() <= card.getUnitPursuit() )
+           return DEFFENDER_TAKES_HIT;
+        
+        else return NO_EFFECT;
+            
+           
+    }
 
     public int getCombatType() {
         return combatType;
     }
 
+    public Card getSupportingLeader() {
+        return supportingLeader;
+    }
+
+    public void setSupportingLeader(Card supportingLeader) {
+        this.supportingLeader = supportingLeader;
+    }
+
+    
     public Unit getAttackingUnit() {
         return initAttackUnit;
     }
@@ -342,6 +325,7 @@ public class Combat implements Serializable{
         /*
         If supoprting card doesnt have "Not required to advance" feature then attacker have to advance
         */
+        
         if(attackCard.isNotRequredToAdvanceAfterAttack())
         {
             if(!attackCards.isEmpty())
@@ -417,13 +401,13 @@ public class Combat implements Serializable{
        return false;
         
     }
-    public ArrayList<Card> getPursuitCards(){
+    public ArrayList<Card> getPursuitCards(Game game){
         
         ArrayList<Card> pursueCards = new ArrayList<>();
            
           for(Unit attackingUnit: attackingUnits)
                 
-                if(attackingUnit.hasAdvanced())
+                if(game.getUnitByName(attackingUnit.getName()).hasAdvanced())
                 {
                     
                     if(attackCards.contains(attackingUnit))
@@ -449,6 +433,8 @@ public class Combat implements Serializable{
             
     {
         
+        setState(END_COMBAT);
+      
         /*
         Clear advance flag after combat
         */
@@ -463,7 +449,10 @@ public class Combat implements Serializable{
                 unit.setSupporting(false);
             
         }
+        LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().resetFactory()");
+        game.getCardCommandFactory().resetFactory();
     
     }
+    
     
 }

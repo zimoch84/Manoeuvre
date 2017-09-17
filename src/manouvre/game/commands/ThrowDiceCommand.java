@@ -11,7 +11,7 @@ import manouvre.game.Dice;
 import manouvre.game.Game;
 import manouvre.game.Param;
 import manouvre.game.interfaces.Command;
-import manouvre.game.interfaces.DiceInterface;
+
 
 /**
  *
@@ -38,29 +38,29 @@ public class ThrowDiceCommand implements Command{
         {
         switch(checkCard.getUnitDiceValue()){
         
-            case DiceInterface.DICE1d6:{
+            case Dice.DICE1d6:{
                 d6dices.add(new Dice(Dice.D6));
                 break;
             }
-            case DiceInterface.DICE2d6:{
+            case Dice.DICE2d6:{
                 d6dices.add(new Dice(Dice.D6));
                 d6dices.add(new Dice(Dice.D6));
                 break;
             }
-            case DiceInterface.DICE1d8:{
+            case Dice.DICE1d8:{
                 d8dices.add(new Dice(Dice.D8));
                 break;
             }
-            case DiceInterface.DICE2d8:{
+            case Dice.DICE2d8:{
                 d8dices.add(new Dice(Dice.D8));
                 d8dices.add(new Dice(Dice.D8));
                 break;
             }
-            case DiceInterface.DICE1d10:{
+            case Dice.DICE1d10:{
                 d10dices.add(new Dice(Dice.D10));
                 break;
             }
-            case DiceInterface.DICE2d10:{
+            case Dice.DICE2d10:{
                 d10dices.add(new Dice(Dice.D10));
                 d10dices.add(new Dice(Dice.D10));
                 break;

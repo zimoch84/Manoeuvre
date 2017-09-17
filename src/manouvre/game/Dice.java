@@ -6,16 +6,22 @@
 package manouvre.game;
 import java.io.Serializable;
 import java.util.Random;
-import manouvre.game.interfaces.DiceInterface;
+
 /**
  *
  * @author Bartosz
  */
 public class Dice implements Serializable{
 
-   /* public Dice(String diceType) {
-        this.diceType=diceType;
-    }*/
+    /*
+    Possible dices on cards
+    */
+    public static final int DICE1d6 = 6;
+    public static final int DICE1d8 = 8;
+    public static final int DICE1d10 = 10;
+    public static final int DICE2d6 = 12;
+    public static final int DICE2d8 = 16;
+    public static final int DICE2d10 = 20;
     
     public static final int D6 = 0;
     public static final int D8 = 1;
@@ -84,17 +90,17 @@ public class Dice implements Serializable{
             case "":
                 return 98; //if No Value
             case "1d6": 
-                return DiceInterface.DICE1d6;
+                return Dice.DICE1d6;
             case "1d8":
-                return DiceInterface.DICE1d8;
+                return Dice.DICE1d8;
             case "1d10":
-                return DiceInterface.DICE1d10;
+                return Dice.DICE1d10;
             case "2d6":
-                return 12;//DiceInterface.DICE2d6;
+                return 12;//Dice.DICE2d6;
             case "2d8":
-                return DiceInterface.DICE2d8;
+                return Dice.DICE2d8;
             case "2d10":
-                return DiceInterface.DICE2d10; 
+                return Dice.DICE2d10; 
         }     
         return 99; //if another value
     }

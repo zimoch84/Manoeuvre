@@ -5,6 +5,7 @@
  */
 package manouvre.game.commands;
 
+import manouvre.game.Combat;
 import manouvre.game.Game;
 import manouvre.game.Param;
 import manouvre.game.Position;
@@ -31,8 +32,10 @@ public class DontAdvanceUnitCommand implements Command  {
 
     @Override
     public void execute(Game game) {
-        
-        
+        /*
+        Ends combat
+        */
+        game.getCombat().setState(Combat.END_COMBAT);
     }
 
     @Override

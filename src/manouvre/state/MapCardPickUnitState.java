@@ -15,7 +15,9 @@ import manouvre.game.Combat;
 import manouvre.game.Game;
 import manouvre.game.Position;
 import manouvre.game.Unit;
+import manouvre.game.commands.AdvanceUnitCommand;
 import manouvre.game.commands.CommandQueue;
+import manouvre.game.interfaces.Command;
 import manouvre.gui.CustomDialog;
 import manouvre.gui.GameWindow;
 import org.apache.logging.log4j.LogManager;
@@ -44,13 +46,26 @@ private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogg
                                         /*
                                         If its withdraw then select attacking unit position
                                         */
-                                        if(combat.getState() == Combat.WITHRDAW) 
+                                        if(combat.getState() == Combat.PURSUIT) 
                                         {
-                                            pickedUnit.setSelected(true);
-                                            /*
-                                            Chosen unit to advance
-                                            */
-                                            pickedUnit.setAdvanced(true);
+                                         
+                                                    pickedUnit.setSelected(true);
+                                                    /*
+                                                    Chosen unit to advance
+                                                    */
+                                                    pickedUnit.setAdvanced(true);
+                                            
+                                             Command advanceCommand = 
+                                                new AdvanceUnitCommand(game.getCurrentPlayer().getName(),
+                                                        pickedUnit , 
+                                                        game.getCombat().getDefendingUnit().getPosition(),
+                                                        game.getCombat().getPursuitCards(game)
+                                                        );
+        
+                                            cmdQueue.storeAndExecuteAndSend(advanceCommand);
+        
+        
+                                            
                                             game.getCardCommandFactory().awakeObserver();
                                             game.getCardCommandFactory().notifyObservers(CardCommandFactory.PICKED_ADVANCE);
                                             
@@ -105,8 +120,9 @@ private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogg
                     if(combat != null)
                         /*
                         If its withdraw then select attacking unit position
+                        TODO - supply with other ant not require to advance
                         */
-                        if(combat.getState() == Combat.WITHRDAW) 
+                        if(combat.getState() == Combat.PURSUIT) 
                         {
                            returnPositions.add(combat.getAttackingUnit().getPosition());
                            return returnPositions;
@@ -125,7 +141,7 @@ private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogg
                 
                 
                 
-                case Card.HQLEADER:
+                case Card.LEADER:
                 {
                     if(game.getPhase() == Game.RESTORATION)
                      return game.getCurrentPlayerInjuredUnitPositions();

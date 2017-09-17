@@ -7,6 +7,7 @@ package manouvre.state;
 
 import java.io.Serializable;
 import manouvre.game.Card;
+import manouvre.game.Combat;
 import manouvre.game.Game;
 import manouvre.game.commands.CommandQueue;
 
@@ -28,8 +29,24 @@ public class CardMultipleSelectionState implements CardInputState, Serializable{
             }
             else if(game.getPhase() == Game.COMBAT)
             {
-                game.getCardCommandFactory().setPlayingCard(card);
-                card.actionOnSelection(game, cmdQueue);
+                if(game.getCombat() != null)
+                    if(game.getCombat().getState() == Combat.PICK_DEFENSE_CARDS)
+                    {
+                        game.getCurrentPlayer().getHand().selectionSeq.add(card);
+                        card.actionOnSelection(game, cmdQueue);
+                        
+                    }
+                    else if (game.getCombat().getState() == Combat.PICK_SUPPORTING_CARDS)
+                    {
+                        /*
+                        TODO , picking leader triggers supporting mode
+                        */
+                        
+                        game.getCurrentPlayer().getHand().selectionSeq.add(card);   
+                        card.actionOnSelection(game, cmdQueue);
+                    }
+                        
+                
                                 
             }
                 
@@ -42,6 +59,25 @@ public class CardMultipleSelectionState implements CardInputState, Serializable{
             {
             
             game.getCurrentPlayer().getHand().selectionSeq.remove(card); 
+            }
+            
+            else if(game.getPhase() == Game.COMBAT)
+            {
+                if(game.getCombat() != null)
+                    if(game.getCombat().getState() == Combat.PICK_DEFENSE_CARDS)
+                    {
+                        game.getCurrentPlayer().getHand().selectionSeq.remove(card);
+                        card.actionOnDeselection(game);
+                    }
+                    else if (game.getCombat().getState() == Combat.PICK_SUPPORTING_CARDS)
+                    {
+                        /*
+                        TODO , picking leader triggers supporting mode
+                        */
+                        game.getCurrentPlayer().getHand().selectionSeq.remove(card);   
+                    }
+                        
+                                
             }
      
         }       

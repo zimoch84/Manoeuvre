@@ -172,13 +172,14 @@ public class Unit implements UnitInterface, Serializable{
     public void takeHit(){
     if (!isInjured())
         injured = true;
-    else eliminated = true;
+    else eliminate();
   
     }
     
     public void eliminate()
     {
         eliminated = true;
+        setPosition(new Position(-10, -10));
     }
     
     public void restoreUnit()

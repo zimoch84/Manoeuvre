@@ -514,8 +514,8 @@ public final class Game implements Serializable{
              
     }
     
-    public Unit getAdvancedUnit(){
-     for (Unit unitSearch : getCurrentPlayer().getArmy()) {
+    public Unit getAdvancedUnit(String playerName){
+     for (Unit unitSearch : getPlayerByName(playerName).getArmy()) {
             if (unitSearch.hasAdvanced()) {
                 return unitSearch;
             }
@@ -523,8 +523,8 @@ public final class Game implements Serializable{
     return null;
     }
     
-    public Unit getRetrievedUnit(){
-     for (Unit unitSearch : getCurrentPlayer().getArmy()) {
+    public Unit getRetrievedUnit(String playerName){
+     for (Unit unitSearch : getPlayerByName(playerName).getArmy()) {
             if (unitSearch.isRetriving()) {
                 return unitSearch;
             }
@@ -538,6 +538,15 @@ public final class Game implements Serializable{
     
     public Unit getSelectedUnit(){
      for (Unit unitSearch : getCurrentPlayer().getArmy()) {
+            if (unitSearch.isSelected()) {
+                return unitSearch;
+            }
+        }
+    return null;
+    }
+    
+    public Unit getSelectedUnit(String playerName){
+     for (Unit unitSearch : getPlayerByName(playerName).getArmy()) {
             if (unitSearch.isSelected()) {
                 return unitSearch;
             }
@@ -682,6 +691,8 @@ public final class Game implements Serializable{
     }
     public ArrayList<Position> getCurrentPlayerAvalibleMoveUnitPositions(){
     
+    Unit selectedUnit;    
+        
      if(freeMove) 
             return getSetupPossibleMovement();
         
@@ -699,13 +710,17 @@ public final class Game implements Serializable{
                 return null;
                 
             case Game.MOVE:
-                Unit selectedUnit = getSelectedUnit();
+                selectedUnit = getSelectedUnit();
                 ArrayList<Position> movePositions;
                 return getPossibleMovement(selectedUnit);
-               
+                
             case Game.COMBAT:
-                    
-                return getCurrentPlayer().getArmyPositions();
+                   
+                selectedUnit = getSelectedUnit();
+                if(selectedUnit.isRetriving())
+                    return getRetreatPositions(selectedUnit);
+                else 
+                return null;
                 /*
                 TODO implement many more cases with combat mode
                 */
@@ -945,22 +960,22 @@ public final class Game implements Serializable{
                     lockGUI();            
                 else 
                     unlockGUI();
-        }else{
-            
-            if(getCombat().getState()==Combat.PICK_DEFENSE_CARDS){
-                if(getCurrentPlayer().isActive())
-                        lockGUI();
-                else unlockGUI();
-            }
-            if(getCombat().getState()==Combat.PICK_SUPPORTING_CARDS){
-                if(getCurrentPlayer().isActive())
-                    unlockGUI();
-                else lockGUI();
-            }
-            
-            
-//            else game.unlockGUI();  
         }
+        
+//        else{
+//            
+//            if(getCombat().getState()==Combat.PICK_DEFENSE_CARDS){
+//                if(getCurrentPlayer().isActive())
+//                        lockGUI();
+//                else unlockGUI();
+//            }
+//            if(getCombat().getState()==Combat.PICK_SUPPORTING_CARDS){
+//                if(getCurrentPlayer().isActive())
+//                    unlockGUI();
+//                else lockGUI();
+//            }
+//  
+//        }
     }   
 }
 

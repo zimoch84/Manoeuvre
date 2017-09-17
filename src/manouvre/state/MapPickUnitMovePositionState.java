@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import manouvre.game.Game;
 import manouvre.game.Position;
 import manouvre.game.Unit;
+import manouvre.game.commands.CardCommands;
 import manouvre.game.commands.CommandQueue;
 import manouvre.game.commands.MoveUnitCommand;
 import manouvre.gui.CustomDialog;
@@ -70,15 +71,39 @@ private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogg
             LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT" );
             handler.setState(MapInputStateHandler.PICK_ONE_UNIT);
             }
-            
+            if(game.getPhase() == Game.COMBAT)
+            {
+                if(selectedUnit.isRetriving()){
+                    
+                    
+                    CardCommands.WithrdawCommand withdrawCommand = new CardCommands.WithrdawCommand(
+                            moveUnit , game.getCardCommandFactory().getPlayingCard(), game.getCurrentPlayer().getName() );
+
+                    cmdQueue.storeAndExecuteAndSend(withdrawCommand);
+
+                    LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na MapInputStateHandler.NOSELECTION" );
+                    handler.setState(MapInputStateHandler.NOSELECTION);
+                }
+                
+                
+                
+            }
         }
             
         else
         {
+            if(game.getPhase() != Game.COMBAT)
+            {
             LOGGER.debug(game.getCurrentPlayer().getName() + " game.unselectAllUnits()" );
             game.unselectAllUnits();
             LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT" );
             handler.setState(MapInputStateHandler.PICK_ONE_UNIT);
+            }
+            
+            else 
+            {
+            //Do nothing
+            }
         }
             
             

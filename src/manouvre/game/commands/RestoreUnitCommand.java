@@ -19,24 +19,24 @@ public class RestoreUnitCommand implements Command {
     Card restorationCard ;
     Unit storedUnit;
     String playerName;
+    CardCommands.MoveToTableCommand mtt;
 
     public RestoreUnitCommand(String playerName, Unit unit,  Card restorationCard) {
 	this.storedUnit = unit;
         this.restorationCard = restorationCard;
-                this.playerName = playerName;
-       
+        this.playerName = playerName;
+        mtt = new CardCommands.MoveToTableCommand(restorationCard, playerName);
 	}
+        
+        
 
     @Override
     public void execute(Game game) {
         
-        
+        mtt.execute(game);
         game.getUnitByName(storedUnit.getName()).restoreUnit();
-       
         game.unselectAllUnits();
-                
-                
-        
+ 
         
     }
     

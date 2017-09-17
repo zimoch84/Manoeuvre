@@ -112,15 +112,15 @@ public class Player  implements Serializable{
         //this.tablePile = new CardSet();
 
         if(nation==CardInterface.AU){//btestfalse
-            hand.addCard(drawPile.getCardByName("3rd  Regiment", true));
-            hand.addCard(drawPile.getCardByName("3rd  Regiment", true));
+            hand.addCard(drawPile.getCardByName("Johann Dragoons", true));
+            hand.addCard(drawPile.getCardByName("Johann Dragoons", true));
            hand.addCard(drawPile.getCardByName("Guerrillas", true));
            hand.addCard(drawPile.getCardByName("Archduke Charles", true));
             hand.addCard(drawPile.getCardByName("Withdraw", true));
             //hand.addCardsFromTheTopOfOtherSet(1, drawPile, false, true);
         }
         else if(nation==CardInterface.FR){
-            hand.addCard(drawPile.getCardByName("2nd Regiment Legere", true));
+            hand.addCard(drawPile.getCardByName("1st Cuirassiers", true));
             hand.addCard(drawPile.getCardByName("2nd Regiment Legere", true));
 //             hand.addCard(drawPile.getCardByName("2nd Regiment Legere", true));
 //              hand.addCard(drawPile.getCardByName("2nd Regiment Legere", true));

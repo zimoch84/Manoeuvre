@@ -106,7 +106,7 @@ private ArrayList<Position> getPossibleUnitPostionToSelect(Game game){
                 break;
                 }    
                 
-                case Card.HQLEADER:
+                case Card.LEADER:
                 {
                     if(game.getPhase() == Game.RESTORATION)
                      return game.getCurrentPlayerInjuredUnitPositions();

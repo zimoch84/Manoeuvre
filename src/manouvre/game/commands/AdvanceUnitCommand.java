@@ -5,7 +5,8 @@
  */
 package manouvre.game.commands;
 
-import manouvre.game.Combat;
+import java.util.ArrayList;
+import manouvre.game.Card;
 import manouvre.game.Game;
 import manouvre.game.Position;
 import manouvre.game.Unit;
@@ -16,34 +17,55 @@ import manouvre.game.Unit;
  */
 public class AdvanceUnitCommand extends MoveUnitCommand  {
     
+     ArrayList<Card> pursuitCards;
+     CardCommands.PursuitCommand pc;
     
-    
-    public AdvanceUnitCommand(String playerName, Unit unit, Position newPosition) {
+    public AdvanceUnitCommand(String playerName, Unit unit, Position newPosition, ArrayList<Card> pursuitCards) {
+
+        
         super(playerName, unit, newPosition);
-    
+                
+        
+        
+        this.pursuitCards = pursuitCards;
+        pc = new CardCommands.PursuitCommand(playerName, pursuitCards);
+ 
     }
     
     public void execute(Game game)  {
             
+            /*
+            Move un it
+            */
             super.execute(game);
             /*
-            Ends combat
+            Ends combat if card/unit has not pursuit mode
             */
-            game.setCombat(null);
+            
+            if(pursuitCards.size()> 0)
+            {
+            pc.execute(game);   
+            }
+            else    
+            {  
             /*
-            Clear retrieving and advancement
+            End Combat
             */
-            if(game.getCurrentPlayer().getName().equals(playerName))
-                if(game.getAdvancedUnit() != null)
-                   game.getAdvancedUnit().setAdvanced(false);
-            else
-                if(game.getRetrievedUnit() != null) 
-                   game.getRetrievedUnit().setRetriving(false);
+            game.getCombat().endCombat(game);
+            game.unselectAllUnits();
+            }
+            
+            
 }
     
     @Override
     public String logCommand(){
-        return new String(playerName + " has advanced unit" + storedUnit.getName() + " to position " + newPosition.toString());  
+        
+        String log = playerName + " has advanced unit " + storedUnit.getName() + " to position " + newPosition.toString() + "/n";
+        log +=  pc.logCommand();
+     
+        return log;
+ 
     }
 
 }

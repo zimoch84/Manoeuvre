@@ -31,21 +31,23 @@ public class CardCommandFactory extends Observable implements Serializable{
     /*
     Notify observer passed arg
     */
-    public final static  String ATTACK_DIALOG = "ATTACK_DIALOG";
+    public final static String ATTACK_DIALOG = "ATTACK_DIALOG";
     public final static String CARD_DIALOG = "CARD_DIALOG";
     public final static String CARD_REJECTED = "CARD_REJECTED";
     public final static String CARD_NOT_REJECTED = "CARD_NOT_REJECTED";
     public final static String DEFENDING_CARDS_PLAYED = "DEFENDING_CARDS_PLAYED";
-    public final static String OPPONENT_WITHDRAW = "OPPONENT_WITHDRAW";
+    public final static String DEFENDING_WITHDRAW = "DEFENDING_WITHDRAW";
     public final static String PICKED_ADVANCE = "PLAYER_CHOSEN_ADVANCE_UNIT";
     
     
     public final static String COMBAT_NO_RESULT = "COMBAT_NO_RESULT";
+    public final static String DEFENDER_DECIDES = "DEFENDER_DECIDES";
+    public final static String ATTACKER_DECIDES = "ATTACKER_DECIDES";
     public final static String COMBAT_DEFENDER_TAKES_HIT = "COMBAT_DEFENDER_TAKES_HIT";
     public final static String COMBAT_ATTACKER_TAKES_HIT = "COMBAT_ATTACKER_TAKES_HIT";
     public final static String COMBAT_DEFENDER_ELIMINATE = "COMBAT_ELIMINATE";
     public final static String COMBAT_ATTACKER_ELIMINATE = "COMBAT_ATTCACKER_ELIMINATE";
-    public final static String COMBAT_ACCEPTED = "COMBAT_BOMBARD_ACCEPTED";
+    public final static String COMBAT_ACCEPTED = "COMBAT_ACCEPTED";
     
      
     Card playingCard, opponentCard;
@@ -54,7 +56,7 @@ public class CardCommandFactory extends Observable implements Serializable{
     ArrayList<Card> pickedAttackingCards=new ArrayList<>(); //current player attacking cards
    
     ArrayList<Position> attackingPositions;
-    ArrayList<Card> pickedDefendingCards=new ArrayList<>(); //current player defending cards
+   
 //    ArrayList<Card> pickedSupportingCards=new ArrayList<>();
     
     Unit selectedUnit, attackedUnit;
@@ -220,9 +222,9 @@ public class CardCommandFactory extends Observable implements Serializable{
         resetPlayingCard();
         setSelectedUnit(null);
         setOpponentCard(null);
-        //setD10dices(null);
-       // setD8dices(null);
-       // setD6dices(null);
+        setD10dices(null);
+        setD8dices(null);
+        setD6dices(null);
         
         
     }
@@ -409,23 +411,7 @@ public class CardCommandFactory extends Observable implements Serializable{
         this.incomingCardCommand = incomingCardCommand;
     }
 
-    public ArrayList<Card> getPickedDefendingCards() {
-        return pickedDefendingCards;
-    }
-
-    public void setPickedDefendingCards(ArrayList<Card> defendingCards) {
-        this.pickedDefendingCards = defendingCards;
-    }
-    public void addPickedDefendingCard(Card cardToAdd) {
-        this.pickedDefendingCards.add(cardToAdd);
-    }
-    public void clearDefendingCards() {
-        this.pickedDefendingCards.clear();
-    }
-    public void removePickedDefendingCard(Card cardToRemove) {
-        this.pickedDefendingCards.remove(cardToRemove);
-    }
-
+    
     public Command createMoveDefensiveCardsToTableCommand(ArrayList<Card> cards){
         return new CardCommands.MoveDefensiveCardsToTableCommand(cards, game.getCurrentPlayer().getName());
     }

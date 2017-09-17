@@ -54,12 +54,7 @@ public class CardSingleSelectionState implements CardInputState, Serializable{
     
          if(playingCard.canBePlayed(game))
             {
-            /*
-            Trigger action on selection
-            */
-            playingCard.actionOnSelection(game, cmdQueue);
-            
-            /*
+                /*
             If card have only 1 attacking mode set it here to avoid custom dialog
             If card have 2 attacking mode then later we'll ask user about which mode he choses
             */
@@ -68,8 +63,13 @@ public class CardSingleSelectionState implements CardInputState, Serializable{
                     if(playingCard.getPlayingPossibleCardModes().size() == 1 )
                         playingCard.setPlayingCardMode(playingCard.getPlayingPossibleCardModes().get(0));
                 }
-            
+
+            /*
+            Trigger action on selection
+            */
+            playingCard.actionOnSelection(game, cmdQueue);
             }
+            
     
     }
     
