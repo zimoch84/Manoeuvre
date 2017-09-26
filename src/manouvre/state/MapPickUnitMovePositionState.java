@@ -84,9 +84,7 @@ private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogg
                     LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na MapInputStateHandler.NOSELECTION" );
                     handler.setState(MapInputStateHandler.NOSELECTION);
                 }
-                
-                
-                
+    
             }
         }
             

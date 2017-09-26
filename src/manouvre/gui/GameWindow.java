@@ -48,7 +48,9 @@ import org.apache.logging.log4j.LogManager;
 import manouvre.state.CardStateHandler;
 import manouvre.game.commands.DontAdvanceUnitCommand;
 import static java.lang.Math.abs;
+import manouvre.game.commands.ForceWithdraw;
 import manouvre.game.commands.TakeHitCommand;
+import static java.lang.Math.abs;
 
 
 
@@ -165,86 +167,52 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     
            game.cardStateHandler.setState(CardStateHandler.PICK_ONLY_ONE);
            
-
-               
-           //Command rejectCard = ccmdf.createGuerrillaCardCommand();
-           //Command doNotRejectCard = ccmdf.createDoNotRejectCardCommand();
-           //CardDialog cd  = new CardDialog(new CardGUI (ccmdf.getOpponentCard()),null, client, cmdQueue, game);
-           //cd.setOkCommand(doNotRejectCard);
-           //cd.setCancelCommand(rejectCard);   
-          
-           //cd.setVisible(true);
            break;
-               
            }
-           
            case CardCommandFactory.ATTACK_DIALOG:
            {
                /*
                In order to pick 0 or more cards 
                */ 
-              
                game.cardStateHandler.setState(CardStateHandler.MULTIPLE_PICK);
                break;
                
            }
            case CardCommandFactory.CARD_REJECTED:
            {
-               //new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Your card was cancelled by opponent");
               break;
            }
            case CardCommandFactory.DEFENDING_WITHDRAW:
            {
-               game.getCombat().setState(Combat.PURSUIT);
                
                /*
                Create puruit dialog
                */
                //PursuitDialog pursuitDialog = new PursuitDialog(client, cmdQueue, game);
-               LOGGER.debug(game.getCurrentPlayer().getName() + " zmiana stanu na MapInputStateHandler.PICK_UNIT_BY_CARD");
-               game.mapInputHandler.setState(MapInputStateHandler.PICK_UNIT_BY_CARD);
-               
+
                buttonActionSetText();
-               
                break;
-               
            }
-           
-           
            case CardCommandFactory.CARD_NOT_REJECTED:
            {
-               //new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "Your card was not cancelled by opponent");
                break;
            }
             case CardCommandFactory.DEFENDING_CARDS_PLAYED:
            {
-              
-//           Command doNotRejectCard = ccmdf.createDoNotRejectCardCommand();
-//           cd.setOkCommand(doNotRejectCard);
-//           cd.setCancelCommand(rejectCard);   
-           
-           //sd.setVisible(true);
-           break;
+               break;
            }
             case CardCommandFactory.COMBAT_ACCEPTED: {
-          
-    
-            break;
+                break;
             }
-           
            case CardCommandFactory.COMBAT_NO_RESULT:
            {
            
            CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "BATTLE RESULT: \n"
                        + "Attack: " + game.getCombat().getAttackValue()+" vs Deffence: "+ game.getCombat().getDefenceValue() + "\n No result");
-           
-           
            break;
            }
-           
            case CardCommandFactory.COMBAT_DEFENDER_TAKES_HIT:
            {
- 
            CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "BATTLE RESULT: \n"
                        + "Attack: " + game.getCombat().getAttackValue()+" vs Deffence: "+ game.getCombat().getDefenceValue() + "\n Unit " + game.getCardCommandFactory().getAttackedUnit().getName() +  "takes 1 hit");
            break;
@@ -252,44 +220,47 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            
            case CardCommandFactory.COMBAT_ATTACKER_TAKES_HIT:
            {
- 
            CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "BATTLE RESULT: \n"
                        + "Attack: " + game.getCombat().getAttackValue()+" vs Deffence: "+ game.getCombat().getDefenceValue() + "\n Unit " + game.getCombat().getAttackingUnit().getName() +  "takes 1 hit");
            break;
            }
-           
            case CardCommandFactory.COMBAT_ATTACKER_ELIMINATE:
            {
- 
-           CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "BATTLE RESOLT: \n"
+           CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "BATTLE RESULT: \n"
                        + "Attack: " + game.getCombat().getAttackValue()+" vs Deffence: "+ game.getCombat().getDefenceValue() + "\n Unit " + game.getCombat().getAttackingUnit().getName() +  "is eliminated");
            break;
            }
-           
-           
            case CardCommandFactory.COMBAT_DEFENDER_ELIMINATE:
            {
- 
            CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "BATTLE RESULT: \n"
                        + "Attack: " + game.getCombat().getAttackValue()+" vs Deffence: "+ game.getCombat().getDefenceValue() + "\n Unit " + game.getCardCommandFactory().getAttackedUnit().getName() + "is eliminated");
            break;
            }
-           
-           
            case CardCommandFactory.DEFENDER_DECIDES:
-               
            {
                if(game.getCurrentPlayer().hasAttacked())
                {
-                    //Set info bar that defenfing player is choosing 
+                    //TODO Set info bar that defenfing player is choosing 
                }       
                 else 
                {
                buttonSetDecisionText("Withdraw", "Take Hit");
                }
+               break;
            
            }
-           
+           case CardCommandFactory.ATTACKER_DECIDES:
+           {
+               if(game.getCurrentPlayer().hasAttacked())
+               {
+                    buttonSetDecisionText("Withdraw", "Take Hit");
+               }       
+                else 
+               {
+                  //TODO banner to defending player  
+               }
+               break;
+           }
            default :
                System.out.println("manouvre.gui.GameWindow.update() No such dialog Type :"  + dialogType);
        
@@ -325,7 +296,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
   
     
     public void refreshAll(){
-        game.checkLockingGUI();
+        game.setLockGUIByPhase();
         buttonActionSetText();
         setPhaseLabelText();
         gameTurnCounter.setText(Integer.toString(game.getTurn()));
@@ -428,6 +399,11 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                    }
                 }
                 
+                if(combat.getState() == Combat.WITHRDAW)
+                {
+                    actionButton.setText("Pick position to withdraw");
+                }
+                
                 if(combat.getState() == Combat.PURSUIT)
                 {   
                     if(!game.getCombat().isAttackerNotRequiredToAdvance())
@@ -439,10 +415,19 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                     actionButton.setEnabled(true);  
                     } 
                 }
+                if(combat.getState() == Combat.DEFENDER_DECIDES
+                        || combat.getState() == Combat.ATTACKER_DECIDES
+                        )
+                {
+                   actionButton.setEnabled(false); 
+                   if( game.getCurrentPlayer().isActive() )
+                        actionButton.setText("Decide"); 
+                   else
+                       actionButton.setText("Opp decides"); 
+                        
+                }
             } 
-                    
-                
-             break;
+           break;
            }
             case Game.RESTORATION:
            {
@@ -2565,7 +2550,6 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             case "Withdraw":
                 
             {
-                
                 /*
                 If we have where to retreat
                 */
@@ -2574,26 +2558,43 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                                 game.getCombat().getDefendingUnit().getName()
                         
                         )).size() > 0 )
-                {
-                game.mapInputHandler.setState(MapInputStateHandler.PICK_MOVE_POSITION);
-                game.cardStateHandler.setState(CardStateHandler.NOSELECTION);
-                game.getCombat().getDefendingUnit().setRetriving(true);
-                }
-                
-                /*
-                We dont have to where to retreat so decide to die
-                */
+                {    
+                    /*
+                    Defending player
+                    */    
+                    if(!game.getCurrentPlayer().hasAttacked())
+                    {   
+
+                            game.mapInputHandler.setState(MapInputStateHandler.PICK_MOVE_POSITION);
+                            game.cardStateHandler.setState(CardStateHandler.NOSELECTION);
+                            game.getCombat().setState(Combat.WITHRDAW);
+                            game.getCombat().getDefendingUnit().setRetriving(true);
+
+                    }
+                    /*
+                    Attacking player
+                    */
+                    else 
+                    {
+                     /*
+                    Force withdraw command
+                    */
+                    ForceWithdraw fw = new ForceWithdraw(game.getCurrentPlayer().getName(),
+                            game.getCombat().getDefendingUnit());
+                    cmdQueue.storeAndExecuteAndSend(fw);
+                    }    
+                }   
                 else 
                 {
-                
-                //TODO confirmation dialog if You wanna die
+                        /*eliminate command*/
+                    TakeHitCommand th = new TakeHitCommand(
+                            game.getCurrentPlayer().getName(),
+                            game.getCombat().getDefendingUnit(), 
+                            true);
+                    cmdQueue.storeAndExecuteAndSend(th);
                 }
-                    
-                    
-                
-                break; 
+            break; 
             }
-        
         }
         repaint();
         buttonYes.setEnabled(false);
@@ -2603,13 +2604,15 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         
         
     }//GEN-LAST:event_buttonYesActionPerformed
-
+    /*
+    Take hit button 
+    */
     private void buttonNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonNoActionPerformed
-         switch(buttonYes.getText())
+         switch(buttonNo.getText())
         {
             case "Take Hit":
             {
-                TakeHitCommand th = new  TakeHitCommand(game.getCurrentPlayer().getName(), game.getCombat().getDefendingUnit());
+                TakeHitCommand th = new  TakeHitCommand(game.getCurrentPlayer().getName(), game.getCombat().getDefendingUnit(), false);
                 cmdQueue.storeAndExecuteAndSend(th);
                 break; 
             }

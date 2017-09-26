@@ -17,6 +17,7 @@ import manouvre.game.Card;
 import manouvre.game.CardSet;
 import manouvre.game.Game;
 import static java.lang.Math.round;
+import static java.lang.Math.round;
 
 /**
  * Retrives card picture/image

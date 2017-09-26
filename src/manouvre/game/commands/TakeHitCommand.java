@@ -6,7 +6,9 @@
 package manouvre.game.commands;
 
 import manouvre.game.CardCommandFactory;
+import manouvre.game.Combat;
 import manouvre.game.Game;
+import manouvre.game.Param;
 import manouvre.game.Unit;
 import manouvre.game.interfaces.Command;
 
@@ -19,29 +21,50 @@ public class TakeHitCommand implements Command{
     String playerName;
     Unit hitUnit;
     String log;
+    boolean eliminate;
 
-    public TakeHitCommand(String playerName, Unit hitUnit) {
+    public TakeHitCommand(String playerName, Unit hitUnit, boolean eliminate) {
         this.playerName = playerName;
         this.hitUnit = hitUnit;
+        this.eliminate = eliminate;
     }
     
     @Override
     public void execute(Game game) {
             
         Unit unit = game.getUnitByName(hitUnit.getName());
-        unit.takeHit();
-        if(  !unit.isEliminated())
-        {
-        game.getCardCommandFactory().notifyObservers(CardCommandFactory.COMBAT_DEFENDER_TAKES_HIT);
-        log = "Combat ends with defending unit takes a hit";
+        
+        if(!eliminate) 
+        {   
+            unit.takeHit();
+            if(  !unit.isEliminated())
+            {
+            game.getCardCommandFactory().notifyObservers(CardCommandFactory.COMBAT_DEFENDER_TAKES_HIT);
+            log = "Combat ends with defending unit takes a hit";
+            }
+            else 
+            {
+             game.getCardCommandFactory().notifyObservers(CardCommandFactory.COMBAT_DEFENDER_ELIMINATE);
+             log = "Combat ends with defending unit takes a hit and is eliminated";
+            }
+        
         }
         else 
         {
+         unit.eliminate();
          game.getCardCommandFactory().notifyObservers(CardCommandFactory.COMBAT_DEFENDER_ELIMINATE);
-         log = "Combat ends with defending unit takes a hit and is eliminated";
+         log = "Combat ends with defending unit is eliminated";
         }
-        
-        game.swapActivePlayer();
+   
+        if(game.getCombat().getState() == Combat.DEFENDER_DECIDES)
+        {
+            game.getCombat().setState(Combat.END_COMBAT);
+            game.swapActivePlayer();
+        }
+        if(game.getCombat().getState() == Combat.ATTACKER_DECIDES)
+        {
+            game.getCombat().setState(Combat.END_COMBAT);
+              }
     }
 
     @Override
@@ -56,7 +79,7 @@ public class TakeHitCommand implements Command{
 
     @Override
     public int getType() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return Param.TAKE_HIT;
     }
     
     

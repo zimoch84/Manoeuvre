@@ -67,7 +67,7 @@ public class CommandQueue {
         cmd.execute(game); //execute locally
         commandLogger.log(cmd);
         
-        
+        LOGGER.debug(game.getCurrentPlayer().getName() + " wykonano command " + cmd.logCommand());
         
         gameWindow.refreshAll();
         gameWindow.repaint();

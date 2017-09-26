@@ -25,7 +25,7 @@ public class Combat implements Serializable{
     public static final int BOMBARD = 204;
     
     /*
-    COmbat flow
+    COmbat flow state
     */
     public static final int COMBAT_NOT_INITIALIZED= -1;
     public static final int INITIALIZING_COMBAT= 0;
@@ -34,9 +34,10 @@ public class Combat implements Serializable{
     public static final int PICK_SUPPORT_UNIT= 3;
     public static final int PICK_SUPPORTING_CARDS= 4;
     public static final int THROW_DICES= 5;
-    public static final int PURSUIT= 6;
-    public static final int WAIT_FOR_OPPONENT= 7;
-    public static final int END_COMBAT= 7;
+    public static final int DEFENDER_DECIDES= 6;
+    public static final int ATTACKER_DECIDES= 7;
+    public static final int PURSUIT= 8;
+    public static final int END_COMBAT= 9;
     
     
     /*
@@ -44,8 +45,6 @@ public class Combat implements Serializable{
     */
     public static final int DEFFENDER_TAKES_HIT=9;
     public static final int ATTACKER_TAKES_HIT= 10;
-    public static final int DEFENDER_CHOSES= 11;
-    public static final int ATTACKER_CHOSES= 12;
     public static final int HIT_AND_RETREAT= 13;
     public static final int ELIMINATE= 14;
     public static final int NO_EFFECT= 15;
@@ -63,15 +62,12 @@ public class Combat implements Serializable{
     int state;
     
     int defenceValue, attackValue, defenseBonus, attackBonus;
-    
-    
+
     ArrayList<Dice> dices;
-    
     Card attackCard; 
     ArrayList<Card> attackCards, defenceCards;
     Terrain attackTerrain, defenseTerrain;
-    
-    
+ 
     int combatType;
 
     public Combat(Unit initAttackUnit, Card attackCard,Terrain attackTerrain, Unit defendingUnit, Terrain defenseTerrain) {
@@ -253,9 +249,9 @@ public class Combat implements Serializable{
         
         if(attackValue == defenceValue) return NO_EFFECT; // if(defenceValue == attackValue) 
         
-        if(attackValue > defenceValue && attackValue <  defenceValue * 2 ) return DEFENDER_CHOSES;
+        if(attackValue > defenceValue && attackValue <  defenceValue * 2 ) return DEFENDER_DECIDES;
         
-        if(attackValue >= defenceValue * 2  && attackValue <  defenceValue * 3 ) return ATTACKER_CHOSES;
+        if(attackValue >= defenceValue * 2  && attackValue <  defenceValue * 3 ) return ATTACKER_DECIDES;
         
         if(attackValue >= defenceValue * 3  && attackValue <  defenceValue * 4 ) return HIT_AND_RETREAT;
         

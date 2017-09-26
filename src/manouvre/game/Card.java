@@ -73,9 +73,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import manouvre.game.commands.CommandQueue;
 import manouvre.state.MapInputStateHandler;
+import org.apache.logging.log4j.LogManager;
 
 
 public class Card implements CardInterface, Serializable{
+    
+    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(Card.class.getName());
     
     private static final long serialVersionUID = 419321L;
     int countId=480;
@@ -785,8 +788,9 @@ public class Card implements CardInterface, Serializable{
                     game.getCardCommandFactory().getAttackedUnit().setSelected(true);
                     game.getCardCommandFactory().getAttackedUnit().setRetriving(true);
                     game.getCardCommandFactory().setPlayingCard(this);
+                    game.getCombat().setState(Combat.WITHRDAW);
                     //game.getCurrentPlayer().setActive(true);
-                    game.mapInputHandler.setState(MapInputStateHandler.PICK_MOVE_POSITION);
+                    game.mapInputHandler.setState(MapInputStateHandler.PICK_MOVE_POSITION_BY_CARD);
                     }
                     break;
                 }
@@ -868,6 +872,7 @@ public class Card implements CardInterface, Serializable{
                     game.getCardCommandFactory().getAttackedUnit().setSelected(false);
                     game.getCardCommandFactory().getAttackedUnit().setRetriving(false);
                     //game.getCurrentPlayer().setActive(false);
+                    LOGGER.debug(game.getCurrentPlayer().getName() + " zmiana stanu na MapInputStateHandler.NOSELECTION");
                     game.mapInputHandler.setState(MapInputStateHandler.NOSELECTION);
                     }
                     break;

@@ -261,23 +261,27 @@ public class CardCommands {
             
             moveUnitCommand.execute(game);
             
-            game.getCombat().setState(Combat.WITHRDAW);
+            game.getCombat().setState(Combat.PURSUIT);
             
             /*
-            Setting non active after choosing withdraw position on map to avoid 
+            Defending player waits
             */
-            if(game.getCurrentPlayer().getName().equals(senderPlayerName))
-                
+            if(!game.getCurrentPlayer().hasAttacked())    
             {  
-                //game.getCurrentPlayer().setActive(false);
+            LOGGER.debug(game.getCurrentPlayer().getName() + " zmiana stanu na MapInputStateHandler.NOSELECTION");
+            game.mapInputHandler.setState(MapInputStateHandler.NOSELECTION);
                
             }
-        
+            /*
+            Attacking player chooses unit to pursuit
+            */
             else
             { 
-                 game.getCardCommandFactory().notifyObservers(CardCommandFactory.DEFENDING_WITHDRAW);
+            LOGGER.debug(game.getCurrentPlayer().getName() + " zmiana stanu na MapInputStateHandler.PICK_UNIT_BY_CARD");
+            game.mapInputHandler.setState(MapInputStateHandler.PICK_UNIT_BY_CARD);
                  
             }
+
             game.swapActivePlayer();
         }
 
@@ -357,7 +361,11 @@ public class CardCommands {
            }
            else 
            {
+               /*
+               To enable roll dice action button
+               */
             combat.setState(Combat.PICK_SUPPORTING_CARDS);
+            
             game.cardStateHandler.setState(CardStateHandler.NOSELECTION);
            }
            game.setCombat(combat);
@@ -636,13 +644,20 @@ public class CardCommands {
 
         @Override
         public String logCommand() {
-            if(defendCards.size()==1)//if player is playing one card
-                if (defendCards.get(0).getCanBeCancelled()) {
-                    return defendCards.get(0).getCardName() + " cart moved to the table " + senderPlayerName + " have to wait for acceptance";
-                }
-                
             
-            return "More than one cart moved to the table";
+            String log = "";
+            if(!defendCards.isEmpty())
+            {
+                for(Card card:defendCards)
+                {
+                    log += card.getCardName() + " ";
+                }
+                log += "were played as defence card";
+            }
+            else 
+                log += "No card was played as defence card";
+            
+            return log;
         }
 
         @Override
@@ -662,16 +677,23 @@ public class CardCommands {
         ThrowDiceCommand td;
         String senderPlayerName;
         String log;
+        private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(CombatOutcomeCommand.class.getName());
         
-        public CombatOutcomeCommand(String senderPlayerName, Combat combat, ThrowDiceCommand td ) {
+        public CombatOutcomeCommand(String senderPlayerName, Combat combat) {
            
+            
+            
+            this.senderPlayerName = senderPlayerName;
+            /*
+            Dices are thrown in contructor of ThrowDiceCommand
+            */
+            ThrowDiceCommand td = new ThrowDiceCommand(senderPlayerName , combat.getAttackCards() );
+            
             Combat tcombatclone = (Combat) UnoptimizedDeepCopy.copy (combat);
             ThrowDiceCommand tdclone = (ThrowDiceCommand) UnoptimizedDeepCopy.copy (td);
             this.td = tdclone;
             this.combat = tcombatclone;
-            this.senderPlayerName = senderPlayerName;
-            
-            
+
             
         }
 
@@ -682,17 +704,11 @@ public class CardCommands {
             Set cardFactorywith dices
             */
             
-            
-            if(game.getCurrentPlayer().getName().equals(senderPlayerName))
-            {
-                td.execute(game);
-                            
-                combat.setDices(game.getCardCommandFactory().getAllDices());
-            
-                combat.calculateCombatValues();
-            }
+            td.execute(game);
+            combat.setDices(game.getCardCommandFactory().getAllDices());
+            combat.calculateCombatValues();
             game.setCombat(combat);
-            
+
             switch(combat.getOutcome()){
             
                 case  Combat.NO_EFFECT:
@@ -701,24 +717,27 @@ public class CardCommands {
                      game.getCardCommandFactory().awakeObserver();   
                      game.getCardCommandFactory().notifyObservers(CardCommandFactory.COMBAT_NO_RESULT);
                      log = "Combat ends with no effect";
+                     game.getCombat().setState(Combat.END_COMBAT);
                      break;
                 }
                 
                 case  Combat.DEFFENDER_TAKES_HIT:
                 
                 {
-                     
                      game.getCardCommandFactory().awakeObserver();
                      game.getUnitByName(combat.getDefendingUnit().getName()).takeHit();
                      if(  !game.getUnitByName(combat.getDefendingUnit().getName()).isEliminated())
-                     {game.getCardCommandFactory().notifyObservers(CardCommandFactory.COMBAT_DEFENDER_TAKES_HIT);
-                     log = "Combat ends with defending unit takes a hit";
+                     {
+                         game.getCardCommandFactory().notifyObservers(CardCommandFactory.COMBAT_DEFENDER_TAKES_HIT);
+                         log = "Combat ends with defending unit takes a hit";
                      }
                      else 
                      {
                          game.getCardCommandFactory().notifyObservers(CardCommandFactory.COMBAT_DEFENDER_ELIMINATE);
-                      log = "Combat ends with defending unit takes a hit and is eliminated";
+                         log = "Combat ends with defending unit takes a hit and is eliminated";
                      }
+                     
+                     game.getCombat().setState(Combat.END_COMBAT);
                      break;
                 }
                 
@@ -729,6 +748,8 @@ public class CardCommands {
                      game.getUnitByName(combat.getDefendingUnit().getName()).eliminate();
                      game.getCardCommandFactory().notifyObservers(CardCommandFactory.COMBAT_DEFENDER_ELIMINATE);
                      log = "Combat ends with defending unit is eliminated";
+                     game.getCombat().setState(Combat.END_COMBAT);
+                     
                      break;
                 }
                 
@@ -746,100 +767,82 @@ public class CardCommands {
                         game.getCardCommandFactory().notifyObservers(CardCommandFactory.COMBAT_ATTACKER_ELIMINATE);
                         log = "Combat ends with attacking unit takes a hit and is eliminated" ;
                      }
+                     
+                     game.getCombat().setState(Combat.END_COMBAT);
                      break;  
                 }
                 /*
                 Temporary we assume that defender always choose to retreat
                 */
-                case Combat.DEFENDER_CHOSES :
+                case Combat.DEFENDER_DECIDES :
                 {
                      
                      game.getCardCommandFactory().awakeObserver();
                      game.getCardCommandFactory().notifyObservers(CardCommandFactory.DEFENDER_DECIDES);
-                     
-                     
-                     Unit defendingUnit =  game.getUnitByName(combat.getDefendingUnit().getName());
-                     ArrayList<Position> retreatPosition =  game.getRetreatPositions(defendingUnit);
+
                      /*
                      TODO - create full retreat dialog with defender choice
                      Currently - take first possible position
                      */
                       
-                     
-                     
-                     if(retreatPosition.size() > 0){
-                         
-                         log = "Combat ends with defending unit retreats" ;
-                         MoveUnitCommand moveUnitCommand = new MoveUnitCommand(senderPlayerName  , defendingUnit,  retreatPosition.get(0));
-                         moveUnitCommand.execute(game);
-                         game.getCardCommandFactory().notifyObservers(CardCommandFactory.DEFENDING_WITHDRAW);
-                     }
-                     
-                     else 
-                     {
-                         game.getCardCommandFactory().notifyObservers(CardCommandFactory.COMBAT_DEFENDER_ELIMINATE);
-                         log = "Combat ends with defending unit has no place to retreat and is eliminated" ;
-                         game.getUnitByName(combat.getDefendingUnit().getName()).eliminate();
-                     }
-                     
-                     
-                    
+                     game.swapActivePlayer();
+                     log = "Defending player decides";
+                     game.getCombat().setState(Combat.DEFENDER_DECIDES);
                      break;  
                 }
-                /*
-                Temporary we assume that attacker always choose to take hit
-                */
-                case Combat.ATTACKER_CHOSES :
+                
+                case Combat.ATTACKER_DECIDES :
                 {
-                     
                      game.getCardCommandFactory().awakeObserver();
-                     game.getUnitByName(combat.getDefendingUnit().getName()).takeHit();
-                     game.getCardCommandFactory().notifyObservers(CardCommandFactory.COMBAT_DEFENDER_TAKES_HIT);
-                     log = "Combat ends with attacking player decide to hit or forced to retreat" ;
+                     game.getCardCommandFactory().notifyObservers(CardCommandFactory.ATTACKER_DECIDES);
+                     log = "Attacking player decides" ;
+                     game.getCombat().setState(Combat.ATTACKER_DECIDES);
                      break;
                 }
                 case Combat.HIT_AND_RETREAT :
                 {
+                    game.getCardCommandFactory().awakeObserver();
+                    Unit defendingUnit =  game.getUnitByName(combat.getDefendingUnit().getName());
+                    ArrayList<Position> retreatPosition =  game.getRetreatPositions(defendingUnit);
+                    
+                    defendingUnit.takeHit();
+                    
+                    if(  !game.getUnitByName(combat.getDefendingUnit().getName()).isEliminated())
+                    {
+                        if(retreatPosition.size() > 0){
+                         
+                        game.getCardCommandFactory().notifyObservers(CardCommandFactory.DEFENDING_WITHDRAW); 
+                        defendingUnit.setRetriving(true);
+                        game.getCombat().setState(Combat.WITHRDAW);
+                        game.mapInputHandler.setState(MapInputStateHandler.PICK_MOVE_POSITION);
+                        
+                        game.swapActivePlayer();
+                        log = "Defending unit takes a hit and choose where to retreat";
+                             }
+                        else          
+                        {
+                        game.getCardCommandFactory().notifyObservers(CardCommandFactory.COMBAT_DEFENDER_ELIMINATE);
+                        game.getCombat().setState(Combat.END_COMBAT);
+                        log = "Combat ends with defending unit takes a hit and is eliminated with no room to retreat";
+                        break;
+                        }
                      
-                     game.getCardCommandFactory().awakeObserver();
-                     game.getUnitByName(combat.getDefendingUnit().getName()).takeHit();
-                     
-                     if(  !game.getUnitByName(combat.getDefendingUnit().getName()).isEliminated())
-                     {game.getCardCommandFactory().notifyObservers(CardCommandFactory.COMBAT_DEFENDER_TAKES_HIT);
-                     log = "Combat ends with defending unit takes a hit and retreats";
                      }
+                    
                      else 
                      {
                          game.getCardCommandFactory().notifyObservers(CardCommandFactory.COMBAT_DEFENDER_ELIMINATE);
-                         log = "Combat ends with defending unit takes a hit and is eliminated";
-                         break;
-                     }
-                     Unit defendingUnit =  game.getUnitByName(combat.getDefendingUnit().getName());
-                     ArrayList<Position> retreatPosition =  game.getRetreatPositions(defendingUnit);
-                     /*
-                     TODO - create full retreat dialog with defender choice
-                     Currently - take first possible position
-                     */
-                    if(retreatPosition.size() > 0){
-                         MoveUnitCommand moveUnitCommand = new MoveUnitCommand(senderPlayerName  , defendingUnit,  retreatPosition.get(0));
-                         moveUnitCommand.execute(game);
-                    }
-                     
-                    else 
-                     {
-                         game.getCardCommandFactory().notifyObservers(CardCommandFactory.COMBAT_DEFENDER_ELIMINATE);
-                         log = "Combat ends with defending unit has no place to retreat and is eliminated" ;
-                         game.getUnitByName(combat.getDefendingUnit().getName()).eliminate();
+                         log = "Combat ends with defending takes hit and is eliminated" ;
+                         game.getCombat().setState(Combat.END_COMBAT);
                      }
       
-                     game.getCardCommandFactory().notifyObservers(CardCommandFactory.COMBAT_DEFENDER_TAKES_HIT);
                      break;  
                 }
             }
-          game.getCombat().setState(Combat.END_COMBAT);
           
-          game.unselectAllUnits();
-          game.mapInputHandler.setState(MapInputStateHandler.NOSELECTION);
+        LOGGER.debug(game.getCurrentPlayer().getName() + " game.unselectAllUnits();"  );
+        game.unselectAllUnits();
+
         }
 
         @Override

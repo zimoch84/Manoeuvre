@@ -716,10 +716,20 @@ public final class Game implements Serializable{
                 
             case Game.COMBAT:
                    
-                selectedUnit = getSelectedUnit();
-                if(selectedUnit.isRetriving())
-                    return getRetreatPositions(selectedUnit);
-                else 
+                
+                if(getCombat()!= null)
+                {  
+                    switch( getCombat().getState() ){
+                    
+                        case Combat.WITHRDAW :
+                        {
+                        if(getCombat().getDefendingUnit().isRetriving())
+                            
+                            return getRetreatPositions(getCombat().getDefendingUnit());
+                        }
+                    }
+                }
+
                 return null;
                 /*
                 TODO implement many more cases with combat mode
@@ -951,7 +961,7 @@ public final class Game implements Serializable{
     this.lockGUI = false;
     }
     
-     public void checkLockingGUI()
+     public void setLockGUIByPhase()
     {
         if(getCombat()==null){
                 if(getPhase()== Game.SETUP && getCurrentPlayer().isFinishedSetup() && !getOpponentPlayer().isFinishedSetup() )
@@ -962,20 +972,7 @@ public final class Game implements Serializable{
                     unlockGUI();
         }
         
-//        else{
-//            
-//            if(getCombat().getState()==Combat.PICK_DEFENSE_CARDS){
-//                if(getCurrentPlayer().isActive())
-//                        lockGUI();
-//                else unlockGUI();
-//            }
-//            if(getCombat().getState()==Combat.PICK_SUPPORTING_CARDS){
-//                if(getCurrentPlayer().isActive())
-//                    unlockGUI();
-//                else lockGUI();
-//            }
-//  
-//        }
+
     }   
 }
 

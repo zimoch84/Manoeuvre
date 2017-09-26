@@ -83,7 +83,7 @@ public class CardCommandFactory extends Observable implements Serializable{
         d6dices = new ArrayList<>();
         d8dices = new ArrayList<>();
         d10dices = new ArrayList<>(); 
-       // fakeDices();
+        fakeDices();
         
     }
 
@@ -228,6 +228,8 @@ public class CardCommandFactory extends Observable implements Serializable{
         
         
     }
+    
+    
         
     /*
     Crate card command based on Card
@@ -393,11 +395,7 @@ public class CardCommandFactory extends Observable implements Serializable{
     d8dices.add(new Dice(Dice.D8));
     d8dices.add(new Dice(Dice.D8));
     
-    /*
-        for(Dice dice : d6dices){dice.setResult(6);}
-        for(Dice dice : d8dices){dice.setResult(8);}
-        for(Dice dice : d10dices){dice.setResult(10);}
-*/        
+      
         for(Dice dice : d6dices){dice.generateResult();}
         for(Dice dice : d8dices){dice.generateResult();}
         for(Dice dice : d10dices){dice.generateResult();}
@@ -419,8 +417,8 @@ public class CardCommandFactory extends Observable implements Serializable{
     public Command createOutcomeCombatCommand(){
       
         Combat combat = game.getCombat();
-        ThrowDiceCommand td = new ThrowDiceCommand(game.getCurrentPlayer().getName(), combat.getAttackCards());
-        return new CardCommands.CombatOutcomeCommand(   game.getCurrentPlayer().getName(),combat, td    );
+       
+        return new CardCommands.CombatOutcomeCommand(   game.getCurrentPlayer().getName(),combat);
     }
     
     public ArrayList<Dice> getAllDices(){

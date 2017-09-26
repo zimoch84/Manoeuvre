@@ -817,7 +817,7 @@ public class GameGUI {
     
     public void paintCalculationCombatPanel(Graphics g) {
         
-        final int START_X_COMBAT_PANEL = 50;
+        final int START_X_COMBAT_PANEL = 10;
         final int START_Y_COMBAT_PANEL = 16;
         final int Y_GAP = 50;
         final int X_GAP = 50;
@@ -847,7 +847,7 @@ public class GameGUI {
     }
     
     private void paintDices(Graphics g){
-        final int DICE_GAP = 10;
+        
         final int STARTING_D6_X = 480;
         final int STARTING_D6_Y = 30;
         
