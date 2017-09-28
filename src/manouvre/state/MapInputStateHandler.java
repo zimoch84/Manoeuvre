@@ -130,7 +130,7 @@ public class MapInputStateHandler implements Serializable{
     
     public void handle(Position pos, Game game, CommandQueue cmdQueue)
     {
-                currentState.handleInput(pos, game, cmdQueue, this);
+         currentState.handleInput(pos, game, cmdQueue, this);
     }
     
     

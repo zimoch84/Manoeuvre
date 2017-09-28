@@ -47,10 +47,10 @@ import manouvre.state.MapInputStateHandler;
 import org.apache.logging.log4j.LogManager;
 import manouvre.state.CardStateHandler;
 import manouvre.game.commands.DontAdvanceUnitCommand;
-import static java.lang.Math.abs;
 import manouvre.game.commands.ForceWithdraw;
 import manouvre.game.commands.TakeHitCommand;
 import static java.lang.Math.abs;
+import manouvre.game.Terrain;
 
 
 
@@ -128,6 +128,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
 
         this.setTitle(title);
        
+        game.setInfoBarText(title);
         
         initComponents();
         
@@ -185,10 +186,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            case CardCommandFactory.DEFENDING_WITHDRAW:
            {
                
-               /*
-               Create puruit dialog
-               */
-               //PursuitDialog pursuitDialog = new PursuitDialog(client, cmdQueue, game);
+               game.setInfoBarText("Defender withdraws");
 
                buttonActionSetText();
                break;
@@ -207,33 +205,56 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            case CardCommandFactory.COMBAT_NO_RESULT:
            {
            
-           CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "BATTLE RESULT: \n"
-                       + "Attack: " + game.getCombat().getAttackValue()+" vs Deffence: "+ game.getCombat().getDefenceValue() + "\n No result");
+           game.setInfoBarText("Att: " + game.getCombat().getAttackValue()+
+                   " vs Def: "+ game.getCombat().getDefenceValue() + " => No hit");
            break;
            }
            case CardCommandFactory.COMBAT_DEFENDER_TAKES_HIT:
            {
-           CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "BATTLE RESULT: \n"
-                       + "Attack: " + game.getCombat().getAttackValue()+" vs Deffence: "+ game.getCombat().getDefenceValue() + "\n Unit " + game.getCardCommandFactory().getAttackedUnit().getName() +  "takes 1 hit");
+           game.setInfoBarText(
+                   "Att: " + game.getCombat().getAttackValue()
+                           +" vs Def: "+ game.getCombat().getDefenceValue() +" => " 
+                           +  "reduce defender unit");
            break;
            }
            
            case CardCommandFactory.COMBAT_ATTACKER_TAKES_HIT:
            {
-           CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "BATTLE RESULT: \n"
-                       + "Attack: " + game.getCombat().getAttackValue()+" vs Deffence: "+ game.getCombat().getDefenceValue() + "\n Unit " + game.getCombat().getAttackingUnit().getName() +  "takes 1 hit");
+            game.setInfoBarText("Att: " + game.getCombat().getAttackValue()
+                           +" vs Def: "+ game.getCombat().getDefenceValue() +" => " 
+                           +  "reduce attacker unit");
            break;
            }
            case CardCommandFactory.COMBAT_ATTACKER_ELIMINATE:
            {
-           CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "BATTLE RESULT: \n"
-                       + "Attack: " + game.getCombat().getAttackValue()+" vs Deffence: "+ game.getCombat().getDefenceValue() + "\n Unit " + game.getCombat().getAttackingUnit().getName() +  "is eliminated");
+           
+            game.setInfoBarText("Att: " + game.getCombat().getAttackValue()
+                           +" vs Def: "+ game.getCombat().getDefenceValue() +" => " 
+                           +  "eliminate attacker unit");
+
            break;
            }
+           case CardCommandFactory.PUSRUIT_SUCCEDED:
+           {
+           
+           game.setInfoBarText("Pursuit with score: " + game.getCombat().getAttackValue() + " succeded");
+
+           break;
+           }
+           
+           case CardCommandFactory.PUSRUIT_FAILED:
+           {
+           game.setInfoBarText("Pursuit with score: " + game.getCombat().getAttackValue() + " failed");
+           
+           break;
+           }
+           
            case CardCommandFactory.COMBAT_DEFENDER_ELIMINATE:
            {
-           CustomDialog cd  = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, "BATTLE RESULT: \n"
-                       + "Attack: " + game.getCombat().getAttackValue()+" vs Deffence: "+ game.getCombat().getDefenceValue() + "\n Unit " + game.getCardCommandFactory().getAttackedUnit().getName() + "is eliminated");
+           game.setInfoBarText("Att: " + game.getCombat().getAttackValue()
+                           +" vs Def: "+ game.getCombat().getDefenceValue() +" => " 
+                           +  "eliminate defender unit");
+           
            break;
            }
            case CardCommandFactory.DEFENDER_DECIDES:
@@ -282,9 +303,9 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
      g.drawImage(bgImage, 0, 0, this.getSize().width, this.getSize().height,Color.red, null);
     }
      
-    private void drawInfoPanel(Graphics g){
+    private void paintInfoPanel(Graphics g){
     
-        gameGui.drawInfoPanel(g);
+        gameGui.paintInfoPanel(g);
     }
     
     private void drawMap(Graphics g )                   
@@ -406,14 +427,19 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                 
                 if(combat.getState() == Combat.PURSUIT)
                 {   
-                    if(!game.getCombat().isAttackerNotRequiredToAdvance())
-                        {
-                        actionButton.setText("Pick Pursuit Unit");
-                        }
-                    else{
+
+                if(!game.getCombat().isAttackerNotRequiredToAdvance())
+                    {
+                    actionButton.setText("Pick Pursuit Unit");
+                    }
+                else{
                     actionButton.setText("Not requre to adv.");
-                    actionButton.setEnabled(true);  
-                    } 
+                 if( game.getCurrentPlayer().isActive() && !game.isLocked() )
+                    actionButton.setEnabled(true); 
+                 else 
+                     actionButton.setEnabled(false); 
+                }
+                 
                 }
                 if(combat.getState() == Combat.DEFENDER_DECIDES
                         || combat.getState() == Combat.ATTACKER_DECIDES
@@ -600,6 +626,13 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         gameGui.paintCombatPanel(g);
         
     }
+    
+    private void paintInfoBarPanel (Graphics g){
+        gameGui.paintInfoBarPanel(g);
+        
+    }
+    
+    
     private void paintTablePanel (Graphics g){
         gameGui.paintTablePanel(g);
         
@@ -733,7 +766,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         {
             @Override
             public void paintComponent(Graphics g) {
-                drawInfoPanel(g);
+                paintInfoPanel(g);
 
             }
         }
@@ -748,7 +781,14 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         ;
         lockedButton = new javax.swing.JToggleButton();
         lockedButton1 = new javax.swing.JToggleButton();
-        jPanel3 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel(){
+            @Override
+            public void paintComponent(Graphics g) {
+                paintInfoBarPanel(g);
+
+            }
+        }
+        ;
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         FindCard = new javax.swing.JMenuItem();
@@ -1347,7 +1387,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             .addGroup(mainWindowPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(mainWindowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rightSidePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(rightSidePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 907, Short.MAX_VALUE)
                     .addGroup(mainWindowPanelLayout.createSequentialGroup()
                         .addComponent(mainMapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -2144,24 +2184,18 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     }//GEN-LAST:event_mainMapPanelMouseEntered
 
     private void mainMapPanelMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainMapPanelMouseMoved
-       int x = evt.getPoint().x;
+        int x = evt.getPoint().x;
         int y = evt.getPoint().y;
         
-        Position clickedPos = Position.getPositionFromMouse(x, y);
-        
-        
+        Position movedPos = Position.getPositionFromMouse(x, y);
         if (windowMode == CreateRoomWindow.AS_GUEST) 
             {
-                clickedPos = clickedPos.transpoze();
+                movedPos = movedPos.transpoze();
             }
-               
-        UnitGUI unit = gameGui.getUnitGuiOnMapGui(clickedPos);
-        if(unit != null){
         
-        gameGui.setInfoImage(unit.getImg());
+        gameGui.setHoverPosition(movedPos);
         repaint();
-        
-        }
+   
     }//GEN-LAST:event_mainMapPanelMouseMoved
 
     private void mainMapPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainMapPanelMouseExited
@@ -2569,6 +2603,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                             game.cardStateHandler.setState(CardStateHandler.NOSELECTION);
                             game.getCombat().setState(Combat.WITHRDAW);
                             game.getCombat().getDefendingUnit().setRetriving(true);
+                            game.getCombat().getDefendingUnit().setSelected(true);
 
                     }
                     /*
@@ -2633,25 +2668,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         this.cmdQueue = cmdQueue;
     }
 
-
-    
-    /**
-	 * check whether the mouse is currently over this piece
-	 * @param piece the playing piece
-	 * @param x x coordinate of mouse
-	 * @param y y coordinate of mouse
-	 * @return true if mouse is over the piece
-	 */
-	
-        private boolean mouseOverPiece(TerrainGUI guiTerrain, int x, int y) {
-
-		return guiTerrain.getPos().getMouseX() < x 
-			&& guiTerrain.getPos().getMouseX() +guiTerrain.getWidth() > x
-			&& guiTerrain.getPos().getMouseY() < y
-			&& guiTerrain.getPos().getMouseY()+guiTerrain.getHeight() > y;
-	
-        }
-        
+            
     @Override
     public void printOnChat(String inString)    {
     

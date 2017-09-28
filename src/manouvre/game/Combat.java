@@ -326,12 +326,12 @@ public class Combat implements Serializable{
         {
             if(!attackCards.isEmpty())
             {
-                for(Card attackCard :attackCards)
+                for(Card attackCardinLoop :attackCards)
                 {
                     /*
                     If supoprting card doesnt have "Not required to advance" feature then attacker have to advance
                     */
-                    if(!attackCard.isNotRequredToAdvanceAfterAttack())
+                    if(!attackCardinLoop.isNotRequredToAdvanceAfterAttack())
                         return false; 
                 }
                 /*
@@ -445,10 +445,17 @@ public class Combat implements Serializable{
                 unit.setSupporting(false);
             
         }
-        LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().resetFactory()");
-        game.getCardCommandFactory().resetFactory();
+       // LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().resetFactory()");
+       // game.getCardCommandFactory().resetFactory();
     
     }
     
+    public void linkObjects(Game game)
+    {
+        game.setUnit(defendingUnit);
+        game.setUnit(initAttackUnit);
+        
+    
+    }
     
 }

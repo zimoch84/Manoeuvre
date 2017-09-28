@@ -8,6 +8,7 @@ package manouvre.game;
 import java.io.Serializable;
 import java.util.ArrayList;
 import manouvre.game.interfaces.PositionInterface;
+import manouvre.gui.CreateRoomWindow;
 import manouvre.gui.MapGUI;
 
 /**
@@ -59,9 +60,12 @@ public class Position implements PositionInterface, Serializable{
 	 * @param 
 	 * @return x coordinate for upper right corner  terrain	
 	 */
-       public  int getMouseX(){
+       public  int getMouseX(int isHost){
            
+                if(isHost == CreateRoomWindow.AS_HOST)
 		return MapGUI.BOARD_START_X+  MapGUI.SQUARE_WIDTH * x;
+                else
+                return MapGUI.BOARD_START_X+  MapGUI.SQUARE_WIDTH * transpoze().getX();
          
 	}
 	
@@ -70,10 +74,13 @@ public class Position implements PositionInterface, Serializable{
 	 * @param 
 	 * @return y coordinate for  upper right corner  terrain
 	 */
-	public  int getMouseY(){
-              
+	public  int getMouseY(int isHost){
+               
+                if(isHost == CreateRoomWindow.AS_HOST)
 		return  MapGUI.SQUARE_HEIGHT * (PositionInterface.ROW_8 - y) + MapGUI.BOARD_START_Y ;
-            
+                else 
+                return  MapGUI.SQUARE_HEIGHT * (PositionInterface.ROW_8 - transpoze().getY()) + MapGUI.BOARD_START_Y ;   
+                
            
 	}
         	
@@ -132,13 +139,7 @@ public class Position implements PositionInterface, Serializable{
     
     }
     
-    public boolean checkIfMouseFitInPositon(int mouseX, int mouseY)
-    {
-        
-        return mouseX > getMouseX() && mouseX < getMouseX() + MapGUI.SQUARE_WIDTH  
-                 && mouseY > getMouseY() && mouseY < getMouseY() + MapGUI.SQUARE_HEIGHT;
-    }
-    
+   
      /**
 	 * convert logical X row into Mouse x coordinate
         * @param x

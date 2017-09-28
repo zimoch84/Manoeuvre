@@ -47,6 +47,9 @@ public class CardCommandFactory extends Observable implements Serializable{
     public final static String COMBAT_ATTACKER_TAKES_HIT = "COMBAT_ATTACKER_TAKES_HIT";
     public final static String COMBAT_DEFENDER_ELIMINATE = "COMBAT_ELIMINATE";
     public final static String COMBAT_ATTACKER_ELIMINATE = "COMBAT_ATTCACKER_ELIMINATE";
+    public final static String PUSRUIT_FAILED = "PUSRUIT_FAILED";
+    public final static String PUSRUIT_SUCCEDED = "PUSRUIT_SUCCEDED";
+    
     public final static String COMBAT_ACCEPTED = "COMBAT_ACCEPTED";
     
      

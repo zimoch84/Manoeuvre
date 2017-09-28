@@ -5,13 +5,11 @@
  */
 package manouvre.gui;
 
-import java.awt.Image;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import manouvre.game.Position;
 import manouvre.game.Terrain;
 
@@ -23,7 +21,7 @@ public class TerrainGUI {
     
         final private int SQUARE_WIDTH = 100;
         final private int SQUARE_HEIGHT = 100;
-        private Image img;
+        private BufferedImage img;
         
         
         Terrain terrain;
@@ -82,7 +80,7 @@ public class TerrainGUI {
 		}
                    this.img = cutImage;
 	}
-     public Image getImg() {
+     public BufferedImage getImg() {
         return img;
     }
      

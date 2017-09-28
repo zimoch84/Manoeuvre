@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import manouvre.game.Map;
+import manouvre.game.Position;
 
 
 /**
@@ -62,6 +63,8 @@ public class MapGUI{
      public static final int PIECES_START_X =  (int)((SQUARE_WIDTH - PIECE_WIDTH)/2.0);
      public static final int PIECES_START_Y =  (int)((SQUARE_HEIGHT - PIECE_HEIGHT)/2.0);
     
+     public static final int LETTER_OFFSET_X = 10;
+     public static final int LETTER_OFFSET_Y = PIECE_HEIGHT - 5;
      
      Image background ;
     
@@ -137,6 +140,16 @@ public class MapGUI{
         this.map = map;
     }
 
+    public TerrainGUI getTerrainGuiAtPosition(Position position)
+    {
+        for(TerrainGUI terrain : getTerrainsGUI())
+        {
+            if(terrain.getPos().equals(position))
+                return terrain;
+        }
+        return null;
+            
+    }
     
    }
     

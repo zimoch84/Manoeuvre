@@ -1117,7 +1117,7 @@
                 <Property name="opaque" type="boolean" value="false"/>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JPanel()&#xa;{&#xa;@Override&#xa;public void paintComponent(Graphics g) {&#xa;    drawInfoPanel(g);&#xa;&#xa;}&#xa;}&#xa;"/>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JPanel()&#xa;{&#xa;    @Override&#xa;    public void paintComponent(Graphics g) {&#xa;        paintInfoPanel(g);&#xa;&#xa;    }&#xa;}&#xa;"/>
               </AuxValues>
 
               <Layout>
@@ -1176,6 +1176,9 @@
                 </Property>
                 <Property name="opaque" type="boolean" value="false"/>
               </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JPanel(){&#xa;    @Override&#xa;    public void paintComponent(Graphics g) {&#xa;        paintInfoBarPanel(g);&#xa;&#xa;    }&#xa;}&#xa;"/>
+              </AuxValues>
 
               <Layout>
                 <DimensionLayout dim="0">

@@ -5,6 +5,7 @@
  */
 package manouvre.gui;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -23,8 +24,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import manouvre.game.Dice;
-import javax.swing.JOptionPane;
 import manouvre.game.Combat;
+import manouvre.game.Terrain;
 import org.apache.logging.log4j.LogManager;
 
 
@@ -54,6 +55,9 @@ public class GameGUI {
     
     int stateTemp=Combat.INITIALIZING_COMBAT;
     BufferedImage  infoImage;
+    
+    Position hoverPosition;
+    
     CardCommandFactory cardFactory;
     /*
     Wielkosc ramki stolu w kwadracie w pikselach
@@ -70,7 +74,6 @@ public class GameGUI {
     
     CommandQueue cmdQueue;
     
-    
     public GameGUI (Game newGame, int windowMode, CommandQueue cmdQueue) throws IOException{
         this.game=newGame;
         this.currentPlayer=game.getCurrentPlayer();
@@ -80,9 +83,6 @@ public class GameGUI {
         
         this.cardSetsGUI = new CardSetGUI(game);
         
-//        this.handSetGui = new CardSetGUI(currentPlayer.getHand());
-//        this.discardSetGui = new CardSetGUI(currentPlayer.getDiscardPile());
-//        this.drawSetGui = new CardSetGUI(currentPlayer.getDrawPile());//empty
         this.cardFactory = game.getCardCommandFactory();
         this.cmdQueue=cmdQueue;
                
@@ -94,12 +94,46 @@ public class GameGUI {
         dialog.setVisible(true);
         
     }
-    void drawInfoPanel(Graphics g){
+    void paintInfoPanel(Graphics g){
     
-        if(infoImage != null)
-            
-            g.drawImage(infoImage, 0, 0,infoImage.getWidth(),infoImage.getHeight(), null);
         
+        final int TERRAIN_X_OFFSET = 160;
+        final int TERRAIN_Y_OFFSET = 0;
+       
+        final int DECRIPTION_Y_GAP = 10;
+        final int DECRIPTION_Y_OFFSET = TERRAIN_Y_OFFSET + 76 ;
+        final float TERRAIN_SCALE = 0.7f;
+        
+        if(getHoverPosition() != null)
+        {
+        TerrainGUI terrain = mapGui.getTerrainGuiAtPosition(hoverPosition);
+        UnitGUI unit =  getUnitGuiOnMapGui(hoverPosition);
+        if(unit != null)
+            
+            g.drawImage(unit.getImg(), 0, 0,
+                    unit.getImg().getWidth(),
+                    unit.getImg().getHeight(), null);
+        
+        if(terrain!= null)
+        {
+            g.drawImage(
+                    terrain.getImg(), 
+                    TERRAIN_X_OFFSET,
+                    TERRAIN_Y_OFFSET,
+                    (int) (terrain.getImg().getWidth() * TERRAIN_SCALE),
+                    (int) (terrain.getImg().getHeight() * TERRAIN_SCALE),
+                    null) ;
+        
+            g.drawString(terrain.getTerrain().getTypeToString() ,
+            TERRAIN_X_OFFSET, DECRIPTION_Y_OFFSET + DECRIPTION_Y_GAP);        
+        
+            g.drawString("Def Bonus : " + Integer.toString(terrain.getTerrain().getDefenceBonus()) ,
+            TERRAIN_X_OFFSET, DECRIPTION_Y_OFFSET + DECRIPTION_Y_GAP*2);
+            
+            g.drawString("Block LOS: " + (terrain.getTerrain().isBlockingLOS() ? "yes" : "no" ) ,
+            TERRAIN_X_OFFSET, DECRIPTION_Y_OFFSET + DECRIPTION_Y_GAP*3);
+        }  
+        }
                
     }
     
@@ -136,36 +170,21 @@ public class GameGUI {
         Draw card actions
         */
         drawCardSelections(g);
+        /*
+        Draws Attacking arrow in combat
+        
+        */
+        drawCombat(g);
+        
         
        
     }
       private void drawTerrains(Graphics g){
     
-    if(windowMode == CreateRoomWindow.AS_HOST)
         for (TerrainGUI terrainGUI : mapGui.getTerrainsGUI()) {
                         
+            drawTerrainOnPosition(g, terrainGUI.getPos(), terrainGUI.getImg());
             
-            g.drawImage(
-                    terrainGUI.getImg(), 
-                    terrainGUI.getPos().getMouseX(), 
-                    terrainGUI.getPos().getMouseY(), 
-                    MapGUI.SQUARE_WIDTH,
-                    MapGUI.SQUARE_HEIGHT,
-                  
-                    null);
-            
-        }
-        else if(windowMode == CreateRoomWindow.AS_GUEST)
-            for (TerrainGUI terrainGUI : mapGui.getTerrainsGUI()) {
-             
-            g.drawImage(
-                    terrainGUI.getImg(), 
-                    terrainGUI.getPos().transpoze().getMouseX(), 
-                    terrainGUI.getPos().transpoze().getMouseY(), 
-                    MapGUI.SQUARE_WIDTH,
-                    MapGUI.SQUARE_HEIGHT,
-                    
-                    null);
         }
     }
     
@@ -241,93 +260,59 @@ public class GameGUI {
         */
         if(game.getPhase()== Game.SETUP &&  !( currentPlayer.isFinishedSetup() && game.getOpponentPlayer().isFinishedSetup() ) )
         {
-            if(windowMode == CreateRoomWindow.AS_HOST)
-            {
-            for (UnitGUI drawUnit : currentPlayerArmy) {
-                if(!drawUnit.getUnit().isEliminated())
-                g.drawImage(drawUnit.getImg(), 
-                        drawUnit.getUnit().getPosition().getMouseX() + MapGUI.PIECES_START_X,
-                        drawUnit.getUnit().getPosition().getMouseY() + MapGUI.PIECES_START_Y,
-                        MapGUI.PIECE_WIDTH, 
-                        MapGUI.PIECE_HEIGHT
-                        , null);
-                /*
-                Draw bad position rectangle
-                */
-                if( !game.getMap().getTerrainAtPosition(
-                        drawUnit.getUnit().getPosition()).isTerrainPassable()
-                         || 
-                         drawUnit.getUnit().getPosition().getY()  >  Position.ROW_2 
-                         
-                      )
+                
+                for (UnitGUI drawUnit : currentPlayerArmy) 
                 {
-                    g.setColor(Color.RED);
-                    
-                    g.drawRoundRect(
-                                drawUnit.getUnit().getPosition().getMouseX() + gapSelection, 
-                                drawUnit.getUnit().getPosition().getMouseY() + gapSelection, 
-                                MapGUI.SQUARE_WIDTH - 2 * gapSelection, 
-                                MapGUI.SQUARE_HEIGHT - 2 * gapSelection, 
-                                10, 10
-                        ); 
-                }        
-                   
-            }
-                
-                
-            }
-            else if(windowMode == CreateRoomWindow.AS_GUEST)
-            {
-               for (UnitGUI drawUnit : currentPlayerArmy) {
                 if(!drawUnit.getUnit().isEliminated())
-                g.drawImage(drawUnit.getImg(), 
-                        drawUnit.getUnit().getPosition().transpoze().getMouseX() + MapGUI.PIECES_START_X,
-                        drawUnit.getUnit().getPosition().transpoze().getMouseY() + MapGUI.PIECES_START_Y,
-                        MapGUI.PIECE_WIDTH, 
-                        MapGUI.PIECE_HEIGHT
-                        , null);
-                
-                /*
-                Draw bad position rectangle
-                */
-                if( !game.getMap().getTerrainAtPosition(
-                        drawUnit.getUnit().getPosition()
-                                                    ).isTerrainPassable()
-                         || drawUnit.getUnit().getPosition().getY()  <  Position.ROW_7
-                       
-                        )
                 {
-                    g.setColor(Color.red);
-                    if(!drawUnit.getUnit().isEliminated())
-                    g.drawRoundRect(
-                                drawUnit.getUnit().getPosition().transpoze().getMouseX() + gapSelection, 
-                                drawUnit.getUnit().getPosition().transpoze().getMouseY() + gapSelection, 
-                                MapGUI.SQUARE_WIDTH - 2 * gapSelection, 
-                                MapGUI.SQUARE_HEIGHT - 2 * gapSelection, 
-                                10, 10
-                        ); 
-                }        
-                } 
-            }
-        }
-            /*
-            On rest phases paint both players army
-            */
-        else  
-            
-        {
 
+                drawImageOnPosition(g, drawUnit.getUnit().getPosition(), drawUnit.getImg());
+                
+                drawTerrainLetter(g, drawUnit.getUnit());
+                        
+                /*
+                Draw bad position rectangle
+                */
+                if( !game.getMap().getTerrainAtPosition(drawUnit.getUnit().getPosition()).isTerrainPassable()
+                         || 
+                            ( windowMode == CreateRoomWindow.AS_HOST ? 
+                                (drawUnit.getUnit().getPosition().getY()  >  Position.ROW_2) : 
+                                (drawUnit.getUnit().getPosition().getY()  <  Position.ROW_7)
+                            )
+                      )
+                   {
+                    g.setColor(Color.RED);
+                    g.drawRoundRect(
+                                drawUnit.getUnit().getPosition().getMouseX(windowMode) + gapSelection, 
+                                drawUnit.getUnit().getPosition().getMouseY(windowMode) + gapSelection, 
+                                MapGUI.SQUARE_WIDTH - 2 * gapSelection, 
+                                MapGUI.SQUARE_HEIGHT - 2 * gapSelection, 
+                                10, 10
+                        ); 
+                    }        
+                   
+                }
+                }
+        }
+          
+        /*
+        On rest phases paint both players army
+        */
+        else  
+        {
             for (UnitGUI drawUnit : currentPlayerArmy) {
                 if(!drawUnit.getUnit().isEliminated())
-                    drawImageOnPosition(g, drawUnit.getUnit().getPosition(), drawUnit.getImg());
-                
-            }
-            for (UnitGUI drawUnit : opponnetPlayerArmy) {
-                if(!drawUnit.getUnit().isEliminated())
-                     drawImageOnPosition(g, drawUnit.getUnit().getPosition(), drawUnit.getImg());
+                {drawImageOnPosition(g, drawUnit.getUnit().getPosition(), drawUnit.getImg());
+                    drawTerrainLetter(g, drawUnit.getUnit());
                 }
             }
-
+            for (UnitGUI drawUnit : opponnetPlayerArmy) {
+                if(!drawUnit.getUnit().isEliminated()){
+                     drawImageOnPosition(g, drawUnit.getUnit().getPosition(), drawUnit.getImg());
+                     drawTerrainLetter(g, drawUnit.getUnit());
+                }
+                }
+            }
     }
     private void drawCardSelections(Graphics g){
     
@@ -429,22 +414,29 @@ public class GameGUI {
     /*
     Draw image on position
     */
+            
     
     private void drawImageOnPosition(Graphics g, Position position, Image image){
-        
-        
+
          g.drawImage(image, 
-                        (windowMode == CreateRoomWindow.AS_HOST) ? 
-                        position.getMouseX() + MapGUI.PIECES_START_X:
-                        position.transpoze().getMouseX() + MapGUI.PIECES_START_X
+                        position.getMouseX(windowMode) + MapGUI.PIECES_START_X
                                 ,
-                        (windowMode == CreateRoomWindow.AS_HOST) ?
-                        position.getMouseY() + MapGUI.PIECES_START_Y : 
-                        position.transpoze().getMouseY() + MapGUI.PIECES_START_Y,
+                        position.getMouseY(windowMode) + MapGUI.PIECES_START_Y ,
                         MapGUI.PIECE_WIDTH, 
                         MapGUI.PIECE_HEIGHT
                         , null);
     }
+    private void drawTerrainOnPosition(Graphics g, Position position, Image image){
+
+         g.drawImage(image, 
+                        position.getMouseX(windowMode) 
+                                ,
+                        position.getMouseY(windowMode) ,
+                        MapGUI.SQUARE_WIDTH,
+                        MapGUI.SQUARE_HEIGHT
+                        , null);
+    }
+    
     /*
     Draw rectangle on position
     */
@@ -452,17 +444,12 @@ public class GameGUI {
     
     g.setColor(color);
     g.drawRoundRect(
-            (windowMode == CreateRoomWindow.AS_HOST) ? 
-                    position.getMouseX() + gapSelection: 
-                    position.transpoze().getMouseX()
-            + gapSelection,
-            (windowMode == CreateRoomWindow.AS_HOST) ?
-                    position.getMouseY() + gapSelection: 
-                    position.transpoze().getMouseY()
-                    + gapSelection, 
-            MapGUI.SQUARE_WIDTH - 2 * gapSelection, 
-            MapGUI.SQUARE_HEIGHT - 2 * gapSelection, 
-            10, 10);
+            
+                    position.getMouseX(windowMode) + gapSelection,
+                    position.getMouseY(windowMode) + gapSelection,
+                    MapGUI.SQUARE_WIDTH - 2 * gapSelection, 
+                    MapGUI.SQUARE_HEIGHT - 2 * gapSelection, 
+                    10, 10);
     
     }
     
@@ -481,13 +468,13 @@ public class GameGUI {
     /*
     Draw arrows to position
     */
-    
-    private  void drawArrowToPositions(Graphics g , Position fromPosition, ArrayList<Position> toPositions, Color color){
+    private  void drawArrowToPosition(Graphics g , Position fromPosition, Position toPosition, Color color)
+    {
     
         g.setColor(color);
-    for (Position losPositons: toPositions  )
-                {
-                    drawArrow(g,
+        
+        /*
+        drawArrow(g,
                     (windowMode == CreateRoomWindow.AS_HOST) ? 
                             fromPosition.getMouseX() +  MapGUI.PIECE_WIDTH / 2 
                             :
@@ -500,19 +487,100 @@ public class GameGUI {
                             fromPosition.transpoze().getMouseY() +  MapGUI.PIECE_HEIGHT / 2        
                                     ,                    
                     (windowMode == CreateRoomWindow.AS_HOST) ?
-                            losPositons.getMouseX() + MapGUI.PIECE_WIDTH / 2
+                            toPosition.getMouseX() + MapGUI.PIECE_WIDTH / 2
                             :
-                            losPositons.transpoze().getMouseX() + MapGUI.PIECE_WIDTH / 2        
+                            toPosition.transpoze().getMouseX() + MapGUI.PIECE_WIDTH / 2        
                             ,
                     (windowMode == CreateRoomWindow.AS_HOST) ?
-                            losPositons.getMouseY() +  MapGUI.PIECE_WIDTH / 2
+                            toPosition.getMouseY() +  MapGUI.PIECE_WIDTH / 2
                             :
-                            losPositons.transpoze().getMouseY() +  MapGUI.PIECE_WIDTH / 2      
+                            toPosition.transpoze().getMouseY() +  MapGUI.PIECE_WIDTH / 2      
                     , 10,15)
                             ;
-                    }
-    
+            */
+        drawArrow(g,
+                            fromPosition.getMouseX(windowMode) +  MapGUI.PIECE_WIDTH / 2 
+                            
+                            ,
+                    
+                            fromPosition.getMouseY(windowMode) +  MapGUI.PIECE_HEIGHT / 2
+                             
+                                    ,                    
+                    
+                            toPosition.getMouseX(windowMode) + MapGUI.PIECE_WIDTH / 2
+                               
+                            ,
+                   
+                            toPosition.transpoze().getMouseY(windowMode) +  MapGUI.PIECE_WIDTH / 2      
+                    , 10,15)
+                            ;
     }
+    
+    
+    private  void drawArrowToPositions(Graphics g , Position fromPosition, ArrayList<Position> toPositions, Color color){
+    
+        g.setColor(color);
+        for (Position toPositon: toPositions )
+            {
+            drawArrowToPosition(g , fromPosition, toPositon,  color);
+            }
+
+    }
+    
+    private void drawTerrainLetter(Graphics g, Unit unit)
+    {
+                /*
+                Draw a single letter to indicate rough terrain
+                */
+                Terrain terrain = game.getMap().getTerrainAtPosition(unit.getPosition());
+                
+                if(
+                        game.getMap().getTerrainAtPosition(unit.getPosition()).getType() == Terrain.CITY ||
+                        game.getMap().getTerrainAtPosition(unit.getPosition()).getType() == Terrain.HILL ||
+                        game.getMap().getTerrainAtPosition(unit.getPosition()).getType() == Terrain.MARSH ||
+                        game.getMap().getTerrainAtPosition(unit.getPosition()).getType() == Terrain.FOREST
+                        )
+                {
+                    g.setColor(Color.BLACK);
+                    g.setFont(new Font("Bookman Old Style", 1, 14));
+                    switch(terrain.getType())
+                    {
+                        case Terrain.CITY: 
+                        {
+                        g.drawString("C", 
+                                unit.getPosition().getMouseX(windowMode) + MapGUI.LETTER_OFFSET_X,
+                                unit.getPosition().getMouseY(windowMode) + MapGUI.PIECES_START_Y + MapGUI.LETTER_OFFSET_Y);
+                        break;
+                        }
+                        case Terrain.HILL: 
+                        {
+                        g.drawString("H", 
+                                unit.getPosition().getMouseX(windowMode) +  MapGUI.LETTER_OFFSET_X,
+                                unit.getPosition().getMouseY(windowMode) + MapGUI.PIECES_START_Y + MapGUI.LETTER_OFFSET_Y);
+                        break;
+                        }
+                        case Terrain.MARSH: 
+                        {
+                        g.drawString("M", 
+                                unit.getPosition().getMouseX(windowMode) +  MapGUI.LETTER_OFFSET_X,
+                                unit.getPosition().getMouseY(windowMode) + MapGUI.PIECES_START_Y + MapGUI.LETTER_OFFSET_Y);
+                        break;
+                        }
+                        case Terrain.FOREST: 
+                        {
+                        g.drawString("F", 
+                                unit.getPosition().getMouseX(windowMode) + MapGUI.LETTER_OFFSET_X,
+                                unit.getPosition().getMouseY(windowMode) + MapGUI.PIECES_START_Y + MapGUI.LETTER_OFFSET_Y);
+                        break;
+                        }
+                        
+                    
+                    }
+                    
+                
+                }
+    }
+    
     /**
       * Draw an arrow line betwwen two point 
       * @param g the graphic component
@@ -590,43 +658,32 @@ public class GameGUI {
       
     }
     
+    private void drawCombat(Graphics g){
+    Combat combat = game.getCombat();
+        
+    if(combat!= null)
+            if(
+                  combat.getState() == Combat.INITIALIZING_COMBAT ||
+                  combat.getState() == Combat.PICK_DEFENSE_CARDS ||  
+                  combat.getState() == Combat.PICK_SUPPORTING_CARDS ||  
+                  combat.getState() == Combat.PICK_SUPPORT_UNIT ||    
+                  combat.getState() == Combat.DEFENDER_DECIDES ||    
+                  combat.getState() == Combat.ATTACKER_DECIDES      
+                    
+                 )
+                drawArrowToPosition(g,  combat.getAttackingUnit().getPosition(), 
+                        combat.getAttackingUnit().getPosition(), Color.GREEN);
+    
+    }
+    
+    
+    
     
     private void drawLOS(Graphics g){
-    
         if (game.getSelectedUnit()!= null){
-        
         Unit selectedUnit = game.getSelectedUnit();
-        
             if(selectedUnit.isShowingLOS()) 
-                
-                
-                
-                for (Position losPositons: game.getLOS(selectedUnit, 2)  )
-                {
-                    drawArrow(g,
-                    (windowMode == CreateRoomWindow.AS_HOST) ? 
-                            selectedUnit.getPosition().getMouseX() +  MapGUI.PIECE_WIDTH / 2 
-                            :
-                            selectedUnit.getPosition().transpoze().getMouseX() +  MapGUI.PIECE_WIDTH / 2
-                            ,
-                    (windowMode == CreateRoomWindow.AS_HOST)
-                            ?
-                            selectedUnit.getPosition().getMouseY() +  MapGUI.PIECE_HEIGHT / 2
-                            :        
-                            selectedUnit.getPosition().transpoze().getMouseY() +  MapGUI.PIECE_HEIGHT / 2        
-                                    ,                    
-                    (windowMode == CreateRoomWindow.AS_HOST) ?
-                            losPositons.getMouseX() + MapGUI.PIECE_WIDTH / 2
-                            :
-                            losPositons.transpoze().getMouseX() + MapGUI.PIECE_WIDTH / 2        
-                            ,
-                    (windowMode == CreateRoomWindow.AS_HOST) ?
-                            losPositons.getMouseY() +  MapGUI.PIECE_WIDTH / 2
-                            :
-                            losPositons.transpoze().getMouseY() +  MapGUI.PIECE_WIDTH / 2      
-                    , 10,15)
-                            ;
-                    }
+                drawArrowToPositions(g, selectedUnit.getPosition(), game.getLOS(selectedUnit, 2), Color.yellow);
             }
     }
     
@@ -744,35 +801,7 @@ public class GameGUI {
     public void paintDiscard(Graphics g, boolean paintOpponent){
         
         cardSetsGUI.paintDiscard(g, paintOpponent, game);
-        
-//        CardGUI cardGui;
-//        int x=35,y=40,w=195,h=300; //cropp image
-//        int width=round(w*CardGUI.SCALE_FACTOR), height=round(h*CardGUI.SCALE_FACTOR);
-//        int cardPaddingTop=20;
-//        int cardPaddingLeft=8;
-//        if (paintOpponent==true){
-//            if(game.getOpponentPlayer().getDiscardPile().size()>0){
-//                cardGui=new CardGUI(game.getOpponentPlayer().getDiscardPile().getLastCard(false));
-//                Image image = cropImage(cardGui.getImgFull(),x,y,w,h);
-//                 g.drawImage(image, cardPaddingLeft, cardPaddingTop, width, height, null);  
-//            }
-//            else{
-//                g.setColor(Color.white);
-//                g.setFont(new Font("Bookman Old Style", 1, 20));
-//                g.drawString("No Card",20,100);  
-//            }   
-//        }
-//        else{
-//            if(discardSetGui.size()>0){
-//                Image image = cropImage(discardSetGui.getCardByPosInSet(discardSetGui.size()-1).getImgFull(),x,y,w,h);
-//                g.drawImage(image, cardPaddingLeft, cardPaddingTop, width, height, null);  
-//            }
-//            else{
-//                g.setColor(Color.white);
-//                g.setFont(new Font("Bookman Old Style", 1, 20));
-//                g.drawString("No Card",20,100);  
-//            }
-//        }
+
     }
     
     public void paintDrawLeft(Graphics g, boolean paintOpponent){
@@ -807,6 +836,15 @@ public class GameGUI {
         paintDices(g);
     
     }
+    
+    public void paintInfoBarPanel(Graphics g)
+    {
+        final int START_X = 10;
+        final int START_Y = 37;
+        g.setColor(Color.white);
+        g.setFont(new Font("Bookman Old Style", 1, 20));
+        g.drawString(game.getInfoBarText(), START_X, START_Y);
+    }
    
 
    
@@ -819,27 +857,26 @@ public class GameGUI {
         
         final int START_X_COMBAT_PANEL = 10;
         final int START_Y_COMBAT_PANEL = 16;
-        final int Y_GAP = 50;
-        final int X_GAP = 50;
         
-        g.setColor(Color.red);
+        g.setColor(Color.white);
+        g.setFont(new Font("Bookman Old Style", 1, 15));
         
         if(game.getCombat()!=null)
             
         {
             Combat combat =  game.getCombat();
             
-            g.drawString("Attack :" + combat.getAttackValue(), START_X_COMBAT_PANEL, START_Y_COMBAT_PANEL);
+            g.drawString("Attack: " + combat.getAttackValue(), START_X_COMBAT_PANEL, START_Y_COMBAT_PANEL);
             
-            g.drawString("Defense :" + combat.getDefenceValue(), START_X_COMBAT_PANEL, 2*START_Y_COMBAT_PANEL);
+            g.drawString("Defense: " + combat.getDefenceValue(), START_X_COMBAT_PANEL, 2*START_Y_COMBAT_PANEL);
             
-            g.drawString("Defense Terrain:" + combat.getDefenseTerrain().getTypeToString(), START_X_COMBAT_PANEL, 3*START_Y_COMBAT_PANEL);
+            g.drawString("Def.Terrain: " + combat.getDefenseTerrain().getTypeToString(), START_X_COMBAT_PANEL, 3*START_Y_COMBAT_PANEL);
             
-            g.drawString("Terrain Defense Bonus :" + combat.getDefenseBonus(), START_X_COMBAT_PANEL, 4*START_Y_COMBAT_PANEL);
+            g.drawString("Ter.Def.Bonus: " + combat.getDefenseBonus(), START_X_COMBAT_PANEL, 4*START_Y_COMBAT_PANEL);
             
-            g.drawString("Attacking Terrain:" + combat.getAttackTerrain().getTypeToString(), START_X_COMBAT_PANEL, 5*START_Y_COMBAT_PANEL);
+            g.drawString("Att.Terrain: " + combat.getAttackTerrain().getTypeToString(), START_X_COMBAT_PANEL, 5*START_Y_COMBAT_PANEL);
             
-            g.drawString("Terrain Attack Bonus :" + combat.getAttackBonus(), START_X_COMBAT_PANEL, 6*START_Y_COMBAT_PANEL);
+            g.drawString("Ter.Att.Bonus: " + combat.getAttackBonus(), START_X_COMBAT_PANEL, 6*START_Y_COMBAT_PANEL);
             
             
             
@@ -856,9 +893,7 @@ public class GameGUI {
         
         final int STARTING_D10_X = STARTING_D6_X;
         final int STARTING_D10_Y = STARTING_D8_Y + DiceGUI.D8SQUARE_HEIGHT ;
-        
-        
-        
+
         int i=0;
         
         if(game.getCardCommandFactory().getD6dices() != null)
@@ -900,6 +935,8 @@ public class GameGUI {
     }
     
     
+    
+    
     public UnitGUI getUnitGuiOnMapGui(Position position){
     
            for(UnitGUI unitSearch: getUnitsGui()){
@@ -931,6 +968,14 @@ public class GameGUI {
     
     }
 
+    public Position getHoverPosition() {
+        return hoverPosition;
+    }
+
+    public void setHoverPosition(Position hoverUnit) {
+        this.hoverPosition = hoverUnit;
+    }
+
     public BufferedImage getInfoImage() {
         return infoImage;
     }
@@ -940,11 +985,13 @@ public class GameGUI {
     }
     
     public ArrayList<UnitGUI> getUnitsGui() {
-        return currentPlayerArmy;
+        
+        ArrayList<UnitGUI> packUnits = new ArrayList<>();
+        packUnits.addAll(currentPlayerArmy);
+        packUnits.addAll(opponnetPlayerArmy);
+      
+        return packUnits;
     }
 
-    public void setUnitsGui(ArrayList<UnitGUI> unitsGui) {
-        this.currentPlayerArmy = unitsGui;
-    }
   
 }

@@ -63,6 +63,7 @@ public final class Game implements Serializable{
     public CardStateHandler cardStateHandler;
     
     CommandQueue cmdQueue;
+    private String infoBarText;
     
     public Game(ArrayList<Player> players) {
         this.hostPlayer = players.get(0);
@@ -142,6 +143,8 @@ public final class Game implements Serializable{
 
     public void setCombat(Combat combat) {
         this.combat = combat;
+        if(combat!=null)
+            combat.linkObjects(this);
     }
     
     
@@ -271,6 +274,15 @@ public final class Game implements Serializable{
 
     public void setTurn(int turn) {
         this.turn = turn;
+    }
+
+    public String getInfoBarText() {
+        return infoBarText;
+    }
+    
+    public void setInfoBarText(String inText){
+    
+    this.infoBarText = inText;
     }
     
     public ArrayList<Position> getCurrentPlayerNotMovedUnits()
@@ -670,8 +682,44 @@ public final class Game implements Serializable{
                 return getCurrentPlayer().getArmyPositions();
                
             case Game.COMBAT:
-                    
+                 
+                if(getCombat() == null)
+                
                 return getCurrentPlayer().getArmyPositions();
+                
+                else 
+                {
+                    ArrayList<Position> possiblePositions = new ArrayList<>();
+                    if(getCombat().getState() == Combat.WITHRDAW)
+                    {
+                        if(getCurrentPlayer().hasAttacked())
+                        {
+                            possiblePositions.add(getCombat().getAttackingUnit().getPosition());
+                            return possiblePositions;
+                        }
+                        else
+                        {
+                            possiblePositions.add(getCombat().getDefendingUnit().getPosition());
+                            return possiblePositions;
+                        }   
+                    
+                    }
+                    
+                    if(getCombat().getState() == Combat.PURSUIT)
+                    {
+                        
+                        for(Unit pursueUnit: getCombat().getUnitThatCanAdvance())
+                        {
+                            possiblePositions.add(pursueUnit.getPosition());
+                        
+                        }
+                        return possiblePositions;
+                        
+                    }
+                        
+                        
+                }
+                break;
                 /*
                 TODO implement many more cases with combat mode
                 */
@@ -723,9 +771,9 @@ public final class Game implements Serializable{
                     
                         case Combat.WITHRDAW :
                         {
-                        if(getCombat().getDefendingUnit().isRetriving())
-                            
-                            return getRetreatPositions(getCombat().getDefendingUnit());
+                        if(getUnit(getCombat().getDefendingUnit()).isRetriving())
+                          
+                            return getRetreatPositions(getUnit(getCombat().getDefendingUnit()));
                         }
                     }
                 }
@@ -747,6 +795,41 @@ public final class Game implements Serializable{
         
      return null;
         
+    }
+    /*
+    Returns reference to searched Unit
+    */
+    
+    public Unit getUnit(Unit searchedUnit)
+    {
+     for(Unit unitSearch: currentPlayer.getArmy()){
+        
+            if(unitSearch.equals(searchedUnit))
+            {
+                return unitSearch;
+              }
+        }
+        
+        for(Unit unitSearch: opponentPlayer.getArmy()){
+        
+            if(unitSearch.equals(searchedUnit))
+            {
+                return unitSearch;
+              }
+        }
+      return null;
+    
+    }
+    
+    public void setUnit(Unit unit)
+    {
+        Unit setUnit = getUnit(unit);
+        
+        if(setUnit!= null)
+        {
+            setUnit = unit;
+        }   
+    
     }
     
     
@@ -777,6 +860,18 @@ public final class Game implements Serializable{
      
     }
      
+    public Unit getUnitAtPosition(Position position)
+    {
+        if(checkCurrentPlayerUnitAtPosition(position))
+            return getCurrentPlayerUnitAtPosition(position);
+            
+        else if(checkCurrentPlayerUnitAtPosition(position))
+            return getOpponentPlayerUnitAtPosition(position);
+        
+        else return null;
+        
+    }
+    
      public boolean checkOpponentPlayerUnitAtPosition(Position position){
     
         for(Unit unitSearch: opponentPlayer.getArmy()){

@@ -49,7 +49,7 @@ private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogg
             /*
              If we done play card and we are not in setup
            */
-            if(game.getPhase() == Game.MOVE )
+                if(game.getPhase() == Game.MOVE )
             {        
             cmdQueue.storeAndExecuteAndSend(moveUnit);
             LOGGER.debug(game.getCurrentPlayer().getName() + " game.unselectAllUnits()" );

@@ -63,6 +63,7 @@ public class TakeHitCommand implements Command{
         }
         if(game.getCombat().getState() == Combat.ATTACKER_DECIDES)
         {
+            
             game.getCombat().setState(Combat.END_COMBAT);
               }
     }
