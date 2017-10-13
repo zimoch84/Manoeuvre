@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package manouvre.game.interfaces;
-
-import manouvre.game.Game;
+package manouvre.interfaces;
 
 /**
  *
- * @author Bartosz
+ * @author Piotr
  */
-public interface CardCommandInterface extends Command{
-    public void cancel(Game game);
+public interface MoveInterface {
+    
 }

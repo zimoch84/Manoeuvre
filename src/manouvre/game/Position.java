@@ -7,7 +7,7 @@ package manouvre.game;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import manouvre.game.interfaces.PositionInterface;
+import manouvre.interfaces.PositionInterface;
 import manouvre.gui.CreateRoomWindow;
 import manouvre.gui.MapGUI;
 

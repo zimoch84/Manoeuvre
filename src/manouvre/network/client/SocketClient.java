@@ -4,16 +4,16 @@ import java.io.*;
 import java.net.*;
 import manouvre.game.Game;
 import manouvre.game.Player;
-import manouvre.game.commands.CommandQueue;
-import manouvre.game.interfaces.ClientInterface;
-import manouvre.game.interfaces.FrameInterface;
+import manouvre.commands.CommandQueue;
+import manouvre.interfaces.ClientInterface;
+import manouvre.interfaces.FrameInterface;
 import manouvre.gui.CommandLogger;
 import manouvre.gui.CreateRoomWindow;
 import manouvre.gui.GameWindow;
 import manouvre.gui.LoginWindow;
 import manouvre.gui.MainChatWindow;
 import manouvre.gui.RoomWindow;
-import manouvre.game.interfaces.Command;
+import manouvre.interfaces.Command;
 
 public class SocketClient implements Runnable, ClientInterface{
     

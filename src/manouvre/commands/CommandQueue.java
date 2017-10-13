@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package manouvre.game.commands;
+package manouvre.commands;
 
 import java.util.ArrayList;
 import manouvre.game.Game;
-import manouvre.game.interfaces.ClientInterface;
+import manouvre.interfaces.ClientInterface;
 import manouvre.gui.CommandLogger;
 import manouvre.gui.GameWindow;
 import manouvre.network.client.Message;
-import manouvre.game.interfaces.Command;
+import manouvre.interfaces.Command;
 import org.apache.logging.log4j.LogManager;
 
 /**

@@ -3,19 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package manouvre.state;
+package manouvre.interfaces;
 
-import manouvre.game.Card;
 import manouvre.game.Game;
-import manouvre.commands.CommandQueue;
-
 
 /**
  *
- * @author xeon
+ * @author Bartosz
  */
-public interface CardInputState {
-    
-    public void handleInput(Card card,Game game, CommandQueue cmdQueue);
-    
+public interface CardCommandInterface extends Command{
+    public void cancel(Game game);
 }

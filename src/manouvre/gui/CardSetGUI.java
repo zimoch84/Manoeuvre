@@ -17,7 +17,7 @@ import manouvre.game.Card;
 import manouvre.game.CardSet;
 import manouvre.game.Game;
 import static java.lang.Math.round;
-import static java.lang.Math.round;
+import manouvre.game.Dice;
 
 /**
  * Retrives card picture/image
@@ -191,7 +191,9 @@ import static java.lang.Math.round;
                     TABLE_CARD_PADDING_TOP, 
                     CardGUI.WIDTH_TABLE, 
                     CardGUI.HEIGHT_TABLE,
-                    null);        
+                    null);   
+        
+        paintDices(g,  tableGUI.get(i).getCard(), i, false);
         
         }
         
@@ -208,12 +210,42 @@ import static java.lang.Math.round;
                     CardGUI.HEIGHT_TABLE,
                     null);        
         
+        paintDices(g,  tableOpponentGUI.get(i).getCard(), i, true);
+        
         }
         
         }
      
        
-    }  
+    }
+    
+    private void paintDices(Graphics g, Card paintedCard, int cardPosition, boolean ifopp){
+
+        int dicePaddingLeft = (int)(CardGUI.WIDTH)*(cardPosition) + GAP;
+                  
+        int tablePaddingTop;
+        
+        if(ifopp)
+            tablePaddingTop = TABLE_CARD_PADDING_TOP_OPP;
+        else 
+            tablePaddingTop = TABLE_CARD_PADDING_TOP;
+        
+        int i=0;
+        
+        
+        if(paintedCard.getDices()!=null)
+            for(Dice dice : paintedCard.getDices() ){
+               
+                DiceGUI diceGUI = new DiceGUI(dice);
+                int x = dicePaddingLeft + (i) * (int)(DiceGUI.D6SQUARE_WIDTH*DiceGUI.SCALE_FACTOR_D6);
+                int sizex = (int)(diceGUI.getImage().getWidth()* DiceGUI.SCALE_FACTOR_D6);
+                int sizey = (int)(diceGUI.getImage().getHeight()*DiceGUI.SCALE_FACTOR_D6);
+                
+                g.drawImage(diceGUI.getImage(),  x, tablePaddingTop,sizex, sizey , null);
+                i++;
+                }
+  
+    }
     
     public void paintDefenceCardsOnTheTable(Graphics g){
         int cropFrame=30;

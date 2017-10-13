@@ -6,7 +6,7 @@ import manouvre.game.Game;
 import manouvre.game.Param;
 import manouvre.game.Player;
 import manouvre.network.server.GameRoom;
-import manouvre.game.interfaces.Command;
+import manouvre.interfaces.Command;
 /**
  * 
  * @author Piotr

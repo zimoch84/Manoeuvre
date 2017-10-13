@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package manouvre.game.commands;
+package manouvre.commands;
 import java.util.ArrayList;
 import manouvre.game.Card;
 
@@ -11,7 +11,7 @@ import manouvre.game.Game;
 import manouvre.game.Param;
 import manouvre.game.Position;
 
-import manouvre.game.interfaces.Command;
+import manouvre.interfaces.Command;
 import manouvre.network.server.UnoptimizedDeepCopy;
 
 /**

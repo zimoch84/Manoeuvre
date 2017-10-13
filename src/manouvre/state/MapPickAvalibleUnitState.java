@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import manouvre.game.Game;
 import manouvre.game.Position;
-import manouvre.game.commands.CommandQueue;
+import manouvre.commands.CommandQueue;
 import org.apache.logging.log4j.LogManager;
 
 /**

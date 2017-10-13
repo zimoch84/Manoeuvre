@@ -8,13 +8,13 @@ package manouvre.game;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Observable;
-import manouvre.game.commands.CardCommands;
-import manouvre.game.commands.DiscardCardCommand;
-import manouvre.game.commands.DrawCardCommand;
-import manouvre.game.commands.RestoreUnitCommand;
-import manouvre.game.commands.ThrowDiceCommand;
-import manouvre.game.interfaces.CardCommandInterface;
-import manouvre.game.interfaces.Command;
+import manouvre.commands.CardCommands;
+import manouvre.commands.DiscardCardCommand;
+import manouvre.commands.DrawCardCommand;
+import manouvre.commands.RestoreUnitCommand;
+import manouvre.commands.ThrowDiceCommand;
+import manouvre.interfaces.CardCommandInterface;
+import manouvre.interfaces.Command;
 
 
 /**
@@ -31,7 +31,9 @@ public class CardCommandFactory extends Observable implements Serializable{
     /*
     Notify observer passed arg
     */
-    public final static String ATTACK_DIALOG = "ATTACK_DIALOG";
+   
+    
+    
     public final static String CARD_DIALOG = "CARD_DIALOG";
     public final static String CARD_REJECTED = "CARD_REJECTED";
     public final static String CARD_NOT_REJECTED = "CARD_NOT_REJECTED";
@@ -39,6 +41,12 @@ public class CardCommandFactory extends Observable implements Serializable{
     public final static String DEFENDING_WITHDRAW = "DEFENDING_WITHDRAW";
     public final static String PICKED_ADVANCE = "PLAYER_CHOSEN_ADVANCE_UNIT";
     
+    public final static String ASSAULT_BEGINS = "ASSAULT_BEGINS";
+    public final static String VOLLEY_BEGINS = "VOLLEY_BEGINS";
+    public final static String BOMBARD_BEGINS = "BOMBARD_BEGINS";
+    public final static String ATTACKER_ROLL_DICES = "ATTACKER_ROLL_DICES";
+    public final static String DEFENDER_PICK_SUPPORT = "ATTACKER_ROLL_DICES";
+    public final static String ATTACKER_PICK_SUPPORT = "ATTACKER_ROLL_DICES";
     
     public final static String COMBAT_NO_RESULT = "COMBAT_NO_RESULT";
     public final static String DEFENDER_DECIDES = "DEFENDER_DECIDES";
@@ -46,21 +54,22 @@ public class CardCommandFactory extends Observable implements Serializable{
     public final static String COMBAT_DEFENDER_TAKES_HIT = "COMBAT_DEFENDER_TAKES_HIT";
     public final static String COMBAT_ATTACKER_TAKES_HIT = "COMBAT_ATTACKER_TAKES_HIT";
     public final static String COMBAT_DEFENDER_ELIMINATE = "COMBAT_ELIMINATE";
-    public final static String COMBAT_ATTACKER_ELIMINATE = "COMBAT_ATTCACKER_ELIMINATE";
+    public final static String COMBAT_ATTACKER_ELIMINATE = "COMBAT_ATTACKER_ELIMINATE";
     public final static String PUSRUIT_FAILED = "PUSRUIT_FAILED";
     public final static String PUSRUIT_SUCCEDED = "PUSRUIT_SUCCEDED";
     
     public final static String COMBAT_ACCEPTED = "COMBAT_ACCEPTED";
-    
+    public final static String LEADER_SELECTED = "LEADER_SELECTED";
      
     Card playingCard, opponentCard;
-    
+    /*
+    TODO remove?
+    */
     ArrayList<Card> opponentCards=new ArrayList<>();  //oponent attacking cards
-    ArrayList<Card> pickedAttackingCards=new ArrayList<>(); //current player attacking cards
+    ArrayList<Card> supportAttackCards=new ArrayList<>(); //current player attacking cards
    
     ArrayList<Position> attackingPositions;
    
-//    ArrayList<Card> pickedSupportingCards=new ArrayList<>();
     
     Unit selectedUnit, attackedUnit;
     
@@ -168,7 +177,8 @@ public class CardCommandFactory extends Observable implements Serializable{
         if(playingCard != null) 
         {
             playingCard.actionOnDeselection(game);
-            this.playingCard.setSelected(false) ;
+            if(playingCard != null)
+                this.playingCard.setSelected(false) ;
             this.playingCard = null;
             
         }
@@ -216,7 +226,7 @@ public class CardCommandFactory extends Observable implements Serializable{
         }
 
    }   
-            
+                
     
     public void resetFactory()
     {
@@ -343,50 +353,20 @@ public class CardCommandFactory extends Observable implements Serializable{
         this.cardCommand = cardCommand;
     }
 
-    public Command createThrowDiceCommand(){
-    
-        return new ThrowDiceCommand(game.getCurrentPlayer().getName(), getAttackingCards());
-    }
-
     public ArrayList<Card> getAttackingCards() {
-        return pickedAttackingCards;
+        return supportAttackCards;
     }
 
     public void setAttackingCards(ArrayList<Card> attackingCards) {
-        this.pickedAttackingCards = attackingCards;
+        this.supportAttackCards = attackingCards;
     }
      public void addPickedAttackingCard(Card card) {
-        this.pickedAttackingCards.add(card);
+        this.supportAttackCards.add(card);
     }
      public void removePickedAttackingCard(Card card) {
-        this.pickedAttackingCards.remove(card);
+        this.supportAttackCards.remove(card);
     }
-
-    public ArrayList<Card> chooseOpponentAttaker(boolean countOponent){
-           ArrayList<Card> tempCards=new ArrayList<>();  
-                if(countOponent) tempCards=opponentCards;//oponent attacking cards
-                else tempCards=pickedAttackingCards;//current player attacking cards
-        return tempCards;
-    }
-    
-     public int getMaxFromDices(boolean countOponent) {
-        int maxFromDices=0;
-        for (Card card: chooseOpponentAttaker(countOponent))
-        {
-        maxFromDices += card.getMaxFromCardMode();
-        }
-        return maxFromDices;
-    }
-     
-    public int getMinFromDices(boolean countOponent) {
-        minFromDices=0;
-        for (Card card: chooseOpponentAttaker(countOponent))
-        {
-        minFromDices += card.getMinFromCardMode();
-        }
-        return minFromDices;
-    }
-    
+       
     void fakeDices()
     {
     d6dices.add(new Dice(Dice.D6));
@@ -412,10 +392,6 @@ public class CardCommandFactory extends Observable implements Serializable{
         this.incomingCardCommand = incomingCardCommand;
     }
 
-    
-    public Command createMoveDefensiveCardsToTableCommand(ArrayList<Card> cards){
-        return new CardCommands.MoveDefensiveCardsToTableCommand(cards, game.getCurrentPlayer().getName());
-    }
     
     public Command createOutcomeCombatCommand(){
       

@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package manouvre.game.commands;
+package manouvre.commands;
 
 import manouvre.game.Game;
 import manouvre.game.Param;
-import manouvre.game.interfaces.Command;
+import manouvre.interfaces.Command;
 import org.apache.logging.log4j.LogManager;
 
 /**
@@ -34,7 +34,7 @@ public class EndTurnCommand implements Command{
         game.getPlayerByName(activePlayerName).resetPlayer();
         LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().resetFactory()");
         game.getCardCommandFactory().resetFactory();
-        
+        game.getCardCommandFactory().createCleanTableCommand().execute(game);
         
     
         

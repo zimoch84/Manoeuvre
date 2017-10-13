@@ -7,8 +7,8 @@ package manouvre.game;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import manouvre.game.commands.CommandQueue;
-import manouvre.game.interfaces.CardInterface;
+import manouvre.commands.CommandQueue;
+import manouvre.interfaces.CardInterface;
 import manouvre.gui.CommandLogger;
 import manouvre.gui.CreateRoomWindow;
 import manouvre.gui.GameWindow;

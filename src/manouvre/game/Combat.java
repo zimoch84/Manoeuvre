@@ -7,7 +7,7 @@ package manouvre.game;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import manouvre.game.commands.CardCommands;
+import manouvre.commands.CardCommands;
 import org.apache.logging.log4j.LogManager;
 
 /**
@@ -20,34 +20,34 @@ public class Combat implements Serializable{
     /*
     Combat TYPE
     */
-    public static final int ASSAULT = 202;
-    public static final int VOLLEY = 203;
-    public static final int BOMBARD = 204;
+    public static final String ASSAULT = "ASSAULT";
+    public static final String VOLLEY = "VOLLEY";
+    public static final String BOMBARD = "BOMBARD";
     
     /*
     COmbat flow state
     */
-    public static final int COMBAT_NOT_INITIALIZED= -1;
-    public static final int INITIALIZING_COMBAT= 0;
-    public static final int WITHRDAW= 1;
-    public static final int PICK_DEFENSE_CARDS= 2;
-    public static final int PICK_SUPPORT_UNIT= 3;
-    public static final int PICK_SUPPORTING_CARDS= 4;
-    public static final int THROW_DICES= 5;
-    public static final int DEFENDER_DECIDES= 6;
-    public static final int ATTACKER_DECIDES= 7;
-    public static final int PURSUIT= 8;
-    public static final int END_COMBAT= 9;
+    public static final String COMBAT_NOT_INITIALIZED= "COMBAT_NOT_INITIALIZED";
+    public static final String INITIALIZING_COMBAT= "INITIALIZING_COMBAT";
+    public static final String WITHRDAW= "WITHRDAW";
+    public static final String PICK_DEFENSE_CARDS = "PICK_DEFENSE_CARDS";
+    public static final String PICK_SUPPORT_UNIT= "PICK_SUPPORT_UNIT";
+    public static final String PICK_SUPPORTING_CARDS= "PICK_SUPPORTING_CARDS";
+    public static final String THROW_DICES= "THROW_DICES";
+    public static final String DEFENDER_DECIDES= "DEFENDER_DECIDES";
+    public static final String ATTACKER_DECIDES= "ATTACKER_DECIDES";
+    public static final String PURSUIT= "PURSUIT";
+    public static final String END_COMBAT= "END_COMBAT";
     
     
     /*
     Outcome
     */
-    public static final int DEFFENDER_TAKES_HIT=9;
-    public static final int ATTACKER_TAKES_HIT= 10;
-    public static final int HIT_AND_RETREAT= 13;
-    public static final int ELIMINATE= 14;
-    public static final int NO_EFFECT= 15;
+    public static final String DEFFENDER_TAKES_HIT="DEFFENDER_TAKES_HIT";
+    public static final String ATTACKER_TAKES_HIT= "ATTACKER_TAKES_HIT";
+    public static final String HIT_AND_RETREAT= "HIT_AND_RETREAT";
+    public static final String ELIMINATE= "ELIMINATE";
+    public static final String NO_EFFECT= "NO_EFFECT";
 
    
     Unit initAttackUnit, defendingUnit;
@@ -59,36 +59,35 @@ public class Combat implements Serializable{
     /*
     Descibe state of the combat 
     */
-    int state;
+    String state;
     
-    int defenceValue, attackValue, defenseBonus, attackBonus;
+    int defenceValue, attackValue, defenseBonus, attackBonus, leaderBonus;
 
     ArrayList<Dice> dices;
-    Card attackCard; 
-    ArrayList<Card> attackCards, defenceCards;
+    Card initAttackingCard; 
+    ArrayList<Card> supportCards, defenceCards;
     Terrain attackTerrain, defenseTerrain;
  
-    int combatType;
+    String combatType;
 
-    public Combat(Unit initAttackUnit, Card attackCard,Terrain attackTerrain, Unit defendingUnit, Terrain defenseTerrain) {
+    public Combat(Unit initAttackUnit, Card initAttackingCard,Terrain attackTerrain, Unit defendingUnit, Terrain defenseTerrain) {
         
     this.initAttackUnit = initAttackUnit;
     this.defendingUnit = defendingUnit;
-    this.attackCards = new ArrayList<>();
+    this.supportCards = new ArrayList<>();
     this.defenceCards = new ArrayList<>();
     this.dices = new ArrayList<>();
     this.attackingUnits = new ArrayList<>();
-    this.attackCard = attackCard;
-    this.attackCards.add(attackCard);
+    this.initAttackingCard = initAttackingCard;
+ 
     this.attackingUnits.add(initAttackUnit);
     
     this.attackTerrain = attackTerrain;
     this.defenseTerrain = defenseTerrain;
     
-    this.combatType = attackCard.getPlayingCardMode();
+    this.combatType = initAttackingCard.getPlayingCardMode();
     
     this.state= INITIALIZING_COMBAT;
-    //setDices(attackCards);
     calculateBonuses();
     calculateCombatValues();
     
@@ -100,6 +99,15 @@ public class Combat implements Serializable{
         defenseBonus = defenseTerrain.getDefenceBonus();
         attackBonus = attackTerrain.getAttackBonus(defenseTerrain);
     
+    }
+    
+    void calculateSupportLeaderBonus() {
+    leaderBonus =0;
+    for (Card supportCard:supportCards)
+    {
+        if(supportCard.getCardType() == Card.LEADER)
+            leaderBonus += supportCard.getLeaderCombat();
+    }
     }
     
     public void calculateCombatValues()
@@ -122,10 +130,14 @@ public class Combat implements Serializable{
         */
         attackValue=0;
         //bomard do not get advantage of Unit Attack
-        if(attackCard.getPlayingCardMode()!=Card.BOMBARD){  
-        attackValue = initAttackUnit.getCurrentStrenght();  }
+        if(initAttackingCard.getPlayingCardMode()!=Card.BOMBARD){
+            
+        attackValue = initAttackUnit.getCurrentStrenght();  
+        
+        }
         attackValue += attackBonus;
-      
+        calculateSupportLeaderBonus();
+        attackValue += leaderBonus;
         /*
         Dices 
         */
@@ -144,11 +156,12 @@ public class Combat implements Serializable{
         
     }
 
-    public int getState() {
+    public String getState() {
         return state;
     }
+    
 
-    public void setState(int state) {
+    public void setState(String state) {
         this.state = state;
     }
 
@@ -160,17 +173,6 @@ public class Combat implements Serializable{
     {
     this.dices = dices;
     }
-
-    public ArrayList<Card> getAttackCards() {
-        return attackCards;
-    }
-
-    public void setAttackCards(ArrayList<Card> attackCards) {
-        
-        this.attackCards = attackCards;
-        //setDices(attackCards);
-    }
-
     public void addDefenceCard(Card defenceCard)
     {
         defenceCards.add(defenceCard);
@@ -182,15 +184,19 @@ public class Combat implements Serializable{
         defenceCards.remove(defenceCard);
         calculateCombatValues();
     }
-    public void addAttackCard(Card attackCard)
+    
+    public ArrayList<Card> getSupportCards() {
+        return supportCards;
+    }
+    public void addSupportCard(Card attackCard)
     {
-        attackCards.add(attackCard);
+        supportCards.add(attackCard);
         calculateCombatValues();
     }
     
-    public void removeAttackCard(Card attackCard)
+    public void removeSupportCard(Card attackCard)
     {
-        attackCards.remove(attackCard);
+        supportCards.remove(attackCard);
         calculateCombatValues();
     }
     
@@ -230,7 +236,13 @@ public class Combat implements Serializable{
         this.attackValue = attackValue;
     }
 
-    public int getOutcome()
+    public int getLeaderBonus() {
+        return leaderBonus;
+    }
+    
+    
+
+   public String getOutcome()
    {
    switch(getCombatType()){
    
@@ -238,12 +250,12 @@ public class Combat implements Serializable{
            return getAssaultOutcome();
            
        case Combat.BOMBARD: return getBombardOutcome();
-       default : return 0;
+       default : return NO_EFFECT;
    }
    }
     
     
-    private int getAssaultOutcome()
+    private String getAssaultOutcome()
     {
         if(attackValue <  defenceValue) return ATTACKER_TAKES_HIT;
         
@@ -259,14 +271,14 @@ public class Combat implements Serializable{
         
         return NO_EFFECT;
     }
-    public int getBombardOutcome()
+    public String getBombardOutcome()
     {
         if(attackValue >  defenceValue) return DEFFENDER_TAKES_HIT; 
         return NO_EFFECT;   
         
     }
     
-    public int getPursuitOutcome(Card card, Dice dice)
+    public String getPursuitOutcome(Card card, Dice dice)
     {
         if(dice.getResult() <= card.getUnitPursuit() )
            return DEFFENDER_TAKES_HIT;
@@ -276,7 +288,7 @@ public class Combat implements Serializable{
            
     }
 
-    public int getCombatType() {
+    public String getCombatType() {
         return combatType;
     }
 
@@ -305,8 +317,15 @@ public class Combat implements Serializable{
         return attackBonus;
     }
 
-    public Card getAttackCard() {
-        return attackCard;
+    public Card getInitAttackCard() {
+        return initAttackingCard;
+    }
+    
+    public ArrayList<Card> getAttackCards() {
+    ArrayList<Card> attackCards = new  ArrayList<>();
+    attackCards.add(initAttackingCard);
+    attackCards.addAll(supportCards);
+    return attackCards;
     }
 
     public Terrain getAttackTerrain() {
@@ -322,11 +341,11 @@ public class Combat implements Serializable{
         If supoprting card doesnt have "Not required to advance" feature then attacker have to advance
         */
         
-        if(attackCard.isNotRequredToAdvanceAfterAttack())
+        if(initAttackingCard.isNotRequredToAdvanceAfterAttack())
         {
-            if(!attackCards.isEmpty())
+            if(!supportCards.isEmpty())
             {
-                for(Card attackCardinLoop :attackCards)
+                for(Card attackCardinLoop :supportCards)
                 {
                     /*
                     If supoprting card doesnt have "Not required to advance" feature then attacker have to advance
@@ -379,9 +398,9 @@ public class Combat implements Serializable{
                 if(attackingUnit.hasAdvanced())
                 {
                     
-                    if(attackCards.contains(attackingUnit))
+                    if(supportCards.contains(attackingUnit))
                     {
-                        for(Card checkingCard : attackCards)
+                        for(Card checkingCard : supportCards)
                         {
                             if(checkingCard.equals(attackingUnit))
                             {
@@ -400,15 +419,19 @@ public class Combat implements Serializable{
     public ArrayList<Card> getPursuitCards(Game game){
         
         ArrayList<Card> pursueCards = new ArrayList<>();
-           
+        ArrayList<Card> attackingCards = new ArrayList<>();
+        attackingCards.add(initAttackingCard);
+        attackingCards.addAll(supportCards);
+        
+        
           for(Unit attackingUnit: attackingUnits)
                 
                 if(game.getUnitByName(attackingUnit.getName()).hasAdvanced())
                 {
                     
-                    if(attackCards.contains(attackingUnit))
+                    if(attackingCards.contains(attackingUnit))
                     {
-                        for(Card checkingCard : attackCards)
+                        for(Card checkingCard : attackingCards)
                         {
                             if(checkingCard.equals(attackingUnit))
                             {
@@ -456,6 +479,12 @@ public class Combat implements Serializable{
         game.setUnit(initAttackUnit);
         
     
+    }
+    
+    @Override
+    public String toString(){
+    
+        return getCombatType() + " " + getState() ;
     }
     
 }

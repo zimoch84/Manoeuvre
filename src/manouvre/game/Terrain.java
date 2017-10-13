@@ -6,7 +6,7 @@
 package manouvre.game;
 
 import java.io.Serializable;
-import manouvre.game.interfaces.TerrainInterface;
+import manouvre.interfaces.TerrainInterface;
 
 /**
  *
@@ -25,7 +25,7 @@ public class Terrain  implements TerrainInterface, Serializable {
 
     boolean noAssaultOut;
     
-    boolean isRedoubt;
+    boolean redoubt;
     boolean isOccupiedByUnit;
 
     Position pos;
@@ -40,12 +40,12 @@ public class Terrain  implements TerrainInterface, Serializable {
         this.pos = pos;
     }
 
-    public boolean setIsRedoubt() {
-        return isRedoubt;
+    public boolean isRedoubt() {
+        return redoubt;
     }
 
-    public void setIsRedoubt(boolean isRedoubt) {
-        this.isRedoubt = isRedoubt;
+    public void setRedoubt(boolean isRedoubt) {
+        this.redoubt = isRedoubt;
     }
 
     public boolean getIsOccupiedByUnit() {
@@ -197,10 +197,16 @@ public class Terrain  implements TerrainInterface, Serializable {
         else return blockingLOS;
             
     }
+    
+    public boolean getBlockingLOS()
+    {
+        return blockingLOS;
+    }
+            
 
     @Override
     public int getDefenceBonus() {
-        if (isRedoubt) 
+        if (redoubt) 
             return defenceBonus + 3;
         else return defenceBonus;
         

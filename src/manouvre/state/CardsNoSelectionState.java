@@ -9,7 +9,7 @@ import java.awt.Graphics;
 import java.io.Serializable;
 import manouvre.game.Card;
 import manouvre.game.Game;
-import manouvre.game.commands.CommandQueue;
+import manouvre.commands.CommandQueue;
 
 /**
  *

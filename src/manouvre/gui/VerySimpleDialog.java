@@ -6,8 +6,8 @@
 package manouvre.gui;
 
 import manouvre.game.Game;
-import manouvre.game.commands.CommandQueue;
-import manouvre.game.interfaces.Command;
+import manouvre.commands.CommandQueue;
+import manouvre.interfaces.Command;
 
 /**
  *

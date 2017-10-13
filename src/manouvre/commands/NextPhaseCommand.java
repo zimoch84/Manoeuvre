@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package manouvre.game.commands;
+package manouvre.commands;
 
 import manouvre.game.Game;
 import manouvre.game.Param;
-import manouvre.game.interfaces.Command;
+import manouvre.interfaces.Command;
 import org.apache.logging.log4j.LogManager;
 
 /**
@@ -58,16 +58,17 @@ public class NextPhaseCommand implements Command{
     @Override
     public void execute(Game game) {
 
-        game.nextPhase();
+        
         game.getMap().unselectAllTerrains();
+        game.setInfoBarText(null);
         game.getPlayerByName(activePlayerName).resetPlayer();
         game.getCardCommandFactory().createCleanTableCommand().execute(game);
-        
+
         LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().resetFactory()");
         game.getCardCommandFactory().resetFactory();
         if(game.getCombat() != null)
             game.setCombat(null);
-        
+        game.nextPhase();
         
        
         

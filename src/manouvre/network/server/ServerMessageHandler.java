@@ -8,9 +8,9 @@ package manouvre.network.server;
 import java.util.ArrayList;
 import manouvre.game.Game;
 import manouvre.game.Player;
-import manouvre.game.interfaces.CardInterface;
+import manouvre.interfaces.CardInterface;
 import manouvre.network.client.Message;
-import manouvre.game.interfaces.Command;
+import manouvre.interfaces.Command;
 
 /**
  *

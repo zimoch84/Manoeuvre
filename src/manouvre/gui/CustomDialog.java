@@ -14,9 +14,9 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import manouvre.game.Game;
-import manouvre.game.commands.CommandQueue;
-import manouvre.game.interfaces.ClientInterface;
-import manouvre.game.interfaces.Command;
+import manouvre.commands.CommandQueue;
+import manouvre.interfaces.ClientInterface;
+import manouvre.interfaces.Command;
 
 /**
  *

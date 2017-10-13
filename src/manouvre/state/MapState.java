@@ -8,7 +8,7 @@ package manouvre.state;
 
 import manouvre.game.Game;
 import manouvre.game.Position;
-import manouvre.game.commands.CommandQueue;
+import manouvre.commands.CommandQueue;
 
 /**
  *

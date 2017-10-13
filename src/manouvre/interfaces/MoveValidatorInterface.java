@@ -3,15 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package manouvre.game.interfaces;
+package manouvre.interfaces;
 
 /**
  *
  * @author Piotr
  */
-public interface FrameInterface {
+public interface MoveValidatorInterface {
     
-   public void printOnChat(String inString);
-   
+    public boolean isMoveValid(MoveInterface move);
     
 }

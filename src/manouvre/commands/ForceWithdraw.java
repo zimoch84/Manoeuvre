@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package manouvre.game.commands;
+package manouvre.commands;
 
 import manouvre.game.Combat;
 import manouvre.game.Game;
 import manouvre.game.Param;
 import manouvre.game.Unit;
-import manouvre.game.interfaces.Command;
+import manouvre.interfaces.Command;
 import manouvre.state.CardStateHandler;
 import manouvre.state.MapInputStateHandler;
 import org.apache.logging.log4j.LogManager;
@@ -41,8 +41,8 @@ public class ForceWithdraw implements Command{
       
       if(game.getCurrentPlayer().isActive())
       {
-          LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT ");
-          game.mapInputHandler.setState(MapInputStateHandler.PICK_ONE_UNIT);
+          LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION ");
+          game.mapInputHandler.setState(MapInputStateHandler.PICK_MOVE_POSITION);
       }
       else 
       { 

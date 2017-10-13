@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package manouvre.game.interfaces;
+package manouvre.interfaces;
 
 import manouvre.game.Game;
 
@@ -56,10 +56,10 @@ public interface CardInterface {
     public static int AMBUSH = 14;
     public static int REGROUP = 15;
 
-    public static int ASSAULT = 202;
-    public static int VOLLEY = 203;
-    public static int BOMBARD = 204;
-    public static int PURSUIT = 205;
+    public static String ASSAULT = "ASSAULT";
+    public static String VOLLEY = "VOLLEY";
+    public static String BOMBARD = "BOMBARD";
+    public static String PURSUIT = "PURSUIT";
             
     public static int MOVE_ACTION = 500;
     public static int PICK_ACTION = 501;
@@ -120,7 +120,7 @@ public interface CardInterface {
     /*
     Returns leder combat value
     */
-    public int getLederCombat();
+    public int getLeaderCombat();
     /*
     Returns leder rally value
     */
@@ -152,23 +152,7 @@ public interface CardInterface {
     Is required to advance
     */
     public boolean isNotRequredToAdvanceAfterAttack();   
-    /*
-    checks if Leader Rally successfully resolve
-    true - test passed
-    
-    */
-    public boolean checkRally(int diceThrow);
-    
-    /*  
-    is card cancelled by GUERRILLAS
-    */
-    
-    public boolean isCancelled();
-    
-    /**  
-    set card is cancelled by GUERRILLAS
-    */
-    public void setCancelled();
+
     /*
     If that card can be played at the moment
     */

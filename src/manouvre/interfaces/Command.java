@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package manouvre.game.interfaces;
+package manouvre.interfaces;
 
 import java.io.Serializable;
 import manouvre.game.Game;

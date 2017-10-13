@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import manouvre.game.Game;
 import manouvre.game.Position;
 import manouvre.game.Unit;
-import manouvre.game.commands.CommandQueue;
+import manouvre.commands.CommandQueue;
 import manouvre.game.Card;
 import manouvre.game.CardCommandFactory;
 import manouvre.game.Player;
@@ -53,7 +53,7 @@ public class GameGUI {
     
     CardSetGUI cardSetsGUI;
     
-    int stateTemp=Combat.INITIALIZING_COMBAT;
+   
     BufferedImage  infoImage;
     
     Position hoverPosition;
@@ -74,6 +74,8 @@ public class GameGUI {
     
     CommandQueue cmdQueue;
     
+    BufferedImage redoubtImage;
+    
     public GameGUI (Game newGame, int windowMode, CommandQueue cmdQueue) throws IOException{
         this.game=newGame;
         this.currentPlayer=game.getCurrentPlayer();
@@ -93,6 +95,13 @@ public class GameGUI {
         currentPlayer.isFirst() ? " first " : " second ") + "player"  , (CommandQueue) null, game);
         dialog.setVisible(true);
         
+         try {
+            redoubtImage = ImageIO.read(new File("resources\\icons\\Redbt_mini.png"));
+        } catch (IOException ex) {
+            LOGGER.error("Error during loading redoubt image " + ex.toString());
+        }
+        
+        
     }
     void paintInfoPanel(Graphics g){
     
@@ -100,7 +109,7 @@ public class GameGUI {
         final int TERRAIN_X_OFFSET = 160;
         final int TERRAIN_Y_OFFSET = 0;
        
-        final int DECRIPTION_Y_GAP = 10;
+        final int DECRIPTION_Y_GAP = 12;
         final int DECRIPTION_Y_OFFSET = TERRAIN_Y_OFFSET + 76 ;
         final float TERRAIN_SCALE = 0.7f;
         
@@ -127,11 +136,16 @@ public class GameGUI {
             g.drawString(terrain.getTerrain().getTypeToString() ,
             TERRAIN_X_OFFSET, DECRIPTION_Y_OFFSET + DECRIPTION_Y_GAP);        
         
-            g.drawString("Def Bonus : " + Integer.toString(terrain.getTerrain().getDefenceBonus()) ,
+            g.drawString("Def Bonus: " + Integer.toString(terrain.getTerrain().getDefenceBonus()) ,
             TERRAIN_X_OFFSET, DECRIPTION_Y_OFFSET + DECRIPTION_Y_GAP*2);
             
-            g.drawString("Block LOS: " + (terrain.getTerrain().isBlockingLOS() ? "yes" : "no" ) ,
+            g.drawString("Block LOS: " + (terrain.getTerrain().getBlockingLOS() ? "yes" : "no" ) ,
             TERRAIN_X_OFFSET, DECRIPTION_Y_OFFSET + DECRIPTION_Y_GAP*3);
+            
+            if(terrain.getTerrain().getType() == Terrain.HILL){
+            g.drawString("Att Bon.vs non-Hill: 2" ,
+            TERRAIN_X_OFFSET, DECRIPTION_Y_OFFSET + DECRIPTION_Y_GAP*4);
+            }
         }  
         }
                
@@ -176,7 +190,10 @@ public class GameGUI {
         */
         drawCombat(g);
         
-        
+        /*
+        Draw redoubt
+        */
+
        
     }
       private void drawTerrains(Graphics g){
@@ -269,6 +286,8 @@ public class GameGUI {
                 drawImageOnPosition(g, drawUnit.getUnit().getPosition(), drawUnit.getImg());
                 
                 drawTerrainLetter(g, drawUnit.getUnit());
+                
+                
                         
                 /*
                 Draw bad position rectangle
@@ -302,14 +321,22 @@ public class GameGUI {
         {
             for (UnitGUI drawUnit : currentPlayerArmy) {
                 if(!drawUnit.getUnit().isEliminated())
-                {drawImageOnPosition(g, drawUnit.getUnit().getPosition(), drawUnit.getImg());
-                    drawTerrainLetter(g, drawUnit.getUnit());
+                {
+                    Unit unit = drawUnit.getUnit();
+                    drawImageOnPosition(g, unit.getPosition(), drawUnit.getImg());
+                    drawTerrainLetter(g, unit);
+                    if(game.getMap().getTerrainAtPosition(unit.getPosition()).isRedoubt())
+                        drawRedoubt(g, unit.getPosition());
+                        
                 }
             }
             for (UnitGUI drawUnit : opponnetPlayerArmy) {
                 if(!drawUnit.getUnit().isEliminated()){
-                     drawImageOnPosition(g, drawUnit.getUnit().getPosition(), drawUnit.getImg());
-                     drawTerrainLetter(g, drawUnit.getUnit());
+                     Unit unit = drawUnit.getUnit();
+                     drawImageOnPosition(g, unit.getPosition(), drawUnit.getImg());
+                     drawTerrainLetter(g, unit);
+                     if(game.getMap().getTerrainAtPosition(unit.getPosition()).isRedoubt())
+                        drawRedoubt(g, unit.getPosition());
                 }
                 }
             }
@@ -334,7 +361,7 @@ public class GameGUI {
                         if(!playingCard.hasPlayed()){
                             Unit lastMovedUnit = currentPlayer.getLastMovedUnit();
                             movePositions = game.getOneSquareMovements(lastMovedUnit.getPosition());
-                            drawMultipleRectanglesOnPositions(g, movePositions, Color.red);
+                            drawMultipleRectanglesOnPositions(g, movePositions, Color.BLUE);
                         }
                         break;
                         }
@@ -343,7 +370,7 @@ public class GameGUI {
                         if(game.getSelectedUnit()!= null)  {  
                                 Unit selectedUnit = game.getSelectedUnit();
                                 movePositions = game.getPossibleMovement(selectedUnit);
-                                drawMultipleRectanglesOnPositions(g, movePositions, Color.red);
+                                drawMultipleRectanglesOnPositions(g, movePositions, Color.BLUE);
                         }
                         
                         else {
@@ -357,9 +384,16 @@ public class GameGUI {
                         {
                         Unit attackedUnit = game.getCardCommandFactory().getAttackedUnit();
                         movePositions = game.getRetreatPositions(attackedUnit);
-                        drawMultipleRectanglesOnPositions(g, movePositions, Color.red);
+                        drawMultipleRectanglesOnPositions(g, movePositions, Color.BLUE);
                         break;
                         }
+                     case Card.REDOUBDT: 
+                        {
+                        
+                        drawMultipleRectanglesOnPositions(g, game.getCurrentPlayer().getArmyPositions(), Color.BLUE);
+                        break;
+                        }    
+                        
                     }
 
                 }
@@ -367,42 +401,66 @@ public class GameGUI {
                     /*
                     Draw selection of unit that matches playing card
                     */
-                if(game.checkCurrentPlayerUnitByName(playingCard.getCardName()))
-                {
-                    Unit attackingUnit = game.getCurrentPlayerUnitByName(playingCard.getCardName());
-                    Position unitPosition = attackingUnit.getPosition();
-                    drawRectangleOnPosition(g, unitPosition, Color.red);
-
-                    if(game.getPhase() == Game.COMBAT)
+                switch(game.getPhase()){    
+                   
+                    case Game.MOVE:{    
+                        if(game.checkCurrentPlayerUnitByName(playingCard.getCardName()))
+                        {
+                           Unit attackingUnit = game.getCurrentPlayerUnitByName(playingCard.getCardName());
+                           Position unitPosition = attackingUnit.getPosition();
+                           drawRectangleOnPosition(g, unitPosition, Color.BLUE);
+                        }
+                        break;
+                    }
+                    case Game.COMBAT:
+                    {
+                        if(game.getPhase() == Game.COMBAT)
                         /*
                         Draw possible targets if we know playing Card Mode
                         if combat is null that means that is not initialized
-
                         */       
-                        if(game.getCombat() == null )
+                            if(game.getCombat() == null )
                             {
                                 /*
                                 If we have chosen attack type
                                 */
-                            if(playingCard.getPlayingCardMode() > 0  )
-                               
+                                
+                            if(playingCard.getPlayingCardMode() !=null  )
+                            { 
+                                Unit attackingUnit = game.getCurrentPlayerUnitByName(playingCard.getCardName());
                                 if(cardFactory.getAttackingPositions() != null)
                                     drawArrowToPositions(g, 
                                     attackingUnit.getPosition(),
                                     cardFactory.getAttackingPositions(),
                                     Color.RED
                                     );
+                            }
       
                             }
-
+                        /*
+                        We have combat
+                        */
+                        else
+                        {
+                           switch(game.getCombat().getState()){
+                           
+                           case Combat.PICK_SUPPORT_UNIT:
+                                {
+                                drawMultipleRectanglesOnPositions(g,
+                                        game.getPossibleSupportingUnitsPositions(game.getCombat().getDefendingUnit())
+                                        , Color.red);   
+                                break;
+                                }
+                           
+                           }
+                            
+                        }        
+                                
+                    break;
                     }    
-                    
-                break;    
+   
                 }  
-                case Card.LEADER :{
-                /*
-                    If we have leader selected draw nothing
-                    */
+
                 break;
                 }
                 default: System.err.println("drawCardSelections()  Brak typu karty " + playingCard.getCardName());
@@ -511,7 +569,7 @@ public class GameGUI {
                                
                             ,
                    
-                            toPosition.transpoze().getMouseY(windowMode) +  MapGUI.PIECE_WIDTH / 2      
+                            toPosition.getMouseY(windowMode) +  MapGUI.PIECE_WIDTH / 2      
                     , 10,15)
                             ;
     }
@@ -525,6 +583,18 @@ public class GameGUI {
             drawArrowToPosition(g , fromPosition, toPositon,  color);
             }
 
+    }
+    
+    private void drawRedoubt(Graphics g , Position position){
+
+       g.drawImage(redoubtImage, 
+                        position.getMouseX(windowMode) + MapGUI.PIECES_START_X
+                              ,
+                        position.getMouseY(windowMode) + MapGUI.PIECES_START_Y ,
+                        (int) (MapGUI.PIECE_WIDTH * MapGUI.REDOUBT_IMG_SCALE), 
+                        (int) (MapGUI.PIECE_HEIGHT * MapGUI.REDOUBT_IMG_SCALE) 
+                        , null);  
+        
     }
     
     private void drawTerrainLetter(Graphics g, Unit unit)
@@ -645,7 +715,9 @@ public class GameGUI {
     
     private void drawRetrieving(Graphics g){
      
-    if (game.getSelectedUnit()!= null){
+    if(game.getCombat() != null)    
+    {if(game.getCombat().getState() == Combat.WITHRDAW)
+    if(game.getSelectedUnit()!= null){
         
         Unit selectedUnit = game.getSelectedUnit();
         if(selectedUnit != null)
@@ -655,6 +727,12 @@ public class GameGUI {
                        
             }
     
+     if(game.getCombat().getState() == Combat.PURSUIT)
+     {
+            drawMultipleRectanglesOnPositions(g, game.getCurrentPlayerAvalibleUnitToSelect(), Color.RED);
+       
+     }
+    }
       
     }
     
@@ -672,7 +750,7 @@ public class GameGUI {
                     
                  )
                 drawArrowToPosition(g,  combat.getAttackingUnit().getPosition(), 
-                        combat.getAttackingUnit().getPosition(), Color.GREEN);
+                        combat.getDefendingUnit().getPosition(), Color.GREEN);
     
     }
     
@@ -751,14 +829,6 @@ public class GameGUI {
          return null;
     }
     
-    
-
-    
-    public void phaseChanged(){
-         game.getCurrentPlayer().getHand().selectionSeq.clear();//clear selection if phase was changed
-          
-        
-    }
     public void keepOneSelectedCard(Card cardClicked){
         for (int i=0; i< game.getCurrentPlayer().getHand().size(); i++){ 
             game.getCurrentPlayer().getHand().getCardByPosInSet(i).setSelected(false);
@@ -833,7 +903,7 @@ public class GameGUI {
     public void paintTablePanel(Graphics g){
        
         cardSetsGUI.paintTablePanel(g);
-        paintDices(g);
+        //paintDices(g);
     
     }
     
@@ -843,7 +913,8 @@ public class GameGUI {
         final int START_Y = 37;
         g.setColor(Color.white);
         g.setFont(new Font("Bookman Old Style", 1, 20));
-        g.drawString(game.getInfoBarText(), START_X, START_Y);
+        if(game.getInfoBarText() != null)
+            g.drawString(game.getInfoBarText(), START_X, START_Y);
     }
    
 
@@ -872,11 +943,13 @@ public class GameGUI {
             
             g.drawString("Def.Terrain: " + combat.getDefenseTerrain().getTypeToString(), START_X_COMBAT_PANEL, 3*START_Y_COMBAT_PANEL);
             
-            g.drawString("Ter.Def.Bonus: " + combat.getDefenseBonus(), START_X_COMBAT_PANEL, 4*START_Y_COMBAT_PANEL);
+            g.drawString("Ter.Def.Boznus: " + combat.getDefenseBonus(), START_X_COMBAT_PANEL, 4*START_Y_COMBAT_PANEL);
             
             g.drawString("Att.Terrain: " + combat.getAttackTerrain().getTypeToString(), START_X_COMBAT_PANEL, 5*START_Y_COMBAT_PANEL);
             
             g.drawString("Ter.Att.Bonus: " + combat.getAttackBonus(), START_X_COMBAT_PANEL, 6*START_Y_COMBAT_PANEL);
+            
+            g.drawString("Leader Bonus: " + combat.getLeaderBonus(), START_X_COMBAT_PANEL, 7*START_Y_COMBAT_PANEL);
             
             
             
@@ -900,27 +973,35 @@ public class GameGUI {
             for(Dice d6  :  game.getCardCommandFactory().getD6dices() ){
                 i++;
                 DiceGUI d6gui = new DiceGUI(d6);
+                
+
                 g.drawImage(d6gui.getImage(), 
-                        STARTING_D6_X  - (i-1)* (int)(DiceGUI.D6SQUARE_WIDTH*DiceGUI.SCALE_FACTOR_D6), 
-                        STARTING_D6_Y ,
-                        (int)(d6gui.getImage().getWidth()*DiceGUI.SCALE_FACTOR_D6),
-                        (int)(d6gui.getImage().getHeight()*DiceGUI.SCALE_FACTOR_D6)
-                        
-                        , null);
+                STARTING_D6_X  - (i-1)* (int)(DiceGUI.D6SQUARE_WIDTH*DiceGUI.SCALE_FACTOR_D6), 
+                CardSetGUI.TABLE_CARD_PADDING_TOP ,
+                (int)(d6gui.getImage().getWidth()*DiceGUI.SCALE_FACTOR_D6),
+                (int)(d6gui.getImage().getHeight()*DiceGUI.SCALE_FACTOR_D6)
+
+                , null); 
+                    
+                    
             } 
         i=0;
         if(game.getCardCommandFactory().getD8dices()!= null)
             for(Dice d8 : game.getCardCommandFactory().getD8dices() ){
                 i++;
                 
-                
+                 
 
                 DiceGUI d8gui = new DiceGUI(d8);
-                g.drawImage(d8gui.getImage(), STARTING_D8_X -  (i-1)* (int)(DiceGUI.D8SQUARE_WIDTH*DiceGUI.SCALE_FACTOR_D8) , STARTING_D8_Y , 
+                
+                g.drawImage(d8gui.getImage(),
+                        STARTING_D8_X -  (i-1)* (int)(DiceGUI.D8SQUARE_WIDTH*DiceGUI.SCALE_FACTOR_D8) , 
+                        
+                        CardSetGUI.TABLE_CARD_PADDING_TOP, 
                         (int)(d8gui.getImage().getWidth()*DiceGUI.SCALE_FACTOR_D8),
                         (int)(d8gui.getImage().getHeight()*DiceGUI.SCALE_FACTOR_D8),
                         
-                        null);
+                        null);   
             } 
         i=0;
         if(game.getCardCommandFactory().getD10dices()!= null)
@@ -988,7 +1069,8 @@ public class GameGUI {
         
         ArrayList<UnitGUI> packUnits = new ArrayList<>();
         packUnits.addAll(currentPlayerArmy);
-        packUnits.addAll(opponnetPlayerArmy);
+        if(game.getPhase() != Game.SETUP)
+            packUnits.addAll(opponnetPlayerArmy);
       
         return packUnits;
     }

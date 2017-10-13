@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import manouvre.game.Game;
 import manouvre.game.Position;
 import manouvre.game.Unit;
-import manouvre.game.commands.CardCommands;
-import manouvre.game.commands.CommandQueue;
-import manouvre.game.commands.MoveUnitCommand;
+import manouvre.commands.CardCommands;
+import manouvre.commands.CommandQueue;
+import manouvre.commands.MoveUnitCommand;
 import manouvre.gui.CustomDialog;
 import org.apache.logging.log4j.LogManager;
 

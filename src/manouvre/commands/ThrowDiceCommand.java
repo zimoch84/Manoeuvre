@@ -3,14 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package manouvre.game.commands;
+package manouvre.commands;
 
 import java.util.ArrayList;
 import manouvre.game.Card;
 import manouvre.game.Dice;
 import manouvre.game.Game;
 import manouvre.game.Param;
-import manouvre.game.interfaces.Command;
+import manouvre.interfaces.Command;
+import manouvre.network.server.UnoptimizedDeepCopy;
 
 
 /**
@@ -27,42 +28,54 @@ public class ThrowDiceCommand implements Command{
     
     public ThrowDiceCommand(String playerName, ArrayList<Card> cards) {
     this.playerName = playerName;
-    this.cards = cards;
+    
+    
+    
+    ArrayList<Card> cardsClone = (ArrayList<Card>) UnoptimizedDeepCopy.copy (cards);
+    
+    this.cards = cardsClone;
     
     d6dices = new ArrayList<>();
     d8dices = new ArrayList<>();
     d10dices = new ArrayList<>();
     
     if(!cards.isEmpty())
-    for(Card checkCard: cards )
+    for(Card checkCard: this.cards )
         {
         switch(checkCard.getUnitDiceValue()){
         
             case Dice.DICE1d6:{
                 d6dices.add(new Dice(Dice.D6));
+                
+                checkCard.setDices(d6dices);
                 break;
             }
             case Dice.DICE2d6:{
                 d6dices.add(new Dice(Dice.D6));
                 d6dices.add(new Dice(Dice.D6));
+                checkCard.setDices(d6dices);
                 break;
             }
             case Dice.DICE1d8:{
                 d8dices.add(new Dice(Dice.D8));
+                checkCard.setDices(d8dices);
                 break;
             }
             case Dice.DICE2d8:{
                 d8dices.add(new Dice(Dice.D8));
                 d8dices.add(new Dice(Dice.D8));
+                checkCard.setDices(d8dices);
                 break;
             }
             case Dice.DICE1d10:{
                 d10dices.add(new Dice(Dice.D10));
+                checkCard.setDices(d10dices);
                 break;
             }
             case Dice.DICE2d10:{
                 d10dices.add(new Dice(Dice.D10));
                 d10dices.add(new Dice(Dice.D10));
+                checkCard.setDices(d10dices);
                 break;
             }
         }
@@ -72,10 +85,23 @@ public class ThrowDiceCommand implements Command{
     public void execute(Game game) {
        
         
-    
-        game.getCardCommandFactory().setD6dices(d6dices);
-        game.getCardCommandFactory().setD8dices(d8dices);
-        game.getCardCommandFactory().setD10dices(d10dices);
+        for(Card card:cards)
+        {
+        game.getCardFromTable(card).setDices(card.getDices());
+        
+        }
+
+        ArrayList<Dice> allDice = new ArrayList<>();
+        
+        allDice.addAll(d6dices);
+        allDice.addAll(d8dices);
+        allDice.addAll(d10dices);
+        
+        game.getCombat().setDices(allDice);
+        
+        //game.getCardCommandFactory().setD6dices(d6dices);
+        //game.getCardCommandFactory().setD8dices(d8dices);
+        //game.getCardCommandFactory().setD10dices(d10dices);
   
         
         

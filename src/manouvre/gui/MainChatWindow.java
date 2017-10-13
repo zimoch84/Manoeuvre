@@ -26,7 +26,7 @@ import manouvre.game.Player;
 import manouvre.network.client.Message;
 import manouvre.network.client.SocketClient;
 import manouvre.network.server.GameRoom;
-import manouvre.game.interfaces.FrameInterface;
+import manouvre.interfaces.FrameInterface;
 import static java.lang.Thread.sleep;
 
 class GameRoomRenderer extends JLabel implements ListCellRenderer<GameRoom> {

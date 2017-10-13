@@ -8,9 +8,9 @@ package manouvre.game;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
-import manouvre.game.commands.CommandQueue;
-import static manouvre.game.interfaces.PositionInterface.COLUMN_H;
-import static manouvre.game.interfaces.PositionInterface.ROW_8;
+import manouvre.commands.CommandQueue;
+import static manouvre.interfaces.PositionInterface.COLUMN_H;
+import static manouvre.interfaces.PositionInterface.ROW_8;
 import manouvre.gui.CreateRoomWindow;
 import manouvre.network.server.UnoptimizedDeepCopy;
 import manouvre.state.CardStateHandler;
@@ -55,7 +55,7 @@ public final class Game implements Serializable{
     Describes and calculate combats
     */
     Combat combat;
-    public boolean freeMove = false;
+    public boolean freeMove = true;
     
     public boolean supressConfirmation = true;
     
@@ -374,8 +374,25 @@ public final class Game implements Serializable{
          return los;           
     };  
 
+    public ArrayList<Unit> getPossibleSupportingUnits(Unit defendingUnit){
+        
+       /*
+        get attacking Units position that are adjenced to the defending one
+        */
+        ArrayList<Unit> possibleSupportUnits = new ArrayList<>();
+        
+        for(Position supportPosition:getOneSquarePositions(defendingUnit.getPosition()) )
+        {
+         if(getCurrentPlayerUnitAtPosition(supportPosition) != null)
+            {
+           possibleSupportUnits.add(getCurrentPlayerUnitAtPosition(supportPosition));
+            }
+        }
+        return possibleSupportUnits;
+    }
+    
     /*
-    Get units that can join attack , this is for selection purpose only
+    Get unit positions that  can join attack , this is for selection purpose only
     */
     public ArrayList<Position> getPossibleSupportingUnitsPositions(Unit defendingUnit){
     
@@ -820,6 +837,27 @@ public final class Game implements Serializable{
       return null;
     
     }
+     public Card getCardFromTable(Card searchedCard)
+    {
+     for(Card cardSearch: currentPlayer.getTablePile().getCardList()){
+        
+            if(cardSearch.equals(searchedCard))
+            {
+                return cardSearch;
+              }
+        }
+        
+    for(Card cardSearch: opponentPlayer.getTablePile().getCardList()){
+        
+            if(cardSearch.equals(searchedCard))
+            {
+                return cardSearch;
+              }
+        }
+      return null;
+    
+    }
+    
     
     public void setUnit(Unit unit)
     {

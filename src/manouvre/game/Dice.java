@@ -32,13 +32,14 @@ public class Dice implements Serializable{
     int result;
     int max;
 
+
     public Dice(int type) {
     
     this.type = type;
     generateResult();
     
     }
-      
+  
     public void generateResult()
     {
     switch(type){
@@ -151,7 +152,21 @@ public class Dice implements Serializable{
     public void setResult(int result) {
         this.result = result;
     }
-    
-    
-    
+
+    @Override
+    public String toString(){
+        String out;
+       
+        switch (getType())
+        {
+            case D6: out="D6-> " + Integer.toString(result);
+            return out;
+            case D8: out="D8-> " + Integer.toString(result);
+            return out;
+            case D10: out="D10-> " + Integer.toString(result);
+            return out;
+        }
+        return null;
+        
+    }
 }

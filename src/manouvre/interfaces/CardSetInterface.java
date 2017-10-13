@@ -1,4 +1,4 @@
-package manouvre.game.interfaces;
+package manouvre.interfaces;
 
 import java.util.ArrayList;
 import manouvre.game.Card;

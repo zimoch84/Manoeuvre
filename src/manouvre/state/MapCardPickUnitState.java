@@ -15,9 +15,10 @@ import manouvre.game.Combat;
 import manouvre.game.Game;
 import manouvre.game.Position;
 import manouvre.game.Unit;
-import manouvre.game.commands.AdvanceUnitCommand;
-import manouvre.game.commands.CommandQueue;
-import manouvre.game.interfaces.Command;
+import manouvre.commands.AdvanceUnitCommand;
+import manouvre.commands.CardCommands;
+import manouvre.commands.CommandQueue;
+import manouvre.interfaces.Command;
 import manouvre.gui.CustomDialog;
 import manouvre.gui.GameWindow;
 import org.apache.logging.log4j.LogManager;
@@ -39,6 +40,27 @@ private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogg
                      
                      Card playingCard = game.getCardCommandFactory().getPlayingCard();
                             switch(playingCard.getCardType()){
+                                
+                                case Card.HQCARD:
+                                    
+                                {
+                                switch(playingCard.getHQType()){
+                                    case Card.REDOUBDT:
+                                        {
+                                        
+                                        CardCommands.RedoubtCommand redoubtCommand = 
+                                                new CardCommands.RedoubtCommand(
+                                                        game.getCurrentPlayer().getName(),
+                                                        pickedUnit, 
+                                                        game.getCardCommandFactory().getPlayingCard());
+                                        
+                                        cmdQueue.storeAndExecuteAndSend(redoubtCommand);
+                                 
+                                            
+                                        }
+                                }
+                                
+                                }
                                 case Card.UNIT:{
                                     
                                     Combat combat = game.getCombat() ;
@@ -97,6 +119,7 @@ private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogg
 
                        if(game.getPhase() == Game.RESTORATION)
                          return game.getCurrentPlayerInjuredUnitPositions();
+                       
                     }
                 /*
                 Defending player 
@@ -107,6 +130,9 @@ private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogg
                            return returnPositions;
                         
                     }
+                
+                 if(playingCard.getHQType() == Card.REDOUBDT)
+                        return game.getCurrentPlayer().getArmyPositions();
                     
                     
                 break;

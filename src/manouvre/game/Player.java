@@ -7,7 +7,7 @@ package manouvre.game;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import manouvre.game.interfaces.CardInterface;
+import manouvre.interfaces.CardInterface;
 
 /**
  *  Nation
@@ -61,11 +61,17 @@ public class Player  implements Serializable{
              unit.setMoved(false);
         if(unit.isSelected())
             unit.setSelected(false);
+        if(unit.isRetriving())
+            unit.setRetriving(false);
+        if(unit.isSupporting())
+            unit.setSupporting(false);
     
     }
         setMoved(false);
         setDraw(false);
         setAttacked(false);
+        
+        getHand().selectionSeq.clear();
         
     }
 
@@ -114,19 +120,16 @@ public class Player  implements Serializable{
         if(nation==CardInterface.AU){//btestfalse
             hand.addCard(drawPile.getCardByName("Johann Dragoons", true));
             hand.addCard(drawPile.getCardByName("Johann Dragoons", true));
-           hand.addCard(drawPile.getCardByName("Guerrillas", true));
+           hand.addCard(drawPile.getCardByName("Johann Dragoons", true));
            hand.addCard(drawPile.getCardByName("Archduke Charles", true));
-            hand.addCard(drawPile.getCardByName("Withdraw", true));
+            hand.addCard(drawPile.getCardByName("Redoubt", true));
             //hand.addCardsFromTheTopOfOtherSet(1, drawPile, false, true);
         }
         else if(nation==CardInterface.FR){
             hand.addCard(drawPile.getCardByName("1st Cuirassiers", true));
-            hand.addCard(drawPile.getCardByName("2nd Regiment Legere", true));
-//             hand.addCard(drawPile.getCardByName("2nd Regiment Legere", true));
-//              hand.addCard(drawPile.getCardByName("2nd Regiment Legere", true));
-//               hand.addCard(drawPile.getCardByName("2nd Regiment Legere", true));
-            hand.addCard(drawPile.getCardByName("Forced March", true));
-            hand.addCard(drawPile.getCardByName("Supply", true));
+             hand.addCard(drawPile.getCardByName("1st Cuirassiers", true));
+              hand.addCard(drawPile.getCardByName("1st Cuirassiers", true));
+               hand.addCard(drawPile.getCardByName("1st Cuirassiers", true));
             hand.addCard(drawPile.getCardByName("Withdraw", true));
             
            //hand.addCardsFromTheTopOfOtherSet(2, drawPile, false, true);
@@ -189,7 +192,7 @@ public class Player  implements Serializable{
         return army;
     }
     
-    ArrayList<Position> getArmyPositions(){
+    public ArrayList<Position> getArmyPositions(){
      
        ArrayList<Position> unitsPositions = new ArrayList<>();
        Unit[] units = getArmy();

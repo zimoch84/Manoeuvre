@@ -10,9 +10,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Observable;
-import manouvre.game.interfaces.CardInterface;
-
-import manouvre.game.interfaces.CardSetInterface;
+import manouvre.interfaces.CardInterface;
+import manouvre.interfaces.CardSetInterface;
 
 
 /**
@@ -290,6 +289,11 @@ public class CardSet extends Observable implements CardSetInterface, Serializabl
         }
         return null;
     }
+
+    public ArrayList<Card> getCardList() {
+        return cardList;
+    }
      
+    
    }
  

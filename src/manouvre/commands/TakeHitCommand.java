@@ -3,14 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package manouvre.game.commands;
+package manouvre.commands;
 
 import manouvre.game.CardCommandFactory;
 import manouvre.game.Combat;
 import manouvre.game.Game;
 import manouvre.game.Param;
 import manouvre.game.Unit;
-import manouvre.game.interfaces.Command;
+import manouvre.interfaces.Command;
+import manouvre.state.MapInputStateHandler;
+import org.apache.logging.log4j.LogManager;
 
 /**
  *
@@ -23,6 +25,9 @@ public class TakeHitCommand implements Command{
     String log;
     boolean eliminate;
 
+    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(TakeHitCommand.class.getName());
+    
+    
     public TakeHitCommand(String playerName, Unit hitUnit, boolean eliminate) {
         this.playerName = playerName;
         this.hitUnit = hitUnit;
@@ -36,7 +41,7 @@ public class TakeHitCommand implements Command{
         
         if(!eliminate) 
         {   
-            unit.takeHit();
+            unit.takeHit(game);
             if(  !unit.isEliminated())
             {
             game.getCardCommandFactory().notifyObservers(CardCommandFactory.COMBAT_DEFENDER_TAKES_HIT);
@@ -51,21 +56,41 @@ public class TakeHitCommand implements Command{
         }
         else 
         {
-         unit.eliminate();
+         unit.eliminate(game);
          game.getCardCommandFactory().notifyObservers(CardCommandFactory.COMBAT_DEFENDER_ELIMINATE);
          log = "Combat ends with defending unit is eliminated";
         }
-   
-        if(game.getCombat().getState() == Combat.DEFENDER_DECIDES)
+        
+        if(unit.isEliminated())
         {
-            game.getCombat().setState(Combat.END_COMBAT);
-            game.swapActivePlayer();
+            if(game.getCombat().getState() == Combat.DEFENDER_DECIDES)
+            {
+                game.swapActivePlayer();
+            }
+            game.getCombat().setState(Combat.PURSUIT);
+
+            if(game.getCurrentPlayer().isActive())
+            {
+                LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT ");
+                game.mapInputHandler.setState(MapInputStateHandler.PICK_ONE_UNIT);
+            }
+            else 
+            {
+                LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na MapInputStateHandler.NOSELECTION ");
+                game.mapInputHandler.setState(MapInputStateHandler.NOSELECTION);
+            }
         }
-        if(game.getCombat().getState() == Combat.ATTACKER_DECIDES)
+        else 
         {
+            game.getCombat().endCombat(game);
+            LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na MapInputStateHandler.NOSELECTION ");
+            game.mapInputHandler.setState(MapInputStateHandler.NOSELECTION);
+        }    
             
-            game.getCombat().setState(Combat.END_COMBAT);
-              }
+        
+        
+        
+        
     }
 
     @Override

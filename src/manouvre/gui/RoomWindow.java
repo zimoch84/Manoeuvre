@@ -10,8 +10,8 @@ import java.util.Enumeration;
 import javax.swing.AbstractButton;
 import javax.swing.DefaultListModel;
 import manouvre.game.Player;
-import manouvre.game.interfaces.CardInterface;
-import manouvre.game.interfaces.FrameInterface;
+import manouvre.interfaces.CardInterface;
+import manouvre.interfaces.FrameInterface;
 import manouvre.network.client.Message;
 import manouvre.network.client.SocketClient;
 

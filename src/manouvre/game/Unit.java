@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import manouvre.game.interfaces.UnitInterface;
+import manouvre.interfaces.UnitInterface;
 import manouvre.gui.GameWindow;
 import org.apache.logging.log4j.LogManager;
 
@@ -169,16 +169,22 @@ public class Unit implements UnitInterface, Serializable{
     
     
 
-    public void takeHit(){
+    public void takeHit(Game game){
     if (!isInjured())
         injured = true;
-    else eliminate();
+    else 
+    {  
+        eliminate(game);
+        
+    }
+    
   
     }
     
-    public void eliminate()
+        public void eliminate(Game game)
     {
         eliminated = true;
+        game.getMap().getTerrainAtPosition(getPosition()).setIsOccupiedByUnit(false);
         setPosition(new Position(-10, -10));
     }
     
@@ -218,6 +224,8 @@ public class Unit implements UnitInterface, Serializable{
         setPosition(newPosition);
         setMoved(true);
             if(isSelected()) setSelected(false);
+            
+            
     }
         
     //Bart

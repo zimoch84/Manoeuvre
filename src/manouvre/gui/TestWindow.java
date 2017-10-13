@@ -8,8 +8,8 @@ package manouvre.gui;
 import manouvre.game.Card;
 import manouvre.game.CardSet;
 import manouvre.game.Game;
-import manouvre.game.commands.CommandQueue;
-import manouvre.game.interfaces.Command;
+import manouvre.commands.CommandQueue;
+import manouvre.interfaces.Command;
 
 /**
  *

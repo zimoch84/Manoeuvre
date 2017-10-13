@@ -24,33 +24,32 @@ import manouvre.game.Game;
 import manouvre.game.Player;
 import manouvre.game.Position;
 import manouvre.game.Unit;
-import manouvre.game.interfaces.FrameInterface;
+import manouvre.interfaces.FrameInterface;
 import java.util.Arrays;
-import manouvre.game.commands.SetupPositionCommand;
-import manouvre.game.commands.EndSetupCommand;
-import manouvre.game.commands.NextPhaseCommand;
-import manouvre.game.interfaces.ClientInterface;
-import manouvre.game.commands.CommandQueue;
-import manouvre.game.commands.EndTurnCommand;
+import manouvre.commands.SetupPositionCommand;
+import manouvre.commands.EndSetupCommand;
+import manouvre.commands.NextPhaseCommand;
+import manouvre.interfaces.ClientInterface;
+import manouvre.commands.CommandQueue;
+import manouvre.commands.EndTurnCommand;
 import javax.swing.UIManager;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import manouvre.game.Card;
-import manouvre.game.interfaces.Command;
+import manouvre.interfaces.Command;
 import java.util.Observable;
 import java.util.Observer;
 import manouvre.game.CardCommandFactory;
 import manouvre.game.Combat;
-import manouvre.game.commands.CardCommands;
+import manouvre.commands.CardCommands;
 import manouvre.state.MapInputStateHandler;
 import org.apache.logging.log4j.LogManager;
 import manouvre.state.CardStateHandler;
-import manouvre.game.commands.DontAdvanceUnitCommand;
-import manouvre.game.commands.ForceWithdraw;
-import manouvre.game.commands.TakeHitCommand;
+import manouvre.commands.DontAdvanceUnitCommand;
+import manouvre.commands.ForceWithdraw;
+import manouvre.commands.TakeHitCommand;
 import static java.lang.Math.abs;
-import manouvre.game.Terrain;
 
 
 
@@ -170,12 +169,14 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            
            break;
            }
-           case CardCommandFactory.ATTACK_DIALOG:
+           case CardCommandFactory.ASSAULT_BEGINS:
            {
+               
+              game.setInfoBarText("Combat Begins");
                /*
                In order to pick 0 or more cards 
                */ 
-               game.cardStateHandler.setState(CardStateHandler.MULTIPLE_PICK);
+              
                break;
                
            }
@@ -237,14 +238,14 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            case CardCommandFactory.PUSRUIT_SUCCEDED:
            {
            
-           game.setInfoBarText("Pursuit with score: " + game.getCombat().getAttackValue() + " succeded");
+           game.setInfoBarText("Pursuit succeded");
 
            break;
            }
            
            case CardCommandFactory.PUSRUIT_FAILED:
            {
-           game.setInfoBarText("Pursuit with score: " + game.getCombat().getAttackValue() + " failed");
+           game.setInfoBarText("Pursuit failed");
            
            break;
            }
@@ -261,7 +262,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            {
                if(game.getCurrentPlayer().hasAttacked())
                {
-                    //TODO Set info bar that defenfing player is choosing 
+                    game.setInfoBarText("Defender is choosing combat outcome");
                }       
                 else 
                {
@@ -278,10 +279,32 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                }       
                 else 
                {
-                  //TODO banner to defending player  
+                   game.setInfoBarText("Attacker is choosing combat outcome");
                }
                break;
            }
+           case CardCommandFactory.LEADER_SELECTED:
+           {
+               if(game.getCurrentPlayer().isActive())
+               {
+                   if(!game.getPossibleSupportingUnits(game.getCombat().getDefendingUnit()).isEmpty())
+                   {
+                    buttonSetDecisionText("Command", "Combat Val");
+                    game.setInfoBarText("Choose Leader playing mode");
+                   }
+                   else 
+                   {
+                       /*
+                       Leader is played for his attack Value
+                       */
+                       game.getCombat().addSupportCard(game.getCardCommandFactory().getPlayingCard());
+                    
+                   }
+                    
+               }       
+               break;
+           }
+           
            default :
                System.out.println("manouvre.gui.GameWindow.update() No such dialog Type :"  + dialogType);
        
@@ -317,6 +340,8 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
   
     
     public void refreshAll(){
+        
+       
         game.setLockGUIByPhase();
         buttonActionSetText();
         setPhaseLabelText();
@@ -457,8 +482,8 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            }
             case Game.RESTORATION:
            {
-            actionButton.setEnabled(game.getCurrentPlayer().isActive() && !game.isLocked() );  
-            actionButton.setText("Restoration");
+            actionButton.setEnabled(false);  
+            actionButton.setText("Restore unit");
             break;
            }
          }
@@ -508,16 +533,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             phaseNameLabel.setText("Combat");
              break;
            }
-//           case Game.COMBAT_DEF:
-//           {
-//            phaseNameLabel.setText("Defence");
-//             break;
-//           }
-//           case Game.COMBAT_SUPP:
-//           {
-//            phaseNameLabel.setText("Support");
-//             break;
-//           }
+
             case Game.RESTORATION:
            {
             phaseNameLabel.setText("Restoration");
@@ -1654,47 +1670,13 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             Card cardClicked = gameGui.cardSetsGUI.getCardFromMousePosition(evt.getPoint().x,evt.getPoint().y);
             
             if(cardClicked != null)
-            {   game.cardStateHandler.handle(cardClicked, game);
+            {   
+                game.cardStateHandler.handle(cardClicked, game);
                 LOGGER.debug(game.getCurrentPlayer().getName() + " clicked card: " + cardClicked);
             }
             buttonActionSetText();
             repaint();
             
- /*
-            gameGui.mouseClickedCard(cardClicked); 
-            buttonActionSetText();  //when card is selected set the buttons
-            repaint();
-            if(game.getPhase()==Game.DISCARD)
-                buttonActionSetText();  //if selection was done discard button should be visible
-
-            if(game.getPhase()==Game.COMBAT&&(game.getCombat()!=null)){
-                switch(game.getCombat().getState()){
-                    case Combat.PICK_DEFENSE_CARDS:{
-                        if(!game.getCurrentPlayer().isActive()){
-                            game.getCombat().setDefenceCards(game.getCardCommandFactory().getPickedDefendingCards());
-                            game.getCombat().calculateCombatValues();
-                            dd.setDeffensivePoints();
-                            dd.setNrOfChosenCards(game.getCardCommandFactory().getPickedDefendingCards().size());
-
-                            dd.revalidate();
-                            //ad.repaint();
-                            break;
-                        }
-                     }
-                    case Combat.PICK_SUPPORTING_CARDS:{
-                         if(game.getCurrentPlayer().isActive()){
-                            game.getCombat().setAttackCards(game.getCardCommandFactory().getAttackingCards());
-                            game.getCombat().calculateCombatValues();
-                            sd.setNrOfChosenCards(game.getCardCommandFactory().getAttackingCards().size());
-                            sd.setAttackPoints();
-                            sd.revalidate();
-                            //ad.repaint();
-                            break;
-                         }
-                    }
-                }   
-            }
- */
     }//GEN-LAST:event_playerHandPanelMouseClicked
 
             
@@ -1865,7 +1847,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                     calculate possible targets if we know playing Card Mode            
                     */    
                     if(game.getPhase() == Game.COMBAT)
-                    {    if(playingCard.getPlayingCardMode() > 0  )
+                    {    if(playingCard.getPlayingCardMode() != null  )
                         {
                              game.getCardCommandFactory().calculateAttackingPositions(game.getSelectedUnit());    
                              return  game.getCardCommandFactory().getAttackingPositions();
@@ -1971,8 +1953,6 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             case "Defend":
                 
             {
-                
-            Combat combat = game.getCombat();
                
             Command defendCommand = 
             new CardCommands.DefendCommand(
@@ -1988,8 +1968,12 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             
             case  "Roll dices":
             {
+                
+            
+                
             Command combatOutcome = game.getCardCommandFactory().createOutcomeCombatCommand();
             cmdQueue.storeAndExecuteAndSend(combatOutcome);
+            break;
             }
             
             /*
@@ -2061,7 +2045,6 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         /*
         IF setup then ask for confirmation
         */
-        gameGui.phaseChanged();
         if(game.getPhase() == Game.SETUP )
         {
             /*
@@ -2602,8 +2585,9 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                             game.mapInputHandler.setState(MapInputStateHandler.PICK_MOVE_POSITION);
                             game.cardStateHandler.setState(CardStateHandler.NOSELECTION);
                             game.getCombat().setState(Combat.WITHRDAW);
-                            game.getCombat().getDefendingUnit().setRetriving(true);
-                            game.getCombat().getDefendingUnit().setSelected(true);
+                            game.getUnit(game.getCombat().getDefendingUnit()).setRetriving(true);
+                            game.getUnit(game.getCombat().getDefendingUnit()).setSelected(true);
+                            
 
                     }
                     /*
@@ -2630,6 +2614,30 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                 }
             break; 
             }
+            /*
+            Playing leader for his command attribute
+            */
+            case "Command":
+            {
+               // Unit leader = game.getCardCommandFactory().getPlayingCard();
+                /*
+                We have to select supporting units equal to the support value
+                */
+                game.getCombat().setState(Combat.PICK_SUPPORT_UNIT);
+                game.getCombat().setSupportingLeader(game.getCardCommandFactory().getPlayingCard());
+                
+                
+                LOGGER.debug(game.getCurrentPlayer().getName() + "zmiana stanu na MapInputStateHandler.PICK_MULTIPLE_UNITS");
+                game.mapInputHandler.setState(MapInputStateHandler.PICK_MULTIPLE_UNITS);
+                //LOGGER.debug(game.getCurrentPlayer().getName() + "zmiana stanu na CardStateHandler.NOSELECTION");
+                //game.cardStateHandler.setState(CardStateHandler.NOSELECTION);
+                
+                game.setInfoBarText("Pick supporting units");
+                
+                
+                
+            }
+            
         }
         repaint();
         buttonYes.setEnabled(false);
@@ -2651,13 +2659,20 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                 cmdQueue.storeAndExecuteAndSend(th);
                 break; 
             }
-        
+            /*
+            Add value of leader as supporting unit
+            */
+            case "Combat Val" :
+            {
+             game.getCombat().addSupportCard(game.getCardCommandFactory().getPlayingCard());
+             break;
+            }
         }
-        repaint();
         buttonYes.setEnabled(false);
         buttonYes.setVisible(false);
         buttonNo.setEnabled(false);
         buttonNo.setVisible(false);
+        repaint();
     }//GEN-LAST:event_buttonNoActionPerformed
  
     public GameGUI getGameGui() {

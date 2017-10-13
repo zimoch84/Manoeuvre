@@ -13,7 +13,7 @@ import manouvre.game.Card;
 import manouvre.game.Game;
 import manouvre.game.Position;
 import manouvre.game.Unit;
-import manouvre.game.commands.CommandQueue;
+import manouvre.commands.CommandQueue;
 import manouvre.gui.CustomDialog;
 import manouvre.gui.GameWindow;
 import org.apache.logging.log4j.LogManager;
@@ -49,7 +49,7 @@ public class MapCardPlayingState implements MapState, Serializable{
                         game.getCardCommandFactory().resetPlayingCard();
                         LOGGER.debug(game.getCurrentPlayer().getName() + " handler.setPreviousState()");
                         handler.setPreviousState();
-                        
+      
                     }
                 } 
                 /* 
@@ -186,7 +186,7 @@ private ArrayList<Position> getMovePositions(Card playingCard, Game game){
                     calculate possible targets if we know playing Card Mode            
                     */    
                     if(game.getPhase() == Game.COMBAT)
-                    {    if(playingCard.getPlayingCardMode() > 0  )
+                    {    if(playingCard.getPlayingCardMode() != null )
                         {
                             game.getCardCommandFactory().calculateAttackingPositions(game.getSelectedUnit());    
                             return  game.getCardCommandFactory().getAttackingPositions();

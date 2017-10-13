@@ -8,7 +8,7 @@ package manouvre.game;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
-import manouvre.game.interfaces.MapInterface;
+import manouvre.interfaces.MapInterface;
 
 
 /**

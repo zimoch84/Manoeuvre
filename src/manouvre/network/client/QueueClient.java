@@ -9,10 +9,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import manouvre.game.interfaces.ClientInterface;
+import manouvre.interfaces.ClientInterface;
 import manouvre.gui.CommandLogger;
 import manouvre.gui.GameWindow;
-import manouvre.game.interfaces.Command;
+import manouvre.interfaces.Command;
 import static java.lang.Thread.sleep;
 import static java.lang.Thread.sleep;
 

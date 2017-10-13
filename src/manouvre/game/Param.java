@@ -25,6 +25,8 @@ public abstract class  Param {
     public static final int RESTORE_UNIT = 12;
     public static final int TAKE_HIT = 13;
     public static final int FORCE_WITHDRAW = 14;
+    public static final int REDOUBT = 14;
+    
     
     
     

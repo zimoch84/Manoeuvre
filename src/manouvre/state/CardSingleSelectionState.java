@@ -9,7 +9,7 @@ import java.io.Serializable;
 import manouvre.game.Card;
 import manouvre.game.CardSet;
 import manouvre.game.Game;
-import manouvre.game.commands.CommandQueue;
+import manouvre.commands.CommandQueue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -84,19 +84,19 @@ public class CardSingleSelectionState implements CardInputState, Serializable{
         }
     }
 
-    
     private void keepOneSelectedCard(Card card, Game game){
-        CardSet hand = game.getCurrentPlayer().getHand();
-        
-        for (int i=0; i<game.getCurrentPlayer().getHand().size(); i++){ 
-            hand.getCardByPosInSet(i).setSelected(false);
+       
+        for(Card searchCard : game.getCurrentPlayer().getHand().getCardList() )
+        {
+            if(!searchCard.equals(card))
+            {
+                if(searchCard.isSelected())
+                {
+                    searchCard.setSelected(false);
+                    searchCard.actionOnDeselection(game);
+                }
+            }
         }
-        game.getCurrentPlayer().getHand().selectionSeq.clear();
-        if(hand.getCard(card)!=null){
-        hand.getCard(card).setSelected(true);
-        game.getCurrentPlayer().getHand().selectionSeq.add(card);
-        }
-        else System.err.println("CARD IS NOT SELECTED - check GameGui.java method: keepOneSelectedCard");
     }
 
     @Override

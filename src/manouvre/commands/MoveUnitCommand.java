@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package manouvre.game.commands;
+package manouvre.commands;
 
 import manouvre.game.Game;
 import manouvre.game.Param;
 import manouvre.game.Position;
 import manouvre.game.Unit;
-import manouvre.game.interfaces.Command;
+import manouvre.interfaces.Command;
 
 
 public class MoveUnitCommand implements Command {
@@ -50,6 +50,9 @@ public class MoveUnitCommand implements Command {
         
         game.getMap().getTerrainAtXY(lastPosition.getX(), lastPosition.getY()).setIsOccupiedByUnit(false);
         game.getMap().getTerrainAtXY(newPosition.getX(), newPosition.getY()).setIsOccupiedByUnit(true);
+        if(game.getMap().getTerrainAtXY(lastPosition.getX(), lastPosition.getY()).isRedoubt())
+            game.getMap().getTerrainAtXY(lastPosition.getX(), lastPosition.getY()).setRedoubt(false);
+        
         game.unselectAllUnits();
                 
                 

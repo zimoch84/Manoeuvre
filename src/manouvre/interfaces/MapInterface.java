@@ -3,14 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package manouvre.game.interfaces;
+package manouvre.interfaces;
 
 /**
  *
  * @author Piotr
  */
-public interface MoveValidatorInterface {
+public interface MapInterface {
     
-    public boolean isMoveValid(MoveInterface move);
+    public TerrainInterface[][] getTerrains();
+    
+    TerrainInterface getTerrainAtXY(int x, int y);
+    
+    
     
 }

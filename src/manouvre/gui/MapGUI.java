@@ -63,8 +63,10 @@ public class MapGUI{
      public static final int PIECES_START_X =  (int)((SQUARE_WIDTH - PIECE_WIDTH)/2.0);
      public static final int PIECES_START_Y =  (int)((SQUARE_HEIGHT - PIECE_HEIGHT)/2.0);
     
-     public static final int LETTER_OFFSET_X = 10;
+     public static final int LETTER_OFFSET_X = 5;
      public static final int LETTER_OFFSET_Y = PIECE_HEIGHT - 5;
+     
+     public static final float REDOUBT_IMG_SCALE = 1f;
      
      Image background ;
     
