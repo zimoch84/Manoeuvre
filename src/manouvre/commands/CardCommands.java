@@ -267,37 +267,37 @@ public class CardCommands {
             
             log = senderPlayerName +" withdrawn" ;
             
-            
-            
-            
             game.getCombat().setState(Combat.PURSUIT);
             
-            /*
-            Defending player waits
-            */
-            if(!game.getCurrentPlayer().hasAttacked())    
-            {  
-            LOGGER.debug(game.getCurrentPlayer().getName() + " zmiana stanu na MapInputStateHandler.NOSELECTION");
-            game.mapInputHandler.setState(MapInputStateHandler.NOSELECTION);
-               
-            }
+            game.swapActivePlayer();
+
             /*
             Attacking player chooses unit to pursuit
             */
-            else
-            { 
-            LOGGER.debug(game.getCurrentPlayer().getName() + " zmiana stanu na MapInputStateHandler.PICK_UNIT_BY_CARD");
-            game.mapInputHandler.setState(MapInputStateHandler.PICK_UNIT_BY_CARD);
-                 
-            }
-
-            game.swapActivePlayer();
-            
             if(game.getCurrentPlayer().isActive())
+            {
                 game.setInfoBarText("Pick puruit unit");
+                if(card != null){
+                    LOGGER.debug(game.getCurrentPlayer().getName() + " zmiana stanu na MapInputStateHandler.PICK_UNIT_BY_CARD");
+                    game.mapInputHandler.setState(MapInputStateHandler.PICK_UNIT_BY_CARD);
+                    }
+                else 
+                {
+                    LOGGER.debug(game.getCurrentPlayer().getName() + " zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT");
+                    game.mapInputHandler.setState(MapInputStateHandler.PICK_ONE_UNIT);
+                }    
+            
+            }
+             /*
+            Defending player waits
+            */
             else
+            {
+                LOGGER.debug(game.getCurrentPlayer().getName() + " zmiana stanu na MapInputStateHandler.NOSELECTION");
+                game.mapInputHandler.setState(MapInputStateHandler.NOSELECTION);
                 game.setInfoBarText("Opponent is picking puruit unit");
-                
+            
+            }
             
         }
 
@@ -363,27 +363,27 @@ public class CardCommands {
            game.getPlayerByName(senderPlayerName).setAttacked(true);
            
            
-           if(combat.getCombatType() != Combat.VOLLEY && combat.getCombatType() != Combat.BOMBARD )
+           if(!combat.getCombatType().equals(Combat.VOLLEY) && !combat.getCombatType().equals(Combat.BOMBARD) )
            {
-           game.getCardCommandFactory().awakeObserver();
-           game.getCardCommandFactory().notifyObservers(CardCommandFactory.ASSAULT_BEGINS);
-           game.getCombat().setState(Combat.PICK_DEFENSE_CARDS);
-           game.swapActivePlayer();
-            
-           if(game.getCurrentPlayer().isActive())
-                {
-                LOGGER.debug(game.getCurrentPlayer().getName() + "zmiana stanu na CardStateHandler.MULTIPLE_PICK");
-                game.cardStateHandler.setState(CardStateHandler.MULTIPLE_PICK);
-                LOGGER.debug(game.getCurrentPlayer().getName() + "zmiana stanu na MapInputStateHandler.NOSELECTION");
-                game.mapInputHandler.setState(MapInputStateHandler.NOSELECTION);
-                }
-           else
-           {
-                LOGGER.debug(game.getCurrentPlayer().getName() + "zmiana stanu na CardStateHandler.NOSELECTION");
-                game.cardStateHandler.setState(CardStateHandler.NOSELECTION);
-                LOGGER.debug(game.getCurrentPlayer().getName() + "zmiana stanu na MapInputStateHandler.NOSELECTION");
-                game.mapInputHandler.setState(MapInputStateHandler.NOSELECTION);
-           }
+            game.getCardCommandFactory().awakeObserver();
+            game.getCardCommandFactory().notifyObservers(CardCommandFactory.ASSAULT_BEGINS);
+            game.getCombat().setState(Combat.PICK_DEFENSE_CARDS);
+            game.swapActivePlayer();
+
+            if(game.getCurrentPlayer().isActive())
+                 {
+                 LOGGER.debug(game.getCurrentPlayer().getName() + "zmiana stanu na CardStateHandler.MULTIPLE_PICK");
+                 game.cardStateHandler.setState(CardStateHandler.MULTIPLE_PICK);
+                 LOGGER.debug(game.getCurrentPlayer().getName() + "zmiana stanu na MapInputStateHandler.NOSELECTION");
+                 game.mapInputHandler.setState(MapInputStateHandler.NOSELECTION);
+                 }
+            else
+            {
+                 LOGGER.debug(game.getCurrentPlayer().getName() + "zmiana stanu na CardStateHandler.NOSELECTION");
+                 game.cardStateHandler.setState(CardStateHandler.NOSELECTION);
+                 LOGGER.debug(game.getCurrentPlayer().getName() + "zmiana stanu na MapInputStateHandler.NOSELECTION");
+                 game.mapInputHandler.setState(MapInputStateHandler.NOSELECTION);
+            }
                
            }
            /*Bombard or Volley*/
@@ -1041,49 +1041,42 @@ public class CardCommands {
         public void execute(Game game) {
         
             tdc.execute(game);
-
-            int index = 0 ;
+            ArrayList<String> pursuitResults = new ArrayList<>();
+            boolean pursuitSucceed = false;
             
             for(Card pursuitCard: pursuitCards)    
                 {
-               
                 game.getPlayerByName(senderPlayerName).getTablePile().getCard(pursuitCard).setPlayingCardMode(Card.PURSUIT);
-               
-                
-                String outcome =game.getCombat().getPursuitOutcome(pursuitCard, 
-                        tdc.d6dices.get(index));
-                   
+                pursuitResults.add( game.getCombat().getPursuitOutcome( game.getCardFromTable(pursuitCard) ));
+                }
+            
+            for(String outcome: pursuitResults)    
+            {
                 switch(outcome)
                 {
-                case  Combat.NO_EFFECT:
-                {
-                    game.getCardCommandFactory().awakeObserver();   
-                    game.getCardCommandFactory().notifyObservers(CardCommandFactory.PUSRUIT_FAILED);
-                    break;
+                    case  Combat.NO_EFFECT:
+                    {
+                        break;
+                    }
+                    case  Combat.DEFFENDER_TAKES_HIT:
+                    {
+                         game.getUnit(game.getCombat().getDefendingUnit()).takeHit(game);
+                         pursuitSucceed = true;
+                         break;
+                    }
                 }
-                case  Combat.DEFFENDER_TAKES_HIT:
-                {
-                     game.getCardCommandFactory().awakeObserver();
-                     game.getUnitByName(game.getCombat().getDefendingUnit().getName()).takeHit(game);
-                     if(  !game.getUnitByName(game.getCombat().getDefendingUnit().getName()).isEliminated())
-                         game.getCardCommandFactory().notifyObservers(CardCommandFactory.PUSRUIT_SUCCEDED);
-                     else 
-                         game.getCardCommandFactory().notifyObservers(CardCommandFactory.PUSRUIT_SUCCEDED);
-                     break;
-                }
-                }
-                
-                
-                }
+            }
             
-            /*
-            End Combat
-            */
-            game.getCombat().endCombat(game);
-       
-            game.unselectAllUnits();
-            
-              
+            if(pursuitSucceed)
+            {
+                game.getCardCommandFactory().awakeObserver();
+                game.getCardCommandFactory().notifyObservers(CardCommandFactory.PUSRUIT_SUCCEDED);
+            }
+            else {
+                game.getCardCommandFactory().awakeObserver();   
+                game.getCardCommandFactory().notifyObservers(CardCommandFactory.PUSRUIT_FAILED);
+               }
+           
         }
 
         @Override

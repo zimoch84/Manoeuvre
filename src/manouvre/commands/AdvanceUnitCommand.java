@@ -33,10 +33,10 @@ public class AdvanceUnitCommand extends MoveUnitCommand  {
     public void execute(Game game)  {
             
             /*
-            Move un it
+            Move unit
             */
             super.execute(game);
-            log = playerName + " has advanced unit " + storedUnit.getName() + " to position " + newPosition.toString() + "/n";
+            log = playerName + " has advanced unit " + storedUnit.getName() + " to position " + newPosition.toString();
             /*
             Ends combat if card/unit has not pursuit mode
             */
@@ -47,25 +47,16 @@ public class AdvanceUnitCommand extends MoveUnitCommand  {
                 pc.execute(game); 
                 log +=  pc.logCommand();
                 }
-                
-            }
-            else    
-                {  
-                /*
-                End Combat
-                */
-                game.getCombat().endCombat(game);
-                game.unselectAllUnits();
-                }
-            
-            
+            }    
+            /*
+            End Combat
+            */
+            game.getCombat().endCombat(game);
+            game.unselectAllUnits();
 }
-    
     @Override
     public String logCommand(){
-   
         return log;
- 
     }
 
 }

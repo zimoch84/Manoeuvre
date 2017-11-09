@@ -169,7 +169,23 @@ private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogg
                 
                 case Card.LEADER:
                 {
-                    if(game.getPhase() == Game.RESTORATION)
+                /*
+                Attacking player has unit or leader set as playnig card
+                */
+                if(game.getPhase() == Game.COMBAT){
+                    Combat combat = game.getCombat() ;
+                    if(combat != null)
+                        /*
+                        If its withdraw then select attacking unit position
+                        TODO - supply with other ant not require to advance
+                        */
+                        if(combat.getState() == Combat.PURSUIT) 
+                        {
+                           returnPositions.add(combat.getAttackingUnit().getPosition());
+                           return returnPositions;
+                        }
+                }
+                if(game.getPhase() == Game.RESTORATION)
                      return game.getCurrentPlayerInjuredUnitPositions();
                 break;        
                 }    

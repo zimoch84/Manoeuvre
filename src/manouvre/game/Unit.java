@@ -185,7 +185,7 @@ public class Unit implements UnitInterface, Serializable{
     {
         eliminated = true;
         game.getMap().getTerrainAtPosition(getPosition()).setIsOccupiedByUnit(false);
-        setPosition(new Position(-10, -10));
+        //setPosition(new Position(-10, -10));
     }
     
     public void restoreUnit()

@@ -305,6 +305,28 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                break;
            }
            
+           case CardCommandFactory.LEADER_DESELECTED:
+           {
+               if(game.getCurrentPlayer().isActive())
+               {
+                   game.setInfoBarText("");
+                   buttonYes.setEnabled(false);
+                   buttonYes.setVisible(false);
+                   buttonNo.setEnabled(false);
+                   buttonNo.setEnabled(false);
+              }       
+               break;
+           }
+           
+           case CardCommandFactory.VOLLEY_ASSAULT_DECISION:
+           {
+               if(game.getCurrentPlayer().isActive())
+               {
+                   buttonSetDecisionText("Volley", "Assault");
+              }       
+               break;
+           }
+           
            default :
                System.out.println("manouvre.gui.GameWindow.update() No such dialog Type :"  + dialogType);
        
@@ -443,6 +465,13 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                     actionButton.setText("Roll dices");
                     actionButton.setEnabled(true);  
                    }
+                }
+                
+                if(combat.getState() == Combat.PICK_SUPPORT_UNIT)
+                {
+                    actionButton.setText("End picking");
+                    actionButton.setEnabled(true);  
+                
                 }
                 
                 if(combat.getState() == Combat.WITHRDAW)
@@ -1920,7 +1949,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
        /*
         Play action based on current button description
         */
-            switch (actionButton.getText()){
+                switch (actionButton.getText()){
             
             case "Play Card":
             {
@@ -1974,6 +2003,15 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             Command combatOutcome = game.getCardCommandFactory().createOutcomeCombatCommand();
             cmdQueue.storeAndExecuteAndSend(combatOutcome);
             break;
+            }
+            
+            case "End picking":
+            {
+                game.getCombat().setState(Combat.PICK_SUPPORTING_CARDS);
+                LOGGER.debug(game.getCurrentPlayer().getName() + "Zmiana stanu MapInputStateHandler.NOSELECTION");
+                game.mapInputHandler.setState(MapInputStateHandler.NOSELECTION);
+                actionButton.setText("Roll dices");
+                break;
             }
             
             /*
@@ -2638,6 +2676,17 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                 
             }
             
+            case "Volley":{
+            
+                Card playingCard = game.getCardCommandFactory().getPlayingCard(); 
+                playingCard.setPlayingCardMode(Card.VOLLEY);
+                playingCard.actionOnSelection(game, cmdQueue);
+                
+                
+                
+            break;
+            }
+            
         }
         repaint();
         buttonYes.setEnabled(false);
@@ -2667,6 +2716,15 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
              game.getCombat().addSupportCard(game.getCardCommandFactory().getPlayingCard());
              break;
             }
+            case "Assault":{
+            
+                Card playingCard = game.getCardCommandFactory().getPlayingCard(); 
+                playingCard.setPlayingCardMode(Card.ASSAULT);
+                playingCard.actionOnSelection(game, cmdQueue);
+                
+            break;
+            }
+            
         }
         buttonYes.setEnabled(false);
         buttonYes.setVisible(false);

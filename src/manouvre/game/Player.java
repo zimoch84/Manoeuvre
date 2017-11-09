@@ -118,11 +118,11 @@ public class Player  implements Serializable{
         //this.tablePile = new CardSet();
 
         if(nation==CardInterface.AU){//btestfalse
-            hand.addCard(drawPile.getCardByName("Johann Dragoons", true));
-            hand.addCard(drawPile.getCardByName("Johann Dragoons", true));
-           hand.addCard(drawPile.getCardByName("Johann Dragoons", true));
+            hand.addCard(drawPile.getCardByName("4th  Regiment", true));
+            hand.addCard(drawPile.getCardByName("4th  Regiment", true));
+           hand.addCard(drawPile.getCardByName("4th  Regiment", true));
            hand.addCard(drawPile.getCardByName("Archduke Charles", true));
-            hand.addCard(drawPile.getCardByName("Redoubt", true));
+            hand.addCard(drawPile.getCardByName("4th  Regiment", true));
             //hand.addCardsFromTheTopOfOtherSet(1, drawPile, false, true);
         }
         else if(nation==CardInterface.FR){

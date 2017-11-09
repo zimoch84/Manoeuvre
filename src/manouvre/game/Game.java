@@ -401,9 +401,11 @@ public final class Game implements Serializable{
         */
         ArrayList<Position> possiblePositions = getOneSquarePositions(defendingUnit.getPosition());
         ArrayList<Position> supportingPositions = new ArrayList<>();
+        Position atackingPosition = getCombat().getAttackingUnit().getPosition();
         for( Position checkPosition: possiblePositions)
         {
-            if(checkCurrentPlayerUnitAtPosition(checkPosition))
+            
+            if(checkCurrentPlayerUnitAtPosition(checkPosition) && !checkPosition.equals(atackingPosition))
             {
                 supportingPositions.add(checkPosition);
             }
@@ -733,6 +735,11 @@ public final class Game implements Serializable{
                         return possiblePositions;
                         
                     }
+                    
+                   if(getCombat().getState() == Combat.PICK_SUPPORT_UNIT)
+                   {
+                       return getPossibleSupportingUnitsPositions(getCombat().getDefendingUnit());
+                   }
                         
                         
                 }

@@ -130,7 +130,7 @@ public class Combat implements Serializable{
         */
         attackValue=0;
         //bomard do not get advantage of Unit Attack
-        if(initAttackingCard.getPlayingCardMode()!=Card.BOMBARD){
+        if(!initAttackingCard.getPlayingCardMode().equals(Card.BOMBARD)){
             
         attackValue = initAttackUnit.getCurrentStrenght();  
         
@@ -152,8 +152,6 @@ public class Combat implements Serializable{
         if(unit.isSupporting())
             attackValue += unit.getCurrentStrenght();
         }
-        
-        
     }
 
     public String getState() {
@@ -194,12 +192,54 @@ public class Combat implements Serializable{
         calculateCombatValues();
     }
     
+    
+    public int getSupportUnitCount()
+            
+    {
+        int number = 0;
+        for (Unit unit:attackingUnits){
+            if(unit.isSupporting()) number++;
+        }
+        return number;
+    }
+    
     public void removeSupportCard(Card attackCard)
     {
         supportCards.remove(attackCard);
         calculateCombatValues();
     }
     
+    public void addSupportUnit(Unit supportUnit)
+    {
+        attackingUnits.add(supportUnit);
+        calculateCombatValues();
+    }
+    
+    public void removeSupportUnit(Unit supportUnit)
+    {
+        attackingUnits.remove(supportUnit);
+        calculateCombatValues();
+    }
+    
+    public void resetSupport(Game game)
+    {
+        setSupportingLeader(null);
+        for(Unit supportUnit: attackingUnits)
+        {
+            if(supportUnit.isSupporting()){
+                   attackingUnits.remove(supportUnit);
+                   game.getUnit(supportUnit).setSupporting(false);
+                }
+        }
+        
+        for(Card supportingCard: supportCards)
+        {
+            game.getCurrentPlayer().getHand().getCard(supportingCard).setSelected(false);
+            
+        }
+        supportCards.clear();
+        calculateCombatValues();
+    }
     
     public ArrayList<Card> getDefenceCards() {
         return defenceCards;
@@ -250,6 +290,8 @@ public class Combat implements Serializable{
            return getAssaultOutcome();
            
        case Combat.BOMBARD: return getBombardOutcome();
+       
+       case Combat.VOLLEY: return getBombardOutcome();
        default : return NO_EFFECT;
    }
    }
@@ -278,9 +320,9 @@ public class Combat implements Serializable{
         
     }
     
-    public String getPursuitOutcome(Card card, Dice dice)
+    public String getPursuitOutcome(Card card)
     {
-        if(dice.getResult() <= card.getUnitPursuit() )
+        if(card.getDices().get(0).getResult() <= card.getUnitPursuit() )
            return DEFFENDER_TAKES_HIT;
         
         else return NO_EFFECT;
@@ -328,6 +370,11 @@ public class Combat implements Serializable{
     return attackCards;
     }
 
+    public ArrayList<Unit>getAttackingUnits(){
+
+        return attackingUnits;
+    }
+    
     public Terrain getAttackTerrain() {
         return attackTerrain;
     }

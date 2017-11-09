@@ -6,6 +6,7 @@
 package manouvre.state;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import manouvre.game.Card;
 import manouvre.game.Combat;
 import manouvre.game.Game;
@@ -27,7 +28,9 @@ public class CardMultipleSelectionState implements CardInputState, Serializable{
         
         if(!card.isSelected()) 
         {   
-            card.setSelected(true);
+            if(card.canBePlayed(game))
+                card.setSelected(true);
+            
             if(game.getPhase() == Game.DISCARD)
             {
             game.getCurrentPlayer().getHand().selectionSeq.add(card);
@@ -40,9 +43,9 @@ public class CardMultipleSelectionState implements CardInputState, Serializable{
                         if(game.getCombat().getDefendingUnit() != null)
                             if(game.getUnit(game.getCombat().getDefendingUnit()).equals(card) )
                             {
+                               
                                 game.getCombat().addDefenceCard(card);
-                                //game.getCurrentPlayer().getHand().selectionSeq.add(card);
-
+                                
                             }
                             else if (card.canBePlayed(game))
                                 card.actionOnSelection(game, cmdQueue);
@@ -63,9 +66,7 @@ public class CardMultipleSelectionState implements CardInputState, Serializable{
                         {
                             if(game.getCombat().getSupportingLeader() == null)
                             {
-                                /*
-                                TODO can pick only attacker additional cards and only ASSAULT 
-                                */
+                                
                             Unit attackingUnit = game.getUnit(game.getCombat().getAttackingUnit());
                             if(card.equals(attackingUnit))
                                 
@@ -74,25 +75,44 @@ public class CardMultipleSelectionState implements CardInputState, Serializable{
                                 {
                                     if(cardMode == Card.ASSAULT)
                                     {
+                                        card.setPlayingCardMode(Card.ASSAULT);
                                         game.getCombat().addSupportCard(card);    
                                         break;
                                     }
                                 }
                             }   
                             }
+                            /*
+                            We have leader selected and supporting unit picked
+                            */
                             else 
                             {
-                            /*
-                                TODO  You can pick any from supporting unit <--> cards to suppport
-                                */
+                            
+                            ArrayList<Unit> supportingUnits = game.getCombat().getAttackingUnits();
+                            for(Unit unit:supportingUnits){
+                                if(card.equals(unit))
+                                {
+                                    for(String cardMode:card.getPlayingPossibleCardModes() )
+                                    {
+                                        if(cardMode == Card.ASSAULT)
+                                        {
+                                            card.setPlayingCardMode(Card.ASSAULT);
+                                            game.getCombat().addSupportCard(card);    
+                                            break;
+                                        }
+                                    }
+                                } 
                             }
-                        
-                        }
+                            }
+                       }
                        }
             }
                 
             
         }
+        /*
+        Deselect card
+        */
         else 
         {
             card.setSelected(false);
@@ -121,29 +141,21 @@ public class CardMultipleSelectionState implements CardInputState, Serializable{
                     }
                     else if (game.getCombat().getState() == Combat.PICK_SUPPORT_UNIT)
                     {
-                        /*
-                        TODO , picking leader triggers choose dialog support vs attack mode
-                        */
                         if(card.getCardType() == Card.LEADER)
                         {
                         /*
-                        We have to select supporting units equal to the support value
+                        We have to unselect supporting units equal to the support value
+                        Remove also supporting units and cards that not match init Atacking unit
                         */
                         LOGGER.debug(game.getCurrentPlayer().getName() + "zmiana stanu na MapInputStateHandler.NOSELECTION");
                         game.mapInputHandler.setState(MapInputStateHandler.NOSELECTION);
                         
-                        if(game.getCombat().getDefenceCards().contains(card))
-                            game.getCombat().removeSupportCard(card);
+                        game.getCombat().resetSupport(game);
                         
-                        if(game.getCombat().getSupportingLeader().equals(card))
-                            game.getCombat().setSupportingLeader(null);
-                        
-                            
+                        LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().setPlayingCard(null)");
                         game.getCardCommandFactory().setPlayingCard(null);
-                            
-                        game.getCombat().calculateCombatValues();
- 
                         }
+                    }
                     else if (game.getCombat().getState() == Combat.PICK_SUPPORTING_CARDS)   
                         if(card.getCardType() == Card.UNIT)
                         {
@@ -155,7 +167,6 @@ public class CardMultipleSelectionState implements CardInputState, Serializable{
                                 */
                            Unit attackingUnit = game.getUnit(game.getCombat().getAttackingUnit());
                             if(card.equals(attackingUnit))
-                                
                             {
                                 for(String cardMode:card.getPlayingPossibleCardModes() )
                                 {
@@ -174,11 +185,22 @@ public class CardMultipleSelectionState implements CardInputState, Serializable{
                                 */
                             }
                         }
+                        if(card.getCardType() == Card.LEADER)
+                        {
+                        /*
+                        We have to unselect supporting units equal to the support value
+                        */
+                        LOGGER.debug(game.getCurrentPlayer().getName() + "zmiana stanu na MapInputStateHandler.NOSELECTION");
+                        game.mapInputHandler.setState(MapInputStateHandler.NOSELECTION);
+ 
+                        game.getCombat().resetSupport(game);
 
-                    }
-
+                        LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().setPlayingCard(null)");
+                        game.getCardCommandFactory().setPlayingCard(null);
+                        
+                        game.getCardCommandFactory().notifyObservers(CardCommandFactory.LEADER_DESELECTED);
+                        }
             }
-     
         }       
         
         

@@ -171,7 +171,7 @@ public class GameGUI {
          /*
         Draws selection
          */
-        drawSelection(g);
+        drawPossibleMove(g);
         /*
         Draw retrieving arrows
         */
@@ -238,8 +238,10 @@ public class GameGUI {
             }
     }
     
-    private void drawSelection(Graphics g){
-    
+    private void drawPossibleMove(Graphics g){
+    /*
+        Draws selection of possible move whlie not playing card
+        */
     Card playingCard = game.getCardCommandFactory().getPlayingCard();
     if(playingCard == null)
      {
@@ -248,7 +250,7 @@ public class GameGUI {
                 {
                 drawRectangleOnPosition(g, selectedUnit.getPosition(), Color.WHITE);
                 ArrayList<Position> movePositions;
-                if(game.getPhase() == Game.SETUP || game.freeMove)
+                if(game.getPhase() == Game.SETUP || (game.freeMove && game.getPhase() == Game.MOVE) )
                 {
                     movePositions = game.getSetupPossibleMovement();
                     drawMultipleRectanglesOnPositions(g, movePositions, Color.blue);
@@ -257,7 +259,7 @@ public class GameGUI {
                 {
                     return;
                 }
-                else
+                else if(game.getPhase() == Game.MOVE)
                 {
                     if(!selectedUnit.hasMoved())
                     {
@@ -265,6 +267,8 @@ public class GameGUI {
                         drawMultipleRectanglesOnPositions(g, movePositions, Color.blue);
                     }
                 }
+                
+                
            }
      }
 
@@ -284,10 +288,9 @@ public class GameGUI {
                 {
 
                 drawImageOnPosition(g, drawUnit.getUnit().getPosition(), drawUnit.getImg());
-                
                 drawTerrainLetter(g, drawUnit.getUnit());
                 
-                
+
                         
                 /*
                 Draw bad position rectangle
@@ -327,6 +330,11 @@ public class GameGUI {
                     drawTerrainLetter(g, unit);
                     if(game.getMap().getTerrainAtPosition(unit.getPosition()).isRedoubt())
                         drawRedoubt(g, unit.getPosition());
+                    
+                    if(game.getCombat()!= null)
+                        if(drawUnit.getUnit().isSupporting()  && game.getCombat().getState() == Combat.PICK_SUPPORT_UNIT)
+                            drawSupporting(g, drawUnit.getUnit());
+                    
                         
                 }
             }
@@ -335,8 +343,10 @@ public class GameGUI {
                      Unit unit = drawUnit.getUnit();
                      drawImageOnPosition(g, unit.getPosition(), drawUnit.getImg());
                      drawTerrainLetter(g, unit);
-                     if(game.getMap().getTerrainAtPosition(unit.getPosition()).isRedoubt())
+                    if(game.getMap().getTerrainAtPosition(unit.getPosition()).isRedoubt())
                         drawRedoubt(g, unit.getPosition());
+                    if(drawUnit.getUnit().isSupporting())
+                    drawSupporting(g, drawUnit.getUnit());
                 }
                 }
             }
@@ -463,6 +473,23 @@ public class GameGUI {
 
                 break;
                 }
+                case Card.LEADER:
+                {
+                    switch(game.getPhase()){
+                        case Game.COMBAT:
+                        {
+                            if(game.getCombat()!=null)
+                                if(game.getCombat().getState() == Combat.PICK_SUPPORTING_CARDS)
+                                    drawMultipleRectanglesOnPositions(g,
+                                        game.getPossibleSupportingUnitsPositions(game.getCombat().getDefendingUnit())
+                                        , Color.BLUE);   
+                            break;
+                        }
+                    
+                    }
+                break;
+                }
+                
                 default: System.err.println("drawCardSelections()  Brak typu karty " + playingCard.getCardName());
             }
                
@@ -597,6 +624,17 @@ public class GameGUI {
         
     }
     
+    private void drawLetterOnPosition(Graphics g, Position pos, Color color, String letter)
+    {
+    g.setColor(color);
+    g.setFont(new Font("Bookman Old Style", 1, 14));
+    g.drawString(letter, 
+    pos.getMouseX(windowMode) + MapGUI.LETTER_OFFSET_X,
+    pos.getMouseY(windowMode) + MapGUI.PIECES_START_Y + MapGUI.LETTER_OFFSET_Y);
+    
+    }
+    
+    
     private void drawTerrainLetter(Graphics g, Unit unit)
     {
                 /*
@@ -617,30 +655,23 @@ public class GameGUI {
                     {
                         case Terrain.CITY: 
                         {
-                        g.drawString("C", 
-                                unit.getPosition().getMouseX(windowMode) + MapGUI.LETTER_OFFSET_X,
-                                unit.getPosition().getMouseY(windowMode) + MapGUI.PIECES_START_Y + MapGUI.LETTER_OFFSET_Y);
+                        drawLetterOnPosition(g, unit.getPosition(), Color.BLACK, "C");
+                        
                         break;
                         }
                         case Terrain.HILL: 
                         {
-                        g.drawString("H", 
-                                unit.getPosition().getMouseX(windowMode) +  MapGUI.LETTER_OFFSET_X,
-                                unit.getPosition().getMouseY(windowMode) + MapGUI.PIECES_START_Y + MapGUI.LETTER_OFFSET_Y);
+                        drawLetterOnPosition(g, unit.getPosition(), Color.BLACK, "H");
                         break;
                         }
                         case Terrain.MARSH: 
                         {
-                        g.drawString("M", 
-                                unit.getPosition().getMouseX(windowMode) +  MapGUI.LETTER_OFFSET_X,
-                                unit.getPosition().getMouseY(windowMode) + MapGUI.PIECES_START_Y + MapGUI.LETTER_OFFSET_Y);
+                        drawLetterOnPosition(g, unit.getPosition(), Color.BLACK, "M");
                         break;
                         }
                         case Terrain.FOREST: 
                         {
-                        g.drawString("F", 
-                                unit.getPosition().getMouseX(windowMode) + MapGUI.LETTER_OFFSET_X,
-                                unit.getPosition().getMouseY(windowMode) + MapGUI.PIECES_START_Y + MapGUI.LETTER_OFFSET_Y);
+                        drawLetterOnPosition(g, unit.getPosition(), Color.BLACK, "F");
                         break;
                         }
                         
@@ -740,19 +771,49 @@ public class GameGUI {
     Combat combat = game.getCombat();
         
     if(combat!= null)
-            if(
-                  combat.getState() == Combat.INITIALIZING_COMBAT ||
-                  combat.getState() == Combat.PICK_DEFENSE_CARDS ||  
-                  combat.getState() == Combat.PICK_SUPPORTING_CARDS ||  
-                  combat.getState() == Combat.PICK_SUPPORT_UNIT ||    
-                  combat.getState() == Combat.DEFENDER_DECIDES ||    
-                  combat.getState() == Combat.ATTACKER_DECIDES      
+    if(
+          combat.getState() == Combat.INITIALIZING_COMBAT ||
+          combat.getState() == Combat.PICK_DEFENSE_CARDS ||  
+          combat.getState() == Combat.PICK_SUPPORTING_CARDS ||  
+          combat.getState() == Combat.PICK_SUPPORT_UNIT ||    
+          combat.getState() == Combat.DEFENDER_DECIDES ||    
+          combat.getState() == Combat.ATTACKER_DECIDES      
+         )
+    drawArrowToPosition(g,  combat.getAttackingUnit().getPosition(), 
+                combat.getDefendingUnit().getPosition(), Color.GREEN);
+
+    /*
+    Draw supporting
+    */
+    
+      for (Unit  unit : game.getCurrentPlayer().getArmy()) {
+                if(!unit.isEliminated())
+                {
+                    if(unit.isSupporting())
+                    drawSupporting(g, unit);
+                }
+            }
+       for (Unit  unit : game.getOpponentPlayer().getArmy()) {
+                if(!unit.isEliminated())
+                {
+                    if(unit.isSupporting())
+                    drawSupporting(g, unit);
                     
-                 )
-                drawArrowToPosition(g,  combat.getAttackingUnit().getPosition(), 
-                        combat.getDefendingUnit().getPosition(), Color.GREEN);
+                        
+                }
+            }
+    
     
     }
+    
+    private void drawSupporting(Graphics g, Unit unit)
+    {
+        drawRectangleOnPosition(g, unit.getPosition(), Color.BLUE);
+        drawArrowToPosition(g, unit.getPosition(), game.getCombat().getDefendingUnit().getPosition(),
+                Color.BLUE);
+        //drawLetterOnPosition(g, unit.getPosition(), Color.BLUE, "SUP");
+    }
+    
     
     
     

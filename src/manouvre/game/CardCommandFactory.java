@@ -12,7 +12,6 @@ import manouvre.commands.CardCommands;
 import manouvre.commands.DiscardCardCommand;
 import manouvre.commands.DrawCardCommand;
 import manouvre.commands.RestoreUnitCommand;
-import manouvre.commands.ThrowDiceCommand;
 import manouvre.interfaces.CardCommandInterface;
 import manouvre.interfaces.Command;
 
@@ -40,6 +39,8 @@ public class CardCommandFactory extends Observable implements Serializable{
     public final static String DEFENDING_CARDS_PLAYED = "DEFENDING_CARDS_PLAYED";
     public final static String DEFENDING_WITHDRAW = "DEFENDING_WITHDRAW";
     public final static String PICKED_ADVANCE = "PLAYER_CHOSEN_ADVANCE_UNIT";
+    public final static String VOLLEY_ASSAULT_DECISION = "VOLLEY_ASSAULT_DECISION";
+    
     
     public final static String ASSAULT_BEGINS = "ASSAULT_BEGINS";
     public final static String VOLLEY_BEGINS = "VOLLEY_BEGINS";
@@ -60,6 +61,7 @@ public class CardCommandFactory extends Observable implements Serializable{
     
     public final static String COMBAT_ACCEPTED = "COMBAT_ACCEPTED";
     public final static String LEADER_SELECTED = "LEADER_SELECTED";
+    public final static String LEADER_DESELECTED = "LEADER_DESELECTED";
      
     Card playingCard, opponentCard;
     /*
@@ -199,8 +201,8 @@ public class CardCommandFactory extends Observable implements Serializable{
         ArrayList<Position>  attackPositions  = new ArrayList<Position>();      
         
         
-        if(playingCard.getPlayingCardMode()== Card.ASSAULT 
-        || playingCard.getPlayingCardMode()== Card.VOLLEY)
+        if(playingCard.getPlayingCardMode().equals(Card.ASSAULT) 
+        || playingCard.getPlayingCardMode().equals(Card.VOLLEY))
             {
             attackPossiblePositions= game.getPossibleAssault(attackingUnit);
             for(Position checkPosition : attackPossiblePositions)
@@ -211,7 +213,7 @@ public class CardCommandFactory extends Observable implements Serializable{
 
                 setAttackingPositions(attackPositions);
             }
-        else if (playingCard.getPlayingCardMode()== Card.BOMBARD) 
+        else if (playingCard.getPlayingCardMode().equals(Card.BOMBARD)) 
         {    
         {
             attackPossiblePositions= game.getLOS(attackingUnit, 2);

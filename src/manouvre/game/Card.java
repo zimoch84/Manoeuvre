@@ -366,7 +366,7 @@ public class Card implements CardInterface, Serializable{
     }
   
     public int getUnitVolley() {
-         if(!CardPursuit.equals(""))
+         if(!CardVolley.equals(""))
         return Dice.diceTypeToInt(CardVolley); 
          else return 99;
     }
@@ -623,7 +623,12 @@ public class Card implements CardInterface, Serializable{
                                         return true;
                                 else return false;
                             }
+                            case Combat.PICK_SUPPORT_UNIT:
+                            {  
+                                if (getCardType()==Card.LEADER)
+                                    return true;
                                 
+                            }   
                                         
                         }
                     }
@@ -743,6 +748,20 @@ public class Card implements CardInterface, Serializable{
                         {
                         if(game.getCombat() == null) return true;
                         
+                        else if(game.getCombat().getState() == Combat.PICK_SUPPORTING_CARDS)
+                        {
+                            /*
+                            You can onluy add ASSAULT UNIT card as support  - not bombard 
+                            */
+                            for(String cardMode:getPlayingPossibleCardModes() )
+                            {
+                                if(cardMode == Card.ASSAULT) return true;
+                            }
+                            
+                            return false;
+                            
+                        }
+                        
                         else if(game.getCombat().getState() == Combat.END_COMBAT)
                             return false;
                         
@@ -829,7 +848,8 @@ public class Card implements CardInterface, Serializable{
                     }       
                     else {
                         game.getCurrentPlayerUnitByName(getCardName()).setSelected(true);
-                        game.getCardCommandFactory().calculateAttackingPositions(game.getSelectedUnit());
+                            if(getPlayingCardMode()!= null)
+                                game.getCardCommandFactory().calculateAttackingPositions(game.getSelectedUnit());
                     }
                 else if (game.getPhase() == Game.RESTORATION)
                 {
@@ -927,7 +947,24 @@ public class Card implements CardInterface, Serializable{
                 }
               
                 break;
-        }     
+        }
+        case Card.LEADER:
+        {
+             if(game.getPhase() == Game.COMBAT)
+                 if(game.getCombat() != null)
+                     if(game.getCombat().getState() == Combat.PICK_DEFENSE_CARDS)
+                     {
+                        game.getCombat().removeDefenceCard(this);
+                     }
+                     
+                     if(game.getCombat().getState() == Combat.PICK_SUPPORT_UNIT)
+                     {
+                        game.getCombat().setState(Combat.PICK_SUPPORTING_CARDS);
+                        game.getCombat().setSupportingLeader(null);
+                        
+                     }
+                break;
+        } 
     }
     
     }

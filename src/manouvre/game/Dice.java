@@ -97,7 +97,7 @@ public class Dice implements Serializable{
             case "1d10":
                 return Dice.DICE1d10;
             case "2d6":
-                return 12;//Dice.DICE2d6;
+                return Dice.DICE2d6;
             case "2d8":
                 return Dice.DICE2d8;
             case "2d10":
