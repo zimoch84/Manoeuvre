@@ -4654,3 +4654,1240 @@
 2017-11-06 15:52:14 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr moved to the next phase Restoration
 2017-11-06 15:52:15 [Thread-2] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
 2017-11-06 15:52:15 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr moved to the next phase Restoration
+2017-11-16 13:33:17 [AWT-EventQueue-0] DEBUG GameWindow.buttonToNextPhaseActionPerformed line 2077 - BartekZmiana stanu MapInputStateHandler.NOSELECTION
+2017-11-16 13:33:17 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-16 13:33:18 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has finished setup
+2017-11-16 13:33:18 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has finished setup
+2017-11-21 15:40:49 [AWT-EventQueue-0] DEBUG GameWindow.buttonToNextPhaseActionPerformed line 2075 - BartekZmiana stanu MapInputStateHandler.NOSELECTION
+2017-11-21 15:40:49 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-21 15:40:50 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has finished setup
+2017-11-21 15:40:50 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has finished setup
+2017-11-21 15:50:46 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr has finished setup
+2017-11-21 15:50:46 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr has finished setup
+2017-11-21 15:50:48 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-21 15:50:48 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-21 15:50:48 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState MULTIPLE_SELECTION
+2017-11-21 15:50:48 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase MULTIPLE_SELECTION
+2017-11-21 15:50:48 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has finished setup
+2017-11-21 15:50:48 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has finished setup
+2017-11-21 15:50:49 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1669 - Bartek clicked card: ID [121] 1st Cuirassiers deselected
+2017-11-21 15:50:50 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1669 - Bartek clicked card: ID [123] 1st Cuirassiers deselected
+2017-11-21 15:50:50 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1669 - Bartek clicked card: ID [120] 1st Cuirassiers deselected
+2017-11-21 15:50:51 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1669 - Bartek clicked card: ID [123] 1st Cuirassiers deselected
+2017-11-21 15:50:52 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1669 - Bartek clicked card: ID [121] 1st Cuirassiers deselected
+2017-11-21 15:50:54 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1669 - Bartek clicked card: ID [122] 1st Cuirassiers deselected
+2017-11-21 15:50:57 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1669 - Piotr clicked card: ID [70] 4th  Regiment deselected
+2017-11-21 15:50:58 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1669 - Piotr clicked card: ID [73] 4th  Regiment deselected
+2017-11-21 15:50:58 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1669 - Piotr clicked card: ID [71] 4th  Regiment deselected
+2017-11-21 15:50:58 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1669 - Piotr clicked card: ID [116] Archduke Charles deselected
+2017-11-21 15:50:59 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1669 - Piotr clicked card: ID [72] 4th  Regiment deselected
+2017-11-21 15:51:01 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1669 - Bartek clicked card: ID [120] 1st Cuirassiers deselected
+2017-11-21 15:51:11 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1669 - Bartek clicked card: ID [120] 1st Cuirassiers deselected
+2017-11-21 15:51:13 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1669 - Bartek clicked card: ID [123] 1st Cuirassiers deselected
+2017-11-21 15:52:11 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1669 - Bartek clicked card: ID [122] 1st Cuirassiers deselected
+2017-11-21 15:52:29 [AWT-EventQueue-0] DEBUG GameWindow.buttonToNextPhaseActionPerformed line 2075 - BartekZmiana stanu MapInputStateHandler.NOSELECTION
+2017-11-21 15:52:29 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-21 15:52:30 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has finished setup
+2017-11-21 15:52:31 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has finished setup
+2017-11-21 15:52:33 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr has finished setup
+2017-11-21 15:52:34 [Thread-2] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-21 15:52:34 [Thread-2] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-21 15:52:34 [Thread-2] DEBUG CardStateHandler.setState line 59 - Bartek setState MULTIPLE_SELECTION
+2017-11-21 15:52:34 [Thread-2] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase MULTIPLE_SELECTION
+2017-11-21 15:52:34 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr has finished setup
+2017-11-21 16:00:46 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1668 - Bartek clicked card: ID [122] 1st Cuirassiers deselected
+2017-11-21 16:00:46 [AWT-EventQueue-0] DEBUG GameWindow.buttonToNextPhaseActionPerformed line 2074 - BartekZmiana stanu MapInputStateHandler.NOSELECTION
+2017-11-21 16:00:46 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-21 16:00:48 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has finished setup
+2017-11-21 16:00:48 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has finished setup
+2017-11-21 16:10:19 [AWT-EventQueue-0] DEBUG GameWindow.buttonToNextPhaseActionPerformed line 2076 - BartekZmiana stanu MapInputStateHandler.NOSELECTION
+2017-11-21 16:10:19 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-21 16:10:22 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has finished setup
+2017-11-21 16:10:23 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has finished setup
+2017-11-21 16:10:29 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [120] 1st Cuirassiers deselected
+2017-11-21 16:10:32 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr has finished setup
+2017-11-21 16:10:33 [Thread-2] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-21 16:10:33 [Thread-2] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-21 16:10:33 [Thread-2] DEBUG CardStateHandler.setState line 59 - Bartek setState MULTIPLE_SELECTION
+2017-11-21 16:10:33 [Thread-2] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase MULTIPLE_SELECTION
+2017-11-21 16:10:33 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr has finished setup
+2017-11-21 16:10:34 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [123] 1st Cuirassiers deselected
+2017-11-21 16:10:35 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek discarded ID [123] 1st Cuirassiers deselected, 
+2017-11-21 16:10:36 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek discarded ID [123] 1st Cuirassiers deselected, 
+2017-11-21 16:10:39 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [122] 1st Cuirassiers deselected
+2017-11-21 16:10:41 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek discarded ID [122] 1st Cuirassiers deselected, 
+2017-11-21 16:10:42 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek discarded ID [122] 1st Cuirassiers deselected, 
+2017-11-21 16:10:42 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [121] 1st Cuirassiers deselected
+2017-11-21 16:10:43 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [120] 1st Cuirassiers deselected
+2017-11-21 16:10:43 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek discarded ID [121] 1st Cuirassiers deselected, ID [120] 1st Cuirassiers deselected, 
+2017-11-21 16:10:44 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek discarded ID [121] 1st Cuirassiers deselected, ID [120] 1st Cuirassiers deselected, 
+2017-11-21 16:10:45 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has drawn 4 cards
+2017-11-21 16:10:45 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-21 16:10:45 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-21 16:10:45 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-21 16:10:45 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-21 16:10:45 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-21 16:10:45 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-21 16:10:45 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-21 16:10:45 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek moved to the next phase Draw
+2017-11-21 16:10:46 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has drawn 4 cards
+2017-11-21 16:10:47 [Thread-1] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-21 16:10:47 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek moved to the next phase Draw
+2017-11-21 16:10:48 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-21 16:10:48 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-21 16:10:48 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-21 16:10:48 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-21 16:10:48 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-21 16:10:48 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-21 16:10:48 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-21 16:10:48 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-21 16:10:48 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-21 16:10:48 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek moved to the next phase Move
+2017-11-21 16:10:49 [Thread-1] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-21 16:10:49 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek moved to the next phase Move
+2017-11-21 16:10:50 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 8th Regiment Legere has been  seleced
+2017-11-21 16:10:50 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 50 - Bartek Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION
+2017-11-21 16:10:50 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_MOVE_POSITION
+2017-11-21 16:10:51 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 8th Regiment Legere has been  deselected
+2017-11-21 16:10:51 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has moved unit 8th Regiment Legere to position Position X: 3 Position Y: 2
+2017-11-21 16:10:51 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 55 - Bartek game.unselectAllUnits()
+2017-11-21 16:10:51 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 57 - Bartek Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT
+2017-11-21 16:10:51 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-21 16:10:51 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has moved unit 8th Regiment Legere to position Position X: 3 Position Y: 2
+2017-11-21 16:10:54 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-21 16:10:54 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-21 16:10:54 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-21 16:10:54 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-21 16:10:54 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-21 16:10:54 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-21 16:10:54 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-21 16:10:54 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-21 16:10:54 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-21 16:10:54 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek moved to the next phase Combat
+2017-11-21 16:10:54 [Thread-1] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-21 16:10:54 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek moved to the next phase Combat
+2017-11-21 16:10:58 [AWT-EventQueue-0] DEBUG CardSingleSelectionState.handleInput line 31 - Bartek zmiana stanu na MapInputStateHandler.CARD_PLAYING_STATE
+2017-11-21 16:10:58 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na CARD_PLAYING_STATE
+2017-11-21 16:10:58 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 4th Regiment Suisse has been  seleced
+2017-11-21 16:10:58 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [131] 4th Regiment Suisse playing mode ASSAULT selected 
+2017-11-21 16:11:02 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 4th Regiment Suisse has been  deselected
+2017-11-21 16:11:02 [AWT-EventQueue-0] DEBUG CardSingleSelectionState.triggerCardActionOnDeSelection line 91 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-21 16:11:02 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 4th Regiment Suisse has been  deselected
+2017-11-21 16:11:02 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [131] 4th Regiment Suisse playing mode ASSAULT deselected
+2017-11-21 16:11:04 [AWT-EventQueue-0] DEBUG CardSingleSelectionState.handleInput line 31 - Bartek zmiana stanu na MapInputStateHandler.CARD_PLAYING_STATE
+2017-11-21 16:11:04 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na CARD_PLAYING_STATE
+2017-11-21 16:11:04 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit Guard Cavalry has been  seleced
+2017-11-21 16:11:04 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [159] Guard Cavalry playing mode BOMBARD selected 
+2017-11-21 16:11:05 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit Guard Cavalry has been  deselected
+2017-11-21 16:11:05 [AWT-EventQueue-0] DEBUG CardSingleSelectionState.triggerCardActionOnDeSelection line 91 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-21 16:11:05 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit Guard Cavalry has been  deselected
+2017-11-21 16:11:05 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [159] Guard Cavalry playing mode BOMBARD deselected
+2017-11-21 16:11:05 [AWT-EventQueue-0] DEBUG CardSingleSelectionState.handleInput line 31 - Bartek zmiana stanu na MapInputStateHandler.CARD_PLAYING_STATE
+2017-11-21 16:11:05 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na CARD_PLAYING_STATE
+2017-11-21 16:11:05 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 19th Regiment Legere has been  seleced
+2017-11-21 16:11:05 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [140] 19th Regiment Legere playing mode ASSAULT selected 
+2017-11-21 16:11:06 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 19th Regiment Legere has been  deselected
+2017-11-21 16:11:06 [AWT-EventQueue-0] DEBUG CardSingleSelectionState.triggerCardActionOnDeSelection line 91 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-21 16:11:06 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 19th Regiment Legere has been  deselected
+2017-11-21 16:11:06 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [140] 19th Regiment Legere playing mode ASSAULT deselected
+2017-11-21 16:11:06 [AWT-EventQueue-0] DEBUG CardSingleSelectionState.handleInput line 31 - Bartek zmiana stanu na MapInputStateHandler.CARD_PLAYING_STATE
+2017-11-21 16:11:06 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na CARD_PLAYING_STATE
+2017-11-21 16:11:06 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 4th Regiment Suisse has been  seleced
+2017-11-21 16:11:06 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [131] 4th Regiment Suisse playing mode ASSAULT selected 
+2017-11-21 16:11:07 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 4th Regiment Suisse has been  deselected
+2017-11-21 16:11:07 [AWT-EventQueue-0] DEBUG CardSingleSelectionState.triggerCardActionOnDeSelection line 91 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-21 16:11:07 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 4th Regiment Suisse has been  deselected
+2017-11-21 16:11:07 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [131] 4th Regiment Suisse playing mode ASSAULT deselected
+2017-11-21 16:11:07 [AWT-EventQueue-0] DEBUG CardSingleSelectionState.handleInput line 31 - Bartek zmiana stanu na MapInputStateHandler.CARD_PLAYING_STATE
+2017-11-21 16:11:07 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na CARD_PLAYING_STATE
+2017-11-21 16:11:07 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [160] Forced March deselected
+2017-11-23 15:44:45 [AWT-EventQueue-0] DEBUG GameWindow.buttonToNextPhaseActionPerformed line 2076 - BartekZmiana stanu MapInputStateHandler.NOSELECTION
+2017-11-23 15:44:45 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-23 15:44:46 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has finished setup
+2017-11-23 15:44:46 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has finished setup
+2017-11-23 15:44:49 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr has finished setup
+2017-11-23 15:44:49 [Thread-2] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-23 15:44:49 [Thread-2] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-23 15:44:49 [Thread-2] DEBUG CardStateHandler.setState line 59 - Bartek setState MULTIPLE_SELECTION
+2017-11-23 15:44:49 [Thread-2] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase MULTIPLE_SELECTION
+2017-11-23 15:44:49 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr has finished setup
+2017-11-23 15:44:57 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [121] 1st Cuirassiers deselected
+2017-11-23 15:44:59 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [179] Withdraw deselected
+2017-11-23 15:45:22 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr has finished setup
+2017-11-23 15:45:23 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr has finished setup
+2017-11-23 15:46:11 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [120] 1st Cuirassiers deselected
+2017-11-23 15:46:13 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-23 15:46:13 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-23 15:46:13 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState MULTIPLE_SELECTION
+2017-11-23 15:46:13 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase MULTIPLE_SELECTION
+2017-11-23 15:46:13 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has finished setup
+2017-11-23 15:46:13 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has finished setup
+2017-11-23 15:46:30 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [176] Withdraw deselected
+2017-11-23 15:48:52 [AWT-EventQueue-0] DEBUG GameWindow.buttonToNextPhaseActionPerformed line 2076 - BartekZmiana stanu MapInputStateHandler.NOSELECTION
+2017-11-23 15:48:52 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-23 15:48:53 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has finished setup
+2017-11-23 15:48:54 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has finished setup
+2017-11-23 15:48:55 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr has finished setup
+2017-11-23 15:48:56 [Thread-2] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-23 15:48:56 [Thread-2] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-23 15:48:56 [Thread-2] DEBUG CardStateHandler.setState line 59 - Bartek setState MULTIPLE_SELECTION
+2017-11-23 15:48:56 [Thread-2] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase MULTIPLE_SELECTION
+2017-11-23 15:48:56 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr has finished setup
+2017-11-23 15:48:57 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [177] Withdraw selected 
+2017-11-23 15:48:58 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [122] 1st Cuirassiers selected 
+2017-11-23 15:48:58 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [121] 1st Cuirassiers selected 
+2017-11-23 15:48:59 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [120] 1st Cuirassiers selected 
+2017-11-23 15:48:59 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek discarded ID [177] Withdraw selected , ID [122] 1st Cuirassiers selected , ID [121] 1st Cuirassiers selected , ID [120] 1st Cuirassiers selected , 
+2017-11-23 15:49:00 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek discarded ID [177] Withdraw selected , ID [122] 1st Cuirassiers selected , ID [121] 1st Cuirassiers selected , ID [120] 1st Cuirassiers selected , 
+2017-11-23 15:49:07 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has drawn 4 cards
+2017-11-23 15:49:07 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:49:07 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-23 15:49:07 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-23 15:49:07 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:49:07 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-23 15:49:07 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-23 15:49:07 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:49:07 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek moved to the next phase Draw
+2017-11-23 15:49:08 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has drawn 4 cards
+2017-11-23 15:49:09 [Thread-1] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:49:09 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek moved to the next phase Draw
+2017-11-23 15:49:59 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:49:59 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-23 15:49:59 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-23 15:49:59 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-23 15:49:59 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:49:59 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-23 15:49:59 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-23 15:49:59 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-23 15:49:59 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:49:59 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek moved to the next phase Move
+2017-11-23 15:50:00 [Thread-1] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:50:00 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek moved to the next phase Move
+2017-11-23 15:50:09 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 19th Regiment Legere has been  seleced
+2017-11-23 15:50:09 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 50 - Bartek Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION
+2017-11-23 15:50:09 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_MOVE_POSITION
+2017-11-23 15:50:10 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 19th Regiment Legere has been  deselected
+2017-11-23 15:50:10 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has moved unit 19th Regiment Legere to position Position X: 4 Position Y: 3
+2017-11-23 15:50:10 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 55 - Bartek game.unselectAllUnits()
+2017-11-23 15:50:10 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 57 - Bartek Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT
+2017-11-23 15:50:10 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-23 15:50:10 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has moved unit 19th Regiment Legere to position Position X: 4 Position Y: 3
+2017-11-23 15:50:11 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:50:11 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-23 15:50:11 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-23 15:50:11 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-23 15:50:11 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:50:11 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-23 15:50:11 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-23 15:50:11 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-23 15:50:11 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:50:11 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek moved to the next phase Combat
+2017-11-23 15:50:11 [Thread-1] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:50:11 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek moved to the next phase Combat
+2017-11-23 15:50:12 [AWT-EventQueue-0] DEBUG CardSingleSelectionState.handleInput line 31 - Bartek zmiana stanu na MapInputStateHandler.CARD_PLAYING_STATE
+2017-11-23 15:50:12 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na CARD_PLAYING_STATE
+2017-11-23 15:50:12 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [176] Withdraw deselected
+2017-11-23 15:50:13 [AWT-EventQueue-0] DEBUG CardSingleSelectionState.handleInput line 31 - Bartek zmiana stanu na MapInputStateHandler.CARD_PLAYING_STATE
+2017-11-23 15:50:13 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na CARD_PLAYING_STATE
+2017-11-23 15:50:13 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [162] Forced March deselected
+2017-11-23 15:50:13 [AWT-EventQueue-0] DEBUG CardSingleSelectionState.handleInput line 31 - Bartek zmiana stanu na MapInputStateHandler.CARD_PLAYING_STATE
+2017-11-23 15:50:13 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na CARD_PLAYING_STATE
+2017-11-23 15:50:13 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 1st Cuirassiers has been  seleced
+2017-11-23 15:50:13 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [123] 1st Cuirassiers playing mode ASSAULT selected 
+2017-11-23 15:50:15 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 1st Cuirassiers has been  deselected
+2017-11-23 15:50:15 [AWT-EventQueue-0] DEBUG CardSingleSelectionState.triggerCardActionOnDeSelection line 91 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:50:15 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 1st Cuirassiers has been  deselected
+2017-11-23 15:50:15 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [123] 1st Cuirassiers playing mode ASSAULT deselected
+2017-11-23 15:50:16 [AWT-EventQueue-0] DEBUG CardSingleSelectionState.handleInput line 31 - Bartek zmiana stanu na MapInputStateHandler.CARD_PLAYING_STATE
+2017-11-23 15:50:16 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na CARD_PLAYING_STATE
+2017-11-23 15:50:16 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 1st Cuirassiers has been  seleced
+2017-11-23 15:50:16 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [123] 1st Cuirassiers playing mode ASSAULT selected 
+2017-11-23 15:50:20 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 1st Cuirassiers has been  deselected
+2017-11-23 15:50:20 [AWT-EventQueue-0] DEBUG CardSingleSelectionState.triggerCardActionOnDeSelection line 91 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:50:20 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 1st Cuirassiers has been  deselected
+2017-11-23 15:50:20 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [123] 1st Cuirassiers playing mode ASSAULT deselected
+2017-11-23 15:50:21 [AWT-EventQueue-0] DEBUG CardSingleSelectionState.handleInput line 31 - Bartek zmiana stanu na MapInputStateHandler.CARD_PLAYING_STATE
+2017-11-23 15:50:21 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na CARD_PLAYING_STATE
+2017-11-23 15:50:21 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 1st Cuirassiers has been  seleced
+2017-11-23 15:50:21 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [124] 1st Cuirassiers playing mode BOMBARD selected 
+2017-11-23 15:50:23 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 1st Cuirassiers has been  deselected
+2017-11-23 15:50:23 [AWT-EventQueue-0] DEBUG CardSingleSelectionState.triggerCardActionOnDeSelection line 91 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:50:23 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 1st Cuirassiers has been  deselected
+2017-11-23 15:50:23 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [124] 1st Cuirassiers playing mode BOMBARD deselected
+2017-11-23 15:50:26 [AWT-EventQueue-0] DEBUG CardSingleSelectionState.handleInput line 31 - Bartek zmiana stanu na MapInputStateHandler.CARD_PLAYING_STATE
+2017-11-23 15:50:26 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na CARD_PLAYING_STATE
+2017-11-23 15:50:26 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [162] Forced March deselected
+2017-11-23 15:50:28 [AWT-EventQueue-0] DEBUG CardSingleSelectionState.handleInput line 31 - Bartek zmiana stanu na MapInputStateHandler.CARD_PLAYING_STATE
+2017-11-23 15:50:28 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na CARD_PLAYING_STATE
+2017-11-23 15:50:28 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [162] Forced March deselected
+2017-11-23 15:50:29 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:50:29 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-23 15:50:29 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-23 15:50:29 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-23 15:50:29 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:50:29 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-23 15:50:29 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-23 15:50:29 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-23 15:50:29 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:50:29 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek moved to the next phase Restoration
+2017-11-23 15:50:30 [Thread-1] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:50:30 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek moved to the next phase Restoration
+2017-11-23 15:50:30 [AWT-EventQueue-0] DEBUG EndTurnCommand.execute line 35 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:50:30 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has ended his/her phase
+2017-11-23 15:50:31 [Thread-1] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Piotr setInitStateForPhase 
+2017-11-23 15:50:31 [Thread-1] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na NOSELECTION
+2017-11-23 15:50:31 [Thread-1] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Piotr setInitStateForPhase 
+2017-11-23 15:50:31 [Thread-1] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na NOSELECTION
+2017-11-23 15:50:31 [Thread-1] DEBUG CardStateHandler.setState line 59 - Piotr setState MULTIPLE_SELECTION
+2017-11-23 15:50:31 [Thread-1] DEBUG CardStateHandler.setInitStateForPhase line 100 - Piotr setInitStateForPhase MULTIPLE_SELECTION
+2017-11-23 15:50:31 [Thread-1] DEBUG EndTurnCommand.execute line 35 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:50:31 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has ended his/her phase
+2017-11-23 15:50:43 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:50:43 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Piotr setInitStateForPhase 
+2017-11-23 15:50:43 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Piotr setState SINGLE_SELECTION
+2017-11-23 15:50:43 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Piotr setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:50:43 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Piotr setInitStateForPhase 
+2017-11-23 15:50:43 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Piotr setState SINGLE_SELECTION
+2017-11-23 15:50:43 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Piotr setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:50:43 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr moved to the next phase Draw
+2017-11-23 15:50:44 [Thread-2] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:50:44 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr moved to the next phase Draw
+2017-11-23 15:50:45 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:50:45 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Piotr setInitStateForPhase 
+2017-11-23 15:50:45 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na PICK_ONE_UNIT
+2017-11-23 15:50:45 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Piotr setState SINGLE_SELECTION
+2017-11-23 15:50:45 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Piotr setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:50:45 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Piotr setInitStateForPhase 
+2017-11-23 15:50:45 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na PICK_ONE_UNIT
+2017-11-23 15:50:45 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Piotr setState SINGLE_SELECTION
+2017-11-23 15:50:45 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Piotr setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:50:45 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr moved to the next phase Move
+2017-11-23 15:50:46 [Thread-2] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:50:46 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr moved to the next phase Move
+2017-11-23 15:50:48 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 38 - Piotrgame.unselectAllUnits()
+2017-11-23 15:50:48 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 4th  Regiment has been  seleced
+2017-11-23 15:50:48 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 50 - Piotr Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION
+2017-11-23 15:50:48 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na PICK_MOVE_POSITION
+2017-11-23 15:50:49 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 4th  Regiment has been  deselected
+2017-11-23 15:50:49 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr has moved unit 4th  Regiment to position Position X: 3 Position Y: 3
+2017-11-23 15:50:49 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 55 - Piotr game.unselectAllUnits()
+2017-11-23 15:50:49 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 57 - Piotr Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT
+2017-11-23 15:50:49 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na PICK_ONE_UNIT
+2017-11-23 15:50:50 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr has moved unit 4th  Regiment to position Position X: 3 Position Y: 3
+2017-11-23 15:50:50 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:50:50 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Piotr setInitStateForPhase 
+2017-11-23 15:50:50 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na NOSELECTION
+2017-11-23 15:50:50 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Piotr setState SINGLE_SELECTION
+2017-11-23 15:50:50 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Piotr setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:50:50 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Piotr setInitStateForPhase 
+2017-11-23 15:50:50 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na NOSELECTION
+2017-11-23 15:50:50 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Piotr setState SINGLE_SELECTION
+2017-11-23 15:50:50 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Piotr setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:50:50 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr moved to the next phase Combat
+2017-11-23 15:50:51 [AWT-EventQueue-0] DEBUG CardSingleSelectionState.handleInput line 31 - Piotr zmiana stanu na MapInputStateHandler.CARD_PLAYING_STATE
+2017-11-23 15:50:51 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na CARD_PLAYING_STATE
+2017-11-23 15:50:51 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 4th  Regiment has been  seleced
+2017-11-23 15:50:51 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Piotr clicked card: ID [72] 4th  Regiment selected 
+2017-11-23 15:50:51 [Thread-2] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:50:51 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr moved to the next phase Combat
+2017-11-23 15:50:53 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 4th  Regiment has been  seleced
+2017-11-23 15:50:56 [AWT-EventQueue-0] DEBUG CardCommands.execute line 382 - Piotrzmiana stanu na CardStateHandler.NOSELECTION
+2017-11-23 15:50:56 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Piotr setState NOSELECTION
+2017-11-23 15:50:56 [AWT-EventQueue-0] DEBUG CardCommands.execute line 384 - Piotrzmiana stanu na MapInputStateHandler.NOSELECTION
+2017-11-23 15:50:56 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na NOSELECTION
+2017-11-23 15:50:56 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr attacked 19th Regiment Legere with 4th  Regiment
+2017-11-23 15:50:56 [Thread-2] DEBUG CardCommands.execute line 375 - Bartekzmiana stanu na CardStateHandler.MULTIPLE_PICK
+2017-11-23 15:50:56 [Thread-2] DEBUG CardStateHandler.setState line 59 - Bartek setState MULTIPLE_SELECTION
+2017-11-23 15:50:56 [Thread-2] DEBUG CardCommands.execute line 377 - Bartekzmiana stanu na MapInputStateHandler.NOSELECTION
+2017-11-23 15:50:56 [Thread-2] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-23 15:50:56 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr attacked 19th Regiment Legere with 4th  Regiment
+2017-11-23 15:52:30 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 19th Regiment Legere has been  seleced
+2017-11-23 15:52:30 [AWT-EventQueue-0] DEBUG Card.actionOnSelection line 810 - Bartekzmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION_BY_CARD
+2017-11-23 15:52:30 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_MOVE_POSITION_BY_CARD
+2017-11-23 15:52:30 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [176] Withdraw selected 
+2017-11-23 15:52:31 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 19th Regiment Legere has been  deselected
+2017-11-23 15:52:31 [AWT-EventQueue-0] DEBUG CardCommands.execute line 296 - Bartek zmiana stanu na MapInputStateHandler.NOSELECTION
+2017-11-23 15:52:31 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-23 15:52:31 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek withdrawn
+2017-11-23 15:52:31 [AWT-EventQueue-0] DEBUG MapCardMoveUnitState.handleInput line 49 - Bartek zmiana stanu na MapInputStateHandler.NOSELECTION
+2017-11-23 15:52:31 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-23 15:52:32 [Thread-1] DEBUG Unit.setSelected line 117 - Unit 4th  Regiment has been  deselected
+2017-11-23 15:52:32 [Thread-1] DEBUG CardCommands.execute line 281 - Piotr zmiana stanu na MapInputStateHandler.PICK_UNIT_BY_CARD
+2017-11-23 15:52:32 [Thread-1] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na PICK_UNIT_BY_CARD
+2017-11-23 15:52:32 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek withdrawn
+2017-11-23 15:52:41 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 4th  Regiment has been  seleced
+2017-11-23 15:52:41 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 4th  Regiment has been  deselected
+2017-11-23 15:52:41 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr has advanced unit 4th  Regiment to position Position X: 4 Position Y: 3
+2017-11-23 15:52:42 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr has advanced unit 4th  Regiment to position Position X: 4 Position Y: 3
+2017-11-23 15:52:47 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:52:47 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Piotr setInitStateForPhase 
+2017-11-23 15:52:47 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na NOSELECTION
+2017-11-23 15:52:47 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Piotr setState SINGLE_SELECTION
+2017-11-23 15:52:47 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Piotr setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:52:47 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Piotr setInitStateForPhase 
+2017-11-23 15:52:47 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na NOSELECTION
+2017-11-23 15:52:47 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Piotr setState SINGLE_SELECTION
+2017-11-23 15:52:47 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Piotr setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:52:47 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr moved to the next phase Restoration
+2017-11-23 15:52:47 [Thread-2] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:52:47 [Thread-2] DEBUG Unit.setSelected line 117 - Unit 19th Regiment Legere has been  deselected
+2017-11-23 15:52:47 [Thread-2] DEBUG Card.actionOnDeselection line 908 - Bartek zmiana stanu na MapInputStateHandler.NOSELECTION
+2017-11-23 15:52:47 [Thread-2] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-23 15:52:47 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr moved to the next phase Restoration
+2017-11-23 15:55:50 [AWT-EventQueue-0] DEBUG GameWindow.buttonToNextPhaseActionPerformed line 2076 - BartekZmiana stanu MapInputStateHandler.NOSELECTION
+2017-11-23 15:55:50 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-23 15:55:52 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has finished setup
+2017-11-23 15:55:52 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has finished setup
+2017-11-23 15:55:53 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr has finished setup
+2017-11-23 15:55:54 [Thread-2] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-23 15:55:54 [Thread-2] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-23 15:55:54 [Thread-2] DEBUG CardStateHandler.setState line 59 - Bartek setState MULTIPLE_SELECTION
+2017-11-23 15:55:54 [Thread-2] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase MULTIPLE_SELECTION
+2017-11-23 15:55:54 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr has finished setup
+2017-11-23 15:55:55 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:55:55 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-23 15:55:55 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-23 15:55:55 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:55:55 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-23 15:55:55 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-23 15:55:55 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:55:55 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek moved to the next phase Draw
+2017-11-23 15:55:56 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:55:56 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-23 15:55:56 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-23 15:55:56 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-23 15:55:56 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:55:56 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-23 15:55:56 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-23 15:55:56 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-23 15:55:56 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:55:56 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek moved to the next phase Move
+2017-11-23 15:55:56 [Thread-1] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:55:56 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek moved to the next phase Draw
+2017-11-23 15:55:57 [Thread-1] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:55:57 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek moved to the next phase Move
+2017-11-23 15:55:58 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 1st Cuirassiers has been  seleced
+2017-11-23 15:55:58 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 50 - Bartek Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION
+2017-11-23 15:55:58 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_MOVE_POSITION
+2017-11-23 15:55:59 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 1st Cuirassiers has been  deselected
+2017-11-23 15:55:59 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has moved unit 1st Cuirassiers to position Position X: 1 Position Y: 2
+2017-11-23 15:55:59 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 55 - Bartek game.unselectAllUnits()
+2017-11-23 15:55:59 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 57 - Bartek Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT
+2017-11-23 15:55:59 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-23 15:55:59 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has moved unit 1st Cuirassiers to position Position X: 1 Position Y: 2
+2017-11-23 15:56:00 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:56:00 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-23 15:56:00 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-23 15:56:00 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-23 15:56:00 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:56:00 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-23 15:56:00 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-23 15:56:00 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-23 15:56:00 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:56:00 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek moved to the next phase Combat
+2017-11-23 15:56:00 [Thread-1] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:56:00 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek moved to the next phase Combat
+2017-11-23 15:56:01 [AWT-EventQueue-0] DEBUG CardSingleSelectionState.handleInput line 31 - Bartek zmiana stanu na MapInputStateHandler.CARD_PLAYING_STATE
+2017-11-23 15:56:01 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na CARD_PLAYING_STATE
+2017-11-23 15:56:01 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 1st Cuirassiers has been  seleced
+2017-11-23 15:56:01 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [122] 1st Cuirassiers playing mode ASSAULT selected 
+2017-11-23 15:56:02 [AWT-EventQueue-0] DEBUG CardCommands.execute line 382 - Bartekzmiana stanu na CardStateHandler.NOSELECTION
+2017-11-23 15:56:02 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState NOSELECTION
+2017-11-23 15:56:02 [AWT-EventQueue-0] DEBUG CardCommands.execute line 384 - Bartekzmiana stanu na MapInputStateHandler.NOSELECTION
+2017-11-23 15:56:02 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-23 15:56:02 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek attacked 3rd  Regiment with 1st Cuirassiers
+2017-11-23 15:56:02 [Thread-1] DEBUG CardCommands.execute line 375 - Piotrzmiana stanu na CardStateHandler.MULTIPLE_PICK
+2017-11-23 15:56:02 [Thread-1] DEBUG CardStateHandler.setState line 59 - Piotr setState MULTIPLE_SELECTION
+2017-11-23 15:56:02 [Thread-1] DEBUG CardCommands.execute line 377 - Piotrzmiana stanu na MapInputStateHandler.NOSELECTION
+2017-11-23 15:56:02 [Thread-1] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na NOSELECTION
+2017-11-23 15:56:02 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek attacked 3rd  Regiment with 1st Cuirassiers
+2017-11-23 15:58:30 [AWT-EventQueue-0] DEBUG GameWindow.buttonToNextPhaseActionPerformed line 2076 - BartekZmiana stanu MapInputStateHandler.NOSELECTION
+2017-11-23 15:58:30 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-23 15:58:31 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has finished setup
+2017-11-23 15:58:32 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has finished setup
+2017-11-23 15:58:33 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr has finished setup
+2017-11-23 15:58:34 [Thread-2] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-23 15:58:34 [Thread-2] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-23 15:58:34 [Thread-2] DEBUG CardStateHandler.setState line 59 - Bartek setState MULTIPLE_SELECTION
+2017-11-23 15:58:34 [Thread-2] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase MULTIPLE_SELECTION
+2017-11-23 15:58:34 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr has finished setup
+2017-11-23 15:58:35 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:58:35 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-23 15:58:35 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-23 15:58:35 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:58:35 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-23 15:58:35 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-23 15:58:35 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:58:35 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek moved to the next phase Draw
+2017-11-23 15:58:36 [Thread-1] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:58:36 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek moved to the next phase Draw
+2017-11-23 15:58:36 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:58:36 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-23 15:58:36 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-23 15:58:36 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-23 15:58:36 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:58:36 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-23 15:58:36 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-23 15:58:36 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-23 15:58:36 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:58:36 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek moved to the next phase Move
+2017-11-23 15:58:37 [Thread-1] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:58:37 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek moved to the next phase Move
+2017-11-23 15:58:38 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 1st Cuirassiers has been  seleced
+2017-11-23 15:58:38 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 50 - Bartek Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION
+2017-11-23 15:58:38 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_MOVE_POSITION
+2017-11-23 15:58:38 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 1st Cuirassiers has been  deselected
+2017-11-23 15:58:38 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has moved unit 1st Cuirassiers to position Position X: 2 Position Y: 2
+2017-11-23 15:58:38 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 55 - Bartek game.unselectAllUnits()
+2017-11-23 15:58:38 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 57 - Bartek Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT
+2017-11-23 15:58:38 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-23 15:58:39 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has moved unit 1st Cuirassiers to position Position X: 2 Position Y: 2
+2017-11-23 15:58:40 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:58:40 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-23 15:58:40 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-23 15:58:40 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-23 15:58:40 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:58:40 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-23 15:58:40 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-23 15:58:40 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-23 15:58:40 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:58:40 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek moved to the next phase Combat
+2017-11-23 15:58:41 [AWT-EventQueue-0] DEBUG CardSingleSelectionState.handleInput line 31 - Bartek zmiana stanu na MapInputStateHandler.CARD_PLAYING_STATE
+2017-11-23 15:58:41 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na CARD_PLAYING_STATE
+2017-11-23 15:58:41 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 1st Cuirassiers has been  seleced
+2017-11-23 15:58:41 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [120] 1st Cuirassiers playing mode ASSAULT selected 
+2017-11-23 15:58:41 [Thread-1] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:58:41 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek moved to the next phase Combat
+2017-11-23 15:58:42 [AWT-EventQueue-0] DEBUG CardCommands.execute line 382 - Bartekzmiana stanu na CardStateHandler.NOSELECTION
+2017-11-23 15:58:42 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState NOSELECTION
+2017-11-23 15:58:42 [AWT-EventQueue-0] DEBUG CardCommands.execute line 384 - Bartekzmiana stanu na MapInputStateHandler.NOSELECTION
+2017-11-23 15:58:42 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-23 15:58:42 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek attacked 4th  Regiment with 1st Cuirassiers
+2017-11-23 15:58:43 [Thread-1] DEBUG CardCommands.execute line 375 - Piotrzmiana stanu na CardStateHandler.MULTIPLE_PICK
+2017-11-23 15:58:43 [Thread-1] DEBUG CardStateHandler.setState line 59 - Piotr setState MULTIPLE_SELECTION
+2017-11-23 15:58:43 [Thread-1] DEBUG CardCommands.execute line 377 - Piotrzmiana stanu na MapInputStateHandler.NOSELECTION
+2017-11-23 15:58:43 [Thread-1] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na NOSELECTION
+2017-11-23 15:58:43 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek attacked 4th  Regiment with 1st Cuirassiers
+2017-11-23 15:59:11 [AWT-EventQueue-0] DEBUG GameWindow.buttonToNextPhaseActionPerformed line 2076 - BartekZmiana stanu MapInputStateHandler.NOSELECTION
+2017-11-23 15:59:11 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-23 15:59:12 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has finished setup
+2017-11-23 15:59:13 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has finished setup
+2017-11-23 15:59:14 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr has finished setup
+2017-11-23 15:59:15 [Thread-2] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-23 15:59:15 [Thread-2] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-23 15:59:15 [Thread-2] DEBUG CardStateHandler.setState line 59 - Bartek setState MULTIPLE_SELECTION
+2017-11-23 15:59:15 [Thread-2] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase MULTIPLE_SELECTION
+2017-11-23 15:59:15 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr has finished setup
+2017-11-23 15:59:15 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:59:15 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-23 15:59:15 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-23 15:59:15 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:59:15 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-23 15:59:15 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-23 15:59:15 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:59:15 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek moved to the next phase Draw
+2017-11-23 15:59:15 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:59:15 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-23 15:59:15 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-23 15:59:15 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-23 15:59:15 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:59:15 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-23 15:59:15 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-23 15:59:15 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-23 15:59:15 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:59:15 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek moved to the next phase Move
+2017-11-23 15:59:16 [Thread-1] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:59:16 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek moved to the next phase Draw
+2017-11-23 15:59:17 [Thread-1] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:59:17 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek moved to the next phase Move
+2017-11-23 15:59:18 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 1st Cuirassiers has been  seleced
+2017-11-23 15:59:18 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 50 - Bartek Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION
+2017-11-23 15:59:18 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_MOVE_POSITION
+2017-11-23 15:59:18 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 1st Cuirassiers has been  deselected
+2017-11-23 15:59:18 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has moved unit 1st Cuirassiers to position Position X: 3 Position Y: 2
+2017-11-23 15:59:18 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 55 - Bartek game.unselectAllUnits()
+2017-11-23 15:59:18 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 57 - Bartek Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT
+2017-11-23 15:59:18 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-23 15:59:19 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has moved unit 1st Cuirassiers to position Position X: 3 Position Y: 2
+2017-11-23 15:59:19 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:59:19 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-23 15:59:19 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-23 15:59:19 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-23 15:59:19 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:59:19 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-23 15:59:19 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-23 15:59:19 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-23 15:59:19 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-23 15:59:19 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek moved to the next phase Combat
+2017-11-23 15:59:20 [Thread-1] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-23 15:59:20 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek moved to the next phase Combat
+2017-11-23 15:59:21 [AWT-EventQueue-0] DEBUG CardSingleSelectionState.handleInput line 31 - Bartek zmiana stanu na MapInputStateHandler.CARD_PLAYING_STATE
+2017-11-23 15:59:21 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na CARD_PLAYING_STATE
+2017-11-23 15:59:21 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 1st Cuirassiers has been  seleced
+2017-11-23 15:59:21 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1670 - Bartek clicked card: ID [120] 1st Cuirassiers playing mode ASSAULT selected 
+2017-11-23 15:59:23 [AWT-EventQueue-0] DEBUG CardCommands.execute line 382 - Bartekzmiana stanu na CardStateHandler.NOSELECTION
+2017-11-23 15:59:23 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState NOSELECTION
+2017-11-23 15:59:23 [AWT-EventQueue-0] DEBUG CardCommands.execute line 384 - Bartekzmiana stanu na MapInputStateHandler.NOSELECTION
+2017-11-23 15:59:23 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-23 15:59:23 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek attacked 6th Grenzers with 1st Cuirassiers
+2017-11-23 15:59:24 [Thread-1] DEBUG CardCommands.execute line 375 - Piotrzmiana stanu na CardStateHandler.MULTIPLE_PICK
+2017-11-23 15:59:24 [Thread-1] DEBUG CardStateHandler.setState line 59 - Piotr setState MULTIPLE_SELECTION
+2017-11-23 15:59:24 [Thread-1] DEBUG CardCommands.execute line 377 - Piotrzmiana stanu na MapInputStateHandler.NOSELECTION
+2017-11-23 15:59:24 [Thread-1] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na NOSELECTION
+2017-11-23 15:59:24 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek attacked 6th Grenzers with 1st Cuirassiers
+2017-11-23 16:04:26 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 1st Cuirassiers has been  seleced
+2017-11-23 16:04:26 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 50 - Bartek Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION
+2017-11-23 16:04:26 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_MOVE_POSITION
+2017-11-23 16:04:26 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 1st Cuirassiers has been  deselected
+2017-11-23 16:04:26 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Bartek has moved unit 1st Cuirassiers to position Position X: 1 Position Y: 7
+2017-11-23 16:04:26 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 69 - Bartek game.unselectAllUnits()
+2017-11-23 16:04:26 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 71 - Bartek Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT
+2017-11-23 16:04:26 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-23 16:04:27 [AWT-EventQueue-0] DEBUG GameWindow.buttonToNextPhaseActionPerformed line 2036 - BartekZmiana stanu MapInputStateHandler.NOSELECTION
+2017-11-23 16:04:27 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-23 16:04:28 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has finished setup
+2017-11-23 16:04:28 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has finished setup
+2017-11-28 15:00:23 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 94 - Bartek game.unselectAllUnits()
+2017-11-28 15:00:27 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 2nd Regiment Legere has been  seleced
+2017-11-28 15:00:27 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 50 - Bartek Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION
+2017-11-28 15:00:27 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_MOVE_POSITION
+2017-11-28 15:00:28 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 2nd Regiment Legere has been  deselected
+2017-11-28 15:00:28 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Bartek has moved unit 2nd Regiment Legere to position Position X: 1 Position Y: 3
+2017-11-28 15:00:28 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 69 - Bartek game.unselectAllUnits()
+2017-11-28 15:00:28 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 71 - Bartek Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT
+2017-11-28 15:00:28 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 15:00:28 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 2nd Regiment Legere has been  seleced
+2017-11-28 15:00:28 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 50 - Bartek Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION
+2017-11-28 15:00:28 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_MOVE_POSITION
+2017-11-28 15:00:29 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 2nd Regiment Legere has been  deselected
+2017-11-28 15:00:29 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Bartek has moved unit 2nd Regiment Legere to position Position X: 1 Position Y: 6
+2017-11-28 15:00:29 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 69 - Bartek game.unselectAllUnits()
+2017-11-28 15:00:29 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 71 - Bartek Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT
+2017-11-28 15:00:29 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 15:00:29 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 2nd Regiment Legere has been  seleced
+2017-11-28 15:00:29 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 50 - Bartek Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION
+2017-11-28 15:00:29 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_MOVE_POSITION
+2017-11-28 15:00:30 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 2nd Regiment Legere has been  deselected
+2017-11-28 15:00:30 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Bartek has moved unit 2nd Regiment Legere to position Position X: 1 Position Y: 7
+2017-11-28 15:00:30 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 69 - Bartek game.unselectAllUnits()
+2017-11-28 15:00:30 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 71 - Bartek Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT
+2017-11-28 15:00:30 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 15:00:30 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 2nd Regiment Legere has been  seleced
+2017-11-28 15:00:30 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 50 - Bartek Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION
+2017-11-28 15:00:30 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_MOVE_POSITION
+2017-11-28 15:00:30 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 2nd Regiment Legere has been  deselected
+2017-11-28 15:00:30 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Bartek has moved unit 2nd Regiment Legere to position Position X: 1 Position Y: 6
+2017-11-28 15:00:30 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 69 - Bartek game.unselectAllUnits()
+2017-11-28 15:00:30 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 71 - Bartek Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT
+2017-11-28 15:00:30 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 15:00:31 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 1st Cuirassiers has been  seleced
+2017-11-28 15:00:31 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 50 - Bartek Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION
+2017-11-28 15:00:31 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_MOVE_POSITION
+2017-11-28 15:00:32 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 1st Cuirassiers has been  deselected
+2017-11-28 15:00:32 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Bartek has moved unit 1st Cuirassiers to position Position X: 0 Position Y: 4
+2017-11-28 15:00:32 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 69 - Bartek game.unselectAllUnits()
+2017-11-28 15:00:32 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 71 - Bartek Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT
+2017-11-28 15:00:32 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 15:00:32 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 1st Cuirassiers has been  seleced
+2017-11-28 15:00:32 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 50 - Bartek Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION
+2017-11-28 15:00:32 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_MOVE_POSITION
+2017-11-28 15:00:32 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 1st Cuirassiers has been  deselected
+2017-11-28 15:00:32 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Bartek has moved unit 1st Cuirassiers to position Position X: 0 Position Y: 6
+2017-11-28 15:00:32 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 69 - Bartek game.unselectAllUnits()
+2017-11-28 15:00:32 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 71 - Bartek Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT
+2017-11-28 15:00:32 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 15:00:38 [AWT-EventQueue-0] DEBUG GameWindow.buttonToNextPhaseActionPerformed line 2036 - BartekZmiana stanu MapInputStateHandler.NOSELECTION
+2017-11-28 15:00:38 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-28 15:00:39 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has finished setup
+2017-11-28 15:00:39 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has finished setup
+2017-11-28 15:06:18 [AWT-EventQueue-0] DEBUG GameWindow.buttonToNextPhaseActionPerformed line 2036 - BartekZmiana stanu MapInputStateHandler.NOSELECTION
+2017-11-28 15:06:18 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-28 15:06:19 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has finished setup
+2017-11-28 15:06:19 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has finished setup
+2017-11-28 15:07:07 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 2nd Regiment Legere has been  seleced
+2017-11-28 15:07:07 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 50 - Bartek Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION
+2017-11-28 15:07:07 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_MOVE_POSITION
+2017-11-28 15:07:07 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 2nd Regiment Legere has been  deselected
+2017-11-28 15:07:07 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Bartek has moved unit 2nd Regiment Legere to position Position X: 1 Position Y: 5
+2017-11-28 15:07:07 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 69 - Bartek game.unselectAllUnits()
+2017-11-28 15:07:07 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 71 - Bartek Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT
+2017-11-28 15:07:07 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 15:07:07 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 2nd Regiment Legere has been  seleced
+2017-11-28 15:07:07 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 50 - Bartek Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION
+2017-11-28 15:07:07 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_MOVE_POSITION
+2017-11-28 15:07:08 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 2nd Regiment Legere has been  deselected
+2017-11-28 15:07:08 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Bartek has moved unit 2nd Regiment Legere to position Position X: 1 Position Y: 6
+2017-11-28 15:07:08 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 69 - Bartek game.unselectAllUnits()
+2017-11-28 15:07:08 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 71 - Bartek Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT
+2017-11-28 15:07:08 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 15:07:09 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 2nd Regiment Legere has been  seleced
+2017-11-28 15:07:09 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 50 - Bartek Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION
+2017-11-28 15:07:09 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_MOVE_POSITION
+2017-11-28 15:07:10 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 2nd Regiment Legere has been  deselected
+2017-11-28 15:07:10 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Bartek has moved unit 2nd Regiment Legere to position Position X: 1 Position Y: 2
+2017-11-28 15:07:10 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 69 - Bartek game.unselectAllUnits()
+2017-11-28 15:07:10 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 71 - Bartek Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT
+2017-11-28 15:07:10 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 15:07:10 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 2nd Regiment Legere has been  seleced
+2017-11-28 15:07:10 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 50 - Bartek Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION
+2017-11-28 15:07:10 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_MOVE_POSITION
+2017-11-28 15:07:11 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 2nd Regiment Legere has been  deselected
+2017-11-28 15:07:11 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Bartek has moved unit 2nd Regiment Legere to position Position X: 1 Position Y: 6
+2017-11-28 15:07:11 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 69 - Bartek game.unselectAllUnits()
+2017-11-28 15:07:11 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 71 - Bartek Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT
+2017-11-28 15:07:11 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 15:15:36 [AWT-EventQueue-0] DEBUG GameWindow.buttonToNextPhaseActionPerformed line 2037 - BartekZmiana stanu MapInputStateHandler.NOSELECTION
+2017-11-28 15:15:36 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-28 15:15:38 [AWT-EventQueue-0] DEBUG GameWindow.buttonToNextPhaseActionPerformed line 2037 - BartekZmiana stanu MapInputStateHandler.NOSELECTION
+2017-11-28 15:15:38 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-28 15:15:38 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has finished setup
+2017-11-28 15:15:39 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has finished setup
+2017-11-28 15:15:42 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has finished setup
+2017-11-28 15:15:42 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has finished setup
+2017-11-28 15:15:45 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr has finished setup
+2017-11-28 15:15:45 [Thread-2] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 15:15:45 [Thread-2] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-28 15:15:45 [Thread-2] DEBUG CardStateHandler.setState line 59 - Bartek setState MULTIPLE_SELECTION
+2017-11-28 15:15:45 [Thread-2] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase MULTIPLE_SELECTION
+2017-11-28 15:15:45 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr has finished setup
+2017-11-28 15:15:51 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1631 - Bartek clicked card: ID [121] 1st Cuirassiers selected 
+2017-11-28 15:15:51 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1631 - Bartek clicked card: ID [177] Withdraw selected 
+2017-11-28 15:15:52 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek discarded ID [121] 1st Cuirassiers selected , ID [177] Withdraw selected , 
+2017-11-28 15:15:52 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek discarded ID [121] 1st Cuirassiers selected , ID [177] Withdraw selected , 
+2017-11-28 15:15:53 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has drawn 2 cards
+2017-11-28 15:15:53 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-28 15:15:53 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 15:15:53 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-28 15:15:53 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-28 15:15:53 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 15:15:53 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-28 15:15:53 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-28 15:15:53 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek moved to the next phase Draw
+2017-11-28 15:15:53 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has drawn 2 cards
+2017-11-28 15:15:55 [Thread-1] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-28 15:15:55 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek moved to the next phase Draw
+2017-11-28 15:17:04 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1631 - Piotr clicked card: ID [70] 4th  Regiment deselected
+2017-11-28 15:17:05 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1631 - Piotr clicked card: ID [71] 4th  Regiment deselected
+2017-11-28 15:17:05 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1631 - Piotr clicked card: ID [73] 4th  Regiment deselected
+2017-11-28 15:17:06 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1631 - Piotr clicked card: ID [74] 4th  Regiment deselected
+2017-11-28 15:24:26 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 19th Regiment Legere has been  seleced
+2017-11-28 15:24:26 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 50 - Bartek Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION
+2017-11-28 15:24:26 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_MOVE_POSITION
+2017-11-28 15:24:26 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 19th Regiment Legere has been  deselected
+2017-11-28 15:24:26 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Bartek has moved unit 19th Regiment Legere to position Position X: 4 Position Y: 7
+2017-11-28 15:24:26 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 69 - Bartek game.unselectAllUnits()
+2017-11-28 15:24:26 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 71 - Bartek Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT
+2017-11-28 15:24:26 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 15:24:28 [AWT-EventQueue-0] DEBUG GameWindow.buttonToNextPhaseActionPerformed line 2037 - BartekZmiana stanu MapInputStateHandler.NOSELECTION
+2017-11-28 15:24:28 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-28 15:24:29 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has finished setup
+2017-11-28 15:24:29 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has finished setup
+2017-11-28 15:24:32 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1631 - Bartek clicked card: ID [122] 1st Cuirassiers deselected
+2017-11-28 15:24:34 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr has finished setup
+2017-11-28 15:24:35 [Thread-2] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 15:24:35 [Thread-2] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-28 15:24:35 [Thread-2] DEBUG CardStateHandler.setState line 59 - Bartek setState MULTIPLE_SELECTION
+2017-11-28 15:24:35 [Thread-2] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase MULTIPLE_SELECTION
+2017-11-28 15:24:35 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr has finished setup
+2017-11-28 15:24:36 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1631 - Bartek clicked card: ID [176] Withdraw selected 
+2017-11-28 15:24:36 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1631 - Bartek clicked card: ID [122] 1st Cuirassiers selected 
+2017-11-28 15:24:37 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek discarded ID [176] Withdraw selected , ID [122] 1st Cuirassiers selected , 
+2017-11-28 15:24:37 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek discarded ID [176] Withdraw selected , ID [122] 1st Cuirassiers selected , 
+2017-11-28 15:25:40 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 2nd Regiment Legere has been  seleced
+2017-11-28 15:25:40 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 50 - Bartek Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION
+2017-11-28 15:25:40 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_MOVE_POSITION
+2017-11-28 15:25:40 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 2nd Regiment Legere has been  deselected
+2017-11-28 15:25:40 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Bartek has moved unit 2nd Regiment Legere to position Position X: 1 Position Y: 7
+2017-11-28 15:25:40 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 69 - Bartek game.unselectAllUnits()
+2017-11-28 15:25:40 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 71 - Bartek Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT
+2017-11-28 15:25:40 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 15:25:41 [AWT-EventQueue-0] DEBUG GameWindow.buttonToNextPhaseActionPerformed line 2037 - BartekZmiana stanu MapInputStateHandler.NOSELECTION
+2017-11-28 15:25:41 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-28 15:25:42 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has finished setup
+2017-11-28 15:25:43 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has finished setup
+2017-11-28 15:25:43 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr has finished setup
+2017-11-28 15:25:44 [Thread-2] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 15:25:44 [Thread-2] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-28 15:25:44 [Thread-2] DEBUG CardStateHandler.setState line 59 - Bartek setState MULTIPLE_SELECTION
+2017-11-28 15:25:44 [Thread-2] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase MULTIPLE_SELECTION
+2017-11-28 15:25:44 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr has finished setup
+2017-11-28 15:25:45 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1631 - Bartek clicked card: ID [178] Withdraw selected 
+2017-11-28 15:25:46 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1631 - Bartek clicked card: ID [122] 1st Cuirassiers selected 
+2017-11-28 15:25:46 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek discarded ID [178] Withdraw selected , ID [122] 1st Cuirassiers selected , 
+2017-11-28 15:25:47 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek discarded ID [178] Withdraw selected , ID [122] 1st Cuirassiers selected , 
+2017-11-28 15:27:02 [AWT-EventQueue-0] DEBUG GameWindow.buttonToNextPhaseActionPerformed line 2036 - BartekZmiana stanu MapInputStateHandler.NOSELECTION
+2017-11-28 15:27:02 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-28 15:27:03 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has finished setup
+2017-11-28 15:27:04 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has finished setup
+2017-11-28 15:27:05 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr has finished setup
+2017-11-28 15:27:06 [Thread-2] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 15:27:06 [Thread-2] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-28 15:27:06 [Thread-2] DEBUG CardStateHandler.setState line 59 - Bartek setState MULTIPLE_SELECTION
+2017-11-28 15:27:06 [Thread-2] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase MULTIPLE_SELECTION
+2017-11-28 15:27:06 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr has finished setup
+2017-11-28 15:27:07 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1630 - Bartek clicked card: ID [179] Withdraw selected 
+2017-11-28 15:27:07 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1630 - Bartek clicked card: ID [124] 1st Cuirassiers selected 
+2017-11-28 15:27:08 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek discarded ID [179] Withdraw selected , ID [124] 1st Cuirassiers selected , 
+2017-11-28 15:27:08 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek discarded ID [179] Withdraw selected , ID [124] 1st Cuirassiers selected , 
+2017-11-28 15:27:13 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has drawn 2 cards
+2017-11-28 15:27:13 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-28 15:27:13 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 15:27:13 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-28 15:27:13 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-28 15:27:13 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 15:27:13 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-28 15:27:13 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-28 15:27:13 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek moved to the next phase Draw
+2017-11-28 15:27:13 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has drawn 2 cards
+2017-11-28 15:27:14 [Thread-1] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-28 15:27:14 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek moved to the next phase Draw
+2017-11-28 15:27:14 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-28 15:27:14 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 15:27:14 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 15:27:14 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-28 15:27:14 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-28 15:27:14 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 15:27:14 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 15:27:14 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-28 15:27:14 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-28 15:27:14 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek moved to the next phase Move
+2017-11-28 15:27:15 [Thread-1] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-28 15:27:15 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek moved to the next phase Move
+2017-11-28 15:27:15 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 4th Regiment Suisse has been  seleced
+2017-11-28 15:27:15 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 50 - Bartek Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION
+2017-11-28 15:27:15 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_MOVE_POSITION
+2017-11-28 15:27:16 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 4th Regiment Suisse has been  deselected
+2017-11-28 15:27:16 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has moved unit 4th Regiment Suisse to position Position X: 2 Position Y: 2
+2017-11-28 15:27:16 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 55 - Bartek game.unselectAllUnits()
+2017-11-28 15:27:16 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 57 - Bartek Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT
+2017-11-28 15:27:16 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 15:27:16 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has moved unit 4th Regiment Suisse to position Position X: 2 Position Y: 2
+2017-11-28 15:27:17 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-28 15:27:17 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 15:27:17 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-28 15:27:17 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-28 15:27:17 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-28 15:27:17 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 15:27:17 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-28 15:27:17 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-28 15:27:17 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-28 15:27:17 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek moved to the next phase Combat
+2017-11-28 15:27:18 [Thread-1] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-28 15:27:18 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek moved to the next phase Combat
+2017-11-28 15:27:22 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-28 15:27:22 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 15:27:22 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-28 15:27:22 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-28 15:27:22 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-28 15:27:22 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 15:27:22 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-28 15:27:22 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-28 15:27:22 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-28 15:27:22 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek moved to the next phase Restoration
+2017-11-28 15:27:22 [Thread-1] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-28 15:27:22 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek moved to the next phase Restoration
+2017-11-28 15:27:22 [AWT-EventQueue-0] DEBUG EndTurnCommand.execute line 35 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-28 15:27:22 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has ended his/her phase
+2017-11-28 15:27:23 [Thread-1] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Piotr setInitStateForPhase 
+2017-11-28 15:27:23 [Thread-1] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na NOSELECTION
+2017-11-28 15:27:23 [Thread-1] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Piotr setInitStateForPhase 
+2017-11-28 15:27:23 [Thread-1] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na NOSELECTION
+2017-11-28 15:27:23 [Thread-1] DEBUG CardStateHandler.setState line 59 - Piotr setState MULTIPLE_SELECTION
+2017-11-28 15:27:23 [Thread-1] DEBUG CardStateHandler.setInitStateForPhase line 100 - Piotr setInitStateForPhase MULTIPLE_SELECTION
+2017-11-28 15:27:23 [Thread-1] DEBUG EndTurnCommand.execute line 35 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-28 15:27:23 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has ended his/her phase
+2017-11-28 15:27:24 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1630 - Piotr clicked card: ID [116] Archduke Charles selected 
+2017-11-28 15:27:24 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1630 - Piotr clicked card: ID [72] 4th  Regiment selected 
+2017-11-28 15:27:25 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr discarded ID [116] Archduke Charles selected , ID [72] 4th  Regiment selected , 
+2017-11-28 15:27:26 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr discarded ID [116] Archduke Charles selected , ID [72] 4th  Regiment selected , 
+2017-11-28 15:27:35 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr has drawn 2 cards
+2017-11-28 15:27:35 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-28 15:27:35 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Piotr setInitStateForPhase 
+2017-11-28 15:27:35 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Piotr setState SINGLE_SELECTION
+2017-11-28 15:27:35 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Piotr setInitStateForPhase SINGLE_SELECTION
+2017-11-28 15:27:35 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Piotr setInitStateForPhase 
+2017-11-28 15:27:35 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Piotr setState SINGLE_SELECTION
+2017-11-28 15:27:35 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Piotr setInitStateForPhase SINGLE_SELECTION
+2017-11-28 15:27:35 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr moved to the next phase Draw
+2017-11-28 15:27:36 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr has drawn 2 cards
+2017-11-28 15:27:36 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-28 15:27:36 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Piotr setInitStateForPhase 
+2017-11-28 15:27:36 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 15:27:36 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Piotr setState SINGLE_SELECTION
+2017-11-28 15:27:36 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Piotr setInitStateForPhase SINGLE_SELECTION
+2017-11-28 15:27:36 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Piotr setInitStateForPhase 
+2017-11-28 15:27:36 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 15:27:36 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Piotr setState SINGLE_SELECTION
+2017-11-28 15:27:36 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Piotr setInitStateForPhase SINGLE_SELECTION
+2017-11-28 15:27:36 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr moved to the next phase Move
+2017-11-28 15:27:37 [Thread-2] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-28 15:27:37 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr moved to the next phase Draw
+2017-11-28 15:27:38 [Thread-2] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-28 15:27:38 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr moved to the next phase Move
+2017-11-28 15:27:44 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 38 - Piotrgame.unselectAllUnits()
+2017-11-28 15:27:44 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 6th Grenzers has been  seleced
+2017-11-28 15:27:44 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 50 - Piotr Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION
+2017-11-28 15:27:44 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na PICK_MOVE_POSITION
+2017-11-28 15:27:45 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 6th Grenzers has been  deselected
+2017-11-28 15:27:45 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr has moved unit 6th Grenzers to position Position X: 3 Position Y: 2
+2017-11-28 15:27:45 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 55 - Piotr game.unselectAllUnits()
+2017-11-28 15:27:45 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 57 - Piotr Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT
+2017-11-28 15:27:45 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 15:27:45 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr has moved unit 6th Grenzers to position Position X: 3 Position Y: 2
+2017-11-28 15:27:46 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-28 15:27:46 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Piotr setInitStateForPhase 
+2017-11-28 15:27:46 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na NOSELECTION
+2017-11-28 15:27:46 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Piotr setState SINGLE_SELECTION
+2017-11-28 15:27:46 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Piotr setInitStateForPhase SINGLE_SELECTION
+2017-11-28 15:27:46 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Piotr setInitStateForPhase 
+2017-11-28 15:27:46 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na NOSELECTION
+2017-11-28 15:27:46 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Piotr setState SINGLE_SELECTION
+2017-11-28 15:27:46 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Piotr setInitStateForPhase SINGLE_SELECTION
+2017-11-28 15:27:46 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr moved to the next phase Combat
+2017-11-28 15:27:46 [Thread-2] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-28 15:27:46 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr moved to the next phase Combat
+2017-11-28 15:27:48 [AWT-EventQueue-0] DEBUG CardSingleSelectionState.handleInput line 31 - Piotr zmiana stanu na MapInputStateHandler.CARD_PLAYING_STATE
+2017-11-28 15:27:48 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na CARD_PLAYING_STATE
+2017-11-28 15:27:48 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 4th  Regiment has been  seleced
+2017-11-28 15:27:48 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1630 - Piotr clicked card: ID [73] 4th  Regiment selected 
+2017-11-28 15:27:52 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 4th  Regiment has been  seleced
+2017-11-28 15:27:54 [AWT-EventQueue-0] DEBUG CardCommands.execute line 382 - Piotrzmiana stanu na CardStateHandler.NOSELECTION
+2017-11-28 15:27:54 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Piotr setState NOSELECTION
+2017-11-28 15:27:54 [AWT-EventQueue-0] DEBUG CardCommands.execute line 384 - Piotrzmiana stanu na MapInputStateHandler.NOSELECTION
+2017-11-28 15:27:54 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na NOSELECTION
+2017-11-28 15:27:54 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr attacked 4th Regiment Suisse with 4th  Regiment
+2017-11-28 15:27:55 [Thread-2] DEBUG CardCommands.execute line 375 - Bartekzmiana stanu na CardStateHandler.MULTIPLE_PICK
+2017-11-28 15:27:55 [Thread-2] DEBUG CardStateHandler.setState line 59 - Bartek setState MULTIPLE_SELECTION
+2017-11-28 15:27:55 [Thread-2] DEBUG CardCommands.execute line 377 - Bartekzmiana stanu na MapInputStateHandler.NOSELECTION
+2017-11-28 15:27:55 [Thread-2] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-28 15:27:55 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr attacked 4th Regiment Suisse with 4th  Regiment
+2017-11-28 15:28:00 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1630 - Bartek clicked card: ID [166] Louis Nicolas Davout selected 
+2017-11-28 15:28:01 [AWT-EventQueue-0] DEBUG CardCommands.execute line 722 - Bartekzmiana stanu na CardStateHandler.NOSELECTION
+2017-11-28 15:28:01 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState NOSELECTION
+2017-11-28 15:28:01 [AWT-EventQueue-0] DEBUG CardCommands.execute line 724 - Bartekzmiana stanu na MapInputStateHandler.NOSELECTION
+2017-11-28 15:28:01 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-28 15:28:01 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Louis Nicolas Davout were played as defence card
+2017-11-28 15:28:02 [Thread-1] DEBUG CardCommands.execute line 715 - Piotrzmiana stanu na CardStateHandler.MULTIPLE_PICK
+2017-11-28 15:28:02 [Thread-1] DEBUG CardStateHandler.setState line 59 - Piotr setState MULTIPLE_SELECTION
+2017-11-28 15:28:02 [Thread-1] DEBUG CardCommands.execute line 717 - Piotrzmiana stanu na MapInputStateHandler.NOSELECTION
+2017-11-28 15:28:02 [Thread-1] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na NOSELECTION
+2017-11-28 15:28:02 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Louis Nicolas Davout were played as defence card
+2017-11-28 15:28:10 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1630 - Piotr clicked card: ID [71] 4th  Regiment playing mode ASSAULT selected 
+2017-11-28 15:28:16 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr dices: d6 [] d8 [] d10 [4,10,] Att Val :7 Att Val :2 Def Val :10 Def Bon :0 Piotr dices: d6 [] d8 [] d10 [4,10,] 
+2017-11-28 15:28:16 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr dices: d6 [] d8 [] d10 [4,10,] Att Val :7 Att Val :2 Def Val :10 Def Bon :0 Piotr dices: d6 [] d8 [] d10 [4,10,] 
+2017-11-28 15:29:04 [AWT-EventQueue-0] DEBUG TakeHitCommand.execute line 86 - Piotr Zmiana stanu na MapInputStateHandler.NOSELECTION 
+2017-11-28 15:29:04 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na NOSELECTION
+2017-11-28 15:29:04 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Combat ends with defending unit takes a hit
+2017-11-28 15:29:04 [Thread-2] DEBUG TakeHitCommand.execute line 86 - Bartek Zmiana stanu na MapInputStateHandler.NOSELECTION 
+2017-11-28 15:29:04 [Thread-2] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-28 15:29:04 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Combat ends with defending unit takes a hit
+2017-11-28 15:30:40 [AWT-EventQueue-0] DEBUG GameWindow.buttonToNextPhaseActionPerformed line 2040 - BartekZmiana stanu MapInputStateHandler.NOSELECTION
+2017-11-28 15:30:40 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-28 15:30:41 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has finished setup
+2017-11-28 15:30:42 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has finished setup
+2017-11-28 15:30:54 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr has finished setup
+2017-11-28 15:30:55 [Thread-2] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 15:30:55 [Thread-2] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-28 15:30:55 [Thread-2] DEBUG CardStateHandler.setState line 59 - Bartek setState MULTIPLE_SELECTION
+2017-11-28 15:30:55 [Thread-2] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase MULTIPLE_SELECTION
+2017-11-28 15:30:55 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr has finished setup
+2017-11-28 15:30:57 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-28 15:30:57 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 15:30:57 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-28 15:30:57 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-28 15:30:57 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 15:30:57 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-28 15:30:57 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-28 15:30:57 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek moved to the next phase Draw
+2017-11-28 15:30:58 [Thread-1] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-28 15:30:58 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek moved to the next phase Draw
+2017-11-28 15:30:58 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-28 15:30:58 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 15:30:58 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 15:30:58 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-28 15:30:58 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-28 15:30:58 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 15:30:58 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 15:30:58 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-28 15:30:58 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-28 15:30:58 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek moved to the next phase Move
+2017-11-28 15:30:59 [Thread-1] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-28 15:30:59 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek moved to the next phase Move
+2017-11-28 15:31:02 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 1st Cuirassiers has been  seleced
+2017-11-28 15:31:02 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 50 - Bartek Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION
+2017-11-28 15:31:02 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_MOVE_POSITION
+2017-11-28 15:31:02 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 1st Cuirassiers has been  deselected
+2017-11-28 15:31:02 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has moved unit 1st Cuirassiers to position Position X: 2 Position Y: 2
+2017-11-28 15:31:02 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 55 - Bartek game.unselectAllUnits()
+2017-11-28 15:31:02 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 57 - Bartek Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT
+2017-11-28 15:31:02 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 15:31:03 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has moved unit 1st Cuirassiers to position Position X: 2 Position Y: 2
+2017-11-28 15:31:04 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-28 15:31:04 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 15:31:04 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-28 15:31:04 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-28 15:31:04 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-28 15:31:04 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 15:31:04 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-28 15:31:04 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-28 15:31:04 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-28 15:31:04 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek moved to the next phase Combat
+2017-11-28 15:31:05 [Thread-1] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-28 15:31:05 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek moved to the next phase Combat
+2017-11-28 15:31:20 [AWT-EventQueue-0] DEBUG CardSingleSelectionState.handleInput line 31 - Bartek zmiana stanu na MapInputStateHandler.CARD_PLAYING_STATE
+2017-11-28 15:31:20 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na CARD_PLAYING_STATE
+2017-11-28 15:31:20 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 1st Cuirassiers has been  seleced
+2017-11-28 15:31:20 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1634 - Bartek clicked card: ID [124] 1st Cuirassiers playing mode BOMBARD selected 
+2017-11-28 15:31:22 [AWT-EventQueue-0] DEBUG CardCommands.execute line 398 - Bartekzmiana stanu na CardStateHandler.NOSELECTION
+2017-11-28 15:31:22 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState NOSELECTION
+2017-11-28 15:31:22 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek attacked 3rd  Regiment with 1st Cuirassiers
+2017-11-28 15:31:23 [Thread-1] DEBUG CardCommands.execute line 404 - Piotrzmiana stanu na CardStateHandler.NOSELECTION
+2017-11-28 15:31:23 [Thread-1] DEBUG CardStateHandler.setState line 59 - Piotr setState NOSELECTION
+2017-11-28 15:31:23 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek attacked 3rd  Regiment with 1st Cuirassiers
+2017-11-28 15:31:35 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek dices: d6 [] d8 [] d10 [8,] Att Val :0 Att Val :0 Def Val :6 Def Bon :0 Bartek dices: d6 [] d8 [] d10 [8,] 
+2017-11-28 15:31:36 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek dices: d6 [] d8 [] d10 [8,] Att Val :0 Att Val :0 Def Val :6 Def Bon :0 Bartek dices: d6 [] d8 [] d10 [8,] 
+2017-11-28 15:32:15 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 1st Cuirassiers has been  deselected
+2017-11-28 15:32:15 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-28 15:32:15 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 15:32:15 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-28 15:32:15 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-28 15:32:15 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-28 15:32:15 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 15:32:15 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-28 15:32:15 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-28 15:32:15 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-28 15:32:15 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek moved to the next phase Restoration
+2017-11-28 15:32:15 [Thread-1] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-28 15:32:15 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek moved to the next phase Restoration
+2017-11-28 22:15:15 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1676 - Piotr clicked card: ID [73] 4th  Regiment deselected
+2017-11-28 22:15:15 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1676 - Piotr clicked card: ID [71] 4th  Regiment deselected
+2017-11-28 22:15:16 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1676 - Piotr clicked card: ID [70] 4th  Regiment deselected
+2017-11-28 22:17:06 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1676 - Bartek clicked card: ID [123] 1st Cuirassiers deselected
+2017-11-28 22:18:39 [AWT-EventQueue-0] DEBUG GameWindow.buttonToNextPhaseActionPerformed line 2082 - BartekZmiana stanu MapInputStateHandler.NOSELECTION
+2017-11-28 22:18:39 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-28 22:18:40 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has finished setup
+2017-11-28 22:18:40 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has finished setup
+2017-11-28 22:18:47 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr has finished setup
+2017-11-28 22:18:47 [Thread-2] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 22:18:47 [Thread-2] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-28 22:18:47 [Thread-2] DEBUG CardStateHandler.setState line 59 - Bartek setState MULTIPLE_SELECTION
+2017-11-28 22:18:47 [Thread-2] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase MULTIPLE_SELECTION
+2017-11-28 22:18:47 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr has finished setup
+2017-11-28 22:18:48 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1676 - Bartek clicked card: ID [121] 1st Cuirassiers selected 
+2017-11-28 22:18:48 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1676 - Bartek clicked card: ID [120] 1st Cuirassiers selected 
+2017-11-28 22:18:50 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek discarded ID [121] 1st Cuirassiers selected , ID [120] 1st Cuirassiers selected , 
+2017-11-28 22:18:50 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek discarded ID [121] 1st Cuirassiers selected , ID [120] 1st Cuirassiers selected , 
+2017-11-28 22:20:44 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has drawn 2 cards
+2017-11-28 22:20:44 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-28 22:20:44 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 22:20:44 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-28 22:20:44 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-28 22:20:44 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 22:20:44 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-28 22:20:44 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-28 22:20:44 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek moved to the next phase Draw
+2017-11-28 22:20:45 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has drawn 2 cards
+2017-11-28 22:20:46 [Thread-1] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-28 22:20:46 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek moved to the next phase Draw
+2017-11-28 22:20:47 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-28 22:20:47 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 22:20:47 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 22:20:47 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-28 22:20:47 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-28 22:20:47 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 22:20:47 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 22:20:47 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-28 22:20:47 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-28 22:20:47 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek moved to the next phase Move
+2017-11-28 22:20:47 [Thread-1] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-28 22:20:47 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek moved to the next phase Move
+2017-11-28 22:21:44 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 38 - Piotrgame.unselectAllUnits()
+2017-11-28 22:21:44 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 14th Regiment has been  seleced
+2017-11-28 22:21:44 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 50 - Piotr Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION
+2017-11-28 22:21:44 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na PICK_MOVE_POSITION
+2017-11-28 22:21:45 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 14th Regiment has been  deselected
+2017-11-28 22:21:45 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr has moved unit 14th Regiment to position Position X: 5 Position Y: 2
+2017-11-28 22:21:45 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 55 - Piotr game.unselectAllUnits()
+2017-11-28 22:21:45 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 57 - Piotr Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT
+2017-11-28 22:21:45 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 22:21:46 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr has moved unit 14th Regiment to position Position X: 5 Position Y: 2
+2017-11-28 22:21:51 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 38 - Piotrgame.unselectAllUnits()
+2017-11-28 22:21:51 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 14th Regiment has been  seleced
+2017-11-28 22:21:51 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 50 - Piotr Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION
+2017-11-28 22:21:51 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na PICK_MOVE_POSITION
+2017-11-28 22:21:51 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 14th Regiment has been  deselected
+2017-11-28 22:21:51 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr has moved unit 14th Regiment to position Position X: 5 Position Y: 3
+2017-11-28 22:21:51 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 55 - Piotr game.unselectAllUnits()
+2017-11-28 22:21:51 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 57 - Piotr Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT
+2017-11-28 22:21:51 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 22:21:51 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr has moved unit 14th Regiment to position Position X: 5 Position Y: 3
+2017-11-28 22:21:53 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 38 - Piotrgame.unselectAllUnits()
+2017-11-28 22:21:53 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 6th Grenzers has been  seleced
+2017-11-28 22:21:53 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 50 - Piotr Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION
+2017-11-28 22:21:53 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na PICK_MOVE_POSITION
+2017-11-28 22:21:53 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 6th Grenzers has been  deselected
+2017-11-28 22:21:53 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr has moved unit 6th Grenzers to position Position X: 3 Position Y: 2
+2017-11-28 22:21:53 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 55 - Piotr game.unselectAllUnits()
+2017-11-28 22:21:53 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 57 - Piotr Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT
+2017-11-28 22:21:53 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 22:21:54 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 38 - Piotrgame.unselectAllUnits()
+2017-11-28 22:21:54 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 6th Grenzers has been  seleced
+2017-11-28 22:21:54 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 50 - Piotr Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION
+2017-11-28 22:21:54 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na PICK_MOVE_POSITION
+2017-11-28 22:21:54 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr has moved unit 6th Grenzers to position Position X: 3 Position Y: 2
+2017-11-28 22:21:54 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 6th Grenzers has been  deselected
+2017-11-28 22:21:54 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr has moved unit 6th Grenzers to position Position X: 4 Position Y: 2
+2017-11-28 22:21:54 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 55 - Piotr game.unselectAllUnits()
+2017-11-28 22:21:54 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 57 - Piotr Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT
+2017-11-28 22:21:54 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 22:21:55 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr has moved unit 6th Grenzers to position Position X: 4 Position Y: 2
+2017-11-28 22:21:56 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 38 - Piotrgame.unselectAllUnits()
+2017-11-28 22:21:56 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 4th  Regiment has been  seleced
+2017-11-28 22:21:56 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 50 - Piotr Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION
+2017-11-28 22:21:56 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na PICK_MOVE_POSITION
+2017-11-28 22:21:56 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 4th  Regiment has been  deselected
+2017-11-28 22:21:56 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr has moved unit 4th  Regiment to position Position X: 2 Position Y: 2
+2017-11-28 22:21:56 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 55 - Piotr game.unselectAllUnits()
+2017-11-28 22:21:56 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 57 - Piotr Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT
+2017-11-28 22:21:56 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 22:21:56 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 38 - Piotrgame.unselectAllUnits()
+2017-11-28 22:21:56 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 4th  Regiment has been  seleced
+2017-11-28 22:21:56 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 50 - Piotr Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION
+2017-11-28 22:21:56 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na PICK_MOVE_POSITION
+2017-11-28 22:21:56 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr has moved unit 4th  Regiment to position Position X: 2 Position Y: 2
+2017-11-28 22:21:57 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 4th  Regiment has been  deselected
+2017-11-28 22:21:57 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr has moved unit 4th  Regiment to position Position X: 2 Position Y: 3
+2017-11-28 22:21:57 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 55 - Piotr game.unselectAllUnits()
+2017-11-28 22:21:57 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 57 - Piotr Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT
+2017-11-28 22:21:57 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 22:21:57 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr has moved unit 4th  Regiment to position Position X: 2 Position Y: 3
+2017-11-28 22:22:50 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 8th Regiment Legere has been  seleced
+2017-11-28 22:22:50 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 50 - Bartek Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION
+2017-11-28 22:22:50 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_MOVE_POSITION
+2017-11-28 22:22:51 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 8th Regiment Legere has been  deselected
+2017-11-28 22:22:51 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has moved unit 8th Regiment Legere to position Position X: 3 Position Y: 4
+2017-11-28 22:22:51 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 55 - Bartek game.unselectAllUnits()
+2017-11-28 22:22:51 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 57 - Bartek Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT
+2017-11-28 22:22:51 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 22:22:51 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has moved unit 8th Regiment Legere to position Position X: 3 Position Y: 4
+2017-11-28 22:22:54 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-28 22:22:54 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 22:22:54 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-28 22:22:54 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-28 22:22:54 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-28 22:22:54 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 22:22:54 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-28 22:22:54 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-28 22:22:54 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-28 22:22:54 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek moved to the next phase Combat
+2017-11-28 22:22:54 [Thread-1] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-28 22:22:54 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek moved to the next phase Combat
+2017-11-28 22:23:00 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-28 22:23:00 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 22:23:00 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-28 22:23:00 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-28 22:23:00 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-28 22:23:00 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 22:23:00 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-28 22:23:00 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Bartek setState SINGLE_SELECTION
+2017-11-28 22:23:00 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase SINGLE_SELECTION
+2017-11-28 22:23:00 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek moved to the next phase Restoration
+2017-11-28 22:23:00 [Thread-1] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-28 22:23:00 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek moved to the next phase Restoration
+2017-11-28 22:23:05 [AWT-EventQueue-0] DEBUG EndTurnCommand.execute line 35 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-28 22:23:05 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Bartek wykonano command Bartek has ended his/her phase
+2017-11-28 22:23:05 [Thread-1] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Piotr setInitStateForPhase 
+2017-11-28 22:23:05 [Thread-1] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na NOSELECTION
+2017-11-28 22:23:05 [Thread-1] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Piotr setInitStateForPhase 
+2017-11-28 22:23:05 [Thread-1] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na NOSELECTION
+2017-11-28 22:23:05 [Thread-1] DEBUG CardStateHandler.setState line 59 - Piotr setState MULTIPLE_SELECTION
+2017-11-28 22:23:05 [Thread-1] DEBUG CardStateHandler.setInitStateForPhase line 100 - Piotr setInitStateForPhase MULTIPLE_SELECTION
+2017-11-28 22:23:05 [Thread-1] DEBUG EndTurnCommand.execute line 35 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-28 22:23:05 [Thread-1] DEBUG CommandQueue.storeAndExecute line 45 - Piotr wykonano command Bartek has ended his/her phase
+2017-11-28 22:23:11 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1676 - Piotr clicked card: ID [73] 4th  Regiment selected 
+2017-11-28 22:23:13 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1676 - Piotr clicked card: ID [73] 4th  Regiment deselected
+2017-11-28 22:23:15 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1676 - Piotr clicked card: ID [70] 4th  Regiment selected 
+2017-11-28 22:23:16 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr discarded ID [70] 4th  Regiment selected , 
+2017-11-28 22:23:16 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr discarded ID [70] 4th  Regiment selected , 
+2017-11-28 22:23:17 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr has drawn 1 cards
+2017-11-28 22:23:17 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-28 22:23:17 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Piotr setInitStateForPhase 
+2017-11-28 22:23:17 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Piotr setState SINGLE_SELECTION
+2017-11-28 22:23:17 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Piotr setInitStateForPhase SINGLE_SELECTION
+2017-11-28 22:23:17 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Piotr setInitStateForPhase 
+2017-11-28 22:23:17 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Piotr setState SINGLE_SELECTION
+2017-11-28 22:23:17 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Piotr setInitStateForPhase SINGLE_SELECTION
+2017-11-28 22:23:17 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr moved to the next phase Draw
+2017-11-28 22:23:18 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr has drawn 1 cards
+2017-11-28 22:23:18 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-28 22:23:18 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Piotr setInitStateForPhase 
+2017-11-28 22:23:18 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 22:23:18 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Piotr setState SINGLE_SELECTION
+2017-11-28 22:23:18 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Piotr setInitStateForPhase SINGLE_SELECTION
+2017-11-28 22:23:18 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Piotr setInitStateForPhase 
+2017-11-28 22:23:18 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 22:23:18 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Piotr setState SINGLE_SELECTION
+2017-11-28 22:23:18 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Piotr setInitStateForPhase SINGLE_SELECTION
+2017-11-28 22:23:18 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr moved to the next phase Move
+2017-11-28 22:23:19 [Thread-2] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-28 22:23:19 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr moved to the next phase Draw
+2017-11-28 22:23:20 [Thread-2] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-28 22:23:20 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr moved to the next phase Move
+2017-11-28 22:23:23 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 38 - Piotrgame.unselectAllUnits()
+2017-11-28 22:23:23 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 4th  Regiment has been  seleced
+2017-11-28 22:23:23 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 50 - Piotr Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION
+2017-11-28 22:23:23 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na PICK_MOVE_POSITION
+2017-11-28 22:23:23 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 4th  Regiment has been  deselected
+2017-11-28 22:23:23 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr has moved unit 4th  Regiment to position Position X: 2 Position Y: 4
+2017-11-28 22:23:23 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 55 - Piotr game.unselectAllUnits()
+2017-11-28 22:23:23 [AWT-EventQueue-0] DEBUG MapPickAvalibleUnitState.handleInput line 57 - Piotr Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT
+2017-11-28 22:23:23 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na PICK_ONE_UNIT
+2017-11-28 22:23:24 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr has moved unit 4th  Regiment to position Position X: 2 Position Y: 4
+2017-11-28 22:23:25 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-28 22:23:25 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Piotr setInitStateForPhase 
+2017-11-28 22:23:25 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na NOSELECTION
+2017-11-28 22:23:25 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Piotr setState SINGLE_SELECTION
+2017-11-28 22:23:25 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Piotr setInitStateForPhase SINGLE_SELECTION
+2017-11-28 22:23:25 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Piotr setInitStateForPhase 
+2017-11-28 22:23:25 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na NOSELECTION
+2017-11-28 22:23:25 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Piotr setState SINGLE_SELECTION
+2017-11-28 22:23:25 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Piotr setInitStateForPhase SINGLE_SELECTION
+2017-11-28 22:23:25 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr moved to the next phase Combat
+2017-11-28 22:23:25 [Thread-2] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-28 22:23:25 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr moved to the next phase Combat
+2017-11-28 22:23:26 [AWT-EventQueue-0] DEBUG CardSingleSelectionState.handleInput line 31 - Piotr zmiana stanu na MapInputStateHandler.CARD_PLAYING_STATE
+2017-11-28 22:23:26 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na CARD_PLAYING_STATE
+2017-11-28 22:23:26 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 4th  Regiment has been  seleced
+2017-11-28 22:23:26 [AWT-EventQueue-0] DEBUG GameWindow.playerHandPanelMouseClicked line 1676 - Piotr clicked card: ID [72] 4th  Regiment selected 
+2017-11-28 22:23:28 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 4th  Regiment has been  seleced
+2017-11-28 22:23:31 [AWT-EventQueue-0] DEBUG CardCommands.execute line 398 - Piotrzmiana stanu na CardStateHandler.NOSELECTION
+2017-11-28 22:23:31 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Piotr setState NOSELECTION
+2017-11-28 22:23:31 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr attacked 8th Regiment Legere with 4th  Regiment
+2017-11-28 22:23:32 [Thread-2] DEBUG CardCommands.execute line 404 - Bartekzmiana stanu na CardStateHandler.NOSELECTION
+2017-11-28 22:23:32 [Thread-2] DEBUG CardStateHandler.setState line 59 - Bartek setState NOSELECTION
+2017-11-28 22:23:32 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr attacked 8th Regiment Legere with 4th  Regiment
+2017-11-28 22:23:35 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr dices: d6 [2,3,] d8 [] d10 [] Att Val :5 Att Val :0 Def Val :6 Def Bon :0 Piotr dices: d6 [2,3,] d8 [] d10 [] 
+2017-11-28 22:23:36 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr dices: d6 [2,3,] d8 [] d10 [] Att Val :5 Att Val :0 Def Val :6 Def Bon :0 Piotr dices: d6 [2,3,] d8 [] d10 [] 
+2017-11-28 22:26:11 [AWT-EventQueue-0] DEBUG Unit.setSelected line 117 - Unit 4th  Regiment has been  deselected
+2017-11-28 22:26:11 [AWT-EventQueue-0] DEBUG NextPhaseCommand.execute line 67 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-28 22:26:11 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Piotr setInitStateForPhase 
+2017-11-28 22:26:11 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na NOSELECTION
+2017-11-28 22:26:11 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Piotr setState SINGLE_SELECTION
+2017-11-28 22:26:11 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Piotr setInitStateForPhase SINGLE_SELECTION
+2017-11-28 22:26:11 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Piotr setInitStateForPhase 
+2017-11-28 22:26:11 [AWT-EventQueue-0] DEBUG MapInputStateHandler.setState line 45 - Piotr Zmiana stanu na NOSELECTION
+2017-11-28 22:26:11 [AWT-EventQueue-0] DEBUG CardStateHandler.setState line 59 - Piotr setState SINGLE_SELECTION
+2017-11-28 22:26:11 [AWT-EventQueue-0] DEBUG CardStateHandler.setInitStateForPhase line 100 - Piotr setInitStateForPhase SINGLE_SELECTION
+2017-11-28 22:26:11 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr moved to the next phase Restoration
+2017-11-28 22:26:11 [Thread-2] DEBUG NextPhaseCommand.execute line 67 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-28 22:26:11 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr moved to the next phase Restoration
+2017-11-28 22:26:13 [AWT-EventQueue-0] DEBUG EndTurnCommand.execute line 35 - Piotrgame.getCardCommandFactory().resetFactory()
+2017-11-28 22:26:13 [AWT-EventQueue-0] DEBUG CommandQueue.storeAndExecuteAndSend line 70 - Piotr wykonano command Piotr has ended his/her phase
+2017-11-28 22:26:14 [Thread-2] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 22:26:14 [Thread-2] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-28 22:26:14 [Thread-2] DEBUG MapInputStateHandler.setInitStateForPhase line 91 - Bartek setInitStateForPhase 
+2017-11-28 22:26:14 [Thread-2] DEBUG MapInputStateHandler.setState line 45 - Bartek Zmiana stanu na NOSELECTION
+2017-11-28 22:26:14 [Thread-2] DEBUG CardStateHandler.setState line 59 - Bartek setState MULTIPLE_SELECTION
+2017-11-28 22:26:14 [Thread-2] DEBUG CardStateHandler.setInitStateForPhase line 100 - Bartek setInitStateForPhase MULTIPLE_SELECTION
+2017-11-28 22:26:14 [Thread-2] DEBUG EndTurnCommand.execute line 35 - Bartekgame.getCardCommandFactory().resetFactory()
+2017-11-28 22:26:14 [Thread-2] DEBUG CommandQueue.storeAndExecute line 45 - Bartek wykonano command Piotr has ended his/her phase

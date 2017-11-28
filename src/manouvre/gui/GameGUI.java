@@ -106,8 +106,11 @@ public class GameGUI {
     void paintInfoPanel(Graphics g){
     
         
-        final int TERRAIN_X_OFFSET = 160;
-        final int TERRAIN_Y_OFFSET = 0;
+        final int TERRAIN_X_OFFSET = 460;
+        final int TERRAIN_Y_OFFSET = 50;
+        
+        final int UNIT_X_OFFSET = 300;
+        final int UNIT_Y_OFFSET = 50;
        
         final int DECRIPTION_Y_GAP = 12;
         final int DECRIPTION_Y_OFFSET = TERRAIN_Y_OFFSET + 76 ;
@@ -119,7 +122,7 @@ public class GameGUI {
         UnitGUI unit =  getUnitGuiOnMapGui(hoverPosition);
         if(unit != null)
             
-            g.drawImage(unit.getImg(), 0, 0,
+            g.drawImage(unit.getImg(), UNIT_X_OFFSET, UNIT_Y_OFFSET,
                     unit.getImg().getWidth(),
                     unit.getImg().getHeight(), null);
         
@@ -148,6 +151,44 @@ public class GameGUI {
             }
         }  
         }
+        
+        final int START_X = 10;
+        final int START_Y = 37;
+        g.setColor(Color.white);
+        g.setFont(new Font("Bookman Old Style", 1, 20));
+        if(game.getInfoBarText() != null)
+            g.drawString(game.getInfoBarText(), START_X, START_Y);
+        
+        
+         final int START_X_COMBAT_PANEL = 10;
+        final int START_Y_COMBAT_PANEL =90;
+        final int Y_GAP = 16;
+                
+        g.setColor(Color.white);
+        g.setFont(new Font("Bookman Old Style", 1, 15));
+        
+        if(game.getCombat()!=null)
+            
+        {
+            Combat combat =  game.getCombat();
+            
+            g.drawString("Attack: " + combat.getAttackValue(), START_X_COMBAT_PANEL,START_Y_COMBAT_PANEL+ Y_GAP);
+            
+            g.drawString("Defense: " + combat.getDefenceValue(), START_X_COMBAT_PANEL, START_Y_COMBAT_PANEL + 2*Y_GAP);
+            
+            g.drawString("Def.Terrain: " + combat.getDefenseTerrain().getTypeToString(), START_X_COMBAT_PANEL, START_Y_COMBAT_PANEL+ 3*Y_GAP);
+            
+            g.drawString("Ter.Def.Boznus: " + combat.getDefenseBonus(), START_X_COMBAT_PANEL,START_Y_COMBAT_PANEL+ 4*Y_GAP);
+            
+            g.drawString("Att.Terrain: " + combat.getAttackTerrain().getTypeToString(), START_X_COMBAT_PANEL, START_Y_COMBAT_PANEL+  5*Y_GAP);
+            
+            g.drawString("Ter.Att.Bonus: " + combat.getAttackBonus(), START_X_COMBAT_PANEL, START_Y_COMBAT_PANEL+ 6*Y_GAP);
+            
+            g.drawString("Leader Bonus: " + combat.getLeaderBonus(), START_X_COMBAT_PANEL,START_Y_COMBAT_PANEL+  7*Y_GAP);
+  
+        }
+        
+        
                
     }
     
@@ -908,6 +949,12 @@ public class GameGUI {
     {   
         cardSetsGUI.paintHand(g, game);
     }
+    
+    
+    public void paintOpponentHand(Graphics g)                 
+    {   
+        cardSetsGUI.paintOpponentHand(g, game);
+    }
 
     
    
@@ -968,55 +1015,7 @@ public class GameGUI {
     
     }
     
-    public void paintInfoBarPanel(Graphics g)
-    {
-        final int START_X = 10;
-        final int START_Y = 37;
-        g.setColor(Color.white);
-        g.setFont(new Font("Bookman Old Style", 1, 20));
-        if(game.getInfoBarText() != null)
-            g.drawString(game.getInfoBarText(), START_X, START_Y);
-    }
    
-
-   
-    public void paintCombatPanel(Graphics g){ //paint all the details of the cards and units on the table
-      
-        
-    }
-    
-    public void paintCalculationCombatPanel(Graphics g) {
-        
-        final int START_X_COMBAT_PANEL = 10;
-        final int START_Y_COMBAT_PANEL = 16;
-        
-        g.setColor(Color.white);
-        g.setFont(new Font("Bookman Old Style", 1, 15));
-        
-        if(game.getCombat()!=null)
-            
-        {
-            Combat combat =  game.getCombat();
-            
-            g.drawString("Attack: " + combat.getAttackValue(), START_X_COMBAT_PANEL, START_Y_COMBAT_PANEL);
-            
-            g.drawString("Defense: " + combat.getDefenceValue(), START_X_COMBAT_PANEL, 2*START_Y_COMBAT_PANEL);
-            
-            g.drawString("Def.Terrain: " + combat.getDefenseTerrain().getTypeToString(), START_X_COMBAT_PANEL, 3*START_Y_COMBAT_PANEL);
-            
-            g.drawString("Ter.Def.Boznus: " + combat.getDefenseBonus(), START_X_COMBAT_PANEL, 4*START_Y_COMBAT_PANEL);
-            
-            g.drawString("Att.Terrain: " + combat.getAttackTerrain().getTypeToString(), START_X_COMBAT_PANEL, 5*START_Y_COMBAT_PANEL);
-            
-            g.drawString("Ter.Att.Bonus: " + combat.getAttackBonus(), START_X_COMBAT_PANEL, 6*START_Y_COMBAT_PANEL);
-            
-            g.drawString("Leader Bonus: " + combat.getLeaderBonus(), START_X_COMBAT_PANEL, 7*START_Y_COMBAT_PANEL);
-            
-            
-            
-        }
-    }
-    
     private void paintDices(Graphics g){
         
         final int STARTING_D6_X = 480;
@@ -1137,4 +1136,6 @@ public class GameGUI {
     }
 
   
+    
+    
 }

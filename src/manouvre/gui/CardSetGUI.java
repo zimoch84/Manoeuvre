@@ -28,7 +28,7 @@ import manouvre.game.Dice;
    /*
         Hand pixel constantances
    */
-    public static final int CARDPADDINGTOP = 40;
+    public static final int CARDPADDINGTOP = 10;
     public static final int CARDPADDINGLEFT = 10;
     public static final int GAP = 5;
     
@@ -137,7 +137,21 @@ import manouvre.game.Dice;
     public String getCardNameByPosInSet(int cardPosition){
        return cardListGui.get(cardPosition).card.getCardName();     
     }
-    
+    public void paintOpponentHand(Graphics g, Game game )
+    {
+        CardSet opponentHand=game.getOpponentPlayer().getHand();
+        for ( int i=0; i < opponentHand.getCardList().size(); i++) 
+        {
+            Card opponentCard = opponentHand.getCardList().get(i);
+            CardGUI oppCardGUI = new CardGUI(opponentCard);
+            if(game.showOpponentHand())
+            g.drawImage(oppCardGUI.getImgFull(), CARDPADDINGLEFT+(CardGUI.WIDTH+GAP)* i  ,
+                    CARDPADDINGTOP, CardGUI.WIDTH, CardGUI.HEIGHT, null);  
+            else 
+            g.drawImage(oppCardGUI.getImgBackCover(), CARDPADDINGLEFT+(CardGUI.WIDTH+GAP)* i  ,
+                    CARDPADDINGTOP, CardGUI.WIDTH, CardGUI.HEIGHT, null);  
+        }
+    }
     
      public void paintHand(Graphics g, Game game)                 
     {   
@@ -264,15 +278,18 @@ import manouvre.game.Dice;
     
      public void paintDiscard(Graphics g, boolean paintOpponent, Game game){
         CardGUI cardGui;
-        int x=35,y=40,w=195,h=300; //cropp image
-        int width=round(w*CardGUI.SCALE_FACTOR), height=round(h*CardGUI.SCALE_FACTOR);
+        //int x=35,y=40,w=195,h=300; //cropp image
+        //int width=round(w*CardGUI.SCALE_FACTOR), height=round(h*CardGUI.SCALE_FACTOR);
         int cardPaddingTop=20;
         int cardPaddingLeft=8;
+       
         if (paintOpponent==true){
             if(game.getOpponentPlayer().getDiscardPile().size()>0){
                 cardGui=new CardGUI(game.getOpponentPlayer().getDiscardPile().getLastCard(false));
-                Image image = cropImage(cardGui.getImgFull(),x,y,w,h);
-                 g.drawImage(image, cardPaddingLeft, cardPaddingTop, width, height, null);  
+                 Image image = cardGui.getImgFull();
+                
+                 g.drawImage(image, 0  ,cardPaddingTop
+                    , CardGUI.WIDTH, CardGUI.HEIGHT, null); 
             }
             else{
                 g.setColor(Color.white);
@@ -281,13 +298,12 @@ import manouvre.game.Dice;
             }   
         }
         else{
-            if(discardGUI != null){
-                /*
-                We take first top card from list
-                */
-                Image image = 
-                cropImage(discardGUI.getImgFull(),x,y,w,h);
-                g.drawImage(image, cardPaddingLeft, cardPaddingTop, width, height, null);  
+            if(game.getCurrentPlayer().getDiscardPile().size()>0){
+                
+                cardGui=new CardGUI(game.getCurrentPlayer().getDiscardPile().getLastCard(false));
+                Image image = cardGui.getImgFull();
+                g.drawImage(image, 0  ,cardPaddingTop
+                    , CardGUI.WIDTH, CardGUI.HEIGHT, null); 
             }
             else{
                 g.setColor(Color.white);

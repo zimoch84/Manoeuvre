@@ -38,27 +38,42 @@ public class CardSet extends Observable implements CardSetInterface, Serializabl
      * @param nation - number of the nation - for details see CardInterface
      * shuffleDeck - to made a Deck
      */
-    public CardSet(int size, int nation){ 
-        this.cardSetSize=size;
+    public CardSet(int nation, String name){ 
+        
         this.nation=nation;
-        makeDeck(size); 
-        this.name = "DRAW";
         
-    }
-    /**
-     * Establish object for HAND 
-     */
-    public CardSet(int size){
-         this.cardSetSize=size; 
-         this.name = "HAND";
-        
-    } 
-    /**
-    * Establish empty object for USED CARDS 
-    */
-    public CardSet(String name){ 
-        this.cardSetSize=60;
-        this.name = name;
+        switch (name){
+            case  "DRAW" : {
+            makeDeck(); 
+            this.name = "DRAW";
+            this.cardSetSize=60;
+            break;
+            }
+            case "HAND" :
+            {
+            this.cardSetSize=5;
+            this.name = "HAND";
+            break;
+            }
+            case "DISCARD":
+            {
+            this.cardSetSize=60;
+            this.name = "DISCARD";
+            break;
+            }
+            case "TABLE":{
+            this.cardSetSize=8;
+            this.name = "TABLE";
+            break;
+            }
+            case   "TABLE_DEFENDING":
+               this.cardSetSize=8;
+            this.name = "TABLE_DEFENDING";
+            break;
+            case "TEST" :
+             this.cardSetSize=60;
+            this.name = "TABLE_DEFENDING";
+            }
     }
 
     public boolean isCardSelected() {
@@ -75,8 +90,9 @@ public class CardSet extends Observable implements CardSetInterface, Serializabl
      * Get cards for specific nation out of all (480) 
      * @param range 
      */
-    public void makeDeck(int range) {   
+    public void makeDeck() {   
         int cardID = 0;
+        int range = 60;
         for (int i=0; i<range; i++){
             switch (nation){
                 case CardInterface.BR:
@@ -118,8 +134,39 @@ public class CardSet extends Observable implements CardSetInterface, Serializabl
      */
     public void moveTopXCardsTo(int range, CardSet otherCardSet){
 
+        if(name.equals("DRAW")){
+        
+            if(size()< range) 
+            {
+                for(int i=0; i<size(); i++) 
+                    moveCardTo(getLastCard(false), otherCardSet);
+                /*
+                Empty discard pile and set nightfall in game
+                */
+                notifyObservers("LAST_CARD_DRAWN");
+                /*
+                Make new clean deck and remove cards that are in hand already
+                */
+                makeDeck();
+                
+                /*
+                Remove cards from deck that are in hand already
+                */
+                for(Card cardInHand: otherCardSet.getCardList()){
+                    removeCardFromThisSet(cardInHand);
+      
+                }
+                
+               
+                
+                
+                
+            }
+        }
+        
     for(int i=0; i<range; i++)  
         moveCardTo(getLastCard(false), otherCardSet);
+        
     }
 
      

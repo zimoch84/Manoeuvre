@@ -30,13 +30,12 @@ public class DrawCardCommand implements Command {
     @Override
     public void execute(Game game) {  
 
-        game.getPlayerByName(senderPlayerName).getDrawPile().moveTopXCardsTo(
+    game.getPlayerByName(senderPlayerName).getDrawPile().moveTopXCardsTo(
             numberOfDrawnCards,
             game.getPlayerByName(senderPlayerName).getHand()
             );
     game.getPlayerByName(senderPlayerName).getHand().sortCard();
     game.getPlayerByName(senderPlayerName).setDraw(true);
-
     }
     
     @Override

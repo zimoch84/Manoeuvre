@@ -27,7 +27,7 @@ public class Player  implements Serializable{
     String name;
     int nation; //for nation description see Card
 
-   
+    
     CardSet hand;
     CardSet drawPile;
     CardSet discardPile;
@@ -44,6 +44,8 @@ public class Player  implements Serializable{
     boolean active, first, moved, draw , attacked;
     
     Unit[] army;
+    
+    int score;
  
     boolean host, finishedSetup;
 
@@ -51,6 +53,7 @@ public class Player  implements Serializable{
         this.name = name;
         this.active = true;
        
+       this.score = 0;
        
     }
     
@@ -110,12 +113,11 @@ public class Player  implements Serializable{
             
     
     public void setCards() {
-        this.drawPile = new CardSet(60,nation); 
-        this.hand = new CardSet(5);     
-             
-        this.discardPile = new CardSet("DISCARD");
-        this.tablePile = new CardSet("TABLE");
-        //this.tablePile = new CardSet();
+        this.drawPile = new CardSet(nation ,"DRAW"); 
+        this.hand = new CardSet(nation ,"HAND"); 
+        this.discardPile = new CardSet(nation ,"DISCARD"); 
+        this.tablePile = new CardSet(nation ,"TABLE");
+         //this.tablePile = new CardSet();
 
         if(nation==CardInterface.AU){//btestfalse
             hand.addCard(drawPile.getCardByName("4th  Regiment", true));
@@ -134,8 +136,7 @@ public class Player  implements Serializable{
             
            //hand.addCardsFromTheTopOfOtherSet(2, drawPile, false, true);
         } else
-        discardPile.moveTopXCardsTo(5, hand);
-        
+        drawPile.moveTopXCardsTo(5, hand);
         hand.sortCard();  
     }
     public void generateUnits(){
@@ -318,6 +319,22 @@ public class Player  implements Serializable{
               
         return null;
     
+    }
+    
+    public int getScore()
+    {
+        return score;
+    }
+    
+    public int getUnitsKilled()
+    {
+        int unitskilled = 0;
+        for(Unit unit:getArmy())    
+        {
+            if(unit.isEliminated()) unitskilled ++;
+        }
+        
+        return unitskilled;
     }
     
 }

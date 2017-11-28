@@ -28,15 +28,20 @@ public class CardMultipleSelectionState implements CardInputState, Serializable{
         
         if(!card.isSelected()) 
         {   
-            if(card.canBePlayed(game))
-                card.setSelected(true);
+            
             
             if(game.getPhase() == Game.DISCARD)
             {
+                
+            card.setSelected(true);
             game.getCurrentPlayer().getHand().selectionSeq.add(card);
             }
+            
             else if(game.getPhase() == Game.COMBAT)
             {
+                if(card.canBePlayed(game))
+                card.setSelected(true);
+                
                 if(game.getCombat() != null)
                     if(game.getCombat().getState() == Combat.PICK_DEFENSE_CARDS)
                     {

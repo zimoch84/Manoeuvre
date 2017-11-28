@@ -62,7 +62,10 @@ public class CardCommandFactory extends Observable implements Serializable{
     public final static String COMBAT_ACCEPTED = "COMBAT_ACCEPTED";
     public final static String LEADER_SELECTED = "LEADER_SELECTED";
     public final static String LEADER_DESELECTED = "LEADER_DESELECTED";
-     
+
+    public final static String HOST_GAME_OVER = "HOST_GAME_OVER";
+    public final static String GUEST_GAME_OVER = "GUEST_GAME_OVER";
+    
     Card playingCard, opponentCard;
     /*
     TODO remove?

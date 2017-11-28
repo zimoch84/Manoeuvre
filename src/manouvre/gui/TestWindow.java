@@ -35,7 +35,7 @@ public class TestWindow extends javax.swing.JFrame {
         this.gameWindow=gameWindow;
         this.game=game;
         this.gameGui=gameWindow.getGameGui();
-        this.testCards=new CardSet("TEST");
+        this.testCards=new CardSet(game.getCurrentPlayer().getNation(),"TEST");
         this.phase=phase;
         
         initComponents();

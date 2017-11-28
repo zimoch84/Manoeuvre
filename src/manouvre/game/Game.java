@@ -48,6 +48,8 @@ public final class Game implements Serializable{
     private Player guestPlayer;
     boolean isServer=true;  //if this will not change game is set on Server
     boolean lockGUI=false;  
+    
+    boolean showOpponentHand = false;
     CardCommandFactory cardCommandFactory;
     
     CardSet tablePile,tablePileDefPart;
@@ -76,8 +78,8 @@ public final class Game implements Serializable{
         guestPlayer.setCards();  
         guestPlayer.generateUnits(); 
         cardCommandFactory = new CardCommandFactory(this);
-        this.tablePile=new CardSet("TABLE");
-        this.tablePileDefPart=new CardSet("TABLE_DEFENDING");
+        this.tablePile=new CardSet(hostPlayer.getNation(), "TABLE");
+        this.tablePileDefPart=new CardSet(hostPlayer.getNation(),"TABLE_DEFENDING");
         generateMap(); 
         
         placeUnitsOnMap(hostPlayer);
@@ -115,6 +117,16 @@ public final class Game implements Serializable{
     public Player getOpponentPlayer() {
         return opponentPlayer;
     }
+
+    public boolean showOpponentHand() {
+        return showOpponentHand;
+    }
+
+    public void setShowOpponentHand(boolean showOpponentHand) {
+        this.showOpponentHand = showOpponentHand;
+    }
+    
+    
     
     public Player getPlayerByName(String playerName) {
       
@@ -1114,5 +1126,23 @@ public final class Game implements Serializable{
         
 
     }   
+     
+     boolean isGameOver()
+     {
+     
+         if(getHostPlayer().getUnitsKilled() > 4  )
+             
+         {getCardCommandFactory().notifyObservers(CardCommandFactory.HOST_GAME_OVER);
+             return true;
+         }
+         if(getGuestPlayer().getUnitsKilled() > 4  )
+         {
+            getCardCommandFactory().notifyObservers(CardCommandFactory.GUEST_GAME_OVER);
+             return true;
+         }
+         
+         return false;
+     
+     }
 }
 
