@@ -328,6 +328,72 @@ public class CardCommands {
         }
 
     }
+     
+      public static class ScoutCommand implements CardCommandInterface {
+
+        Card card;
+        Command moveToTableCommand;
+        String senderPlayerName;
+        String log;
+
+        public ScoutCommand(Card card, String senderPlayerName) {
+           
+            this.card = card;
+            if(card != null)
+                this.moveToTableCommand = new CardCommands.MoveToTableCommand(card, senderPlayerName);
+            
+            this.senderPlayerName = senderPlayerName;
+        }
+
+        @Override
+        public void execute(Game game) {
+            /*
+            If card is null then we retreat after combat resolution rather than play card
+            */
+            if(card != null)
+            {
+                moveToTableCommand.execute(game);
+                log = senderPlayerName + " played " + card.getCardName();
+            }
+            /*
+            Attacking player chooses unit to pursuit
+            */
+            if(game.getCurrentPlayer().isActive())
+            {
+                game.setInfoBarText("You can look at opponent hand");
+                game.setShowOpponentHand(true);
+            }
+             /*
+            Defending player waits
+            */
+            else
+            {
+               game.setInfoBarText("Opponent can see Your hand");
+            }
+        }
+
+        @Override
+        public void undo(Game game) {
+
+        }
+
+        @Override
+        public String logCommand() {
+            
+            return log;
+        }
+
+        @Override
+        public int getType() {
+            return Param.PLAY_CARD;
+        }
+
+        @Override
+        public void cancel(Game game) {
+     
+        }
+
+    }
 
 
     public static class AttackCommand implements Command {
@@ -781,23 +847,16 @@ public class CardCommands {
             /*
             Dices are thrown in contructor of ThrowDiceCommand
             */
-            
             mttc = new ArrayList<>();
-            
-            
             ThrowDiceCommand td = new ThrowDiceCommand(senderPlayerName , combat.getAttackCards());
-            
             for(Card card:combat.getSupportCards()){
                     MoveToTableCommand mtt = new MoveToTableCommand(card, senderPlayerName);
                     mttc.add(mtt);
             }  
-            
             Combat tcombatclone = (Combat) UnoptimizedDeepCopy.copy (combat);
             ThrowDiceCommand tdclone = (ThrowDiceCommand) UnoptimizedDeepCopy.copy (td);
             this.td = tdclone;
             this.combat = tcombatclone;
-
-            
         }
 
         @Override
