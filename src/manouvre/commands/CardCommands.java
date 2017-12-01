@@ -832,7 +832,7 @@ public class CardCommands {
         }
     }
     
- public static class CombatOutcomeCommand implements Command {
+    public static class CombatOutcomeCommand implements Command {
 
         Combat combat;
         ThrowDiceCommand td;

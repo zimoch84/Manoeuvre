@@ -596,46 +596,34 @@ public class Card implements CardInterface, Serializable{
             case Game.COMBAT: 
                 {
                     if(game.getCombat() != null){
-                        switch(game.getCombat().getState()){
-                            case Combat.INITIALIZING_COMBAT:
-                                for(int i=0; i<game.getCurrentPlayer().getArmy().length;i++)
-                                    if(game.getCurrentPlayer().getArmy()[i].getName().equals(getCardName()))
-                                    return true;
-                            case Combat.PICK_DEFENSE_CARDS:
-                                if(game.getCombat().getDefendingUnit().equals(this)
-                                        ||
-                                    (getCardType()==Card.LEADER)
-                                        ||
-                                     getHQType() == Card.WITHDRAW
-                                        )
-                                       
-                                        return true;
-                                return false;
-                            case Combat.PICK_SUPPORTING_CARDS:
-                            {
-                                for(Unit supportUnit: game.getCombat().getSupportingUnits())
-                                {
-                                    if(supportUnit.equals(this)) return true;
-                                }
-                                if( game.getCombat().getAttackingUnit().equals(this)
-                                            ||
-                                        (getCardType()==Card.LEADER))
-                                        return true;
-                                else return false;
-                            }
-                            case Combat.PICK_SUPPORT_UNIT:
-                            {  
-                                if (getCardType()==Card.LEADER)
-                                    return true;
-                                
-                            }   
-                                        
-                        }
-                    }
-                    else{
-                        for(int i=0; i<game.getCurrentPlayer().getArmy().length;i++)
-                            if(game.getCurrentPlayer().getArmy()[i].getName().equals(getCardName()))
+                        
+                       /*
+                        possible card types
+                        */                 
+                        if(getCardType() == Card.UNIT
+                                ||
+                                getCardType() == Card.LEADER
+                                )
+                            return true;
+                        
+                        
+                        if(getCardType() == Card.HQCARD)
+                            if(getHQType() == Card.AMBUSH)
                                 return true;
+
+                    }
+                                        
+                    else{
+                         if(getCardType() == Card.UNIT
+                                ||
+                                getCardType() == Card.LEADER
+                                )
+                            return true;
+                        
+                        return getHQType() == Card.WITHDRAW 
+                                || getHQType() == Card.SKIRMICH
+                                || getHQType() == Card.COMMITED_ATTACK
+                                || getHQType() == Card.ROYAL_ENG;            
                     } 
               
                 }
@@ -664,21 +652,20 @@ public class Card implements CardInterface, Serializable{
         this.selected = selected;
     }
 
-    /*
-    Checks if situation on board let card be played
-    */
-    
     @Override
     public boolean canBePlayed(Game game) {
         
+        int phase=game.getPhase();
         if(getAvailableForPhase(game))
         {
             switch (getCardType()) {
             
             case Card.LEADER:
             {
-                int phase=game.getPhase();
+                
+                
                 switch(phase){
+                    case Game.DISCARD : return true;
                     case Game.COMBAT :
                     {
                     if(game.getCombat() != null)
@@ -688,15 +675,24 @@ public class Card implements CardInterface, Serializable{
                                  return true;
                             case Combat.PICK_SUPPORTING_CARDS:
                                  return true;
+                            case Combat.PICK_SUPPORT_UNIT:
+                                 return true;
+
                             default: return false;
                         }
                     break;    
                     }
+                    case Game.RESTORATION :
+                        return true;
+                    
                     default: return false;
                 }
             }
           
             case Card.HQCARD:
+                if(game.getPhase() == Game.DISCARD)
+                    return true;
+                
                 switch (getHQType())
                 {
                 case Card.FORCED_MARCH :
@@ -742,42 +738,83 @@ public class Card implements CardInterface, Serializable{
             
             case Card.UNIT:
             
+                if(game.getPhase() == Game.DISCARD)
+                    return true;
+                 
                 if(!game.getUnitByName(CardName).isEliminated())
                     {
                         if(game.getPhase() == Game.COMBAT)
                         {
-                        if(game.getCombat() == null) return true;
-                        
-                        else if(game.getCombat().getState() == Combat.PICK_SUPPORTING_CARDS)
-                        {
                             /*
-                            You can onluy add ASSAULT UNIT card as support  - not bombard 
+                            Pick only living unit cards
                             */
-                            for(String cardMode:getPlayingPossibleCardModes() )
-                            {
-                                if(cardMode == Card.ASSAULT) return true;
-                            }
-                            
-                            return false;
-                            
+                        if(game.getCombat() == null) {
+                            return true;
                         }
-                        
-                        else if(game.getCombat().getState() == Combat.END_COMBAT)
-                            return false;
-                        
-                        else return true;
-                        }   
                             
+                        
+                        else {
+                            switch(game.getCombat().getState()){
+                            case Combat.INITIALIZING_COMBAT:
+                                return true;
                                 
+                            case Combat.PICK_DEFENSE_CARDS:
+                                if(game.getCombat().getDefendingUnit().equals(this) )
+                                       return true;
+                                else 
+                                       return false;
+                            case Combat.PICK_SUPPORTING_CARDS:
+                            {
+                                /*
+                                Check if support unit matches card with assault mode
+                                */
+                                for(Unit supportUnit: game.getCombat().getSupportingUnits())
+                                {
+                                    if(supportUnit.equals(this)) 
+                                    {
+                                        for(String cardMode:getPlayingPossibleCardModes() )
+                                            {
+                                                if(cardMode == Card.ASSAULT) 
+                                                    return true;
+                                            }
+                                    }
+                                }
+                                /*
+                                Check if attack unit matches card with assault mode
+                                */
+                                if(game.getCombat().getAttackingUnit().equals(this))
+                                {
+                                     for(String cardMode:getPlayingPossibleCardModes() )
+                                            {
+                                                if(cardMode == Card.ASSAULT) 
+                                                    return true;
+                                            }
+                                }   
+                                return false;
+                            }
+                            case   Combat.END_COMBAT : 
+                                return false;
+                        }
+                        }
+                        }
                         else if(game.getPhase() == Game.RESTORATION)
                             return true;
+                        /*
+                        Card is playing outside Combat /Restoration / Discard
+                        */
                         else
                             return false;
                     }
+                /*
+                Unit is elimitated
+                */
                 else return false;
                 
             }
         }
+        /*
+        Is not avalaible for phase
+        */
         return false;
     }
     

@@ -130,7 +130,9 @@ public class Combat implements Serializable{
         */
         attackValue=0;
         //bomard do not get advantage of Unit Attack
-        if(!initAttackingCard.getPlayingCardMode().equals(Card.BOMBARD)){
+        if(!initAttackingCard.getPlayingCardMode().equals(Card.BOMBARD)
+                && !initAttackingCard.getPlayingCardMode().equals(Card.VOLLEY)
+                ){
             
         attackValue = initAttackUnit.getCurrentStrenght();  
         
