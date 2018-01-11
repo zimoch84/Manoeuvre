@@ -120,15 +120,15 @@ public class Player  implements Serializable{
          //this.tablePile = new CardSet();
 
         if(nation==CardInterface.AU){//btestfalse
-            hand.addCard(drawPile.getCardByName("4th  Regiment", true));
-            hand.addCard(drawPile.getCardByName("4th  Regiment", true));
+            hand.addCard(drawPile.getCardByName("Skirmish", true));
+            hand.addCard(drawPile.getCardByName("Skirmish", true));
            hand.addCard(drawPile.getCardByName("4th  Regiment", true));
-           hand.addCard(drawPile.getCardByName("Archduke Charles", true));
+           hand.addCard(drawPile.getCardByName("Duke of Schwarzenberg", true));
             hand.addCard(drawPile.getCardByName("4th  Regiment", true));
             //hand.addCardsFromTheTopOfOtherSet(1, drawPile, false, true);
         }
         else if(nation==CardInterface.FR){
-            hand.addCard(drawPile.getCardByName("1st Cuirassiers", true));
+            hand.addCard(drawPile.getCardByName("Joachim Murat", true));
              hand.addCard(drawPile.getCardByName("1st Cuirassiers", true));
               hand.addCard(drawPile.getCardByName("1st Cuirassiers", true));
                hand.addCard(drawPile.getCardByName("1st Cuirassiers", true));
@@ -137,7 +137,7 @@ public class Player  implements Serializable{
            //hand.addCardsFromTheTopOfOtherSet(2, drawPile, false, true);
         } else
         drawPile.moveTopXCardsTo(5, hand);
-        hand.sortCard();  
+        //hand.sortCard();  
     }
     public void generateUnits(){
      

@@ -6,11 +6,7 @@
 package manouvre.commands;
 import java.util.ArrayList;
 import manouvre.game.Card;
-
 import manouvre.game.Game;
-import manouvre.game.Param;
-import manouvre.game.Position;
-
 import manouvre.interfaces.Command;
 import manouvre.network.server.UnoptimizedDeepCopy;
 
@@ -74,8 +70,8 @@ public class DiscardCardCommand implements Command {
     }
 
     @Override
-    public int getType() {
-       return Param.DISCARD_CARD;
+    public String getType() {
+       return Command.DISCARD_CARD;
     }
     
 }

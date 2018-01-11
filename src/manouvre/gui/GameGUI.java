@@ -443,7 +443,16 @@ public class GameGUI {
                         
                         drawMultipleRectanglesOnPositions(g, game.getCurrentPlayer().getArmyPositions(), Color.BLUE);
                         break;
-                        }    
+                        }  
+                     case Card.SKIRMISH: 
+                        {
+                        Unit attackedUnit = game.getCombat().getAttackingUnit();
+                        movePositions = game.getTwoSquareMovements(attackedUnit.getPosition());
+                        drawMultipleRectanglesOnPositions(g, movePositions, Color.BLUE);
+                        break;
+                        }  
+                        
+                        
                         
                     }
 
@@ -475,10 +484,12 @@ public class GameGUI {
                                 /*
                                 If we have chosen attack type
                                 */
+                                Unit attackingUnit = game.getCurrentPlayerUnitByName(playingCard.getCardName());
+                                drawRectangleOnPosition(g, attackingUnit.getPosition(), Color.WHITE);
                                 
                             if(playingCard.getPlayingCardMode() !=null  )
                             { 
-                                Unit attackingUnit = game.getCurrentPlayerUnitByName(playingCard.getCardName());
+                                
                                 if(cardFactory.getAttackingPositions() != null)
                                     drawArrowToPositions(g, 
                                     attackingUnit.getPosition(),
@@ -813,12 +824,13 @@ public class GameGUI {
         
     if(combat!= null)
     if(
-          combat.getState() == Combat.INITIALIZING_COMBAT ||
-          combat.getState() == Combat.PICK_DEFENSE_CARDS ||  
-          combat.getState() == Combat.PICK_SUPPORTING_CARDS ||  
-          combat.getState() == Combat.PICK_SUPPORT_UNIT ||    
-          combat.getState() == Combat.DEFENDER_DECIDES ||    
-          combat.getState() == Combat.ATTACKER_DECIDES      
+          combat.getState().equals(Combat.INITIALIZING_COMBAT) ||
+            combat.getState().equals(Combat.PICK_DEFENSE_CARDS) ||  
+            combat.getState().equals(Combat.PICK_SUPPORTING_CARDS) ||  
+            combat.getState().equals(Combat.PICK_SUPPORT_UNIT) ||    
+            combat.getState().equals(Combat.DEFENDER_DECIDES) ||    
+            combat.getState().equals(Combat.ATTACKER_DECIDES)    
+ 
          )
     drawArrowToPosition(g,  combat.getAttackingUnit().getPosition(), 
                 combat.getDefendingUnit().getPosition(), Color.GREEN);

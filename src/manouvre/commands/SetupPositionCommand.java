@@ -60,7 +60,7 @@ public class SetupPositionCommand implements Command{
     }
 
     @Override
-    public int getType() {
+    public String getType() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

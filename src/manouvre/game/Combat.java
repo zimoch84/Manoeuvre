@@ -37,6 +37,7 @@ public class Combat implements Serializable{
     public static final String DEFENDER_DECIDES= "DEFENDER_DECIDES";
     public static final String ATTACKER_DECIDES= "ATTACKER_DECIDES";
     public static final String PURSUIT= "PURSUIT";
+    public static final String SKIRMISH= "SKIRMISH";
     public static final String END_COMBAT= "END_COMBAT";
     
     
@@ -226,20 +227,15 @@ public class Combat implements Serializable{
     public void resetSupport(Game game)
     {
         setSupportingLeader(null);
-        for(Unit supportUnit: attackingUnits)
-        {
-            if(supportUnit.isSupporting()){
-                   attackingUnits.remove(supportUnit);
-                   game.getUnit(supportUnit).setSupporting(false);
-                }
-        }
-        
+               
         for(Card supportingCard: supportCards)
         {
             game.getCurrentPlayer().getHand().getCard(supportingCard).setSelected(false);
             
         }
         supportCards.clear();
+        attackingUnits.clear();
+        attackingUnits.add(initAttackUnit);
         calculateCombatValues();
     }
     

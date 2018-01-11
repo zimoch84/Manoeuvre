@@ -48,7 +48,7 @@ public interface CardInterface {
     public static int GUERRILLAS = 6;
     public static int COMMITED_ATTACK = 7;
     public static int FORCED_MARCH = 8;
-    public static int SKIRMICH = 9;
+    public static int SKIRMISH = 9;
     public static int REDOUBDT = 10;
     public static int SCOUT = 11;
     public static int ROYAL_ENG = 12;

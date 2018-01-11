@@ -84,6 +84,23 @@ public class CardSingleSelectionState implements CardInputState, Serializable{
     
     private void triggerCardActionOnDeSelection(Card playingCard, Game game){
         if(playingCard.canBePlayed(game)) { 
+            
+            
+                 /*
+            If card have only 1 attacking mode set it here to avoid custom dialog
+            If card have 2 attacking mode then later we'll ask user about which mode he choses
+            */
+                if(playingCard.getCardType() == Card.UNIT)
+                {
+                        int playingModeCounter = playingCard.getPlayingPossibleCardModes().size();
+                    if (playingModeCounter == 2)
+                    {
+                        game.getCardCommandFactory().awakeObserver();
+                        game.getCardCommandFactory().notifyObservers(CardCommandFactory.VOLLEY_ASSAULT_DECISION_DESELECTION);
+                    }
+                        
+                }
+            
             /*
             Trigger action on selection
             */
@@ -102,7 +119,7 @@ public class CardSingleSelectionState implements CardInputState, Serializable{
                 if(searchCard.isSelected())
                 {
                     searchCard.setSelected(false);
-                    searchCard.actionOnDeselection(game);
+                    triggerCardActionOnDeSelection(searchCard, game);
                 }
             }
         }

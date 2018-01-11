@@ -7,7 +7,6 @@ package manouvre.commands;
 
 import manouvre.game.Card;
 import manouvre.game.Game;
-import manouvre.game.Param;
 import manouvre.game.Unit;
 import manouvre.interfaces.Command;
 
@@ -50,7 +49,7 @@ public class RestoreUnitCommand implements Command {
     }
 
     @Override
-    public int getType() {
-        return Param.MOVE_UNIT;
+    public String getType() {
+        return Command.MOVE_UNIT;
     }
 }

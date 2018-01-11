@@ -7,7 +7,6 @@ package manouvre.commands;
 
 import manouvre.game.Combat;
 import manouvre.game.Game;
-import manouvre.game.Param;
 import manouvre.game.Unit;
 import manouvre.interfaces.Command;
 import manouvre.state.CardStateHandler;
@@ -37,6 +36,7 @@ public class ForceWithdraw implements Command{
       Unit unit = game.getUnit(hitUnit);
     
       game.swapActivePlayer();
+      LOGGER.debug(game.getCurrentPlayer().getName() + " swapActivePlayer " + game.getCurrentPlayer().isActive());
       game.getCombat().setState(Combat.WITHRDAW);
       
       if(game.getCurrentPlayer().isActive())
@@ -69,8 +69,8 @@ public class ForceWithdraw implements Command{
     }
 
     @Override
-    public int getType() {
-        return Param.FORCE_WITHDRAW;
+    public String getType() {
+        return Command.FORCE_WITHDRAW;
     }
     
     

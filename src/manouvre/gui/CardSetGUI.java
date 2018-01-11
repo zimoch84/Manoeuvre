@@ -182,7 +182,7 @@ import manouvre.game.Dice;
           
             if(     card.isMouseOverCard()
                     || card.isSelected()
-                    && card.getAvailableForPhase(game)
+                    && card.canBePlayed(game)
                    
                     )
                     CARDPADDINGTOPTemp=CARDPADDINGTOP-20;

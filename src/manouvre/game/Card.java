@@ -256,7 +256,7 @@ public class Card implements CardInterface, Serializable{
         }
         if(getHQType()== Card.REDOUBDT ||
            getHQType()== Card.REGROUP ||
-           getHQType()== Card.SKIRMICH ||     
+           getHQType()== Card.SKIRMISH ||     
            getHQType()== Card.AMBUSH ||
            getCardType() == Card.UNIT)
   
@@ -506,7 +506,7 @@ public class Card implements CardInterface, Serializable{
             case "Royal Engineers": 
                 return CardInterface.ROYAL_ENG;
             case "Skirmish":
-                return CardInterface.SKIRMICH;
+                return CardInterface.SKIRMISH;
             case "Spy":
                 return CardInterface.SPY;
             case "Supply": 
@@ -585,7 +585,7 @@ public class Card implements CardInterface, Serializable{
                     */
                       if((getHQType() != Card.REDOUBDT 
                        && getHQType() != Card.REGROUP
-                       && getHQType() != Card.SKIRMICH
+                       && getHQType() != Card.SKIRMISH
                        && getHQType()  != Card.WITHDRAW
                               
                       ))
@@ -607,9 +607,14 @@ public class Card implements CardInterface, Serializable{
                             return true;
                         
                         
-                        if(getCardType() == Card.HQCARD)
-                            if(getHQType() == Card.AMBUSH)
-                                return true;
+                        if(getCardType() == Card.HQCARD && 
+                                (
+                                getHQType() == Card.AMBUSH ||
+                                getHQType() == Card.WITHDRAW ||
+                                getHQType() == Card.SKIRMISH
+                                )
+                           )
+                            return true;
 
                     }
                                         
@@ -621,12 +626,13 @@ public class Card implements CardInterface, Serializable{
                             return true;
                         
                         return getHQType() == Card.WITHDRAW 
-                                || getHQType() == Card.SKIRMICH
+                                
                                 || getHQType() == Card.COMMITED_ATTACK
                                 || getHQType() == Card.ROYAL_ENG;            
                     } 
               
                 }
+                break;
             case Game.RESTORATION:
                 if(isHQCard())
                 {
@@ -695,46 +701,57 @@ public class Card implements CardInterface, Serializable{
                 
                 switch (getHQType())
                 {
-                case Card.FORCED_MARCH :
-                if(game.getCurrentPlayer().hasMoved()) {
+                    case Card.FORCED_MARCH :
+                    if(game.getCurrentPlayer().hasMoved()) {
+                        return true;
+                    }
+                    break;
+                    case Card.SUPPLY :
+                    if(game.getCurrentPlayer().hasMoved()) {
                     return true;
+                    }
+                    break;
+
+                    case Card.GUERRILLAS :
+                    if(
+                            game.getCardCommandFactory().getOpponentCard().getHQType() == Card.FORCED_MARCH ||
+                            game.getCardCommandFactory().getOpponentCard().getHQType() == Card.SUPPLY ||
+                            game.getCardCommandFactory().getOpponentCard().getHQType() == Card.REDOUBDT
+                            ) {
+                    return true;
+                    }
+                    break;
+
+                    case Card.WITHDRAW :
+                    if(game.getCombat() != null) 
+                        if(game.getCombat().getState() == Combat.PICK_DEFENSE_CARDS)
+                            if(     
+                                    (!game.getCombat().getCombatType().equals(Combat.BOMBARD))  
+                                    &&
+                                     !game.getCombat().getCombatType().equals(Combat.VOLLEY)
+                                     )
+
+                                return true;
+                            break;                                               
+
+
+                    case Card.REDOUBDT :
+                    {
+                        if(game.getPhase() == Game.RESTORATION)
+                             return true;
+
+                        break;
+
+
+                    }
+
+                    case Card.SKIRMISH :
+                    {
+                       if(game.getCombat() != null) 
+                        return game.getCombat().getState() == Combat.PICK_SUPPORTING_CARDS;
+
+                    }
                 }
-                break;
-                case Card.SUPPLY :
-                if(game.getCurrentPlayer().hasMoved()) {
-                return true;
-                }
-                break;
-                
-                case Card.GUERRILLAS :
-                if(
-                        game.getCardCommandFactory().getOpponentCard().getHQType() == Card.FORCED_MARCH ||
-                        game.getCardCommandFactory().getOpponentCard().getHQType() == Card.SUPPLY ||
-                        game.getCardCommandFactory().getOpponentCard().getHQType() == Card.REDOUBDT
-                        ) {
-                return true;
-                }
-                break;
-                
-                case Card.WITHDRAW :
-                if(game.getCombat() != null) 
-                    if(game.getCombat().getState() == Combat.PICK_DEFENSE_CARDS)
-                        if(game.getCombat().getCombatType() != Combat.BOMBARD  &&
-                                game.getCombat().getCombatType() != Combat.BOMBARD)
-                               return true;
-                break;
-                                               
-                }
-                
-                case Card.REDOUBDT :
-                {
-                    if(game.getPhase() == Game.RESTORATION)
-                         return true;
-                    else return false;
-                
-                                               
-                }
-                
             
             case Card.UNIT:
             

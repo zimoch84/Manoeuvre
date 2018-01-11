@@ -34,7 +34,7 @@ private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogg
         cd.setVisible(true);
         
         LOGGER.debug(game.getCurrentPlayer().getName() + " game.unselectAllUnits()" );
-        game.unselectAllUnits();
+        game.unselectAllUnits();    
         LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT" );
         handler.setState(MapInputStateHandler.PICK_ONE_UNIT);
         return;

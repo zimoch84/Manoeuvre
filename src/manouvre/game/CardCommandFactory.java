@@ -40,6 +40,7 @@ public class CardCommandFactory extends Observable implements Serializable{
     public final static String DEFENDING_WITHDRAW = "DEFENDING_WITHDRAW";
     public final static String PICKED_ADVANCE = "PLAYER_CHOSEN_ADVANCE_UNIT";
     public final static String VOLLEY_ASSAULT_DECISION = "VOLLEY_ASSAULT_DECISION";
+    public final static String VOLLEY_ASSAULT_DECISION_DESELECTION = "VOLLEY_ASSAULT_DECISION_DESELECTION";
     
     
     public final static String ASSAULT_BEGINS = "ASSAULT_BEGINS";
@@ -58,10 +59,17 @@ public class CardCommandFactory extends Observable implements Serializable{
     public final static String COMBAT_ATTACKER_ELIMINATE = "COMBAT_ATTACKER_ELIMINATE";
     public final static String PUSRUIT_FAILED = "PUSRUIT_FAILED";
     public final static String PUSRUIT_SUCCEDED = "PUSRUIT_SUCCEDED";
+    public final static String SKIRMISH_SELECTED = "SKIRMISH_SELECTED";
+    public final static String SKIRMISH_DESELECTED = "SKIRMISH_DESELECTED";
+    public final static String SKIRMISH_PLAYED = "SKIRMISH_PLAYED";
+    
     
     public final static String COMBAT_ACCEPTED = "COMBAT_ACCEPTED";
     public final static String LEADER_SELECTED = "LEADER_SELECTED";
     public final static String LEADER_DESELECTED = "LEADER_DESELECTED";
+    
+    
+    
 
     public final static String HOST_GAME_OVER = "HOST_GAME_OVER";
     public final static String GUEST_GAME_OVER = "GUEST_GAME_OVER";
@@ -276,6 +284,12 @@ public class CardCommandFactory extends Observable implements Serializable{
                     setCardCommand( new CardCommands.ForcedMarchCommand(attachedCommand, playingCard, game.getCurrentPlayer().getName()) );
                     return getCardCommand();
                 }
+                case Card.SKIRMISH : {
+                    setCardCommand( new CardCommands.SkirmishCommand(game.getCurrentPlayer().getName(),
+                            game.getOpponentPlayer().getName(), playingCard, attachedCommand ) );
+                    return getCardCommand();
+                }
+                
                 default: {
                     setCardCommand(new CardCommands.MoveToTableCommand(playingCard, game.getCurrentPlayer().getName()));
                     return  getCardCommand();

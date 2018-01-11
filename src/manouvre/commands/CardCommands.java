@@ -11,7 +11,7 @@ import manouvre.game.CardCommandFactory;
 import manouvre.game.CardSet;
 import manouvre.game.Combat;
 import manouvre.game.Game;
-import manouvre.game.Param;
+import manouvre.game.Player;
 import manouvre.game.Position;
 import manouvre.game.Terrain;
 import manouvre.game.Unit;
@@ -70,8 +70,8 @@ public class CardCommands {
         }
 
         @Override
-        public int getType() {
-            return Param.PLAY_CARD;
+        public String getType() {
+            return Command.PLAY_CARD;
         }
 
         @Override
@@ -120,8 +120,8 @@ public class CardCommands {
         }
 
         @Override
-        public int getType() {
-            return Param.PLAY_CARD;
+        public String getType() {
+            return Command.PLAY_CARD;
         }
 
         @Override
@@ -164,8 +164,8 @@ public class CardCommands {
         }
 
         @Override
-        public int getType() {
-            return Param.PLAY_CARD;
+        public String getType() {
+            return Command.PLAY_CARD;
         }
 
         @Override
@@ -221,8 +221,8 @@ public class CardCommands {
         }
 
         @Override
-        public int getType() {
-            return Param.PLAY_CARD;
+        public String getType() {
+            return Command.PLAY_CARD;
         }
 
         @Override
@@ -270,7 +270,7 @@ public class CardCommands {
             game.getCombat().setState(Combat.PURSUIT);
             
             game.swapActivePlayer();
-
+            LOGGER.debug(game.getCurrentPlayer().getName() + " swapActivePlayer " + game.getCurrentPlayer().isActive());
             /*
             Attacking player chooses unit to pursuit
             */
@@ -315,8 +315,8 @@ public class CardCommands {
         }
 
         @Override
-        public int getType() {
-            return Param.PLAY_CARD;
+        public String getType() {
+            return Command.PLAY_CARD;
         }
 
         @Override
@@ -384,8 +384,8 @@ public class CardCommands {
         }
 
         @Override
-        public int getType() {
-            return Param.PLAY_CARD;
+        public String getType() {
+            return Command.PLAY_CARD;
         }
 
         @Override
@@ -435,7 +435,8 @@ public class CardCommands {
             game.getCardCommandFactory().notifyObservers(CardCommandFactory.ASSAULT_BEGINS);
             game.getCombat().setState(Combat.PICK_DEFENSE_CARDS);
             game.swapActivePlayer();
-
+            LOGGER.debug(game.getCurrentPlayer().getName() + " swapActivePlayer " + game.getCurrentPlayer().isActive());
+            
             if(game.getCurrentPlayer().isActive())
                  {
                  LOGGER.debug(game.getCurrentPlayer().getName() + "zmiana stanu na CardStateHandler.MULTIPLE_PICK");
@@ -486,8 +487,8 @@ public class CardCommands {
         }
 
         @Override
-        public int getType() {
-            return Param.PLAY_CARD;
+        public String getType() {
+            return Command.PLAY_CARD;
         }
 
     }
@@ -532,8 +533,8 @@ public class CardCommands {
         }
 
         @Override
-        public int getType() {
-            return Param.PLAY_CARD;
+        public String getType() {
+            return Command.PLAY_CARD;
         }
     }
 
@@ -569,8 +570,8 @@ public class CardCommands {
         }
 
         @Override
-        public int getType() {
-            return Param.PLAY_CARD;
+        public String getType() {
+            return Command.PLAY_CARD;
         }
     }
 
@@ -600,8 +601,8 @@ public class CardCommands {
         }
 
         @Override
-        public int getType() {
-            return Param.RESET_FACTORY;
+        public String getType() {
+            return Command.RESET_FACTORY;
         }
     }
 
@@ -694,8 +695,8 @@ public class CardCommands {
         }
 
         @Override
-        public int getType() {
-            return Param.PLAY_CARD;
+        public String getType() {
+            return Command.PLAY_CARD;
         }
 
         @Override
@@ -775,7 +776,7 @@ public class CardCommands {
                 game.getCardCommandFactory().notifyObservers(CardCommandFactory.DEFENDING_CARDS_PLAYED);
                 
                 game.swapActivePlayer();
-               
+                LOGGER.debug(game.getCurrentPlayer().getName() + " swapActivePlayer " + game.getCurrentPlayer().isActive());
                 if(game.getCurrentPlayer().isActive())
                     {
                     LOGGER.debug(game.getCurrentPlayer().getName() + "zmiana stanu na CardStateHandler.MULTIPLE_PICK");
@@ -822,8 +823,8 @@ public class CardCommands {
         }
 
         @Override
-        public int getType() {
-            return Param.PLAY_CARD;
+        public String getType() {
+            return Command.PLAY_CARD;
         }
 
         @Override
@@ -853,6 +854,12 @@ public class CardCommands {
                     MoveToTableCommand mtt = new MoveToTableCommand(card, senderPlayerName);
                     mttc.add(mtt);
             }  
+            if(combat.getSupportingLeader()!= null)
+            {
+                    MoveToTableCommand mtt = new MoveToTableCommand(combat.getSupportingLeader(), senderPlayerName);
+                    mttc.add(mtt);
+            }
+                                        
             Combat tcombatclone = (Combat) UnoptimizedDeepCopy.copy (combat);
             ThrowDiceCommand tdclone = (ThrowDiceCommand) UnoptimizedDeepCopy.copy (td);
             this.td = tdclone;
@@ -961,7 +968,7 @@ public class CardCommands {
                      break;  
                 }
                 /*
-                Temporary we assume that defender always choose to retreat
+                
                 */
                 case Combat.DEFENDER_DECIDES :
                 {
@@ -970,11 +977,10 @@ public class CardCommands {
                      game.getCardCommandFactory().notifyObservers(CardCommandFactory.DEFENDER_DECIDES);
 
                      /*
-                     TODO - create full retreat dialog with defender choice
-                     Currently - take first possible position
                      */
                       
                      game.swapActivePlayer();
+                     LOGGER.debug(game.getCurrentPlayer().getName() + " swapActivePlayer " + game.getCurrentPlayer().isActive());
                      log = "Defending player decides";
                      game.getCombat().setState(Combat.DEFENDER_DECIDES);
                      break;  
@@ -1004,6 +1010,7 @@ public class CardCommands {
                             defendingUnit.setSelected(true);
                             game.getCombat().setState(Combat.WITHRDAW);
                             game.swapActivePlayer();
+                            LOGGER.debug(game.getCurrentPlayer().getName() + " swapActivePlayer " + game.getCurrentPlayer().isActive());
                             if(game.getCurrentPlayer().isActive())
                             {
                             LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION ");
@@ -1068,8 +1075,8 @@ public class CardCommands {
         }
 
         @Override
-        public int getType() {
-            return Param.COMBAT;
+        public String getType() {
+            return Command.COMBAT;
         }
 
     }
@@ -1153,8 +1160,8 @@ public class CardCommands {
         }
 
         @Override
-        public int getType() {
-            return Param.COMBAT;
+        public String getType() {
+            return Command.COMBAT;
         }
     
     }
@@ -1210,8 +1217,99 @@ public class CardCommands {
         }
 
         @Override
-        public int getType() {
-            return Param.REDOUBT;
+        public String getType() {
+            return Command.REDOUBT;
+        }
+   
+
+  }
+  
+    public static class SkirmishCommand implements CardCommandInterface {
+
+        String log;
+        String senderPlayerName,opponentPlayerName;
+        Card skirmishCard;
+        MoveToTableCommand moveToTable;
+        Command moveUnitCommand;
+        /*
+        The Active Player returns the Unit Card
+        used to initiate the combat into their hand. All cards which were played by
+        the Defending Player are discarded. The attacking unit may be moved up to 2
+        squares in any combination of directions (except diagonally). The Active Player
+        may not play a Leader Card during the same combat as a Skirmish card. The
+        Active Player may not initiate another combat this player turn. A Skirmish card
+        may not be played at all during an Ambush.
+        */
+        
+        public SkirmishCommand(String senderPlayerName, String opponentPlayerName, Card skirmishCard, Command moveUnitCommand) {
+            this.senderPlayerName = senderPlayerName;
+            this.opponentPlayerName = opponentPlayerName;
+            this.skirmishCard = skirmishCard;
+            moveToTable = new MoveToTableCommand(skirmishCard, senderPlayerName);
+            this.moveUnitCommand = moveUnitCommand;
+           
+        }
+       
+        @Override
+        public void cancel(Game game) {
+            
+           
+            
+        }
+
+        @Override
+        public void execute(Game game) {
+         
+            moveToTable.execute(game);
+            log = senderPlayerName + " played skirmish ";
+            
+            /*
+            Return attacking card to Hand
+            */
+            Player player  = game.getPlayerByName(senderPlayerName);
+            Combat combat = game.getCombat();
+            combat.setState(Combat.SKIRMISH);
+            Card attackingCard = combat.getInitAttackCard();
+           
+            player.getTablePile().moveCardTo(attackingCard, player.getHand());
+            
+            /*
+            Clean defending cards
+            */
+            game.getPlayerByName(opponentPlayerName).getTablePile().moveTopXCardsTo(
+            game.getPlayerByName(opponentPlayerName).getTablePile().size(), 
+            game.getPlayerByName(opponentPlayerName).getDiscardPile()
+            );      
+            
+            
+            /*
+            Move unit
+            */
+            if(moveUnitCommand != null)
+                moveUnitCommand.execute(game);
+            
+            //Set action button and info bar
+            game.getCardCommandFactory().awakeObserver();   
+            game.getCardCommandFactory().notifyObservers(CardCommandFactory.SKIRMISH_PLAYED);
+            
+            game.getCombat().endCombat(game);
+           
+            
+        }
+
+        @Override
+        public void undo(Game game) {
+            
+        }
+
+        @Override
+        public String logCommand() {
+            return log;
+        }
+
+        @Override
+        public String getType() {
+            return Command.SKIRMISH;
         }
    
 

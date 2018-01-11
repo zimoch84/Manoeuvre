@@ -183,6 +183,12 @@ private ArrayList<Position> getMovePositions(Card playingCard, Game game){
                                    break;
                                 }
                                 
+                                case Card.SKIRMISH:
+                                {
+                                   movePositions = game.getTwoSquareMovements(selectedUnit.getPosition()); 
+                                   break;
+                                }
+                                
                             }
                             break;
                         }

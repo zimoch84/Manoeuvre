@@ -29,7 +29,8 @@ public class MapPickAvalibleUnitState implements MapState, Serializable{
     @Override
     public void handleInput(Position pos, Game game, CommandQueue cmdQueue, MapInputStateHandler handler) {
         ArrayList<Position> avalaiblePositions =  game.getCurrentPlayerAvalibleUnitToSelect();
-                    
+               
+        if(avalaiblePositions.size()>0)
         if(avalaiblePositions.contains(pos))
             
         {

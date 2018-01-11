@@ -6,7 +6,6 @@
 package manouvre.commands;
 
 import manouvre.game.Game;
-import manouvre.game.Param;
 import manouvre.game.Position;
 import manouvre.game.Unit;
 import manouvre.interfaces.Command;
@@ -86,7 +85,7 @@ public class MoveUnitCommand implements Command {
     }
 
     @Override
-    public int getType() {
-        return Param.MOVE_UNIT;
+    public String getType() {
+        return Command.MOVE_UNIT;
     }
 }

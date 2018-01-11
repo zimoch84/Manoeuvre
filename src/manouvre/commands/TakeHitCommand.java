@@ -8,7 +8,6 @@ package manouvre.commands;
 import manouvre.game.CardCommandFactory;
 import manouvre.game.Combat;
 import manouvre.game.Game;
-import manouvre.game.Param;
 import manouvre.game.Unit;
 import manouvre.interfaces.Command;
 import manouvre.state.MapInputStateHandler;
@@ -61,11 +60,16 @@ public class TakeHitCommand implements Command{
          log = "Combat ends with defending unit is eliminated";
         }
         
+        LOGGER.debug(game.getCurrentPlayer().getName() + " unit.isEliminated() " + unit.isEliminated());
+        LOGGER.debug(game.getCurrentPlayer().getName() + " game.getCombat().getState() " + game.getCombat().getState());
         if(unit.isEliminated())
         {
+            
             if(game.getCombat().getState() == Combat.DEFENDER_DECIDES)
             {
+                
                 game.swapActivePlayer();
+                LOGGER.debug(game.getCurrentPlayer().getName() + " swapActivePlayer " + game.getCurrentPlayer().isActive());
             }
             game.getCombat().setState(Combat.PURSUIT);
 
@@ -82,6 +86,13 @@ public class TakeHitCommand implements Command{
         }
         else 
         {
+            if(game.getCombat().getState() == Combat.DEFENDER_DECIDES)
+            {
+                
+                game.swapActivePlayer();
+                LOGGER.debug(game.getCurrentPlayer().getName() + " swapActivePlayer " + game.getCurrentPlayer().isActive());
+            }
+            
             game.getCombat().endCombat(game);
             LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na MapInputStateHandler.NOSELECTION ");
             game.mapInputHandler.setState(MapInputStateHandler.NOSELECTION);
@@ -104,8 +115,8 @@ public class TakeHitCommand implements Command{
     }
 
     @Override
-    public int getType() {
-        return Param.TAKE_HIT;
+    public String getType() {
+        return Command.TAKE_HIT;
     }
     
     

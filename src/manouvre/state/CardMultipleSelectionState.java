@@ -48,7 +48,7 @@ public class CardMultipleSelectionState implements CardInputState, Serializable{
                         if(game.getCombat().getDefendingUnit() != null)
                             if(game.getUnit(game.getCombat().getDefendingUnit()).equals(card) )
                             {
-                               
+                                card.setSelected(true);
                                 game.getCombat().addDefenceCard(card);
                                 
                             }
@@ -57,16 +57,26 @@ public class CardMultipleSelectionState implements CardInputState, Serializable{
                     }
                     else if (game.getCombat().getState() == Combat.PICK_SUPPORTING_CARDS)
                     {
-                        /*
-                        TODO , picking leader triggers choose dialog support vs attack mode
-                        */
                         if(card.getCardType() == Card.LEADER)
                         {
+                            card.setSelected(true);
                             game.getCardCommandFactory().setPlayingCard(card);
                             game.getCardCommandFactory().awakeObserver();
                             game.getCardCommandFactory().notifyObservers(CardCommandFactory.LEADER_SELECTED);
                             
                         }
+                        if(card.getHQType() == Card.SKIRMISH){
+                            
+                            card.setSelected(true);
+                            game.getCardCommandFactory().setPlayingCard(card);
+                            game.getCardCommandFactory().awakeObserver();
+                            game.getCardCommandFactory().notifyObservers(CardCommandFactory.SKIRMISH_SELECTED);
+                            
+                            LOGGER.debug(game.getCurrentPlayer().getName() + "zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION_BY_CARD");
+                            game.mapInputHandler.setState(MapInputStateHandler.PICK_MOVE_POSITION_BY_CARD);
+                            
+                        }
+                        
                         if(card.getCardType() == Card.UNIT)
                         {
                             if(game.getCombat().getSupportingLeader() == null)
@@ -81,7 +91,8 @@ public class CardMultipleSelectionState implements CardInputState, Serializable{
                                     if(cardMode == Card.ASSAULT)
                                     {
                                         card.setPlayingCardMode(Card.ASSAULT);
-                                        game.getCombat().addSupportCard(card);    
+                                        game.getCombat().addSupportCard(card); 
+                                        card.setSelected(true);
                                         break;
                                     }
                                 }
@@ -102,7 +113,8 @@ public class CardMultipleSelectionState implements CardInputState, Serializable{
                                         if(cardMode == Card.ASSAULT)
                                         {
                                             card.setPlayingCardMode(Card.ASSAULT);
-                                            game.getCombat().addSupportCard(card);    
+                                            game.getCombat().addSupportCard(card); 
+                                            card.setSelected(true);
                                             break;
                                         }
                                     }
@@ -183,6 +195,18 @@ public class CardMultipleSelectionState implements CardInputState, Serializable{
                                 }
                             }   
                             }
+                            else if(card.getHQType() == Card.SKIRMISH){
+                            
+                            card.setSelected(false);
+                            game.getCardCommandFactory().setPlayingCard(null);
+                            game.getCardCommandFactory().awakeObserver();
+                            game.getCardCommandFactory().notifyObservers(CardCommandFactory.SKIRMISH_DESELECTED);
+                            
+                            LOGGER.debug(game.getCurrentPlayer().getName() + "zmiana stanu na MapInputStateHandler.NOSELECTION");
+                            game.mapInputHandler.setState(MapInputStateHandler.NOSELECTION);
+                            
+                             }
+                                
                             else 
                             {
                             /*

@@ -50,6 +50,7 @@ import manouvre.commands.DontAdvanceUnitCommand;
 import manouvre.commands.ForceWithdraw;
 import manouvre.commands.TakeHitCommand;
 import static java.lang.Math.abs;
+import static java.lang.Math.abs;
 
 
 
@@ -328,6 +329,35 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                break;
            }
            
+           case CardCommandFactory.VOLLEY_ASSAULT_DECISION_DESELECTION:
+               
+           {
+                 buttonDecisionDisappear();
+           break;
+           }
+           case CardCommandFactory.SKIRMISH_SELECTED:
+               
+           {
+                 if(game.getCurrentPlayer().isActive())
+               {
+                   game.setInfoBarText("Move up to 2 spaces");
+                   buttonActionSetText("Skirmish with no move", true);
+              }  
+           break;
+           }
+           
+           case CardCommandFactory.SKIRMISH_PLAYED:
+               
+           {
+                 if(game.getCurrentPlayer().isActive())
+               {
+                   game.setInfoBarText("Move up to 2 spaces");
+                   buttonActionSetText("Skirmish with no move", true);
+              }  
+                 else 
+                     game.setInfoBarText("Opponent is moving up to 2 spaces");
+           break;
+           }
            default :
                System.out.println("manouvre.gui.GameWindow.update() No such dialog Type :"  + dialogType);
        
@@ -379,6 +409,11 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
 
     }
      
+    private void  buttonActionSetText(String text, boolean isActive){
+    
+            actionButton.setText(text);
+            actionButton.setEnabled(isActive);
+    }
     private void buttonActionSetText(){
         /*
         If card is Selected change Label to "Play Card" 
@@ -522,6 +557,14 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         }
                 
     }
+    private void buttonDecisionDisappear(){
+    
+            buttonYes.setVisible(false);
+           buttonNo.setVisible(false);
+           buttonYes.setEnabled(false);
+           buttonNo.setEnabled(false);
+    }
+    
     
     private void buttonSetDecisionText(String yesOption, String noOption)
     {
@@ -2617,6 +2660,8 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                 //game.cardStateHandler.setState(CardStateHandler.NOSELECTION);
                 
                 game.setInfoBarText("Pick supporting units");
+                
+                buttonActionSetText("End picking", true);
                 
                 
                 

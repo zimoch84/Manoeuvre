@@ -28,7 +28,7 @@ private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogg
     @Override
     public void handleInput(Position pos, Game game, CommandQueue cmdQueue , MapInputStateHandler handler) {
        
-      ArrayList<Position> avalaiblePositions =  game.getCurrentPlayerAvalibleUnitToSelect();
+          ArrayList<Position> avalaiblePositions =  game.getCurrentPlayerAvalibleUnitToSelect();
                     
         if(avalaiblePositions.contains(pos))
         {
@@ -37,28 +37,26 @@ private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogg
                 if(game.getCombat().getState() == Combat.PICK_SUPPORT_UNIT)
                 {
                       Card leader = game.getCombat().getSupportingLeader();
-                      int maxSupporters = leader.getLederCommand();
+                      int maxSupporters = leader.getLederCommand() - 1; 
                       int currentSupporters = game.getCombat().getSupportUnitCount();
-                  if(maxSupporters >= currentSupporters)
-                  {
+                  
                       Unit supportingUnit =  game.getUnitAtPosition(pos);
                       
-                      if(!supportingUnit.isSupporting())
+                      if(!supportingUnit.isSupporting() && maxSupporters > currentSupporters)
                       {
                           supportingUnit.setSupporting(true);
                           game.getCombat().addSupportUnit(supportingUnit);
                       }
                       
-                      else
+                      else if(supportingUnit.isSupporting())
                       {
                           supportingUnit.setSupporting(false);
                           game.getCombat().removeSupportUnit(supportingUnit);
                       }
-                      
-                  }
-                  else 
-                      game.setInfoBarText("You can only pick up to " + maxSupporters + " units");
-                      
+                      else if (!supportingUnit.isSupporting() && maxSupporters <=  currentSupporters)
+                      {
+                          game.setInfoBarText("You can only pick up to " + maxSupporters + " units");
+                      }
                       
                 
                 }

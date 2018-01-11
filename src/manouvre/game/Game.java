@@ -154,7 +154,8 @@ public final class Game implements Serializable{
     }
 
     public void setCombat(Combat combat) {
-        this.combat = combat;
+        
+        this.combat = (Combat) UnoptimizedDeepCopy.copy (combat);
         if(combat!=null)
             combat.linkObjects(this);
     }
@@ -274,6 +275,28 @@ public final class Game implements Serializable{
         return moves;
     }
     
+    public ArrayList<Position> getTwoSquareMovements(Position unitPosition){
+    
+    ArrayList<Position> moves = getOneSquareMovements(unitPosition);
+
+    ArrayList<Position> tempMoves;       
+    ArrayList<Position> tempMoves2 = new ArrayList<Position>();
+
+    for(Position move : moves ){       
+                if(! map.getTerrainAtXY(move.getX(), move.getY()).isEndsMove() ){              
+                    tempMoves = getOneSquareMovements(move);                    
+                        for(Position addPosition: tempMoves){                        
+                            if (!moves.contains(addPosition) && !addPosition.equals(unitPosition))                                                                  
+                                tempMoves2.add(addPosition);                                   
+                        }     
+                }                      
+            }
+     moves.addAll(tempMoves2);        
+    
+     return moves;
+     
+    }
+    
     public void nextTurn(){
         turn++;
         if(getCurrentPlayer().isActive())
@@ -323,29 +346,17 @@ public final class Game implements Serializable{
     }
     
     public ArrayList<Position> getPossibleMovement(Unit unit){      
-        ArrayList<Position> moves;         
+        ArrayList<Position> moves = new ArrayList<>();         
         /*
         get Infantry Moves
         */
+        if (unit.getType() == Unit.INFANTRY)
         moves = getOneSquareMovements(unit.getPosition());
-       
         /*
         If calvary do check of every infantry move considering Terrain.MARSH which ends move
         */
-        if(unit.type == Unit.CALVARY){       
-        ArrayList<Position> tempMoves;       
-        ArrayList<Position> tempMoves2 = new ArrayList<Position>();
-                    
-        for(Position move : moves ){       
-                if(! map.getTerrainAtXY(move.getX(), move.getY()).isEndsMove() ){              
-                    tempMoves = getOneSquareMovements(move);                    
-                        for(Position addPosition: tempMoves){                        
-                            if (!moves.contains(addPosition) && !addPosition.equals(unit.getPosition()))                                                                  
-                                tempMoves2.add(addPosition);                                   
-                        }     
-                }                      
-            }
-        moves.addAll(tempMoves2);        
+        else if(unit.getType() == Unit.CALVARY){       
+        moves = getTwoSquareMovements(unit.getPosition());
         }       
         return moves; 
     };

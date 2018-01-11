@@ -5,7 +5,6 @@
  */
 package manouvre.commands;
 import manouvre.game.Game;
-import manouvre.game.Param;
 
 import manouvre.interfaces.Command;
 
@@ -34,7 +33,7 @@ public class DrawCardCommand implements Command {
             numberOfDrawnCards,
             game.getPlayerByName(senderPlayerName).getHand()
             );
-    game.getPlayerByName(senderPlayerName).getHand().sortCard();
+    //game.getPlayerByName(senderPlayerName).getHand().sortCard();
     game.getPlayerByName(senderPlayerName).setDraw(true);
     }
     
@@ -50,8 +49,8 @@ public class DrawCardCommand implements Command {
     }
 
     @Override
-    public int getType() {
-        return Param.DRAW_CARD;
+    public String getType() {
+        return Command.DRAW_CARD;
     }
 }
 

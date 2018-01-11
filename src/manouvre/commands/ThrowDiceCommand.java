@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import manouvre.game.Card;
 import manouvre.game.Dice;
 import manouvre.game.Game;
-import manouvre.game.Param;
 import manouvre.interfaces.Command;
 import manouvre.network.server.UnoptimizedDeepCopy;
 
@@ -87,6 +86,7 @@ public class ThrowDiceCommand implements Command{
                 d10dices.addAll(dices);
                 break;
             }
+            
         }
     }
     }
@@ -155,8 +155,8 @@ public class ThrowDiceCommand implements Command{
     }
 
     @Override
-    public int getType() {
-        return Param.THROW_DICE;
+    public String getType() {
+        return Command.THROW_DICE;
     }
     
     

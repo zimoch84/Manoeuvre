@@ -3,7 +3,6 @@ package manouvre.network.client;
 import java.io.Serializable;
 import java.util.ArrayList;
 import manouvre.game.Game;
-import manouvre.game.Param;
 import manouvre.game.Player;
 import manouvre.network.server.GameRoom;
 import manouvre.interfaces.Command;
@@ -173,7 +172,7 @@ public class Message implements Serializable{
                     case CHAT_IN_ROOM : out  = "CHAT_IN_ROOM"; break;
                     case START_GAME : out  = "START_GAME"; break;
                     case SET_NATION : out  = "SET_NATION"; break;
-                    case COMMAND: out  = "COMMAND "  + getCommandType(getContentP())  ; break;
+                    case COMMAND: out  = "COMMAND "  + getCommand().getType()  ; break;
                     
                     
                     default: out = Integer.toString(getMessageType()) ;
@@ -185,26 +184,6 @@ public class Message implements Serializable{
         return type;
     }
      
-    public String getCommandType(int command)
-    {
-        
-
-        switch(command)
-        {
-            case Param.END_SETUP: return "END_SETUP";
-            case Param.END_TURN: return "END_TURN";
-            case Param.DRAW_CARD: return "DRAW_CARD";
-            case Param.DISCARD_CARD: return "DISCARD_CARD";
-            case Param.NEXT_PHASE: return "NEXT_PHASE";
-            case Param.MOVE_UNIT: return "MOVE_UNIT";
-            case Param.SETUP_POSITION: return "SETUP_POSITION";
-            case Param.PLAY_CARD: return "PLAY_CARD";
-        } 
-        
-        return null;
-            
-    }
-
     public void setCommand(Command command) {
         this.command = command;
     }

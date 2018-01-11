@@ -6,7 +6,6 @@
 package manouvre.commands;
 
 import manouvre.game.Game;
-import manouvre.game.Param;
 import manouvre.interfaces.Command;
 
 /**
@@ -67,8 +66,8 @@ public class EndSetupCommand implements Command{
     }
 
     @Override
-    public int getType() {
-        return Param.END_SETUP;
+    public String getType() {
+        return Command.END_SETUP;
     }
     
     

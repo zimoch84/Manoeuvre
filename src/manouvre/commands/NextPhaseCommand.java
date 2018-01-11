@@ -6,7 +6,6 @@
 package manouvre.commands;
 
 import manouvre.game.Game;
-import manouvre.game.Param;
 import manouvre.interfaces.Command;
 import org.apache.logging.log4j.LogManager;
 
@@ -86,8 +85,8 @@ public class NextPhaseCommand implements Command{
     }
 
     @Override
-    public int getType() {
-       return Param.NEXT_PHASE;
+    public String getType() {
+       return Command.NEXT_PHASE;
     }
     
 }

@@ -6,7 +6,6 @@
 package manouvre.commands;
 
 import manouvre.game.Game;
-import manouvre.game.Param;
 import manouvre.interfaces.Command;
 import org.apache.logging.log4j.LogManager;
 
@@ -28,6 +27,7 @@ public class EndTurnCommand implements Command{
     public void execute(Game game) {
         
         game.swapActivePlayer();
+        LOGGER.debug(game.getCurrentPlayer().getName() + " swapActivePlayer " + game.getCurrentPlayer().isActive());
         game.nextTurn();
         game.setPhase(Game.DISCARD);
         game.getMap().unselectAllTerrains();
@@ -51,8 +51,8 @@ public class EndTurnCommand implements Command{
     }
 
     @Override
-    public int getType() {
-       return Param.END_TURN;
+    public String getType() {
+       return Command.END_TURN;
     }
     
 }
