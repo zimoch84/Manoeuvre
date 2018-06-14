@@ -56,10 +56,14 @@ public interface CardInterface {
     public static int AMBUSH = 14;
     public static int REGROUP = 15;
 
+    /*
+    Card attack types
+    */
     public static String ASSAULT = "ASSAULT";
     public static String VOLLEY = "VOLLEY";
     public static String BOMBARD = "BOMBARD";
     public static String PURSUIT = "PURSUIT";
+    public static String LEADER_SUPPORT = "LEADER_SUPPORT";
             
     public static int MOVE_ACTION = 500;
     public static int PICK_ACTION = 501;

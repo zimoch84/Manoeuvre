@@ -6,6 +6,7 @@
 package manouvre.commands;
 
 import java.util.ArrayList;
+import manouvre.events.EventType;
 import manouvre.game.Card;
 import manouvre.game.CardCommandFactory;
 import manouvre.game.CardSet;
@@ -103,7 +104,7 @@ public class CardCommands {
             if (!game.getCurrentPlayer().getName().equals(senderPlayerName))
             {
                 game.getCardCommandFactory().awakeObserver();
-                game.getCardCommandFactory().notifyObservers(CardCommandFactory.CARD_REJECTED);
+                game.getCardCommandFactory().notifyObservers(EventType.CARD_REJECTED);
             }
 
         }
@@ -147,7 +148,7 @@ public class CardCommands {
                 game.getCardCommandFactory().resetFactory();
             } else {
                 game.getCardCommandFactory().awakeObserver();
-                game.getCardCommandFactory().notifyObservers(CardCommandFactory.CARD_NOT_REJECTED);
+                game.getCardCommandFactory().notifyObservers(EventType.CARD_NOT_REJECTED);
                 LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().resetFactory()");
                 game.getCardCommandFactory().resetFactory();
             }
@@ -201,7 +202,7 @@ public class CardCommands {
             } else {
                 game.getCardCommandFactory().setIncomingCardCommand(this); //set this comand to be able to reject it
                 game.getCardCommandFactory().awakeObserver();
-                game.getCardCommandFactory().notifyObservers(CardCommandFactory.CARD_DIALOG);
+                game.getCardCommandFactory().notifyObservers(EventType.CARD_DIALOG);
             }
             
             
@@ -432,7 +433,7 @@ public class CardCommands {
            if(!combat.getCombatType().equals(Combat.VOLLEY) && !combat.getCombatType().equals(Combat.BOMBARD) )
            {
             game.getCardCommandFactory().awakeObserver();
-            game.getCardCommandFactory().notifyObservers(CardCommandFactory.ASSAULT_BEGINS);
+            game.getCardCommandFactory().notifyObservers(EventType.ASSAULT_BEGINS);
             game.getCombat().setState(Combat.PICK_DEFENSE_CARDS);
             game.swapActivePlayer();
             LOGGER.debug(game.getCurrentPlayer().getName() + " swapActivePlayer " + game.getCurrentPlayer().isActive());
@@ -461,16 +462,24 @@ public class CardCommands {
             */
             if(game.getCurrentPlayer().isActive())
             {
-                combat.setState(Combat.PICK_SUPPORTING_CARDS);
+                
+                game.getCardCommandFactory().awakeObserver();
+                game.getCardCommandFactory().notifyObservers(EventType.BOMBARD_BEGINS);
+                game.getCombat().setState(Combat.THROW_DICES);
+ 
                 LOGGER.debug(game.getCurrentPlayer().getName() + "zmiana stanu na CardStateHandler.NOSELECTION");
                 game.cardStateHandler.setState(CardStateHandler.NOSELECTION);
+                LOGGER.debug(game.getCurrentPlayer().getName() + "zmiana stanu na MapInputStateHandler.NOSELECTION");
+                game.mapInputHandler.setState(MapInputStateHandler.NOSELECTION);
             }
+            /*
             else 
             {   
-                combat.setState(Combat.PICK_SUPPORTING_CARDS);
+                combat.setState(Combat.PICK_SUPPORT_CARDS);
                 LOGGER.debug(game.getCurrentPlayer().getName() + "zmiana stanu na CardStateHandler.NOSELECTION");
                 game.cardStateHandler.setState(CardStateHandler.NOSELECTION);
             }
+            */
            }
            
   
@@ -653,7 +662,7 @@ public class CardCommands {
                 */
                 game.getCombat().setState(Combat.THROW_DICES);
                 game.getCardCommandFactory().awakeObserver();
-                game.getCardCommandFactory().notifyObservers(CardCommandFactory.ATTACKER_ROLL_DICES);
+                game.getCardCommandFactory().notifyObservers(EventType.ATTACKER_ROLL_DICES);
                 /*
                 Swap player - attacker has action now
                 */
@@ -736,20 +745,7 @@ public class CardCommands {
             
             game.setCombat(combat);
             switch(combatType) {
-                
-//                case  Combat.BOMBARD : {
-//                 if (
-//                         !game.getCurrentPlayer().getName().equals(senderPlayerName))
-//                          game.getCardCommandFactory().notifyObservers(CardCommandFactory.COMBAT_ACCEPTED);
-//                 break;
-//                }
-//                case  Combat.VOLLEY : {
-//                 if (
-//                         !game.getCurrentPlayer().getName().equals(senderPlayerName))
-//                          game.getCardCommandFactory().notifyObservers(CardCommandFactory.COMBAT_ACCEPTED);
-//                 break;
-//                }
-//                
+
                 
                 case Combat.ASSAULT:
                 {
@@ -770,10 +766,10 @@ public class CardCommands {
                 /*
                 Set Combat to play support cards
                 */
-                game.getCombat().setState(Combat.PICK_SUPPORTING_CARDS);
+                game.getCombat().setState(Combat.PICK_SUPPORT_CARDS);
                 
                 game.getCardCommandFactory().awakeObserver();
-                game.getCardCommandFactory().notifyObservers(CardCommandFactory.DEFENDING_CARDS_PLAYED);
+                game.getCardCommandFactory().notifyObservers(EventType.DEFENDING_CARDS_PLAYED);
                 
                 game.swapActivePlayer();
                 LOGGER.debug(game.getCurrentPlayer().getName() + " swapActivePlayer " + game.getCurrentPlayer().isActive());
@@ -868,7 +864,7 @@ public class CardCommands {
 
         @Override
         public void execute(Game game) {
-           
+             game.setCombat(this.combat);
             /*
                 Moving cards to table
                 */
@@ -878,18 +874,12 @@ public class CardCommands {
                 }
             
             /*
-            Set cardFactorywith dices
+            Set combat with dices
             */
-            
             td.execute(game);
             
             
-            //combat.setDices(game.getCardCommandFactory().getAllDices());
-            
-            
-            
             game.getCombat().calculateCombatValues();
-            //game.setCombat(combat);
 
             switch(game.getCombat().getOutcome()){
             
@@ -897,7 +887,7 @@ public class CardCommands {
                 
                 {
                      game.getCardCommandFactory().awakeObserver();   
-                     game.getCardCommandFactory().notifyObservers(CardCommandFactory.COMBAT_NO_RESULT);
+                     game.getCardCommandFactory().notifyObservers(EventType.COMBAT_NO_RESULT);
                      log = "Combat ends with no effect";
                      game.getCombat().setState(Combat.END_COMBAT);
                      break;
@@ -907,15 +897,15 @@ public class CardCommands {
                 
                 {
                      game.getCardCommandFactory().awakeObserver();
-                     game.getUnitByName(combat.getDefendingUnit().getName()).takeHit(game);
-                     if(  !game.getUnitByName(combat.getDefendingUnit().getName()).isEliminated())
+                     game.injureUnit(combat.getDefendingUnit());
+                     if(  !game.getUnit(combat.getDefendingUnit()).isEliminated())
                      {
-                         game.getCardCommandFactory().notifyObservers(CardCommandFactory.COMBAT_DEFENDER_TAKES_HIT);
+                         game.getCardCommandFactory().notifyObservers(EventType.COMBAT_DEFENDER_TAKES_HIT);
                          log = "Combat ends with defending unit takes a hit";
                      }
                      else 
                      {
-                         game.getCardCommandFactory().notifyObservers(CardCommandFactory.COMBAT_DEFENDER_ELIMINATE);
+                         game.getCardCommandFactory().notifyObservers(EventType.COMBAT_DEFENDER_ELIMINATE);
                          game.getCombat().setState(Combat.PURSUIT);
                          if(game.getCurrentPlayer().isActive())
                             {
@@ -935,8 +925,8 @@ public class CardCommands {
                 
                 {   
                      game.getCardCommandFactory().awakeObserver();
-                     game.getUnitByName(combat.getDefendingUnit().getName()).eliminate(game);
-                     game.getCardCommandFactory().notifyObservers(CardCommandFactory.COMBAT_DEFENDER_ELIMINATE);
+                     game.eliminateUnit(combat.getDefendingUnit());
+                     game.getCardCommandFactory().notifyObservers(EventType.COMBAT_DEFENDER_ELIMINATE);
                      log = "Combat ends with defending unit is eliminated";
                      game.getCombat().setState(Combat.PURSUIT);
                      if(game.getCurrentPlayer().isActive())
@@ -953,14 +943,14 @@ public class CardCommands {
                 {
                      
                      game.getCardCommandFactory().awakeObserver();
-                     game.getUnitByName(combat.getAttackingUnit().getName()).takeHit(game);
+                     game.injureUnit(combat.getAttackingUnit());
                      if(  !game.getUnitByName(combat.getAttackingUnit().getName()).isEliminated())
-                     {game.getCardCommandFactory().notifyObservers(CardCommandFactory.COMBAT_ATTACKER_TAKES_HIT);
+                     {game.getCardCommandFactory().notifyObservers(EventType.COMBAT_ATTACKER_TAKES_HIT);
                         log = "Combat ends with attacking unit takes a hit";
                      }
                      else 
                      {
-                        game.getCardCommandFactory().notifyObservers(CardCommandFactory.COMBAT_ATTACKER_ELIMINATE);
+                        game.getCardCommandFactory().notifyObservers(EventType.COMBAT_ATTACKER_ELIMINATE);
                         log = "Combat ends with attacking unit takes a hit and is eliminated" ;
                      }
                      
@@ -974,7 +964,7 @@ public class CardCommands {
                 {
                      
                      game.getCardCommandFactory().awakeObserver();
-                     game.getCardCommandFactory().notifyObservers(CardCommandFactory.DEFENDER_DECIDES);
+                     game.getCardCommandFactory().notifyObservers(EventType.DEFENDER_DECIDES);
 
                      /*
                      */
@@ -982,14 +972,17 @@ public class CardCommands {
                      game.swapActivePlayer();
                      LOGGER.debug(game.getCurrentPlayer().getName() + " swapActivePlayer " + game.getCurrentPlayer().isActive());
                      log = "Defending player decides";
+                     
                      game.getCombat().setState(Combat.DEFENDER_DECIDES);
+                     
+                    
                      break;  
                 }
                 
                 case Combat.ATTACKER_DECIDES :
                 {
                      game.getCardCommandFactory().awakeObserver();
-                     game.getCardCommandFactory().notifyObservers(CardCommandFactory.ATTACKER_DECIDES);
+                     game.getCardCommandFactory().notifyObservers(EventType.ATTACKER_DECIDES);
                      log = "Attacking player decides" ;
                      game.getCombat().setState(Combat.ATTACKER_DECIDES);
                      break;
@@ -999,13 +992,13 @@ public class CardCommands {
                     game.getCardCommandFactory().awakeObserver();
                     Unit defendingUnit =  game.getUnitByName(combat.getDefendingUnit().getName());
                     ArrayList<Position> retreatPosition =  game.getRetreatPositions(defendingUnit);
-                    defendingUnit.takeHit(game);
+                    game.injureUnit(defendingUnit);
                     
                     if(  !game.getUnitByName(combat.getDefendingUnit().getName()).isEliminated())
                     {
                         if(retreatPosition.size() > 0){
                          
-                            game.getCardCommandFactory().notifyObservers(CardCommandFactory.DEFENDING_WITHDRAW); 
+                            game.getCardCommandFactory().notifyObservers(EventType.DEFENDING_WITHDRAW); 
                             defendingUnit.setRetriving(true);
                             defendingUnit.setSelected(true);
                             game.getCombat().setState(Combat.WITHRDAW);
@@ -1021,7 +1014,7 @@ public class CardCommands {
                         }
                         else          
                         {
-                            game.getCardCommandFactory().notifyObservers(CardCommandFactory.COMBAT_DEFENDER_ELIMINATE);
+                            game.getCardCommandFactory().notifyObservers(EventType.COMBAT_DEFENDER_ELIMINATE);
                             game.getCombat().setState(Combat.PURSUIT);
 
                             if(game.getCurrentPlayer().isActive())
@@ -1038,7 +1031,7 @@ public class CardCommands {
                     
                      else 
                      {
-                         game.getCardCommandFactory().notifyObservers(CardCommandFactory.COMBAT_DEFENDER_ELIMINATE);
+                         game.getCardCommandFactory().notifyObservers(EventType.COMBAT_DEFENDER_ELIMINATE);
                          log = "Combat ends with defending takes hit and is eliminated" ;
                          game.getCombat().setState(Combat.PURSUIT);
                          if(game.getCurrentPlayer().isActive())
@@ -1051,6 +1044,8 @@ public class CardCommands {
                      break;  
                 }
             }
+          LOGGER.debug(game.getCurrentPlayer().getName() + log  );
+          LOGGER.debug("game.getCombat().getOutcome() "  + game.getCombat().getOutcome() );
           
         //LOGGER.debug(game.getCurrentPlayer().getName() + " game.unselectAllUnits();"  );
         //game.unselectAllUnits();
@@ -1126,7 +1121,7 @@ public class CardCommands {
                     }
                     case  Combat.DEFFENDER_TAKES_HIT:
                     {
-                         game.getUnit(game.getCombat().getDefendingUnit()).takeHit(game);
+                         game.injureUnit(game.getCombat().getDefendingUnit());
                          pursuitSucceed = true;
                          break;
                     }
@@ -1136,11 +1131,11 @@ public class CardCommands {
             if(pursuitSucceed)
             {
                 game.getCardCommandFactory().awakeObserver();
-                game.getCardCommandFactory().notifyObservers(CardCommandFactory.PUSRUIT_SUCCEDED);
+                game.getCardCommandFactory().notifyObservers(EventType.PUSRUIT_SUCCEDED);
             }
             else {
                 game.getCardCommandFactory().awakeObserver();   
-                game.getCardCommandFactory().notifyObservers(CardCommandFactory.PUSRUIT_FAILED);
+                game.getCardCommandFactory().notifyObservers(EventType.PUSRUIT_FAILED);
                }
            
         }
@@ -1290,7 +1285,7 @@ public class CardCommands {
             
             //Set action button and info bar
             game.getCardCommandFactory().awakeObserver();   
-            game.getCardCommandFactory().notifyObservers(CardCommandFactory.SKIRMISH_PLAYED);
+            game.getCardCommandFactory().notifyObservers(EventType.SKIRMISH_PLAYED);
             
             game.getCombat().endCombat(game);
            

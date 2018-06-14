@@ -237,7 +237,7 @@ public class Card implements CardInterface, Serializable{
      
      }
      
-    public int getAtionType(int phase){
+    public int getActionType(int phase){
         
         if(getCardType() == Card.LEADER)
             return Card.MULTIPLE_PICK_ACTION;
@@ -303,11 +303,11 @@ public class Card implements CardInterface, Serializable{
     public int getCardType() {
         switch (CardType){
             case "Unit": 
-                return CardInterface.UNIT;
+                return Card.UNIT;
             case "HqUnit":
-                return CardInterface.HQCARD;
+                return Card.HQCARD;
             case "HqLeader":
-                return CardInterface.LEADER;
+                return Card.LEADER;
         }         
         return 99; //if else return wrong value
     }
@@ -333,7 +333,7 @@ public class Card implements CardInterface, Serializable{
             
             }
             
-            
+           
             default: return getUnitAttack();
         }
             
@@ -679,7 +679,7 @@ public class Card implements CardInterface, Serializable{
                         {
                             case Combat.PICK_DEFENSE_CARDS:
                                  return true;
-                            case Combat.PICK_SUPPORTING_CARDS:
+                            case Combat.PICK_SUPPORT_CARDS:
                                  return true;
                             case Combat.PICK_SUPPORT_UNIT:
                                  return true;
@@ -748,10 +748,12 @@ public class Card implements CardInterface, Serializable{
                     case Card.SKIRMISH :
                     {
                        if(game.getCombat() != null) 
-                        return game.getCombat().getState() == Combat.PICK_SUPPORTING_CARDS;
+                        return game.getCombat().getState() == Combat.PICK_SUPPORT_CARDS;
 
                     }
                 }
+                
+                break;
             
             case Card.UNIT:
             
@@ -780,7 +782,7 @@ public class Card implements CardInterface, Serializable{
                                        return true;
                                 else 
                                        return false;
-                            case Combat.PICK_SUPPORTING_CARDS:
+                            case Combat.PICK_SUPPORT_CARDS:
                             {
                                 /*
                                 Check if support unit matches card with assault mode
@@ -923,7 +925,7 @@ public class Card implements CardInterface, Serializable{
                         game.getCombat().addDefenceCard(this);
                      }
                      
-                     if(game.getCombat().getState() == Combat.PICK_SUPPORTING_CARDS)
+                     if(game.getCombat().getState() == Combat.PICK_SUPPORT_CARDS)
                      {
                         game.getCombat().setState(Combat.PICK_SUPPORT_UNIT);
                         game.getCombat().setSupportingLeader(this);
@@ -1013,7 +1015,7 @@ public class Card implements CardInterface, Serializable{
                      
                      if(game.getCombat().getState() == Combat.PICK_SUPPORT_UNIT)
                      {
-                        game.getCombat().setState(Combat.PICK_SUPPORTING_CARDS);
+                        game.getCombat().setState(Combat.PICK_SUPPORT_CARDS);
                         game.getCombat().setSupportingLeader(null);
                         
                      }

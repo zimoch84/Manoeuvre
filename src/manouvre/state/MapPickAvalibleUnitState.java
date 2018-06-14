@@ -11,7 +11,7 @@ import manouvre.commands.AdvanceUnitCommand;
 import manouvre.game.Game;
 import manouvre.game.Position;
 import manouvre.commands.CommandQueue;
-import manouvre.game.CardCommandFactory;
+import manouvre.events.EventType;
 import manouvre.game.Combat;
 import manouvre.game.Unit;
 import manouvre.interfaces.Command;
@@ -30,13 +30,14 @@ public class MapPickAvalibleUnitState implements MapState, Serializable{
     public void handleInput(Position pos, Game game, CommandQueue cmdQueue, MapInputStateHandler handler) {
         ArrayList<Position> avalaiblePositions =  game.getCurrentPlayerAvalibleUnitToSelect();
                
-        if(avalaiblePositions.size()>0)
+        
+        if(avalaiblePositions != null)
         if(avalaiblePositions.contains(pos))
             
         {
             if(handler.unitSelectionMode == MapInputStateHandler.PICK_ONE_UNIT)
             {
-                LOGGER.debug(game.getCurrentPlayer().getName() + "game.unselectAllUnits()" );
+                
                 game.unselectAllUnits();
             }
             
@@ -48,7 +49,7 @@ public class MapPickAvalibleUnitState implements MapState, Serializable{
             //{
             if(game.getPhase() == Game.SETUP || game.getPhase() == Game.MOVE )
             {
-                LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION" );
+                
                 handler.setState(MapInputStateHandler.PICK_MOVE_POSITION);
             }   
             
@@ -74,7 +75,7 @@ public class MapPickAvalibleUnitState implements MapState, Serializable{
 
                     cmdQueue.storeAndExecuteAndSend(advanceCommand);
                     game.getCardCommandFactory().awakeObserver();
-                    game.getCardCommandFactory().notifyObservers(CardCommandFactory.PICKED_ADVANCE);
+                    game.getCardCommandFactory().notifyObservers(EventType.PICKED_ADVANCE);
             }
             /* }
             else  
@@ -92,7 +93,7 @@ public class MapPickAvalibleUnitState implements MapState, Serializable{
         {   
             if(game.getPhase() == Game.SETUP || game.getPhase() == Game.MOVE )
             {
-            LOGGER.debug(game.getCurrentPlayer().getName() + " game.unselectAllUnits()" );
+            
             game.unselectAllUnits();
             }
         }    

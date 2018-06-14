@@ -23,15 +23,12 @@ import manouvre.interfaces.CardSetInterface;
 public class CardSet extends Observable implements CardSetInterface, Serializable{
     
     private static final long serialVersionUID = 455321L;
-    private int cardSetSize=0;           // each army includes an Action Deck of 60 cards. 
- 
+    private int defCardSetSize=0;           
     private int nation;
-    boolean cardSelected;
     public String name;
     
-    public ArrayList<Card> cardList = new ArrayList<Card>();
-    public ArrayList<Card> selectionSeq = new ArrayList<Card>();
-
+    private ArrayList<Card> cardList = new ArrayList<Card>();
+    
     /**
      * Establish object for CARD DECK 
      * @param size - size of the CardDeck
@@ -46,44 +43,83 @@ public class CardSet extends Observable implements CardSetInterface, Serializabl
             case  "DRAW" : {
             makeDeck(); 
             this.name = "DRAW";
-            this.cardSetSize=60;
+            this.defCardSetSize=60;
             break;
             }
             case "HAND" :
             {
-            this.cardSetSize=5;
+            this.defCardSetSize=5;
             this.name = "HAND";
             break;
             }
             case "DISCARD":
             {
-            this.cardSetSize=60;
+            this.defCardSetSize=60;
             this.name = "DISCARD";
             break;
             }
             case "TABLE":{
-            this.cardSetSize=8;
+            this.defCardSetSize=8;
             this.name = "TABLE";
             break;
             }
             case   "TABLE_DEFENDING":
-               this.cardSetSize=8;
+               this.defCardSetSize=8;
             this.name = "TABLE_DEFENDING";
             break;
             case "TEST" :
-             this.cardSetSize=60;
+             this.defCardSetSize=60;
             this.name = "TABLE_DEFENDING";
             }
     }
 
-    public boolean isCardSelected() {
-        return cardSelected;
+    
+    public boolean isAnyCardSelected() {
+        for(Card selectedCard : cardList )
+        {
+            if(selectedCard.isSelected()) return true;
+        }
+        return false;
     }
 
-    public void setCardSelected(boolean cardSelected) {
-        this.cardSelected = cardSelected;
+    public ArrayList<Card> getSelectedCards()
+    {
+        ArrayList<Card> selectedCards = new ArrayList<>();
+        
+        for(Card selectedCard : cardList )
+        {
+            if(selectedCard.isSelected()) selectedCards.add(selectedCard);
+        }
+        return selectedCards;
+ 
+    }
+    public void unselectAllCards()
+    {
+         for(Card card : cardList )
+             card.setSelected(false);
     }
     
+    public void unselectMouseOverCard()
+    {
+         for(Card card : cardList )
+             card.setMouseOverCard(false);
+    }
+    
+    public void selectCard(Card cardToSelect){
+    
+        if(getCard(cardToSelect)!=null)
+            getCard(cardToSelect).setSelected(true);
+        
+    }
+    
+    public void deselectCard(Card cardToDeSelect){
+    
+        if(getCard(cardToDeSelect)!=null)
+            getCard(cardToDeSelect).setSelected(false);
+        
+    }
+    
+        
 
     //-----------------DECK------------------------------------------------
     /**
@@ -153,14 +189,9 @@ public class CardSet extends Observable implements CardSetInterface, Serializabl
                 Remove cards from deck that are in hand already
                 */
                 for(Card cardInHand: otherCardSet.getCardList()){
-                    removeCardFromThisSet(cardInHand);
+                    removeCard(cardInHand);
       
                 }
-                
-               
-                
-                
-                
             }
         }
         
@@ -168,7 +199,6 @@ public class CardSet extends Observable implements CardSetInterface, Serializabl
         moveCardTo(getLastCard(false), otherCardSet);
         
     }
-
      
      public void clear(int range){ //remove first "range" cards set
           for(int i=0; i<range; i++){
@@ -187,7 +217,7 @@ public class CardSet extends Observable implements CardSetInterface, Serializabl
         if(size()>0){
         Card temp = getCardByPosInSet(size()-1);
         if(remove)
-            removeCardFromThisSet(getCardByPosInSet(size()-1));
+            removeCard(getCardByPosInSet(size()-1));
         return temp;
         }
      return null;
@@ -208,33 +238,24 @@ public class CardSet extends Observable implements CardSetInterface, Serializabl
                 
                 if(cardList.size() == 0 && name.equals("DRAW") )   
                     notifyObservers("LAST_CARD_DRAWN");
-                
             }
      }
      else 
          notifyObservers("LAST_CARD_DRAWN");
     }
-    public Card drawCardFromSet(Card card){
-        if(cardList.size()>0&&cardList.contains(card)){
-        Card t_card=cardList.get(cardList.indexOf(card));
-        cardList.remove(card);
-        return t_card;
-        }
-        return (Card)null;
-     }
-    
+
     //--------------GENERAL FOR ALL----------------------------
     @Override
     public void addCard(Card newCard){
-        if (cardList.size()<cardSetSize){  //if it is possible to add the card  
-            cardList.add(newCard);  //add the card
+        if (cardList.size()<defCardSetSize){  
+            cardList.add(newCard);  
         }
         else{
            System.out.println("CardSet is Full. No more cards allowed");
         }          
     }  
    
-    public void removeCardFromThisSet(Card removedCard){
+    public void removeCard(Card removedCard){
          cardList.remove(removedCard);
         
      }
@@ -251,6 +272,7 @@ public class CardSet extends Observable implements CardSetInterface, Serializabl
     return cardNames;
     }  
         
+    @Override
     public Card getCardByPosInSet(int cardPosition){
        return cardList.get(cardPosition);     
     }
@@ -265,17 +287,7 @@ public class CardSet extends Observable implements CardSetInterface, Serializabl
         }  
         return (Card)null;
     }
-     
-    public Card getCardByType(int type){
-        for (int i=0; i<cardList.size(); i++){
-            if(cardList.get(i).getHQType() == type){
-                Card card = cardList.get(i);
-                return card;
-            }
-        }  
-        return (Card)null;
-    }
-    
+ 
     public int getPositionInSet(Card card) {
         return cardList.indexOf(card);
      }
@@ -317,7 +329,7 @@ public class CardSet extends Observable implements CardSetInterface, Serializabl
   
        
     public int getCardSetSize() {
-        return cardSetSize;
+        return defCardSetSize;
     }
      
      public Card getCardFromSetByID(int cardID){

@@ -166,34 +166,11 @@ public class Unit implements UnitInterface, Serializable{
     public boolean isInjured() {
         return injured;
     }
-    
-    
-
-    public void takeHit(Game game){
-    if (!isInjured())
-        injured = true;
-    else 
-    {  
-        eliminate(game);
-        
-    }
-    
-  
-    }
-    
-        public void eliminate(Game game)
-    {
-        eliminated = true;
-        game.getMap().getTerrainAtPosition(getPosition()).setIsOccupiedByUnit(false);
-        //setPosition(new Position(-10, -10));
-    }
-    
     public void restoreUnit()
     {
     
         if(!eliminated)
             injured = false;
-            
     }
    
     @Override

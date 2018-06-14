@@ -42,7 +42,7 @@ public class MapInputStateHandler implements Serializable{
     
     public void setState(String nextState)
     {
-        LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na " + nextState );
+        LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu z:" + currentState + " na: "   + nextState );
         previousState = currentState;
         
         switch(nextState)

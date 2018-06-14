@@ -74,7 +74,7 @@ public class Player  implements Serializable{
         setDraw(false);
         setAttacked(false);
         
-        getHand().selectionSeq.clear();
+        getHand().unselectAllCards();
         
     }
 
@@ -291,7 +291,7 @@ public class Player  implements Serializable{
         return getName() +
                 ",Nation: " + getNationAsString(false)+  
                 ",Army size: " + (army != null ? getArmy().length  : "0"
-                +",Hand Size: "  + (hand != null ? getHand().cardList.size()  : "0") 
+                +",Hand Size: "  + (hand != null ? getHand().getCardList().size()  : "0") 
                 ) ;
 
     }

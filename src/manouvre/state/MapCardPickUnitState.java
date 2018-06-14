@@ -18,6 +18,7 @@ import manouvre.game.Unit;
 import manouvre.commands.AdvanceUnitCommand;
 import manouvre.commands.CardCommands;
 import manouvre.commands.CommandQueue;
+import manouvre.events.EventType;
 import manouvre.interfaces.Command;
 import manouvre.gui.CustomDialog;
 import manouvre.gui.GameWindow;
@@ -89,7 +90,7 @@ private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogg
         
                                             
                                             game.getCardCommandFactory().awakeObserver();
-                                            game.getCardCommandFactory().notifyObservers(CardCommandFactory.PICKED_ADVANCE);
+                                            game.getCardCommandFactory().notifyObservers(EventType.PICKED_ADVANCE);
                                             
                                             
                                             

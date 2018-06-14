@@ -699,9 +699,9 @@
                                       <Component id="scoreLabelCurrPlayer" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="unitsKilledCurrPlayer" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                                       <Component id="drawPileCurrPlayer" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="0" pref="70" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="103" max="32767" attributes="0"/>
                                   </Group>
                                   <Component id="playerHandPanel" alignment="0" max="32767" attributes="0"/>
                               </Group>
@@ -712,12 +712,16 @@
                   <SubComponents>
                     <Component class="javax.swing.JLabel" name="scoreLabelCurrPlayer">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Score:"/>
+                        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                          <Connection code="&quot;Score: &quot; + game.getCurrentPlayer().getScore()" type="code"/>
+                        </Property>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="unitsKilledCurrPlayer">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Units Killed:"/>
+                        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                          <Connection code="&quot;Units Killed: &quot; + game.getCurrentPlayer().getUnitsKilled()" type="code"/>
+                        </Property>
                       </Properties>
                     </Component>
                     <Container class="javax.swing.JPanel" name="curPlayerFlag">
@@ -745,7 +749,9 @@
                     </Container>
                     <Component class="javax.swing.JLabel" name="drawPileCurrPlayer">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Draw Pile:"/>
+                        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                          <Connection code="&quot;Draw Pile: &quot; + game.getCurrentPlayer().getDrawPile().size()" type="code"/>
+                        </Property>
                       </Properties>
                     </Component>
                     <Container class="javax.swing.JPanel" name="discardPanel">
@@ -857,7 +863,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="scoreOpponent" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="unitsKilledOppPlayer" min="-2" max="-2" attributes="0"/>
+                              <Component id="unitsKilledOppPlayer" min="-2" pref="15" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="drawPileOppPlayer" min="-2" max="-2" attributes="0"/>
                               <EmptySpace pref="97" max="32767" attributes="0"/>
@@ -870,7 +876,9 @@
                   <SubComponents>
                     <Component class="javax.swing.JLabel" name="scoreOpponent">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Score:"/>
+                        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                          <Connection code="&quot;Score: &quot; + game.getOpponentPlayer().getScore()" type="code"/>
+                        </Property>
                       </Properties>
                     </Component>
                     <Container class="javax.swing.JPanel" name="discardPanel1">
@@ -892,7 +900,7 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <EmptySpace min="0" pref="141" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="138" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
@@ -904,7 +912,9 @@
                     </Container>
                     <Component class="javax.swing.JLabel" name="unitsKilledOppPlayer">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Units Killed:"/>
+                        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                          <Connection code="&quot;Units Killed: &quot; + game.getOpponentPlayer().getUnitsKilled()" type="code"/>
+                        </Property>
                       </Properties>
                     </Component>
                     <Container class="javax.swing.JPanel" name="opoPlayerFlag">
@@ -932,7 +942,9 @@
                     </Container>
                     <Component class="javax.swing.JLabel" name="drawPileOppPlayer">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Draw Pile:"/>
+                        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                          <Connection code="&quot;Draw Pile: &quot; + game.getOpponentPlayer().getDrawPile().size()" type="code"/>
+                        </Property>
                       </Properties>
                     </Component>
                     <Container class="javax.swing.JPanel" name="opponentHandPanel">

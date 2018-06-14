@@ -44,7 +44,7 @@ public class DiscardCardCommand implements Command {
         /*
         Empty selecttion
         */
-        game.getCurrentPlayer().getHand().selectionSeq.clear();
+        game.getCurrentPlayer().getHand().unselectAllCards();
     }
    
     

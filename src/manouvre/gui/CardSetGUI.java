@@ -16,7 +16,6 @@ import java.util.Observer;
 import manouvre.game.Card;
 import manouvre.game.CardSet;
 import manouvre.game.Game;
-import static java.lang.Math.round;
 import manouvre.game.Dice;
 
 /**
@@ -82,7 +81,7 @@ import manouvre.game.Dice;
                 
             tableOpponentGUI.clear();
             if(cardSet.size() > 0 )
-                for(Card card : cardSet.cardList)
+                for(Card card : cardSet.getCardList())
                 {
                  tableOpponentGUI.add(new CardGUI(card));
                 }
@@ -96,7 +95,7 @@ import manouvre.game.Dice;
             case "HAND"  :{
                 handGUI.clear();
                 if(cardSet.size() > 0 )
-                    for(Card card : cardSet.cardList)
+                    for(Card card : cardSet.getCardList())
                     {
                      handGUI.add(new CardGUI(card));
                     }
@@ -115,7 +114,7 @@ import manouvre.game.Dice;
             case "TABLE"  :{
                 tableGUI.clear();
                 if(cardSet.size() > 0 )
-                for(Card card : cardSet.cardList)
+                for(Card card : cardSet.getCardList())
                 {
                  tableGUI.add(new CardGUI(card));
                 }
@@ -155,10 +154,12 @@ import manouvre.game.Dice;
     
      public void paintHand(Graphics g, Game game)                 
     {   
+        int CARDPADDINGTOPTemp;
+        /*
         CardSet hand=game.getCurrentPlayer().getHand();
         int CARDPADDINGTOPTemp=CARDPADDINGTOP;
         Integer j=0;
-        if(!hand.selectionSeq.isEmpty())
+        if(hand.isAnyCardSelected())
         {
             Card card =hand.selectionSeq.get(hand.selectionSeq.size()-1);              
             j=hand.getPositionInSet(card); 
@@ -172,9 +173,27 @@ import manouvre.game.Dice;
                     }
             g.fillPolygon(xPoints, yPoints, 3);
          }
+
+    */
+        
+       for (CardGUI drawingCard : handGUI ){
+       
+            Card card = drawingCard.getCard();
+             if(     card.isMouseOverCard()
+                    || card.isSelected()
+                    && card.canBePlayed(game)
+                   
+                    )
+                    CARDPADDINGTOPTemp=CARDPADDINGTOP-20;
+            else CARDPADDINGTOPTemp=CARDPADDINGTOP;
+            g.drawImage(drawingCard.getImgFull(), 
+                    CARDPADDINGLEFT+(CardGUI.WIDTH+GAP)*  game.getCurrentPlayer().getHand().getPositionInSet(card) ,
+                    CARDPADDINGTOPTemp, 
+                    CardGUI.WIDTH, 
+                    CardGUI.HEIGHT, null);  
+             
+       }
        /*
-        Order of placing card in array is the same as 
-        */
         for ( int i=0; i < handGUI.size(); i++) 
         {
             CardGUI cardGUI = handGUI.get(i);
@@ -191,6 +210,7 @@ import manouvre.game.Dice;
             g.drawImage(cardGUI.getImgFull(), CARDPADDINGLEFT+(CardGUI.WIDTH+GAP)* i  ,
                     CARDPADDINGTOPTemp, CardGUI.WIDTH, CardGUI.HEIGHT, null);  
         }
+       */
         
     }  
 
@@ -355,16 +375,14 @@ import manouvre.game.Dice;
     } 
 
      public void setMouseOverCard(int mouseX, int mouseY){
-        for (int i=0; i<game.getCurrentPlayer().getHand().size(); i++){
-            game.getCurrentPlayer().getHand().getCardByPosInSet(i).setMouseOverCard(false);//delete all selections first
-        }
+        
+        game.getCurrentPlayer().getHand().unselectMouseOverCard();
+        
         Card cardOverMouse=getCardFromMousePosition(mouseX,mouseY);
         if(cardOverMouse!=null){
             cardOverMouse.setMouseOverCard(true);
         }
-        else{
-           // System.err.println("card null");
-        }
+
     }
             
     @Override

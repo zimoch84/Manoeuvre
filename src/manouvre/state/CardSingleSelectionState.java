@@ -10,6 +10,7 @@ import manouvre.game.Card;
 import manouvre.game.CardSet;
 import manouvre.game.Game;
 import manouvre.commands.CommandQueue;
+import manouvre.events.EventType;
 import manouvre.game.CardCommandFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -68,7 +69,7 @@ public class CardSingleSelectionState implements CardInputState, Serializable{
                     else if (playingModeCounter == 2)
                     {
                         game.getCardCommandFactory().awakeObserver();
-                        game.getCardCommandFactory().notifyObservers(CardCommandFactory.VOLLEY_ASSAULT_DECISION);
+                        game.getCardCommandFactory().notifyObservers(EventType.VOLLEY_ASSAULT_DECISION);
                     }
                         
                 }
@@ -96,7 +97,7 @@ public class CardSingleSelectionState implements CardInputState, Serializable{
                     if (playingModeCounter == 2)
                     {
                         game.getCardCommandFactory().awakeObserver();
-                        game.getCardCommandFactory().notifyObservers(CardCommandFactory.VOLLEY_ASSAULT_DECISION_DESELECTION);
+                        game.getCardCommandFactory().notifyObservers(EventType.VOLLEY_ASSAULT_DECISION_DESELECTION);
                     }
                         
                 }

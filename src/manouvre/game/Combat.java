@@ -23,7 +23,7 @@ public class Combat implements Serializable{
     public static final String ASSAULT = "ASSAULT";
     public static final String VOLLEY = "VOLLEY";
     public static final String BOMBARD = "BOMBARD";
-    
+    public static final String SKIRMISH= "SKIRMISH";
     /*
     COmbat flow state
     */
@@ -32,18 +32,16 @@ public class Combat implements Serializable{
     public static final String WITHRDAW= "WITHRDAW";
     public static final String PICK_DEFENSE_CARDS = "PICK_DEFENSE_CARDS";
     public static final String PICK_SUPPORT_UNIT= "PICK_SUPPORT_UNIT";
-    public static final String PICK_SUPPORTING_CARDS= "PICK_SUPPORTING_CARDS";
+    public static final String PICK_SUPPORT_CARDS= "PICK_SUPPORT_CARDS";
     public static final String THROW_DICES= "THROW_DICES";
+    public static final String END_COMBAT= "END_COMBAT";
+    
+    /*
+    Combat Outcome
+    */
     public static final String DEFENDER_DECIDES= "DEFENDER_DECIDES";
     public static final String ATTACKER_DECIDES= "ATTACKER_DECIDES";
     public static final String PURSUIT= "PURSUIT";
-    public static final String SKIRMISH= "SKIRMISH";
-    public static final String END_COMBAT= "END_COMBAT";
-    
-    
-    /*
-    Outcome
-    */
     public static final String DEFFENDER_TAKES_HIT="DEFFENDER_TAKES_HIT";
     public static final String ATTACKER_TAKES_HIT= "ATTACKER_TAKES_HIT";
     public static final String HIT_AND_RETREAT= "HIT_AND_RETREAT";

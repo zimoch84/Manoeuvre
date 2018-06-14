@@ -11,6 +11,7 @@ import manouvre.game.Card;
 import manouvre.game.Combat;
 import manouvre.game.Game;
 import manouvre.commands.CommandQueue;
+import manouvre.events.EventType;
 import manouvre.game.CardCommandFactory;
 import manouvre.game.Unit;
 import org.apache.logging.log4j.LogManager;
@@ -34,7 +35,7 @@ public class CardMultipleSelectionState implements CardInputState, Serializable{
             {
                 
             card.setSelected(true);
-            game.getCurrentPlayer().getHand().selectionSeq.add(card);
+            game.getCurrentPlayer().getHand().selectCard(card);
             }
             
             else if(game.getPhase() == Game.COMBAT)
@@ -55,14 +56,14 @@ public class CardMultipleSelectionState implements CardInputState, Serializable{
                             else if (card.canBePlayed(game))
                                 card.actionOnSelection(game, cmdQueue);
                     }
-                    else if (game.getCombat().getState() == Combat.PICK_SUPPORTING_CARDS)
+                    else if (game.getCombat().getState() == Combat.PICK_SUPPORT_CARDS)
                     {
                         if(card.getCardType() == Card.LEADER)
                         {
                             card.setSelected(true);
                             game.getCardCommandFactory().setPlayingCard(card);
                             game.getCardCommandFactory().awakeObserver();
-                            game.getCardCommandFactory().notifyObservers(CardCommandFactory.LEADER_SELECTED);
+                            game.getCardCommandFactory().notifyObservers(EventType.LEADER_SELECTED);
                             
                         }
                         if(card.getHQType() == Card.SKIRMISH){
@@ -70,7 +71,7 @@ public class CardMultipleSelectionState implements CardInputState, Serializable{
                             card.setSelected(true);
                             game.getCardCommandFactory().setPlayingCard(card);
                             game.getCardCommandFactory().awakeObserver();
-                            game.getCardCommandFactory().notifyObservers(CardCommandFactory.SKIRMISH_SELECTED);
+                            game.getCardCommandFactory().notifyObservers(EventType.SKIRMISH_SELECTED);
                             
                             LOGGER.debug(game.getCurrentPlayer().getName() + "zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION_BY_CARD");
                             game.mapInputHandler.setState(MapInputStateHandler.PICK_MOVE_POSITION_BY_CARD);
@@ -136,7 +137,7 @@ public class CardMultipleSelectionState implements CardInputState, Serializable{
             if(game.getPhase() == Game.DISCARD)
             {
             
-            game.getCurrentPlayer().getHand().selectionSeq.remove(card); 
+            game.getCurrentPlayer().getHand().deselectCard(card); 
             }
             
             else if(game.getPhase() == Game.COMBAT)
@@ -173,7 +174,7 @@ public class CardMultipleSelectionState implements CardInputState, Serializable{
                         game.getCardCommandFactory().setPlayingCard(null);
                         }
                     }
-                    else if (game.getCombat().getState() == Combat.PICK_SUPPORTING_CARDS)   
+                    else if (game.getCombat().getState() == Combat.PICK_SUPPORT_CARDS)   
                         if(card.getCardType() == Card.UNIT)
                         {
                             if(game.getCombat().getSupportingLeader() == null)
@@ -195,17 +196,7 @@ public class CardMultipleSelectionState implements CardInputState, Serializable{
                                 }
                             }   
                             }
-                            else if(card.getHQType() == Card.SKIRMISH){
                             
-                            card.setSelected(false);
-                            game.getCardCommandFactory().setPlayingCard(null);
-                            game.getCardCommandFactory().awakeObserver();
-                            game.getCardCommandFactory().notifyObservers(CardCommandFactory.SKIRMISH_DESELECTED);
-                            
-                            LOGGER.debug(game.getCurrentPlayer().getName() + "zmiana stanu na MapInputStateHandler.NOSELECTION");
-                            game.mapInputHandler.setState(MapInputStateHandler.NOSELECTION);
-                            
-                             }
                                 
                             else 
                             {
@@ -227,8 +218,22 @@ public class CardMultipleSelectionState implements CardInputState, Serializable{
                         LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().setPlayingCard(null)");
                         game.getCardCommandFactory().setPlayingCard(null);
                         
-                        game.getCardCommandFactory().notifyObservers(CardCommandFactory.LEADER_DESELECTED);
+                        game.getCardCommandFactory().notifyObservers(EventType.LEADER_DESELECTED);
                         }
+                        
+                        else if(card.getHQType() == Card.SKIRMISH)
+                        {
+                            
+                            card.setSelected(false);
+                            game.getCardCommandFactory().setPlayingCard(null);
+                            game.getCardCommandFactory().awakeObserver();
+                            game.getCardCommandFactory().notifyObservers(EventType.SKIRMISH_DESELECTED);
+                            
+                            LOGGER.debug(game.getCurrentPlayer().getName() + "zmiana stanu na MapInputStateHandler.NOSELECTION");
+                            game.mapInputHandler.setState(MapInputStateHandler.NOSELECTION);
+                            
+                        }
+                        
             }
         }       
         

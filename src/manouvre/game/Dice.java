@@ -23,6 +23,7 @@ public class Dice implements Serializable{
     public static final int DICE2d8 = 16;
     public static final int DICE2d10 = 20;
     
+    
     public static final int D6 = 0;
     public static final int D8 = 1;
     public static final int D10 = 3;
@@ -40,7 +41,7 @@ public class Dice implements Serializable{
     
     }
   
-    public void generateResult()
+    private void generateResult()
     {
     switch(type){
         

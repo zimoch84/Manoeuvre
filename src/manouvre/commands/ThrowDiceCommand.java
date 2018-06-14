@@ -28,8 +28,6 @@ public class ThrowDiceCommand implements Command{
     public ThrowDiceCommand(String playerName, ArrayList<Card> cards) {
     this.playerName = playerName;
     
-    
-    
     ArrayList<Card> cardsClone = (ArrayList<Card>) UnoptimizedDeepCopy.copy (cards);
     
     this.cards = cardsClone;
@@ -42,6 +40,7 @@ public class ThrowDiceCommand implements Command{
     for(Card checkCard: this.cards )
         {
         ArrayList<Dice> dices = new ArrayList<>();
+        if(checkCard.getCardType() != Card.LEADER)
         switch(checkCard.getUnitDiceValue()){
         
             case Dice.DICE1d6:{
@@ -86,7 +85,7 @@ public class ThrowDiceCommand implements Command{
                 d10dices.addAll(dices);
                 break;
             }
-            
+           
         }
     }
     }
@@ -107,12 +106,6 @@ public class ThrowDiceCommand implements Command{
         allDice.addAll(d10dices);
         
         game.getCombat().setDices(allDice);
-        
-        //game.getCardCommandFactory().setD6dices(d6dices);
-        //game.getCardCommandFactory().setD8dices(d8dices);
-        //game.getCardCommandFactory().setD10dices(d10dices);
-  
-        
         
     }
 

@@ -5,6 +5,7 @@
  */
 package manouvre.commands;
 
+import manouvre.events.EventType;
 import manouvre.game.CardCommandFactory;
 import manouvre.game.Combat;
 import manouvre.game.Game;
@@ -40,23 +41,23 @@ public class TakeHitCommand implements Command{
         
         if(!eliminate) 
         {   
-            unit.takeHit(game);
+            game.injureUnit(unit);
             if(  !unit.isEliminated())
             {
-            game.getCardCommandFactory().notifyObservers(CardCommandFactory.COMBAT_DEFENDER_TAKES_HIT);
+            game.getCardCommandFactory().notifyObservers(EventType.COMBAT_DEFENDER_TAKES_HIT);
             log = "Combat ends with defending unit takes a hit";
             }
             else 
             {
-             game.getCardCommandFactory().notifyObservers(CardCommandFactory.COMBAT_DEFENDER_ELIMINATE);
+             game.getCardCommandFactory().notifyObservers(EventType.COMBAT_DEFENDER_ELIMINATE);
              log = "Combat ends with defending unit takes a hit and is eliminated";
             }
         
         }
         else 
         {
-         unit.eliminate(game);
-         game.getCardCommandFactory().notifyObservers(CardCommandFactory.COMBAT_DEFENDER_ELIMINATE);
+         game.eliminateUnit(unit);
+         game.getCardCommandFactory().notifyObservers(EventType.COMBAT_DEFENDER_ELIMINATE);
          log = "Combat ends with defending unit is eliminated";
         }
         
@@ -98,7 +99,7 @@ public class TakeHitCommand implements Command{
             game.mapInputHandler.setState(MapInputStateHandler.NOSELECTION);
         }    
             
-        
+        game.checkGameOver();
         
         
         

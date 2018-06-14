@@ -30,49 +30,9 @@ public class CardCommandFactory extends Observable implements Serializable{
     /*
     Notify observer passed arg
     */
-   
-    
-    
-    public final static String CARD_DIALOG = "CARD_DIALOG";
-    public final static String CARD_REJECTED = "CARD_REJECTED";
-    public final static String CARD_NOT_REJECTED = "CARD_NOT_REJECTED";
-    public final static String DEFENDING_CARDS_PLAYED = "DEFENDING_CARDS_PLAYED";
-    public final static String DEFENDING_WITHDRAW = "DEFENDING_WITHDRAW";
-    public final static String PICKED_ADVANCE = "PLAYER_CHOSEN_ADVANCE_UNIT";
-    public final static String VOLLEY_ASSAULT_DECISION = "VOLLEY_ASSAULT_DECISION";
-    public final static String VOLLEY_ASSAULT_DECISION_DESELECTION = "VOLLEY_ASSAULT_DECISION_DESELECTION";
-    
-    
-    public final static String ASSAULT_BEGINS = "ASSAULT_BEGINS";
-    public final static String VOLLEY_BEGINS = "VOLLEY_BEGINS";
-    public final static String BOMBARD_BEGINS = "BOMBARD_BEGINS";
-    public final static String ATTACKER_ROLL_DICES = "ATTACKER_ROLL_DICES";
-    public final static String DEFENDER_PICK_SUPPORT = "ATTACKER_ROLL_DICES";
-    public final static String ATTACKER_PICK_SUPPORT = "ATTACKER_ROLL_DICES";
-    
-    public final static String COMBAT_NO_RESULT = "COMBAT_NO_RESULT";
-    public final static String DEFENDER_DECIDES = "DEFENDER_DECIDES";
-    public final static String ATTACKER_DECIDES = "ATTACKER_DECIDES";
-    public final static String COMBAT_DEFENDER_TAKES_HIT = "COMBAT_DEFENDER_TAKES_HIT";
-    public final static String COMBAT_ATTACKER_TAKES_HIT = "COMBAT_ATTACKER_TAKES_HIT";
-    public final static String COMBAT_DEFENDER_ELIMINATE = "COMBAT_ELIMINATE";
-    public final static String COMBAT_ATTACKER_ELIMINATE = "COMBAT_ATTACKER_ELIMINATE";
-    public final static String PUSRUIT_FAILED = "PUSRUIT_FAILED";
-    public final static String PUSRUIT_SUCCEDED = "PUSRUIT_SUCCEDED";
-    public final static String SKIRMISH_SELECTED = "SKIRMISH_SELECTED";
-    public final static String SKIRMISH_DESELECTED = "SKIRMISH_DESELECTED";
-    public final static String SKIRMISH_PLAYED = "SKIRMISH_PLAYED";
-    
-    
-    public final static String COMBAT_ACCEPTED = "COMBAT_ACCEPTED";
-    public final static String LEADER_SELECTED = "LEADER_SELECTED";
-    public final static String LEADER_DESELECTED = "LEADER_DESELECTED";
     
     
     
-
-    public final static String HOST_GAME_OVER = "HOST_GAME_OVER";
-    public final static String GUEST_GAME_OVER = "GUEST_GAME_OVER";
     
     Card playingCard, opponentCard;
     /*
@@ -108,7 +68,7 @@ public class CardCommandFactory extends Observable implements Serializable{
         d6dices = new ArrayList<>();
         d8dices = new ArrayList<>();
         d10dices = new ArrayList<>(); 
-        fakeDices();
+        //fakeDices();
         
     }
 
@@ -342,7 +302,7 @@ public class CardCommandFactory extends Observable implements Serializable{
     
     public Command createDiscardCommand(){
     
-        return  new DiscardCardCommand(game.getCurrentPlayer().getHand().selectionSeq, game.getCurrentPlayer().getName());
+        return  new DiscardCardCommand(game.getCurrentPlayer().getHand().getSelectedCards(), game.getCurrentPlayer().getName());
     }
     
     public Command resetFactoryCommand(){
@@ -385,7 +345,7 @@ public class CardCommandFactory extends Observable implements Serializable{
      public void removePickedAttackingCard(Card card) {
         this.supportAttackCards.remove(card);
     }
-       
+       /*
     void fakeDices()
     {
     d6dices.add(new Dice(Dice.D6));
@@ -402,7 +362,7 @@ public class CardCommandFactory extends Observable implements Serializable{
         for(Dice dice : d8dices){dice.generateResult();}
         for(Dice dice : d10dices){dice.generateResult();}
     }
-    
+    */
      public CardCommandInterface getIncomingCardCommand() {
         return incomingCardCommand;
     }

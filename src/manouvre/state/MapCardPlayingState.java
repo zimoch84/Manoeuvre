@@ -29,7 +29,7 @@ public class MapCardPlayingState implements MapState, Serializable{
     public void handleInput(Position pos, Game game, CommandQueue cmdQueue , MapInputStateHandler handler) {
        
                 Card playingCard = game.getCardCommandFactory().getPlayingCard();
-                switch (playingCard.getAtionType(game.getPhase())){
+                switch (playingCard.getActionType(game.getPhase())){
                 
                 case Card.MOVE_ACTION:
                 {

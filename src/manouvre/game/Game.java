@@ -9,18 +9,23 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import manouvre.commands.CommandQueue;
+import manouvre.events.EventType;
 import static manouvre.interfaces.PositionInterface.COLUMN_H;
 import static manouvre.interfaces.PositionInterface.ROW_8;
 import manouvre.gui.CreateRoomWindow;
 import manouvre.network.server.UnoptimizedDeepCopy;
 import manouvre.state.CardStateHandler;
 import manouvre.state.MapInputStateHandler;
+import manouvre.state.MapPickAvalibleUnitState;
+import org.apache.logging.log4j.LogManager;
 
 /**
  *
  * @author Piotr
  */
 public final class Game implements Serializable{
+    
+    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(MapPickAvalibleUnitState.class.getName());
     
     private static final long serialVersionUID = 42321L;
     /*
@@ -101,11 +106,8 @@ public final class Game implements Serializable{
     public ArrayList<Player> getPlayers() {
         
         ArrayList<Player> players = new ArrayList<>();
-        
         players.add(hostPlayer);
         players.add(guestPlayer);
-       
-        
         return players;
         
     }
@@ -1096,6 +1098,8 @@ public final class Game implements Serializable{
     }
 
     public void unselectAllUnits(){
+     
+    LOGGER.debug(getCurrentPlayer().getName() + " game.unselectAllUnits()" );
     
     for (Unit unit: getSelectedUnits()){
              unit.setSelected(false);
@@ -1134,26 +1138,51 @@ public final class Game implements Serializable{
                 else 
                     unlockGUI();
         }
-        
-
     }   
      
-     boolean isGameOver()
+     public boolean checkGameOver()
      {
-     
          if(getHostPlayer().getUnitsKilled() > 4  )
              
-         {getCardCommandFactory().notifyObservers(CardCommandFactory.HOST_GAME_OVER);
+         {
+             getCardCommandFactory().notifyObservers(EventType.HOST_GAME_OVER);
+             lockGUI();
              return true;
          }
          if(getGuestPlayer().getUnitsKilled() > 4  )
          {
-            getCardCommandFactory().notifyObservers(CardCommandFactory.GUEST_GAME_OVER);
+            getCardCommandFactory().notifyObservers(EventType.GUEST_GAME_OVER);
+            lockGUI();
              return true;
          }
-         
          return false;
-     
      }
+     
+    public void injureUnit(Unit unit){
+       unit =getUnit(unit);
+        
+        if (!unit.isInjured())
+            unit.injured = true;
+        else 
+        {  
+            eliminateUnit(unit);
+        }
+     }
+     
+    public void eliminateUnit(Unit unit){
+         unit =getUnit(unit);
+         unit.eliminated = true;
+         getMap().getTerrainAtPosition(unit.getPosition()).setIsOccupiedByUnit(false);
+               
+     }
+    
+    void setPlayersScore(){
+    
+        
+        
+    
+    }
+    
+
 }
 

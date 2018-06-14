@@ -49,7 +49,7 @@ import manouvre.state.CardStateHandler;
 import manouvre.commands.DontAdvanceUnitCommand;
 import manouvre.commands.ForceWithdraw;
 import manouvre.commands.TakeHitCommand;
-import static java.lang.Math.abs;
+import manouvre.events.EventType;
 import static java.lang.Math.abs;
 
 
@@ -163,17 +163,13 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         
        switch (dialogType){
        
-           case CardCommandFactory.CARD_DIALOG:
+           case EventType.CARD_DIALOG:
            {
-            
-    
            game.cardStateHandler.setState(CardStateHandler.PICK_ONLY_ONE);
-           
            break;
            }
-           case CardCommandFactory.ASSAULT_BEGINS:
+           case EventType.ASSAULT_BEGINS:
            {
-               
               game.setInfoBarText("Combat Begins");
                /*
                In order to pick 0 or more cards 
@@ -182,37 +178,47 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                break;
                
            }
-           case CardCommandFactory.CARD_REJECTED:
+           case EventType.CARD_REJECTED:
            {
               break;
            }
-           case CardCommandFactory.DEFENDING_WITHDRAW:
+           case EventType.DEFENDING_WITHDRAW:
            {
                
-               game.setInfoBarText("Defender withdraws");
-
-               buttonActionSetText();
+               game.setInfoBarText("Combat Begins");
                break;
            }
-           case CardCommandFactory.CARD_NOT_REJECTED:
+           case EventType.CARD_NOT_REJECTED:
            {
                break;
            }
-            case CardCommandFactory.DEFENDING_CARDS_PLAYED:
+            case EventType.DEFENDING_CARDS_PLAYED:
            {
                break;
            }
-            case CardCommandFactory.COMBAT_ACCEPTED: {
+            case EventType.COMBAT_ACCEPTED: {
                 break;
             }
-           case CardCommandFactory.COMBAT_NO_RESULT:
+            case EventType.BOMBARD_BEGINS: {
+            if( game.getCurrentPlayer().isActive() )
+                   {
+                    actionButton.setText("Roll dices");
+                    actionButton.setEnabled(true); 
+                    actionButton.setVisible(true);
+                    repaint();
+                   }
+            
+            break;
+            }
+            
+           case EventType.COMBAT_NO_RESULT:
            {
            
            game.setInfoBarText("Att: " + game.getCombat().getAttackValue()+
                    " vs Def: "+ game.getCombat().getDefenceValue() + " => No hit");
            break;
            }
-           case CardCommandFactory.COMBAT_DEFENDER_TAKES_HIT:
+           case EventType.COMBAT_DEFENDER_TAKES_HIT:
            {
            game.setInfoBarText(
                    "Att: " + game.getCombat().getAttackValue()
@@ -221,14 +227,14 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            break;
            }
            
-           case CardCommandFactory.COMBAT_ATTACKER_TAKES_HIT:
+           case EventType.COMBAT_ATTACKER_TAKES_HIT:
            {
             game.setInfoBarText("Att: " + game.getCombat().getAttackValue()
                            +" vs Def: "+ game.getCombat().getDefenceValue() +" => " 
                            +  "reduce attacker unit");
            break;
            }
-           case CardCommandFactory.COMBAT_ATTACKER_ELIMINATE:
+           case EventType.COMBAT_ATTACKER_ELIMINATE:
            {
            
             game.setInfoBarText("Att: " + game.getCombat().getAttackValue()
@@ -237,7 +243,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
 
            break;
            }
-           case CardCommandFactory.PUSRUIT_SUCCEDED:
+           case EventType.PUSRUIT_SUCCEDED:
            {
            
            game.setInfoBarText("Pursuit succeded");
@@ -245,14 +251,14 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            break;
            }
            
-           case CardCommandFactory.PUSRUIT_FAILED:
+           case EventType.PUSRUIT_FAILED:
            {
            game.setInfoBarText("Pursuit failed");
            
            break;
            }
            
-           case CardCommandFactory.COMBAT_DEFENDER_ELIMINATE:
+           case EventType.COMBAT_DEFENDER_ELIMINATE:
            {
            game.setInfoBarText("Att: " + game.getCombat().getAttackValue()
                            +" vs Def: "+ game.getCombat().getDefenceValue() +" => " 
@@ -260,7 +266,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            
            break;
            }
-           case CardCommandFactory.DEFENDER_DECIDES:
+           case EventType.DEFENDER_DECIDES:
            {
                if(game.getCurrentPlayer().hasAttacked())
                {
@@ -273,7 +279,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                break;
            
            }
-           case CardCommandFactory.ATTACKER_DECIDES:
+           case EventType.ATTACKER_DECIDES:
            {
                if(game.getCurrentPlayer().hasAttacked())
                {
@@ -285,7 +291,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                }
                break;
            }
-           case CardCommandFactory.LEADER_SELECTED:
+           case EventType.LEADER_SELECTED:
            {
                if(game.getCurrentPlayer().isActive())
                {
@@ -307,7 +313,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                break;
            }
            
-           case CardCommandFactory.LEADER_DESELECTED:
+           case EventType.LEADER_DESELECTED:
            {
                if(game.getCurrentPlayer().isActive())
                {
@@ -320,7 +326,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                break;
            }
            
-           case CardCommandFactory.VOLLEY_ASSAULT_DECISION:
+           case EventType.VOLLEY_ASSAULT_DECISION:
            {
                if(game.getCurrentPlayer().isActive())
                {
@@ -329,13 +335,13 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                break;
            }
            
-           case CardCommandFactory.VOLLEY_ASSAULT_DECISION_DESELECTION:
+           case EventType.VOLLEY_ASSAULT_DECISION_DESELECTION:
                
            {
                  buttonDecisionDisappear();
            break;
            }
-           case CardCommandFactory.SKIRMISH_SELECTED:
+           case EventType.SKIRMISH_SELECTED:
                
            {
                  if(game.getCurrentPlayer().isActive())
@@ -346,7 +352,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            break;
            }
            
-           case CardCommandFactory.SKIRMISH_PLAYED:
+           case EventType.SKIRMISH_PLAYED:
                
            {
                  if(game.getCurrentPlayer().isActive())
@@ -355,9 +361,33 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                    buttonActionSetText("Skirmish with no move", true);
               }  
                  else 
-                     game.setInfoBarText("Opponent is moving up to 2 spaces");
+                  game.setInfoBarText("Opponent is moving up to 2 spaces");
            break;
            }
+           
+           case EventType.HOST_GAME_OVER:
+               
+           {
+                
+                   game.setInfoBarText("Game over! " + game.getGuestPlayer().getName() + " wins by killing more than 4 units!");
+                      
+                   CustomDialog cd = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, 
+                           "Game over" + game.getGuestPlayer().getName() + "wins by killing more than 4 units!");
+                   cd.setVisible(true);
+           break;
+           }
+           
+           case EventType.GUEST_GAME_OVER:
+           {
+                
+               game.setInfoBarText("Game over! " + game.getHostPlayer().getName() + "wins by killing more than 4 enemy units!");
+                   CustomDialog cd = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, 
+                           "Game over! " + game.getHostPlayer().getName() + "wins by killing more than 4 enemy units!");
+                   cd.setVisible(true);
+           break;
+           }
+           
+                     
            default :
                System.out.println("manouvre.gui.GameWindow.update() No such dialog Type :"  + dialogType);
        
@@ -418,7 +448,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         /*
         If card is Selected change Label to "Play Card" 
         */
-        if(game.getCurrentPlayer().getHand().isCardSelected() && game.getPhase() != Game.DISCARD )
+        if(game.getCurrentPlayer().getHand().isAnyCardSelected() && game.getPhase() != Game.DISCARD )
         {
             actionButton.setText("Play Card");
             actionButton.setEnabled(true);
@@ -439,8 +469,9 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            {
             actionButton.setVisible(true);
             actionButton.setEnabled(
-                    !game.getCurrentPlayer().getHand().selectionSeq.isEmpty()
-                    && game.getCurrentPlayer().isActive() && !game.isLocked()
+                    game.getCurrentPlayer().getHand().isAnyCardSelected()
+                 && game.getCurrentPlayer().isActive() 
+                 && !game.isLocked()
             );
             actionButton.setText("Discard");
             break;
@@ -459,11 +490,6 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            {
             actionButton.setVisible(true);
             actionButton.setText("Move");
-//             if(game.getCurrentPlayer().hasMoved() && game.getCardCommandFactory().getPlayingCard() == null ) //this is not working with doing undo for Forced March - when rejected
-//                    {
-//                    actionButton.setEnabled(game.getCurrentPlayer().isActive() && !game.isLocked() );  
-//                    actionButton.setText("Undo");
-//                    }
              /*
              Guirellas decision
              */
@@ -481,12 +507,20 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            }
            case Game.COMBAT:
            {
-            //actionButton.setEnabled(game.getCurrentPlayer().isActive() && !game.isLocked() );  
             actionButton.setEnabled(false);  
             actionButton.setText("Combat");
             Combat combat = game.getCombat();
             if(combat!= null)
             {
+                
+                if(combat.getState().equals(Combat.THROW_DICES))
+                {
+                    if( game.getCurrentPlayer().isActive()){
+                    actionButton.setText("Roll dices");
+                    actionButton.setEnabled(true);  
+                    }
+                
+                }
                 if(combat.getState() == Combat.PICK_DEFENSE_CARDS)
                 {
                    actionButton.setText("Defend");
@@ -495,7 +529,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
 
                 }
                 
-                if(combat.getState() == Combat.PICK_SUPPORTING_CARDS)
+                if(combat.getState() == Combat.PICK_SUPPORT_CARDS)
                 {
                    if( game.getCurrentPlayer().isActive() && !game.isLocked() )
                    {
@@ -510,6 +544,8 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                     actionButton.setEnabled(true);  
                 
                 }
+                
+                
                 
                 if(combat.getState() == Combat.WITHRDAW)
                 {
@@ -1085,9 +1121,9 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         currentPlayerPanel.setOpaque(false);
         currentPlayerPanel.setPreferredSize(new java.awt.Dimension(955, 250));
 
-        scoreLabelCurrPlayer.setText("Score:");
+        scoreLabelCurrPlayer.setText("Score: " + game.getCurrentPlayer().getScore());
 
-        unitsKilledCurrPlayer.setText("Units Killed:");
+        unitsKilledCurrPlayer.setText("Units Killed: " + game.getCurrentPlayer().getUnitsKilled());
 
         curPlayerFlag.setPreferredSize(new java.awt.Dimension(64, 56));
 
@@ -1102,7 +1138,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             .addGap(0, 56, Short.MAX_VALUE)
         );
 
-        drawPileCurrPlayer.setText("Draw Pile:");
+        drawPileCurrPlayer.setText("Draw Pile: " + game.getCurrentPlayer().getDrawPile().size());
 
         discardPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Discard Pile"));
         discardPanel.setPreferredSize(new java.awt.Dimension(100, 25));
@@ -1174,9 +1210,9 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                         .addComponent(scoreLabelCurrPlayer)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(unitsKilledCurrPlayer)
-                        .addGap(45, 45, 45)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(drawPileCurrPlayer)
-                        .addGap(0, 70, Short.MAX_VALUE))
+                        .addGap(0, 103, Short.MAX_VALUE))
                     .addComponent(playerHandPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
@@ -1187,7 +1223,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         opponentPlayerPanel.setForeground(new java.awt.Color(153, 0, 102));
         opponentPlayerPanel.setOpaque(false);
 
-        scoreOpponent.setText("Score:");
+        scoreOpponent.setText("Score: " + game.getOpponentPlayer().getScore());
 
         discardPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Discard Pile"));
         discardPanel1.setPreferredSize(new java.awt.Dimension(100, 25));
@@ -1197,14 +1233,14 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         discardPanel1.setLayout(discardPanel1Layout);
         discardPanel1Layout.setHorizontalGroup(
             discardPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 141, Short.MAX_VALUE)
+            .addGap(0, 138, Short.MAX_VALUE)
         );
         discardPanel1Layout.setVerticalGroup(
             discardPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        unitsKilledOppPlayer.setText("Units Killed:");
+        unitsKilledOppPlayer.setText("Units Killed: " + game.getOpponentPlayer().getUnitsKilled());
 
         opoPlayerFlag.setPreferredSize(new java.awt.Dimension(64, 56));
 
@@ -1219,7 +1255,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             .addGap(0, 56, Short.MAX_VALUE)
         );
 
-        drawPileOppPlayer.setText("Draw Pile:");
+        drawPileOppPlayer.setText("Draw Pile: " + game.getOpponentPlayer().getDrawPile().size());
 
         opponentHandPanel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
@@ -1273,7 +1309,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(scoreOpponent)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(unitsKilledOppPlayer)
+                .addComponent(unitsKilledOppPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(drawPileOppPlayer)
                 .addContainerGap(97, Short.MAX_VALUE))
@@ -1959,11 +1995,11 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
        /*
         Play action based on current button description
         */
-                switch (actionButton.getText()){
+       switch (actionButton.getText()){
             
             case "Play Card":
             {
-                gameGui.playSelectedCard();
+                //gameGui.playSelectedCard();
                 this.repaint();
                 break;
             }
@@ -2008,8 +2044,6 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             case  "Roll dices":
             {
                 
-            
-                
             Command combatOutcome = game.getCardCommandFactory().createOutcomeCombatCommand();
             cmdQueue.storeAndExecuteAndSend(combatOutcome);
             break;
@@ -2017,7 +2051,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             
             case "End picking":
             {
-                game.getCombat().setState(Combat.PICK_SUPPORTING_CARDS);
+                game.getCombat().setState(Combat.PICK_SUPPORT_CARDS);
                 LOGGER.debug(game.getCurrentPlayer().getName() + "Zmiana stanu MapInputStateHandler.NOSELECTION");
                 game.mapInputHandler.setState(MapInputStateHandler.NOSELECTION);
                 actionButton.setText("Roll dices");
@@ -2664,9 +2698,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                 buttonActionSetText("End picking", true);
                 
                 
-                
             }
-            
             case "Volley":{
             
                 Card playingCard = game.getCardCommandFactory().getPlayingCard(); 
@@ -2679,12 +2711,9 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             }
             
         }
+       
+        buttonDecisionDisappear();
         repaint();
-        buttonYes.setEnabled(false);
-        buttonYes.setVisible(false);
-        buttonNo.setEnabled(false);
-        buttonNo.setVisible(false);
-        
         
     }//GEN-LAST:event_buttonYesActionPerformed
     /*
@@ -2717,10 +2746,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             }
             
         }
-        buttonYes.setEnabled(false);
-        buttonYes.setVisible(false);
-        buttonNo.setEnabled(false);
-        buttonNo.setVisible(false);
+        buttonDecisionDisappear();
         repaint();
     }//GEN-LAST:event_buttonNoActionPerformed
 

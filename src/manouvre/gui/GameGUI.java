@@ -531,7 +531,7 @@ public class GameGUI {
                         case Game.COMBAT:
                         {
                             if(game.getCombat()!=null)
-                                if(game.getCombat().getState() == Combat.PICK_SUPPORTING_CARDS)
+                                if(game.getCombat().getState() == Combat.PICK_SUPPORT_CARDS)
                                     drawMultipleRectanglesOnPositions(g,
                                         game.getPossibleSupportingUnitsPositions(game.getCombat().getDefendingUnit())
                                         , Color.BLUE);   
@@ -826,10 +826,11 @@ public class GameGUI {
     if(
           combat.getState().equals(Combat.INITIALIZING_COMBAT) ||
             combat.getState().equals(Combat.PICK_DEFENSE_CARDS) ||  
-            combat.getState().equals(Combat.PICK_SUPPORTING_CARDS) ||  
+            combat.getState().equals(Combat.PICK_SUPPORT_CARDS) ||  
             combat.getState().equals(Combat.PICK_SUPPORT_UNIT) ||    
             combat.getState().equals(Combat.DEFENDER_DECIDES) ||    
-            combat.getState().equals(Combat.ATTACKER_DECIDES)    
+            combat.getState().equals(Combat.ATTACKER_DECIDES)  ||
+             combat.getState().equals(Combat.THROW_DICES) 
  
          )
     drawArrowToPosition(g,  combat.getAttackingUnit().getPosition(), 
@@ -944,19 +945,11 @@ public class GameGUI {
     }
     
     public void keepOneSelectedCard(Card cardClicked){
-        for (int i=0; i< game.getCurrentPlayer().getHand().size(); i++){ 
-            game.getCurrentPlayer().getHand().getCardByPosInSet(i).setSelected(false);
-        }
-        game.getCurrentPlayer().getHand().selectionSeq.clear();
-        if(game.getCurrentPlayer().getHand().getCard(cardClicked)!=null){
-        game.getCurrentPlayer().getHand().getCard(cardClicked).setSelected(true);
-        game.getCurrentPlayer().getHand().selectionSeq.add(cardClicked);
-        }
-        else System.err.println("CARD IS NOT SELECTED - check GameGui.java method: keepOneSelectedCard");
+  
+        game.getCurrentPlayer().getHand().unselectAllCards();
+        game.getCurrentPlayer().getHand().selectCard(cardClicked);
+
     }
-   
-   
-    
     public void paintHand(Graphics g)                 
     {   
         cardSetsGUI.paintHand(g, game);
@@ -970,10 +963,12 @@ public class GameGUI {
 
     
    
-    
+    /*
     public void playSelectedCard(){
-         for (int i=0; i<game.getCurrentPlayer().getHand().selectionSeq.size(); i++){   
-            currentPlayer.getHand().moveCardTo(game.getCurrentPlayer().getHand().selectionSeq.get(i),  
+        
+    for (Card selectedCard : game.getCurrentPlayer().getHand().getSelectedCards()){   
+            
+        currentPlayer.getHand().moveCardTo(game.getCurrentPlayer().getHand().selectionSeq.get(i),  
                     currentPlayer.getTablePile());
             }
             game.getCurrentPlayer().getHand().selectionSeq.clear();
@@ -981,7 +976,7 @@ public class GameGUI {
             cardSetsGUI.loadAllSets();
     
     }
-  
+  */
     
     private BufferedImage cropImage(Image img, int x, int y, int width, int height){
         BufferedImage buffImage = (BufferedImage)img;
