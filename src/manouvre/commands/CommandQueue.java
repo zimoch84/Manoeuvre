@@ -67,7 +67,7 @@ public class CommandQueue {
         cmd.execute(game); //execute locally
         commandLogger.log(cmd);
         
-        LOGGER.debug(game.getCurrentPlayer().getName() + " wykonano command " + cmd.logCommand());
+        LOGGER.debug(game.getCurrentPlayer().getName() + " odapalil command: " + cmd.logCommand());
         
         gameWindow.refreshAll();
         gameWindow.repaint();

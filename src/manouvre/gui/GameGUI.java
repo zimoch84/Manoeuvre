@@ -961,23 +961,7 @@ public class GameGUI {
         cardSetsGUI.paintOpponentHand(g, game);
     }
 
-    
    
-    /*
-    public void playSelectedCard(){
-        
-    for (Card selectedCard : game.getCurrentPlayer().getHand().getSelectedCards()){   
-            
-        currentPlayer.getHand().moveCardTo(game.getCurrentPlayer().getHand().selectionSeq.get(i),  
-                    currentPlayer.getTablePile());
-            }
-            game.getCurrentPlayer().getHand().selectionSeq.clear();
-            
-            cardSetsGUI.loadAllSets();
-    
-    }
-  */
-    
     private BufferedImage cropImage(Image img, int x, int y, int width, int height){
         BufferedImage buffImage = (BufferedImage)img;
         return buffImage.getSubimage(x, y, width, height);

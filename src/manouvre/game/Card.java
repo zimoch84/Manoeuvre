@@ -71,6 +71,7 @@ import com.csvreader.CsvReader;
 import java.io.Serializable;
 import java.util.ArrayList;
 import manouvre.commands.CommandQueue;
+import manouvre.events.EventType;
 import manouvre.state.MapInputStateHandler;
 import org.apache.logging.log4j.LogManager;
 
@@ -264,7 +265,7 @@ public class Card implements CardInterface, Serializable{
             return Card.PICK_ACTION;
         }
         
-     return 0;   
+     return Card.NO_ACTION;   
           
     }
    
@@ -896,6 +897,7 @@ public class Card implements CardInterface, Serializable{
         case Card.UNIT:
         {
                 if(game.getPhase() == Game.COMBAT)
+                    //TODO change to proper combat phase NullObject
                     if(game.getCombat() != null)
                     {        if(game.getCombat().getDefendingUnit() != null)
                         {
@@ -904,7 +906,24 @@ public class Card implements CardInterface, Serializable{
                     }       
                     else {
                         game.getCurrentPlayerUnitByName(getCardName()).setSelected(true);
-                            if(getPlayingCardMode()!= null)
+                        /*
+                        Volley Decision
+                        */
+                        int playingModeCounter = getPlayingPossibleCardModes().size();
+                        /*
+                        Set bombard or asssault    
+                        */
+                        if(playingModeCounter == 1 )
+                            setPlayingCardMode(getPlayingPossibleCardModes().get(0));
+                        /*
+                        Notify to pick proper card mode
+                        */
+                        else if (playingModeCounter == 2)
+                            game.getCardCommandFactory().notifyAbout(EventType.VOLLEY_ASSAULT_DECISION);
+                        /*
+                        If we know what mode is playing we can calculate attacking positions
+                        */    
+                        if(getPlayingCardMode()!= null)
                                 game.getCardCommandFactory().calculateAttackingPositions(game.getSelectedUnit());
                     }
                 else if (game.getPhase() == Game.RESTORATION)
@@ -992,11 +1011,28 @@ public class Card implements CardInterface, Serializable{
                      game.getCombat().removeDefenceCard(this);
                          }
                     }
-                    else
-                        {
-                         if(game.getCurrentPlayerUnitByName(getCardName())!= null)
+                   else {
+                        if(game.getCurrentPlayerUnitByName(getCardName())!= null)
                              game.getCurrentPlayerUnitByName(getCardName()).setSelected(false);
-                        }
+                        /*
+                        Volley Decision
+                        */
+                        int playingModeCounter = getPlayingPossibleCardModes().size();
+                        /*
+                        TODO:
+                        Zrobic akcje na deselektion
+                        */
+                        if(playingModeCounter == 1 )
+                            setPlayingCardMode(getPlayingPossibleCardModes().get(0));
+    
+                        else if (playingModeCounter == 2)
+                            game.getCardCommandFactory().notifyAbout(EventType.VOLLEY_ASSAULT_DECISION_DESELECTION);
+                      
+                        if(getPlayingCardMode()!= null)
+                                game.getCardCommandFactory().calculateAttackingPositions(game.getSelectedUnit());
+                    } 
+                   
+                   
                else if (game.getPhase() == Game.RESTORATION)
                 {
                 game.getCurrentPlayerUnitByName(getCardName()).setSelected(false);

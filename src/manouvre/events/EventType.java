@@ -23,7 +23,7 @@ public class EventType {
     public static final String COMBAT_NO_RESULT = "COMBAT_NO_RESULT";
     public static final String VOLLEY_ASSAULT_DECISION_DESELECTION = "VOLLEY_ASSAULT_DECISION_DESELECTION";
     public static final String ATTACKER_DECIDES = "ATTACKER_DECIDES";
-    public static final String DEFENDING_WITHDRAW = "DEFENDING_WITHDRAW";
+    public static final String DEFENDER_WITHDRAW = "DEFENDER_WITHDRAW";
     public static final String DEFENDING_CARDS_PLAYED = "DEFENDING_CARDS_PLAYED";
     public static final String COMBAT_DEFENDER_TAKES_HIT = "COMBAT_DEFENDER_TAKES_HIT";
     public static final String DEFENDER_PICK_SUPPORT = "ATTACKER_ROLL_DICES";
@@ -35,12 +35,20 @@ public class EventType {
     public static final String BOMBARD_BEGINS = "BOMBARD_BEGINS";
     public static final String SKIRMISH_DESELECTED = "SKIRMISH_DESELECTED";
     public static final String VOLLEY_ASSAULT_DECISION = "VOLLEY_ASSAULT_DECISION";
-    public static final String CARD_DIALOG = "CARD_DIALOG";
+    public static final String CARD_HAS_BEEN_PLAYED = "CARD_DIALOG";
     public static final String COMBAT_ATTACKER_ELIMINATE = "COMBAT_ATTACKER_ELIMINATE";
     public static final String SKIRMISH_PLAYED = "SKIRMISH_PLAYED";
     public static final String PICKED_ADVANCE = "PLAYER_CHOSEN_ADVANCE_UNIT";
     public static final String ATTACKER_ROLL_DICES = "ATTACKER_ROLL_DICES";
     public static final String CARD_REJECTED = "CARD_REJECTED";
     public static final String LEADER_DESELECTED = "LEADER_DESELECTED";
+    public static final String THROW_DICE = "THROW_DICE";
+    public static final String PICK_SUPPORT_UNIT = "PICK_SUPPORT_UNIT";
+    public static final String PURSUIT = "PURSUIT";
+    public static final String CARD_SELECTED = "CARD_SELECTED"; 
+    public static final String CARD_DESELECTED = "CARD_DESELECTED"; 
+    public static final String CARDS_DRAWNED = "CARDS_DRAWNED"; 
+    public static final String NEXT_PHASE = "NEXT_PHASE"; 
+    
     
 }

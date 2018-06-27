@@ -50,6 +50,7 @@ import manouvre.commands.DontAdvanceUnitCommand;
 import manouvre.commands.ForceWithdraw;
 import manouvre.commands.TakeHitCommand;
 import manouvre.events.EventType;
+import manouvre.events.EventObserver;
 import static java.lang.Math.abs;
 
 
@@ -65,8 +66,6 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     */
     
     public ClientInterface client;
-    public int port;
-    public String serverAddr,  password;
     public Thread clientThread;
     public Player player;
     
@@ -101,11 +100,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
          */
         this.game = game;
         this.windowMode = windowMode;
-        
         this.cmdLogger = new CommandLogger(this);
-       
-        
-        
         /*
         Sets current Player based on HOST/GUEST settings
         */
@@ -131,14 +126,23 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         game.setInfoBarText(title);
         
         initComponents();
+        initButtons();
         
-         buttonYes.setVisible(false);
-         buttonNo.setVisible(false);
-         buttonActionSetText();
+         
          setPhaseLabelText();
          buttonNextPhaseSetText();
          setPlayerInfoValues();
-        game.getCardCommandFactory().addObserver(this);
+        
+         /*
+         Observers
+         */
+         game.getCardCommandFactory().addObserver(this);
+         EventObserver eventObserver = new EventObserver(game, actionButton, buttonNo, buttonNo);
+         game.getCardCommandFactory().addObserver(eventObserver);
+         
+        
+        
+        
         this.addWindowListener(new WindowListener() {
             @Override public void windowOpened(WindowEvent e) {}
             @Override public void windowClosing(WindowEvent e) { try{ client.send(new Message("message", game.getCurrentPlayer().getName(), ".bye", "SERVER")); clientThread.stop();  }catch(Exception ex){} }
@@ -153,6 +157,13 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
      caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
     }
     
+     private final void initButtons(){
+     
+        buttonYes.setVisible(false);
+        buttonNo.setVisible(false);
+        actionButton.setVisible(false);
+     }
+     
     
     @Override
     public void update(Observable o, Object arg) {
@@ -163,7 +174,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         
        switch (dialogType){
        
-           case EventType.CARD_DIALOG:
+           case EventType.CARD_HAS_BEEN_PLAYED:
            {
            game.cardStateHandler.setState(CardStateHandler.PICK_ONLY_ONE);
            break;
@@ -182,12 +193,6 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            {
               break;
            }
-           case EventType.DEFENDING_WITHDRAW:
-           {
-               
-               game.setInfoBarText("Combat Begins");
-               break;
-           }
            case EventType.CARD_NOT_REJECTED:
            {
                break;
@@ -199,17 +204,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             case EventType.COMBAT_ACCEPTED: {
                 break;
             }
-            case EventType.BOMBARD_BEGINS: {
-            if( game.getCurrentPlayer().isActive() )
-                   {
-                    actionButton.setText("Roll dices");
-                    actionButton.setEnabled(true); 
-                    actionButton.setVisible(true);
-                    repaint();
-                   }
             
-            break;
-            }
             
            case EventType.COMBAT_NO_RESULT:
            {
@@ -266,66 +261,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            
            break;
            }
-           case EventType.DEFENDER_DECIDES:
-           {
-               if(game.getCurrentPlayer().hasAttacked())
-               {
-                    game.setInfoBarText("Defender is choosing combat outcome");
-               }       
-                else 
-               {
-               buttonSetDecisionText("Withdraw", "Take Hit");
-               }
-               break;
-           
-           }
-           case EventType.ATTACKER_DECIDES:
-           {
-               if(game.getCurrentPlayer().hasAttacked())
-               {
-                    buttonSetDecisionText("Withdraw", "Take Hit");
-               }       
-                else 
-               {
-                   game.setInfoBarText("Attacker is choosing combat outcome");
-               }
-               break;
-           }
-           case EventType.LEADER_SELECTED:
-           {
-               if(game.getCurrentPlayer().isActive())
-               {
-                   if(!game.getPossibleSupportingUnits(game.getCombat().getDefendingUnit()).isEmpty())
-                   {
-                    buttonSetDecisionText("Command", "Combat Val");
-                    game.setInfoBarText("Choose Leader playing mode");
-                   }
-                   else 
-                   {
-                       /*
-                       Leader is played for his attack Value
-                       */
-                       game.getCombat().addSupportCard(game.getCardCommandFactory().getPlayingCard());
-                    
-                   }
-                    
-               }       
-               break;
-           }
-           
-           case EventType.LEADER_DESELECTED:
-           {
-               if(game.getCurrentPlayer().isActive())
-               {
-                   game.setInfoBarText("");
-                   buttonYes.setEnabled(false);
-                   buttonYes.setVisible(false);
-                   buttonNo.setEnabled(false);
-                   buttonNo.setEnabled(false);
-              }       
-               break;
-           }
-           
+    
            case EventType.VOLLEY_ASSAULT_DECISION:
            {
                if(game.getCurrentPlayer().isActive())
@@ -426,7 +362,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         
        
         game.setLockGUIByPhase();
-        buttonActionSetText();
+        
         setPhaseLabelText();
         gameTurnCounter.setText(Integer.toString(game.getTurn()));
         buttonNextPhaseSetText(); 
@@ -444,161 +380,22 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             actionButton.setText(text);
             actionButton.setEnabled(isActive);
     }
-    private void buttonActionSetText(){
-        /*
-        If card is Selected change Label to "Play Card" 
-        */
-        if(game.getCurrentPlayer().getHand().isAnyCardSelected() && game.getPhase() != Game.DISCARD )
-        {
-            actionButton.setText("Play Card");
-            actionButton.setEnabled(true);
-            
-        }
-         else
-        {
-        
-           switch(game.getPhase()){
-           case Game.SETUP:
-           {
-            actionButton.setVisible(false);
-            actionButton.setText("Setup");
+    
+     private void buttonActionMakeInvisible(){
+     
+            actionButton.setText("");
             actionButton.setEnabled(false);
-            break;
-           }    
-           case Game.DISCARD:
-           {
-            actionButton.setVisible(true);
-            actionButton.setEnabled(
-                    game.getCurrentPlayer().getHand().isAnyCardSelected()
-                 && game.getCurrentPlayer().isActive() 
-                 && !game.isLocked()
-            );
-            actionButton.setText("Discard");
-            break;
-           }
-           case Game.DRAW:
-           {
-             
-             actionButton.setEnabled(
-                     (game.getCurrentPlayer().getHand().size()< 5)
-                     && game.getCurrentPlayer().isActive() 
-                     && !game.isLocked() );
-             actionButton.setText("Draw");
-             break;
-           }
-           case Game.MOVE:
-           {
-            actionButton.setVisible(true);
-            actionButton.setText("Move");
-             /*
-             Guirellas decision
-             */
-            if (game.getCardCommandFactory().getOpponentCard() != null)
-            {
-                actionButton.setVisible(true);
-                actionButton.setText("Accept Card");
-                actionButton.setEnabled(true);  
-            }
-            else 
-                 
-                 actionButton.setEnabled(false);  
-            
-             break;
-           }
-           case Game.COMBAT:
-           {
-            actionButton.setEnabled(false);  
-            actionButton.setText("Combat");
-            Combat combat = game.getCombat();
-            if(combat!= null)
-            {
-                
-                if(combat.getState().equals(Combat.THROW_DICES))
-                {
-                    if( game.getCurrentPlayer().isActive()){
-                    actionButton.setText("Roll dices");
-                    actionButton.setEnabled(true);  
-                    }
-                
-                }
-                if(combat.getState() == Combat.PICK_DEFENSE_CARDS)
-                {
-                   actionButton.setText("Defend");
-                   if( game.getCurrentPlayer().isActive() )
-                        actionButton.setEnabled(true);  
+            actionButton.setVisible(false);
+            this.repaint();
+     }
 
-                }
-                
-                if(combat.getState() == Combat.PICK_SUPPORT_CARDS)
-                {
-                   if( game.getCurrentPlayer().isActive() && !game.isLocked() )
-                   {
-                    actionButton.setText("Roll dices");
-                    actionButton.setEnabled(true);  
-                   }
-                }
-                
-                if(combat.getState() == Combat.PICK_SUPPORT_UNIT)
-                {
-                    actionButton.setText("End picking");
-                    actionButton.setEnabled(true);  
-                
-                }
-                
-                
-                
-                if(combat.getState() == Combat.WITHRDAW)
-                {
-                    actionButton.setText("Pick position to withdraw");
-                }
-                
-                if(combat.getState() == Combat.PURSUIT)
-                {   
-
-                if(!game.getCombat().isAttackerNotRequiredToAdvance())
-                    {
-                    actionButton.setText("Pick Pursuit Unit");
-                    }
-                else{
-                    actionButton.setText("Not requre to adv.");
-                 if( game.getCurrentPlayer().isActive() && !game.isLocked() )
-                    actionButton.setEnabled(true); 
-                 else 
-                     actionButton.setEnabled(false); 
-                }
-                 
-                }
-                if(combat.getState() == Combat.DEFENDER_DECIDES
-                        || combat.getState() == Combat.ATTACKER_DECIDES
-                        )
-                {
-                   actionButton.setEnabled(false); 
-                   if( game.getCurrentPlayer().isActive() )
-                        actionButton.setText("Decide"); 
-                   else
-                       actionButton.setText("Opp decides"); 
-                        
-                }
-            } 
-           break;
-           }
-            case Game.RESTORATION:
-           {
-            actionButton.setEnabled(false);  
-            actionButton.setText("Restore unit");
-            break;
-           }
-         }
-           
-        }
-                
-    }
     private void buttonDecisionDisappear(){
     
             buttonYes.setVisible(false);
            buttonNo.setVisible(false);
            buttonYes.setEnabled(false);
            buttonNo.setEnabled(false);
+           this.repaint();
     }
     
     
@@ -1753,7 +1550,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                 game.cardStateHandler.handle(cardClicked, game);
                 LOGGER.debug(game.getCurrentPlayer().getName() + " clicked card: " + cardClicked);
             }
-            buttonActionSetText();
+            
             repaint();
             
     }//GEN-LAST:event_playerHandPanelMouseClicked
@@ -1987,10 +1784,6 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                 }
     return movePositions;
 }
-            
-            
-    
-    
     private void buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonActionPerformed
        /*
         Play action based on current button description
@@ -1999,56 +1792,47 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             
             case "Play Card":
             {
+                //TODO remove this option
                 //gameGui.playSelectedCard();
                 this.repaint();
                 break;
             }
             
             case "Undo":
-            
             cmdQueue.undoLastCommand();
             break;
             
             case  "Accept Card":
                     
-            cmdQueue.storeAndExecuteAndSend(
+                cmdQueue.storeAndExecuteAndSend(
                     game.getCardCommandFactory().
                             createDoNotRejectCardCommand());
-            break;
+                break;
             
             case "Not requre to adv.":
                 
             {
                 DontAdvanceUnitCommand notReq2AdvCommand = new DontAdvanceUnitCommand(game.getCurrentPlayer().getName());
                 cmdQueue.storeAndExecuteAndSend(notReq2AdvCommand);
-                
-                
             break;
             }
             case "Defend":
                 
             {
-               
-            Command defendCommand = 
-            new CardCommands.DefendCommand(
-                    game.getCurrentPlayer().getName(), 
-                    game.getCombat()
-            );
-
-             cmdQueue.storeAndExecuteAndSend(defendCommand);
-
-                
-            break;
+                Command defendCommand = 
+                new CardCommands.DefendCommand(
+                        game.getCurrentPlayer().getName(), 
+                        game.getCombat()
+                );
+                cmdQueue.storeAndExecuteAndSend(defendCommand);
+                break;
             }
-            
             case  "Roll dices":
             {
-                
-            Command combatOutcome = game.getCardCommandFactory().createOutcomeCombatCommand();
-            cmdQueue.storeAndExecuteAndSend(combatOutcome);
+                Command combatOutcome = game.getCardCommandFactory().createOutcomeCombatCommand();
+                cmdQueue.storeAndExecuteAndSend(combatOutcome);
             break;
             }
-            
             case "End picking":
             {
                 game.getCombat().setState(Combat.PICK_SUPPORT_CARDS);
@@ -2057,23 +1841,9 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                 actionButton.setText("Roll dices");
                 break;
             }
-            
-            /*
-            Else play action based on game turn 
-            */
-            default:
+            case "Discard":
             {
-                
-            switch(game.getPhase()){
-            case Game.SETUP :
-            {
-                break;
-            }
-
-            case Game.DISCARD :
-            {
-                
-                cmdQueue.storeAndExecuteAndSend(
+            cmdQueue.storeAndExecuteAndSend(
                 game.getCardCommandFactory().createDiscardCommand()
                 );
 
@@ -2084,42 +1854,20 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                         );
                     game.getCurrentPlayer().setDraw(false);
                 }     
-                buttonActionSetText();
-                this.repaint();
                 break;
             }
-            case Game.DRAW:
+            case "Draw":
             {
                 cmdQueue.storeAndExecuteAndSend(game.getCardCommandFactory().createDrawCommand());
-                buttonActionSetText();
-                this.repaint();
                 break;
             }
-            case Game.MOVE:
+            default:
             {
-                 //game.nextPhase();  //move
-                 buttonActionSetText();
-                 this.repaint();
-                 break;
+            LOGGER.debug(game.getCurrentPlayer().getName() + "Akcja buttona bez obslugi");
             }
-            case Game.COMBAT:
-            {
-                 //game.nextPhase();  //move
-                 buttonActionSetText();
-                 this.repaint();
-                 break;
-            }
-            case Game.RESTORATION:
-                 //game.nextPhase();   //restoration
-                 buttonActionSetText();
-                 this.repaint();
-                 break;
-              }
-            }
-            }
-       
-       
-       
+            
+       }
+       buttonActionMakeInvisible();
            
     }//GEN-LAST:event_buttonActionPerformed
 
@@ -2202,7 +1950,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         Command nextPhaseCommand = new NextPhaseCommand(game.getCurrentPlayer().getName(), game.getPhase()+ 1);
         cmdQueue.storeAndExecuteAndSend(nextPhaseCommand);
         }    
-        buttonActionSetText();
+        
         this.repaint();
     }//GEN-LAST:event_buttonToNextPhaseActionPerformed
 
@@ -2686,17 +2434,9 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                 */
                 game.getCombat().setState(Combat.PICK_SUPPORT_UNIT);
                 game.getCombat().setSupportingLeader(game.getCardCommandFactory().getPlayingCard());
-                
-                
+                game.getCardCommandFactory().notifyObservers(EventType.PICK_SUPPORT_UNIT);
                 LOGGER.debug(game.getCurrentPlayer().getName() + "zmiana stanu na MapInputStateHandler.PICK_MULTIPLE_UNITS");
                 game.mapInputHandler.setState(MapInputStateHandler.PICK_MULTIPLE_UNITS);
-                //LOGGER.debug(game.getCurrentPlayer().getName() + "zmiana stanu na CardStateHandler.NOSELECTION");
-                //game.cardStateHandler.setState(CardStateHandler.NOSELECTION);
-                
-                game.setInfoBarText("Pick supporting units");
-                
-                buttonActionSetText("End picking", true);
-                
                 
             }
             case "Volley":{
@@ -2705,15 +2445,13 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                 playingCard.setPlayingCardMode(Card.VOLLEY);
                 playingCard.actionOnSelection(game, cmdQueue);
                 
-                
-                
             break;
             }
             
         }
        
         buttonDecisionDisappear();
-        repaint();
+        
         
     }//GEN-LAST:event_buttonYesActionPerformed
     /*
@@ -2747,7 +2485,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             
         }
         buttonDecisionDisappear();
-        repaint();
+        
     }//GEN-LAST:event_buttonNoActionPerformed
 
     private void jCheckBoxMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem1ActionPerformed

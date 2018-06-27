@@ -5,6 +5,7 @@
  */
 package manouvre.commands;
 import java.util.ArrayList;
+import manouvre.events.EventType;
 import manouvre.game.Card;
 import manouvre.game.Game;
 import manouvre.interfaces.Command;
@@ -47,7 +48,7 @@ public class DiscardCardCommand implements Command {
         game.getCurrentPlayer().getHand().unselectAllCards();
     }
    
-    
+
        
     }
     

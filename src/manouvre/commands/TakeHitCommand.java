@@ -73,7 +73,7 @@ public class TakeHitCommand implements Command{
                 LOGGER.debug(game.getCurrentPlayer().getName() + " swapActivePlayer " + game.getCurrentPlayer().isActive());
             }
             game.getCombat().setState(Combat.PURSUIT);
-
+            game.getCardCommandFactory().notifyObservers(EventType.PURSUIT);
             if(game.getCurrentPlayer().isActive())
             {
                 LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT ");

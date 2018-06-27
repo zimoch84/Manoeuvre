@@ -67,6 +67,13 @@ public class Unit implements UnitInterface, Serializable{
      String imageReducedName ;
      String imageFullName;
 
+     public Unit()
+     {
+         this.ID = -1;
+         this.position = new Position(-1, -1);
+         this.owner = new Player("Null player");
+         owner.setHost(true);
+     }
      
      public Unit(int ID)  {
         this.ID  = ID;

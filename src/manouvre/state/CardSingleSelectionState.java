@@ -7,11 +7,9 @@ package manouvre.state;
 
 import java.io.Serializable;
 import manouvre.game.Card;
-import manouvre.game.CardSet;
 import manouvre.game.Game;
 import manouvre.commands.CommandQueue;
 import manouvre.events.EventType;
-import manouvre.game.CardCommandFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,8 +33,9 @@ public class CardSingleSelectionState implements CardInputState, Serializable{
             if(card.canBePlayed(game)){
                 card.setSelected(true);
                 game.getCardCommandFactory().setPlayingCard(card);
-                triggerCardActionOnSelection(card, game, cmdQueue);
+                card.actionOnSelection(game, cmdQueue);
                 keepOneSelectedCard(card, game);
+                game.getCardCommandFactory().notifyAbout(EventType.CARD_SELECTED);
             }
         }
 
@@ -45,6 +44,7 @@ public class CardSingleSelectionState implements CardInputState, Serializable{
             if(card.canBePlayed(game)){
             card.setSelected(false); 
             triggerCardActionOnDeSelection(card, game);
+            game.getCardCommandFactory().notifyAbout(EventType.CARD_DESELECTED);
             }
             
         }    
@@ -53,32 +53,12 @@ public class CardSingleSelectionState implements CardInputState, Serializable{
     }
     
      private void triggerCardActionOnSelection(Card playingCard, Game game, CommandQueue cmdQueue){
-    
-         if(playingCard.canBePlayed(game))
-            {
-                /*
-            If card have only 1 attacking mode set it here to avoid custom dialog
-            If card have 2 attacking mode then later we'll ask user about which mode he choses
-            */
-                if(playingCard.getCardType() == Card.UNIT)
-                {
-                        int playingModeCounter = playingCard.getPlayingPossibleCardModes().size();
-                    if(playingModeCounter == 1 )
-                        playingCard.setPlayingCardMode(playingCard.getPlayingPossibleCardModes().get(0));
-                    
-                    else if (playingModeCounter == 2)
-                    {
-                        game.getCardCommandFactory().awakeObserver();
-                        game.getCardCommandFactory().notifyObservers(EventType.VOLLEY_ASSAULT_DECISION);
-                    }
-                        
-                }
 
             /*
             Trigger action on selection
             */
-            playingCard.actionOnSelection(game, cmdQueue);
-            }
+            
+            
             
     
     }
@@ -96,8 +76,8 @@ public class CardSingleSelectionState implements CardInputState, Serializable{
                         int playingModeCounter = playingCard.getPlayingPossibleCardModes().size();
                     if (playingModeCounter == 2)
                     {
-                        game.getCardCommandFactory().awakeObserver();
-                        game.getCardCommandFactory().notifyObservers(EventType.VOLLEY_ASSAULT_DECISION_DESELECTION);
+                        
+                        game.getCardCommandFactory().notifyAbout(EventType.VOLLEY_ASSAULT_DECISION_DESELECTION);
                     }
                         
                 }
@@ -106,8 +86,9 @@ public class CardSingleSelectionState implements CardInputState, Serializable{
             Trigger action on selection
             */
             playingCard.actionOnDeselection(game);
-            LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().resetFactory()");
-            game.getCardCommandFactory().resetFactory();
+            //LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().resetFactory()");
+            //TODO dlaczego chcialem resetowac fabryke?
+            //game.getCardCommandFactory().resetFactory();
         }
     }
 

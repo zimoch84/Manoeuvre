@@ -74,8 +74,8 @@ public class MapPickAvalibleUnitState implements MapState, Serializable{
                                 );
 
                     cmdQueue.storeAndExecuteAndSend(advanceCommand);
-                    game.getCardCommandFactory().awakeObserver();
-                    game.getCardCommandFactory().notifyObservers(EventType.PICKED_ADVANCE);
+                  
+                    game.getCardCommandFactory().notifyAbout(EventType.PICKED_ADVANCE);
             }
             /* }
             else  

@@ -5,6 +5,7 @@
  */
 package manouvre.commands;
 
+import manouvre.events.EventType;
 import manouvre.game.Game;
 import manouvre.interfaces.Command;
 import org.apache.logging.log4j.LogManager;
@@ -68,6 +69,7 @@ public class NextPhaseCommand implements Command{
         if(game.getCombat() != null)
             game.setCombat(null);
         game.nextPhase();
+        game.getCardCommandFactory().notifyAbout(EventType.NEXT_PHASE);
         
        
         

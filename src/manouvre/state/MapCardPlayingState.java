@@ -210,7 +210,7 @@ private ArrayList<Position> getMovePositions(Card playingCard, Game game){
             }
                 
         }
-    return null;
+    return new ArrayList<Position>();
     
     }
 protected ArrayList<Position> getPossibleUnitPostionToSelect(Game game){
@@ -255,7 +255,7 @@ protected ArrayList<Position> getPossibleUnitPostionToSelect(Game game){
             }
                 
         }
-    return null;
+    return new ArrayList<Position>();
     
     
     

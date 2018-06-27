@@ -56,7 +56,7 @@ public class CardStateHandler implements Serializable{
             default: currentState = new CardsNoSelectionState();
         
         }
-        LOGGER.debug(game.getCurrentPlayer().getName() + " setState "  + currentState );
+        LOGGER.debug(game.getCurrentPlayer().getName() + "previousState: " +  previosState +  " setState "  + currentState );
  
     }
    
@@ -97,12 +97,13 @@ public class CardStateHandler implements Serializable{
                 break;
    
             }
-          LOGGER.debug(game.getCurrentPlayer().getName() + " setInitStateForPhase " + currentState );
+          LOGGER.debug(game.getCurrentPlayer().getName() + "previousState: " +  previosState +  " setState "  + currentState  );
     }
     
     public void handle(Card card, Game game)
     {
-        currentState.handleInput(card, game, cmdQueue);
+        if(game.getCurrentPlayer().isActive())
+            currentState.handleInput(card, game, cmdQueue);
         
     }
     

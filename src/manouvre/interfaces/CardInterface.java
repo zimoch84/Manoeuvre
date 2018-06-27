@@ -68,6 +68,8 @@ public interface CardInterface {
     public static int MOVE_ACTION = 500;
     public static int PICK_ACTION = 501;
     public static int MULTIPLE_PICK_ACTION = 502;
+    public static int NO_ACTION = 503;
+    
     
     /*
     Return CardID 
