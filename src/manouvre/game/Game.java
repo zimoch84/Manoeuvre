@@ -8,7 +8,9 @@ package manouvre.game;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Observer;
 import manouvre.commands.CommandQueue;
+import manouvre.events.EventEmiter;
 import manouvre.events.EventType;
 import static manouvre.interfaces.PositionInterface.COLUMN_H;
 import static manouvre.interfaces.PositionInterface.ROW_8;
@@ -70,6 +72,8 @@ public final class Game implements Serializable{
     
     CommandQueue cmdQueue;
     private String infoBarText;
+    
+    EventEmiter ee = new EventEmiter();
     
     public Game(ArrayList<Player> players) {
         this.hostPlayer = players.get(0);
@@ -1144,13 +1148,13 @@ public final class Game implements Serializable{
          if(getHostPlayer().getUnitsKilled() > 4  )
              
          {
-             getCardCommandFactory().notifyObservers(EventType.HOST_GAME_OVER);
+             notifyAbout(EventType.HOST_GAME_OVER);
              lockGUI();
              return true;
          }
          if(getGuestPlayer().getUnitsKilled() > 4  )
          {
-            getCardCommandFactory().notifyObservers(EventType.GUEST_GAME_OVER);
+            notifyAbout(EventType.GUEST_GAME_OVER);
             lockGUI();
              return true;
          }
@@ -1182,6 +1186,14 @@ public final class Game implements Serializable{
     
     }
     
+    public void notifyAbout(Object eventType)
+    {
+        ee.notifyAbout(eventType);
+    }
+    
+    public void addObserver(Observer observer){
+        ee.addObserver(observer);
+    }
 
 }
 

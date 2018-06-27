@@ -136,9 +136,9 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
          /*
          Observers
          */
-         game.getCardCommandFactory().addObserver(this);
+         game.addObserver(this);
          EventObserver eventObserver = new EventObserver(game, actionButton, buttonNo, buttonNo);
-         game.getCardCommandFactory().addObserver(eventObserver);
+         game.addObserver(eventObserver);
          
         
         
@@ -168,9 +168,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     @Override
     public void update(Observable o, Object arg) {
         
-        if(o instanceof CardCommandFactory){
-        CardCommandFactory ccmdf = (CardCommandFactory) o;
-        String dialogType = (String) arg;
+      String dialogType = (String) arg;
         
        switch (dialogType){
        
@@ -328,7 +326,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                System.out.println("manouvre.gui.GameWindow.update() No such dialog Type :"  + dialogType);
        
         }
-        }
+        
         
      }
      
@@ -2434,7 +2432,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                 */
                 game.getCombat().setState(Combat.PICK_SUPPORT_UNIT);
                 game.getCombat().setSupportingLeader(game.getCardCommandFactory().getPlayingCard());
-                game.getCardCommandFactory().notifyObservers(EventType.PICK_SUPPORT_UNIT);
+                game.notifyAbout(EventType.PICK_SUPPORT_UNIT);
                 LOGGER.debug(game.getCurrentPlayer().getName() + "zmiana stanu na MapInputStateHandler.PICK_MULTIPLE_UNITS");
                 game.mapInputHandler.setState(MapInputStateHandler.PICK_MULTIPLE_UNITS);
                 

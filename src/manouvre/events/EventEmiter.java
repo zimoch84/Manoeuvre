@@ -6,6 +6,7 @@
 package manouvre.events;
 
 import java.util.Observable;
+import manouvre.game.CardCommandFactory;
 
 
 /**
@@ -13,6 +14,11 @@ import java.util.Observable;
  * @author piotr_grudzien
  */
 public class EventEmiter extends Observable {
+
+    public void notifyAbout(Object eventType) {
+        setChanged();
+        notifyObservers(eventType);
+    }
 
 
 }

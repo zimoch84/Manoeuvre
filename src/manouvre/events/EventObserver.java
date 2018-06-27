@@ -41,8 +41,6 @@ public class EventObserver  implements Observer  {
     public void update(Observable o, Object arg) {
         
      
-        if(o instanceof CardCommandFactory){
-        CardCommandFactory ccmdf = (CardCommandFactory) o;
         String dialogType = (String) arg;
         
         LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
@@ -244,7 +242,7 @@ public class EventObserver  implements Observer  {
            
            }
            
-        }
+        
         
     }
    

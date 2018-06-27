@@ -35,7 +35,7 @@ public class CardSingleSelectionState implements CardInputState, Serializable{
                 game.getCardCommandFactory().setPlayingCard(card);
                 card.actionOnSelection(game, cmdQueue);
                 keepOneSelectedCard(card, game);
-                game.getCardCommandFactory().notifyAbout(EventType.CARD_SELECTED);
+                game.notifyAbout(EventType.CARD_SELECTED);
             }
         }
 
@@ -44,7 +44,7 @@ public class CardSingleSelectionState implements CardInputState, Serializable{
             if(card.canBePlayed(game)){
             card.setSelected(false); 
             triggerCardActionOnDeSelection(card, game);
-            game.getCardCommandFactory().notifyAbout(EventType.CARD_DESELECTED);
+            game.notifyAbout(EventType.CARD_DESELECTED);
             }
             
         }    
@@ -77,7 +77,7 @@ public class CardSingleSelectionState implements CardInputState, Serializable{
                     if (playingModeCounter == 2)
                     {
                         
-                        game.getCardCommandFactory().notifyAbout(EventType.VOLLEY_ASSAULT_DECISION_DESELECTION);
+                        game.notifyAbout(EventType.VOLLEY_ASSAULT_DECISION_DESELECTION);
                     }
                         
                 }

@@ -44,12 +44,12 @@ public class TakeHitCommand implements Command{
             game.injureUnit(unit);
             if(  !unit.isEliminated())
             {
-            game.getCardCommandFactory().notifyObservers(EventType.COMBAT_DEFENDER_TAKES_HIT);
+            game.notifyAbout(EventType.COMBAT_DEFENDER_TAKES_HIT);
             log = "Combat ends with defending unit takes a hit";
             }
             else 
             {
-             game.getCardCommandFactory().notifyObservers(EventType.COMBAT_DEFENDER_ELIMINATE);
+             game.notifyAbout(EventType.COMBAT_DEFENDER_ELIMINATE);
              log = "Combat ends with defending unit takes a hit and is eliminated";
             }
         
@@ -57,7 +57,7 @@ public class TakeHitCommand implements Command{
         else 
         {
          game.eliminateUnit(unit);
-         game.getCardCommandFactory().notifyObservers(EventType.COMBAT_DEFENDER_ELIMINATE);
+         game.notifyAbout(EventType.COMBAT_DEFENDER_ELIMINATE);
          log = "Combat ends with defending unit is eliminated";
         }
         
@@ -73,7 +73,7 @@ public class TakeHitCommand implements Command{
                 LOGGER.debug(game.getCurrentPlayer().getName() + " swapActivePlayer " + game.getCurrentPlayer().isActive());
             }
             game.getCombat().setState(Combat.PURSUIT);
-            game.getCardCommandFactory().notifyObservers(EventType.PURSUIT);
+            game.notifyAbout(EventType.PURSUIT);
             if(game.getCurrentPlayer().isActive())
             {
                 LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT ");

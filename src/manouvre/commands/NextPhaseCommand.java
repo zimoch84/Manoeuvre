@@ -71,7 +71,7 @@ public class NextPhaseCommand implements Command{
         if(game.getPhase() == Game.COMBAT)
             game.setCombat(new Combat());
         game.nextPhase();
-        game.getCardCommandFactory().notifyAbout(EventType.NEXT_PHASE);
+        game.notifyAbout(EventType.NEXT_PHASE);
         
        
         

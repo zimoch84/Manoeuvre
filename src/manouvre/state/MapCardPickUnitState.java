@@ -87,7 +87,7 @@ private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogg
         
                                             cmdQueue.storeAndExecuteAndSend(advanceCommand);
         
-                                            game.getCardCommandFactory().notifyAbout(EventType.PICKED_ADVANCE);
+                                            game.notifyAbout(EventType.PICKED_ADVANCE);
                                             
                                             
                                             

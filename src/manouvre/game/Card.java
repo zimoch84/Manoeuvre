@@ -919,7 +919,7 @@ public class Card implements CardInterface, Serializable{
                         Notify to pick proper card mode
                         */
                         else if (playingModeCounter == 2)
-                            game.getCardCommandFactory().notifyAbout(EventType.VOLLEY_ASSAULT_DECISION);
+                            game.notifyAbout(EventType.VOLLEY_ASSAULT_DECISION);
                         /*
                         If we know what mode is playing we can calculate attacking positions
                         */    
@@ -1026,7 +1026,7 @@ public class Card implements CardInterface, Serializable{
                         
                         
                         if (playingModeCounter == 2)
-                            game.getCardCommandFactory().notifyAbout(EventType.VOLLEY_ASSAULT_DECISION_DESELECTION);
+                            game.notifyAbout(EventType.VOLLEY_ASSAULT_DECISION_DESELECTION);
                       
                         if(getPlayingCardMode()!= null)
                                 game.getCardCommandFactory().clearAttackingPosiotions();

@@ -7,7 +7,7 @@ package manouvre.game;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Observable;
+
 import manouvre.commands.CardCommands;
 import manouvre.commands.DiscardCardCommand;
 import manouvre.commands.DrawCardCommand;
@@ -20,7 +20,7 @@ import manouvre.interfaces.Command;
  * Class to serve for whole card flow in game.
  * @author Piotr
  */
-public class CardCommandFactory extends Observable implements Serializable{
+public class CardCommandFactory implements Serializable{
     
     Game game;
     Command attachedCommand;
@@ -141,11 +141,6 @@ public class CardCommandFactory extends Observable implements Serializable{
         this.opponentCards.add(opponentCard);
     }
     
-    public void notifyAbout(Object eventType)
-    {
-        setChanged();
-        notifyObservers(eventType);
-    }
     
     public Card getPlayingCard() {
         return playingCard;
@@ -173,7 +168,6 @@ public class CardCommandFactory extends Observable implements Serializable{
 
     public void setAttackedUnit(Unit attackedUnit) {
         this.attackedUnit = attackedUnit;
-        setChanged();
     }
    
     public void calculateAttackingPositions(Unit attackingUnit){

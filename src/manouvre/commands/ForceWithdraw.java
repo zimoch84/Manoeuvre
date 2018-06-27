@@ -39,7 +39,7 @@ public class ForceWithdraw implements Command{
       game.swapActivePlayer();
       LOGGER.debug(game.getCurrentPlayer().getName() + " swapActivePlayer " + game.getCurrentPlayer().isActive());
       game.getCombat().setState(Combat.WITHRDAW);
-      game.getCardCommandFactory().notifyObservers(EventType.DEFENDER_WITHDRAW);
+      game.notifyAbout(EventType.DEFENDER_WITHDRAW);
       
       if(game.getCurrentPlayer().isActive())
       {
