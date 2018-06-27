@@ -41,7 +41,7 @@ public class CardCommandFactory extends Observable implements Serializable{
     ArrayList<Card> opponentCards=new ArrayList<>();  //oponent attacking cards
     ArrayList<Card> supportAttackCards=new ArrayList<>(); //current player attacking cards
    
-    ArrayList<Position> attackingPositions;
+    ArrayList<Position> attackingPositions = new ArrayList<>();
    
     
     Unit selectedUnit, attackedUnit;
@@ -104,6 +104,13 @@ public class CardCommandFactory extends Observable implements Serializable{
     public void setAttackingPositions(ArrayList<Position> attackingPositions) {
         this.attackingPositions = attackingPositions;
     }
+    
+    public void clearAttackingPosiotions()
+    {
+        attackingPositions.clear();
+    }
+    
+    
 
     public Unit getSelectedUnit() {
         return selectedUnit;
@@ -206,7 +213,7 @@ public class CardCommandFactory extends Observable implements Serializable{
     public void resetFactory()
     {
         setAttachedCommand(null);
-        setAttackingPositions(null);
+        attackingPositions.clear();
         resetPlayingCard();
         setSelectedUnit(null);
         setOpponentCard(null);

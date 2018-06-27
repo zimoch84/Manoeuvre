@@ -61,9 +61,8 @@ public final class Game implements Serializable{
     /*
     Describes and calculate combats
     */
-    Combat combat;
+    Combat combat = new Combat();
     public boolean freeMove = true;
-    
     public boolean supressConfirmation = true;
     
     public MapInputStateHandler mapInputHandler;

@@ -69,6 +69,12 @@ public class Combat implements Serializable{
  
     String combatType;
 
+    public Combat()
+    {
+        setState(COMBAT_NOT_INITIALIZED);
+    
+    }
+    
     public Combat(Unit initAttackUnit, Card initAttackingCard,Terrain attackTerrain, Unit defendingUnit, Terrain defenseTerrain) {
         
     this.initAttackUnit = initAttackUnit;

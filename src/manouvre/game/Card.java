@@ -1012,24 +1012,24 @@ public class Card implements CardInterface, Serializable{
                          }
                     }
                    else {
-                        if(game.getCurrentPlayerUnitByName(getCardName())!= null)
-                             game.getCurrentPlayerUnitByName(getCardName()).setSelected(false);
-                        /*
-                        Volley Decision
-                        */
+                        
+                        game.getCurrentPlayerUnitByName(getCardName()).setSelected(false);
+                        
+                        
+                        
                         int playingModeCounter = getPlayingPossibleCardModes().size();
                         /*
                         TODO:
                         Zrobic akcje na deselektion
                         */
-                        if(playingModeCounter == 1 )
-                            setPlayingCardMode(getPlayingPossibleCardModes().get(0));
-    
-                        else if (playingModeCounter == 2)
+                        
+                        
+                        
+                        if (playingModeCounter == 2)
                             game.getCardCommandFactory().notifyAbout(EventType.VOLLEY_ASSAULT_DECISION_DESELECTION);
                       
                         if(getPlayingCardMode()!= null)
-                                game.getCardCommandFactory().calculateAttackingPositions(game.getSelectedUnit());
+                                game.getCardCommandFactory().clearAttackingPosiotions();
                     } 
                    
                    
