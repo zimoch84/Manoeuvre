@@ -16,8 +16,6 @@ import static manouvre.interfaces.PositionInterface.COLUMN_H;
 import static manouvre.interfaces.PositionInterface.ROW_8;
 import manouvre.gui.CreateRoomWindow;
 import manouvre.network.server.UnoptimizedDeepCopy;
-import manouvre.state.CardStateHandler;
-import manouvre.state.MapInputStateHandler;
 import manouvre.state.MapPickAvalibleUnitState;
 import org.apache.logging.log4j.LogManager;
 
@@ -28,10 +26,9 @@ import org.apache.logging.log4j.LogManager;
 public final class Game implements Serializable{
     
     private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(MapPickAvalibleUnitState.class.getName());
-    
     private static final long serialVersionUID = 42321L;
-    /*
-    Game phases
+    
+    /*Game phases
     */
     public static final int SETUP = -1;
     public static final int DISCARD = 0;
@@ -39,36 +36,35 @@ public final class Game implements Serializable{
     public static final int MOVE = 2;
     public static final int COMBAT = 3;
     public static final int RESTORATION = 4;
-    public static final int MAX_PHASES = 5; //there is max 6 phases -> move this value up if new phase come
-       
+    public static final int MAX_PHASES = 5;        
     
-    Map map;    
+    private Map map;    
     
-
-    //ArrayList<Unit> units = new ArrayList<>();
-
-    int turn;
-    int phase;
+    private int turn;
+    private int phase;
     
     private Player currentPlayer, opponentPlayer;
     private Player hostPlayer;
     private Player guestPlayer;
-    boolean isServer=true;  //if this will not change game is set on Server
+    
+    boolean isServer=true; 
     boolean lockGUI=false;  
     
     boolean showOpponentHand = false;
-    CardCommandFactory cardCommandFactory;
     
     CardSet tablePile,tablePileDefPart;
     /*
     Describes and calculate combats
     */
-    Combat combat = new Combat();
+    private Combat combat;
     public boolean freeMove = true;
+    /*
+    Move to gui
+    */
     public boolean supressConfirmation = true;
     
-    public MapInputStateHandler mapInputHandler;
-    public CardStateHandler cardStateHandler;
+    
+    public PositionCalculator positionCalculator;
     
     CommandQueue cmdQueue;
     private String infoBarText;
@@ -85,7 +81,6 @@ public final class Game implements Serializable{
         guestPlayer.setHost(false);
         guestPlayer.setCards();  
         guestPlayer.generateUnits(); 
-        cardCommandFactory = new CardCommandFactory(this);
         this.tablePile=new CardSet(hostPlayer.getNation(), "TABLE");
         this.tablePileDefPart=new CardSet(hostPlayer.getNation(),"TABLE_DEFENDING");
         generateMap(); 
@@ -96,15 +91,13 @@ public final class Game implements Serializable{
         setFirstPlayer();
         this.turn=1;
         setPhase(Game.SETUP);
-        
-        /*
-        Create handlers
-        */
-        mapInputHandler = new MapInputStateHandler(this);
-        
+             
+        combat = new Combat();
+        positionCalculator = new PositionCalculator(this);
         
     }
-     
+
+    
     
     public ArrayList<Player> getPlayers() {
         
@@ -159,7 +152,6 @@ public final class Game implements Serializable{
     }
 
     public void setCombat(Combat combat) {
-        
         this.combat = (Combat) UnoptimizedDeepCopy.copy (combat);
         if(combat!=null)
             combat.linkObjects(this);
@@ -188,17 +180,7 @@ public final class Game implements Serializable{
     public Player getGuestPlayer() {
         return guestPlayer;
     }
-
-    public CommandQueue getCmdQueue() {
-        return cmdQueue;
-    }
-
-    public void setCmdQueue(CommandQueue cmdQueue) {
-        this.cmdQueue = cmdQueue;
-        cardStateHandler = new CardStateHandler(this, this.cmdQueue);
-        
-    }
-    
+      
     public ArrayList<Position> getPossibleAssault(Unit unit){
     
     ArrayList<Position> getOneSquarePositionsArray = getOneSquarePositions(unit.getPosition());
@@ -304,9 +286,7 @@ public final class Game implements Serializable{
     
     public void nextTurn(){
         turn++;
-        if(getCurrentPlayer().isActive())
-            mapInputHandler.setInitStateForPhase(this);
-        }
+    }
 
     public int getTurn() {
         return turn;
@@ -325,30 +305,6 @@ public final class Game implements Serializable{
     this.infoBarText = inText;
     }
     
-    public ArrayList<Position> getCurrentPlayerNotMovedUnits()
-    { 
-        ArrayList<Position> units = new ArrayList<>();         
-        for(Unit unitSearch: currentPlayer.getArmy()){
-             if(!unitSearch.hasMoved())
-            {
-                units.add(unitSearch.getPosition());
-            }
-         }
-        return units;
-    }
-    
-    
-    public ArrayList<Position> getCurrentPlayerInjuredUnitPositions()
-    { 
-        ArrayList<Position> units = new ArrayList<>();         
-        for(Unit unitSearch: currentPlayer.getArmy()){
-             if(unitSearch.isInjured())
-            {
-                units.add(unitSearch.getPosition());
-            }
-         }
-        return units;
-    }
     
     public ArrayList<Position> getPossibleMovement(Unit unit){      
         ArrayList<Position> moves = new ArrayList<>();         
@@ -419,130 +375,12 @@ public final class Game implements Serializable{
         return possibleSupportUnits;
     }
     
-    /*
-    Get unit positions that  can join attack , this is for selection purpose only
-    */
-    public ArrayList<Position> getPossibleSupportingUnitsPositions(Unit defendingUnit){
-    
-        /*
-        get attacking Units position that are adjenced to the defending one
-        */
-        ArrayList<Position> possiblePositions = getOneSquarePositions(defendingUnit.getPosition());
-        ArrayList<Position> supportingPositions = new ArrayList<>();
-        Position atackingPosition = getCombat().getAttackingUnit().getPosition();
-        for( Position checkPosition: possiblePositions)
-        {
-            
-            if(checkCurrentPlayerUnitAtPosition(checkPosition) && !checkPosition.equals(atackingPosition))
-            {
-                supportingPositions.add(checkPosition);
-            }
-     
-        }
-        
-        return supportingPositions;
-        
-        
-
-    };
-    
-    public ArrayList<Position> getRetreatPositions(Unit unit){
-        /*
-        A Retreat result will force the affected unit to vacate its current square. A unit
-        that Retreats is moved one square away from its current location. The choice of
-        the direction of the Retreat must be directly towards the unit’s starting edge of
-        the battlefield. If that square is blocked (by either friendly or enemy units), then
-        the Retreat must be to either flank square, retreating player’s choice. A flank
-        square is one not toward either side’s Starting Edge. If all three of these squares
-        are blocked or are the map edge, then and only then the unit may retreat towards
-        the enemy’s Starting Edge. If all four squares are blocked or are the map edge,
-        then the unit may not retreat and is Eliminated instead.
-        */
-        ArrayList<Position> possibleMovements = getOneSquareMovements(unit.getPosition());
-        /*
-        If there is no room for movement return null
-        */
-        if (possibleMovements.isEmpty() ) return new ArrayList<>();
-        
-        ArrayList<Position> retreatMovements = new ArrayList<>();
-        /*
-        If player is a host we move increasing y else we decrease y 
-        */
-        int deltaMove =  unit.getOwner().isHost() ?  -1  : 1;
-        /*
-        Checking possible retreat to unit starting edge
-        */
-            for(Position checkRetreatPos : possibleMovements)
-            {/*
-                If we have space to move back
-                */
-             if(checkRetreatPos.getY() == unit.getPosition().getY() + deltaMove)  {
-                 
-                 retreatMovements.add(checkRetreatPos);
-                 return retreatMovements;
-             }
-            }
-            for(Position checkRetreatPos : possibleMovements)
-            {
-            /*
-            If we have space to move aside
-            */
-             if(checkRetreatPos.getX() == unit.getPosition().getX() + 1
-                     ||
-                     checkRetreatPos.getX() == unit.getPosition().getX() - 1 )
-             {
-                 
-                 retreatMovements.add(checkRetreatPos);
-                
-             }
-            }
-             /*
-             If we have side way movements return them
-             */
-             if (!retreatMovements.isEmpty())  return retreatMovements;
-             /*
-            if we have possibleMovements not epmty and none of above is true then 
-            possiblemovements contains final move up way
-             */
-             else return possibleMovements;
-             
-    }
-    
-    
-    public ArrayList<Position> getSetupPossibleMovement()
-    {     
-        ArrayList<Position> moves;
-        moves = new ArrayList<>();
-                 
-        
-        int maxRow = getCurrentPlayer().isHost() ? Position.ROW_6 : Position.ROW_1;
-        for(Terrain terrains: getMap().getTerrainz()){
-        
-            if(currentPlayer.isHost())
-            {
-                if(terrains.getPosition().getY() < Position.ROW_7 && terrains.isPassable()) 
-                {
-                    
-                    moves.add(terrains.getPosition());
-                }
-      
-            }
-            else 
-  
-            if(terrains.getPosition().getY() > Position.ROW_1 && terrains.isPassable() ) 
-            {
-                moves.add(terrains.getPosition());
-            }
-        }
-        
-        return moves;
-    }
     
     
     public void generateMap(){
         this.map = new Map();
              }
-     public Map getMap() {
+    public Map getMap() {
         return map;
         
     }
@@ -710,199 +548,53 @@ public final class Game implements Serializable{
      
     }
      
-    public ArrayList<Position> getCurrentPlayerAvalibleUnitToSelect(){
-    
-     switch (getPhase()){
-        
-            case Game.SETUP :
-            {
-           
-                return getCurrentPlayer().getArmyPositions();
-                
-            }
-            
-            case Game.DISCARD :
-                
-                return null;
-                
-            case Game.MOVE:
-                return getCurrentPlayer().getArmyPositions();
-               
-            case Game.COMBAT:
-                 
-                if(getCombat() == null)
-                
-                return getCurrentPlayer().getArmyPositions();
-                
-                else 
-                {
-                    ArrayList<Position> possiblePositions = new ArrayList<>();
-                    if(getCombat().getState() == Combat.WITHRDAW)
-                    {
-                        if(getCurrentPlayer().hasAttacked())
-                        {
-                            possiblePositions.add(getCombat().getAttackingUnit().getPosition());
-                            return possiblePositions;
-                        }
-                        else
-                        {
-                            possiblePositions.add(getCombat().getDefendingUnit().getPosition());
-                            return possiblePositions;
-                        }   
-                    
-                    }
-                    
-                    if(getCombat().getState() == Combat.PURSUIT)
-                    {
-                        
-                        for(Unit pursueUnit: getCombat().getUnitThatCanAdvance())
-                        {
-                            possiblePositions.add(pursueUnit.getPosition());
-                        
-                        }
-                        return possiblePositions;
-                        
-                    }
-                    
-                   if(getCombat().getState() == Combat.PICK_SUPPORT_UNIT)
-                   {
-                       return getPossibleSupportingUnitsPositions(getCombat().getDefendingUnit());
-                   }
-                        
-                        
-                }
-                break;
-                /*
-                TODO implement many more cases with combat mode
-                */
-            
-            case Game.RESTORATION:
-                
-                return null;
-                
-                /*
-                TODO create funcion to get Units selected by card
-                */
-          
-        }
-        
-     return null;
-        
-    }
-    public ArrayList<Position> getCurrentPlayerAvalibleMoveUnitPositions(){
-    
-    Unit selectedUnit;    
-        
-     if(freeMove) 
-            return getSetupPossibleMovement();
-        
-     switch (getPhase()){
-        
-            case Game.SETUP :
-            {
-           
-                return getSetupPossibleMovement();
-                
-            }
-            
-            case Game.DISCARD :
-                
-                return null;
-                
-            case Game.MOVE:
-                selectedUnit = getSelectedUnit();
-                ArrayList<Position> movePositions;
-                return getPossibleMovement(selectedUnit);
-                
-            case Game.COMBAT:
-                   
-                
-                if(getCombat()!= null)
-                {  
-                    switch( getCombat().getState() ){
-                    
-                        case Combat.WITHRDAW :
-                        {
-                        if(getUnit(getCombat().getDefendingUnit()).isRetriving())
-                          
-                            return getRetreatPositions(getUnit(getCombat().getDefendingUnit()));
-                        }
-                    }
-                }
-
-                return null;
-                /*
-                TODO implement many more cases with combat mode
-                */
-            
-            case Game.RESTORATION:
-                
-                return null;
-                
-                /*
-                TODO create funcion to get Units selected by card
-                */
-          
-        }
-        
-     return null;
-        
-    }
-    /*
-    Returns reference to searched Unit
-    */
     
     public Unit getUnit(Unit searchedUnit)
     {
-     for(Unit unitSearch: currentPlayer.getArmy()){
-        
-            if(unitSearch.equals(searchedUnit))
-            {
+        for(Unit unitSearch: currentPlayer.getArmy()){
+            if(unitSearch.equals(searchedUnit)){
                 return unitSearch;
-              }
+            }
         }
-        
         for(Unit unitSearch: opponentPlayer.getArmy()){
-        
             if(unitSearch.equals(searchedUnit))
             {
                 return unitSearch;
-              }
+            }
         }
-      return null;
+        return null;
     
     }
-     public Card getCardFromTable(Card searchedCard)
+    public Card getCardFromTable(Card searchedCard)
     {
      for(Card cardSearch: currentPlayer.getTablePile().getCardList()){
-        
             if(cardSearch.equals(searchedCard))
             {
                 return cardSearch;
               }
         }
-        
     for(Card cardSearch: opponentPlayer.getTablePile().getCardList()){
-        
             if(cardSearch.equals(searchedCard))
             {
                 return cardSearch;
               }
         }
       return null;
-    
     }
-    
-    
-    public void setUnit(Unit unit)
-    {
-        Unit setUnit = getUnit(unit);
+
+    public Unit getUnitByCard(Card card)
+    {   
+        for(Unit unitSearch: currentPlayer.getArmy())
+             if(unitSearch.equals(card))
+                return unitSearch;
         
-        if(setUnit!= null)
-        {
-            setUnit = unit;
-        }   
-    
+        for(Unit unitSearch: opponentPlayer.getArmy())
+            if(unitSearch.equals(card))
+                return unitSearch;
+        
+        
+        return new Unit();
+        
     }
     
     
@@ -914,9 +606,7 @@ public final class Game implements Serializable{
             {
                 return unitSearch;
               }
-            
-        
-        }
+    }
         
         for(Unit unitSearch: opponentPlayer.getArmy()){
         
@@ -975,15 +665,7 @@ public final class Game implements Serializable{
     
     public void nextPhase(){
         if(getPhase()<Game.MAX_PHASES)setPhase(getPhase()+1);
-        
-        /*
-        Initialize states
-        */
-        if(getCurrentPlayer().isActive())
-        {   
-            mapInputHandler.setInitStateForPhase(this);
-            cardStateHandler.setInitStateForPhase(this);
-        }
+
     }
      public String getPhaseName(int phase){
       
@@ -1022,38 +704,26 @@ public final class Game implements Serializable{
     public void setPhase(int phase) {
         this.phase = phase;
         
-         /*
-        Initialize states
-        */
-        if(getCurrentPlayer() != null)
-            if(getCurrentPlayer().isActive())
-            {
-                mapInputHandler.setInitStateForPhase(this);
-                cardStateHandler.setInitStateForPhase(this);
-            }
- 
+      
     } 
        
     void setFirstPlayer(){
-    
-    
         int result =  Dice.k2();
         
         if(result == 0)
-        {getHostPlayer().setFirst(true);
-         getHostPlayer().setActive(true);
+        {
+            getHostPlayer().setFirst(true);
+            getHostPlayer().setActive(true);
             getGuestPlayer().setFirst(false);
             getGuestPlayer().setActive(false);
-        
         }
         else 
         {
-             getHostPlayer().setFirst(false);
-             getHostPlayer().setActive(false);
-                getGuestPlayer().setFirst(true);
-                getGuestPlayer().setActive(true);
+            getHostPlayer().setFirst(false);
+            getHostPlayer().setActive(false);
+            getGuestPlayer().setFirst(true);
+            getGuestPlayer().setActive(true);
         }
-    
     }
    
  
@@ -1096,10 +766,6 @@ public final class Game implements Serializable{
 
     }
 
-    public CardCommandFactory getCardCommandFactory() {
-        return cardCommandFactory;
-    }
-
     public void unselectAllUnits(){
      
     LOGGER.debug(getCurrentPlayer().getName() + " game.unselectAllUnits()" );
@@ -1131,17 +797,6 @@ public final class Game implements Serializable{
     this.lockGUI = false;
     }
     
-     public void setLockGUIByPhase()
-    {
-        if(getCombat()==null){
-                if(getPhase()== Game.SETUP && getCurrentPlayer().isFinishedSetup() && !getOpponentPlayer().isFinishedSetup() )
-                    lockGUI();
-                else if(getPhase()!= Game.SETUP && !getCurrentPlayer().isActive())
-                    lockGUI();            
-                else 
-                    unlockGUI();
-        }
-    }   
      
      public boolean checkGameOver()
      {
@@ -1178,11 +833,7 @@ public final class Game implements Serializable{
          getMap().getTerrainAtPosition(unit.getPosition()).setIsOccupiedByUnit(false);
                
      }
-    
     void setPlayersScore(){
-    
-        
-        
     
     }
     
@@ -1194,6 +845,7 @@ public final class Game implements Serializable{
     public void addObserver(Observer observer){
         ee.addObserver(observer);
     }
-
+    
+    
 }
 

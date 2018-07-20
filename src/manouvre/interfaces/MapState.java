@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package manouvre.state;
+package manouvre.interfaces;
 
 
 import manouvre.game.Game;
 import manouvre.game.Position;
 import manouvre.commands.CommandQueue;
+import manouvre.state.MapStateHandler;
 
 /**
  *
@@ -16,6 +17,6 @@ import manouvre.commands.CommandQueue;
  */
 public interface MapState {
     
-    public void handleInput(Position pos, Game game, CommandQueue cmdQueue, MapInputStateHandler handler );
+    public void handleInput(Position pos, Game game, CommandQueue cmdQueue, MapStateHandler handler );
     
 }

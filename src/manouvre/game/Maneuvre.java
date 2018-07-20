@@ -49,35 +49,17 @@ public class Maneuvre {  //Fake! this is temporary just to start game quick
           System.out.println("manouvre.game.Maneuvre.main()"+ game.toString());
           
           QueueClient fakeClient = new QueueClient();
-     
+          CommandQueue cmdQueueHost = new CommandQueue(game,  fakeClient.hostClient );
           
-          GameWindow clientGameHost = new GameWindow( game ,  CreateRoomWindow.AS_HOST );
+          GameWindow clientGameHost = new GameWindow( game ,  CreateRoomWindow.AS_HOST, cmdQueueHost );
+          
+          
           Game game2 = (Game) UnoptimizedDeepCopy.copy (game);
-          GameWindow clientGameGuest = new GameWindow( game2 , CreateRoomWindow.AS_GUEST );
-          
-          
+          CommandQueue cmdQueueGuest = new CommandQueue(game2,  fakeClient.guestClient );
+          GameWindow clientGameGuest = new GameWindow( game2 , CreateRoomWindow.AS_GUEST , cmdQueueGuest);
           
           fakeClient.clientGameGuest = clientGameGuest;
           fakeClient.clientGameHost = clientGameHost;
-          
-          CommandLogger commandLoggerHost = new CommandLogger(clientGameHost);
-          CommandLogger commandLoggerGuest = new CommandLogger(clientGameGuest);
-          
-         
-                  
-          fakeClient.commandLoggerHost = commandLoggerHost;
-          fakeClient.commandLoggerGuest = commandLoggerGuest;
-          
-          CommandQueue cmdQueueHost = new CommandQueue(game, commandLoggerHost, clientGameHost, fakeClient.hostClient );
-           clientGameHost.setCmdQueue(cmdQueueHost);
-           game.setCmdQueue(cmdQueueHost);
-          
-          
-          CommandQueue cmdQueueGuest = new CommandQueue(game2, commandLoggerGuest, clientGameGuest, fakeClient.guestClient );
-           clientGameGuest.setCmdQueue(cmdQueueGuest);
-           game2.setCmdQueue(cmdQueueGuest);
-          
-          
           try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {

@@ -11,7 +11,7 @@ import manouvre.game.Combat;
 import manouvre.game.Game;
 import manouvre.game.Unit;
 import manouvre.interfaces.Command;
-import manouvre.state.MapInputStateHandler;
+import manouvre.state.MapStateHandler;
 import org.apache.logging.log4j.LogManager;
 
 /**
@@ -37,7 +37,7 @@ public class TakeHitCommand implements Command{
     @Override
     public void execute(Game game) {
             
-        Unit unit = game.getUnitByName(hitUnit.getName());
+        Unit unit = game.getUnit(hitUnit);
         
         if(!eliminate) 
         {   
@@ -65,7 +65,6 @@ public class TakeHitCommand implements Command{
         LOGGER.debug(game.getCurrentPlayer().getName() + " game.getCombat().getState() " + game.getCombat().getState());
         if(unit.isEliminated())
         {
-            
             if(game.getCombat().getState() == Combat.DEFENDER_DECIDES)
             {
                 
@@ -74,16 +73,6 @@ public class TakeHitCommand implements Command{
             }
             game.getCombat().setState(Combat.PURSUIT);
             game.notifyAbout(EventType.PURSUIT);
-            if(game.getCurrentPlayer().isActive())
-            {
-                LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT ");
-                game.mapInputHandler.setState(MapInputStateHandler.PICK_ONE_UNIT);
-            }
-            else 
-            {
-                LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na MapInputStateHandler.NOSELECTION ");
-                game.mapInputHandler.setState(MapInputStateHandler.NOSELECTION);
-            }
         }
         else 
         {
@@ -95,13 +84,9 @@ public class TakeHitCommand implements Command{
             }
             
             game.getCombat().endCombat(game);
-            LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na MapInputStateHandler.NOSELECTION ");
-            game.mapInputHandler.setState(MapInputStateHandler.NOSELECTION);
+            game.notifyAbout(EventType.END_COMBAT);
         }    
-            
         game.checkGameOver();
-        
-        
         
     }
 

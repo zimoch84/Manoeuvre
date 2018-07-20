@@ -59,22 +59,12 @@ public class NextPhaseCommand implements Command{
     @Override
     public void execute(Game game) {
 
-        
         game.getMap().unselectAllTerrains();
-        game.setInfoBarText(null);
         game.getPlayerByName(activePlayerName).resetPlayer();
-        game.getCardCommandFactory().createCleanTableCommand().execute(game);
-
-        LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().resetFactory()");
-        game.getCardCommandFactory().resetFactory();
-        
         if(game.getPhase() == Game.COMBAT)
             game.setCombat(new Combat());
         game.nextPhase();
         game.notifyAbout(EventType.NEXT_PHASE);
-        
-       
-        
     }
 
     @Override
@@ -87,7 +77,6 @@ public class NextPhaseCommand implements Command{
         return new String(activePlayerName + " moved to the next phase " + getPhaseName(phase) );
     
     }
-
     @Override
     public String getType() {
        return Command.NEXT_PHASE;

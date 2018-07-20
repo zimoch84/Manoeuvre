@@ -31,6 +31,7 @@ public interface CardInterface {
     public static int UNIT=0;
     public static int HQCARD=1;
     public static int LEADER=2;
+    public static int NO_CARD=99;
     
     /*
     Unit Types
@@ -64,10 +65,12 @@ public interface CardInterface {
     public static String BOMBARD = "BOMBARD";
     public static String PURSUIT = "PURSUIT";
     public static String LEADER_SUPPORT = "LEADER_SUPPORT";
-            
-    public static int MOVE_ACTION = 500;
-    public static int PICK_ACTION = 501;
-    public static int MULTIPLE_PICK_ACTION = 502;
+    
+    public static String NO_TYPE = "NO_TYPE";
+           
+    public static int MOVE_UNIT_ACTION = 500;
+    public static int PICK_UNIT_ACTION = 501;
+    public static int MULTIPLE_UNIT_PICK_ACTION = 502;
     public static int NO_ACTION = 503;
     
     
@@ -159,9 +162,4 @@ public interface CardInterface {
     */
     public boolean isNotRequredToAdvanceAfterAttack();   
 
-    /*
-    If that card can be played at the moment
-    */
-    public boolean canBePlayed(Game game);
-    
 }

@@ -5,15 +5,15 @@
  */
 package manouvre.events;
 
+import java.io.Serializable;
 import java.util.Observable;
-import manouvre.game.CardCommandFactory;
 
 
 /**
  *
  * @author piotr_grudzien
  */
-public class EventEmiter extends Observable {
+public class EventEmiter extends Observable implements Serializable{
 
     public void notifyAbout(Object eventType) {
         setChanged();

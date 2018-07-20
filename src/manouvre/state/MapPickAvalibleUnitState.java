@@ -5,6 +5,7 @@
  */
 package manouvre.state;
 
+import manouvre.interfaces.MapState;
 import java.io.Serializable;
 import java.util.ArrayList;
 import manouvre.commands.AdvanceUnitCommand;
@@ -12,6 +13,7 @@ import manouvre.game.Game;
 import manouvre.game.Position;
 import manouvre.commands.CommandQueue;
 import manouvre.events.EventType;
+import manouvre.game.Card;
 import manouvre.game.Combat;
 import manouvre.game.Unit;
 import manouvre.interfaces.Command;
@@ -27,15 +29,13 @@ public class MapPickAvalibleUnitState implements MapState, Serializable{
      private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(MapPickAvalibleUnitState.class.getName());
      
     @Override
-    public void handleInput(Position pos, Game game, CommandQueue cmdQueue, MapInputStateHandler handler) {
-        ArrayList<Position> avalaiblePositions =  game.getCurrentPlayerAvalibleUnitToSelect();
+    public void handleInput(Position pos, Game game, CommandQueue cmdQueue, MapStateHandler handler) {
+        ArrayList<Position> avalaiblePositions =  game.positionCalculator.getCurrentPlayerAvalibleUnitToSelect();
                
-        
-        if(avalaiblePositions != null)
         if(avalaiblePositions.contains(pos))
             
         {
-            if(handler.unitSelectionMode == MapInputStateHandler.PICK_ONE_UNIT)
+            if(handler.unitSelectionMode == MapStateHandler.PICK_ONE_UNIT)
             {
                 
                 game.unselectAllUnits();
@@ -50,7 +50,7 @@ public class MapPickAvalibleUnitState implements MapState, Serializable{
             if(game.getPhase() == Game.SETUP || game.getPhase() == Game.MOVE )
             {
                 
-                handler.setState(MapInputStateHandler.PICK_MOVE_POSITION);
+                handler.setState(MapStateHandler.PICK_MOVE_POSITION);
             }   
             
             if(game.getPhase() == Game.COMBAT)
@@ -77,13 +77,7 @@ public class MapPickAvalibleUnitState implements MapState, Serializable{
                   
                     game.notifyAbout(EventType.PICKED_ADVANCE);
             }
-            /* }
-            else  
-            {
-                LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na MapInputStateHandler.PICK_UNIT_BY_CARD" );
-                handler.setState(MapInputStateHandler.PICK_UNIT_BY_CARD);
-            }
-            */
+           
         }   
         }       
         /*
@@ -98,5 +92,20 @@ public class MapPickAvalibleUnitState implements MapState, Serializable{
             }
         }    
    }
-   
+   /*
+     if(playingCard.getCardType() == Card.UNIT )
+                            {
+                                Unit defendingUnit = game.getOpponentPlayerUnitAtPosition(pos);
+                                game.getCombat().setDefendingUnit(defendingUnit);
+                                Command command = ccf.createCardCommand(playingCard);
+                                showConfirmationCardDialog(cmdQueue, command, game);
+                            }
+                       if(playingCard.getHQType() == Card.SUPPLY)
+                        if(!getAvaliblePositionToSelect(game).isEmpty())
+                            LOGGER.debug(game.getCurrentPlayer().getName() + " zmiana stanu na MapInputStateHandler.PICK_UNIT_BY_CARD");
+                            game.getCurrentPlayerUnitAtPosition(pos).setSelected(true);
+                            handler.setStateByCard(playingCard, MapStateHandler.PICK_MOVE_POSITION_BY_CARD);
+                    
+    
+    */
 }

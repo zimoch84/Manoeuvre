@@ -5,6 +5,7 @@
  */
 package manouvre.state;
 
+import manouvre.interfaces.MapState;
 import java.io.Serializable;
 import java.util.ArrayList;
 import manouvre.game.Game;
@@ -13,6 +14,7 @@ import manouvre.game.Unit;
 import manouvre.commands.CardCommands;
 import manouvre.commands.CommandQueue;
 import manouvre.commands.MoveUnitCommand;
+import manouvre.commands.WithrdawCommand;
 import manouvre.gui.CustomDialog;
 import org.apache.logging.log4j.LogManager;
 
@@ -20,11 +22,11 @@ import org.apache.logging.log4j.LogManager;
  *
  * @author xeon
  */
-public class MapPickUnitMovePositionState implements MapState, Serializable{
+public class MapPickMovePositionState implements MapState, Serializable{
 private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(MapPickAvalibleUnitState.class.getName());   
 
     @Override
-    public void handleInput(Position pos, Game game, CommandQueue cmdQueue , MapInputStateHandler handler) {
+    public void handleInput(Position pos, Game game, CommandQueue cmdQueue , MapStateHandler handler) {
        
         Unit selectedUnit = game.getSelectedUnit();
         
@@ -36,12 +38,11 @@ private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogg
         LOGGER.debug(game.getCurrentPlayer().getName() + " game.unselectAllUnits()" );
         game.unselectAllUnits();    
         LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT" );
-        handler.setState(MapInputStateHandler.PICK_ONE_UNIT);
+        handler.setState(MapStateHandler.PICK_ONE_UNIT);
         return;
         }
         
-        
-        ArrayList<Position> avalaiblePositions =  game.getCurrentPlayerAvalibleMoveUnitPositions();
+        ArrayList<Position> avalaiblePositions =  game.positionCalculator.getCurrentPlayerAvalibleMoveUnitPositions();
 
         if(avalaiblePositions.contains(pos))
         {
@@ -49,45 +50,35 @@ private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogg
             /*
              If we done play card and we are not in setup
            */
-                if(game.getPhase() == Game.MOVE )
-            {        
-            cmdQueue.storeAndExecuteAndSend(moveUnit);
-            LOGGER.debug(game.getCurrentPlayer().getName() + " game.unselectAllUnits()" );
-            game.unselectAllUnits(); 
-            LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT" );
-            handler.setState(MapInputStateHandler.PICK_ONE_UNIT);
-            }
-            /*
-            If we dont play card or we are in setup
-            */
-            if(game.getPhase() == Game.SETUP)
-            {   
-            /*
-            Just execute on client
-            */
+            switch(game.getPhase()){
+            case Game.SETUP:
+            /*             Just execute on client            */
             cmdQueue.storeAndExecute(moveUnit);
-            LOGGER.debug(game.getCurrentPlayer().getName() + " game.unselectAllUnits()" );
             game.unselectAllUnits();  
-            LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT" );
-            handler.setState(MapInputStateHandler.PICK_ONE_UNIT);
-            }
-            if(game.getPhase() == Game.COMBAT)
-            {
+            handler.setState(MapStateHandler.PICK_ONE_UNIT);
+            break;
+            
+            case Game.MOVE:
+                    
+            cmdQueue.storeAndExecuteAndSend(moveUnit);
+            game.unselectAllUnits(); 
+            handler.setState(MapStateHandler.PICK_ONE_UNIT);
+            break;
+                
+            case Game.COMBAT:
                 if(selectedUnit.isRetriving()){
-                    
-                    
-                    CardCommands.WithrdawCommand withdrawCommand = new CardCommands.WithrdawCommand(
-                            moveUnit , game.getCardCommandFactory().getPlayingCard(), game.getCurrentPlayer().getName() );
+                WithrdawCommand withdrawCommand = new WithrdawCommand(
+                        moveUnit ,  game.getCurrentPlayer().getName() );
 
-                    cmdQueue.storeAndExecuteAndSend(withdrawCommand);
+                cmdQueue.storeAndExecuteAndSend(withdrawCommand);
 
-                    LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na MapInputStateHandler.NOSELECTION" );
-                    handler.setState(MapInputStateHandler.NOSELECTION);
+                LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na MapInputStateHandler.NOSELECTION" );
+                handler.setState(MapStateHandler.NOSELECTION);
                 }
-    
             }
         }
             
+        /* click on unavalaible posiotion */
         else
         {
             if(game.getPhase() != Game.COMBAT)
@@ -95,18 +86,8 @@ private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogg
             LOGGER.debug(game.getCurrentPlayer().getName() + " game.unselectAllUnits()" );
             game.unselectAllUnits();
             LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT" );
-            handler.setState(MapInputStateHandler.PICK_ONE_UNIT);
-            }
-            
-            else 
-            {
-            //Do nothing
+            handler.setState(MapStateHandler.PICK_ONE_UNIT);
             }
         }
-            
-            
-
     }
-
-    
 }

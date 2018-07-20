@@ -5,6 +5,7 @@
  */
 package manouvre.state;
 
+import manouvre.game.CardPlayingHandler;
 import java.io.Serializable;
 import manouvre.game.Card;
 import manouvre.game.Game;
@@ -21,75 +22,41 @@ public class CardSingleSelectionState implements CardInputState, Serializable{
 
     private static final Logger LOGGER = LogManager.getLogger(CardSingleSelectionState.class.getName());
     
+    CardPlayingHandler cardHandler;
+
+    MapStateHandler mapStateHandler;
+
+    public CardSingleSelectionState(CardPlayingHandler cardHandler, MapStateHandler mapStateHandler) {
+        this.cardHandler = cardHandler;
+        this.mapStateHandler = mapStateHandler;
+    }
     
     @Override
     public void handleInput(Card card, Game game, CommandQueue cmdQueue) {
-        
         if(!card.isSelected()) 
-        {
-            LOGGER.debug(game.getCurrentPlayer().getName() + " zmiana stanu na MapInputStateHandler.CARD_PLAYING_STATE") ;
-            game.mapInputHandler.setState(MapInputStateHandler.CARD_PLAYING_STATE);
-            
-            if(card.canBePlayed(game)){
-                card.setSelected(true);
-                game.getCardCommandFactory().setPlayingCard(card);
-                card.actionOnSelection(game, cmdQueue);
-                keepOneSelectedCard(card, game);
-                game.notifyAbout(EventType.CARD_SELECTED);
-            }
-        }
-
+            actionOnSelection( card, game);
         else 
-        {   
-            if(card.canBePlayed(game)){
+            actionOnDeselection(card,game);
+    }
+    private void actionOnDeselection(Card card, Game game)
+    {
+            if(cardHandler.canBePlayed(card))
+            {
             card.setSelected(false); 
-            triggerCardActionOnDeSelection(card, game);
+            cardHandler.actionOnDeselection(card);
             game.notifyAbout(EventType.CARD_DESELECTED);
             }
-            
-        }    
-            
-        
     }
     
-     private void triggerCardActionOnSelection(Card playingCard, Game game, CommandQueue cmdQueue){
-
-            /*
-            Trigger action on selection
-            */
-            
-            
-            
-    
+    private void actionOnSelection(Card card, Game game){
+            if(cardHandler.canBePlayed(card)){
+                card.setSelected(true);
+                cardHandler.setPlayingCard(card);
+                cardHandler.actionOnSelection(card);
+                keepOneSelectedCard(card, game);
+                game.notifyAbout(EventType.CARD_SELECTED);
     }
     
-    private void triggerCardActionOnDeSelection(Card playingCard, Game game){
-        if(playingCard.canBePlayed(game)) { 
-            
-            
-                 /*
-            If card have only 1 attacking mode set it here to avoid custom dialog
-            If card have 2 attacking mode then later we'll ask user about which mode he choses
-            */
-                if(playingCard.getCardType() == Card.UNIT)
-                {
-                        int playingModeCounter = playingCard.getPlayingPossibleCardModes().size();
-                    if (playingModeCounter == 2)
-                    {
-                        
-                        game.notifyAbout(EventType.VOLLEY_ASSAULT_DECISION_DESELECTION);
-                    }
-                        
-                }
-            
-            /*
-            Trigger action on selection
-            */
-            playingCard.actionOnDeselection(game);
-            //LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().resetFactory()");
-            //TODO dlaczego chcialem resetowac fabryke?
-            //game.getCardCommandFactory().resetFactory();
-        }
     }
 
     private void keepOneSelectedCard(Card card, Game game){
@@ -101,7 +68,7 @@ public class CardSingleSelectionState implements CardInputState, Serializable{
                 if(searchCard.isSelected())
                 {
                     searchCard.setSelected(false);
-                    triggerCardActionOnDeSelection(searchCard, game);
+                    actionOnDeselection(searchCard, game);
                 }
             }
         }

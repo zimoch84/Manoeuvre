@@ -10,8 +10,8 @@ import manouvre.game.Combat;
 import manouvre.game.Game;
 import manouvre.game.Unit;
 import manouvre.interfaces.Command;
-import manouvre.state.CardStateHandler;
-import manouvre.state.MapInputStateHandler;
+import manouvre.state.HandStateHandler;
+import manouvre.state.MapStateHandler;
 import org.apache.logging.log4j.LogManager;
 
 /**
@@ -39,23 +39,10 @@ public class ForceWithdraw implements Command{
       game.swapActivePlayer();
       LOGGER.debug(game.getCurrentPlayer().getName() + " swapActivePlayer " + game.getCurrentPlayer().isActive());
       game.getCombat().setState(Combat.WITHRDAW);
-      game.notifyAbout(EventType.DEFENDER_WITHDRAW);
-      
-      if(game.getCurrentPlayer().isActive())
-      {
-          LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION ");
-          game.mapInputHandler.setState(MapInputStateHandler.PICK_MOVE_POSITION);
-      }
-      else 
-      { 
-          LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na MapInputStateHandler.NOSELECTION ");
-          game.mapInputHandler.setState(MapInputStateHandler.NOSELECTION);
-      }
-      LOGGER.debug(game.getCurrentPlayer().getName() + " Zmiana stanu na CardStateHandler.NOSELECTION ");
-      game.cardStateHandler.setState(CardStateHandler.NOSELECTION);
-     
       unit.setRetriving(true);
       unit.setSelected(true);
+
+      game.notifyAbout(EventType.DEFENDER_WITHDRAW);
       log = "Attacker forced defender to withdraw";
 
     }

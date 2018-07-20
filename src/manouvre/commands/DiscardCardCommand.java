@@ -17,41 +17,29 @@ import manouvre.network.server.UnoptimizedDeepCopy;
  */
 public class DiscardCardCommand implements Command {
    
-    ArrayList<Card> selectionSeq;
+    ArrayList<Card> discardedCards;
     String senderPlayerName;
     
-    public DiscardCardCommand(ArrayList<Card> selectionSeq, String senderPlayerName) {
-       this.selectionSeq=
-                  (ArrayList<Card>) UnoptimizedDeepCopy.copy(selectionSeq);
+    public DiscardCardCommand(ArrayList<Card> discardedCards, String senderPlayerName) {
+       this.discardedCards=
+                  (ArrayList<Card>) UnoptimizedDeepCopy.copy(discardedCards);
        this.senderPlayerName=senderPlayerName;
     }
     
     @Override
     public void execute(Game game) {  
          
-    for (int i=0; i<selectionSeq.size(); i++){   
+    for (int i=0; i<discardedCards.size(); i++){   
            
-        game.getPlayerByName(senderPlayerName).
-            getHand().moveCardTo(
-                    selectionSeq.get(i),  
-                    game.getPlayerByName(senderPlayerName).
-                            getDiscardPile()
-
-           );
-           }
-    if(game.getPlayerByName(senderPlayerName).getName().equals(game.getCurrentPlayer().getName() ))
-        
-    {
-        /*
-        Empty selecttion
-        */
-        game.getCurrentPlayer().getHand().unselectAllCards();
-    }
-   
-
-       
+    game.getPlayerByName(senderPlayerName).
+        getHand().moveCardTo(discardedCards.get(i),  
+                game.getPlayerByName(senderPlayerName).
+                        getDiscardPile()
+       );
     }
     
+    game.notifyAbout(EventType.CARDS_DISCARDED);
+    }      
     @Override
     public void undo(Game game){
       
@@ -63,7 +51,7 @@ public class DiscardCardCommand implements Command {
     public String logCommand(){
         
         String out = new String(senderPlayerName + " discarded ");
-        for (Card card :selectionSeq )
+        for (Card card :discardedCards )
             out += card.toString() + ", "; 
          
         return out;

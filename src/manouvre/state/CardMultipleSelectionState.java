@@ -5,6 +5,7 @@
  */
 package manouvre.state;
 
+import manouvre.game.CardPlayingHandler;
 import java.io.Serializable;
 import java.util.ArrayList;
 import manouvre.game.Card;
@@ -22,228 +23,41 @@ import org.apache.logging.log4j.LogManager;
 public class CardMultipleSelectionState implements CardInputState, Serializable{
     private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(CardMultipleSelectionState.class.getName());  
     
+    CardPlayingHandler cardHandler;
+
+
+    public CardMultipleSelectionState(CardPlayingHandler cardHandler) {
+        this.cardHandler = cardHandler;
+      
+    }
     
     @Override
     public void handleInput(Card card, Game game,CommandQueue cmdQueue) {
-        
+       
         if(!card.isSelected()) 
-        {   
-            
-            
-            if(game.getPhase() == Game.DISCARD)
-            {
-                
-            card.setSelected(true);
-            game.getCurrentPlayer().getHand().selectCard(card);
-            game.notifyAbout(EventType.CARD_SELECTED);
-            }
-            
-            else if(game.getPhase() == Game.COMBAT)
-            {
-                if(card.canBePlayed(game))
-                card.setSelected(true);
-                
-                if(game.getCombat() != null)
-                    if(game.getCombat().getState() == Combat.PICK_DEFENSE_CARDS)
-                    {
-                        if(game.getCombat().getDefendingUnit() != null)
-                            if(game.getUnit(game.getCombat().getDefendingUnit()).equals(card) )
-                            {
-                                card.setSelected(true);
-                                game.getCombat().addDefenceCard(card);
-                                
-                            }
-                            else if (card.canBePlayed(game))
-                                card.actionOnSelection(game, cmdQueue);
-                    }
-                    else if (game.getCombat().getState() == Combat.PICK_SUPPORT_CARDS)
-                    {
-                        if(card.getCardType() == Card.LEADER)
-                        {
-                            card.setSelected(true);
-                            game.getCardCommandFactory().setPlayingCard(card);
-                            
-                            game.notifyAbout(EventType.LEADER_SELECTED);
-                            
-                        }
-                        if(card.getHQType() == Card.SKIRMISH){
-                            
-                            card.setSelected(true);
-                            game.getCardCommandFactory().setPlayingCard(card);
-                            
-                            game.notifyAbout(EventType.SKIRMISH_SELECTED);
-                            
-                            LOGGER.debug(game.getCurrentPlayer().getName() + "zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION_BY_CARD");
-                            game.mapInputHandler.setState(MapInputStateHandler.PICK_MOVE_POSITION_BY_CARD);
-                            
-                        }
-                        
-                        if(card.getCardType() == Card.UNIT)
-                        {
-                            if(game.getCombat().getSupportingLeader() == null)
-                            {
-                                
-                            Unit attackingUnit = game.getUnit(game.getCombat().getAttackingUnit());
-                            if(card.equals(attackingUnit))
-                                
-                            {
-                                for(String cardMode:card.getPlayingPossibleCardModes() )
-                                {
-                                    if(cardMode == Card.ASSAULT)
-                                    {
-                                        card.setPlayingCardMode(Card.ASSAULT);
-                                        game.getCombat().addSupportCard(card); 
-                                        card.setSelected(true);
-                                        break;
-                                    }
-                                }
-                            }   
-                            }
-                            /*
-                            We have leader selected and supporting unit picked
-                            */
-                            else 
-                            {
-                            
-                            ArrayList<Unit> supportingUnits = game.getCombat().getAttackingUnits();
-                            for(Unit unit:supportingUnits){
-                                if(card.equals(unit))
-                                {
-                                    for(String cardMode:card.getPlayingPossibleCardModes() )
-                                    {
-                                        if(cardMode == Card.ASSAULT)
-                                        {
-                                            card.setPlayingCardMode(Card.ASSAULT);
-                                            game.getCombat().addSupportCard(card); 
-                                            card.setSelected(true);
-                                            break;
-                                        }
-                                    }
-                                } 
-                            }
-                            }
-                       }
-                       }
-            }
-                
-            
-        }
-        /*
-        Deselect card
-        */
+           actionOnSelection(card);
         else 
-        {
-            card.setSelected(false);
-            if(game.getPhase() == Game.DISCARD)
-            {
-            
-            game.getCurrentPlayer().getHand().deselectCard(card); 
-            game.notifyAbout(EventType.CARD_DESELECTED);
-            }
-            
-            else if(game.getPhase() == Game.COMBAT)
-            {
-                if(game.getCombat() != null)
-                    if(game.getCombat().getState() == Combat.PICK_DEFENSE_CARDS)
-                    {
-                       if(game.getCombat().getDefendingUnit() != null)
-                            if(game.getUnit(game.getCombat().getDefendingUnit()).equals(card) )
-                            {
-                                game.getCombat().removeDefenceCard(card);
-                                //game.getCurrentPlayer().getHand().selectionSeq.add(card);
-
-                            }
-                            else if (card.canBePlayed(game))
-                                 card.actionOnDeselection(game);
-                            
-                       
-                    }
-                    else if (game.getCombat().getState() == Combat.PICK_SUPPORT_UNIT)
-                    {
-                        if(card.getCardType() == Card.LEADER)
-                        {
-                        /*
-                        We have to unselect supporting units equal to the support value
-                        Remove also supporting units and cards that not match init Atacking unit
-                        */
-                        LOGGER.debug(game.getCurrentPlayer().getName() + "zmiana stanu na MapInputStateHandler.NOSELECTION");
-                        game.mapInputHandler.setState(MapInputStateHandler.NOSELECTION);
-                        
-                        game.getCombat().resetSupport(game);
-                        
-                        LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().setPlayingCard(null)");
-                        game.getCardCommandFactory().setPlayingCard(null);
-                        }
-                    }
-                    else if (game.getCombat().getState() == Combat.PICK_SUPPORT_CARDS)   
-                        if(card.getCardType() == Card.UNIT)
-                        {
-                            if(game.getCombat().getSupportingLeader() == null)
-                            {
-                                /*
-                                TODO can pick only attacker additional cards and only ASSAULT 
-                                
-                                */
-                           Unit attackingUnit = game.getUnit(game.getCombat().getAttackingUnit());
-                            if(card.equals(attackingUnit))
-                            {
-                                for(String cardMode:card.getPlayingPossibleCardModes() )
-                                {
-                                    if(cardMode == Card.ASSAULT)
-                                    {
-                                        game.getCombat().removeSupportCard(card);    
-                                        break;
-                                    }
-                                }
-                            }   
-                            }
-                            
-                                
-                            else 
-                            {
-                            /*
-                                TODO  You can pick any from supporting unit <--> cards to suppport
-                                */
-                            }
-                        }
-                        if(card.getCardType() == Card.LEADER)
-                        {
-                        /*
-                        We have to unselect supporting units equal to the support value
-                        */
-                        LOGGER.debug(game.getCurrentPlayer().getName() + "zmiana stanu na MapInputStateHandler.NOSELECTION");
-                        game.mapInputHandler.setState(MapInputStateHandler.NOSELECTION);
- 
-                        game.getCombat().resetSupport(game);
-
-                        LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().setPlayingCard(null)");
-                        game.getCardCommandFactory().setPlayingCard(null);
-                        
-                        game.notifyAbout(EventType.LEADER_DESELECTED);
-                        }
-                        
-                        else if(card.getHQType() == Card.SKIRMISH)
-                        {
-                            
-                            card.setSelected(false);
-                            game.getCardCommandFactory().setPlayingCard(null);
-                            
-                            game.notifyAbout(EventType.SKIRMISH_DESELECTED);
-                            
-                            LOGGER.debug(game.getCurrentPlayer().getName() + "zmiana stanu na MapInputStateHandler.NOSELECTION");
-                            game.mapInputHandler.setState(MapInputStateHandler.NOSELECTION);
-                            
-                        }
-                        
-            }
-        }       
-        
-        
+           actionOnDeselection(card);
     }
-
+    
+    private void actionOnSelection( Card card)
+    {
+        if(cardHandler.canBePlayed(card)){
+           card.setSelected(true);
+           cardHandler.actionOnSelection(card);
+        }
+    }
+    
+   private void actionOnDeselection(Card card){
+           card.setSelected(false);
+           cardHandler.actionOnSelection(card);
+    } 
+    
     @Override
     public String toString() {
         return "MULTIPLE_SELECTION";
     }
-    
-}
+   }
+
+   
+

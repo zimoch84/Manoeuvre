@@ -68,6 +68,7 @@ public class Combat implements Serializable{
     Terrain attackTerrain, defenseTerrain;
  
     String combatType;
+    ArrayList<Position> attackingPositions = new ArrayList<>();
 
     public Combat()
     {
@@ -95,8 +96,7 @@ public class Combat implements Serializable{
     this.state= INITIALIZING_COMBAT;
     calculateBonuses();
     calculateCombatValues();
-    
-    setState(INITIALIZING_COMBAT);
+
     }
     
     void calculateBonuses(){
@@ -344,6 +344,20 @@ public class Combat implements Serializable{
         this.supportingLeader = supportingLeader;
     }
 
+    public void setAttackingUnit(Unit attackingUnit)
+    {
+        this.initAttackUnit = attackingUnit;
+    }
+
+    public void setDefendingUnit(Unit defendingUnit) {
+        this.defendingUnit = defendingUnit;
+    }
+    
+
+    public void setInitAttackingCard(Card initAttackingCard) {
+        this.initAttackingCard = initAttackingCard;
+    }
+    
     
     public Unit getAttackingUnit() {
         return initAttackUnit;
@@ -524,16 +538,62 @@ public class Combat implements Serializable{
     
     public void linkObjects(Game game)
     {
-        game.setUnit(defendingUnit);
-        game.setUnit(initAttackUnit);
-        
+        setUnit(defendingUnit, game);
+        setUnit(initAttackUnit, game);
     
+    }
+    
+    private void setUnit(Unit unit, Game game)
+    {
+        Unit setUnit = game.getUnit(unit);
+        if(setUnit!= null)
+        {
+            setUnit = unit;
+        }   
     }
     
     @Override
     public String toString(){
     
         return getCombatType() + " " + getState() ;
+    }
+
+    public void calculateAttackingPositions(Game game) {
+        ArrayList<Position> attackPossiblePositions;
+        ArrayList<Position> attackPositions = new ArrayList<Position>();
+        if (initAttackingCard.getPlayingCardMode().equals(Card.ASSAULT) 
+                || initAttackingCard.getPlayingCardMode().equals(Card.VOLLEY)
+                ) {
+            attackPossiblePositions = game.getPossibleAssault(initAttackUnit);
+            for (Position checkPosition : attackPossiblePositions) {
+                if (game.checkOpponentPlayerUnitAtPosition(checkPosition)) {
+                    attackPositions.add(checkPosition);
+                }
+            }
+            setAttackingPositions(attackPositions);
+        } else if (initAttackingCard.getPlayingCardMode().equals(Card.BOMBARD)) {
+            {
+                attackPossiblePositions = game.getLOS(initAttackUnit, 2);
+                for (Position checkPosition : attackPossiblePositions) {
+                    if (game.checkOpponentPlayerUnitAtPosition(checkPosition)) {
+                        attackPositions.add(checkPosition);
+                    }
+                }
+                setAttackingPositions(attackPositions);
+            }
+        }
+    }
+
+    public ArrayList<Position> getAttackingPositions() {
+        return attackingPositions;
+    }
+
+    public void setAttackingPositions(ArrayList<Position> attackingPositions) {
+        attackingPositions = attackingPositions;
+    }
+
+    public void clearAttackingPosiotions() {
+        attackingPositions.clear();
     }
     
 }

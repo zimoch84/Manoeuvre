@@ -1,67 +1,71 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package manouvre.events;
 
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JButton;
-import manouvre.game.CardCommandFactory;
+import manouvre.game.Combat;
 import manouvre.game.Game;
-import manouvre.state.CardStateHandler;
+import manouvre.gui.GameWindow;
+import manouvre.state.HandStateHandler;
 import org.apache.logging.log4j.LogManager;
 
 /**
  *
  * @author piotr_grudzien
  */
-public class EventObserver  implements Observer  {
+public class ButtonEventObserver  implements Observer  {
 
     private JButton actionButton;
     private JButton yesButton;
     private JButton noButton;
+    private JButton toNextPhaseButton;
+    
     private Game game;
 
-    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(EventObserver.class.getName());
+    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(ButtonEventObserver.class.getName());
     
-    public EventObserver(Game game, JButton actionButton, JButton yesButton, JButton noButton) {
-        
-        
+    public ButtonEventObserver(Game game, JButton actionButton, JButton yesButton, JButton noButton, JButton toNextPhaseButton) {
         this.game = game;
         this.actionButton = actionButton;
         this.yesButton = yesButton;
         this.noButton = noButton;
-   
+        this.toNextPhaseButton = toNextPhaseButton;
     }
-    
-    
     @Override
     public void update(Observable o, Object arg) {
-        
-     
         String dialogType = (String) arg;
-        
         LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
-        
+
         switch(dialogType){
         
-            case EventType.CARD_HAS_BEEN_PLAYED: {
+            
+            case EventType.SETUP_FINISHED:{
+            
+                if(game.getCurrentPlayer().isFinishedSetup())
+                    buttonToNextPhaseMakeInvisible();
+                break;
+            
+            }
+                
+            case EventType.PLAYER_MOVED:{
+            
+                buttonToNextPhaseSetText("End Move", game.getCurrentPlayer().isActive());
+                break;
+            }
+          
+            case EventType.CANCELLABLE_CARD_PLAYED: {
                 /*
                 Guirellas decision
                 */
                 if(game.getCurrentPlayer().isActive()){
-                    game.cardStateHandler.setState(CardStateHandler.PICK_ONLY_ONE);
-                    if (game.getCardCommandFactory().getOpponentCard() != null)
-                    {
                         buttonActionSetText("Accept Card", true);
-                    }
+                  
                 }
                 else 
-                {       game.setInfoBarText("Opponnent can play Guirellas");
+                    {       
+                        game.setInfoBarText("Opponnent can play Guirellas");
                         buttonActionMakeInvisible();
-                }
+                    }
                 break;
                 }
             case EventType.THROW_DICE: {
@@ -113,15 +117,12 @@ public class EventObserver  implements Observer  {
                {
                    if(!game.getPossibleSupportingUnits(game.getCombat().getDefendingUnit()).isEmpty())
                    {
-                    buttonSetDecisionText("Command", "Combat Val");
-                    game.setInfoBarText("Choose Leader playing mode");
+                        buttonSetDecisionText("Command", "Combat Val");
+                        game.setInfoBarText("Choose Leader playing mode");
                    }
                    else 
                    {
-                       /*
-                       Leader is played for his attack Value
-                       */
-                       game.getCombat().addSupportCard(game.getCardCommandFactory().getPlayingCard());
+                        game.notifyAbout(EventType.LEADER_FOR_COMBAT);
                    }
                }       
                break;
@@ -158,7 +159,6 @@ public class EventObserver  implements Observer  {
                     if(game.getCombat().isAttackerNotRequiredToAdvance())
                    {
                        buttonActionSetText("Not requre to adv.", true);
-                       
                    }
                     else 
                     {
@@ -167,7 +167,6 @@ public class EventObserver  implements Observer  {
                 }
                 else 
                    game.setInfoBarText("Opponent is picking pursuit unit"); 
-                
              break;
             } 
           
@@ -211,23 +210,118 @@ public class EventObserver  implements Observer  {
                    if( game.getPhase() == Game.DISCARD)
                        if(!game.getCurrentPlayer().getHand().isAnyCardSelected())
                            buttonActionMakeInvisible();
-      
                }       
                break;
            } 
            
            case EventType.NEXT_PHASE:
            {
-            if(game.getCurrentPlayer().isActive()) 
+               
+            buttonNextPhaseSetText();
+            actionButtonPhaseSetText();
+            break;
+           
+           }
+           case EventType.VOLLEY_ASSAULT_DECISION:
+           {
+               if(game.getCurrentPlayer().isActive())
+               {
+                   buttonSetDecisionText("Volley", "Assault");
+                }       
+               break;
+           }
+           
+           case EventType.VOLLEY_ASSAULT_DECISION_DESELECTION:
+               
+           {
+                decisionButtonsMakeInvisible();
+                break;
+           }
+           
+            case EventType.SKIRMISH_SELECTED:
+               
+           {
+                 if(game.getCurrentPlayer().isActive())
+               {
+                   game.setInfoBarText("Move up to 2 spaces");
+                   buttonActionSetText("Skirmish with no move", true);
+              }  
+           break;
+           }
+           
+           case EventType.SKIRMISH_PLAYED:
+               
+           {
+                 if(game.getCurrentPlayer().isActive())
+               {
+                   game.setInfoBarText("Move up to 2 spaces");
+                   buttonActionSetText("Skirmish with no move", true);
+              }  
+                 else 
+                  game.setInfoBarText("Opponent is moving up to 2 spaces");
+           break;
+           }
+           
+           
+    }
+    }
+    private void buttonSetDecisionText(String yesOption, String noOption)
+    {
+        yesButton.setText(yesOption);
+        noButton.setText(noOption);
+        yesButton.setVisible(true);
+        noButton.setVisible(true);
+        yesButton.setEnabled(true);
+        noButton.setEnabled(true);
+    }
+     private void  buttonActionSetText(String text, boolean isActive){
+            
+        actionButton.setText(text);
+        actionButton.setEnabled(isActive);
+        actionButton.setVisible(true);
+     }
+     
+     private void  buttonToNextPhaseSetText(String text, boolean isActive){
+            
+        toNextPhaseButton.setEnabled(isActive);
+        toNextPhaseButton.setVisible(true);
+        toNextPhaseButton.setText(text);
+     }
+     
+     
+     private void buttonActionMakeInvisible(){
+     
+        actionButton.setText("");
+        actionButton.setEnabled(false);
+        actionButton.setVisible(false);
+     }
+     
+    private void buttonToNextPhaseMakeInvisible(){
+     
+        toNextPhaseButton.setText("");
+        toNextPhaseButton.setEnabled(false);
+        toNextPhaseButton.setVisible(false);
+     }
+     
+     
+     private void decisionButtonsMakeInvisible()
+     {
+        yesButton.setEnabled(false);
+        yesButton.setVisible(false);
+        noButton.setEnabled(false);
+        noButton.setVisible(false);
+     }
+
+     
+     private void actionButtonPhaseSetText()
+     {
+      if(game.getCurrentPlayer().isActive()) 
                switch(game.getPhase()){
-                case Game.DISCARD:
-                {
-                 buttonActionSetText("Discard", false);
-                 break;
-                }
+                
                 case Game.DRAW:
                 {
-                  buttonActionSetText("Draw", (game.getCurrentPlayer().getHand().size()< 5) );
+                  int handLimit = 5;
+                  buttonActionSetText("Draw", (game.getCurrentPlayer().getHand().size()< handLimit) );
                   break;
                 }
                 case Game.RESTORATION:
@@ -239,47 +333,51 @@ public class EventObserver  implements Observer  {
                     buttonActionMakeInvisible();
                 }
               }
-           
-           }
-           
-        
-        
-    }
-   
-    }
-    
-    
-    private void buttonSetDecisionText(String yesOption, String noOption)
-    {
-           yesButton.setText(yesOption);
-           noButton.setText(noOption);
-           yesButton.setVisible(true);
-           noButton.setVisible(true);
-           yesButton.setEnabled(true);
-           noButton.setEnabled(true);
-    }
-     private void  buttonActionSetText(String text, boolean isActive){
-            
-            
-            actionButton.setText(text);
-            actionButton.setEnabled(isActive);
-            actionButton.setVisible(true);
      }
      
-     private void buttonActionMakeInvisible(){
      
-            actionButton.setText("");
-            actionButton.setEnabled(false);
-            actionButton.setVisible(false);
-     }
-     
-     private void decisionButtonsMakeInvisible()
-     {
-                    yesButton.setEnabled(false);
-                   yesButton.setVisible(false);
-                   noButton.setEnabled(false);
-                   noButton.setEnabled(false);
-     }
+    private void buttonNextPhaseSetText() {
+        {
+            switch (game.getPhase()) {
+                case Game.SETUP:
+                    {
+                        buttonToNextPhaseSetText("End setup", true);
+                        break;
+                    }
+                case Game.DISCARD:
+                    {
+                        buttonToNextPhaseSetText("End discard", game.getCurrentPlayer().isActive());
+                        break;
+                    }
+                case Game.DRAW:
+                    {
+                        buttonToNextPhaseSetText("End draw", (!game.getCurrentPlayer().hasDrawn() || 
+                                         game.getCurrentPlayer().getHand().size() == 5) 
+                                         && game.getCurrentPlayer().isActive());
+                        break;
+                    }
+                case Game.MOVE:
+                    {
+                        buttonToNextPhaseSetText("End move", false
+                        //game.getCurrentPlayer().hasMoved() && game.getCurrentPlayer().isActive() && (game.getCardHandler().getPlayingCard() == null)
+                                                  );
+                        break;
+                    }
+                case Game.COMBAT:
+                    {
+                        buttonToNextPhaseSetText("End combat", game.getCurrentPlayer().isActive()
+                                //game.getCurrentPlayer().isActive() && ((game.getCombat() == null) ? true : game.getCombat().getState() == Combat.END_COMBAT)
+                                  );
+                        break;
+                    }
+                case Game.RESTORATION:
+                    {
+                        buttonToNextPhaseSetText("End turn",game.getCurrentPlayer().isActive());
+                        break;
+                    }
+            }
+        }
+    }
              
     
 }

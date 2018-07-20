@@ -5,6 +5,7 @@
  */
 package manouvre.commands;
 
+import manouvre.events.EventType;
 import manouvre.game.Game;
 import manouvre.interfaces.Command;
 
@@ -29,21 +30,17 @@ public class EndSetupCommand implements Command{
         
         game.getPlayerByName(playerName).setFinishedSetup(true);
         game.getPlayerByName(playerName).resetPlayer();
+        setupCommand.execute(game);
+        game.notifyAbout(EventType.SETUP_FINISHED);
         
         /*
         If both players finished advance game phase
         */
         if (game.getCurrentPlayer().isFinishedSetup() && game.getOpponentPlayer().isFinishedSetup())
             {     
-                game.setPhase(game.getPhase()+1);
-                
-               
+               Command nextPhaseCommand = new NextPhaseCommand(game.getCurrentPlayer().getName(), game.getPhase() + 1);
+               nextPhaseCommand.execute(game);
             }
-        
-        setupCommand.execute(game);
-        
-        
-        
     }
 
     @Override

@@ -5,6 +5,7 @@
  */
 package manouvre.gui;
 
+import manouvre.commands.CardCommands;
 import manouvre.game.Card;
 import manouvre.game.CardSet;
 import manouvre.game.Game;
@@ -30,11 +31,11 @@ public class TestWindow extends javax.swing.JFrame {
     /**
      * Creates new form TestWindow
      */
-    public TestWindow(Game game, GameWindow gameWindow, int phase, CommandQueue cmdQueue ) {
+    public TestWindow(Game game, GameWindow gameWindow, int phase, CommandQueue cmdQueue, GameGUI  gameGui) {
         this.cmdQueue=cmdQueue;
         this.gameWindow=gameWindow;
         this.game=game;
-        this.gameGui=gameWindow.getGameGui();
+        this.gameGui=gameGui;
         this.testCards=new CardSet(game.getCurrentPlayer().getNation(),"TEST");
         this.phase=phase;
         
@@ -564,7 +565,7 @@ public class TestWindow extends javax.swing.JFrame {
     private void drawCardsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drawCardsActionPerformed
         
         
-         Command drawToHand = game.getCardCommandFactory().createMoveToHandCommand(testCards,numberOfChosenCards, false);
+         Command drawToHand = createMoveToHandCommand(testCards,numberOfChosenCards, false);
         cmdQueue.storeAndExecuteAndSend(drawToHand);
            game.setPhase(phase); //put back the game to previous phase
 //        gameGui.getHandSetGui().reSet();
@@ -664,4 +665,8 @@ public class TestWindow extends javax.swing.JFrame {
     private javax.swing.JButton drawCards1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
+
+    public Command createMoveToHandCommand(CardSet cardSet, int numberOfChosenCards, boolean deleteCards) {
+        return new CardCommands.MoveToHandCommand(cardSet, numberOfChosenCards, game.getCurrentPlayer().getName(), deleteCards);
+    }
 }

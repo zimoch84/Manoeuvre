@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package manouvre.commands;
+import manouvre.events.EventType;
 import manouvre.game.Game;
 
 import manouvre.interfaces.Command;
@@ -35,6 +36,7 @@ public class DrawCardCommand implements Command {
             );
     //game.getPlayerByName(senderPlayerName).getHand().sortCard();
     game.getPlayerByName(senderPlayerName).setDraw(true);
+    game.notifyAbout(EventType.CARDS_DRAWNED);
     }
     
     @Override

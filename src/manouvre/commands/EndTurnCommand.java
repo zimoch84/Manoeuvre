@@ -5,6 +5,7 @@
  */
 package manouvre.commands;
 
+import manouvre.events.EventType;
 import manouvre.game.Game;
 import manouvre.interfaces.Command;
 import org.apache.logging.log4j.LogManager;
@@ -32,11 +33,7 @@ public class EndTurnCommand implements Command{
         game.setPhase(Game.DISCARD);
         game.getMap().unselectAllTerrains();
         game.getPlayerByName(activePlayerName).resetPlayer();
-        LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().resetFactory()");
-        game.getCardCommandFactory().resetFactory();
-        game.getCardCommandFactory().createCleanTableCommand().execute(game);
-        
-    
+        game.notifyAbout(EventType.END_TURN);
         
     }
 

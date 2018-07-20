@@ -6,7 +6,6 @@
 package manouvre.gui;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -18,14 +17,13 @@ import manouvre.game.Position;
 import manouvre.game.Unit;
 import manouvre.commands.CommandQueue;
 import manouvre.game.Card;
-import manouvre.game.CardCommandFactory;
 import manouvre.game.Player;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import manouvre.game.Dice;
 import manouvre.game.Combat;
 import manouvre.game.Terrain;
+import manouvre.state.PlayerState;
 import org.apache.logging.log4j.LogManager;
 
 
@@ -37,14 +35,10 @@ import org.apache.logging.log4j.LogManager;
 public class GameGUI {
     
     private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(GameGUI.class.getName());
-    
-     //-------- CARDS - BOTTOM OF THE SCREEN -----------------------------------
-    
-    //int width=round(CardGUI.CARD_WIDTH*CardGUI.SCALE_FACTOR), height=round(CardGUI.CARD_HEIGHT*CardGUI.SCALE_FACTOR);
-    
-    
-    
+  
     Game game;
+    PlayerState playerStateHandler;
+    
     ArrayList<UnitGUI> currentPlayerArmy = new ArrayList<UnitGUI>(); 
     ArrayList<UnitGUI> opponnetPlayerArmy = new ArrayList<UnitGUI>(); 
     MapGUI mapGui;
@@ -52,42 +46,34 @@ public class GameGUI {
     Player currentPlayer;
     
     CardSetGUI cardSetsGUI;
-    
    
     BufferedImage  infoImage;
     
     Position hoverPosition;
     
-    CardCommandFactory cardFactory;
     /*
     Wielkosc ramki stolu w kwadracie w pikselach
     */
     final int BACKGRNDTABLE = 678;
- 
-    final int gapSelection = 5;
-    final int gapUnit = 7;
+    final int GAP_SELECTION = 5;
+    final int GAP_UNIT = 7;
     
     
-    int windowMode;
+    private int windowMode;
     
-    boolean lockGUI=false;
+    private BufferedImage redoubtImage;
     
-    CommandQueue cmdQueue;
-    
-    BufferedImage redoubtImage;
-    
-    public GameGUI (Game newGame, int windowMode, CommandQueue cmdQueue) throws IOException{
+    public GameGUI (Game newGame, PlayerState playerStateHandler,  int windowMode) throws IOException{
         this.game=newGame;
+        this.playerStateHandler  = playerStateHandler;
         this.currentPlayer=game.getCurrentPlayer();
         this.windowMode = windowMode;
         this.mapGui = new MapGUI(game.getMap(), windowMode);
         this.generateUnitsUI();
         
         this.cardSetsGUI = new CardSetGUI(game);
-        
-        this.cardFactory = game.getCardCommandFactory();
-        this.cmdQueue=cmdQueue;
-               
+        game.addObserver(cardSetsGUI);
+                      
         /*
         Set info about first / second player
         */
@@ -111,7 +97,8 @@ public class GameGUI {
         
         final int UNIT_X_OFFSET = 300;
         final int UNIT_Y_OFFSET = 50;
-       
+        final float UNIT_SCALE = 0.7f;
+        
         final int DECRIPTION_Y_GAP = 12;
         final int DECRIPTION_Y_OFFSET = TERRAIN_Y_OFFSET + 76 ;
         final float TERRAIN_SCALE = 0.7f;
@@ -122,9 +109,9 @@ public class GameGUI {
         UnitGUI unit =  getUnitGuiOnMapGui(hoverPosition);
         if(unit != null)
             
-            g.drawImage(unit.getImg(), UNIT_X_OFFSET, UNIT_Y_OFFSET,
-                    unit.getImg().getWidth(),
-                    unit.getImg().getHeight(), null);
+        g.drawImage(unit.getImg(), UNIT_X_OFFSET, UNIT_Y_OFFSET,
+                (int) UNIT_SCALE * unit.getImg().getWidth(),
+                (int) UNIT_SCALE * unit.getImg().getHeight(), null);
         
         if(terrain!= null)
         {
@@ -136,6 +123,8 @@ public class GameGUI {
                     (int) (terrain.getImg().getHeight() * TERRAIN_SCALE),
                     null) ;
         
+            g.setColor(Color.RED);
+            
             g.drawString(terrain.getTerrain().getTypeToString() ,
             TERRAIN_X_OFFSET, DECRIPTION_Y_OFFSET + DECRIPTION_Y_GAP);        
         
@@ -166,19 +155,21 @@ public class GameGUI {
                 
         g.setColor(Color.white);
         g.setFont(new Font("Bookman Old Style", 1, 15));
+       
         
-        if(game.getCombat()!=null)
-            
+        if(
+           !game.getCombat().getState().equals(Combat.COMBAT_NOT_INITIALIZED)
+        && !game.getCombat().getState().equals(Combat.INITIALIZING_COMBAT)
+                )
         {
             Combat combat =  game.getCombat();
-            
             g.drawString("Attack: " + combat.getAttackValue(), START_X_COMBAT_PANEL,START_Y_COMBAT_PANEL+ Y_GAP);
             
             g.drawString("Defense: " + combat.getDefenceValue(), START_X_COMBAT_PANEL, START_Y_COMBAT_PANEL + 2*Y_GAP);
             
             g.drawString("Def.Terrain: " + combat.getDefenseTerrain().getTypeToString(), START_X_COMBAT_PANEL, START_Y_COMBAT_PANEL+ 3*Y_GAP);
             
-            g.drawString("Ter.Def.Boznus: " + combat.getDefenseBonus(), START_X_COMBAT_PANEL,START_Y_COMBAT_PANEL+ 4*Y_GAP);
+            g.drawString("Ter.Def.Bonus: " + combat.getDefenseBonus(), START_X_COMBAT_PANEL,START_Y_COMBAT_PANEL+ 4*Y_GAP);
             
             g.drawString("Att.Terrain: " + combat.getAttackTerrain().getTypeToString(), START_X_COMBAT_PANEL, START_Y_COMBAT_PANEL+  5*Y_GAP);
             
@@ -187,62 +178,25 @@ public class GameGUI {
             g.drawString("Leader Bonus: " + combat.getLeaderBonus(), START_X_COMBAT_PANEL,START_Y_COMBAT_PANEL+  7*Y_GAP);
   
         }
-        
-        
-               
     }
     
 //------------- MAP - LEFT UPPER CORNER OF THE SCREEN -----------------------------------
     void drawMap( Graphics g, int windowMode) {
-       
         // draw background
-        
         g.drawImage(mapGui.background, 0, 0,BACKGRNDTABLE,BACKGRNDTABLE, null);
-        // draw Terrains
-       
         drawTerrains(g);
-        /*
-        Draw border
-        */
         drawBorder(g);
-        /*
-        Draw units
-         */
         drawArmy(g);
-         /*
-        Draws selection
-         */
         drawPossibleMove(g);
-        /*
-        Draw retrieving arrows
-        */
         drawRetrieving(g);
-        /*
-        Draw LOS
-        */
         //drawLOS(g);
-        /*
-        Draw card actions
-        */
         drawCardSelections(g);
-        /*
-        Draws Attacking arrow in combat
-        
-        */
         drawCombat(g);
-        
-        /*
-        Draw redoubt
-        */
-
-       
     }
-      private void drawTerrains(Graphics g){
     
+    private void drawTerrains(Graphics g){
         for (TerrainGUI terrainGUI : mapGui.getTerrainsGUI()) {
-                        
             drawTerrainOnPosition(g, terrainGUI.getPos(), terrainGUI.getImg());
-            
         }
     }
     
@@ -250,7 +204,6 @@ public class GameGUI {
     for(int i=0;i<8;i++){
         
         g.setColor(Color.white);
-        
         if(windowMode == CreateRoomWindow.AS_HOST)
                 {
                     g.drawString(Integer.toString(i),
@@ -283,7 +236,7 @@ public class GameGUI {
     /*
         Draws selection of possible move whlie not playing card
         */
-    Card playingCard = game.getCardCommandFactory().getPlayingCard();
+    Card playingCard = playerStateHandler.cardPlayingHandler.getPlayingCard();
     if(playingCard == null)
      {
          Unit selectedUnit = game.getSelectedUnit();
@@ -293,7 +246,7 @@ public class GameGUI {
                 ArrayList<Position> movePositions;
                 if(game.getPhase() == Game.SETUP || (game.freeMove && game.getPhase() == Game.MOVE) )
                 {
-                    movePositions = game.getSetupPossibleMovement();
+                    movePositions = game.positionCalculator.getSetupPossibleMovement();
                     drawMultipleRectanglesOnPositions(g, movePositions, Color.blue);
                 }
                 else if (selectedUnit.isRetriving())
@@ -308,31 +261,21 @@ public class GameGUI {
                         drawMultipleRectanglesOnPositions(g, movePositions, Color.blue);
                     }
                 }
-                
-                
            }
      }
-
     }
     private void drawArmy(Graphics g){
-    
-    
         /*
         In setup draw only self army
         */
         if(game.getPhase()== Game.SETUP &&  !( currentPlayer.isFinishedSetup() && game.getOpponentPlayer().isFinishedSetup() ) )
         {
-                
                 for (UnitGUI drawUnit : currentPlayerArmy) 
                 {
                 if(!drawUnit.getUnit().isEliminated())
                 {
-
                 drawImageOnPosition(g, drawUnit.getUnit().getPosition(), drawUnit.getImg());
                 drawTerrainLetter(g, drawUnit.getUnit());
-                
-
-                        
                 /*
                 Draw bad position rectangle
                 */
@@ -345,19 +288,16 @@ public class GameGUI {
                       )
                    {
                     g.setColor(Color.RED);
-                    g.drawRoundRect(
-                                drawUnit.getUnit().getPosition().getMouseX(windowMode) + gapSelection, 
-                                drawUnit.getUnit().getPosition().getMouseY(windowMode) + gapSelection, 
-                                MapGUI.SQUARE_WIDTH - 2 * gapSelection, 
-                                MapGUI.SQUARE_HEIGHT - 2 * gapSelection, 
+                    g.drawRoundRect(drawUnit.getUnit().getPosition().getMouseX(windowMode) + GAP_SELECTION, 
+                                drawUnit.getUnit().getPosition().getMouseY(windowMode) + GAP_SELECTION, 
+                                MapGUI.SQUARE_WIDTH - 2 * GAP_SELECTION, 
+                                MapGUI.SQUARE_HEIGHT - 2 * GAP_SELECTION, 
                                 10, 10
                         ); 
                     }        
-                   
                 }
                 }
         }
-          
         /*
         On rest phases paint both players army
         */
@@ -375,8 +315,6 @@ public class GameGUI {
                     if(game.getCombat()!= null)
                         if(drawUnit.getUnit().isSupporting()  && game.getCombat().getState() == Combat.PICK_SUPPORT_UNIT)
                             drawSupporting(g, drawUnit.getUnit());
-                    
-                        
                 }
             }
             for (UnitGUI drawUnit : opponnetPlayerArmy) {
@@ -394,13 +332,10 @@ public class GameGUI {
     }
     private void drawCardSelections(Graphics g){
     
-        Card playingCard = game.getCardCommandFactory().getPlayingCard();
+        Card playingCard = playerStateHandler.cardPlayingHandler.getPlayingCard();
         if(playingCard!= null)
         {
-            ArrayList<Position> movePositions;
-           
-           if(playingCard.canBePlayed(game))
-               
+           ArrayList<Position> movePositions;
            switch (playingCard.getCardType()){
                 case Card.HQCARD :
                 {
@@ -425,7 +360,7 @@ public class GameGUI {
                         }
                         
                         else {
-                                drawMultipleRectanglesOnPositions(g, game.getCurrentPlayerNotMovedUnits(), Color.BLUE);
+                                drawMultipleRectanglesOnPositions(g, game.positionCalculator.getCurrentPlayerNotMovedUnits(), Color.BLUE);
                         }
                         
                         break;
@@ -433,8 +368,8 @@ public class GameGUI {
                         
                     case Card.WITHDRAW: 
                         {
-                        Unit attackedUnit = game.getCardCommandFactory().getAttackedUnit();
-                        movePositions = game.getRetreatPositions(attackedUnit);
+                        Unit attackedUnit = game.getCombat().getDefendingUnit();
+                        movePositions = game.positionCalculator.getRetreatPositions(attackedUnit);
                         drawMultipleRectanglesOnPositions(g, movePositions, Color.BLUE);
                         break;
                         }
@@ -451,11 +386,7 @@ public class GameGUI {
                         drawMultipleRectanglesOnPositions(g, movePositions, Color.BLUE);
                         break;
                         }  
-                        
-                        
-                        
                     }
-
                 }
                 case Card.UNIT :{
                     /*
@@ -474,49 +405,12 @@ public class GameGUI {
                     }
                     case Game.COMBAT:
                     {
-                        if(game.getPhase() == Game.COMBAT)
                         /*
                         Draw possible targets if we know playing Card Mode
                         if combat is null that means that is not initialized
-                        */       
-                            if(game.getCombat() == null )
-                            {
-                                /*
-                                If we have chosen attack type
-                                */
-                                Unit attackingUnit = game.getCurrentPlayerUnitByName(playingCard.getCardName());
-                                drawRectangleOnPosition(g, attackingUnit.getPosition(), Color.WHITE);
-                                
-                            if(playingCard.getPlayingCardMode() !=null  )
-                            { 
-                                
-                                if(cardFactory.getAttackingPositions() != null)
-                                    drawArrowToPositions(g, 
-                                    attackingUnit.getPosition(),
-                                    cardFactory.getAttackingPositions(),
-                                    Color.RED
-                                    );
-                            }
-      
-                            }
-                        /*
-                        We have combat
-                        */
-                        else
-                        {
-                           switch(game.getCombat().getState()){
-                           
-                           case Combat.PICK_SUPPORT_UNIT:
-                                {
-                                drawMultipleRectanglesOnPositions(g,
-                                        game.getPossibleSupportingUnitsPositions(game.getCombat().getDefendingUnit())
-                                        , Color.red);   
-                                break;
-                                }
-                           
-                           }
-                            
-                        }        
+                        */  
+
+                              
                                 
                     break;
                     }    
@@ -533,7 +427,7 @@ public class GameGUI {
                             if(game.getCombat()!=null)
                                 if(game.getCombat().getState() == Combat.PICK_SUPPORT_CARDS)
                                     drawMultipleRectanglesOnPositions(g,
-                                        game.getPossibleSupportingUnitsPositions(game.getCombat().getDefendingUnit())
+                                        game.positionCalculator.getPossibleSupportingUnitsPositions()
                                         , Color.BLUE);   
                             break;
                         }
@@ -551,28 +445,31 @@ public class GameGUI {
     /*
     Draw image on position
     */
-            
-    
     private void drawImageOnPosition(Graphics g, Position position, Image image){
 
-         g.drawImage(image, 
-                        position.getMouseX(windowMode) + MapGUI.PIECES_START_X
-                                ,
-                        position.getMouseY(windowMode) + MapGUI.PIECES_START_Y ,
-                        MapGUI.PIECE_WIDTH, 
-                        MapGUI.PIECE_HEIGHT
-                        , null);
+    g.drawImage(image, 
+                   position.getMouseX(windowMode) + MapGUI.PIECES_START_X
+                           ,
+                   position.getMouseY(windowMode) + MapGUI.PIECES_START_Y ,
+                   MapGUI.PIECE_WIDTH, 
+                   MapGUI.PIECE_HEIGHT
+                   , null);
     }
     private void drawTerrainOnPosition(Graphics g, Position position, Image image){
-
-         g.drawImage(image, 
-                        position.getMouseX(windowMode) 
-                                ,
-                        position.getMouseY(windowMode) ,
-                        MapGUI.SQUARE_WIDTH,
-                        MapGUI.SQUARE_HEIGHT
-                        , null);
+    g.drawImage(image, 
+                   position.getMouseX(windowMode) 
+                           ,
+                   position.getMouseY(windowMode) ,
+                   MapGUI.SQUARE_WIDTH,
+                   MapGUI.SQUARE_HEIGHT
+                   , null);
     }
+    
+    private void highlightUnit(Graphics g, Unit unit, Color color)
+    {
+         drawRectangleOnPosition(g, unit.getPosition(), color);
+    }
+    
     
     /*
     Draw rectangle on position
@@ -580,12 +477,10 @@ public class GameGUI {
     private void drawRectangleOnPosition(Graphics g, Position position, Color color){
     
     g.setColor(color);
-    g.drawRoundRect(
-            
-                    position.getMouseX(windowMode) + gapSelection,
-                    position.getMouseY(windowMode) + gapSelection,
-                    MapGUI.SQUARE_WIDTH - 2 * gapSelection, 
-                    MapGUI.SQUARE_HEIGHT - 2 * gapSelection, 
+    g.drawRoundRect(position.getMouseX(windowMode) + GAP_SELECTION,
+                    position.getMouseY(windowMode) + GAP_SELECTION,
+                    MapGUI.SQUARE_WIDTH - 2 * GAP_SELECTION, 
+                    MapGUI.SQUARE_HEIGHT - 2 * GAP_SELECTION, 
                     10, 10);
     
     }
@@ -607,131 +502,95 @@ public class GameGUI {
     */
     private  void drawArrowToPosition(Graphics g , Position fromPosition, Position toPosition, Color color)
     {
-    
+        int ARROW_WIDTH = 10;
+        int ARROW_HEIGHT = 15;
         g.setColor(color);
-        
-        /*
-        drawArrow(g,
-                    (windowMode == CreateRoomWindow.AS_HOST) ? 
-                            fromPosition.getMouseX() +  MapGUI.PIECE_WIDTH / 2 
-                            :
-                            fromPosition.transpoze().getMouseX() +  MapGUI.PIECE_WIDTH / 2
-                            ,
-                    (windowMode == CreateRoomWindow.AS_HOST)
-                            ?
-                            fromPosition.getMouseY() +  MapGUI.PIECE_HEIGHT / 2
-                            :        
-                            fromPosition.transpoze().getMouseY() +  MapGUI.PIECE_HEIGHT / 2        
-                                    ,                    
-                    (windowMode == CreateRoomWindow.AS_HOST) ?
-                            toPosition.getMouseX() + MapGUI.PIECE_WIDTH / 2
-                            :
-                            toPosition.transpoze().getMouseX() + MapGUI.PIECE_WIDTH / 2        
-                            ,
-                    (windowMode == CreateRoomWindow.AS_HOST) ?
-                            toPosition.getMouseY() +  MapGUI.PIECE_WIDTH / 2
-                            :
-                            toPosition.transpoze().getMouseY() +  MapGUI.PIECE_WIDTH / 2      
-                    , 10,15)
-                            ;
-            */
-        drawArrow(g,
-                            fromPosition.getMouseX(windowMode) +  MapGUI.PIECE_WIDTH / 2 
-                            
-                            ,
-                    
-                            fromPosition.getMouseY(windowMode) +  MapGUI.PIECE_HEIGHT / 2
-                             
-                                    ,                    
-                    
-                            toPosition.getMouseX(windowMode) + MapGUI.PIECE_WIDTH / 2
-                               
-                            ,
-                   
-                            toPosition.getMouseY(windowMode) +  MapGUI.PIECE_WIDTH / 2      
-                    , 10,15)
-                            ;
+        drawArrow(  
+                g,
+                fromPosition.getMouseX(windowMode) +  MapGUI.PIECE_WIDTH / 2 
+                ,
+                fromPosition.getMouseY(windowMode) +  MapGUI.PIECE_HEIGHT / 2
+                ,                    
+                toPosition.getMouseX(windowMode) + MapGUI.PIECE_WIDTH / 2
+                ,
+                toPosition.getMouseY(windowMode) +  MapGUI.PIECE_WIDTH / 2      
+                ,ARROW_WIDTH
+                ,ARROW_HEIGHT
+                );
     }
     
     
     private  void drawArrowToPositions(Graphics g , Position fromPosition, ArrayList<Position> toPositions, Color color){
-    
         g.setColor(color);
         for (Position toPositon: toPositions )
             {
             drawArrowToPosition(g , fromPosition, toPositon,  color);
             }
-
     }
     
     private void drawRedoubt(Graphics g , Position position){
 
        g.drawImage(redoubtImage, 
-                        position.getMouseX(windowMode) + MapGUI.PIECES_START_X
-                              ,
-                        position.getMouseY(windowMode) + MapGUI.PIECES_START_Y ,
-                        (int) (MapGUI.PIECE_WIDTH * MapGUI.REDOUBT_IMG_SCALE), 
-                        (int) (MapGUI.PIECE_HEIGHT * MapGUI.REDOUBT_IMG_SCALE) 
-                        , null);  
+            position.getMouseX(windowMode) + MapGUI.PIECES_START_X
+                  ,
+            position.getMouseY(windowMode) + MapGUI.PIECES_START_Y ,
+            (int) (MapGUI.PIECE_WIDTH * MapGUI.REDOUBT_IMG_SCALE), 
+            (int) (MapGUI.PIECE_HEIGHT * MapGUI.REDOUBT_IMG_SCALE) 
+            , null);  
         
     }
     
     private void drawLetterOnPosition(Graphics g, Position pos, Color color, String letter)
     {
-    g.setColor(color);
-    g.setFont(new Font("Bookman Old Style", 1, 14));
-    g.drawString(letter, 
-    pos.getMouseX(windowMode) + MapGUI.LETTER_OFFSET_X,
-    pos.getMouseY(windowMode) + MapGUI.PIECES_START_Y + MapGUI.LETTER_OFFSET_Y);
+        g.setColor(color);
+        g.setFont(new Font("Bookman Old Style", 1, 14));
+        g.drawString(letter, 
+        pos.getMouseX(windowMode) + MapGUI.LETTER_OFFSET_X,
+        pos.getMouseY(windowMode) + MapGUI.PIECES_START_Y + MapGUI.LETTER_OFFSET_Y);
     
     }
     
-    
     private void drawTerrainLetter(Graphics g, Unit unit)
     {
-                /*
-                Draw a single letter to indicate rough terrain
-                */
-                Terrain terrain = game.getMap().getTerrainAtPosition(unit.getPosition());
-                
-                if(
-                        game.getMap().getTerrainAtPosition(unit.getPosition()).getType() == Terrain.CITY ||
-                        game.getMap().getTerrainAtPosition(unit.getPosition()).getType() == Terrain.HILL ||
-                        game.getMap().getTerrainAtPosition(unit.getPosition()).getType() == Terrain.MARSH ||
-                        game.getMap().getTerrainAtPosition(unit.getPosition()).getType() == Terrain.FOREST
-                        )
+        /*
+        Draw a single letter to indicate rough terrain
+        */
+        Terrain terrain = game.getMap().getTerrainAtPosition(unit.getPosition());
+
+        if(
+                game.getMap().getTerrainAtPosition(unit.getPosition()).getType() == Terrain.CITY ||
+                game.getMap().getTerrainAtPosition(unit.getPosition()).getType() == Terrain.HILL ||
+                game.getMap().getTerrainAtPosition(unit.getPosition()).getType() == Terrain.MARSH ||
+                game.getMap().getTerrainAtPosition(unit.getPosition()).getType() == Terrain.FOREST
+                )
+        {
+            g.setColor(Color.BLACK);
+            g.setFont(new Font("Bookman Old Style", 1, 14));
+            switch(terrain.getType())
+            {
+                case Terrain.CITY: 
                 {
-                    g.setColor(Color.BLACK);
-                    g.setFont(new Font("Bookman Old Style", 1, 14));
-                    switch(terrain.getType())
-                    {
-                        case Terrain.CITY: 
-                        {
-                        drawLetterOnPosition(g, unit.getPosition(), Color.BLACK, "C");
-                        
-                        break;
-                        }
-                        case Terrain.HILL: 
-                        {
-                        drawLetterOnPosition(g, unit.getPosition(), Color.BLACK, "H");
-                        break;
-                        }
-                        case Terrain.MARSH: 
-                        {
-                        drawLetterOnPosition(g, unit.getPosition(), Color.BLACK, "M");
-                        break;
-                        }
-                        case Terrain.FOREST: 
-                        {
-                        drawLetterOnPosition(g, unit.getPosition(), Color.BLACK, "F");
-                        break;
-                        }
-                        
-                    
-                    }
-                    
-                
+                drawLetterOnPosition(g, unit.getPosition(), Color.BLACK, "C");
+
+                break;
                 }
+                case Terrain.HILL: 
+                {
+                drawLetterOnPosition(g, unit.getPosition(), Color.BLACK, "H");
+                break;
+                }
+                case Terrain.MARSH: 
+                {
+                drawLetterOnPosition(g, unit.getPosition(), Color.BLACK, "M");
+                break;
+                }
+                case Terrain.FOREST: 
+                {
+                drawLetterOnPosition(g, unit.getPosition(), Color.BLACK, "F");
+                break;
+                }
+            }
+        }
     }
     
     /**
@@ -744,7 +603,7 @@ public class GameGUI {
       * @param d  the width of the arrow
       * @param h  the height of the arrow
       */
-     private void drawArrow(Graphics g, int x1, int y1, int x2, int y2, int d, int h){
+    private void drawArrow(Graphics g, int x1, int y1, int x2, int y2, int d, int h){
         int dx = x2 - x1, dy = y2 - y1;
         double D = Math.sqrt(dx*dx + dy*dy);
         double xm = D - d, xn = xm, ym = h, yn = -h, x;
@@ -797,68 +656,91 @@ public class GameGUI {
      }
     
     private void drawRetrieving(Graphics g){
-     
-    if(game.getCombat() != null)    
-    {if(game.getCombat().getState() == Combat.WITHRDAW)
-    if(game.getSelectedUnit()!= null){
+  
+    if(game.getCombat().getState().equals(Combat.WITHRDAW))
+        if(game.getSelectedUnit()!= null){
         
         Unit selectedUnit = game.getSelectedUnit();
         if(selectedUnit != null)
             if(selectedUnit.isRetriving()) 
                      
-                drawArrowToPositions(g,  selectedUnit.getPosition(), game.getRetreatPositions(selectedUnit), Color.GREEN);
-                       
-            }
+                drawArrowToPositions(g,  selectedUnit.getPosition(), game.positionCalculator.getRetreatPositions(selectedUnit), Color.GREEN);
+        }
     
-     if(game.getCombat().getState() == Combat.PURSUIT)
-     {
-            drawMultipleRectanglesOnPositions(g, game.getCurrentPlayerAvalibleUnitToSelect(), Color.RED);
-       
-     }
-    }
-      
+    if(game.getCombat().getState().equals(Combat.PURSUIT))
+        {
+        drawMultipleRectanglesOnPositions(g, game.positionCalculator.getCurrentPlayerAvalibleUnitToSelect(), Color.RED);
+        }
+    
     }
     
     private void drawCombat(Graphics g){
-    Combat combat = game.getCombat();
+    
+    if(game.getPhase() == Game.COMBAT)
+    {
+        Combat combat = game.getCombat();
+        switch(combat.getState())
+        {
+        case Combat.COMBAT_NOT_INITIALIZED:
+            break;
+        case Combat.INITIALIZING_COMBAT:
+        {
         
-    if(combat!= null)
-    if(
-          combat.getState().equals(Combat.INITIALIZING_COMBAT) ||
-            combat.getState().equals(Combat.PICK_DEFENSE_CARDS) ||  
-            combat.getState().equals(Combat.PICK_SUPPORT_CARDS) ||  
-            combat.getState().equals(Combat.PICK_SUPPORT_UNIT) ||    
-            combat.getState().equals(Combat.DEFENDER_DECIDES) ||    
-            combat.getState().equals(Combat.ATTACKER_DECIDES)  ||
-             combat.getState().equals(Combat.THROW_DICES) 
- 
-         )
-    drawArrowToPosition(g,  combat.getAttackingUnit().getPosition(), 
-                combat.getDefendingUnit().getPosition(), Color.GREEN);
+        Unit attackingUnit = combat.getAttackingUnit();
+        highlightUnit(g, attackingUnit, Color.WHITE);
+        Card attackCard = combat.getInitAttackCard();
+        
+        if(attackCard.getPlayingCardMode() !=null  )
+        { 
+            if(game.getCombat().getAttackingPositions() != null)
+                drawArrowToPositions(g, 
+                attackingUnit.getPosition(),
+                game.getCombat().getAttackingPositions(),
+                Color.RED
+                );
+        }
+        break;
+        }
+        case Combat.PICK_SUPPORT_UNIT:
+                {
+                drawMultipleRectanglesOnPositions(g,
+                        game.positionCalculator.getPossibleSupportingUnitsPositions()
+                        , Color.red);   
+                break;
+                }
 
-    /*
-    Draw supporting
-    */
-    
-      for (Unit  unit : game.getCurrentPlayer().getArmy()) {
-                if(!unit.isEliminated())
-                {
-                    if(unit.isSupporting())
-                    drawSupporting(g, unit);
-                }
+
+             
+        default: 
+            {
+            drawArrowToPosition(g,  combat.getAttackingUnit().getPosition(), 
+                    combat.getDefendingUnit().getPosition(), Color.GREEN);
+
+            /*
+            Draw supporting
+            */
+            for (Unit  unit : game.getCurrentPlayer().getArmy()) {
+                      if(!unit.isEliminated())
+                      {
+                          if(unit.isSupporting())
+                          drawSupporting(g, unit);
+                      }
+                  }
+            for (Unit  unit : game.getOpponentPlayer().getArmy()) {
+                      if(!unit.isEliminated())
+                      {
+                          if(unit.isSupporting())
+                          drawSupporting(g, unit);
+                      }
+                  }
+
             }
-       for (Unit  unit : game.getOpponentPlayer().getArmy()) {
-                if(!unit.isEliminated())
-                {
-                    if(unit.isSupporting())
-                    drawSupporting(g, unit);
-                    
-                        
-                }
+
             }
-    
-    
     }
+    }
+    
+    
     
     private void drawSupporting(Graphics g, Unit unit)
     {
@@ -867,10 +749,6 @@ public class GameGUI {
                 Color.BLUE);
         //drawLetterOnPosition(g, unit.getPosition(), Color.BLUE, "SUP");
     }
-    
-    
-    
-    
     
     private void drawLOS(Graphics g){
         if (game.getSelectedUnit()!= null){
@@ -884,19 +762,9 @@ public class GameGUI {
         for (Unit unit : currentPlayer.getArmy()) {
             currentPlayerArmy.add(new UnitGUI(unit));
         }
-        
         for (Unit unit : game.getOpponentPlayer().getArmy()) {
             opponnetPlayerArmy.add(new UnitGUI(unit));
         }
-    }
-  
-  
-    public Game getGame() {
-        return game;
-    }
-
-    public MapGUI getMapGui() {
-        return mapGui;
     }
     
     Image getFlagIcon(Player player){
@@ -944,189 +812,53 @@ public class GameGUI {
          return null;
     }
     
-    public void keepOneSelectedCard(Card cardClicked){
-  
-        game.getCurrentPlayer().getHand().unselectAllCards();
-        game.getCurrentPlayer().getHand().selectCard(cardClicked);
-
-    }
-    public void paintHand(Graphics g)                 
-    {   
+    public void paintHand(Graphics g){   
         cardSetsGUI.paintHand(g, game);
     }
     
-    
-    public void paintOpponentHand(Graphics g)                 
-    {   
-        cardSetsGUI.paintOpponentHand(g, game);
+    public void paintOpponentHand(Graphics g){   
+       cardSetsGUI.paintOpponentHand(g, game);
     }
-
-   
-    private BufferedImage cropImage(Image img, int x, int y, int width, int height){
-        BufferedImage buffImage = (BufferedImage)img;
-        return buffImage.getSubimage(x, y, width, height);
-    }
-            
+           
     public void paintDiscard(Graphics g, boolean paintOpponent){
-        
-        cardSetsGUI.paintDiscard(g, paintOpponent, game);
-
+         cardSetsGUI.paintDiscard(g, paintOpponent, game);
     }
-    
     public void paintDrawLeft(Graphics g, boolean paintOpponent){
         cardSetsGUI.paintDrawLeft(g, paintOpponent);
     }
-    
-   private static void drawStringMultiLine(Graphics g, String text, int lineWidth, int x, int y) {
-    FontMetrics m = g.getFontMetrics();
-    if(m.stringWidth(text) < lineWidth) {
-        g.drawString(text, x, y);
-    } else {
-        String[] words = text.split(" ");
-        String currentLine = words[0];
-        for(int i = 1; i < words.length; i++) {
-            if(m.stringWidth(currentLine+words[i]) < lineWidth) {
-                currentLine += " "+words[i];
-            } else {
-                g.drawString(currentLine, x, y);
-                y += m.getHeight();
-                currentLine = words[i];
-            }
-        }
-        if(currentLine.trim().length() > 0) {
-            g.drawString(currentLine, x, y);
-        }
-    }
-}
-    
+         
     public void paintTablePanel(Graphics g){
-       
         cardSetsGUI.paintTablePanel(g);
-        //paintDices(g);
-    
     }
-    
-   
-    private void paintDices(Graphics g){
-        
-        final int STARTING_D6_X = 480;
-        final int STARTING_D6_Y = 30;
-        
-        final int STARTING_D8_X = STARTING_D6_X;
-        final int STARTING_D8_Y = STARTING_D6_Y + DiceGUI.D6SQUARE_HEIGHT ;
-        
-        final int STARTING_D10_X = STARTING_D6_X;
-        final int STARTING_D10_Y = STARTING_D8_Y + DiceGUI.D8SQUARE_HEIGHT ;
+      
 
-        int i=0;
-        
-        if(game.getCardCommandFactory().getD6dices() != null)
-            for(Dice d6  :  game.getCardCommandFactory().getD6dices() ){
-                i++;
-                DiceGUI d6gui = new DiceGUI(d6);
-                
-
-                g.drawImage(d6gui.getImage(), 
-                STARTING_D6_X  - (i-1)* (int)(DiceGUI.D6SQUARE_WIDTH*DiceGUI.SCALE_FACTOR_D6), 
-                CardSetGUI.TABLE_CARD_PADDING_TOP ,
-                (int)(d6gui.getImage().getWidth()*DiceGUI.SCALE_FACTOR_D6),
-                (int)(d6gui.getImage().getHeight()*DiceGUI.SCALE_FACTOR_D6)
-
-                , null); 
-                    
-                    
-            } 
-        i=0;
-        if(game.getCardCommandFactory().getD8dices()!= null)
-            for(Dice d8 : game.getCardCommandFactory().getD8dices() ){
-                i++;
-                
-                 
-
-                DiceGUI d8gui = new DiceGUI(d8);
-                
-                g.drawImage(d8gui.getImage(),
-                        STARTING_D8_X -  (i-1)* (int)(DiceGUI.D8SQUARE_WIDTH*DiceGUI.SCALE_FACTOR_D8) , 
-                        
-                        CardSetGUI.TABLE_CARD_PADDING_TOP, 
-                        (int)(d8gui.getImage().getWidth()*DiceGUI.SCALE_FACTOR_D8),
-                        (int)(d8gui.getImage().getHeight()*DiceGUI.SCALE_FACTOR_D8),
-                        
-                        null);   
-            } 
-        i=0;
-        if(game.getCardCommandFactory().getD10dices()!= null)
-            for(Dice d10 : game.getCardCommandFactory().getD10dices() ){
-                i++;
-                DiceGUI d10gui = new DiceGUI(d10);
-                g.drawImage(d10gui.getImage(), STARTING_D10_X - (i-1)*(int)(DiceGUI.D10SQUARE_WIDTH * DiceGUI.SCALE_FACTOR_D10), STARTING_D10_Y ,
-                        (int)(d10gui.getImage().getWidth()*DiceGUI.SCALE_FACTOR_D10),
-                        (int)(d10gui.getImage().getHeight()*DiceGUI.SCALE_FACTOR_D10),
-                        null);
-            } 
-    }
-    
-    
-    
-    
     public UnitGUI getUnitGuiOnMapGui(Position position){
-    
-           for(UnitGUI unitSearch: getUnitsGui()){
-        
+        for(UnitGUI unitSearch: getUnitsGui()){
             if(unitSearch.getUnit().getPosition().equals(position))
-            {
-                return unitSearch;
-              }
-            
-        
+             {
+                 return unitSearch;
+               }
         }
-              
         return null;
-    
-    }
-    public UnitGUI getUnitGuiThatHasMoved(){
-    
-           for(UnitGUI unitSearch: getUnitsGui()){
-        
-            if(unitSearch.getUnit().hasMoved())
-            {
-                return unitSearch;
-              }
-            
-        
-        }
-              
-        return null;
-    
     }
 
     public Position getHoverPosition() {
         return hoverPosition;
     }
-
     public void setHoverPosition(Position hoverUnit) {
         this.hoverPosition = hoverUnit;
     }
-
     public BufferedImage getInfoImage() {
         return infoImage;
     }
-
     public void setInfoImage(BufferedImage infoImage) {
         this.infoImage = infoImage;
     }
-    
     public ArrayList<UnitGUI> getUnitsGui() {
-        
         ArrayList<UnitGUI> packUnits = new ArrayList<>();
         packUnits.addAll(currentPlayerArmy);
         if(game.getPhase() != Game.SETUP)
             packUnits.addAll(opponnetPlayerArmy);
-      
         return packUnits;
     }
-
-  
-    
-    
 }

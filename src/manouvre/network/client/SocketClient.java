@@ -29,8 +29,7 @@ public class SocketClient implements Runnable, ClientInterface{
                 
         */
     public Socket socket;
-
-       /*
+    /*
     User GUI 
     */
     public GameWindow clientGame;
@@ -59,9 +58,6 @@ public class SocketClient implements Runnable, ClientInterface{
     public SocketClient(LoginWindow frame) throws IOException{
         welcome = frame; 
         //this.serverAddr = "zimoch.insomnia247.nl";
-        
-        
-        
         //socket = new Socket(InetAddress.getByName(serverAddr), port);
         socket = new Socket(frame.serverAddr, frame.port);   
         Out = new ObjectOutputStream(socket.getOutputStream());
@@ -70,11 +66,7 @@ public class SocketClient implements Runnable, ClientInterface{
         
         System.out.println("manouvre.network.client.SocketClient.<init>() : LocalPort " + socket.getLocalPort() + " Port " + socket.getPort()) ;
         
-        
-        
-        
     }
-    
         public SocketClient() throws IOException{
         socket = new Socket(InetAddress.getByName(serverAddr), port);
             
@@ -82,7 +74,6 @@ public class SocketClient implements Runnable, ClientInterface{
         Out.flush();
         In = new ObjectInputStream(socket.getInputStream());
         System.out.println("manouvre.network.client.SocketClient.<init>() : LocalPort " + socket.getLocalPort() + " Port " + socket.getPort()) ;
-      
     }
     
     public Socket getSocket() {
@@ -92,9 +83,8 @@ public class SocketClient implements Runnable, ClientInterface{
     public void setSocket(Socket socket) {
         this.socket = socket;
     }
- /*
+    /*
     Klient w run nasłuchuje co otrzyma od serwera i steruje GUI
-    
     */
     @Override
     public void run() {
@@ -120,9 +110,7 @@ public class SocketClient implements Runnable, ClientInterface{
                 System.out.println("SocketClient.run() ClassNotFoundException" + ex);
                 ex.printStackTrace();
             }
-            
             handle(msg);
-   
             }
 
         }
@@ -229,7 +217,7 @@ public class SocketClient implements Runnable, ClientInterface{
                   case Message.START_GAME:
                       if(msg.getContentP() == Message.OK)
                       {
-                        commandLogger = new CommandLogger(clientGame);
+                        
                         Game game = msg.getGame();
                         System.out.println("SocketClient.run() Game: " + game.toString() );
                         System.out.println("SocketClient.run() currentPlayer: " + currentPlayer.toString() );
@@ -241,21 +229,18 @@ public class SocketClient implements Runnable, ClientInterface{
                         java.awt.EventQueue.invokeLater(new Runnable() {
                             public void run() {
                                 try {
+                                    SocketClient.this.cmdQueue = new CommandQueue(game, SocketClient.this);
+                                    
                                     if(currentPlayer.isHost() )
                                     { 
-                                    clientGame = new GameWindow( game ,  CreateRoomWindow.AS_HOST );
-                                       
+                                    clientGame = new GameWindow( game ,  CreateRoomWindow.AS_HOST, cmdQueue );
                                     }
                                     else 
                                     { 
-                                    clientGame = new GameWindow( game,  CreateRoomWindow.AS_GUEST );
+                                    clientGame = new GameWindow( game,  CreateRoomWindow.AS_GUEST, cmdQueue );
                                     }
                                     
                                     setActiveWindow(clientGame);
-                                    SocketClient.this.cmdQueue = new CommandQueue(game, commandLogger,clientGame , SocketClient.this);
-                                    clientGame.setCmdQueue(cmdQueue);
-                                    game.setCmdQueue(cmdQueue);
-                                    
                                     clientGame.setVisible(true);
                                     roomWindow.setVisible(false);
                                     mainChat.setVisible(false);

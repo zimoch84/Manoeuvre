@@ -183,13 +183,13 @@ public class Position implements PositionInterface, Serializable{
         
             return  ROW_8  -  (int)  ((mouseY - MapGUI.BOARD_START_X)  / (MapGUI.SQUARE_HEIGHT))  ;
             
-            
         }
              
-        public static Position getPositionFromMouse(int x, int y){
-        
-            
-            return new Position(convertMouseXToX(x), convertMouseYToY(y)) ;
+        public static Position getPositionFromMouse(int x, int y, int windowMode){
+            if(windowMode == CreateRoomWindow.AS_GUEST)
+                return new Position(convertMouseXToX(x), convertMouseYToY(y)).transpoze();
+            else 
+                return new Position(convertMouseXToX(x), convertMouseYToY(y));
         }
          
 }

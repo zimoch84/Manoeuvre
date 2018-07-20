@@ -11,8 +11,10 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.Observable;
 import java.util.Observer;
+import manouvre.events.EventType;
 import manouvre.game.Card;
 import manouvre.game.CardSet;
 import manouvre.game.Game;
@@ -29,6 +31,7 @@ import manouvre.game.Dice;
    */
     public static final int CARDPADDINGTOP = 10;
     public static final int CARDPADDINGLEFT = 10;
+    public static final int CARDPADDELTA = 20;
     public static final int GAP = 5;
     
     /*
@@ -88,7 +91,7 @@ import manouvre.game.Dice;
         
     }
     
-    private void loadSet(CardSet cardSet) 
+    private synchronized void loadSet(CardSet cardSet) 
     {
         
         switch(cardSet.name){
@@ -154,64 +157,30 @@ import manouvre.game.Dice;
     
      public void paintHand(Graphics g, Game game)                 
     {   
-        int CARDPADDINGTOPTemp;
-        /*
-        CardSet hand=game.getCurrentPlayer().getHand();
-        int CARDPADDINGTOPTemp=CARDPADDINGTOP;
-        Integer j=0;
-        if(hand.isAnyCardSelected())
-        {
-            Card card =hand.selectionSeq.get(hand.selectionSeq.size()-1);              
-            j=hand.getPositionInSet(card); 
-            int[] xPoints={CARDPADDINGLEFT+35+CardGUI.WIDTH*j+(GAP*j),CARDPADDINGLEFT+95+CardGUI.WIDTH*j+(GAP*j),CARDPADDINGLEFT+35+(95-35)/2+CardGUI.WIDTH*j+(GAP*j)};
-            int[] yPoints={CARDPADDINGTOP+180,CARDPADDINGTOP+180,CARDPADDINGTOP+170};
-            g.setColor(Color.white);
-            g.setFont(new Font("Bookman Old Style", 1, 11));
-                    if(game.getPhase()==Game.DISCARD){
-                    g.drawString("This card will be visible",CARDPADDINGLEFT+CardGUI.WIDTH*j+(GAP*j)-10,41+190);
-                    g.drawString("on the Discard Pile",CARDPADDINGLEFT+CardGUI.WIDTH*j+(GAP*j)+0,54+190); 
-                    }
-            g.fillPolygon(xPoints, yPoints, 3);
-         }
-
-    */
-        
-       for (CardGUI drawingCard : handGUI ){
+       int cardPadTemp;
        
+       try{
+       for (CardGUI drawingCard : handGUI ){
             Card card = drawingCard.getCard();
              if(     card.isMouseOverCard()
                     || card.isSelected()
-                    && card.canBePlayed(game)
-                   
+                   //&& card.canBePlayed(game)
                     )
-                    CARDPADDINGTOPTemp=CARDPADDINGTOP-20;
-            else CARDPADDINGTOPTemp=CARDPADDINGTOP;
+                    cardPadTemp=CARDPADDINGTOP-CARDPADDELTA;
+            else cardPadTemp=CARDPADDINGTOP;
             g.drawImage(drawingCard.getImgFull(), 
                     CARDPADDINGLEFT+(CardGUI.WIDTH+GAP)*  game.getCurrentPlayer().getHand().getPositionInSet(card) ,
-                    CARDPADDINGTOPTemp, 
+                    cardPadTemp, 
                     CardGUI.WIDTH, 
                     CardGUI.HEIGHT, null);  
-             
+           }
        }
-       /*
-        for ( int i=0; i < handGUI.size(); i++) 
-        {
-            CardGUI cardGUI = handGUI.get(i);
-            Card card = cardGUI.getCard();
-          
-            if(     card.isMouseOverCard()
-                    || card.isSelected()
-                    && card.canBePlayed(game)
-                   
-                    )
-                    CARDPADDINGTOPTemp=CARDPADDINGTOP-20;
-            else CARDPADDINGTOPTemp=CARDPADDINGTOP;
-            
-            g.drawImage(cardGUI.getImgFull(), CARDPADDINGLEFT+(CardGUI.WIDTH+GAP)* i  ,
-                    CARDPADDINGTOPTemp, CardGUI.WIDTH, CardGUI.HEIGHT, null);  
-        }
-       */
-        
+       catch (ConcurrentModificationException ex)
+           {
+               
+               ex.printStackTrace();
+           }
+       
     }  
 
     public void paintTablePanel(Graphics g){
@@ -387,10 +356,26 @@ import manouvre.game.Dice;
             
     @Override
     public void update(Observable o, Object arg) {
-        loadSet( game.getCurrentPlayer().getHand() );
-        loadSet( game.getCurrentPlayer().getDiscardPile());
-        loadSet( game.getCurrentPlayer().getTablePile());
         
+         String dialogType = (String) arg;
+         
+         switch(dialogType){
+        
+             case EventType.CARDS_DISCARDED:
+                loadSet( game.getCurrentPlayer().getHand() );
+                loadSet( game.getCurrentPlayer().getDiscardPile());
+                break;
+             case EventType.CARDS_DRAWNED:
+                loadSet( game.getCurrentPlayer().getHand() );
+                loadSet( game.getCurrentPlayer().getDiscardPile());
+                break;
+             case EventType.CARD_MOVED_TO_TABLE:{
+                loadAllSets();
+                break;
+             
+             }
+                 
+         }
     }
          
          

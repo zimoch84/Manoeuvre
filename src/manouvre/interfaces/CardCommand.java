@@ -11,6 +11,6 @@ import manouvre.game.Game;
  *
  * @author Bartosz
  */
-public interface CardCommandInterface extends Command{
+public interface CardCommand extends Command{
     public void cancel(Game game);
 }

@@ -6,10 +6,13 @@
 package manouvre.commands;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
+import manouvre.events.EventType;
 import manouvre.game.Game;
+import manouvre.game.Player;
 import manouvre.interfaces.ClientInterface;
 import manouvre.gui.CommandLogger;
-import manouvre.gui.GameWindow;
 import manouvre.network.client.Message;
 import manouvre.interfaces.Command;
 import org.apache.logging.log4j.LogManager;
@@ -18,37 +21,29 @@ import org.apache.logging.log4j.LogManager;
  *
  * @author Piotr
  */
-public class CommandQueue {
+public class CommandQueue extends Observable implements Observer{
     
-    ArrayList<Command> commands = new ArrayList<Command>();
-    Game game;
-    
+    private ArrayList<Command> commands = new ArrayList<Command>();
+    private Game game;
+ 
     private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(CommandQueue.class.getName());   
-    
-    CommandLogger commandLogger;
-    GameWindow gameWindow;
-    
     ClientInterface client;
     
-    public CommandQueue(Game game, CommandLogger commandLogger, GameWindow gameWindow , ClientInterface clientInterface) {
+    public CommandQueue(Game game,  ClientInterface client) {
         this.game = game;
-        this.commandLogger = commandLogger;
-        this.gameWindow = gameWindow;
-        this.client = clientInterface;
+        this.client = client;
+        
     }
-    
 
     public void storeAndExecute(Command cmd) {
         this.commands.add(cmd);
         cmd.execute(game);
+       
         
-        LOGGER.debug(game.getCurrentPlayer().getName() + " wykonano command " + cmd.logCommand());
-        commandLogger.log(cmd);
-
+        notifyObservers(EventType.COMMAND_EXECUTED);
+        setChanged();
         
-        gameWindow.refreshAll();
-        gameWindow.repaint();
-      
+ 
    }
     
     public void storeAndExecuteWithoutLogs(Command cmd) {
@@ -57,52 +52,67 @@ public class CommandQueue {
       
       LOGGER.debug(game.getCurrentPlayer().getName() + " wykonano command " + cmd.logCommand()
       );
-      gameWindow.refreshAll();
-      gameWindow.repaint();
-     // cmd=null;//I think we should delete commands  after completion
+     
    }
     
     public void storeAndExecuteAndSend(Command cmd) {
         this.commands.add(cmd);
         cmd.execute(game); //execute locally
-        commandLogger.log(cmd);
-        
-        LOGGER.debug(game.getCurrentPlayer().getName() + " odapalil command: " + cmd.logCommand());
-        
-        gameWindow.refreshAll();
-        gameWindow.repaint();
-       
-        
 
         Message message = new Message(Message.COMMAND, game.getCurrentPlayer().getName() , cmd.getType(), "IN_CHANNEL");
-      
         message.setCommand(cmd);
         client.send(message);
-       // cmd=null;//I think we should delete commands after completion
-        
-        
+
+        notifyObservers(EventType.COMMAND_EXECUTED);
+        setChanged();
       
    }
     public void undoCommand(Command cmd) {
     
          this.commands.add(cmd);
          cmd.undo(game);
-         gameWindow.repaint();
-         gameWindow.refreshAll();
-    
+       
     }
     
     public void undoLastCommand() {
     
          Command cmd = commands.get(commands.size()-1);
          cmd.undo(game);
-         gameWindow.repaint();
-         gameWindow.refreshAll();
+
          /*
          Remove last command
          */
          commands.remove(commands.size()-1);
     
     }
+    
+    public Command getLastCommand()
+    {
+        return commands.get(commands.size() -1);
+    }
+    
+    public Player getPlayer()
+    {
+        return game.getCurrentPlayer();
+    }
 
+    @Override
+    public void update(Observable o, Object arg) {
+       
+        System.out.println("Object attached to event()" +  o.getClass().toString() );
+        
+        String dialogType = (String) arg;
+        
+        LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
+        
+        switch(dialogType){
+            case  EventType.CARD_GUIRELLA_PLAYED:
+            {
+                undoLastCommand();
+                break;
+            }}
+    }
+    
+    
+    
 }

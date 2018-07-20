@@ -30,6 +30,7 @@ public interface Command extends  Serializable{
     public static final String DRAW_CARD = "DRAW_CARD";
     public static final String RESET_FACTORY = "RESET_FACTORY";
     public static final String RESTORE_UNIT = "RESTORE_UNIT";
+    public static final String CANCEL_ACTION = "CANCEL_ACTION";
     
 
       

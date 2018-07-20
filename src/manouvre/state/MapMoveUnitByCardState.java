@@ -5,6 +5,7 @@
  */
 package manouvre.state;
 
+import manouvre.interfaces.MapState;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -15,23 +16,33 @@ import manouvre.game.Position;
 import manouvre.game.Unit;
 import manouvre.commands.CommandQueue;
 import manouvre.commands.MoveUnitCommand;
+import manouvre.game.CardCommandFactory;
 import manouvre.gui.CustomDialog;
 import manouvre.gui.GameWindow;
+import manouvre.interfaces.CardCommand;
 import org.apache.logging.log4j.LogManager;
 
 /**
  *
  * @author xeon
  */
-public class MapCardMoveUnitState implements MapState, Serializable{
+public class MapMoveUnitByCardState implements MapState, Serializable{
 
-    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(MapCardMoveUnitState.class.getName());
+    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(MapMoveUnitByCardState.class.getName());
+    
+    Card playingCard;
+    CardCommandFactory ccf;
+
+    public MapMoveUnitByCardState(Card playingCard, CardCommandFactory ccf) {
+        this.playingCard = playingCard;
+        this.ccf = ccf;
+    }
+    
+    
     
     @Override
-    public void handleInput(Position pos, Game game, CommandQueue cmdQueue , MapInputStateHandler handler) {
+    public void handleInput(Position pos, Game game, CommandQueue cmdQueue , MapStateHandler handler) {
        
-                Card playingCard = game.getCardCommandFactory().getPlayingCard();
-                
                 Unit selectedUnit = game.getSelectedUnit();
                 
                 if(getMovePositions(playingCard, game).contains(pos))
@@ -40,14 +51,14 @@ public class MapCardMoveUnitState implements MapState, Serializable{
                     /*
                     We attach move command to wrap it to postpone execution in card command
                     */
-                    game.getCardCommandFactory().setAttachedCommand(moveUnit);
+                    ccf.setAttachedCommand(moveUnit);
                     /*
                     Confirmation dialog
                     */
                     
                     showConfirmationCardDialog(cmdQueue, game);
                     LOGGER.debug(game.getCurrentPlayer().getName() + " zmiana stanu na MapInputStateHandler.NOSELECTION");
-                    handler.setState(MapInputStateHandler.NOSELECTION);
+                    handler.setState(MapStateHandler.NOSELECTION);
                 }
                 /*
                 Deselect card and clear Card Factory
@@ -57,10 +68,10 @@ public class MapCardMoveUnitState implements MapState, Serializable{
                     /*
                     LOGGER.debug(game.getCurrentPlayer().getName() + " game.getCardCommandFactory().resetPlayingCard();");
                     game.getCardCommandFactory().resetPlayingCard();
-                    LOGGER.debug(game.getCurrentPlayer().getName() + " zmiana stanu na MapInputStateHandler.NOSELECTION");
+                    LOGGER.debug(game.getCurrentPlayer().getName() + " zmiana stanu na MapStateHandler.NOSELECTION");
               
                     game.unselectAllUnits();
-                    handler.setState(MapInputStateHandler.NOSELECTION);
+                    handler.setState(MapStateHandler.NOSELECTION);
                         */
                 }
                 
@@ -72,7 +83,7 @@ public class MapCardMoveUnitState implements MapState, Serializable{
 private ArrayList<Position> getPossibleUnitPostionToSelect(Game game){
     
      ArrayList<Position> returnPositions = new ArrayList<>();
-     Card playingCard = game.getCardCommandFactory().getPlayingCard();
+     
      if(playingCard!= null)
         {
             switch(playingCard.getCardType()){
@@ -81,10 +92,10 @@ private ArrayList<Position> getPossibleUnitPostionToSelect(Game game){
                 if(playingCard.getHQType() == Card.SUPPLY)
                 {
                    if(game.getPhase() == Game.MOVE)
-                       return game.getCurrentPlayerNotMovedUnits();
+                       return game.positionCalculator.getCurrentPlayerNotMovedUnits();
                    
                    if(game.getPhase() == Game.RESTORATION)
-                     return game.getCurrentPlayerInjuredUnitPositions();
+                     return game.positionCalculator.getCurrentPlayerInjuredUnitPositions();
                            
                 }
                 if(playingCard.getHQType() == Card.WITHDRAW)   
@@ -109,7 +120,7 @@ private ArrayList<Position> getPossibleUnitPostionToSelect(Game game){
                 case Card.LEADER:
                 {
                     if(game.getPhase() == Game.RESTORATION)
-                     return game.getCurrentPlayerInjuredUnitPositions();
+                     return game.positionCalculator.getCurrentPlayerInjuredUnitPositions();
                 break;        
                 }    
                 
@@ -136,9 +147,11 @@ private void showConfirmationCardDialog(CommandQueue cmdQueue, Game game){
                         "Are You sure to play that card? " ,
                         cmdQueue, game);
         try {
-            dialog.setOkCommand(game.getCardCommandFactory().createCardCommand());
-            dialog.setCancelCommand(game.getCardCommandFactory().resetFactoryCommand());
-            
+            dialog.setOkCommand(ccf.createCardCommand( playingCard ));
+            /*
+            TODO create cancel command
+            dialog.setCancelCommand(ccf.resetFactoryCommand());
+            */
             //dialog.setCancelCommand(moveUnit);
         } catch (Exception ex) {
             Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
@@ -149,7 +162,7 @@ private void showConfirmationCardDialog(CommandQueue cmdQueue, Game game){
     
     else 
     {
-    cmdQueue.storeAndExecuteAndSend(game.getCardCommandFactory().createCardCommand());
+    cmdQueue.storeAndExecuteAndSend(ccf.createCardCommand(playingCard));
     }
         
     }
@@ -179,7 +192,7 @@ private ArrayList<Position> getMovePositions(Card playingCard, Game game){
                                 
                                 case Card.WITHDRAW:
                                 {
-                                   movePositions = game.getRetreatPositions(selectedUnit); 
+                                   movePositions = game.positionCalculator.getRetreatPositions(selectedUnit); 
                                    break;
                                 }
                                 

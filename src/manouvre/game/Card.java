@@ -1,22 +1,6 @@
 package manouvre.game;
 
 import manouvre.interfaces.CardInterface;
-import manouvre.game.Dice;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author Bartosz
- */
-//someth
-
-
-
 /*
 8x40 Unit cards and 8x20 Head Quarter cards (HQ) each have:
     - color - that represants the nation
@@ -70,13 +54,10 @@ import java.io.IOException;
 import com.csvreader.CsvReader;
 import java.io.Serializable;
 import java.util.ArrayList;
-import manouvre.commands.CommandQueue;
-import manouvre.events.EventType;
-import manouvre.state.MapInputStateHandler;
 import org.apache.logging.log4j.LogManager;
 
 
-public class Card implements CardInterface, Serializable{
+public class Card implements CardInterface, Serializable  {
     
     private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(Card.class.getName());
     
@@ -126,6 +107,12 @@ public class Card implements CardInterface, Serializable{
     boolean availableForSupport=false;
    
     ArrayList<Dice> dices;
+    
+    public Card ()
+    {
+    CardType = Card.NO_TYPE;
+    playingCardMode = Card.NO_TYPE;
+    }
     
     public Card (int chosenID) { 
         try {		
@@ -238,31 +225,26 @@ public class Card implements CardInterface, Serializable{
      
      }
      
-    public int getActionType(int phase){
+    public int getActionType(){
         
         if(getCardType() == Card.LEADER)
-            return Card.MULTIPLE_PICK_ACTION;
+            return Card.MULTIPLE_UNIT_PICK_ACTION;
+        
         if(getHQType()== Card.FORCED_MARCH || 
-           getHQType()== Card.WITHDRAW     
+           getHQType()== Card.WITHDRAW ||
+            getHQType()== Card.SKIRMISH   
                 )
-            return Card.MOVE_ACTION;
-        if(getHQType()== Card.SUPPLY) 
-        {
-          if(phase == Game.MOVE ){
-            return Card.MOVE_ACTION;
-          }
-            else 
-            return Card.PICK_ACTION;
-         
-        }
-        if(getHQType()== Card.REDOUBDT ||
+            return Card.MOVE_UNIT_ACTION;
+        
+        if(getHQType()== Card.SUPPLY ||
+           getHQType()== Card.REDOUBDT ||
            getHQType()== Card.REGROUP ||
-           getHQType()== Card.SKIRMISH ||     
+             
            getHQType()== Card.AMBUSH ||
            getCardType() == Card.UNIT)
   
         {
-            return Card.PICK_ACTION;
+            return Card.PICK_UNIT_ACTION;
         }
         
      return Card.NO_ACTION;   
@@ -309,6 +291,8 @@ public class Card implements CardInterface, Serializable{
                 return Card.HQCARD;
             case "HqLeader":
                 return Card.LEADER;
+            case Card.NO_TYPE:
+                return Card.NO_CARD;
         }         
         return 99; //if else return wrong value
     }
@@ -433,7 +417,7 @@ public class Card implements CardInterface, Serializable{
          return false;
     }
     
-    public boolean getCanBeCancelled() {
+    public boolean isCancelable() {
          return canBeCanceled;
     }
      public boolean getCanBeCanceledFromCsv() {
@@ -490,8 +474,6 @@ public class Card implements CardInterface, Serializable{
     public String getPlayingCardMode() {
         return playingCardMode;
     }
-    
-
     
     
     @Override
@@ -558,99 +540,7 @@ public class Card implements CardInterface, Serializable{
         this.played = played;
     }
 
-
-    /*
-    Check if card can be upped
-    */
- 
-    public boolean getAvailableForPhase(Game game){
-        int phase=game.getPhase();
-        switch(phase){
-            case Game.SETUP:
-                 return false; 
-           
-            case Game.DISCARD:
-                return true;
-              
-            case Game.DRAW:
-                    if(getHQType() == Card.SCOUT ) 
-                        return true;
-                    else return false;
-            case Game.MOVE:
-                /*
-                Not unit
-                */
-                    if(isHQCard()){
-                    /*
-                    And not these cards
-                    */
-                      if((getHQType() != Card.REDOUBDT 
-                       && getHQType() != Card.REGROUP
-                       && getHQType() != Card.SKIRMISH
-                       && getHQType()  != Card.WITHDRAW
-                              
-                      ))
-                        return true;
-                    }
-                    else return false;
-              
-            case Game.COMBAT: 
-                {
-                    if(game.getCombat() != null){
-                        
-                       /*
-                        possible card types
-                        */                 
-                        if(getCardType() == Card.UNIT
-                                ||
-                                getCardType() == Card.LEADER
-                                )
-                            return true;
-                        
-                        
-                        if(getCardType() == Card.HQCARD && 
-                                (
-                                getHQType() == Card.AMBUSH ||
-                                getHQType() == Card.WITHDRAW ||
-                                getHQType() == Card.SKIRMISH
-                                )
-                           )
-                            return true;
-
-                    }
-                                        
-                    else{
-                         if(getCardType() == Card.UNIT
-                                ||
-                                getCardType() == Card.LEADER
-                                )
-                            return true;
-                        
-                        return getHQType() == Card.WITHDRAW 
-                                
-                                || getHQType() == Card.COMMITED_ATTACK
-                                || getHQType() == Card.ROYAL_ENG;            
-                    } 
-              
-                }
-                break;
-            case Game.RESTORATION:
-                if(isHQCard())
-                {
-                    if(getHQType() == Card.REDOUBDT ||
-                    getHQType() == Card.REGROUP)
-                        return true;
-                }
-               else if(getCardType() == Card.HQCARD || getCardType() == Card.UNIT)
-                    return true;
-                
-              else return false;
-                   
-        }
-      return false;
-           
-    }
-
+    
     public boolean isSelected() {
         return selected;
     }
@@ -659,408 +549,6 @@ public class Card implements CardInterface, Serializable{
         this.selected = selected;
     }
 
-    @Override
-    public boolean canBePlayed(Game game) {
-        
-        int phase=game.getPhase();
-        if(getAvailableForPhase(game))
-        {
-            switch (getCardType()) {
-            
-            case Card.LEADER:
-            {
-                
-                
-                switch(phase){
-                    case Game.DISCARD : return true;
-                    case Game.COMBAT :
-                    {
-                    if(game.getCombat() != null)
-                        switch(game.getCombat().getState())
-                        {
-                            case Combat.PICK_DEFENSE_CARDS:
-                                 return true;
-                            case Combat.PICK_SUPPORT_CARDS:
-                                 return true;
-                            case Combat.PICK_SUPPORT_UNIT:
-                                 return true;
-
-                            default: return false;
-                        }
-                    break;    
-                    }
-                    case Game.RESTORATION :
-                        return true;
-                    
-                    default: return false;
-                }
-            }
-          
-            case Card.HQCARD:
-                if(game.getPhase() == Game.DISCARD)
-                    return true;
-                
-                switch (getHQType())
-                {
-                    case Card.FORCED_MARCH :
-                    if(game.getCurrentPlayer().hasMoved()) {
-                        return true;
-                    }
-                    break;
-                    case Card.SUPPLY :
-                    if(game.getCurrentPlayer().hasMoved()) {
-                    return true;
-                    }
-                    break;
-
-                    case Card.GUERRILLAS :
-                    if(
-                            game.getCardCommandFactory().getOpponentCard().getHQType() == Card.FORCED_MARCH ||
-                            game.getCardCommandFactory().getOpponentCard().getHQType() == Card.SUPPLY ||
-                            game.getCardCommandFactory().getOpponentCard().getHQType() == Card.REDOUBDT
-                            ) {
-                    return true;
-                    }
-                    break;
-
-                    case Card.WITHDRAW :
-                    if(game.getCombat() != null) 
-                        if(game.getCombat().getState() == Combat.PICK_DEFENSE_CARDS)
-                            if(     
-                                    (!game.getCombat().getCombatType().equals(Combat.BOMBARD))  
-                                    &&
-                                     !game.getCombat().getCombatType().equals(Combat.VOLLEY)
-                                     )
-
-                                return true;
-                            break;                                               
-
-
-                    case Card.REDOUBDT :
-                    {
-                        if(game.getPhase() == Game.RESTORATION)
-                             return true;
-
-                        break;
-
-
-                    }
-
-                    case Card.SKIRMISH :
-                    {
-                       if(game.getCombat() != null) 
-                        return game.getCombat().getState() == Combat.PICK_SUPPORT_CARDS;
-
-                    }
-                }
-                
-                break;
-            
-            case Card.UNIT:
-            
-                if(game.getPhase() == Game.DISCARD)
-                    return true;
-                 
-                if(!game.getUnitByName(CardName).isEliminated())
-                    {
-                        if(game.getPhase() == Game.COMBAT)
-                        {
-                            /*
-                            Pick only living unit cards
-                            */
-                        if(game.getCombat() == null) {
-                            return true;
-                        }
-                            
-                        
-                        else {
-                            switch(game.getCombat().getState()){
-                            case Combat.INITIALIZING_COMBAT:
-                                return true;
-                                
-                            case Combat.PICK_DEFENSE_CARDS:
-                                if(game.getCombat().getDefendingUnit().equals(this) )
-                                       return true;
-                                else 
-                                       return false;
-                            case Combat.PICK_SUPPORT_CARDS:
-                            {
-                                /*
-                                Check if support unit matches card with assault mode
-                                */
-                                for(Unit supportUnit: game.getCombat().getSupportingUnits())
-                                {
-                                    if(supportUnit.equals(this)) 
-                                    {
-                                        for(String cardMode:getPlayingPossibleCardModes() )
-                                            {
-                                                if(cardMode == Card.ASSAULT) 
-                                                    return true;
-                                            }
-                                    }
-                                }
-                                /*
-                                Check if attack unit matches card with assault mode
-                                */
-                                if(game.getCombat().getAttackingUnit().equals(this))
-                                {
-                                     for(String cardMode:getPlayingPossibleCardModes() )
-                                            {
-                                                if(cardMode == Card.ASSAULT) 
-                                                    return true;
-                                            }
-                                }   
-                                return false;
-                            }
-                            case   Combat.END_COMBAT : 
-                                return false;
-                        }
-                        }
-                        }
-                        else if(game.getPhase() == Game.RESTORATION)
-                            return true;
-                        /*
-                        Card is playing outside Combat /Restoration / Discard
-                        */
-                        else
-                            return false;
-                    }
-                /*
-                Unit is elimitated
-                */
-                else return false;
-                
-            }
-        }
-        /*
-        Is not avalaible for phase
-        */
-        return false;
-    }
-    
-    public void actionOnSelection(Game game, CommandQueue cmdQueue){
-    
-    switch(getCardType()){
-        case Card.HQCARD:
-        {
-            switch (getHQType()){
-                case Card.FORCED_MARCH:
-                {
-                    if(game.getPhase() == Game.MOVE){
-                    game.getCurrentPlayer().getLastMovedUnit().setSelected(true);
-                    game.mapInputHandler.setState(MapInputStateHandler.PICK_MOVE_POSITION_BY_CARD);
-                    
-                    }
-                    break;
-                }
-                
-                case Card.WITHDRAW:
-                {
-                    if(game.getPhase() == Game.COMBAT && 
-                            game.getCardCommandFactory().getAttackedUnit()!= null
-                            ){
-                    game.getCardCommandFactory().getAttackedUnit().setSelected(true);
-                    game.getCardCommandFactory().getAttackedUnit().setRetriving(true);
-                    game.getCardCommandFactory().setPlayingCard(this);
-                    game.getCombat().setState(Combat.WITHRDAW);
-                    //game.getCurrentPlayer().setActive(true);
-                    LOGGER.debug(game.getCurrentPlayer().getName() + "zmiana stanu na MapInputStateHandler.PICK_MOVE_POSITION_BY_CARD");
-                    game.mapInputHandler.setState(MapInputStateHandler.PICK_MOVE_POSITION_BY_CARD);
-                    }
-                    break;
-                }
-                case Card.SUPPLY:
-                {
-                    break;
-                }
-                
-                case Card.GUERRILLAS:
-                {
-                        game.getCardCommandFactory().setPlayingCard(this);
-                        cmdQueue.storeAndExecuteAndSend(game.getCardCommandFactory().createGuerrillaCardCommand());
-                    
-                    break;
-                }
-                
-                case Card.REDOUBDT:
-                {
-                        game.getCardCommandFactory().setPlayingCard(this);
-                        LOGGER.debug(game.getCurrentPlayer().getName() + "zmiana stanu na MapInputStateHandler.PICK_ONE_UNIT");
-                        game.mapInputHandler.setState(MapInputStateHandler.PICK_UNIT_BY_CARD);
-                    
-                    break;
-                }
-                
-            
-            } break;
-        }
-        case Card.UNIT:
-        {
-                if(game.getPhase() == Game.COMBAT)
-                    //TODO change to proper combat phase NullObject
-                    if(game.getCombat() != null)
-                    {        if(game.getCombat().getDefendingUnit() != null)
-                        {
-                        game.getCombat().addDefenceCard(this);
-                        }
-                    }       
-                    else {
-                        game.getCurrentPlayerUnitByName(getCardName()).setSelected(true);
-                        /*
-                        Volley Decision
-                        */
-                        int playingModeCounter = getPlayingPossibleCardModes().size();
-                        /*
-                        Set bombard or asssault    
-                        */
-                        if(playingModeCounter == 1 )
-                            setPlayingCardMode(getPlayingPossibleCardModes().get(0));
-                        /*
-                        Notify to pick proper card mode
-                        */
-                        else if (playingModeCounter == 2)
-                            game.notifyAbout(EventType.VOLLEY_ASSAULT_DECISION);
-                        /*
-                        If we know what mode is playing we can calculate attacking positions
-                        */    
-                        if(getPlayingCardMode()!= null)
-                                game.getCardCommandFactory().calculateAttackingPositions(game.getSelectedUnit());
-                    }
-                else if (game.getPhase() == Game.RESTORATION)
-                {
-                game.getCurrentPlayerUnitByName(getCardName()).setSelected(true);
-                }
-                    
-                
-                break;
-        } 
-        
-        case Card.LEADER:
-        {
-             if(game.getPhase() == Game.COMBAT)
-                 if(game.getCombat() != null)
-                     if(game.getCombat().getState() == Combat.PICK_DEFENSE_CARDS)
-                     {
-                        game.getCombat().addDefenceCard(this);
-                     }
-                     
-                     if(game.getCombat().getState() == Combat.PICK_SUPPORT_CARDS)
-                     {
-                        game.getCombat().setState(Combat.PICK_SUPPORT_UNIT);
-                        game.getCombat().setSupportingLeader(this);
-                        
-                     }
-                break;
-        } 
-         
-    }
-    
-    }
-    public void actionOnDeselection(Game game){
-    
-        switch(getCardType()){
-        case Card.HQCARD:
-        {
-            switch (getHQType()){
-                case Card.FORCED_MARCH:
-                {
-                     if(game.getPhase() == Game.MOVE)
-                     {
-                            if(game.getCurrentPlayer().getLastMovedUnit()!= null)
-                             game.getCurrentPlayer().getLastMovedUnit().setSelected(false);
-                           
-                     }
-                    break;
-                }
-                case Card.WITHDRAW:
-                {
-                    if(game.getPhase() == Game.COMBAT && 
-                            game.getCardCommandFactory().getAttackedUnit()!= null
-                            ){
-                    game.getCardCommandFactory().getAttackedUnit().setSelected(false);
-                    game.getCardCommandFactory().getAttackedUnit().setRetriving(false);
-                    game.getCardCommandFactory().setPlayingCard(null);
-                    LOGGER.debug(game.getCurrentPlayer().getName() + " zmiana stanu na MapInputStateHandler.NOSELECTION");
-                    game.mapInputHandler.setState(MapInputStateHandler.NOSELECTION);
-                    }
-                    break;
-                }
-                case Card.SUPPLY:
-                {
-                     game.unselectAllUnits();
-                }
-                
-                case Card.REDOUBDT:
-                {
-                        LOGGER.debug(game.getCurrentPlayer().getName() + "zmiana stanu na MapInputStateHandler.NOSELECTION");
-                        game.mapInputHandler.setState(MapInputStateHandler.NOSELECTION);
-                    
-                    break;
-                }
-            
-            }
-            break;
-        }
-        case Card.UNIT:
-        {   
-              if(game.getPhase() == Game.COMBAT)
-                   if(game.getCombat() != null)
-                   {  
-                       if(game.getCombat().getDefendingUnit() != null)
-                         {
-                     game.getCombat().removeDefenceCard(this);
-                         }
-                    }
-                   else {
-                        
-                        game.getCurrentPlayerUnitByName(getCardName()).setSelected(false);
-                        
-                        
-                        
-                        int playingModeCounter = getPlayingPossibleCardModes().size();
-                        /*
-                        TODO:
-                        Zrobic akcje na deselektion
-                        */
-                        
-                        
-                        
-                        if (playingModeCounter == 2)
-                            game.notifyAbout(EventType.VOLLEY_ASSAULT_DECISION_DESELECTION);
-                      
-                        if(getPlayingCardMode()!= null)
-                                game.getCardCommandFactory().clearAttackingPosiotions();
-                    } 
-                   
-                   
-               else if (game.getPhase() == Game.RESTORATION)
-                {
-                game.getCurrentPlayerUnitByName(getCardName()).setSelected(false);
-                }
-              
-                break;
-        }
-        case Card.LEADER:
-        {
-             if(game.getPhase() == Game.COMBAT)
-                 if(game.getCombat() != null)
-                     if(game.getCombat().getState() == Combat.PICK_DEFENSE_CARDS)
-                     {
-                        game.getCombat().removeDefenceCard(this);
-                     }
-                     
-                     if(game.getCombat().getState() == Combat.PICK_SUPPORT_UNIT)
-                     {
-                        game.getCombat().setState(Combat.PICK_SUPPORT_CARDS);
-                        game.getCombat().setSupportingLeader(null);
-                        
-                     }
-                break;
-        } 
-    }
-    
-    }
-    
     public boolean isCardNotFoundInNation() {
         return cardNotFound;
     }
@@ -1086,7 +574,5 @@ public class Card implements CardInterface, Serializable{
             )  ;
     
     }
-    
-    
     
 }

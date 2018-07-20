@@ -5,18 +5,15 @@
  */
 package manouvre.state;
 
+import manouvre.interfaces.MapState;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import manouvre.game.Game;
 import manouvre.game.Position;
 import manouvre.commands.CommandQueue;
 import manouvre.game.Card;
 import manouvre.game.Combat;
 import manouvre.game.Unit;
-import manouvre.gui.CustomDialog;
-import manouvre.gui.GameWindow;
 import org.apache.logging.log4j.LogManager;
 
 /**
@@ -26,15 +23,13 @@ import org.apache.logging.log4j.LogManager;
 public class MapMultiPickUnitState implements MapState, Serializable{
 private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(MapMultiPickUnitState.class.getName());     
     @Override
-    public void handleInput(Position pos, Game game, CommandQueue cmdQueue , MapInputStateHandler handler) {
+    public void handleInput(Position pos, Game game, CommandQueue cmdQueue , MapStateHandler handler) {
        
-          ArrayList<Position> avalaiblePositions =  game.getCurrentPlayerAvalibleUnitToSelect();
+          ArrayList<Position> avalaiblePositions =  game.positionCalculator.getCurrentPlayerAvalibleUnitToSelect();
                     
         if(avalaiblePositions.contains(pos))
         {
-        
-            if(game.getCombat()!=null)
-                if(game.getCombat().getState() == Combat.PICK_SUPPORT_UNIT)
+            if(game.getCombat().getState() == Combat.PICK_SUPPORT_UNIT)
                 {
                       Card leader = game.getCombat().getSupportingLeader();
                       int maxSupporters = leader.getLederCommand() - 1; 
@@ -65,54 +60,6 @@ private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogg
                     
                     
    }
-    
  
- 
-private void showConfirmationCardDialog(CommandQueue cmdQueue, Game game){
-    /*
-        Confirmation dialog
-        */
-       // game.lockGUI();
-        CustomDialog dialog = 
-                new CustomDialog(CustomDialog.YES_NO_TYPE, 
-                        "Are You sure to play that card? " ,
-                        cmdQueue, game);
-        try {
-            dialog.setOkCommand(game.getCardCommandFactory().createCardCommand());
-            dialog.setCancelCommand(game.getCardCommandFactory().resetFactoryCommand());
-            
-            //dialog.setCancelCommand(moveUnit);
-        } catch (Exception ex) {
-            Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        dialog.setVisible(true);
-        
-    }
-private void showCannotPlayCardDialog(CommandQueue cmdQueue, Game game){
-    /*
-        Confirmation dialog
-        */
-        CustomDialog dialog = 
-                new CustomDialog(CustomDialog.CONFIRMATION_TYPE, 
-                        "You cannot play this card",
-                        cmdQueue, game);
-        dialog.setVisible(true);
-        LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().resetFactory()");
-        game.getCardCommandFactory().resetFactory();
-        
 
-}
- private void showCardNoValidTargetDialog(CommandQueue cmdQueue, Game game){
-    /*
-        Confirmation dialog
-        */
-        CustomDialog dialog = 
-                new CustomDialog(CustomDialog.CONFIRMATION_TYPE, 
-                        "This card doesn't have valid target",
-                        cmdQueue, game);
-        dialog.setVisible(true);
-          LOGGER.debug(game.getCurrentPlayer().getName() + "game.getCardCommandFactory().resetFactory()");
-        game.getCardCommandFactory().resetFactory();
-        
-    }
 }

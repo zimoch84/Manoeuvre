@@ -5,6 +5,7 @@
  */
 package manouvre.commands;
 
+import manouvre.events.EventType;
 import manouvre.game.Game;
 import manouvre.game.Position;
 import manouvre.game.Unit;
@@ -46,36 +47,26 @@ public class MoveUnitCommand implements Command {
         /*
         Setting map on current game object to set occupation on it.
         */ 
-        
         game.getMap().getTerrainAtXY(lastPosition.getX(), lastPosition.getY()).setIsOccupiedByUnit(false);
         game.getMap().getTerrainAtXY(newPosition.getX(), newPosition.getY()).setIsOccupiedByUnit(true);
         if(game.getMap().getTerrainAtXY(lastPosition.getX(), lastPosition.getY()).isRedoubt())
             game.getMap().getTerrainAtXY(lastPosition.getX(), lastPosition.getY()).setRedoubt(false);
-        
         game.unselectAllUnits();
-                
-                
         if (game.getPhase()!=Game.SETUP)
         {
             game.getPlayerByName(playerName).setMoved(true);
+            game.notifyAbout(EventType.PLAYER_MOVED);
         }
-        
         
     }
     
     @Override
     public void undo(Game game){
-      
-    
-        
       Unit movingUnit =  game.searchUnit(storedUnit);
-      
       movingUnit.move(lastPosition);
-        
       game.getMap().getTerrainAtXY(lastPosition.getX(), lastPosition.getY()).setIsOccupiedByUnit(true);
       game.getMap().getTerrainAtXY(newPosition.getX(), newPosition.getY()).setIsOccupiedByUnit(false);
-      
-      game.getPlayerByName(playerName).setMoved(false);  //btestfalse undo should give setMoved(false) but it doesnt work with Force March and reject funcion. Not possible to end Move Phase
+      game.getPlayerByName(playerName).setMoved(false);  
       
       
     }
