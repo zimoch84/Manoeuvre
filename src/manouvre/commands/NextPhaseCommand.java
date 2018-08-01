@@ -19,10 +19,11 @@ public class NextPhaseCommand implements Command{
     private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(NextPhaseCommand.class.getName());     
     String activePlayerName;
     int phase;
+    CardCommands.CleanTableCommand cleanTableCommand;
     public NextPhaseCommand(String playerName, int phase) {
         activePlayerName = playerName;
         this.phase = phase;
-    
+        cleanTableCommand = new CardCommands.CleanTableCommand(playerName);
     }
      public String getPhaseName(int phase){
       
@@ -63,7 +64,11 @@ public class NextPhaseCommand implements Command{
         game.getPlayerByName(activePlayerName).resetPlayer();
         if(game.getPhase() == Game.COMBAT)
             game.setCombat(new Combat());
+        cleanTableCommand.execute(game);
         game.nextPhase();
+        
+        
+        
         game.notifyAbout(EventType.NEXT_PHASE);
     }
 
@@ -71,7 +76,7 @@ public class NextPhaseCommand implements Command{
     public void undo(Game game) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+        
     @Override
     public String logCommand(){
         return new String(activePlayerName + " moved to the next phase " + getPhaseName(phase) );

@@ -19,9 +19,11 @@ public class EndTurnCommand implements Command{
     private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(EndTurnCommand.class.getName());  
     String activePlayerName;
     int phase;
+    CardCommands.CleanTableCommand cleanTableCommand;
+    
     public EndTurnCommand(String playerName) {
         activePlayerName = playerName;
-    
+        this.cleanTableCommand = new CardCommands.CleanTableCommand(playerName);
     }
     
     @Override
@@ -33,6 +35,7 @@ public class EndTurnCommand implements Command{
         game.setPhase(Game.DISCARD);
         game.getMap().unselectAllTerrains();
         game.getPlayerByName(activePlayerName).resetPlayer();
+        cleanTableCommand.execute(game);
         game.notifyAbout(EventType.END_TURN);
         
     }

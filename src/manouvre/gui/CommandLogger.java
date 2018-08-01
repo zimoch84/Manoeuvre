@@ -41,9 +41,10 @@ public class CommandLogger implements Observer {
        
         if(o instanceof CommandQueue)
         {
+           Command cmd = (Command) arg;
            CommandQueue cmdQueue = (CommandQueue) o;
            
-        frame.printOnChat(cmdQueue.getLastCommand().logCommand());
+        log(cmd);
         LOGGER.debug(cmdQueue.getPlayer().getName() + " wykonano command " + cmdQueue.getLastCommand().logCommand());
         }
        

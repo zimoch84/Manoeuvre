@@ -10,8 +10,6 @@ import manouvre.game.Combat;
 import manouvre.game.Game;
 import manouvre.game.Unit;
 import manouvre.interfaces.Command;
-import manouvre.state.HandStateHandler;
-import manouvre.state.MapStateHandler;
 import org.apache.logging.log4j.LogManager;
 
 /**
@@ -42,7 +40,7 @@ public class ForceWithdraw implements Command{
       unit.setRetriving(true);
       unit.setSelected(true);
 
-      game.notifyAbout(EventType.DEFENDER_WITHDRAW);
+      game.notifyAbout(EventType.COMBAT_DEFENDER_WITHDRAW);
       log = "Attacker forced defender to withdraw";
 
     }

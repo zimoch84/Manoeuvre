@@ -32,7 +32,7 @@ public class DontAdvanceUnitCommand implements Command  {
         /*
         Ends combat
         */
-        game.getCombat().setState(Combat.END_COMBAT);
+        game.endCombat();
     }
 
     @Override

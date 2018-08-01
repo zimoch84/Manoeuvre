@@ -69,13 +69,11 @@ public class Player  implements Serializable{
         if(unit.isSupporting())
             unit.setSupporting(false);
     
-    }
+        }   
         setMoved(false);
         setDraw(false);
-        setAttacked(false);
-        
+        hasAttacked(false);
         getHand().unselectAllCards();
-        
     }
 
     public String getNationAsString(boolean shortName)
@@ -264,7 +262,7 @@ public class Player  implements Serializable{
         return attacked;
     }
 
-    public void setAttacked(boolean attacked) {
+    public void hasAttacked(boolean attacked) {
         this.attacked = attacked;
     }
 
@@ -324,6 +322,17 @@ public class Player  implements Serializable{
     public int getScore()
     {
         return score;
+    }
+    
+    public ArrayList<Unit> getNotKilledUnits()
+    {ArrayList notKilledUnits = new ArrayList();
+    
+    for(Unit unit:getArmy())    
+        {
+            if(unit.isEliminated()) 
+                notKilledUnits.add(unit);
+        }
+        return notKilledUnits;
     }
     
     public int getUnitsKilled()

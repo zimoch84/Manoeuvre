@@ -113,29 +113,35 @@ public class HandStateHandler implements Serializable, Observer{
     public void handle(Card card, Game game)
     {
         if(game.getCurrentPlayer().isActive())
-                currentState.handleInput(card, game, cmdQueue);
+                    currentState.handleInput(card, game, cmdQueue);
         
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        
-        System.out.println("Object attached to event()" +  o.getClass().toString() );
         String dialogType = (String) arg;
-        LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
-        
         switch(dialogType){
+        
+        case EventType.NEXT_PHASE:
+        case EventType.END_TURN:
+            if(game.getCurrentPlayer().isActive())
+                setInitStateForPhase(game);
+            LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
+        break;
+            
         case EventType.CANCELLABLE_CARD_PLAYED: {
                 /*
                 Guirellas decision
                 */
                 if(game.getCurrentPlayer().isActive())
                     setState(HandStateHandler.PICK_ONLY_ONE);
+                LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
                 break;
          }
-        case EventType.DEFENDER_WITHDRAW:
+        case EventType.COMBAT_DEFENDER_WITHDRAW:
         {
             setState(HandStateHandler.NOSELECTION);
+            LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
             break;
         }
         
@@ -144,14 +150,17 @@ public class HandStateHandler implements Serializable, Observer{
                 setState(HandStateHandler.MULTIPLE_PICK);
             else 
                 setState(HandStateHandler.NOSELECTION);
+            LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
         break;  
         
         case EventType.BOMBARD_BEGINS:
             setState(HandStateHandler.NOSELECTION);
+            LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
             break;
         
-        case EventType.THROW_DICE:
+        case EventType.COMBAT_THROW_DICE:
             setState(HandStateHandler.NOSELECTION);
+            LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
             break;
         
         case EventType.DEFENDING_CARDS_PLAYED:
@@ -159,10 +168,30 @@ public class HandStateHandler implements Serializable, Observer{
                 setState(HandStateHandler.MULTIPLE_PICK);
             else 
                 setState(HandStateHandler.NOSELECTION);
+            LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
             break;  
             
+        case EventType.CARDS_DISCARDED: 
+                
+            if(game.getCurrentPlayer().isActive())
+                 game.getCurrentPlayer().getHand().unselectAllCards();
+            LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
+        break;
+        case EventType.LEADER_DESELECTED:
+            if(game.getCurrentPlayer().isActive()){
+                ArrayList<Card> supportCards = game.getCombat().getSupportCards();
+                for(Card supportingCard: supportCards)
+                    game.getCurrentPlayer().getHand().getCard(supportingCard).setSelected(false);
+                 }
+            LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
+        break;    
+        
+        
+
     }
     }
+
+
     
     
     

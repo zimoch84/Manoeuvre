@@ -12,7 +12,6 @@ import manouvre.events.EventType;
 import manouvre.game.Game;
 import manouvre.game.Player;
 import manouvre.interfaces.ClientInterface;
-import manouvre.gui.CommandLogger;
 import manouvre.network.client.Message;
 import manouvre.interfaces.Command;
 import org.apache.logging.log4j.LogManager;
@@ -38,33 +37,26 @@ public class CommandQueue extends Observable implements Observer{
     public void storeAndExecute(Command cmd) {
         this.commands.add(cmd);
         cmd.execute(game);
-       
-        
-        notifyObservers(EventType.COMMAND_EXECUTED);
         setChanged();
-        
- 
+        notifyObservers(cmd);
    }
     
     public void storeAndExecuteWithoutLogs(Command cmd) {
       this.commands.add(cmd);
       cmd.execute(game);
-      
-      LOGGER.debug(game.getCurrentPlayer().getName() + " wykonano command " + cmd.logCommand()
-      );
-     
    }
     
     public void storeAndExecuteAndSend(Command cmd) {
         this.commands.add(cmd);
-        cmd.execute(game); //execute locally
+        cmd.execute(game); 
 
         Message message = new Message(Message.COMMAND, game.getCurrentPlayer().getName() , cmd.getType(), "IN_CHANNEL");
         message.setCommand(cmd);
         client.send(message);
-
-        notifyObservers(EventType.COMMAND_EXECUTED);
-        setChanged();
+        
+        setChanged();   
+        notifyObservers(cmd);
+        
       
    }
     public void undoCommand(Command cmd) {
@@ -99,14 +91,13 @@ public class CommandQueue extends Observable implements Observer{
     @Override
     public void update(Observable o, Object arg) {
        
-        System.out.println("Object attached to event()" +  o.getClass().toString() );
         
         String dialogType = (String) arg;
         
         LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
         
         switch(dialogType){
-            case  EventType.CARD_GUIRELLA_PLAYED:
+            case  EventType.GUIRELLA_PLAYED:
             {
                 undoLastCommand();
                 break;

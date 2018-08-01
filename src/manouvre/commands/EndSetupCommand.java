@@ -18,11 +18,12 @@ public class EndSetupCommand implements Command{
     String playerName;
     Command setupCommand;
     
+    
     public EndSetupCommand(String playerName, SetupPositionCommand setupCommand) {
 
     this.playerName = playerName;
     this.setupCommand = setupCommand;
-
+    
     }
 
     @Override

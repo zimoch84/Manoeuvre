@@ -20,6 +20,8 @@ public class PositionCalculator implements Serializable{
         this.game = game;
     }
     
+    
+    
     public ArrayList<Position> getUnitsPositionToSelectByCard(Card card) 
     {
         ArrayList<Position> returnPositions = new ArrayList<>();
@@ -50,17 +52,21 @@ public class PositionCalculator implements Serializable{
                     Combat combat = game.getCombat();
                     switch(combat.getState()){
                         case Combat.COMBAT_NOT_INITIALIZED:
-                            if(card.getPlayingCardMode() != null )
+                        case Combat.INITIALIZING_COMBAT:    
+                            if(card.getPlayingCardMode() != Card.NO_TYPE )
                             {
-                                game.getCombat().calculateAttackingPositions(game);    
-                                return  game.getCombat().getAttackingPositions();
+                                return getAttackingPositions(card, game.getUnitByCard(card));    
                             }
                         break;
+               
                         case Combat.PURSUIT:
                             returnPositions.add(combat.getAttackingUnit().getPosition());
                             return returnPositions;
+                        default:
+                            System.err.println("Position Calculator Nie obslugujemy tego stanu combat: " + combat.getState() );
 
                     }
+                    break;
                     /*
                     If its withdraw then select attacking unit position
                     TODO - supply with other ant not require to advance
@@ -95,38 +101,27 @@ public class PositionCalculator implements Serializable{
 
     public ArrayList<Position> getCurrentPlayerAvalibleMoveUnitPositions() {
         Unit selectedUnit;
-        if (game.freeMove) {
-            return getSetupPossibleMovement();
-        }
         switch (game.getPhase()) {
             case Game.SETUP:
-                {
                     return getSetupPossibleMovement();
-                }
             case Game.DISCARD:
                 return new ArrayList<>();
             case Game.MOVE:
+                if (game.freeMove) 
+                    return getSetupPossibleMovement();
                 selectedUnit = game.getSelectedUnit();
-                ArrayList<Position> movePositions;
-                return game.getPossibleMovement(selectedUnit);
+                ArrayList<Position> movePositions = game.getPossibleMovement(selectedUnit);
+                return movePositions;
             case Game.COMBAT:
                 switch (game.getCombat().getState()) {
                     case Combat.WITHRDAW:
                         {
-                            if (game.getUnit(game.getCombat().getDefendingUnit()).isRetriving()) {
-                                return getRetreatPositions(game.getUnit(game.getCombat().getDefendingUnit()));
-                            }
+                        if (game.getUnit(game.getCombat().getDefendingUnit()).isRetriving()) {
+                            ArrayList<Position> retreatPosition = getRetreatPositions(game.getUnit(game.getCombat().getDefendingUnit()));
+                            return retreatPosition;
+                        }
                         }
                 }
-                return new ArrayList<>();
-                /*
-                TODO implement many more cases with combat mode
-                 */
-            case Game.RESTORATION:
-                return new ArrayList<>();
-                /*
-                TODO create funcion to get Units selected by card
-                 */
         }
         return new ArrayList<>();
     }
@@ -152,7 +147,7 @@ public class PositionCalculator implements Serializable{
 
     public ArrayList<Position> getCurrentPlayerNotMovedUnits() {
         ArrayList<Position> units = new ArrayList<>();
-        for (Unit unitSearch : game.getCurrentPlayer().getArmy()) {
+        for (Unit unitSearch : game.getCurrentPlayer().getNotKilledUnits()) {
             if (!unitSearch.hasMoved()) {
                 units.add(unitSearch.getPosition());
             }
@@ -163,11 +158,9 @@ public class PositionCalculator implements Serializable{
     public ArrayList<Position> getCurrentPlayerAvalibleUnitToSelect() {
         switch (game.getPhase()) {
             case Game.SETUP:
-                {
-                    return game.getCurrentPlayer().getArmyPositions();
-                }
+                return game.getCurrentPlayer().getArmyPositions();
             case Game.DISCARD:
-                return null;
+                return new ArrayList<>();
             case Game.MOVE:
                 return game.getCurrentPlayer().getArmyPositions();
             case Game.COMBAT:
@@ -194,14 +187,8 @@ public class PositionCalculator implements Serializable{
                         return getPossibleSupportingUnitsPositions();
                 }
                 break;
-                /*
-                TODO implement many more cases with combat mode
-                 */
             case Game.RESTORATION:
-                return new ArrayList<>();
-                /*
-                TODO create funcion to get Units selected by card
-                 */
+                return game.getInjuredUnitPositions();
         }
         return new ArrayList<>();
     }
@@ -288,29 +275,50 @@ public class PositionCalculator implements Serializable{
         }
     }
 
-    public ArrayList<Position> getMovePositionsByCard(Card playingCard) {
+    public ArrayList<Position> getMovePositionsByCard(Card playingCard, Unit movingUnit) {
         ArrayList<Position> movePositions = new ArrayList<>();
-        if (game.getSelectedUnit() != null) {
-            Unit selectedUnit = game.getSelectedUnit();
+        if (movingUnit != null) {
             switch (playingCard.getCardType()) {
                 case Card.HQCARD:
                     switch (playingCard.getHQType()) {
                         case Card.FORCED_MARCH:
-                            movePositions = game.getOneSquareMovements(selectedUnit.getPosition());
-                            break;
+                            movePositions = game.getOneSquareMovements(movingUnit.getPosition());
+                        break;
                         case Card.SUPPLY:
-                            movePositions = game.getPossibleMovement(selectedUnit);
-                            break;
+                            movePositions = game.getPossibleMovement(movingUnit);
+                        break;
                         case Card.WITHDRAW:
-                            movePositions = game.positionCalculator.getRetreatPositions(selectedUnit);
-                            break;
+                            movePositions = game.positionCalculator.getRetreatPositions(movingUnit);
+                        break;
+                        case Card.SKIRMISH:
+                            movePositions = game.getTwoSquareMovements(movingUnit.getPosition());
+                        break;
                     }
                     break;
             }
         }
         return movePositions;
     }
-    
-    
-    
+
+    public ArrayList<Position> getAttackingPositions(Card attackCard, Unit attackUnit) {
+        
+        ArrayList<Position> attackPositions = new ArrayList<Position>();
+        
+        if (attackCard.getPlayingCardMode().equals(Card.ASSAULT) 
+                || attackCard.getPlayingCardMode().equals(Card.VOLLEY)) {
+            attackPositions = game.getPossibleAssault(attackUnit);
+        } 
+        else if (attackCard.getPlayingCardMode().equals(Card.BOMBARD)) {
+        {
+            ArrayList<Position> attackPossiblePositions  = game.getLOS(attackUnit, 2);
+            for (Position checkPosition : attackPossiblePositions) {
+                if (game.checkOpponentPlayerUnitAtPosition(checkPosition)) {
+                    attackPositions.add(checkPosition);
+                }
+            }
+        }
+        }
+        return attackPositions;
+    }
+   
 }

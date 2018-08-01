@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import manouvre.commands.CommandQueue;
 import manouvre.interfaces.CardInterface;
-import manouvre.gui.CommandLogger;
 import manouvre.gui.CreateRoomWindow;
 import manouvre.gui.GameWindow;
 import manouvre.gui.LoginWindow;
@@ -31,35 +30,25 @@ public class Maneuvre {  //Fake! this is temporary just to start game quick
           Player player2 = new Player ("Bartek")      ;
           player1.setNation(CardInterface.AU);
           player2.setNation(CardInterface.FR);
-   
-          /*
-          Setting who is active
-          */
-          //player1.setActive(true);
-          //player2.setActive(false);
           
           ArrayList<Player> players = new ArrayList<Player>();
           players.add(player1);
           players.add(player2);
           Game game = new Game(players);
           
-          
-          
-          
-          System.out.println("manouvre.game.Maneuvre.main()"+ game.toString());
+          System.out.println("manouvre.game.Maneuvre.main(): "+ game.toString());
           
           QueueClient fakeClient = new QueueClient();
           CommandQueue cmdQueueHost = new CommandQueue(game,  fakeClient.hostClient );
           
           GameWindow clientGameHost = new GameWindow( game ,  CreateRoomWindow.AS_HOST, cmdQueueHost );
           
-          
           Game game2 = (Game) UnoptimizedDeepCopy.copy (game);
           CommandQueue cmdQueueGuest = new CommandQueue(game2,  fakeClient.guestClient );
           GameWindow clientGameGuest = new GameWindow( game2 , CreateRoomWindow.AS_GUEST , cmdQueueGuest);
           
-          fakeClient.clientGameGuest = clientGameGuest;
-          fakeClient.clientGameHost = clientGameHost;
+          fakeClient.cmdHost = cmdQueueHost;
+          fakeClient.cmdQuest = cmdQueueGuest;
           try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {

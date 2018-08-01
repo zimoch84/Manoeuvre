@@ -11,10 +11,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import manouvre.interfaces.ClientInterface;
 import manouvre.gui.CommandLogger;
-import manouvre.gui.GameWindow;
 import manouvre.interfaces.Command;
 import static java.lang.Thread.sleep;
-import static java.lang.Thread.sleep;
+import manouvre.commands.CommandQueue;
 
 /**
  *
@@ -24,12 +23,11 @@ public class QueueClient  {
     
     ArrayList<Message> guestQueue, hostQueue;
 
-    public GameWindow clientGameHost, clientGameGuest;
-    
     public HostClient hostClient;
     public GuestClient guestClient;
     Thread hostThread, guestThread;
     
+    public CommandQueue cmdHost, cmdQuest;
     public CommandLogger commandLoggerHost, commandLoggerGuest;
     
     
@@ -52,15 +50,7 @@ public class QueueClient  {
         }
      
     }
-    public static void main (String args[]){
-    QueueClient q = new QueueClient();
-    
-        q.hostClient.send(new Message("ds", "dassd", "oko", "dsas"));
-    
-        
-        
-    }
-   
+  
 class HostClient implements ClientInterface , Runnable{
  ArrayList<Message> guestQueue, hostQueue;
  
@@ -83,7 +73,7 @@ class HostClient implements ClientInterface , Runnable{
     switch( msgIn.getMessageType() ){
         case Message.COMMAND:
                     Command executeCommand = msgIn.getCommand();
-                    clientGameHost.cmdQueue.storeAndExecute(executeCommand);
+                    cmdHost.storeAndExecute(executeCommand);
                    // clientGameHost.checkPopUps();
                     break;
         default:
@@ -136,7 +126,7 @@ class GuestClient implements ClientInterface , Runnable{
          switch( msgIn.getMessageType() ){
             case Message.COMMAND:
                 Command executeCommand = msgIn.getCommand();
-                clientGameGuest.cmdQueue.storeAndExecute(executeCommand);
+                cmdQuest.storeAndExecute(executeCommand);
                 //clientGameGuest.checkPopUps();
                 break;
             default:

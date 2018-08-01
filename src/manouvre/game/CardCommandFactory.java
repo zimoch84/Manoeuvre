@@ -36,22 +36,13 @@ public class CardCommandFactory implements Serializable{
     ArrayList<Card> opponentCards=new ArrayList<>();  //oponent attacking cards
     ArrayList<Card> supportAttackCards=new ArrayList<>(); //current player attacking cards
     
-    boolean cancelCardMode;
-    int minFromDices=0;
-    
-    public boolean isCancelCardMode() {
-        return cancelCardMode;
-    }
 
-    public void setCancelCardPopupMode(boolean cancelCardMode) {
-        this.cancelCardMode = cancelCardMode;
+    int minFromDices=0;
+
+    public CardCommandFactory(Game game) {
+        this.game = game;
     }
     
-    public CardCommandFactory(Game game) {
-        
-        this.game = game;
-        
-    }
     
     public Command getAttachedCommand() {
         if(attachedCommand!=null)
@@ -66,7 +57,6 @@ public class CardCommandFactory implements Serializable{
     public void resetFactory()
     {
         setAttachedCommand(null);
-        
     }
     /*
     Crate card command based on Card
@@ -75,7 +65,6 @@ public class CardCommandFactory implements Serializable{
     
     if(playingCard != null)
     switch (playingCard.getCardType() ) {
-    
         case Card.HQCARD :
         {
             switch(playingCard.getHQType()){
@@ -112,13 +101,10 @@ public class CardCommandFactory implements Serializable{
             
             if(game.getPhase() == Game.COMBAT)
             return new CardCommands.AttackCommand(
-                    game.getCombat().getDefendingUnit(), 
-                    playingCard,
                     game.getCurrentPlayer().getName(),
-                    game.getSelectedUnit(), 
-                    game.getMap().getTerrainAtPosition(game.getSelectedUnit().getPosition()), 
-                    game.getMap().getTerrainAtPosition(game.getCombat().getDefendingUnit().getPosition())
-            );
+                    game.getCombat()
+                    
+                    );
             else  if(game.getPhase() == Game.RESTORATION)
             {
                 Command restoreCommand = new RestoreUnitCommand(game.getCurrentPlayer().getName(),

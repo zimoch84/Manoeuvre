@@ -6,6 +6,7 @@
 package manouvre.commands;
 
 import java.util.ArrayList;
+import manouvre.events.EventType;
 import manouvre.game.Card;
 import manouvre.game.Dice;
 import manouvre.game.Game;
@@ -106,6 +107,8 @@ public class ThrowDiceCommand implements Command{
         allDice.addAll(d10dices);
         
         game.getCombat().setDices(allDice);
+        
+        game.notifyAbout(EventType.COMBAT_DICE_ROLLED);
         
     }
 

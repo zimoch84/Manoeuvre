@@ -56,6 +56,11 @@ public class Terrain  implements TerrainInterface, Serializable {
         this.isOccupiedByUnit = isOccupiedByUnit;
     }
      
+    public Terrain()
+    {
+        this.type = NO_TERRAIN;
+       
+    }
     
     public Terrain(int type, Position pos){
         

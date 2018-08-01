@@ -45,12 +45,8 @@ hQunit cards has differant names and features:
         - supply
         - withdraw
 */
-
-
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
 import com.csvreader.CsvReader;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -120,6 +116,7 @@ public class Card implements CardInterface, Serializable  {
             CsvReader cards = new CsvReader("resources\\cards\\cards.csv", ';');		
             cards.readHeaders();
             cards.readRecord();
+            setPlayingCardMode(Card.NO_TYPE);
             while (!strChosenId.equals(cards.get("CardID"))&&countId>0)
             {
                 cards.readRecord();
@@ -219,37 +216,9 @@ public class Card implements CardInterface, Serializable  {
             Unit unitIn = (Unit) in;
                 if (unitIn.name.equals(this.CardName)) return true;
          }
-             
          return false;
-             
-     
      }
      
-    public int getActionType(){
-        
-        if(getCardType() == Card.LEADER)
-            return Card.MULTIPLE_UNIT_PICK_ACTION;
-        
-        if(getHQType()== Card.FORCED_MARCH || 
-           getHQType()== Card.WITHDRAW ||
-            getHQType()== Card.SKIRMISH   
-                )
-            return Card.MOVE_UNIT_ACTION;
-        
-        if(getHQType()== Card.SUPPLY ||
-           getHQType()== Card.REDOUBDT ||
-           getHQType()== Card.REGROUP ||
-             
-           getHQType()== Card.AMBUSH ||
-           getCardType() == Card.UNIT)
-  
-        {
-            return Card.PICK_UNIT_ACTION;
-        }
-        
-     return Card.NO_ACTION;   
-          
-    }
    
     public int getCardID() {
         return Integer.parseInt(CardID);
@@ -463,9 +432,6 @@ public class Card implements CardInterface, Serializable  {
     public void setDices(ArrayList<Dice> dices) {
         this.dices = dices;
     }
-
-    
-    
     
     public void setPlayingCardMode(String playingCardMode) {
         this.playingCardMode = playingCardMode;
@@ -474,7 +440,6 @@ public class Card implements CardInterface, Serializable  {
     public String getPlayingCardMode() {
         return playingCardMode;
     }
-    
     
     @Override
     public int getHQType() {
@@ -505,7 +470,7 @@ public class Card implements CardInterface, Serializable  {
             case "Scout":
                 return CardInterface.SCOUT;
         }      
-        return 99;
+        return Card.NO_CARD;
     }
  
 

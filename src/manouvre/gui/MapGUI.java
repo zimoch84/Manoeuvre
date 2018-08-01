@@ -47,10 +47,8 @@ public class MapGUI{
      */
      ArrayList<TerrainGUI> wrappingArrayOfTerrains = new ArrayList<>();
      Map map;
-     
-
-     int windowMode;
     
+     int windowMode;
      public static final int BOARD_START_X = 60;
      public static final int BOARD_START_Y = 60;
 
@@ -69,7 +67,7 @@ public class MapGUI{
      public static final float REDOUBT_IMG_SCALE = 1f;
      
      Image background ;
-    
+     
      public MapGUI() throws IOException{
            
         super();
@@ -82,9 +80,9 @@ public class MapGUI{
     
     public MapGUI(Map map, int windowMode) throws IOException{
     
+        
     this.map =  map;
     this.windowMode = windowMode;
-    
     this.terrainsGUI = new TerrainGUI[8][8];
   
     loadTerrains();

@@ -13,14 +13,12 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.text.DefaultCaret;
 import manouvre.game.Game;
 import manouvre.game.Position;
-import manouvre.game.Unit;
 import manouvre.interfaces.FrameInterface;
 import manouvre.interfaces.ClientInterface;
 import manouvre.commands.CommandQueue;
@@ -29,7 +27,6 @@ import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import manouvre.game.Card;
-import manouvre.interfaces.Command;
 import java.util.Observable;
 import java.util.Observer;
 import org.apache.logging.log4j.LogManager;
@@ -37,6 +34,7 @@ import manouvre.events.ButtonEventObserver;
 import manouvre.events.ButtonActions;
 import manouvre.events.PanelsEventObserver;
 import manouvre.state.PlayerState;
+import static java.lang.Math.abs;
 import static java.lang.Math.abs;
 
 /**
@@ -60,7 +58,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     
     private Image bgImage;
   
-    private ButtonEventObserver eventObserver;
+    private ButtonEventObserver buttonEventsObserver;
     private PanelsEventObserver panelObserver;
     
     private ButtonActions butttonActions;
@@ -79,16 +77,15 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         this.windowMode = windowMode;
         this.cmdQueue = cmdQueue;
         this.cmdLogger = new CommandLogger(this);
-        cmdQueue.addObserver(cmdLogger);
-        cmdQueue.addObserver(this);
+        
+        this.cmdQueue.addObserver(cmdLogger);
+        this.cmdQueue.addObserver(this);
         
         
-        playerState = new PlayerState(game, cmdQueue);
-        game.addObserver(playerState);
         
-        /*
-        Sets current Player based on HOST/GUEST settings
-        */
+        playerState = new PlayerState(game);
+        
+        /*Sets current Player based on HOST/GUEST settings*/
         game.setCurrentPlayer(windowMode);
         
         /*
@@ -113,24 +110,11 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
 
         setPhaseLabelText();
         setPlayerInfoValues();
-         /*
-         Observers
-         */
-         /*
-         TODO remove and place somewhere else update from gamewindow
-         */
-        game.addObserver(this);
-        
-        eventObserver = new ButtonEventObserver(game, actionButton, buttonYes, buttonNo, buttonToNextPhase);
-        panelObserver = new PanelsEventObserver(game, currentPlayerPanel, opponentPlayerPanel, infoPanel, tablePanel, buttonsPanel);
-        game.addObserver(panelObserver);
-        game.addObserver(eventObserver);
 
-        butttonActions = new ButtonActions(actionButton, buttonYes, buttonNo, this.game, cmdQueue, playerState.cardCommandFactory );
         
-        butttonActions.addObserver(playerState.mapStateHandler);
-        butttonActions.addObserver(playerState.cardStateHandler);
-        butttonActions.addObserver(playerState);
+        buttonEventsObserver = new ButtonEventObserver(game, actionButton, buttonYes, buttonNo, buttonToNextPhase);
+        panelObserver = new PanelsEventObserver(game, currentPlayerPanel, opponentPlayerPanel, infoPanel, tablePanel, buttonsPanel);
+        butttonActions = new ButtonActions(actionButton, buttonYes, buttonNo, this.game, this.cmdQueue, playerState );
         
                 
         this.addWindowListener(new ManouvreWindowListener(game, client, clientThread));
@@ -150,13 +134,8 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     }
     @Override
     public void update(Observable o, Object arg) {
-
-    if(o instanceof CommandQueue)  
-      {
-          repaint();
-          refreshAll();
-      }
-     
+        refreshAll();  
+        repaint();
     }
      
 

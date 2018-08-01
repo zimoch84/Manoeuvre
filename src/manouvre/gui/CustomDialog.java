@@ -13,9 +13,7 @@ import javax.swing.WindowConstants;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
-import manouvre.game.Game;
 import manouvre.commands.CommandQueue;
-import manouvre.interfaces.ClientInterface;
 import manouvre.interfaces.Command;
 
 /**
@@ -28,33 +26,15 @@ public class CustomDialog extends javax.swing.JFrame {
      * Creates new form CustomDialog
      */
     
-    public static final int OK_CANCEL_TYPE = 1;
-    public static final int CONFIRMATION_TYPE = 2;
-    public static final int YES_NO_TYPE = 3;
-    public static final int YES_NO_UNDO_TYPE = 4;
-    public static final int YES_NO_WITH_CARD = 5;
-    public static final int THROW_DICE = 6;
-    public static final int WANT_TO_ADVANCE = 7;
-    public static final int WANT_TO_PURSUIT = 8;
+    public enum Type{OK_CANCEL_TYPE,CONFIRMATION_TYPE ,YES_NO_TYPE, YES_NO_UNDO_TYPE,YES_NO_WITH_CARD };
     
-    
-    int dialogType;
-    boolean executeOK;
-    
+    Type dialogType;
     Command okCommand;
     Command cancelCommand;
-    
     String infoText;
-    
-    ClientInterface client;
     CommandQueue cmdQueue;
-    Game game;
     
-    public CustomDialog() {
-        initComponents();
-    }
-
-    public CustomDialog(int dialogType, String infoText) {
+    public CustomDialog(CustomDialog.Type dialogType, String infoText) {
         this.dialogType = dialogType;
         this.infoText = infoText;
         
@@ -91,16 +71,9 @@ public class CustomDialog extends javax.swing.JFrame {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
    
-    public CustomDialog(int dialogType, String infoText,  ClientInterface client, Game game){
-        this(dialogType, infoText);
-       this.client = client;
-       this.game = game;
-        
-    }
-    
-    public CustomDialog(int dialogType, String infoText,  CommandQueue cmd, Game game){
+   
+    public CustomDialog(CustomDialog.Type dialogType, String infoText,  CommandQueue cmd){
        this(dialogType, infoText);
-       this.game = game;
        this.cmdQueue = cmd;
         
     }
@@ -216,7 +189,7 @@ public class CustomDialog extends javax.swing.JFrame {
         
         
         if(cancelCommand != null){
-            if (dialogType == YES_NO_UNDO_TYPE)
+            if (dialogType == Type.YES_NO_UNDO_TYPE)
             cmdQueue.undoCommand(cancelCommand);
             else
             cmdQueue.storeAndExecuteAndSend(cancelCommand);
@@ -226,42 +199,7 @@ public class CustomDialog extends javax.swing.JFrame {
         
         this.dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CustomDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CustomDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CustomDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CustomDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CustomDialog().setVisible(true);
-            }
-        });
-    }
+    
     public void setOkCommand(Command okCommand) {
         this.okCommand = okCommand;
     }

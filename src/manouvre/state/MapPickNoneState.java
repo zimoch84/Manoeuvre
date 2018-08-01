@@ -24,5 +24,10 @@ public class MapPickNoneState  implements MapState, Serializable{
         Do nothing
         */
     }
+
+    @Override
+    public String toString() {
+        return MapStateHandler.NOSELECTION;
+    }
     
 }

@@ -60,6 +60,11 @@ private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogg
                     
                     
    }
+
+    @Override
+    public String toString() {
+        return MapStateHandler.PICK_MULTIPLE_UNITS;
+    }
  
 
 }

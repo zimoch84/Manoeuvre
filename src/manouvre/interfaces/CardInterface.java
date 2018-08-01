@@ -5,8 +5,6 @@
  */
 package manouvre.interfaces;
 
-import manouvre.game.Game;
-
 /**
  *
  * @author Piotr

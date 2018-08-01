@@ -96,17 +96,6 @@ public final class Game implements Serializable{
         positionCalculator = new PositionCalculator(this);
         
     }
-
-    
-    
-    public ArrayList<Player> getPlayers() {
-        
-        ArrayList<Player> players = new ArrayList<>();
-        players.add(hostPlayer);
-        players.add(guestPlayer);
-        return players;
-        
-    }
     
     public Player getCurrentPlayer() {
         return currentPlayer;
@@ -123,9 +112,7 @@ public final class Game implements Serializable{
     public void setShowOpponentHand(boolean showOpponentHand) {
         this.showOpponentHand = showOpponentHand;
     }
-    
-    
-    
+
     public Player getPlayerByName(String playerName) {
       
         if (hostPlayer.getName().equals(playerName))
@@ -133,16 +120,10 @@ public final class Game implements Serializable{
         if (guestPlayer.getName().equals(playerName))
             return guestPlayer;
         
-        throw new NullPointerException() ;
+        throw new NullPointerException(playerName) ;
         
        }
     
-
-    public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
-        isServer=false;
-    }
-
     public boolean isServer() {
         return isServer;
     }
@@ -157,9 +138,7 @@ public final class Game implements Serializable{
             combat.linkObjects(this);
     }
     
-    
-    
-    public void setCurrentPlayer(int windowMode) {
+    public  void setCurrentPlayer(int windowMode) {
         switch(windowMode)
         {
             case CreateRoomWindow.AS_HOST:
@@ -185,17 +164,16 @@ public final class Game implements Serializable{
     
     ArrayList<Position> getOneSquarePositionsArray = getOneSquarePositions(unit.getPosition());
     
-    ArrayList<Position> getPossinleAssaultArray = new  ArrayList<>();
+    ArrayList<Position> getPossibleAssaultArray = new  ArrayList<>();
     
-    for(Position checkPositon: getOneSquarePositionsArray)
-    {
-        if(checkOpponentPlayerUnitAtPosition(checkPositon))
-               getPossinleAssaultArray.add(checkPositon);
-    }
-    return getPossinleAssaultArray;
-    
-    }
+        for(Position checkPositon: getOneSquarePositionsArray)
+        {
+            if(checkOpponentPlayerUnitAtPosition(checkPositon))
+                   getPossibleAssaultArray.add(checkPositon);
+        }
+        return getPossibleAssaultArray;
 
+    }
     
     public ArrayList<Position> getPossibleBombard(Unit unit){
                 return getLOS(unit, 2);
@@ -326,7 +304,6 @@ public final class Game implements Serializable{
     
     public ArrayList<Position> getLOS(Unit unit, int lenght){
         
-        
         Position unitPosition = unit.getPosition();
         ArrayList<Position> los = getOneSquarePositions(unitPosition);
         
@@ -358,24 +335,20 @@ public final class Game implements Serializable{
          return los;           
     };  
 
-    public ArrayList<Unit> getPossibleSupportingUnits(Unit defendingUnit){
-        
+    public ArrayList<Unit> getPossibleSupportingUnits(Unit defendingUnit, Unit attackingUnit){
        /*
-        get attacking Units position that are adjenced to the defending one
+        get attacking Units position that are adjenced to the defending one exept attacking one
         */
         ArrayList<Unit> possibleSupportUnits = new ArrayList<>();
         
         for(Position supportPosition:getOneSquarePositions(defendingUnit.getPosition()) )
         {
-         if(getCurrentPlayerUnitAtPosition(supportPosition) != null)
-            {
-           possibleSupportUnits.add(getCurrentPlayerUnitAtPosition(supportPosition));
-            }
+             if(getCurrentPlayerUnitAtPosition(supportPosition) != null)
+                if(!attackingUnit.getPosition().equals(supportPosition))
+                    possibleSupportUnits.add(getCurrentPlayerUnitAtPosition(supportPosition));
         }
         return possibleSupportUnits;
     }
-    
-    
     
     public void generateMap(){
         this.map = new Map();
@@ -628,9 +601,8 @@ public final class Game implements Serializable{
         if(checkCurrentPlayerUnitAtPosition(position))
             return getCurrentPlayerUnitAtPosition(position);
             
-        else if(checkCurrentPlayerUnitAtPosition(position))
+        else if(checkOpponentPlayerUnitAtPosition(position))
             return getOpponentPlayerUnitAtPosition(position);
-        
         else return null;
         
     }
@@ -638,18 +610,10 @@ public final class Game implements Serializable{
      public boolean checkOpponentPlayerUnitAtPosition(Position position){
     
         for(Unit unitSearch: opponentPlayer.getArmy()){
-        
             if(unitSearch.getPosition().equals(position))
-            {
                 return true;
-              }
-            
-        
-        }
-              
+            }
         return false;
-        
-     
     } 
 //-----------phases-----------
 //   SETUP = -1    
@@ -826,7 +790,30 @@ public final class Game implements Serializable{
             eliminateUnit(unit);
         }
      }
-     
+    
+    public boolean checkIfAnyUnitInjured() {
+        for (int i = 0; i < this.getCurrentPlayer().getArmy().length; i++) {
+            Unit currentUnit = this.getCurrentPlayer().getArmy()[i];
+            if (currentUnit.injured) {
+                return true;
+            }
+        }
+        return false;
+    } 
+    
+    public ArrayList<Position> getInjuredUnitPositions(){
+        ArrayList<Position> injuredUnitPositions = new ArrayList<>();
+        
+        for(Unit checkUnit : getCurrentPlayer().getArmy())
+        {
+            if(checkUnit.isInjured())
+                  injuredUnitPositions.add(checkUnit.getPosition());
+        }
+
+        return injuredUnitPositions;
+    }
+    
+    
     public void eliminateUnit(Unit unit){
          unit =getUnit(unit);
          unit.eliminated = true;
@@ -845,7 +832,22 @@ public final class Game implements Serializable{
     public void addObserver(Observer observer){
         ee.addObserver(observer);
     }
-    
+
+    public void endCombat() {
+        combat.setState(Combat.END_COMBAT);
+        /*
+        Clear advance flag after combat
+         */
+        for (Unit unit : getCurrentPlayer().getArmy()) {
+            if (unit.hasAdvanced()) {
+                unit.setAdvanced(false);
+            }
+            if (unit.isSupporting()) {
+                unit.setSupporting(false);
+            }
+        }
+        notifyAbout(EventType.END_COMBAT);
+    }
     
 }
 

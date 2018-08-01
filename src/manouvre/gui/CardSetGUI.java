@@ -185,7 +185,7 @@ import manouvre.game.Dice;
 
     public void paintTablePanel(Graphics g){
         
-        if(tableGUI.size()>0){  //paint NO CARD
+            if(tableGUI.size()>0){  
         for (int i=0; i<tableGUI.size(); i++){  
             
             
@@ -361,20 +361,30 @@ import manouvre.game.Dice;
          
          switch(dialogType){
         
-             case EventType.CARDS_DISCARDED:
+            case EventType.CARDS_DISCARDED:
                 loadSet( game.getCurrentPlayer().getHand() );
                 loadSet( game.getCurrentPlayer().getDiscardPile());
-                break;
-             case EventType.CARDS_DRAWNED:
+            break;
+            case EventType.CARDS_DRAWNED:
                 loadSet( game.getCurrentPlayer().getHand() );
                 loadSet( game.getCurrentPlayer().getDiscardPile());
-                break;
-             case EventType.CARD_MOVED_TO_TABLE:{
-                loadAllSets();
-                break;
-             
-             }
-                 
+            break;
+            case EventType.CARD_MOVED_TO_TABLE:
+                loadSet( game.getCurrentPlayer().getHand() );
+                loadSet( game.getCurrentPlayer().getTablePile());
+                loadOpponentTable( game.getOpponentPlayer().getTablePile());
+            break;
+            case EventType.TABLE_CLEANED:
+                loadSet( game.getCurrentPlayer().getDiscardPile());
+                loadSet( game.getCurrentPlayer().getTablePile());
+                loadOpponentTable( game.getOpponentPlayer().getTablePile());
+            break; 
+            case EventType.COMBAT_DICE_ROLLED:
+                loadSet( game.getCurrentPlayer().getDiscardPile());
+                loadSet( game.getCurrentPlayer().getTablePile());
+                loadOpponentTable( game.getOpponentPlayer().getTablePile());
+            break;
+            
          }
     }
          

@@ -50,7 +50,7 @@ public class CardMultipleSelectionState implements CardInputState, Serializable{
     
    private void actionOnDeselection(Card card){
            card.setSelected(false);
-           cardHandler.actionOnSelection(card);
+           cardHandler.actionOnDeselection(card);
     } 
     
     @Override

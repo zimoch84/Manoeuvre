@@ -72,6 +72,8 @@ public class Unit implements UnitInterface, Serializable{
          this.ID = -1;
          this.position = new Position(-1, -1);
          this.owner = new Player("Null player");
+         this.strenght = 0 ;
+         this.injured = false;
          owner.setHost(true);
      }
      

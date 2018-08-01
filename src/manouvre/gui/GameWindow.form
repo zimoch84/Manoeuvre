@@ -381,8 +381,8 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="bottomPanel" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
-                          <Component id="mainMapPanel" min="-2" pref="684" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                          <Component id="mainMapPanel" min="-2" pref="666" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="rightSidePanel" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -394,11 +394,11 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="rightSidePanel" min="-2" max="-2" attributes="0"/>
-                      <Component id="mainMapPanel" min="-2" pref="682" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="mainMapPanel" pref="541" max="32767" attributes="0"/>
+                      <Component id="rightSidePanel" pref="541" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Component id="bottomPanel" min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -408,7 +408,7 @@
         <Container class="javax.swing.JPanel" name="mainMapPanel">
           <Properties>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[696, 696]"/>
+              <Dimension value="[600, 600]"/>
             </Property>
           </Properties>
           <Events>
@@ -426,12 +426,12 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="684" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="666" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="682" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -444,14 +444,14 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="chatPanel" alignment="1" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="infoPanel" max="32767" attributes="0"/>
                           <Component id="tablePanel" max="32767" attributes="0"/>
+                          <Component id="infoPanel" alignment="1" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
-                  <Component id="chatPanel" alignment="1" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -460,8 +460,9 @@
                       <Component id="tablePanel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="infoPanel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="chatPanel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -492,7 +493,7 @@
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <EmptySpace min="0" pref="308" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="222" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>
@@ -513,7 +514,7 @@
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <EmptySpace min="0" pref="174" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="152" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>
@@ -541,7 +542,7 @@
                                   <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
-                                  <Component id="jScrollPane1" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane1" pref="524" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
                           </Group>

@@ -13,7 +13,6 @@ import manouvre.game.Game;
 import manouvre.game.Position;
 import manouvre.commands.CommandQueue;
 import manouvre.events.EventType;
-import manouvre.game.Card;
 import manouvre.game.Combat;
 import manouvre.game.Unit;
 import manouvre.interfaces.Command;
@@ -56,26 +55,25 @@ public class MapPickAvalibleUnitState implements MapState, Serializable{
             if(game.getPhase() == Game.COMBAT)
             {
             Combat combat = game.getCombat() ;
-            if(combat != null)
+            /*
+            If its withdraw then select attacking unit position
+            */
+            if(combat.getState() == Combat.PURSUIT) 
+            {
                 /*
-                If its withdraw then select attacking unit position
+                Chosen unit to advance
                 */
-                if(combat.getState() == Combat.PURSUIT) 
-                {
-                    /*
-                    Chosen unit to advance
-                    */
-                    pickedUnit.setAdvanced(true);
-                    Command advanceCommand = 
-                        new AdvanceUnitCommand(game.getCurrentPlayer().getName(),
-                                pickedUnit , 
-                                game.getCombat().getDefendingUnit().getPosition(),
-                                game.getCombat().getPursuitCards(game)
-                                );
+                pickedUnit.setAdvanced(true);
+                Command advanceCommand = 
+                    new AdvanceUnitCommand(game.getCurrentPlayer().getName(),
+                            pickedUnit , 
+                            game.getCombat().getDefendingUnit().getPosition(),
+                            game.getCombat().getPursuitCards(pickedUnit)
+                            );
 
-                    cmdQueue.storeAndExecuteAndSend(advanceCommand);
-                  
-                    game.notifyAbout(EventType.PICKED_ADVANCE);
+                cmdQueue.storeAndExecuteAndSend(advanceCommand);
+
+                game.notifyAbout(EventType.PICKED_ADVANCE);
             }
            
         }   
@@ -108,4 +106,11 @@ public class MapPickAvalibleUnitState implements MapState, Serializable{
                     
     
     */
+
+    @Override
+    public String toString() {
+        return MapStateHandler.PICK_ONE_UNIT;
+    }
+    
+    
 }

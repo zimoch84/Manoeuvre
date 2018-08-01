@@ -20,8 +20,10 @@ import manouvre.commands.AdvanceUnitCommand;
 import manouvre.commands.CardCommands;
 import manouvre.commands.CommandQueue;
 import manouvre.events.EventType;
+import manouvre.game.Terrain;
 import manouvre.interfaces.Command;
 import manouvre.gui.CustomDialog;
+import manouvre.gui.CustomDialogFactory;
 import manouvre.gui.GameWindow;
 import org.apache.logging.log4j.LogManager;
 
@@ -63,30 +65,56 @@ private void handleUnitsHitsPositionSituation(Game game, Position pos, CommandQu
                                     pickedUnit, 
                                     playingCard);
                     cmdQueue.storeAndExecuteAndSend(redoubtCommand);
-                break;    
+                break; 
+                case Card.SUPPLY:
+                    pickedUnit.setSelected(true);
+                    game.notifyAbout(EventType.SUPPLY_SELECTED);
+                break;
+                default : System.err.println("Nie obslugujemy tej karty " + playingCard.getHQType() );    
             }
         break;    
 
         case Card.UNIT:
-            Combat combat = game.getCombat() ;
-            /*
-            If its withdraw then select attacking unit position
-            */
-            if(combat.getState() == Combat.PURSUIT) 
-            {
-                pickedUnit.setSelected(true);
-                /*Chosen unit to advance*/
-                pickedUnit.setAdvanced(true);
-                Command advanceCommand = 
-                   new AdvanceUnitCommand(game.getCurrentPlayer().getName(),
-                       pickedUnit , 
-                       game.getCombat().getDefendingUnit().getPosition(),
-                       game.getCombat().getPursuitCards(game)
-                       );
-                cmdQueue.storeAndExecuteAndSend(advanceCommand);
-                game.notifyAbout(EventType.PICKED_ADVANCE);
+            switch(game.getPhase()){
+                case Game.COMBAT:
+                    Combat combat = game.getCombat() ;
+                    switch(combat.getState()){
+                        case Combat.PURSUIT:
+                            pickedUnit.setSelected(true);
+                            pickedUnit.setAdvanced(true);
+                            Command advanceCommand = 
+                               new AdvanceUnitCommand(game.getCurrentPlayer().getName(),
+                                   pickedUnit , 
+                                   game.getCombat().getDefendingUnit().getPosition(),
+                                   game.getCombat().getPursuitCards(pickedUnit)
+                                   );
+                            cmdQueue.storeAndExecuteAndSend(advanceCommand);
+                            game.notifyAbout(EventType.PICKED_ADVANCE);
+                        break;
+                        case Combat.INITIALIZING_COMBAT:
+                            
+                            Unit defendingUnit = game.getUnitAtPosition(pos);
+                            combat.setDefendingUnit(defendingUnit);
+                            Terrain defenceTerrain = game.getMap().getTerrainAtPosition(defendingUnit.getPosition());
+                            combat.setDefenseTerrain(defenceTerrain);
+                            
+                            Command attackCommand = ccf.createCardCommand(playingCard);
+                            CustomDialogFactory.showSureToPlayCardDialog(cmdQueue, attackCommand, game);
+                        break;    
+                        default: System.err.println("MapPickUnitByCardStatt.handleINput() Nie obslugujemy tego stanu combat: " + combat.getState());
+
+                    break;
+                    }
+                break;    
+                default: System.err.println("Nie obslugujemy tej fazy gry: " + game.getPhase());
             }
         break;
     } 
 }
+
+    @Override
+    public String toString() {
+        return MapStateHandler.PICK_UNIT_BY_CARD;
+    }
+
 }

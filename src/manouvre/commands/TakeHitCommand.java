@@ -72,7 +72,7 @@ public class TakeHitCommand implements Command{
                 LOGGER.debug(game.getCurrentPlayer().getName() + " swapActivePlayer " + game.getCurrentPlayer().isActive());
             }
             game.getCombat().setState(Combat.PURSUIT);
-            game.notifyAbout(EventType.PURSUIT);
+            game.notifyAbout(EventType.COMBAT_PURSUIT_STARTED);
         }
         else 
         {
@@ -83,8 +83,8 @@ public class TakeHitCommand implements Command{
                 LOGGER.debug(game.getCurrentPlayer().getName() + " swapActivePlayer " + game.getCurrentPlayer().isActive());
             }
             
-            game.getCombat().endCombat(game);
-            game.notifyAbout(EventType.END_COMBAT);
+            game.endCombat();
+           
         }    
         game.checkGameOver();
         

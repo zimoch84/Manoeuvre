@@ -36,7 +36,7 @@ public class WithrdawCommand implements Command {
             Attacking player chooses unit to pursuit
             */
             game.swapActivePlayer();
-            game.notifyAbout(EventType.PURSUIT);
+            game.notifyAbout(EventType.COMBAT_PURSUIT_STARTED);
             
             if(game.getCurrentPlayer().isActive())
             {

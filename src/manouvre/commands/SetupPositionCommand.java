@@ -36,15 +36,12 @@ public class SetupPositionCommand implements Command{
         for(Unit searchUnit: units)
         {
             game.searchUnit(searchUnit).move(searchUnit.getPosition());
-            
             /*
             To clear has moved and other flags
             */
             game.getPlayerByName(playerName).resetPlayer();
         }
-        
         game.getPlayerByName(playerName).setFinishedSetup(true);
-              
         
     }
 

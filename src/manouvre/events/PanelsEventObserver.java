@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import manouvre.game.Game;
 import manouvre.gui.CommandLogger;
 import manouvre.gui.CustomDialog;
+import manouvre.gui.CustomDialogFactory;
 import manouvre.state.HandStateHandler;
 import manouvre.state.MapStateHandler;
 import org.apache.logging.log4j.LogManager;
@@ -35,133 +36,107 @@ public class PanelsEventObserver implements Observer {
         this.tablePanel = tablePanel;
         this.phasePanel = phasePanel;
         this.game = game;
+        
+        game.addObserver(this);
     }
     
     
     @Override
     public void update(Observable o, Object arg) {
         
-        System.out.println("Object attached to event()" +  o.getClass().toString() );
-        
         String dialogType = (String) arg;
-        
-        LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
         
         switch(dialogType){
             case EventType.NEXT_PHASE:
-            {
                 game.setInfoBarText(null);
+                LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
                 break;
-            }
-            case EventType.PURSUIT:
-            {
+
+            case EventType.COMBAT_PURSUIT_STARTED:
                 if(game.getCurrentPlayer().isActive())
                     game.setInfoBarText("Pick puruit unit");
                 else 
                     game.setInfoBarText("Opponent is picking puruit unit");
+                LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
                 break;
-                
-            }
-            
+
             case EventType.BOMBARD_BEGINS:
                 if(game.getCurrentPlayer().isActive())
                     game.setInfoBarText("Load cannon balls!");
                 else 
                     game.setInfoBarText("Prepare for cannon balls!");
+                LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
             break;
             
             case EventType.COMBAT_NO_RESULT:
-           {
-           
-           game.setInfoBarText("Att: " + game.getCombat().getAttackValue()+
+               game.setInfoBarText("Att: " + game.getCombat().getAttackValue()+
                    " vs Def: "+ game.getCombat().getDefenceValue() + " => No hit");
-           break;
-           }
-           case EventType.COMBAT_DEFENDER_TAKES_HIT:
-           {
-           game.setInfoBarText(
+               LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
+            break;
+            case EventType.COMBAT_DEFENDER_TAKES_HIT:
+               game.setInfoBarText(
                    "Att: " + game.getCombat().getAttackValue()
                            +" vs Def: "+ game.getCombat().getDefenceValue() +" => " 
                            +  "reduce defender unit");
-           break;
-           }
-           
-           case EventType.COMBAT_ATTACKER_TAKES_HIT:
-           {
-            game.setInfoBarText("Att: " + game.getCombat().getAttackValue()
-                           +" vs Def: "+ game.getCombat().getDefenceValue() +" => " 
-                           +  "reduce attacker unit");
-           break;
-           }
-           case EventType.COMBAT_ATTACKER_ELIMINATE:
-           {
-           
-            game.setInfoBarText("Att: " + game.getCombat().getAttackValue()
-                           +" vs Def: "+ game.getCombat().getDefenceValue() +" => " 
-                           +  "eliminate attacker unit");
+               LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
+            break;
 
-           break;
-           }
-           case EventType.PUSRUIT_SUCCEDED:
-           {
-           
-           game.setInfoBarText("Pursuit succeded");
+            case EventType.COMBAT_ATTACKER_TAKES_HIT:
+                 game.setInfoBarText("Att: " + game.getCombat().getAttackValue()
+                            +" vs Def: "+ game.getCombat().getDefenceValue() +" => " 
+                            +  "reduce attacker unit");
+                 LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
+            break;
+            case EventType.COMBAT_ATTACKER_ELIMINATE:
+                 game.setInfoBarText("Att: " + game.getCombat().getAttackValue()
+                            +" vs Def: "+ game.getCombat().getDefenceValue() +" => " 
+                            +  "eliminate attacker unit");
+                 LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
+            break;
 
-           break;
-           }
-           
-           case EventType.PUSRUIT_FAILED:
-           {
-           game.setInfoBarText("Pursuit failed");
-           
-           break;
-           }
-           
-           case EventType.COMBAT_DEFENDER_ELIMINATE:
-           {
-           game.setInfoBarText("Att: " + game.getCombat().getAttackValue()
-                           +" vs Def: "+ game.getCombat().getDefenceValue() +" => " 
-                           +  "eliminate defender unit");
-           
-           break;
-           }
-           
-           case EventType.ASSAULT_BEGINS:
-           {
-              game.setInfoBarText("Combat Begins");
-           break;
-           }
-           
-           case EventType.HOST_GAME_OVER:
-               
-           {
-                
-                   game.setInfoBarText("Game over! " + game.getGuestPlayer().getName() + " wins by killing more than 4 units!");
-                      
-                   CustomDialog cd = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, 
-                           "Game over" + game.getGuestPlayer().getName() + "wins by killing more than 4 units!");
-                   cd.setVisible(true);
-           break;
-           }
-           
-           case EventType.GUEST_GAME_OVER:
-           {
-                
-               game.setInfoBarText("Game over! " + game.getHostPlayer().getName() + "wins by killing more than 4 enemy units!");
-                   CustomDialog cd = new CustomDialog(CustomDialog.CONFIRMATION_TYPE, 
-                           "Game over! " + game.getHostPlayer().getName() + "wins by killing more than 4 enemy units!");
-                   cd.setVisible(true);
-           break;
-           }    
-           
-           case EventType.CARD_THERE_IS_NO_ROOM_FOR_MOVE:
-               game.setInfoBarText("There is no room for move");
-               break;
-                   
-               
+            case EventType.PUSRUIT_SUCCEDED:
+                game.setInfoBarText("Pursuit succeded");
+                LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
+            break;
+
+            case EventType.PUSRUIT_FAILED:
+                game.setInfoBarText("Pursuit failed");
+                LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
+            break;
+
+            case EventType.COMBAT_DEFENDER_ELIMINATE:
+                game.setInfoBarText("Att: " + game.getCombat().getAttackValue()
+                            +" vs Def: "+ game.getCombat().getDefenceValue() +" => " 
+                            +  "eliminate defender unit");
+                LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
+
+            break;
+
+            case EventType.ASSAULT_BEGINS:
+                 game.setInfoBarText("Combat begins");
+                 LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
+            break;
+
+            case EventType.HOST_GAME_OVER:
+            {
+                game.setInfoBarText("Game over! " + game.getGuestPlayer().getName() + " wins by killing more than 4 units!");
+                CustomDialogFactory.showConfirmationDialog("Game over" + game.getGuestPlayer().getName() + "wins by killing more than 4 units!");
+                LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
+            break;
+            }
+
+            case EventType.GUEST_GAME_OVER:
+                game.setInfoBarText("Game over! " + game.getHostPlayer().getName() + "wins by killing more than 4 enemy units!");
+                CustomDialogFactory.showConfirmationDialog("Game over! " + game.getHostPlayer().getName() + "wins by killing more than 4 enemy units!");
+                LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
+            break;
+
+            case EventType.CARD_THERE_IS_NO_ROOM_FOR_MOVE:
+                game.setInfoBarText("There is no room for move");
+                LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
+                break;
         
     }
-    
     } 
     
 }

@@ -14,6 +14,7 @@ public interface TerrainInterface {
     /*
     Tile Types
     */
+    public static int NO_TERRAIN= -1;
     public static int CLEAR  = 0;
     public static int HILL  = 1;
     public static int FOREST  = 2;
