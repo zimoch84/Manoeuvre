@@ -764,8 +764,7 @@ public class GameGUI {
     
     private void drawArrowFromSupportingUnits(Graphics g)
     {
-        for (Unit  unit : game.getCurrentPlayer().getArmy()) {
-        if(!unit.isEliminated())
+        for (Unit  unit : game.getCurrentPlayer().getNotKilledUnits()) {
             if(unit.isSupporting())
                 {
                 drawRectangleOnPosition(g, unit.getPosition(), Color.BLUE);
@@ -773,14 +772,13 @@ public class GameGUI {
                         Color.BLUE);
                 }
         }
-        for (Unit  unit : game.getOpponentPlayer().getArmy()) {
-                if(!unit.isEliminated())
-                    if(unit.isSupporting())
-                       {
-                        drawRectangleOnPosition(g, unit.getPosition(), Color.BLUE);
-                        drawArrowToPosition(g, unit.getPosition(), game.getCombat().getDefendingUnit().getPosition(),
-                                Color.BLUE);
-                        } 
+        for (Unit  unit : game.getOpponentPlayer().getNotKilledUnits()) {
+            if(unit.isSupporting())
+               {
+                drawRectangleOnPosition(g, unit.getPosition(), Color.BLUE);
+                drawArrowToPosition(g, unit.getPosition(), game.getCombat().getDefendingUnit().getPosition(),
+                        Color.BLUE);
+                } 
         }
     }
     

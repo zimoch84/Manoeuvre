@@ -7,13 +7,9 @@ package manouvre.state;
 
 import manouvre.game.CardPlayingHandler;
 import java.io.Serializable;
-import java.util.ArrayList;
 import manouvre.game.Card;
-import manouvre.game.Combat;
 import manouvre.game.Game;
 import manouvre.commands.CommandQueue;
-import manouvre.events.EventType;
-import manouvre.game.Unit;
 import org.apache.logging.log4j.LogManager;
 
 /**

@@ -172,17 +172,13 @@ public class HandStateHandler implements Serializable, Observer{
             break;  
             
         case EventType.CARDS_DISCARDED: 
-                
             if(game.getCurrentPlayer().isActive())
                  game.getCurrentPlayer().getHand().unselectAllCards();
             LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
         break;
         case EventType.LEADER_DESELECTED:
-            if(game.getCurrentPlayer().isActive()){
-                ArrayList<Card> supportCards = game.getCombat().getSupportCards();
-                for(Card supportingCard: supportCards)
-                    game.getCurrentPlayer().getHand().getCard(supportingCard).setSelected(false);
-                 }
+            if(game.getCurrentPlayer().isActive())
+                    game.getCurrentPlayer().getHand().unselectAllCards();
             LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
         break;    
         

@@ -23,7 +23,6 @@ public class Combat implements Serializable{
     public static final String ASSAULT = "ASSAULT";
     public static final String VOLLEY = "VOLLEY";
     public static final String BOMBARD = "BOMBARD";
-    public static final String SKIRMISH= "SKIRMISH";
     /*
     COmbat flow state
     */
@@ -252,6 +251,7 @@ public class Combat implements Serializable{
         attackingUnits.clear();
         attackingUnits.add(initAttackUnit);
         calculateCombatValues();
+        
     }
     
     
@@ -267,7 +267,12 @@ public class Combat implements Serializable{
     }
 
     public ArrayList<Unit> getSupportingUnits() {
-        return attackingUnits;
+        ArrayList<Unit> supportingUnits = new  ArrayList<>();
+        for (Unit supportingUnit : getAttackingUnits())
+            if(supportingUnit.isSupporting())
+                supportingUnits.add(supportingUnit);
+        
+        return supportingUnits;
     }
 
     public int getDefenceValue() {
@@ -513,26 +518,6 @@ public ArrayList<Card> getPursuitCards(Unit advancingUnit){
         setDefendingUnit(new Unit());
         calculateCombatValues();
         clearAttackingPositions();
-    }
-    
-    public void linkObjects(Game game)
-    {
-        
-        setUnit(defendingUnit, game);
-        setUnit(initAttackUnit, game);
-    
-    }
-    
-    private void setUnit(Unit unit, Game game)
-    {
-        if(unit.getID() != -1)
-        {
-            Unit setUnit = game.getUnit(unit);
-            if(setUnit!= null)
-            {
-                setUnit = unit;
-            }
-        }
     }
     
     @Override

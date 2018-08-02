@@ -135,7 +135,11 @@ public final class Game implements Serializable{
     public void setCombat(Combat combat) {
         this.combat = (Combat) UnoptimizedDeepCopy.copy (combat);
         if(combat!=null)
-            combat.linkObjects(this);
+            if(combat.getAttackingUnit().getID()!= -1 )
+                setUnit(combat.getAttackingUnit());
+            if(combat.getDefendingUnit().getID()!= -1 )
+                setUnit(combat.getDefendingUnit());
+            
     }
     
     public  void setCurrentPlayer(int windowMode) {
@@ -521,7 +525,15 @@ public final class Game implements Serializable{
      
     }
      
+    public void setUnit(Unit newUnit){
     
+        Unit setUnit = getUnit(newUnit);
+        if(setUnit.getID() != -1)
+             setUnit = newUnit;
+        
+    }
+     
+     
     public Unit getUnit(Unit searchedUnit)
     {
         for(Unit unitSearch: currentPlayer.getArmy()){
@@ -535,7 +547,7 @@ public final class Game implements Serializable{
                 return unitSearch;
             }
         }
-        return null;
+        return new Unit();
     
     }
     public Card getCardFromTable(Card searchedCard)
@@ -609,7 +621,7 @@ public final class Game implements Serializable{
     
      public boolean checkOpponentPlayerUnitAtPosition(Position position){
     
-        for(Unit unitSearch: opponentPlayer.getArmy()){
+        for(Unit unitSearch: opponentPlayer.getNotKilledUnits()){
             if(unitSearch.getPosition().equals(position))
                 return true;
             }

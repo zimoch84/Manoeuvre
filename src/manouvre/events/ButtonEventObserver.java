@@ -46,7 +46,10 @@ public void update(Observable o, Object arg) {
         case EventType.CANCELLABLE_CARD_PLAYED: 
             /*Guirellas decision*/
             if(game.getCurrentPlayer().isActive())
+            {
                 buttonActionSetText("Accept Card", true);
+                buttonToNextPhaseMakeInvisible();
+            }
             else 
                 {       
                 game.setInfoBarText("Opponnent can play Guirellas");
@@ -104,6 +107,7 @@ public void update(Observable o, Object arg) {
            {
                game.setInfoBarText("");
                decisionButtonsMakeInvisible();
+               buttonActionSetText("Roll dices", true);
           }       
            LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
            break;
@@ -211,6 +215,12 @@ public void update(Observable o, Object arg) {
        case EventType.END_COMBAT:
            buttonNextPhaseSetText();
        break;
+       case EventType.LEADER_END_PICKING_SUPPORT:
+           buttonActionSetText("Roll dices", true);
+       break;
+       
+           
+           
 }
 }
 private void buttonSetDecisionText(String yesOption, String noOption)

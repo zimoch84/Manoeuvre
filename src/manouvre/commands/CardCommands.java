@@ -147,12 +147,12 @@ public class CardCommands {
 
         @Override
         public String logCommand() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            return "Card " + card.getCardName() + " has been accepted by " + senderPlayerName;
         }
 
         @Override
         public String getType() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            return Command.PLAY_CARD;
         }
    }
 
@@ -1021,31 +1021,20 @@ public class CardCommands {
             this.skirmishCard = skirmishCard;
             moveToTable = new MoveToTableCommand(skirmishCard, senderPlayerName);
             this.moveUnitCommand = moveUnitCommand;
-           
         }
        
         @Override
         public void cancel(Game game) {
-            
-           
-            
         }
 
         @Override
         public void execute(Game game) {
-         
-            moveToTable.execute(game);
             log = senderPlayerName + " played skirmish ";
-            
             /*
             Return attacking card to Hand
             */
-            Player player  = game.getPlayerByName(senderPlayerName);
-            Combat combat = game.getCombat();
-            combat.setState(Combat.SKIRMISH);
-            Card attackingCard = combat.getInitAttackCard();
-           
-            player.getTablePile().moveCardTo(attackingCard, player.getHand());
+            game.getPlayerByName(senderPlayerName).getTablePile().moveTopXCardsTo(1, 
+                    game.getPlayerByName(senderPlayerName).getHand());
             
             /*
             Clean defending cards
@@ -1054,21 +1043,14 @@ public class CardCommands {
             game.getPlayerByName(opponentPlayerName).getTablePile().size(), 
             game.getPlayerByName(opponentPlayerName).getDiscardPile()
             );      
-            
-            
-            /*
-            Move unit
-            */
+            moveToTable.execute(game);
+
             if(moveUnitCommand != null)
                 moveUnitCommand.execute(game);
             
             //Set action button and info bar
-              
             game.notifyAbout(EventType.SKIRMISH_PLAYED);
-            
             game.endCombat();
-           
-            
         }
 
         @Override
@@ -1085,7 +1067,5 @@ public class CardCommands {
         public String getType() {
             return Command.SKIRMISH;
         }
-   
-
   }
 }

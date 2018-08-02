@@ -23,7 +23,6 @@ import manouvre.game.CardCommandFactory;
 import manouvre.game.Combat;
 import manouvre.game.Game;
 import manouvre.game.Unit;
-import manouvre.gui.CustomDialog;
 import manouvre.gui.CustomDialogFactory;
 import manouvre.interfaces.Command;
 import manouvre.state.PlayerState;
@@ -134,37 +133,45 @@ public class ButtonActions  extends Observable{
             break;
             case "Undo":
                 cmdQueue.undoLastCommand();
+                 buttonActionMakeInvisible();
             break;
             case "Accept Card":
                 cmdQueue.storeAndExecuteAndSend(ccf.createDoNotRejectCardCommand());
+                 buttonActionMakeInvisible();
+                
             break;
             case "Not requre to adv.":
                 DontAdvanceUnitCommand notReq2AdvCommand = new DontAdvanceUnitCommand(game.getCurrentPlayer().getName());
                 cmdQueue.storeAndExecuteAndSend(notReq2AdvCommand);
+                 buttonActionMakeInvisible();
             break;
             case "Defend":
                 Command defendCommand = new CardCommands.DefendCommand(game.getCurrentPlayer().getName(), game.getCombat());
                 cmdQueue.storeAndExecuteAndSend(defendCommand);
+                 buttonActionMakeInvisible();
             break;
             case "Roll dices":
                 Command combatOutcome = ccf.createOutcomeCombatCommand();
                 cmdQueue.storeAndExecuteAndSend(combatOutcome);
+                 buttonActionMakeInvisible();
             break;
             case "End picking":
                 game.getCombat().setState(Combat.PICK_SUPPORT_CARDS);
                 game.notifyAbout(EventType.LEADER_END_PICKING_SUPPORT);
-                buttonActionSetText("Roll dices");
+                
             break;
             case "Discard":
                    cmdQueue.storeAndExecuteAndSend(ccf.createDiscardCommand());
+                    buttonActionMakeInvisible();
             break;
             case "Draw":
                    cmdQueue.storeAndExecuteAndSend(ccf.createDrawCommand());
+                    buttonActionMakeInvisible();
             break;
             default:
                     LOGGER.debug(game.getCurrentPlayer().getName() + "Akcja buttona bez obslugi");
         }
-        buttonActionMakeInvisible();
+       
     }
 
     public void buttonToNextPhaseActionPerformed(ActionEvent evt) {

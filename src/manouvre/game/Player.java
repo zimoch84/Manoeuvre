@@ -324,14 +324,13 @@ public class Player  implements Serializable{
         return score;
     }
     
-    public ArrayList<Unit> getNotKilledUnits()
-    {ArrayList notKilledUnits = new ArrayList();
-    
-    for(Unit unit:getArmy())    
-        {
-            if(unit.isEliminated()) 
+    public ArrayList<Unit> getNotKilledUnits(){
+        
+        ArrayList notKilledUnits = new ArrayList();
+        for(Unit unit:getArmy())    
+            if(!unit.isEliminated()) 
                 notKilledUnits.add(unit);
-        }
+
         return notKilledUnits;
     }
     
