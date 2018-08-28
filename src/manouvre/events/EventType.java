@@ -33,7 +33,7 @@ public class EventType {
     public static final String COMBAT_ATTACKER_ELIMINATE = "COMBAT_ATTACKER_ELIMINATE";
     public static final String COMBAT_NO_RESULT = "COMBAT_NO_RESULT";
     public static final String COMBAT_PUSRUIT_AFTER_RESOLUTION = "PUSRUIT_AFTER_COMBAT_RESOLUTION";
-    public static final String COMBAT_PURSUIT_STARTED = "PURSUIT";
+    public static final String COMBAT_PURSUIT_STARTED = "COMBAT_PURSUIT_STARTED";
     public static final String COMBAT_ATTACKER_TAKES_HIT = "COMBAT_ATTACKER_TAKES_HIT";
     public static final String PUSRUIT_SUCCEDED = "PUSRUIT_SUCCEDED";
     public static final String PUSRUIT_FAILED = "PUSRUIT_FAILED";

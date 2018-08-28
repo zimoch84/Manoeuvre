@@ -11,6 +11,7 @@ import java.util.Observable;
 import java.util.Observer;
 import manouvre.commands.CommandQueue;
 import manouvre.events.EventType;
+import manouvre.gui.CustomDialogFactory;
 import manouvre.state.MapStateHandler;
 import org.apache.logging.log4j.LogManager;
 
@@ -108,8 +109,8 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
                     case Card.WITHDRAW:
                         if (combat.getDefendingUnit() != null) 
                         {
-                            combat.getDefendingUnit().setSelected(true);
-                            combat.getDefendingUnit().setRetriving(true);
+                            game.getUnit(combat.getDefendingUnit()).setSelected(true);
+                            game.getUnit(combat.getDefendingUnit()).setRetriving(true);
                             combat.setState(Combat.WITHRDAW);
                         }
                         break;
@@ -224,8 +225,8 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
             switch (card.getHQType()) {
                     case Card.WITHDRAW:
                             if (game.getCombat().getDefendingUnit() != null) {
-                                game.getCombat().getDefendingUnit().setSelected(false);
-                                game.getCombat().getDefendingUnit().setRetriving(false);
+                                game.getUnit(game.getCombat().getDefendingUnit()).setSelected(false);
+                                game.getUnit(game.getCombat().getDefendingUnit()).setRetriving(false);
                                 setPlayingCard(null);
                                 game.getCombat().setState(Combat.PICK_DEFENSE_CARDS);
                             }
@@ -346,7 +347,7 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
     
      private boolean canCardBePlayedInCombat(Card card){
        
-       switch(game.getCombat().getState())  
+           switch(game.getCombat().getState())  
        {
            case Combat.COMBAT_NOT_INITIALIZED:
            case Combat.INITIALIZING_COMBAT:    
@@ -392,7 +393,10 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
                     case Card.HQCARD:
                         switch(card.getHQType()){
                             case Card.WITHDRAW:
-                                return !game.positionCalculator.getRetreatPositions(game.getCombat().getDefendingUnit()).isEmpty();
+                                boolean canBePlayed = !game.positionCalculator.getRetreatPositions(game.getCombat().getDefendingUnit()).isEmpty();
+                                if(!canBePlayed)
+                                      CustomDialogFactory.showThereIsNoRoomToWithdraw();
+                                return canBePlayed;
                             default: return false;    
                         }
                     case Card.LEADER:
@@ -685,17 +689,17 @@ public void update(Observable o, Object arg) {
 
     switch(dialogType){
         case  EventType.CARD_MOVED_TO_TABLE:
-         if(game.getCurrentPlayer().isActive())
-             setOpponentCard(game.getOpponentPlayer().getTablePile().getLastCard(false));
-        LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
+            if(game.getCurrentPlayer().isActive())
+                setOpponentCard(game.getOpponentPlayer().getTablePile().getLastCard(false));
+            LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
         break;
         case EventType.CARD_ACCEPTED:
-          if(game.getCurrentPlayer().isActive())
-             setPlayingCard(new Card());
-        LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);  
+            if(game.getCurrentPlayer().isActive())
+                setPlayingCard(new Card());
+            LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);  
         break;
         case EventType.LEADER_FOR_COMBAT:
-            game.notifyAbout(EventType.LEADER_FOR_COMBAT);
+            game.getCombat().addSupportLeader4Combat(playingCard);
             LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
         break;
         case EventType.CARD_ASSAULT_MODE:
@@ -724,7 +728,7 @@ public void update(Observable o, Object arg) {
         break;
 
         /*
-        TODO nie potrzebuje tego
+        TODO nie potrzebuje tego?
         */
         case EventType.REDOUBT_PLAYED:
             setPlayingCard(new Card());

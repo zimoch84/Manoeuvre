@@ -7,9 +7,6 @@ package manouvre.state;
 
 import manouvre.interfaces.MapState;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import manouvre.game.Card;
 import manouvre.game.CardCommandFactory;
 import manouvre.game.Combat;
@@ -22,9 +19,7 @@ import manouvre.commands.CommandQueue;
 import manouvre.events.EventType;
 import manouvre.game.Terrain;
 import manouvre.interfaces.Command;
-import manouvre.gui.CustomDialog;
 import manouvre.gui.CustomDialogFactory;
-import manouvre.gui.GameWindow;
 import org.apache.logging.log4j.LogManager;
 
 /**
@@ -105,7 +100,15 @@ private void handleUnitsHitsPositionSituation(Game game, Position pos, CommandQu
 
                     break;
                     }
+                break;   
+                case Game.RESTORATION:
+                    Unit restoreUnit  = game.getUnitAtPosition(pos);
+                    restoreUnit.setSelected(true);
+                    Command restoreCommand = ccf.createRestorationCommand(playingCard, restoreUnit);
+                    CustomDialogFactory.showSureToPlayCardDialog(cmdQueue, restoreCommand, game);
+                    
                 break;    
+                
                 default: System.err.println("Nie obslugujemy tej fazy gry: " + game.getPhase());
             }
         break;

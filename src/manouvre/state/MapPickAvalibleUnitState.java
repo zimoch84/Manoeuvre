@@ -90,23 +90,6 @@ public class MapPickAvalibleUnitState implements MapState, Serializable{
             }
         }    
    }
-   /*
-     if(playingCard.getCardType() == Card.UNIT )
-                            {
-                                Unit defendingUnit = game.getOpponentPlayerUnitAtPosition(pos);
-                                game.getCombat().setDefendingUnit(defendingUnit);
-                                Command command = ccf.createCardCommand(playingCard);
-                                showConfirmationCardDialog(cmdQueue, command, game);
-                            }
-                       if(playingCard.getHQType() == Card.SUPPLY)
-                        if(!getAvaliblePositionToSelect(game).isEmpty())
-                            LOGGER.debug(game.getCurrentPlayer().getName() + " zmiana stanu na MapInputStateHandler.PICK_UNIT_BY_CARD");
-                            game.getCurrentPlayerUnitAtPosition(pos).setSelected(true);
-                            handler.setStateByCard(playingCard, MapStateHandler.PICK_MOVE_POSITION_BY_CARD);
-                    
-    
-    */
-
     @Override
     public String toString() {
         return MapStateHandler.PICK_ONE_UNIT;

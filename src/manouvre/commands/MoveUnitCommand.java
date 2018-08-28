@@ -52,7 +52,7 @@ public class MoveUnitCommand implements Command {
         if(game.getMap().getTerrainAtXY(lastPosition.getX(), lastPosition.getY()).isRedoubt())
             game.getMap().getTerrainAtXY(lastPosition.getX(), lastPosition.getY()).setRedoubt(false);
         game.unselectAllUnits();
-        if (game.getPhase()== Game.MOVE )
+        if (game.getPhase()== Game.MOVE && !game.getPlayerByName(playerName).hasMoved() )
         {
             game.getPlayerByName(playerName).setMoved(true);
             game.notifyAbout(EventType.PLAYER_MOVED);

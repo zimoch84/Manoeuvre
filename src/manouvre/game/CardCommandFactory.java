@@ -22,22 +22,10 @@ import manouvre.interfaces.CardCommand;
  */
 public class CardCommandFactory implements Serializable{
     
-    Game game;
-    Command attachedCommand;
-    CardCommand cardCommand;
-    CardCommand incomingCardCommand;
-    /*
-    Notify observer passed arg
-    */
-    Card opponentCard;
-    /*
-    TODO remove?
-    */
-    ArrayList<Card> opponentCards=new ArrayList<>();  //oponent attacking cards
-    ArrayList<Card> supportAttackCards=new ArrayList<>(); //current player attacking cards
-    
+    private Game game;
+    private Command attachedCommand;
+    private CardCommand cardCommand;
 
-    int minFromDices=0;
 
     public CardCommandFactory(Game game) {
         this.game = game;
@@ -66,65 +54,56 @@ public class CardCommandFactory implements Serializable{
     if(playingCard != null)
     switch (playingCard.getCardType() ) {
         case Card.HQCARD :
-        {
             switch(playingCard.getHQType()){
-                case Card.FORCED_MARCH : {
+                case Card.FORCED_MARCH : 
                     setCardCommand( new CardCommands.ForcedMarchCommand(attachedCommand, playingCard, game.getCurrentPlayer().getName()) );
                     return getCardCommand();
-                }
-                case Card.WITHDRAW : {
+               
+                case Card.WITHDRAW : 
                     /*
                     We create it in 2 steps - first in attack dialog we choose withdraw action button which trigger another dialog window 
                     when we have to choose where witdraw to.
                     */
                     setCardCommand( new CardCommands.WithrdawCommandByCard(attachedCommand, playingCard, game.getCurrentPlayer().getName()) );
                     return getCardCommand();
-                }
-                case Card.SUPPLY : {
+                
+                case Card.SUPPLY : 
                     setCardCommand( new CardCommands.ForcedMarchCommand(attachedCommand, playingCard, game.getCurrentPlayer().getName()) );
                     return getCardCommand();
-                }
-                case Card.SKIRMISH : {
+                
+                case Card.SKIRMISH : 
                     setCardCommand( new CardCommands.SkirmishCommand(game.getCurrentPlayer().getName(),
                             game.getOpponentPlayer().getName(), playingCard, attachedCommand ) );
                     return getCardCommand();
-                }
                 
-                default: {
+                
+                default: 
                     setCardCommand(new CardCommands.MoveToTableCommand(playingCard, game.getCurrentPlayer().getName()));
                     return  getCardCommand();
-                } //if any card selected temp
+                
             }
-        }  
         case Card.UNIT :
-        {
-            
             if(game.getPhase() == Game.COMBAT)
             return new CardCommands.AttackCommand(
                     game.getCurrentPlayer().getName(),
                     game.getCombat()
                     
                     );
-            else  if(game.getPhase() == Game.RESTORATION)
-            {
-                Command restoreCommand = new RestoreUnitCommand(game.getCurrentPlayer().getName(),
-                        game.getSelectedUnit(),
-                        playingCard);
-                return restoreCommand;
-            }
-            
-        }    
-            
-    default: {
-        setCardCommand(new CardCommands.MoveToTableCommand(playingCard, game.getCurrentPlayer().getName())) ;
-        return  getCardCommand();
-    } //if any card selected temp
-    }
-   /*
-    If we dont have command
-    */
-    throw new UnsupportedOperationException("we dont have command"); //To change body of generated methods, choose Tools | Templates.
+                   
+        default: 
+            setCardCommand(new CardCommands.MoveToTableCommand(playingCard, game.getCurrentPlayer().getName())) ;
+            return  getCardCommand();
+        }
     
+     return  getCardCommand();
+    }
+    public Command createRestorationCommand(Card card, Unit unit){
+    
+     Command restoreCommand = new RestoreUnitCommand(
+             game.getCurrentPlayer().getName(),
+                        unit,
+                        card);
+                return restoreCommand;
     }
     
     public Command createDrawCommand(){
@@ -141,7 +120,9 @@ public class CardCommandFactory implements Serializable{
     public Command createGuerrillaCardCommand(Card playingCard){
         return new CardCommands.GuerrillaCardCommand(playingCard, game.getCurrentPlayer().getName());
     }
-    public Command createDoNotRejectCardCommand(){
+    public Command createAcceptCardCommand(){
+        Card opponentCard = game.getOpponentPlayer().getTablePile().getLastCard(false);
+        
         return new CardCommands.AcceptCardCommand(opponentCard, game.getCurrentPlayer().getName());
     }
     
@@ -157,34 +138,8 @@ public class CardCommandFactory implements Serializable{
         this.cardCommand = cardCommand;
     }
 
-    public ArrayList<Card> getAttackingCards() {
-        return supportAttackCards;
-    }
-
-    public void setAttackingCards(ArrayList<Card> attackingCards) {
-        this.supportAttackCards = attackingCards;
-    }
-     public void addPickedAttackingCard(Card card) {
-        this.supportAttackCards.add(card);
-    }
-     public void removePickedAttackingCard(Card card) {
-        this.supportAttackCards.remove(card);
-    }
-     
-     public CardCommand getIncomingCardCommand() {
-        return incomingCardCommand;
-    }
-
-    public void setIncomingCardCommand(CardCommand incomingCardCommand) {
-        this.incomingCardCommand = incomingCardCommand;
-    }
-
-    
-    
     public Command createOutcomeCombatCommand(){
-      
         Combat combat = game.getCombat();
-       
         return new CardCommands.CombatOutcomeCommand(   game.getCurrentPlayer().getName(),combat);
     }
     

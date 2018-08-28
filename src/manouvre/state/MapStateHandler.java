@@ -93,7 +93,7 @@ public class MapStateHandler implements Observer, Serializable{
             break;                 
             
             default:
-                LOGGER.error("Nie ma takiego stanu obsługi karty");
+                LOGGER.error("Nie ma takiego stanu obsługi karty: " + playingCard + " na stan: " + nextState );
         }
     }
     
@@ -263,7 +263,7 @@ public class MapStateHandler implements Observer, Serializable{
                 else
                     setState(MapStateHandler.NOSELECTION);
                 LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);   
-                break;
+            break;
                 
             case EventType.ASSAULT_BEGINS:
             case EventType.BOMBARD_BEGINS:

@@ -482,9 +482,9 @@ public final class Game implements Serializable{
 
     }
     
-    public boolean checkCurrentPlayerUnitAtPosition(Position position){
+    public boolean isCurrentPlayerUnitAtPosition(Position position){
     
-        for(Unit unitSearch: currentPlayer.getArmy()){
+        for(Unit unitSearch: currentPlayer.getNotKilledUnits()){
         
             if(unitSearch.getPosition().equals(position))
             {
@@ -498,7 +498,7 @@ public final class Game implements Serializable{
     }
      public boolean checkCurrentPlayerUnitByName(String name){
     
-        for(Unit unitSearch: currentPlayer.getArmy()){
+        for(Unit unitSearch: currentPlayer.getNotKilledUnits()){
         
             if(unitSearch.getName().equals(name))
             {
@@ -610,7 +610,7 @@ public final class Game implements Serializable{
      
     public Unit getUnitAtPosition(Position position)
     {
-        if(checkCurrentPlayerUnitAtPosition(position))
+        if(isCurrentPlayerUnitAtPosition(position))
             return getCurrentPlayerUnitAtPosition(position);
             
         else if(checkOpponentPlayerUnitAtPosition(position))

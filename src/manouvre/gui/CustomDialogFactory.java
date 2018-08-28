@@ -27,6 +27,10 @@ public static void showCardNoValidTargetDialog(){
      showConfirmationDialog("This card doesn't have valid target");
     }
 
+public static void showThereIsNoRoomToWithdraw(){
+     showConfirmationDialog("There is no room to withdraw");
+    }
+
 public static void showEndSetupDialog(CommandQueue cmdQueue, Command command, Game game){
      
     showYesNoDialog("Are You sure to end setup?", cmdQueue, command);

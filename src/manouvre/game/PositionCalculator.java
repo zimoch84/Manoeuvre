@@ -210,13 +210,16 @@ public class PositionCalculator implements Serializable{
         /*
         get attacking Units position that are adjenced to the defending one
          */
+        Unit attackingUnit = game.getCombat().getAttackingUnit();
+        
         ArrayList<Position> possiblePositions = game.getOneSquarePositions(game.getCombat().getDefendingUnit().getPosition());
         ArrayList<Position> supportingPositions = new ArrayList<>();
         Position atackingPosition = game.getCombat().getAttackingUnit().getPosition();
         for (Position checkPosition : possiblePositions) {
-            if (game.checkCurrentPlayerUnitAtPosition(checkPosition) && !checkPosition.equals(atackingPosition)) {
+            if (game.isCurrentPlayerUnitAtPosition(checkPosition) && !checkPosition.equals(atackingPosition)) 
+                if(game.getUnitAtPosition(checkPosition).getOwner().getNation() == attackingUnit.getOwner().getNation())
+            
                 supportingPositions.add(checkPosition);
-            }
         }
         return supportingPositions;
     }

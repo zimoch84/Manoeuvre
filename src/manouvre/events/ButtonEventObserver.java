@@ -54,9 +54,17 @@ public void update(Observable o, Object arg) {
                 {       
                 game.setInfoBarText("Opponnent can play Guirellas");
                 buttonActionMakeInvisible();
+                buttonToNextPhaseMakeInvisible();
                 }
             LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
             break;
+        case EventType.CARD_ACCEPTED:
+        case EventType.GUIRELLA_PLAYED:    
+          if(game.getCurrentPlayer().isActive())
+              buttonToNextPhaseSetText("End Move", true);
+          
+        LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);  
+        break;
         case EventType.COMBAT_THROW_DICE: 
             if( game.getCurrentPlayer().isActive() )
                 buttonActionSetText("Roll dices", true);
@@ -102,7 +110,7 @@ public void update(Observable o, Object arg) {
            LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
         break;
 
-       case EventType.LEADER_DESELECTED:
+        case EventType.LEADER_DESELECTED:
            if(game.getCurrentPlayer().isActive())
            {
                game.setInfoBarText("");
@@ -110,7 +118,11 @@ public void update(Observable o, Object arg) {
                buttonActionSetText("Roll dices", true);
           }       
            LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
-           break;
+        break;
+        case EventType.LEADER_FOR_COMBAT:
+            decisionButtonsMakeInvisible();
+        break;    
+           
       case EventType.PICK_SUPPORT_UNIT: {
             if( game.getCurrentPlayer().isActive() )
                {
@@ -131,16 +143,15 @@ public void update(Observable o, Object arg) {
     case EventType.COMBAT_PURSUIT_STARTED: 
           if( game.getCurrentPlayer().isActive() ){
               if(game.getCombat().isAttackerNotRequiredToAdvance())
-             {
-                 buttonActionSetText("Not requre to adv.", true);
-             }
+                  buttonActionSetText("Not requre to adv.", true);
               else 
-              {
                   game.setInfoBarText("Pick Pursuit Unit");
-              }
           }
           else 
+          { 
+             buttonActionMakeInvisible();
              game.setInfoBarText("Opponent is picking pursuit unit"); 
+          }
           LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
     break;
       case EventType.COMBAT_DEFENDER_DECIDES: 
@@ -216,8 +227,10 @@ public void update(Observable o, Object arg) {
            buttonNextPhaseSetText();
        break;
        case EventType.LEADER_END_PICKING_SUPPORT:
+       case EventType.SKIRMISH_DESELECTED:    
            buttonActionSetText("Roll dices", true);
        break;
+       
        
            
            

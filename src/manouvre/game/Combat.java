@@ -164,21 +164,19 @@ public class Combat implements Serializable{
     }
     
     private void calculateSupportLeaderBonus() {
-    leaderBonus =0;
-    for (Card supportCard:supportCards)
-    {
-        if(supportCard.getCardType() == Card.LEADER)
-            leaderBonus += supportCard.getLeaderCombat();
-    }
+        leaderBonus =0;
+        for (Card supportCard:supportCards)
+        {
+            if(supportCard.getCardType() == Card.LEADER)
+                leaderBonus += supportCard.getLeaderCombat();
+        }
     }
 
     public String getState() {
         return state;
     }
-    
 
     public void setState(String state) {
-              
         this.state = state;
     }
 
@@ -215,6 +213,9 @@ public class Combat implements Serializable{
         calculateCombatValues();
     }
     
+    public void addSupportLeader4Combat(Card leaderCard){
+         addSupportCard(leaderCard);
+    }
     
     public int getSupportUnitCount()
             

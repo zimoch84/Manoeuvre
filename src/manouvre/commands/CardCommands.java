@@ -93,7 +93,8 @@ public class CardCommands {
 
         @Override
         public void execute(Game game) {
-            
+
+            game.swapActivePlayer();
             moveToTable.execute(game);
             game.notifyAbout(EventType.GUIRELLA_PLAYED);
 
@@ -134,6 +135,7 @@ public class CardCommands {
         @Override
         public void execute(Game game) {
                
+                game.swapActivePlayer();
                 game.notifyAbout(EventType.CARD_ACCEPTED);         
         }
 
@@ -799,7 +801,7 @@ public class CardCommands {
                     ArrayList<Position> retreatPosition =  game.positionCalculator.getRetreatPositions(defendingUnit);
                     game.injureUnit(defendingUnit);
                     
-                    if(  !game.getUnitByName(combat.getDefendingUnit().getName()).isEliminated())
+                    if(  !game.getUnit(combat.getDefendingUnit()).isEliminated())
                     {
                         if(retreatPosition.size() > 0){
                             defendingUnit.setRetriving(true);
@@ -811,6 +813,7 @@ public class CardCommands {
                         }
                         else          
                         {
+                            game.eliminateUnit(defendingUnit);
                             game.notifyAbout(EventType.COMBAT_DEFENDER_ELIMINATE);
                             game.getCombat().setState(Combat.PURSUIT);
                             game.notifyAbout(EventType.COMBAT_PURSUIT_STARTED);

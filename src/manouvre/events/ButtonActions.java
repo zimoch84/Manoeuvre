@@ -136,7 +136,7 @@ public class ButtonActions  extends Observable{
                  buttonActionMakeInvisible();
             break;
             case "Accept Card":
-                cmdQueue.storeAndExecuteAndSend(ccf.createDoNotRejectCardCommand());
+                cmdQueue.storeAndExecuteAndSend(ccf.createAcceptCardCommand());
                  buttonActionMakeInvisible();
                 
             break;
@@ -154,6 +154,7 @@ public class ButtonActions  extends Observable{
                 Command combatOutcome = ccf.createOutcomeCombatCommand();
                 cmdQueue.storeAndExecuteAndSend(combatOutcome);
                  buttonActionMakeInvisible();
+                 buttonDecisionDisappear();
             break;
             case "End picking":
                 game.getCombat().setState(Combat.PICK_SUPPORT_CARDS);

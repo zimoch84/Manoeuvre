@@ -692,6 +692,8 @@ public class GameGUI {
         case Combat.PICK_DEFENSE_CARDS:
         case Combat.PICK_SUPPORT_CARDS:
         case Combat.PURSUIT:
+        case Combat.DEFENDER_DECIDES:
+        case Combat.ATTACKER_DECIDES:
             drawArrowFromAttackingToDefending(g);
             drawArrowFromSupportingUnits(g);
         break;
@@ -703,8 +705,6 @@ public class GameGUI {
         break;
         
         case Combat.PICK_SUPPORT_UNIT:
-        case Combat.DEFENDER_DECIDES:
-        case Combat.ATTACKER_DECIDES:
             drawArrowFromAttackingToDefending(g);
             drawPossibleSupportingUnits(g);
             drawArrowFromSupportingUnits(g);

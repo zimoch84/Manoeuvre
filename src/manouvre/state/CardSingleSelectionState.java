@@ -50,10 +50,10 @@ public class CardSingleSelectionState implements CardInputState, Serializable{
     
     private void actionOnSelection(Card card, Game game){
             if(cardHandler.canBePlayed(card)){
+                keepOneSelectedCard(card, game);
                 card.setSelected(true);
                 cardHandler.setPlayingCard(card);
                 cardHandler.actionOnSelection(card);
-                keepOneSelectedCard(card, game);
                 game.notifyAbout(EventType.CARD_SELECTED);
     }
     
