@@ -11,9 +11,7 @@ import manouvre.game.Card;
 import manouvre.game.CardSet;
 import manouvre.game.Combat;
 import manouvre.game.Game;
-import manouvre.game.Player;
 import manouvre.game.Position;
-import manouvre.game.Terrain;
 import manouvre.game.Unit;
 import manouvre.interfaces.Command;
 import manouvre.network.server.UnoptimizedDeepCopy;
@@ -46,7 +44,7 @@ public class CardCommands {
                     game.getPlayerByName(senderPlayerName).getHand().moveCardTo(movingCard,
                             game.getPlayerByName(senderPlayerName).getTablePile());
 
-                    if(card.isCancelable())
+                    if(card.isCancelable(game))
                     {   
                         game.swapActivePlayer();
                         game.notifyAbout(EventType.CANCELLABLE_CARD_PLAYED);

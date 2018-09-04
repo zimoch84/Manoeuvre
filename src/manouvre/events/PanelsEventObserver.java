@@ -10,10 +10,7 @@ import java.util.Observer;
 import javax.swing.JPanel;
 import manouvre.game.Game;
 import manouvre.gui.CommandLogger;
-import manouvre.gui.CustomDialog;
 import manouvre.gui.CustomDialogFactory;
-import manouvre.state.HandStateHandler;
-import manouvre.state.MapStateHandler;
 import org.apache.logging.log4j.LogManager;
 
 /**
@@ -111,6 +108,10 @@ public class PanelsEventObserver implements Observer {
                 LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
 
             break;
+            
+            case EventType.END_COMBAT:
+                 game.setInfoBarText("Combat Ended");
+            break;    
 
             case EventType.ASSAULT_BEGINS:
                  game.setInfoBarText("Combat begins");

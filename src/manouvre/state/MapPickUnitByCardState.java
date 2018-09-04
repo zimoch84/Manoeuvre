@@ -50,7 +50,7 @@ private void handleUnitsHitsPositionSituation(Game game, Position pos, CommandQu
     
     Unit pickedUnit = game.getCurrentPlayerUnitAtPosition(pos);
         
-    switch(playingCard.getCardType()){
+    switch(playingCard.getType()){
         case Card.HQCARD:
             switch(playingCard.getHQType()){
                 case Card.REDOUBDT:
@@ -62,8 +62,18 @@ private void handleUnitsHitsPositionSituation(Game game, Position pos, CommandQu
                     cmdQueue.storeAndExecuteAndSend(redoubtCommand);
                 break; 
                 case Card.SUPPLY:
-                    pickedUnit.setSelected(true);
-                    game.notifyAbout(EventType.SUPPLY_SELECTED);
+                    switch(game.getPhase()){
+                        case Game.MOVE:
+                            pickedUnit.setSelected(true);
+                            game.notifyAbout(EventType.SUPPLY_SELECTED);
+                        break;
+                        case Game.RESTORATION:
+                             Command restoreCommand = ccf.createRestorationCommand(playingCard, pickedUnit);
+                             CustomDialogFactory.showSureToPlayCardDialog(cmdQueue, restoreCommand, game);
+                        break;        
+                            
+                            
+                    }
                 break;
                 default : System.err.println("Nie obslugujemy tej karty " + playingCard.getHQType() );    
             }

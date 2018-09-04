@@ -62,6 +62,7 @@ public class EventType {
     public static final String LEADER_FOR_COMMAND = "LEADER_FOR_COMMAND";
     public static final String LEADER_END_PICKING_SUPPORT = "LEADER_END_PICKING_SUPPORT";
     
+    public static final String RESTORATION_BY_LEADER = "RESTORATION_BY_LEADER";
 
     public static final String PICK_SUPPORT_UNIT = "PICK_SUPPORT_UNIT";
     public static final String PUSRUIT_AFTER_WITHDRAW = "PUSRUIT_AFTER_WITHDRAW";

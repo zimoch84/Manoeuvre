@@ -54,6 +54,7 @@ public class CardGUI {
     
     private void setImg(){
         try {
+            
             imgFull = ImageIO.read(new File("resources\\cards\\"+card.getCardImg()));
         } catch (IOException ex) {
             Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -123,7 +124,7 @@ public class CardGUI {
         return card.getCardID();
     }
      public int getCardType() {
-        return card.getCardType();
+        return card.getType();
     }
     
    public Card getCard(){

@@ -151,10 +151,12 @@ public class ButtonActions  extends Observable{
                  buttonActionMakeInvisible();
             break;
             case "Roll dices":
+                
+                buttonDecisionDisappear(); // przed bo znika button po komandzie
                 Command combatOutcome = ccf.createOutcomeCombatCommand();
                 cmdQueue.storeAndExecuteAndSend(combatOutcome);
                  buttonActionMakeInvisible();
-                 buttonDecisionDisappear();
+                
             break;
             case "End picking":
                 game.getCombat().setState(Combat.PICK_SUPPORT_CARDS);
@@ -249,6 +251,7 @@ public class ButtonActions  extends Observable{
     }
     
     private void buttonDecisionDisappear() {
+        LOGGER.info("Zmienilem to");
         buttonYes.setVisible(false);
         buttonNo.setVisible(false);
         buttonYes.setEnabled(false);

@@ -159,15 +159,31 @@ public class Combat implements Serializable{
     private void calculateBonuses(){
         defenseBonus=0;
         defenseBonus = defenseTerrain.getDefenceBonus();
+        if(defenseTerrain.isRedoubt())
+           defenseBonus = defenseBonus - calculateRedoubtBonusModifier();
+       
         attackBonus = attackTerrain.getAttackBonus(defenseTerrain);
     
+    }
+    
+    private int calculateRedoubtBonusModifier()
+    {
+        for (Card supportCard:supportCards)
+        {
+            if(supportCard.getHQType() == Card.FRENCH_SAPPERS   
+                || 
+                 supportCard.getHQType() == Card.ROYAL_ENG     
+                    )
+                return 3;
+        }
+        return 0;
     }
     
     private void calculateSupportLeaderBonus() {
         leaderBonus =0;
         for (Card supportCard:supportCards)
         {
-            if(supportCard.getCardType() == Card.LEADER)
+            if(supportCard.getType() == Card.LEADER)
                 leaderBonus += supportCard.getLeaderCombat();
         }
     }
@@ -259,7 +275,7 @@ public class Combat implements Serializable{
     public ArrayList<Card> getDefenceCards() {
         return defenceCards;
     }
-     public void addDefenceCards(Card card) {
+    public void addDefenceCards(Card card) {
         defenceCards.add(card);
     }
 
@@ -329,7 +345,14 @@ public class Combat implements Serializable{
     
     public String getPursuitOutcome(Card card)
     {
-        if(card.getDices().get(0).getResult() <= card.getUnitPursuit() )
+        int pursuitDiceResult = card.getDices().get(0).getResult();
+        int leaderMaxPursuitModifier = 0;
+         for (Card supportCard:supportCards)
+            if(supportCard.getType() == Card.LEADER)
+                if(leaderMaxPursuitModifier < supportCard.getLeaderPursuit() )
+                    leaderMaxPursuitModifier = supportCard.getLeaderPursuit();
+       
+        if(pursuitDiceResult - leaderMaxPursuitModifier <= card.getUnitPursuit() )
            return DEFFENDER_TAKES_HIT;
         
         else return NO_EFFECT;
@@ -370,7 +393,7 @@ public class Combat implements Serializable{
 
     public void setInitAttackingCard(Card initAttackingCard) {
         this.initAttackingCard = initAttackingCard;
-        if( initAttackingCard.getCardType()!= Card.NO_CARD)
+        if( initAttackingCard.getType()!= Card.NO_CARD)
             combatType = initAttackingCard.getPlayingCardMode();
         else combatType = Card.NO_TYPE;
     

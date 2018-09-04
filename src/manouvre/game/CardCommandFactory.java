@@ -52,7 +52,7 @@ public class CardCommandFactory implements Serializable{
     public Command createCardCommand(Card playingCard) {
     
     if(playingCard != null)
-    switch (playingCard.getCardType() ) {
+    switch (playingCard.getType() ) {
         case Card.HQCARD :
             switch(playingCard.getHQType()){
                 case Card.FORCED_MARCH : 

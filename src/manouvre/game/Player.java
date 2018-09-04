@@ -26,13 +26,11 @@ public class Player  implements Serializable{
     private static final long serialVersionUID = 43211L;
     String name;
     int nation; //for nation description see Card
-
     
     CardSet hand;
     CardSet drawPile;
     CardSet discardPile;
     CardSet tablePile;
-    //CardSet tablePile; //TABLE WILL BE ONE INSTANCE FOR GAME; OUTSIDE FROM PLAYERS; mede in Game.java
     /*
     Field to store whole card flow needed data.
     */
@@ -50,13 +48,10 @@ public class Player  implements Serializable{
     boolean host, finishedSetup;
 
     public Player(String name) {
-        this.name = name;
-        this.active = true;
-       
+       this.name = name;
+       this.active = true;
        this.score = 0;
-       
     }
-    
     public void resetPlayer(){
     
     for(Unit unit : getArmy()) {
@@ -68,7 +63,8 @@ public class Player  implements Serializable{
             unit.setRetriving(false);
         if(unit.isSupporting())
             unit.setSupporting(false);
-    
+        if(unit.getRestorationDice()!= null)
+            unit.setRestorationDice(null);
         }   
         setMoved(false);
         setDraw(false);
@@ -115,27 +111,22 @@ public class Player  implements Serializable{
         this.hand = new CardSet(nation ,"HAND"); 
         this.discardPile = new CardSet(nation ,"DISCARD"); 
         this.tablePile = new CardSet(nation ,"TABLE");
-         //this.tablePile = new CardSet();
-
-        if(nation==CardInterface.AU){//btestfalse
+        if(nation==CardInterface.AU){
             hand.addCard(drawPile.getCardByName("Skirmish", true));
-            hand.addCard(drawPile.getCardByName("Skirmish", true));
-           hand.addCard(drawPile.getCardByName("4th  Regiment", true));
-           hand.addCard(drawPile.getCardByName("Duke of Schwarzenberg", true));
+            hand.addCard(drawPile.getCardByName("Guerrillas", true));
+            hand.addCard(drawPile.getCardByName("Supply", true));
+            hand.addCard(drawPile.getCardByName("Duke of Schwarzenberg", true));
             hand.addCard(drawPile.getCardByName("4th  Regiment", true));
-            //hand.addCardsFromTheTopOfOtherSet(1, drawPile, false, true);
         }
         else if(nation==CardInterface.FR){
             hand.addCard(drawPile.getCardByName("Joachim Murat", true));
-             hand.addCard(drawPile.getCardByName("1st Cuirassiers", true));
-              hand.addCard(drawPile.getCardByName("1st Cuirassiers", true));
-               hand.addCard(drawPile.getCardByName("1st Cuirassiers", true));
-            hand.addCard(drawPile.getCardByName("Withdraw", true));
-            
-           //hand.addCardsFromTheTopOfOtherSet(2, drawPile, false, true);
-        } else
+            hand.addCard(drawPile.getCardByName("French Sappers", true));
+            hand.addCard(drawPile.getCardByName("1st Cuirassiers", true));
+            hand.addCard(drawPile.getCardByName("Forced March", true));
+            hand.addCard(drawPile.getCardByName("Supply", true));
+        } 
+        else
         drawPile.moveTopXCardsTo(5, hand);
-        //hand.sortCard();  
     }
     public void generateUnits(){
      

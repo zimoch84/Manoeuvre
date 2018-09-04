@@ -10,8 +10,10 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import manouvre.commands.CommandQueue;
+import manouvre.commands.RestoreUnitByLeaderCommand;
 import manouvre.events.EventType;
 import manouvre.gui.CustomDialogFactory;
+import manouvre.interfaces.Command;
 import manouvre.state.MapStateHandler;
 import org.apache.logging.log4j.LogManager;
 
@@ -103,10 +105,11 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
     private void actionSelectionCardInCombat(Card card){
     
     Combat combat = game.getCombat();
-    switch (card.getCardType()) {
+    switch (card.getType()) {
         case Card.HQCARD:
+                
                 switch (card.getHQType()) {
-                    case Card.WITHDRAW:
+                case Card.WITHDRAW:
                         if (combat.getDefendingUnit() != null) 
                         {
                             game.getUnit(combat.getDefendingUnit()).setSelected(true);
@@ -119,9 +122,7 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
                         break;
                 
                 case Card.SKIRMISH:
-                        card.setSelected(true);
-                        setPlayingCard(card);
-                        game.notifyAbout(EventType.SKIRMISH_SELECTED);
+                        handleCombatPickSupportCardsOnSelection(card, game);
                         break;
                 }
         break;   
@@ -160,17 +161,26 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
     }
     
     private void actionSelectionCardInRestoration(Card card){
-        switch (card.getCardType()) {
+        switch (card.getType()) {
             case Card.UNIT:
-                 game.getCurrentPlayerUnitByName(card.getCardName()).setSelected(true);  
+                 game.getCurrentPlayerUnitByCard(card).setSelected(true);  
             break;
+            case Card.HQCARD:
+                switch(card.getHQType()){
+                    case Card.SUPPLY:
+                        setPlayingCard(card);
+                    break;    
+                }
+            case Card.LEADER:
+                ArrayList<Unit> injuredUnits = game.getCurrentPlayerInjuredUnits();
+                Command restoreByLeader = new RestoreUnitByLeaderCommand(game.getCurrentPlayer().getName(), injuredUnits, card);
+                CustomDialogFactory.showSureToPlayCardDialog(cmdQueue, restoreByLeader, game);
+                break;
     }
     }
-    
   
     private void actionOnDeselectionByPhase(Card card){
-    
-     switch(game.getPhase()){
+    switch(game.getPhase()){
         
             case Game.SETUP:
                 break;
@@ -220,7 +230,7 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
     private void actionDeselectionCardInCombat(Card card){
     
         
-    switch (card.getCardType()) {
+    switch (card.getType()) {
         case Card.HQCARD:
             switch (card.getHQType()) {
                     case Card.WITHDRAW:
@@ -276,7 +286,7 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
     }
 
     private void actionDeselectionCardInRestoration(Card card){
-    switch (card.getCardType()) {
+    switch (card.getType()) {
             case Card.HQCARD:
                  switch (card.getHQType()) {
                     case Card.REDOUBDT:
@@ -291,7 +301,7 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
             case Card.UNIT:
                    
                      if (game.getPhase() == Game.RESTORATION) {
-                        game.getCurrentPlayerUnitByName(card.getCardName()).setSelected(false);
+                        game.getCurrentPlayerUnitByCard(card).setSelected(false);
                     }
             break;
             case Card.LEADER:
@@ -351,7 +361,7 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
        {
            case Combat.COMBAT_NOT_INITIALIZED:
            case Combat.INITIALIZING_COMBAT:    
-                if(card.getCardType() == Card.UNIT)
+                if(card.getType() == Card.UNIT)
                 {
                     if(!card.getPlayingCardMode().equals(Card.NO_TYPE))
                     {
@@ -371,12 +381,13 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
                 
            break;     
            case Combat.PICK_SUPPORT_CARDS:
-               switch(card.getCardType()){
+               switch(card.getType()){
                 case Card.HQCARD:
                     switch(card.getHQType()){
                         case Card.SKIRMISH:
                         case Card.COMMITED_ATTACK:
                         case Card.ROYAL_ENG:
+                        case Card.FRENCH_SAPPERS:
                             return true;
                         default: return false;    
                     }
@@ -389,7 +400,7 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
            break;
            case Combat.WITHRDAW:
            case Combat.PICK_DEFENSE_CARDS:
-                switch(card.getCardType()){
+                switch(card.getType()){
                     case Card.HQCARD:
                         switch(card.getHQType()){
                             case Card.WITHDRAW:
@@ -406,7 +417,7 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
                 }
            break;    
            case Combat.PICK_SUPPORT_UNIT:
-               switch(card.getCardType()){
+               switch(card.getType()){
                 case Card.LEADER:
                     return true;
                 case Card.UNIT:
@@ -445,17 +456,17 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
     
     private boolean canCardBePlayedInRestoration(Card card){
     
-        switch(card.getCardType()){
+        switch(card.getType()){
                 case Card.HQCARD:
                     switch(card.getHQType()){
                         case Card.REDOUBDT:
                             return true;
                         case Card.SUPPLY:
-                            return game.checkIfAnyUnitInjured();
+                            return game.checkIfCurrentPlayerHasAnyUnitInjured();
                         default: return false;    
                     }
                 case Card.LEADER:
-                    return game.checkIfAnyUnitInjured();
+                    return game.checkIfCurrentPlayerHasAnyUnitInjured();
                 case Card.UNIT:
                      return game.getUnitByCard(card).isInjured(); 
                 default: 
@@ -515,8 +526,9 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
     }
                 
     private void handleCombatPickSupportCardsOnSelection(Card card, Game game){
-        if(card.getCardType() == Card.LEADER)
-        {
+        
+        switch(card.getType()){
+        case  Card.LEADER:
             card.setSelected(true);
             setPlayingCard(card);
             Combat combat = game.getCombat();
@@ -530,41 +542,66 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
                 }
             else
                 game.notifyAbout(EventType.LEADER_SELECTED);
-        }
-        if(card.getCardType() == Card.UNIT)
-        {
+        
+        break;
+        case Card.UNIT:
             if(game.getCombat().getSupportingLeader() == null)
                 checkIfCardMatchesAttackingUnitAndAddSupport(game, card);
             /*
             We have leader selected and supporting unit picked
             */
             else 
-                checkIfCardMatchesSupportingUnitAndAddSupport(game, card);    
+                checkIfCardMatchesSupportingUnitAndAddSupport(game, card);  
+        break;
+        
+        case Card.HQCARD:
+            switch(card.getHQType()){
+            
+                case Card.FRENCH_SAPPERS:
+                case Card.ROYAL_ENG:    
+                    game.getCombat().addSupportCard(card);
+                break;  
+                case Card.SKIRMISH:
+                    card.setSelected(true);
+                    setPlayingCard(card);
+                    game.notifyAbout(EventType.SKIRMISH_SELECTED);
+                default:
+                    System.err.println("manouvre.game.CardPlayingHandler.handleCombatPickSupportCardsOnSelection() Nie ma obsługi tej karty"  + card.getCardName());
+            }
+            
+        break;    
        }
    }
 
     private void handleCombatPickSupportCardsOnDeselection(Card card, Game game){
-    
-        if(card.getCardType() == Card.LEADER)
-        {
-            handleLeaderDeselectedInCombat(card, game);
-        }
-
-        else if(card.getHQType() == Card.SKIRMISH)
-        {
-            card.setSelected(false);
-            setPlayingCard(new Card());
-            game.notifyAbout(EventType.SKIRMISH_DESELECTED);
-
-        }
-        if(card.getCardType() == Card.UNIT)
-        {                   
-            if(game.getCombat().getSupportingLeader() == null)
+        switch(card.getType()){
+            case Card.LEADER:
+        
+                handleLeaderDeselectedInCombat(card, game);
+            break;
+            
+            case Card.HQCARD:
+                switch(card.getHQType()){
+                    
+                    case Card.SKIRMISH :
+                        card.setSelected(false);
+                        setPlayingCard(new Card());
+                        game.notifyAbout(EventType.SKIRMISH_DESELECTED);
+                    break;
+                    case Card.ROYAL_ENG:
+                    case Card.FRENCH_SAPPERS:
+                        game.getCombat().removeSupportCard(card);
+                    break;    
+                    
+                }
+            break;
+            case Card.UNIT:
+                if(game.getCombat().getSupportingLeader() == null)
                     checkIfCardMatchesAttackingUnitAndRemoveSupport(game, card);
-            else 
+                else 
                     checkIfCardMatchesSupportingUnitAndRemoveSupport(game, card);
-            }
-
+            break;    
+        }    
     }
     
     private void checkIfCardMatchesAttackingUnitAndAddSupport(Game game, Card card)

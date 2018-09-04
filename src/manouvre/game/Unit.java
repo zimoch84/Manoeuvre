@@ -12,7 +12,6 @@ import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import manouvre.interfaces.UnitInterface;
-import manouvre.gui.GameWindow;
 import org.apache.logging.log4j.LogManager;
 
 /**
@@ -26,6 +25,7 @@ public class Unit implements UnitInterface, Serializable{
     
     Player owner;
 
+    Dice restorationDice;
    
     Position position;
 
@@ -262,6 +262,14 @@ public class Unit implements UnitInterface, Serializable{
 
     public void setSupporting(boolean supporting) {
         this.supporting = supporting;
+    }
+
+    public Dice getRestorationDice() {
+        return restorationDice;
+    }
+
+    public void setRestorationDice(Dice restorationDice) {
+        this.restorationDice = restorationDice;
     }
     
     

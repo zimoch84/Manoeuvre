@@ -54,6 +54,7 @@ public interface CardInterface {
     public static int SPY = 13;
     public static int AMBUSH = 14;
     public static int REGROUP = 15;
+    public static int FRENCH_SAPPERS = 16;
 
     /*
     Card attack types
@@ -91,7 +92,7 @@ public interface CardInterface {
     /*
     Return type of card
     */
-    public int getCardType();
+    public int getType();
     /*
     Returns unit attack value
     */
@@ -131,19 +132,19 @@ public interface CardInterface {
     /*
     Returns leder rally value
     */
-    public int getLederRally();
+    public int getLeaderRally();
     /*
     Returns leder pursuit value
     */
-    public int getLederPursuit();
+    public int getLeaderPursuit();
     /*
     Returns leder grand battery value
     */
-    public String getLederGrandBatt();
+    public String getLeaderGrandBattery();
     /*
     Returns unit description string
     */
-    public String getUnitDescr();
+    public String getDescription();
     
     
     //--------------------------------------

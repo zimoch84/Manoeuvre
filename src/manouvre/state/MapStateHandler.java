@@ -176,13 +176,17 @@ public class MapStateHandler implements Observer, Serializable{
         switch(game.getPhase()){
             case Game.MOVE:
             case Game.RESTORATION:    
-                if (card.getCardType() == Card.LEADER) 
+                if (card.getType() == Card.LEADER) 
                     return Card.MULTIPLE_UNIT_PICK_ACTION;
                
                 if (card.getHQType() == Card.FORCED_MARCH || card.getHQType() == Card.WITHDRAW || card.getHQType() == Card.SKIRMISH) 
                     return Card.MOVE_UNIT_ACTION;
                 
-                if (card.getHQType() == Card.SUPPLY || card.getHQType() == Card.REDOUBDT || card.getHQType() == Card.REGROUP || card.getHQType() == Card.AMBUSH || card.getCardType() == Card.UNIT) 
+                if (card.getHQType() == Card.SUPPLY 
+                 || card.getHQType() == Card.REDOUBDT 
+                 || card.getHQType() == Card.REGROUP 
+                 || card.getHQType() == Card.AMBUSH 
+                 || card.getType() == Card.UNIT) 
                     return Card.PICK_UNIT_ACTION;
                 
            break;
@@ -197,7 +201,7 @@ public class MapStateHandler implements Observer, Serializable{
                        }
                        
                    default:
-                        if (card.getCardType() == Card.LEADER) 
+                        if (card.getType() == Card.LEADER) 
                             return Card.MULTIPLE_UNIT_PICK_ACTION;
                         
                         if (card.getHQType() == Card.FORCED_MARCH || card.getHQType() == Card.WITHDRAW )
@@ -205,7 +209,7 @@ public class MapStateHandler implements Observer, Serializable{
                         
                         if (card.getHQType() == Card.SUPPLY || card.getHQType() == Card.AMBUSH) 
                             return Card.PICK_UNIT_ACTION;
-                        if(card.getCardType() == Card.UNIT)
+                        if(card.getType() == Card.UNIT)
                         {
                             if(card.getPlayingCardMode().equals(Card.NO_TYPE))
                                 return Card.NO_ACTION;

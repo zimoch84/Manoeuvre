@@ -41,7 +41,7 @@ public class ThrowDiceCommand implements Command{
     for(Card checkCard: this.cards )
         {
         ArrayList<Dice> dices = new ArrayList<>();
-        if(checkCard.getCardType() != Card.LEADER)
+        if(checkCard.getType() != Card.LEADER)
         switch(checkCard.getUnitDiceValue()){
         
             case Dice.DICE1d6:{

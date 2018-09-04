@@ -416,7 +416,7 @@ public final class Game implements Serializable{
                 return unitSearch;
             }
         }
-    return null;
+    return new Unit();
     }
     
     public Unit getSelectedUnit(String playerName){
@@ -496,33 +496,20 @@ public final class Game implements Serializable{
         
      
     }
-     public boolean checkCurrentPlayerUnitByName(String name){
+    public boolean checkCurrentPlayerUnitByCard(Card card){
     
         for(Unit unitSearch: currentPlayer.getNotKilledUnits()){
-        
-            if(unitSearch.getName().equals(name))
-            {
-                return true;
-              }
-        }
-        return false;
-     }
-    
-     public Unit getCurrentPlayerUnitByName(String name){
-    
-        for(Unit unitSearch: currentPlayer.getArmy()){
-        
-            if(unitSearch.getName().equals(name))
-            {
+            if(unitSearch.equals(card))
+                     return true;
+            }
+            return false;
+    }
+    public Unit getCurrentPlayerUnitByCard(Card card){
+        for(Unit unitSearch: currentPlayer.getNotKilledUnits()){
+            if(unitSearch.equals(card))
                 return unitSearch;
-              }
-            
-        
         }
-              
         return new Unit();
-        
-     
     }
      
     public void setUnit(Unit newUnit){
@@ -803,7 +790,7 @@ public final class Game implements Serializable{
         }
      }
     
-    public boolean checkIfAnyUnitInjured() {
+    public boolean checkIfCurrentPlayerHasAnyUnitInjured() {
         for (int i = 0; i < this.getCurrentPlayer().getArmy().length; i++) {
             Unit currentUnit = this.getCurrentPlayer().getArmy()[i];
             if (currentUnit.injured) {
@@ -813,7 +800,7 @@ public final class Game implements Serializable{
         return false;
     } 
     
-    public ArrayList<Position> getInjuredUnitPositions(){
+    public ArrayList<Position> getCurrentPlayerInjuredUnitPositions(){
         ArrayList<Position> injuredUnitPositions = new ArrayList<>();
         
         for(Unit checkUnit : getCurrentPlayer().getArmy())
@@ -823,6 +810,17 @@ public final class Game implements Serializable{
         }
 
         return injuredUnitPositions;
+    }
+    public ArrayList<Unit> getCurrentPlayerInjuredUnits(){
+        ArrayList<Unit> injuredUnits = new ArrayList<>();
+        
+        for(Unit checkUnit : getCurrentPlayer().getArmy())
+        {
+            if(checkUnit.isInjured())
+                  injuredUnits.add(checkUnit);
+        }
+
+        return injuredUnits;
     }
     
     

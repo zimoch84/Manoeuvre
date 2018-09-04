@@ -77,14 +77,13 @@ public class Card implements CardInterface, Serializable  {
     String CardWithdraw="";                             
     String LederCommand="";
     String LeaderCombat="";				
-    String LederRally="";
-    String LederPursuit="";                           
+    String LeaderRally="";
+    String LeaderPursuit="";                           
     String LederGrandBatt="";                          
     String CardDescr="";
     String EnableMove="";
     String CanBeCanceledFromCSV="";
  			
-    boolean canceled=false;
     boolean canBeCanceled = false;
     
     boolean cardNotFound=false;
@@ -136,14 +135,13 @@ public class Card implements CardInterface, Serializable  {
             this.CardWithdraw = cards.get("UnitWithdraw");
             this.LederCommand = cards.get("LederCommand");
             this.LeaderCombat = cards.get("LederCombat");
-            this.LederRally = cards.get("LederRally");
-            this.LederPursuit = cards.get("LederPursuit");
+            this.LeaderRally = cards.get("LederRally");
+            this.LeaderPursuit = cards.get("LederPursuit");
             this.LederGrandBatt = cards.get("LederGrandBatt");
             this.CardDescr = cards.get("UnitDescr");
             this.EnableMove = cards.get("EnableMove");
             this.CanBeCanceledFromCSV = cards.get("CanBeCancelled");
-            setCanBeCanceled(getCanBeCanceledFromCsv());
-
+          
             cards.close();
 
             } catch (FileNotFoundException e) {
@@ -187,13 +185,11 @@ public class Card implements CardInterface, Serializable  {
             this.CardWithdraw = cards.get("UnitWithdraw");
             this.LederCommand = cards.get("LederCommand");
             this.LeaderCombat = cards.get("LederCombat");
-            this.LederRally = cards.get("LederRally");
-            this.LederPursuit = cards.get("LederPursuit");
+            this.LeaderRally = cards.get("LederRally");
+            this.LeaderPursuit = cards.get("LederPursuit");
             this.LederGrandBatt = cards.get("LederGrandBatt");
             this.CardDescr = cards.get("UnitDescr");
             this.EnableMove = cards.get("EnableMove");
-            this.CanBeCanceledFromCSV = cards.get("CanBeCancelled");
-            setCanBeCanceled(getCanBeCanceledFromCsv());
             
             cards.close();
 
@@ -252,7 +248,7 @@ public class Card implements CardInterface, Serializable  {
         return CardImg;
     }
 
-    public int getCardType() {
+    public int getType() {
         switch (CardType){
             case "Unit": 
                 return Card.UNIT;
@@ -300,9 +296,9 @@ public class Card implements CardInterface, Serializable  {
     }
 
     public int getUnitDefence() {
-        if(getCardType() == Card.UNIT)
+        if(getType() == Card.UNIT)
             return Integer.parseInt(CardDefense);
-        if(getCardType() == Card.LEADER)
+        if(getType() == Card.LEADER)
            return getLeaderCombat();
         else return 0;
     }
@@ -349,31 +345,36 @@ public class Card implements CardInterface, Serializable  {
          else return 99;
     }
 
+    @Override
     public int getLeaderCombat() {
          if(!LeaderCombat.equals(""))
         return Integer.parseInt(LeaderCombat);
          else return 99;
     }
 
-    public int getLederRally() {
-         if(!LederRally.equals(""))
-        return Integer.parseInt(LederRally);
-         else return 99;
+    @Override
+    public int getLeaderRally() {
+         if(!LeaderRally.equals(""))
+        return Integer.parseInt(LeaderRally);
+         else return 0;
     }
 
-    public int getLederPursuit() {
-         if(!LederPursuit.equals(""))
-        return Integer.parseInt(LederPursuit);
-         else return 99;
+    @Override
+    public int getLeaderPursuit() {
+         if(!LeaderPursuit.equals(""))
+        return Integer.parseInt(LeaderPursuit);
+         else return 0;
     }
 
-    public String getLederGrandBatt() { //only Napoleon
+    @Override
+    public String getLeaderGrandBattery() { //only Napoleon
          if(!LederGrandBatt.equals(""))
         return LederGrandBatt;
-         else return "99";
+         else return "0";
     }
 
-    public String getUnitDescr() {
+    @Override
+    public String getDescription() {
          if(!CardDescr.equals(""))
         return CardDescr;
          else return "99";
@@ -386,17 +387,24 @@ public class Card implements CardInterface, Serializable  {
          return false;
     }
     
-    public boolean isCancelable() {
-         return canBeCanceled;
+    public boolean isCancelable(Game game) {
+        
+        switch(getType()){
+            case Card.UNIT:
+                if(game.getPhase() == Game.RESTORATION)
+                    return true;
+            break;   
+            case Card.HQCARD:
+                switch(getHQType()){
+                    case Card.SUPPLY:
+                    case Card.FORCED_MARCH:
+                    case Card.REGROUP:
+                        return true;
+                }
+            break;
+        }
+        return false;
     }
-     public boolean getCanBeCanceledFromCsv() {
-         if(!CanBeCanceledFromCSV.equals(""))
-            if(Integer.parseInt(CanBeCanceledFromCSV)==1)
-            return true;
-         else return false;
-         return false;
-    }
-      
     /*
     There are 3 combination here 
     ASSAULT
@@ -433,7 +441,7 @@ public class Card implements CardInterface, Serializable  {
         this.dices = dices;
     }
     
-    public void setPlayingCardMode(String playingCardMode) {
+    final public void setPlayingCardMode(String playingCardMode) {
         this.playingCardMode = playingCardMode;
     }
 
@@ -469,6 +477,8 @@ public class Card implements CardInterface, Serializable  {
                 return CardInterface.REGROUP;
             case "Scout":
                 return CardInterface.SCOUT;
+            case "French Sappers":
+                return CardInterface.FRENCH_SAPPERS;
         }      
         return Card.NO_CARD;
     }
@@ -476,7 +486,7 @@ public class Card implements CardInterface, Serializable  {
 
     @Override
     public boolean isHQCard() {
-        if (getCardType()== Card.HQCARD)
+        if (getType()== Card.HQCARD)
             return true; 
             else return false;
     }
@@ -488,15 +498,6 @@ public class Card implements CardInterface, Serializable  {
                 return true;
         else return false;
     }
- 
-    public boolean isCancelled() {
-        return canceled;
-    }
-
-    public void setCancelled(boolean cancel) {
-        canceled = cancel;
-    }
-
     public boolean hasPlayed() {
         return played;
     }
@@ -516,10 +517,6 @@ public class Card implements CardInterface, Serializable  {
 
     public boolean isCardNotFoundInNation() {
         return cardNotFound;
-    }
-    
-    public void setCanBeCanceled(boolean canBeCanceled) {
-        this.canBeCanceled = canBeCanceled;
     }
     
     public boolean isMouseOverCard() {

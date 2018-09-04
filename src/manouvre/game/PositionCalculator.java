@@ -25,7 +25,7 @@ public class PositionCalculator implements Serializable{
     public ArrayList<Position> getUnitsPositionToSelectByCard(Card card) 
     {
         ArrayList<Position> returnPositions = new ArrayList<>();
-        switch (card.getCardType()) {
+        switch (card.getType()) {
             case Card.HQCARD:
                 if (card.getHQType() == Card.SUPPLY) {
                     if (game.getPhase() == Game.MOVE) {
@@ -73,7 +73,7 @@ public class PositionCalculator implements Serializable{
                      */
                     case Game.RESTORATION:
                         ArrayList<Position> positions = new ArrayList<>();
-                        positions.add(game.getCurrentPlayerUnitByName(card.getCardName()).getPosition());
+                        positions.add(game.getCurrentPlayerUnitByCard(card).getPosition());
                         return positions;
                 }
             break;
@@ -188,14 +188,14 @@ public class PositionCalculator implements Serializable{
                 }
                 break;
             case Game.RESTORATION:
-                return game.getInjuredUnitPositions();
+                return game.getCurrentPlayerInjuredUnitPositions();
         }
         return new ArrayList<>();
     }
 
     public ArrayList<Position> getCurrentPlayerInjuredUnitPositions() {
         ArrayList<Position> units = new ArrayList<>();
-        for (Unit unitSearch : game.getCurrentPlayer().getArmy()) {
+        for (Unit unitSearch : game.getCurrentPlayer().getNotKilledUnits()) {
             if (unitSearch.isInjured()) {
                 units.add(unitSearch.getPosition());
             }
@@ -281,7 +281,7 @@ public class PositionCalculator implements Serializable{
     public ArrayList<Position> getMovePositionsByCard(Card playingCard, Unit movingUnit) {
         ArrayList<Position> movePositions = new ArrayList<>();
         if (movingUnit != null) {
-            switch (playingCard.getCardType()) {
+            switch (playingCard.getType()) {
                 case Card.HQCARD:
                     switch (playingCard.getHQType()) {
                         case Card.FORCED_MARCH:

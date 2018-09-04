@@ -15,13 +15,13 @@ import java.util.ArrayList;
 import manouvre.game.Game;
 import manouvre.game.Position;
 import manouvre.game.Unit;
-import manouvre.commands.CommandQueue;
 import manouvre.game.Card;
 import manouvre.game.Player;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import manouvre.game.Combat;
+import manouvre.game.Dice;
 import manouvre.game.Terrain;
 import manouvre.state.PlayerState;
 import org.apache.logging.log4j.LogManager;
@@ -40,7 +40,7 @@ public class GameGUI {
     PlayerState playerStateHandler;
     
     ArrayList<UnitGUI> currentPlayerArmy = new ArrayList<UnitGUI>(); 
-    ArrayList<UnitGUI> opponnetPlayerArmy = new ArrayList<UnitGUI>(); 
+    ArrayList<UnitGUI> opponentPlayerArmy = new ArrayList<UnitGUI>(); 
     MapGUI mapGui;
     
     Player currentPlayer;
@@ -187,254 +187,340 @@ public class GameGUI {
 //------------- MAP - LEFT UPPER CORNER OF THE SCREEN -----------------------------------
     void drawMap( Graphics g, int windowMode) {
         // draw background
+           drawMapByPhase(g);
+    }
+    
+    private void drawMapByPhase(Graphics g){
         g.drawImage(mapGui.background, 0, 0,BACKGRNDTABLE,BACKGRNDTABLE, null);
         drawTerrains(g);
         drawBorder(g);
-        drawArmy(g);
-        drawPossibleMove(g);
-        drawRetrieving(g);
-        //drawLOS(g);
-        drawCardSelections(g);
-        drawCombat(g);
-    }
-    
-    private void drawTerrains(Graphics g){
-        for (TerrainGUI terrainGUI : mapGui.getTerrainsGUI()) {
-            drawTerrainOnPosition(g, terrainGUI.getPos(), terrainGUI.getImg());
-        }
-    }
-    
-    private void drawBorder(Graphics g){
-    for(int i=0;i<8;i++){
         
-        g.setColor(Color.white);
-        if(windowMode == CreateRoomWindow.AS_HOST)
-                {
-                    g.drawString(Integer.toString(i),
-                    i* MapGUI.SQUARE_WIDTH + MapGUI.BOARD_START_X + (MapGUI.SQUARE_WIDTH/2), 
-                    MapGUI.SQUARE_WIDTH/2)
-                    ;
-                    
-                    g.drawString(Integer.toString(i),
-                    (MapGUI.SQUARE_WIDTH/2)
-                   ,  (7-i) * MapGUI.SQUARE_WIDTH + MapGUI.BOARD_START_Y + (MapGUI.SQUARE_WIDTH/2))
-                    ;
-                }
-        else if(windowMode == CreateRoomWindow.AS_GUEST)
-                {
-                 g.drawString(Integer.toString(i),
-                    (7-i) * MapGUI.SQUARE_WIDTH + MapGUI.BOARD_START_X + (MapGUI.SQUARE_WIDTH/2), 
-                    MapGUI.SQUARE_WIDTH/2)
-                    ;
-                    
-                    g.drawString(Integer.toString(i),
-                    (MapGUI.SQUARE_WIDTH/2)
-                   ,  (i) * MapGUI.SQUARE_WIDTH + MapGUI.BOARD_START_Y + (MapGUI.SQUARE_WIDTH/2))
-                    ;
-                    }
-
-            }
+        switch(game.getPhase()){
+        
+            case Game.SETUP:   
+                drawSetup(g);
+                break;
+            case Game.DISCARD:
+            case Game.DRAW:  
+                drawArmyWithLetterAndRedoubt(g);
+                break;
+            case Game.MOVE:    
+                drawMove(g);
+                break;
+            case Game.COMBAT:  
+                drawCombat(g);
+            break;
+            case Game.RESTORATION:
+               drawRestoration(g);
+        }
+        
+    
     }
     
-    private void drawPossibleMove(Graphics g){
-    /*
-        Draws selection of possible move whlie not playing card
-        */
-    Card playingCard = playerStateHandler.cardPlayingHandler.getPlayingCard();
     
-    Unit selectedUnit = game.getSelectedUnit();
-    if (selectedUnit != null ) 
-        {
-        drawRectangleOnPosition(g, selectedUnit.getPosition(), Color.WHITE);
-        ArrayList<Position> movePositions;
-        if(game.getPhase() == Game.SETUP || (game.freeMove && game.getPhase() == Game.MOVE) )
-        {
+    private void drawPossibleMoveInSetup(Graphics g){
+        Unit selectedUnit = game.getSelectedUnit();
+        if (selectedUnit.getID() !=-1 ) 
+            {
+            drawRectangleOnPosition(g, selectedUnit.getPosition(), Color.WHITE);
+            ArrayList<Position> movePositions;
             movePositions = game.positionCalculator.getSetupPossibleMovement();
             drawMultipleRectanglesOnPositions(g, movePositions, Color.blue);
-        }
-        else if (selectedUnit.isRetriving())
-        {
-            return;
-        }
-        else if(game.getPhase() == Game.MOVE)
-        {
-            if(!selectedUnit.hasMoved())
-            {
-                movePositions = game.getPossibleMovement(selectedUnit);
-                drawMultipleRectanglesOnPositions(g, movePositions, Color.blue);
             }
-        }
-   }
-     
+    
     }
-    private void drawArmy(Graphics g){
+    private void drawUnitSelection(Graphics g){
+    
+        Unit selectedUnit = game.getSelectedUnit();
+        if (selectedUnit.getID() != -1) 
+            drawRectangleOnPosition(g, selectedUnit.getPosition(), Color.WHITE);    
+    }
+    private void drawPossibleMove(Graphics g){
+        /*Draws selection of possible move whlie not playing card
+            */
+        Unit selectedUnit = game.getSelectedUnit();
+        if (selectedUnit.getID() != -1) 
+            {
+                ArrayList<Position> movePositions;
+                if(game.freeMove)
+                    drawPossibleMoveInSetup(g);
+                else                 
+                    if(!selectedUnit.hasMoved())
+                    {
+                        movePositions = game.getPossibleMovement(selectedUnit);
+                        drawMultipleRectanglesOnPositions(g, movePositions, Color.blue);
+                    }
+            }    
+    }
+    private void drawSetup(Graphics g){
         /*
         In setup draw only self army
         */
-        if(game.getPhase()== Game.SETUP &&  !( currentPlayer.isFinishedSetup() && game.getOpponentPlayer().isFinishedSetup() ) )
+        if(!( currentPlayer.isFinishedSetup() && game.getOpponentPlayer().isFinishedSetup() ) )
         {
                 for (UnitGUI drawUnit : currentPlayerArmy) 
                 {
-                if(!drawUnit.getUnit().isEliminated())
-                {
-                drawImageOnPosition(g, drawUnit.getUnit().getPosition(), drawUnit.getImg());
-                drawTerrainLetter(g, drawUnit.getUnit());
-                /*
-                Draw bad position rectangle
-                */
-                if( !game.getMap().getTerrainAtPosition(drawUnit.getUnit().getPosition()).isTerrainPassable()
-                         || 
-                            ( windowMode == CreateRoomWindow.AS_HOST ? 
-                                (drawUnit.getUnit().getPosition().getY()  >  Position.ROW_2) : 
-                                (drawUnit.getUnit().getPosition().getY()  <  Position.ROW_7)
-                            )
-                      )
-                   {
-                    g.setColor(Color.RED);
-                    g.drawRoundRect(drawUnit.getUnit().getPosition().getMouseX(windowMode) + GAP_SELECTION, 
-                                drawUnit.getUnit().getPosition().getMouseY(windowMode) + GAP_SELECTION, 
-                                MapGUI.SQUARE_WIDTH - 2 * GAP_SELECTION, 
-                                MapGUI.SQUARE_HEIGHT - 2 * GAP_SELECTION, 
-                                10, 10
-                        ); 
-                    }        
-                }
+                    drawImageOnPosition(g, drawUnit.getUnit().getPosition(), drawUnit.getImg());
+                    drawTerrainLetter(g, drawUnit.getUnit());
+                    /*
+                    Draw bad position rectangle
+                    */
+                    if( !game.getMap().getTerrainAtPosition(drawUnit.getUnit().getPosition()).isTerrainPassable()
+                             || 
+                                ( windowMode == CreateRoomWindow.AS_HOST ? 
+                                    (drawUnit.getUnit().getPosition().getY()  >  Position.ROW_2) : 
+                                    (drawUnit.getUnit().getPosition().getY()  <  Position.ROW_7)
+                                )
+                          )
+                       {
+                        g.setColor(Color.RED);
+                        g.drawRoundRect(drawUnit.getUnit().getPosition().getMouseX(windowMode) + GAP_SELECTION, 
+                                    drawUnit.getUnit().getPosition().getMouseY(windowMode) + GAP_SELECTION, 
+                                    MapGUI.SQUARE_WIDTH - 2 * GAP_SELECTION, 
+                                    MapGUI.SQUARE_HEIGHT - 2 * GAP_SELECTION, 
+                                    10, 10
+                            ); 
+                        }        
                 }
         }
-        /*
-        On rest phases paint both players army
-        */
-        else  
-        {
-            for (UnitGUI drawUnit : currentPlayerArmy) {
-                if(!drawUnit.getUnit().isEliminated())
-                {
-                    Unit unit = drawUnit.getUnit();
-                    drawImageOnPosition(g, unit.getPosition(), drawUnit.getImg());
-                    drawTerrainLetter(g, unit);
-                    if(game.getMap().getTerrainAtPosition(unit.getPosition()).isRedoubt())
-                        drawRedoubt(g, unit.getPosition());
-                }
-            }
-            for (UnitGUI drawUnit : opponnetPlayerArmy) {
-                if(!drawUnit.getUnit().isEliminated()){
-                     Unit unit = drawUnit.getUnit();
-                     drawImageOnPosition(g, unit.getPosition(), drawUnit.getImg());
-                     drawTerrainLetter(g, unit);
-                    if(game.getMap().getTerrainAtPosition(unit.getPosition()).isRedoubt())
-                        drawRedoubt(g, unit.getPosition());
-                }
-                }
-            }
-    }
-    private void drawCardSelections(Graphics g){
+        else drawArmyWithLetterAndRedoubt(g);
+        
+        drawPossibleMoveInSetup(g);
     
+    }
+    
+    private void drawMove(Graphics g){
+    
+        drawArmyWithLetterAndRedoubt(g);
+        drawUnitSelection(g);
         Card playingCard = playerStateHandler.cardPlayingHandler.getPlayingCard();
-        if(playingCard!= null)
-        {
+        if(playingCard.getType() != Card.NO_CARD)
+            drawMoveCards(g);
+        else 
+            drawPossibleMove(g);
+        
+    
+    }
+    private void drawMoveCards(Graphics g){
+           Card playingCard = playerStateHandler.cardPlayingHandler.getPlayingCard();
            ArrayList<Position> movePositions;
-           switch (playingCard.getCardType()){
+           switch (playingCard.getType()){
                 case Card.HQCARD :
-                {
                     switch(playingCard.getHQType())
                     {
                     case Card.FORCED_MARCH: 
-                        {
-                            
                         if(!playingCard.hasPlayed()){
                             Unit lastMovedUnit = currentPlayer.getLastMovedUnit();
                             movePositions = game.getOneSquareMovements(lastMovedUnit.getPosition());
                             drawMultipleRectanglesOnPositions(g, movePositions, Color.BLUE);
                         }
                         break;
-                        }
                     case Card.SUPPLY: 
-                        {
-                        if(game.getSelectedUnit()!= null)  {  
-                                Unit selectedUnit = game.getSelectedUnit();
-                                movePositions = game.getPossibleMovement(selectedUnit);
-                                drawMultipleRectanglesOnPositions(g, movePositions, Color.BLUE);
+                        if(game.getSelectedUnit().getID() != -1)  {  
+                            Unit selectedUnit = game.getSelectedUnit();
+                            movePositions = game.getPossibleMovement(selectedUnit);
+                            drawMultipleRectanglesOnPositions(g, movePositions, Color.BLUE);
                         }
-                        
-                        else {
-                                drawMultipleRectanglesOnPositions(g, game.positionCalculator.getCurrentPlayerNotMovedUnits(), Color.BLUE);
-                        }
-                        
+                        else 
+                            drawMultipleRectanglesOnPositions(g, game.positionCalculator.getCurrentPlayerNotMovedUnits(), Color.BLUE);
                         break;
-                        }    
-                        
+                    }
+                case Card.UNIT:
+                    if(game.checkCurrentPlayerUnitByCard(playingCard))
+                    {
+                        Unit attackingUnit = game.getCurrentPlayerUnitByCard(playingCard);
+                        Position unitPosition = attackingUnit.getPosition();
+                        drawRectangleOnPosition(g, unitPosition, Color.BLUE);
+                    }
+                break;
+           }
+    }
+     private void drawCombat(Graphics g){
+    
+        drawArmyWithLetterAndRedoubt(g);
+        drawCombatUnitSelection(g);
+        drawComabatCardSelections(g);
+    }
+    
+    
+    private void drawCombatUnitSelection(Graphics g){
+    
+    if(game.getPhase() == Game.COMBAT)
+    {
+        Combat combat = game.getCombat();
+        switch(combat.getState())
+        {
+        case Combat.COMBAT_NOT_INITIALIZED:
+        case Combat.END_COMBAT:
+        break;
+        
+        case Combat.INITIALIZING_COMBAT:
+            drawAttackingUnitSelection(g);
+            drawPossibleAttackPositions(g);
+        break;
+        
+        case Combat.PICK_DEFENSE_CARDS:
+        case Combat.PICK_SUPPORT_CARDS:
+        case Combat.DEFENDER_DECIDES:
+        case Combat.ATTACKER_DECIDES:
+            drawArrowFromAttackingToDefending(g);
+            drawArrowFromSupportingUnits(g);
+            drawRetrievingPositionPossibility(g);
+            drawPursuitAvalaibleUnits(g);
+        break;
+        
+        case Combat.PURSUIT:
+            drawArrowFromAttackingToDefending(g);
+            drawArrowFromSupportingUnits(g);
+            drawRetrievingPositionPossibility(g);
+            drawPursuitAvalaibleUnits(g);
+        break;    
+        
+        case Combat.WITHRDAW:
+            drawArrowFromAttackingToDefending(g);
+            drawArrowFromSupportingUnits(g);
+            drawRetrievingPositionPossibility(g);
+        break;
+        
+        case Combat.PICK_SUPPORT_UNIT:
+            drawArrowFromAttackingToDefending(g);
+            drawPossibleSupportingUnits(g);
+            drawArrowFromSupportingUnits(g);
+        break;    
+             
+        default: 
+            drawArrowFromAttackingToDefending(g);
+            drawArrowFromSupportingUnits(g);
+            System.out.println("manouvre.gui.GameGUI.drawCombat() nie obslugujemy tego w draw" + combat.getState() );
+        }
+    }
+    }
+    private void drawPossibleAttackPositions(Graphics g){
+        Unit attackingUnit = game.getCombat().getAttackingUnit();
+        Card attackCard = game.getCombat().getInitAttackCard();
+
+        if(attackCard.getPlayingCardMode() !=Card.NO_TYPE)
+        { 
+            if(game.getCombat().getAttackingPositions() != null)
+                drawArrowToPositions(g, 
+                attackingUnit.getPosition(),
+                game.getCombat().getAttackingPositions(),
+                Color.RED
+                );
+        }
+    }
+    
+    private void drawPossibleSupportingUnits(Graphics g)
+    {
+        drawMultipleRectanglesOnPositions(g,
+                    game.positionCalculator.getPossibleSupportingUnitsPositions()
+                    , Color.red);   
+    }
+    
+    private void drawPursuitAvalaibleUnits(Graphics g){
+        drawMultipleRectanglesOnPositions(g, game.positionCalculator.getCurrentPlayerAvalibleUnitToSelect(), Color.RED);
+    
+    }
+    
+    private void drawRetrievingPositionPossibility(Graphics g){
+        Unit retrievingUnit = game.getUnit(game.getCombat().getDefendingUnit());
+        if(retrievingUnit.isRetriving()){
+                  drawArrowToPositions(g,  retrievingUnit.getPosition(), 
+                          game.positionCalculator.getRetreatPositions(retrievingUnit),
+                          Color.GREEN);
+        }
+    
+    
+    }
+    
+    private void drawArrowFromAttackingToDefending(Graphics g){
+        
+        drawArrowToPosition(g,  game.getCombat().getAttackingUnit().getPosition(), 
+                     game.getCombat().getDefendingUnit().getPosition(), Color.GREEN);
+    
+    }
+    
+    private void drawArrowFromSupportingUnits(Graphics g)
+    {
+        for (Unit  unit : game.getCurrentPlayer().getNotKilledUnits()) {
+            if(unit.isSupporting())
+                {
+                drawRectangleOnPosition(g, unit.getPosition(), Color.BLUE);
+                drawArrowToPosition(g, unit.getPosition(), game.getCombat().getDefendingUnit().getPosition(),
+                        Color.BLUE);
+                }
+        }
+        for (Unit  unit : game.getOpponentPlayer().getNotKilledUnits()) {
+            if(unit.isSupporting())
+               {
+                drawRectangleOnPosition(g, unit.getPosition(), Color.BLUE);
+                drawArrowToPosition(g, unit.getPosition(), game.getCombat().getDefendingUnit().getPosition(),
+                        Color.BLUE);
+                } 
+        }
+    }
+    private void drawArmyWithLetterAndRedoubt(Graphics g){
+        
+        for (UnitGUI drawUnit : currentPlayerArmy) {
+            if(!drawUnit.getUnit().isEliminated())
+            {
+                Unit unit = drawUnit.getUnit();
+                drawImageOnPosition(g, unit.getPosition(), drawUnit.getImg());
+                drawTerrainLetter(g, unit);
+                if(game.getMap().getTerrainAtPosition(unit.getPosition()).isRedoubt())
+                    drawRedoubt(g, unit.getPosition());
+            }
+        }
+        for (UnitGUI drawUnit : opponentPlayerArmy) {
+            if(!drawUnit.getUnit().isEliminated()){
+                 Unit unit = drawUnit.getUnit();
+                 drawImageOnPosition(g, unit.getPosition(), drawUnit.getImg());
+                 drawTerrainLetter(g, unit);
+                if(game.getMap().getTerrainAtPosition(unit.getPosition()).isRedoubt())
+                    drawRedoubt(g, unit.getPosition());
+            }
+            }
+    }
+    
+    
+    private void drawComabatCardSelections(Graphics g){
+    
+        Card playingCard = playerStateHandler.cardPlayingHandler.getPlayingCard();
+        if(playingCard.getType() != Card.NO_CARD)
+        {
+           ArrayList<Position> movePositions;
+           switch (playingCard.getType()){
+                case Card.HQCARD :
+                {
+                    switch(playingCard.getHQType()){
                     case Card.WITHDRAW: 
-                        {
-                        Unit attackedUnit = game.getCombat().getDefendingUnit();
-                        movePositions = game.positionCalculator.getRetreatPositions(attackedUnit);
+                        Unit defendingUnit = game.getCombat().getDefendingUnit();
+                        movePositions = game.positionCalculator.getRetreatPositions(defendingUnit);
                         drawMultipleRectanglesOnPositions(g, movePositions, Color.BLUE);
                         break;
-                        }
                      case Card.REDOUBDT: 
-                        {
-                        
                         drawMultipleRectanglesOnPositions(g, game.getCurrentPlayer().getArmyPositions(), Color.BLUE);
                         break;
-                        }  
                      case Card.SKIRMISH: 
-                        {
-                        Unit attackedUnit = game.getCombat().getAttackingUnit();
-                        movePositions = game.getTwoSquareMovements(attackedUnit.getPosition());
+                        Unit attackingUnit = game.getCombat().getAttackingUnit();
+                        movePositions = game.getTwoSquareMovements(attackingUnit.getPosition());
                         drawMultipleRectanglesOnPositions(g, movePositions, Color.BLUE);
                         break;
-                        }  
                     }
-                }
-                case Card.UNIT :{
-                    /*
-                    Draw selection of unit that matches playing card
-                    */
-                switch(game.getPhase()){    
-                   
-                    case Game.MOVE:{    
-                        if(game.checkCurrentPlayerUnitByName(playingCard.getCardName()))
-                        {
-                           Unit attackingUnit = game.getCurrentPlayerUnitByName(playingCard.getCardName());
-                           Position unitPosition = attackingUnit.getPosition();
-                           drawRectangleOnPosition(g, unitPosition, Color.BLUE);
-                        }
-                        break;
-                    }
-                    case Game.COMBAT:
-                    {
-                        /*
-                        Draw possible targets if we know playing Card Mode
-                        if combat is null that means that is not initialized
-                        */  
-
-                              
-                                
-                    break;
-                    }    
-   
-                }  
-
-                break;
                 }
                 case Card.LEADER:
-                {
-                    switch(game.getPhase()){
-                        case Game.COMBAT:
-                        {
-                            if(game.getCombat()!=null)
-                                if(game.getCombat().getState() == Combat.PICK_SUPPORT_CARDS)
-                                    drawMultipleRectanglesOnPositions(g,
-                                        game.positionCalculator.getPossibleSupportingUnitsPositions()
-                                        , Color.BLUE);   
-                            break;
-                        }
-                    
-                    }
+                    if(game.getCombat().getState().equals(Combat.PICK_SUPPORT_CARDS))
+                        drawMultipleRectanglesOnPositions(g,
+                            game.positionCalculator.getPossibleSupportingUnitsPositions()
+                            , Color.BLUE);   
                 break;
-                }
                 
                 case Card.NO_CARD:
-                    break;
+                break;
+                
+                case Card.UNIT:
+                     drawUnitSelection(g);
+                break;     
                 
                 default: System.err.println("drawCardSelections()  Brak typu karty " + playingCard.getCardName());
             }
@@ -442,6 +528,75 @@ public class GameGUI {
         }
     
     }
+    
+    private void drawRestoration(Graphics g){
+    
+        drawArmyWithLetterAndRedoubt(g);
+        drawRestorationCards(g);
+        drawRestorationLeaderDices(g);
+    
+    }
+    
+    private void drawRestorationCards(Graphics g){
+        
+        Card playingCard = playerStateHandler.cardPlayingHandler.getPlayingCard();
+        ArrayList<Position> restorePossiblePostions;
+        if(playingCard.getType() != Card.NO_CARD)
+        {
+            switch (playingCard.getType()){
+                case Card.HQCARD :
+                    switch(playingCard.getHQType()){
+                    case Card.SUPPLY: 
+                    case Card.REGROUP:
+                         restorePossiblePostions = game.positionCalculator.getCurrentPlayerInjuredUnitPositions();
+                        drawMultipleRectanglesOnPositions(g, restorePossiblePostions, Color.yellow);
+                    }
+                break;
+                case Card.UNIT :
+                    Position restorePossiblePostion = game.getCurrentPlayerUnitByCard(playingCard).getPosition();
+                    drawRectangleOnPosition(g, restorePossiblePostion, Color.yellow);
+                break;
+                case Card.LEADER:
+                    restorePossiblePostions = game.positionCalculator.getCurrentPlayerInjuredUnitPositions();
+                    drawMultipleRectanglesOnPositions(g, restorePossiblePostions, Color.yellow);
+                break;    
+                }
+        
+        }
+    }
+    
+    private void drawRestorationLeaderDices(Graphics g){
+        
+        for (UnitGUI drawUnit : currentPlayerArmy) {
+            if(!drawUnit.getUnit().isEliminated())
+            {
+                Unit unit = drawUnit.getUnit();
+                if(unit.getRestorationDice() != null)
+                    drawDice(g,unit.getRestorationDice(), unit.getPosition());
+            }
+        }
+        for (UnitGUI drawUnit : opponentPlayerArmy) {
+            if(!drawUnit.getUnit().isEliminated()){
+                 Unit unit = drawUnit.getUnit();
+                 if(unit.getRestorationDice() != null)
+                    drawDice(g,unit.getRestorationDice(), unit.getPosition());
+            }
+            }
+    }
+    
+    private void drawDice(Graphics g, Dice dice, Position unitPosition){
+
+    //int dicePaddingLeft = (int)(CardGUI.WIDTH)*(cardPosition) + GAP;
+    
+        DiceGUI diceGUI = new DiceGUI(dice);
+        int x = Position.convertXtoMouseX(unitPosition.getX());
+        int y = Position.convertYToMouseY(unitPosition.getY());
+        int sizex = (int)(diceGUI.getImage().getWidth()* DiceGUI.SCALE_FACTOR_D6);
+        int sizey = (int)(diceGUI.getImage().getHeight()*DiceGUI.SCALE_FACTOR_D6);
+        g.drawImage(diceGUI.getImage(),  x, y ,sizex, sizey , null);
+
+    }
+    
     /*
     Draw image on position
     */
@@ -656,134 +811,53 @@ public class GameGUI {
         g.fillPolygon(xpoints, ypoints, 3);
      }
     
-    private void drawRetrieving(Graphics g){
+    private void drawCombatPursuit(Graphics g){
   
-    if(game.getCombat().getState().equals(Combat.WITHRDAW))
-        if(game.getSelectedUnit()!= null){
-        
-        Unit selectedUnit = game.getSelectedUnit();
-        if(selectedUnit != null)
-            if(selectedUnit.isRetriving()) 
-                     
-                drawArrowToPositions(g,  selectedUnit.getPosition(), game.positionCalculator.getRetreatPositions(selectedUnit), Color.GREEN);
-        }
-    
-    if(game.getCombat().getState().equals(Combat.PURSUIT))
         drawMultipleRectanglesOnPositions(g, game.positionCalculator.getCurrentPlayerAvalibleUnitToSelect(), Color.RED);
     
     }
     
-    private void drawCombat(Graphics g){
-    
-    if(game.getPhase() == Game.COMBAT)
-    {
-        Combat combat = game.getCombat();
-        switch(combat.getState())
-        {
-        case Combat.COMBAT_NOT_INITIALIZED:
-        case Combat.END_COMBAT:
-        break;
-        
-        case Combat.INITIALIZING_COMBAT:
-            drawAttackingUnitSelection(g);
-            drawPossibleAttackPositions(g);
-        break;
-        
-        case Combat.PICK_DEFENSE_CARDS:
-        case Combat.PICK_SUPPORT_CARDS:
-        case Combat.PURSUIT:
-        case Combat.DEFENDER_DECIDES:
-        case Combat.ATTACKER_DECIDES:
-            drawArrowFromAttackingToDefending(g);
-            drawArrowFromSupportingUnits(g);
-        break;
-        
-        case Combat.WITHRDAW:
-            drawArrowFromAttackingToDefending(g);
-            drawArrowFromSupportingUnits(g);
-            drawRetrievingPositionPossibility(g);
-        break;
-        
-        case Combat.PICK_SUPPORT_UNIT:
-            drawArrowFromAttackingToDefending(g);
-            drawPossibleSupportingUnits(g);
-            drawArrowFromSupportingUnits(g);
-        break;    
-             
-        default: 
-            drawArrowFromAttackingToDefending(g);
-            drawArrowFromSupportingUnits(g);
-            System.out.println("manouvre.gui.GameGUI.drawCombat() nie obslugujemy tego w draw" + combat.getState() );
-        }
-    }
-    }
-    private void drawPossibleAttackPositions(Graphics g){
-        Unit attackingUnit = game.getCombat().getAttackingUnit();
-        Card attackCard = game.getCombat().getInitAttackCard();
-
-        if(attackCard.getPlayingCardMode() !=Card.NO_TYPE)
-        { 
-            if(game.getCombat().getAttackingPositions() != null)
-                drawArrowToPositions(g, 
-                attackingUnit.getPosition(),
-                game.getCombat().getAttackingPositions(),
-                Color.RED
-                );
+   
+    private void drawTerrains(Graphics g){
+        for (TerrainGUI terrainGUI : mapGui.getTerrainsGUI()) {
+            drawTerrainOnPosition(g, terrainGUI.getPos(), terrainGUI.getImg());
         }
     }
     
-    private void drawPossibleSupportingUnits(Graphics g)
-    {
-        drawMultipleRectanglesOnPositions(g,
-                    game.positionCalculator.getPossibleSupportingUnitsPositions()
-                    , Color.red);   
-    }
-    
-    private void drawPursuitAvalaibleUnits(Graphics g){
-        drawMultipleRectanglesOnPositions(g, game.positionCalculator.getCurrentPlayerAvalibleUnitToSelect(), Color.RED);
-    
-    }
-    
-    private void drawRetrievingPositionPossibility(Graphics g){
-        Unit retrievingUnit = game.getCombat().getDefendingUnit();
-        if(game.getCombat().getDefendingUnit().isRetriving()){
-                  drawArrowToPositions(g,  retrievingUnit.getPosition(), 
-                          game.positionCalculator.getRetreatPositions(retrievingUnit),
-                          Color.GREEN);
-        }
-    
-    
-    }
-    
-    private void drawArrowFromAttackingToDefending(Graphics g){
+    private void drawBorder(Graphics g){
+    for(int i=0;i<8;i++){
         
-        drawArrowToPosition(g,  game.getCombat().getAttackingUnit().getPosition(), 
-                     game.getCombat().getDefendingUnit().getPosition(), Color.GREEN);
-    
-    }
-    
-    private void drawArrowFromSupportingUnits(Graphics g)
-    {
-        for (Unit  unit : game.getCurrentPlayer().getNotKilledUnits()) {
-            if(unit.isSupporting())
+        g.setColor(Color.white);
+        if(windowMode == CreateRoomWindow.AS_HOST)
                 {
-                drawRectangleOnPosition(g, unit.getPosition(), Color.BLUE);
-                drawArrowToPosition(g, unit.getPosition(), game.getCombat().getDefendingUnit().getPosition(),
-                        Color.BLUE);
+                    g.drawString(Integer.toString(i),
+                    i* MapGUI.SQUARE_WIDTH + MapGUI.BOARD_START_X + (MapGUI.SQUARE_WIDTH/2), 
+                    MapGUI.SQUARE_WIDTH/2)
+                    ;
+                    
+                    g.drawString(Integer.toString(i),
+                    (MapGUI.SQUARE_WIDTH/2)
+                   ,  (7-i) * MapGUI.SQUARE_WIDTH + MapGUI.BOARD_START_Y + (MapGUI.SQUARE_WIDTH/2))
+                    ;
                 }
-        }
-        for (Unit  unit : game.getOpponentPlayer().getNotKilledUnits()) {
-            if(unit.isSupporting())
-               {
-                drawRectangleOnPosition(g, unit.getPosition(), Color.BLUE);
-                drawArrowToPosition(g, unit.getPosition(), game.getCombat().getDefendingUnit().getPosition(),
-                        Color.BLUE);
-                } 
-        }
+        else if(windowMode == CreateRoomWindow.AS_GUEST)
+                {
+                 g.drawString(Integer.toString(i),
+                    (7-i) * MapGUI.SQUARE_WIDTH + MapGUI.BOARD_START_X + (MapGUI.SQUARE_WIDTH/2), 
+                    MapGUI.SQUARE_WIDTH/2)
+                    ;
+                    
+                    g.drawString(Integer.toString(i),
+                    (MapGUI.SQUARE_WIDTH/2)
+                   ,  (i) * MapGUI.SQUARE_WIDTH + MapGUI.BOARD_START_Y + (MapGUI.SQUARE_WIDTH/2))
+                    ;
+                    }
+
+            }
     }
     
     private void drawLOS(Graphics g){
-        if (game.getSelectedUnit()!= null){
+        if (game.getSelectedUnit().getID() != -1){
         Unit selectedUnit = game.getSelectedUnit();
             if(selectedUnit.isShowingLOS()) 
                 drawArrowToPositions(g, selectedUnit.getPosition(), game.getLOS(selectedUnit, 2), Color.yellow);
@@ -795,7 +869,7 @@ public class GameGUI {
             currentPlayerArmy.add(new UnitGUI(unit));
         }
         for (Unit unit : game.getOpponentPlayer().getArmy()) {
-            opponnetPlayerArmy.add(new UnitGUI(unit));
+            opponentPlayerArmy.add(new UnitGUI(unit));
         }
     }
     
@@ -890,7 +964,7 @@ public class GameGUI {
         ArrayList<UnitGUI> packUnits = new ArrayList<>();
         packUnits.addAll(currentPlayerArmy);
         if(game.getPhase() != Game.SETUP)
-            packUnits.addAll(opponnetPlayerArmy);
+            packUnits.addAll(opponentPlayerArmy);
         return packUnits;
     }
 }

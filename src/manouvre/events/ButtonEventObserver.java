@@ -47,6 +47,7 @@ public void update(Observable o, Object arg) {
             /*Guirellas decision*/
             if(game.getCurrentPlayer().isActive())
             {
+                game.setInfoBarText("No is time to play Guirellas!");    
                 buttonActionSetText("Accept Card", true);
                 buttonToNextPhaseMakeInvisible();
             }
@@ -61,7 +62,10 @@ public void update(Observable o, Object arg) {
         case EventType.CARD_ACCEPTED:
         case EventType.GUIRELLA_PLAYED:    
           if(game.getCurrentPlayer().isActive())
-              buttonToNextPhaseSetText("End Move", true);
+              if(game.getPhase() == Game.MOVE)
+                buttonToNextPhaseSetText("End Move", true);
+              if(game.getPhase() == Game.RESTORATION)
+                buttonToNextPhaseSetText("End Turn", true);
           
         LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);  
         break;
@@ -221,14 +225,17 @@ public void update(Observable o, Object arg) {
 
        case EventType.SKIRMISH_PLAYED:
             buttonActionMakeInvisible();
+            LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);    
        break;
        
        case EventType.END_COMBAT:
            buttonNextPhaseSetText();
+           LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);    
        break;
        case EventType.LEADER_END_PICKING_SUPPORT:
        case EventType.SKIRMISH_DESELECTED:    
            buttonActionSetText("Roll dices", true);
+           LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);    
        break;
        
        

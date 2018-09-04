@@ -296,7 +296,7 @@ public class CardSet extends Observable implements CardSetInterface, Serializabl
        return cardList.get(cardPosition).getCardName();     
     }
     public int getCardTypeByPosInSet(int cardPosition){
-       return cardList.get(cardPosition).getCardType();     
+       return cardList.get(cardPosition).getType();     
     }
     
      public int getCardIDByPosInSet(int cardPosition){
