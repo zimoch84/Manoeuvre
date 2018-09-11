@@ -39,7 +39,6 @@ public class Position implements PositionInterface, Serializable{
     private static final long serialVersionUID = 321L;
     private int x;
     private int y;
-    private boolean transposed = false;
     
     public int getX() {
         return x;
@@ -55,47 +54,36 @@ public class Position implements PositionInterface, Serializable{
         
     }
         
-        /**
-	 * calculate upper left corner of terrain
-	 * @param 
-	 * @return x coordinate for upper right corner  terrain	
-	 */
-       public  int getMouseX(int isHost){
-           
-                if(isHost == CreateRoomWindow.AS_HOST)
-		return MapGUI.BOARD_START_X+  MapGUI.SQUARE_WIDTH * x;
-                else
+    /**
+     * calculate upper left corner of terrain
+     * @param 
+     * @return x coordinate for upper right corner  terrain	
+     */
+    public  int getMouseX(int windowMode){
+
+            if(windowMode == CreateRoomWindow.AS_HOST)
+                return MapGUI.BOARD_START_X+  MapGUI.SQUARE_WIDTH * x;
+            else
                 return MapGUI.BOARD_START_X+  MapGUI.SQUARE_WIDTH * transpoze().getX();
-         
-	}
+    }
 	
-	/**
-	 * calculate upper left corner of terrain
-	 * @param 
-	 * @return y coordinate for  upper right corner  terrain
-	 */
-	public  int getMouseY(int isHost){
-               
-                if(isHost == CreateRoomWindow.AS_HOST)
-		return  MapGUI.SQUARE_HEIGHT * (PositionInterface.ROW_8 - y) + MapGUI.BOARD_START_Y ;
-                else 
-                return  MapGUI.SQUARE_HEIGHT * (PositionInterface.ROW_8 - transpoze().getY()) + MapGUI.BOARD_START_Y ;   
-                
-           
-	}
-        	
-	        
-        /**
-         * 
-         * @return Positions               
-         * @see Positions
-               
-        */
-    
+    /**
+     * calculate upper left corner of terrain
+     * @param 
+     * @return y coordinate for  upper right corner  terrain
+     */
+    public  int getMouseY(int isHost){
+
+        if(isHost == CreateRoomWindow.AS_HOST)
+            return  MapGUI.SQUARE_HEIGHT * (PositionInterface.ROW_8 - y) + MapGUI.BOARD_START_Y ;
+        else 
+            return  MapGUI.SQUARE_HEIGHT * (PositionInterface.ROW_8 - transpoze().getY()) + MapGUI.BOARD_START_Y ;   
+    }
+
     @Override
     public ArrayList<Position> getAdjencedPositions() {
        
-      ArrayList<Position>  adjencedPositions = new ArrayList<Position>();
+    ArrayList<Position>  adjencedPositions = new ArrayList<Position>();
           if (this.getX()-1  >= 0 ) {
                 adjencedPositions.add(new Position(this.getX()-1, this.getY()));
           }
@@ -109,87 +97,53 @@ public class Position implements PositionInterface, Serializable{
                 adjencedPositions.add(new Position(this.getX()+1, this.getY()));
           }
      return adjencedPositions;
-        
-        
-        
-        
     }
     
     @Override
     public String toString(){
-    return "Position X: " + getX() + " Position Y: " + getY() ;
-    
-    
+        return "Position X: " + getX() + " Position Y: " + getY() ;
     }
     
     @Override
     public boolean equals(Object in){
-    
         Position p = (Position) in;
         if (getX() == p.getX() && getY()==p.getY()) return true;
         
         else return false;
-        
-        
     }
     
     public Position transpoze(){
-    
         return new Position(PositionInterface.ROW_8 - x, PositionInterface.COLUMN_H - y);
-    
     }
     
    
-     /**
-	 * convert logical X row into Mouse x coordinate
-        * @param x
-	 * @return y coordinate for row
-	 */
-        public static  int convertXtoMouseX(int x){
-		return MapGUI.BOARD_START_X + MapGUI.SQUARE_WIDTH * x;
-	}
-	
-	
-	/**
-	 * convert logical y into Mouse y coordinate
-         * @param y
-	 * @param row
-	 * @return y coordinate for y
-	 */
-  
-	public static int convertYToMouseY(int y){
-            
-           
-		return MapGUI.BOARD_START_Y + MapGUI.SQUARE_HEIGHT * (PositionInterface.ROW_8 - y);
-	}
-        
-        /*
-        
-        Convert mouse position to x coordinate
-        */
-        public static int convertMouseXToX(int mouseX){
-        
-            
-            return (int)  (mouseX - MapGUI.BOARD_START_X)  /MapGUI.SQUARE_WIDTH;
-            
-            
-        }
-        
-        /*
-        
-        Convert mouse position y to y coordinate on board
-        */
-        public static int convertMouseYToY(int mouseY){
-        
-            return  ROW_8  -  (int)  ((mouseY - MapGUI.BOARD_START_X)  / (MapGUI.SQUARE_HEIGHT))  ;
-            
-        }
+    
+    /*
+    Convert mouse position to x coordinate
+    */
+    
              
-        public static Position getPositionFromMouse(int x, int y, int windowMode){
-            if(windowMode == CreateRoomWindow.AS_GUEST)
-                return new Position(convertMouseXToX(x), convertMouseYToY(y)).transpoze();
-            else 
-                return new Position(convertMouseXToX(x), convertMouseYToY(y));
-        }
-         
+    public static Position getPositionFromMouse(int x, int y, int windowMode){
+        if(windowMode == CreateRoomWindow.AS_GUEST)
+            return new Position(convertMouseXToX(x), convertMouseYToY(y)).transpoze();
+        else 
+            return new Position(convertMouseXToX(x), convertMouseYToY(y));
+    }
+    private static  int convertXtoMouseX(int x){
+        return MapGUI.BOARD_START_X + MapGUI.SQUARE_WIDTH * x;
+    }
+	
+    private static int convertYToMouseY(int y){
+        return MapGUI.BOARD_START_Y + MapGUI.SQUARE_HEIGHT * (PositionInterface.ROW_8 - y);
+    }
+    private static int convertMouseXToX(int mouseX){
+        return (int)  (mouseX - MapGUI.BOARD_START_X)  /MapGUI.SQUARE_WIDTH;
+    }
+    /*
+    Convert mouse position y to y coordinate on board
+    */
+    private static int convertMouseYToY(int mouseY){
+        return  ROW_8  -  (int)  ((mouseY - MapGUI.BOARD_START_X)  / (MapGUI.SQUARE_HEIGHT))  ;
+    }
+        
 }

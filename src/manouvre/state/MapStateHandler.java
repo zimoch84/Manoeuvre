@@ -280,7 +280,7 @@ public class MapStateHandler implements Observer, Serializable{
                 if(game.getCurrentPlayer().isActive())
                     setState(MapStateHandler.NOSELECTION);
                 LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);   
-                break;
+            break;
             
             case EventType.PICK_SUPPORT_UNIT:
                 setState(MapStateHandler.PICK_MULTIPLE_UNITS);

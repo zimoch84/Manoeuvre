@@ -139,6 +139,10 @@ public final class Game implements Serializable{
                 setUnit(combat.getAttackingUnit());
             if(combat.getDefendingUnit().getID()!= -1 )
                 setUnit(combat.getDefendingUnit());
+            for(Unit supportingUnit:combat.getSupportingUnits())
+            {
+                setUnit(supportingUnit);
+            }
             
     }
     
@@ -164,107 +168,7 @@ public final class Game implements Serializable{
         return guestPlayer;
     }
       
-    public ArrayList<Position> getPossibleAssault(Unit unit){
     
-    ArrayList<Position> getOneSquarePositionsArray = getOneSquarePositions(unit.getPosition());
-    
-    ArrayList<Position> getPossibleAssaultArray = new  ArrayList<>();
-    
-        for(Position checkPositon: getOneSquarePositionsArray)
-        {
-            if(checkOpponentPlayerUnitAtPosition(checkPositon))
-                   getPossibleAssaultArray.add(checkPositon);
-        }
-        return getPossibleAssaultArray;
-
-    }
-    
-    public ArrayList<Position> getPossibleBombard(Unit unit){
-                return getLOS(unit, 2);
-    };
-    
-    public ArrayList<Position> getPossibleVolley(Unit unit){
-            return getLOS(unit, 1);
-    };
-    public ArrayList<Position> getOneSquarePositions(Position unitPosition){
-        ArrayList<Position> positions = new ArrayList<>();
-          if (unitPosition.getX()-1  >= 0 ) {
-                  positions.add(new Position(unitPosition.getX()-1, unitPosition.getY()));
-          }
-          if (unitPosition.getY()-1 >= 0){      
-                  positions.add(new Position(unitPosition.getX(), unitPosition.getY()-1 ));
-          }
-          if (unitPosition.getY()+1 <= ROW_8){
-                  positions.add(new Position(unitPosition.getX(), unitPosition.getY()+1));
-          }
-          if (unitPosition.getX()+1 <= COLUMN_H){
-                  positions.add(new Position(unitPosition.getX()+1, unitPosition.getY()));
-          }
-        return positions;
-    }
-     /**
-         Firstly get adjenced tiles then check on terrain restrictions then check if another tile is occupied
-     * @param unit
-     * @return Position
-     */ 
-    public ArrayList<Position> getOneSquareMovements(Position unitPosition){
-        
-        ArrayList<Position> moves;
-        moves = new ArrayList<>();
-            /*
-            Firstly get adjenced tiles then check on terrain restrictions then check if another tile is occupied
-            */ 
-          if (unitPosition.getX()-1  >= 0 ) {
-                
-              if (map.getTerrainAtXY(unitPosition.getX()-1, unitPosition.getY()).isPassable()
-                      )
-                        moves.add(new Position(unitPosition.getX()-1, unitPosition.getY()));
-          }
-          if (unitPosition.getY()-1 >= 0){      
-              if (map.getTerrainAtXY(unitPosition.getX(), unitPosition.getY()-1).isPassable()
-                      
-                      )
-                moves.add(new Position(unitPosition.getX(), unitPosition.getY()-1 ));
-          }
-          if (unitPosition.getY()+1 <= ROW_8){
-              if (map.getTerrainAtXY(unitPosition.getX(), unitPosition.getY()+1).isPassable()
-                     
-                      )
-                                moves.add(new Position(unitPosition.getX(), unitPosition.getY()+1));
-          }
-          if (unitPosition.getX()+1 <= COLUMN_H){
-              if (map.getTerrainAtXY(unitPosition.getX()+1, unitPosition.getY()).isPassable()
-                     
-                      )
-              moves.add(new Position(unitPosition.getX()+1, unitPosition.getY()));
-          }
-            
-        
-        
-        return moves;
-    }
-    
-    public ArrayList<Position> getTwoSquareMovements(Position unitPosition){
-    
-    ArrayList<Position> moves = getOneSquareMovements(unitPosition);
-
-    ArrayList<Position> tempMoves;       
-    ArrayList<Position> tempMoves2 = new ArrayList<Position>();
-
-    for(Position move : moves ){       
-                if(! map.getTerrainAtXY(move.getX(), move.getY()).isEndsMove() ){              
-                    tempMoves = getOneSquareMovements(move);                    
-                        for(Position addPosition: tempMoves){                        
-                            if (!moves.contains(addPosition) && !addPosition.equals(unitPosition))                                                                  
-                                tempMoves2.add(addPosition);                                   
-                        }     
-                }                      
-            }
-     moves.addAll(tempMoves2);        
-    
-     return moves;
-     
-    }
     
     public void nextTurn(){
         turn++;
@@ -287,57 +191,6 @@ public final class Game implements Serializable{
     this.infoBarText = inText;
     }
     
-    
-    public ArrayList<Position> getPossibleMovement(Unit unit){      
-        ArrayList<Position> moves = new ArrayList<>();         
-        /*
-        get Infantry Moves
-        */
-        if (unit.getType() == Unit.INFANTRY)
-        moves = getOneSquareMovements(unit.getPosition());
-        /*
-        If calvary do check of every infantry move considering Terrain.MARSH which ends move
-        */
-        else if(unit.getType() == Unit.CALVARY){       
-        moves = getTwoSquareMovements(unit.getPosition());
-        }       
-        return moves; 
-    };
-    
-    
-    
-    public ArrayList<Position> getLOS(Unit unit, int lenght){
-        
-        Position unitPosition = unit.getPosition();
-        ArrayList<Position> los = getOneSquarePositions(unitPosition);
-        
-        ArrayList<Position> loscopy = (ArrayList<Position>) UnoptimizedDeepCopy.copy(los);
-        ArrayList<Position> los2;
-            /*
-            If length = 1 then we have volley 
-            */ 
-            if(lenght == 1)
-                    return loscopy;
-            else 
-            {
-                 for(Iterator<Position> checkLOSPosition = loscopy.iterator(); checkLOSPosition.hasNext() ; ) {
-                    /*  
-                    If 1st square terrain blocks los then 2nd squara wont be visible
-                    */
-                     Position position = checkLOSPosition.next();
-                 if(!map.getTerrainAtPosition(position).isBlockingLOS())   {
-                     los2 = getOneSquarePositions(position);
-                     los2.remove(unitPosition);
-
-                     los.addAll(los2);
-                 }
-                 
-                 }
-                
-                 
-            }
-         return los;           
-    };  
 
     public ArrayList<Unit> getPossibleSupportingUnits(Unit defendingUnit, Unit attackingUnit){
        /*
@@ -345,7 +198,7 @@ public final class Game implements Serializable{
         */
         ArrayList<Unit> possibleSupportUnits = new ArrayList<>();
         
-        for(Position supportPosition:getOneSquarePositions(defendingUnit.getPosition()) )
+        for(Position supportPosition:positionCalculator.getOneSquarePositions(defendingUnit.getPosition()) )
         {
              if(getCurrentPlayerUnitAtPosition(supportPosition) != null)
                 if(!attackingUnit.getPosition().equals(supportPosition))
@@ -362,7 +215,7 @@ public final class Game implements Serializable{
         
     }
      
-     void placeUnitsOnMap(Player player){
+    private void placeUnitsOnMap(Player player){
      
          for(Unit unit: player.getArmy())
          
@@ -411,7 +264,7 @@ public final class Game implements Serializable{
     */
     
     public Unit getSelectedUnit(){
-     for (Unit unitSearch : getCurrentPlayer().getArmy()) {
+     for (Unit unitSearch : getCurrentPlayer().getNotKilledUnits()) {
             if (unitSearch.isSelected()) {
                 return unitSearch;
             }
@@ -420,81 +273,37 @@ public final class Game implements Serializable{
     }
     
     public Unit getSelectedUnit(String playerName){
-     for (Unit unitSearch : getPlayerByName(playerName).getArmy()) {
+     for (Unit unitSearch : getPlayerByName(playerName).getNotKilledUnits()) {
             if (unitSearch.isSelected()) {
                 return unitSearch;
             }
         }
-    return null;
+    return new Unit();
     }
     
-    /*
-    In multiple selection mode 
-    */
-     public ArrayList<Unit> getSelectedUnits(){
-         
-         ArrayList<Unit> selectedUnits = new ArrayList<>();
-         
-         for (Unit unitSearch : getCurrentPlayer().getArmy()) {
-            if (unitSearch.isSelected()) {
-                selectedUnits.add(unitSearch);
-           }
-        }
-        return selectedUnits;
-    
-    }
-    
-    
-    public int getNumberOfSupportingUnit(){
-        int numberOFSupUnits = 0;
-        for (Unit unitSearch : getCurrentPlayer().getArmy()) {
-            if (unitSearch.isSupporting()) {
-                numberOFSupUnits ++;
-            }
-        }
-        return numberOFSupUnits;
-    
-    }
-    
+      
     public Unit getCurrentPlayerUnitAtPosition(Position position){
-    
         for(Unit unitSearch: currentPlayer.getArmy()){
-        
             if(unitSearch.getPosition().equals(position))
-            {
                 return unitSearch;
-              }
        }
        return null;
     }
     
     public Unit getOpponentPlayerUnitAtPosition(Position position){
-    
         for(Unit unitSearch: opponentPlayer.getArmy()){
-        
             if(unitSearch.getPosition().equals(position))
-            {
                 return unitSearch;
-              }
-
-        }
+            }
        return null;
-
     }
     
     public boolean isCurrentPlayerUnitAtPosition(Position position){
-    
         for(Unit unitSearch: currentPlayer.getNotKilledUnits()){
-        
             if(unitSearch.getPosition().equals(position))
-            {
                 return true;
-              }
-        }
-              
+            }
        return false;
-        
-     
     }
     public boolean checkCurrentPlayerUnitByCard(Card card){
     
@@ -563,36 +372,7 @@ public final class Game implements Serializable{
         for(Unit unitSearch: opponentPlayer.getArmy())
             if(unitSearch.equals(card))
                 return unitSearch;
-        
-        
         return new Unit();
-        
-    }
-    
-    
-    public Unit getUnitByName(String name){
-    
-        for(Unit unitSearch: currentPlayer.getArmy()){
-        
-            if(unitSearch.getName().equals(name))
-            {
-                return unitSearch;
-              }
-    }
-        
-        for(Unit unitSearch: opponentPlayer.getArmy()){
-        
-            if(unitSearch.getName().equals(name))
-            {
-                return unitSearch;
-              }
-            
-        
-        }
-              
-        return null;
-        
-     
     }
      
     public Unit getUnitAtPosition(Position position)
@@ -606,7 +386,7 @@ public final class Game implements Serializable{
         
     }
     
-     public boolean checkOpponentPlayerUnitAtPosition(Position position){
+    public boolean checkOpponentPlayerUnitAtPosition(Position position){
     
         for(Unit unitSearch: opponentPlayer.getNotKilledUnits()){
             if(unitSearch.getPosition().equals(position))
@@ -627,42 +407,10 @@ public final class Game implements Serializable{
     }
     
     public void nextPhase(){
-        if(getPhase()<Game.MAX_PHASES)setPhase(getPhase()+1);
+        if(getPhase()<Game.MAX_PHASES)
+            setPhase(getPhase()+1);
 
     }
-     public String getPhaseName(int phase){
-      
-        
-           switch(phase){
-           case Game.SETUP:
-           {
-           return "Setup";
-           }    
-           case Game.DISCARD:
-           {
-            return "Discard";
-           }
-           case Game.DRAW:
-           {
-             return "Draw";
-           }
-           case Game.MOVE:
-           {
-            return "Move";
-            }
-           case Game.COMBAT:
-           {
-            return "Combat";
-           }
-            case Game.RESTORATION:
-           {
-            return "Restoration";
-           }
-         
-        
-           }   
-           return null;
-      }
 
     public void setPhase(int phase) {
         this.phase = phase;
@@ -740,8 +488,19 @@ public final class Game implements Serializable{
        
     }
     
-    public String toString(){
+     /*
+    In multiple selection mode 
+    */
+    public ArrayList<Unit> getSelectedUnits(){
+        ArrayList<Unit> selectedUnits = new ArrayList<>();
+        for (Unit unitSearch : getCurrentPlayer().getNotKilledUnits()) {
+            if (unitSearch.isSelected()) 
+                selectedUnits.add(unitSearch);
+            }
+        return selectedUnits;
+    }
     
+    public String toString(){
          return "Host Player:" + ( hostPlayer != null ? hostPlayer.toString() : "null") 
               + " Guest Player:"  + ( guestPlayer != null ? guestPlayer.toString() : "null")
                  + " Map: " +  map.toString();
@@ -749,11 +508,11 @@ public final class Game implements Serializable{
     }
 
     public boolean isLocked() {
-    return lockGUI;
+        return lockGUI;
     }
 
     public void lockGUI() {
-    this.lockGUI = true;
+         this.lockGUI = true;
     
     }
     public void unlockGUI(){
@@ -791,39 +550,22 @@ public final class Game implements Serializable{
      }
     
     public boolean checkIfCurrentPlayerHasAnyUnitInjured() {
-        for (int i = 0; i < this.getCurrentPlayer().getArmy().length; i++) {
-            Unit currentUnit = this.getCurrentPlayer().getArmy()[i];
-            if (currentUnit.injured) {
+        for(Unit checkUnit:getCurrentPlayer().getNotKilledUnits())
+            if(checkUnit.isInjured() ) {
                 return true;
             }
-        }
         return false;
     } 
-    
-    public ArrayList<Position> getCurrentPlayerInjuredUnitPositions(){
-        ArrayList<Position> injuredUnitPositions = new ArrayList<>();
-        
-        for(Unit checkUnit : getCurrentPlayer().getArmy())
-        {
-            if(checkUnit.isInjured())
-                  injuredUnitPositions.add(checkUnit.getPosition());
-        }
-
-        return injuredUnitPositions;
-    }
+   
     public ArrayList<Unit> getCurrentPlayerInjuredUnits(){
         ArrayList<Unit> injuredUnits = new ArrayList<>();
-        
-        for(Unit checkUnit : getCurrentPlayer().getArmy())
+        for(Unit checkUnit : getCurrentPlayer().getNotKilledUnits())
         {
             if(checkUnit.isInjured())
                   injuredUnits.add(checkUnit);
         }
-
         return injuredUnits;
     }
-    
-    
     public void eliminateUnit(Unit unit){
          unit =getUnit(unit);
          unit.eliminated = true;
@@ -858,6 +600,5 @@ public final class Game implements Serializable{
         }
         notifyAbout(EventType.END_COMBAT);
     }
-    
 }
 

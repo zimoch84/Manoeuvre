@@ -66,15 +66,17 @@ public class CommandQueue extends Observable implements Observer{
        
     }
     
-    public void undoLastCommand() {
+    public void undoLastCommandBeforeGuirellas() {
     
-         Command cmd = commands.get(commands.size()-1);
+        /*Last one command is guirella so need to move one more */
+         Command cmd = commands.get(commands.size()-2);
+         
          cmd.undo(game);
 
          /*
          Remove last command
          */
-         commands.remove(commands.size()-1);
+         commands.remove(commands.size()-2);
     
     }
     
@@ -94,12 +96,12 @@ public class CommandQueue extends Observable implements Observer{
         
         String dialogType = (String) arg;
         
-        LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
+        LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType); 
         
         switch(dialogType){
             case  EventType.GUIRELLA_PLAYED:
             {
-                undoLastCommand();
+                undoLastCommandBeforeGuirellas();
                 break;
             }}
     }

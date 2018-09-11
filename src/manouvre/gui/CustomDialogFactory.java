@@ -6,6 +6,7 @@
 package manouvre.gui;
 
 import manouvre.commands.CommandQueue;
+import manouvre.commands.DialogNoDecisionCommand;
 import manouvre.game.Game;
 import manouvre.interfaces.Command;
 
@@ -33,6 +34,7 @@ public static void showThereIsNoRoomToWithdraw(){
 
 public static void showEndSetupDialog(CommandQueue cmdQueue, Command command, Game game){
      
+    
     showYesNoDialog("Are You sure to end setup?", cmdQueue, command);
      
     }
@@ -40,18 +42,20 @@ public static void showEndSetupDialog(CommandQueue cmdQueue, Command command, Ga
 public static void showConfirmationDialog(String infoText){
     if(dialog!= null)
         dialog.setVisible(false);
-    dialog = new CustomDialog(CustomDialog.Type.CONFIRMATION_TYPE, infoText);   
-    dialog.setVisible(true);
+        dialog = new CustomDialog(CustomDialog.Type.CONFIRMATION_TYPE, infoText);   
+        dialog.setVisible(true);
     }    
 
 public static void showYesNoDialog(String decistionText,  CommandQueue cmdQueue, Command yesCommand){
-     if(dialog!= null)
+    if(dialog!= null)
         dialog.setVisible(false);
-    dialog = new CustomDialog(CustomDialog.Type.YES_NO_TYPE, 
-                    decistionText ,
-                    cmdQueue);
-    dialog.setOkCommand(yesCommand);
-    dialog.setVisible(true);
+        dialog = new CustomDialog(CustomDialog.Type.YES_NO_TYPE, 
+                        decistionText ,
+                        cmdQueue);
+        dialog.setOkCommand(yesCommand);
+        Command noCommand =  new DialogNoDecisionCommand();
+        dialog.setCancelCommand(noCommand);
+        dialog.setVisible(true);
     }
 
 }

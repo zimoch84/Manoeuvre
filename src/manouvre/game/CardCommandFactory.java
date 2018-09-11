@@ -49,14 +49,14 @@ public class CardCommandFactory implements Serializable{
     /*
     Crate card command based on Card
     */
-    public Command createCardCommand(Card playingCard) {
+    public Command createHQCardCommand(Card playingCard, Unit movedUnit) {
     
     if(playingCard != null)
     switch (playingCard.getType() ) {
         case Card.HQCARD :
             switch(playingCard.getHQType()){
                 case Card.FORCED_MARCH : 
-                    setCardCommand( new CardCommands.ForcedMarchCommand(attachedCommand, playingCard, game.getCurrentPlayer().getName()) );
+                    setCardCommand( new CardCommands.ForcedMarchCommand(attachedCommand, movedUnit, playingCard, game.getCurrentPlayer().getName()) );
                     return getCardCommand();
                
                 case Card.WITHDRAW : 
@@ -68,12 +68,12 @@ public class CardCommandFactory implements Serializable{
                     return getCardCommand();
                 
                 case Card.SUPPLY : 
-                    setCardCommand( new CardCommands.ForcedMarchCommand(attachedCommand, playingCard, game.getCurrentPlayer().getName()) );
+                    setCardCommand( new CardCommands.ForcedMarchCommand(attachedCommand, movedUnit, playingCard, game.getCurrentPlayer().getName()) );
                     return getCardCommand();
                 
                 case Card.SKIRMISH : 
                     setCardCommand( new CardCommands.SkirmishCommand(game.getCurrentPlayer().getName(),
-                            game.getOpponentPlayer().getName(), playingCard, attachedCommand ) );
+                            game.getOpponentPlayer().getName(), playingCard, movedUnit, attachedCommand ) );
                     return getCardCommand();
                 
                 
@@ -82,14 +82,7 @@ public class CardCommandFactory implements Serializable{
                     return  getCardCommand();
                 
             }
-        case Card.UNIT :
-            if(game.getPhase() == Game.COMBAT)
-            return new CardCommands.AttackCommand(
-                    game.getCurrentPlayer().getName(),
-                    game.getCombat()
-                    
-                    );
-                   
+                  
         default: 
             setCardCommand(new CardCommands.MoveToTableCommand(playingCard, game.getCurrentPlayer().getName())) ;
             return  getCardCommand();
@@ -140,7 +133,7 @@ public class CardCommandFactory implements Serializable{
 
     public Command createOutcomeCombatCommand(){
         Combat combat = game.getCombat();
-        return new CardCommands.CombatOutcomeCommand(   game.getCurrentPlayer().getName(),combat);
+            return new CardCommands.CombatOutcomeCommand(  game.getCurrentPlayer().getName(),combat);
     }
     
 }

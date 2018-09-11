@@ -173,7 +173,10 @@ public class Unit implements UnitInterface, Serializable{
 
     @Override
     public boolean isInjured() {
-        return injured;
+        if(!eliminated)
+            return injured;
+        else             
+            return false;
     }
     public void restoreUnit()
     {

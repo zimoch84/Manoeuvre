@@ -33,28 +33,33 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
 
     private MapStateHandler mapStateHandler;
     
-    public CardPlayingHandler(Game game, MapStateHandler mapStateHandler) {
+    public CardPlayingHandler(Game game, MapStateHandler mapStateHandler, CommandQueue cmdQueue, CardCommandFactory ccf) {
         this.game = game;
         this.mapStateHandler = mapStateHandler;
+        this.cmdQueue = cmdQueue;
+        this.ccf = ccf;
         this.playingCard = new Card();
                 
     }
     
     public boolean canBePlayed(Card card) {
-        return canBePlayedByPhase(card);
+        boolean canBePlayed = canBePlayedByPhase(card);
+        LOGGER.debug("Card " + card.getCardName() + (canBePlayed ? " can be played" :  " cannot be played") );
+        
+        return canBePlayed;
+        
     }
     
     public void actionOnSelection(Card card) {
-               actionOnSelectionByPhase(card);
+        actionOnSelectionByPhase(card);
            
     }
     public void actionOnDeselection(Card card) {
-         actionOnDeselectionByPhase(card);
+        actionOnDeselectionByPhase(card);
          
     }
     
     private void actionOnSelectionByPhase(Card card){
-    
         switch(game.getPhase()){
         
             case Game.SETUP:
@@ -92,11 +97,13 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
         switch (card.getHQType()) {
         case Card.FORCED_MARCH:
             game.getCurrentPlayer().getLastMovedUnit().setSelected(true);
-           
-            break;
+        break;
         case Card.SUPPLY:
         case Card.NO_CARD:
-            break;
+        break;
+        case Card.GUERRILLAS:
+             CustomDialogFactory.showSureToPlayCardDialog(cmdQueue, ccf.createGuerrillaCardCommand(card), game);
+        break;
             
         }        
     
@@ -118,12 +125,15 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
                         }
                         break;
                 case Card.GUERRILLAS:
-                        cmdQueue.storeAndExecuteAndSend(ccf.createGuerrillaCardCommand(card));
+                        CustomDialogFactory.showSureToPlayCardDialog(cmdQueue, ccf.createGuerrillaCardCommand(card), game);
+                        //cmdQueue.storeAndExecuteAndSend(ccf.createGuerrillaCardCommand(card));
                         break;
                 
                 case Card.SKIRMISH:
+                case Card.FRENCH_SAPPERS:    
                         handleCombatPickSupportCardsOnSelection(card, game);
                         break;
+                        
                 }
         break;   
         case Card.UNIT:
@@ -160,7 +170,7 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
     }
     }
     
-    private void actionSelectionCardInRestoration(Card card){
+        private void actionSelectionCardInRestoration(Card card){
         switch (card.getType()) {
             case Card.UNIT:
                  game.getCurrentPlayerUnitByCard(card).setSelected(true);  
@@ -168,14 +178,19 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
             case Card.HQCARD:
                 switch(card.getHQType()){
                     case Card.SUPPLY:
+                    case Card.REGROUP:
                         setPlayingCard(card);
                     break;    
+                    case Card.GUERRILLAS:
+                        CustomDialogFactory.showSureToPlayCardDialog(cmdQueue, ccf.createGuerrillaCardCommand(card), game);
+                    break;
                 }
+            break;    
             case Card.LEADER:
                 ArrayList<Unit> injuredUnits = game.getCurrentPlayerInjuredUnits();
                 Command restoreByLeader = new RestoreUnitByLeaderCommand(game.getCurrentPlayer().getName(), injuredUnits, card);
                 CustomDialogFactory.showSureToPlayCardDialog(cmdQueue, restoreByLeader, game);
-                break;
+            break;
     }
     }
   
@@ -211,7 +226,7 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
     
     private void actionDeselectionCardInMove(Card card){
     
-         switch (card.getHQType()) {
+    switch (card.getHQType()) {
         case Card.FORCED_MARCH:
             game.getCurrentPlayer().getLastMovedUnit().setSelected(false);
             mapStateHandler.setState( MapStateHandler.NOSELECTION);
@@ -220,7 +235,9 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
             game.unselectAllUnits();
             mapStateHandler.setState( MapStateHandler.NOSELECTION);
             break;
-               
+        case Card.GUERRILLAS:    
+            game.getCurrentPlayer().getHand().unselectAllCards();
+            break;   
         case Card.NO_CARD:
             break;
             
@@ -237,7 +254,7 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
                             if (game.getCombat().getDefendingUnit() != null) {
                                 game.getUnit(game.getCombat().getDefendingUnit()).setSelected(false);
                                 game.getUnit(game.getCombat().getDefendingUnit()).setRetriving(false);
-                                setPlayingCard(null);
+                                setPlayingCard(new Card());
                                 game.getCombat().setState(Combat.PICK_DEFENSE_CARDS);
                             }
                             break;
@@ -291,22 +308,29 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
                  switch (card.getHQType()) {
                     case Card.REDOUBDT:
                          mapStateHandler.setState(MapStateHandler.NOSELECTION);
+                         setPlayingCard(new Card());
                     break;
                     
                     case Card.SUPPLY:
+                    case Card.REGROUP:
                          mapStateHandler.setState(MapStateHandler.NOSELECTION);
+                         setPlayingCard(new Card());
                     break;
                 }
             break;     
             case Card.UNIT:
                    
-                     if (game.getPhase() == Game.RESTORATION) {
+                    if (game.getPhase() == Game.RESTORATION) {
                         game.getCurrentPlayerUnitByCard(card).setSelected(false);
                     }
             break;
+            
             case Card.LEADER:
+                setPlayingCard(new Card());
                 mapStateHandler.setState(MapStateHandler.NOSELECTION);
-                break;
+                game.getCurrentPlayer().getHand().unselectAllCards();
+                
+            break;
      }
     }
     
@@ -688,7 +712,7 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
     }
     if(combat.getSupportCards().contains(card))
         combat.removeSupportCard(card);
-    
+    setPlayingCard(new Card());
     combat.setState(Combat.PICK_SUPPORT_CARDS);
     game.notifyAbout(EventType.LEADER_DESELECTED);
  }
@@ -781,17 +805,27 @@ public void update(Observable o, Object arg) {
         break;
         
         case EventType.SUPPLY_SELECTED:
-                mapStateHandler.setStateByCard(playingCard,MapStateHandler.PICK_MOVE_POSITION_BY_CARD);
+            mapStateHandler.setStateByCard(playingCard,MapStateHandler.PICK_MOVE_POSITION_BY_CARD);
+            LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
         break;
          
         case EventType.SKIRMISH_PLAYED:
             game.getCurrentPlayer().getHand().unselectAllCards();
+            LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
         break;
         
         case EventType.END_COMBAT:
             setPlayingCard(new Card());
+            LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
         break;
         
+        case EventType.DIALOG_NO_DECISION:
+            if(playingCard.getType() != Card.NO_CARD)
+                actionOnDeselection(playingCard);
+        break;
+        case EventType.GUIRELLA_PLAYED:
+            setPlayingCard(new Card());
+        break;    
     }
 }
         

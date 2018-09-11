@@ -36,7 +36,7 @@ public class RestoreUnitByLeaderCommand implements Command {
         
         d6dices = new ArrayList<>();
         
-        for(Unit healingUnit:healingUnits){
+        for(Unit healingUnit:this.healingUnits){
             Dice d6 = new Dice(Dice.D6);
            d6dices.add(d6);
            healingUnit.setRestorationDice(d6);
@@ -48,14 +48,21 @@ public class RestoreUnitByLeaderCommand implements Command {
     public void execute(Game game) {
         log = playerName + " attempted to restore " + healingUnits.size() + " units and successfully restored: ";
         mtt.execute(game);
+        boolean successful = false;
         for(Unit restoreUnit:healingUnits){
             Unit unit = game.getUnit(restoreUnit);
             Dice restorationDice = restoreUnit.getRestorationDice();
             unit.setRestorationDice(restoreUnit.getRestorationDice());
             if( leaderCard.getLeaderRally()  >=  restorationDice.getResult()  )
+            { 
+                successful = true;
                 unit.restoreUnit();
-            log+= unit.getName() + " ";
+                log+= unit.getName() + " ";
+            }
+            if(successful)
+                log+= "none units";
         }
+        
         game.notifyAbout(EventType.RESTORATION_BY_LEADER);
         game.unselectAllUnits();
     }

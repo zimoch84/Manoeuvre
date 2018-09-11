@@ -42,12 +42,12 @@ public class MapMoveUnitByCardState implements MapState, Serializable{
         ArrayList<Position> possibleMove = game.positionCalculator.getMovePositionsByCard(playingCard, selectedUnit);
         if(possibleMove.contains(pos))
         {
-            MoveUnitCommand moveUnit = new MoveUnitCommand(game.getCurrentPlayer().getName() , selectedUnit,  pos);
+            MoveUnitCommand moveUnitCommand = new MoveUnitCommand(game.getCurrentPlayer().getName() , selectedUnit,  pos);
             /*
             We attach move command to wrap it to postpone execution in card command
             */
-            ccf.setAttachedCommand(moveUnit);
-            Command cardCommand = ccf.createCardCommand(playingCard);
+            ccf.setAttachedCommand(moveUnitCommand);
+            Command cardCommand = ccf.createHQCardCommand(playingCard, selectedUnit);
             /*
             Confirmation dialog
             */

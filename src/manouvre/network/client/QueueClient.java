@@ -14,6 +14,7 @@ import manouvre.gui.CommandLogger;
 import manouvre.interfaces.Command;
 import static java.lang.Thread.sleep;
 import manouvre.commands.CommandQueue;
+import static java.lang.Thread.sleep;
 
 /**
  *

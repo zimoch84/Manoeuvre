@@ -132,7 +132,7 @@ public class ButtonActions  extends Observable{
                     //gameGui.playSelectedCard();
             break;
             case "Undo":
-                cmdQueue.undoLastCommand();
+                cmdQueue.undoLastCommandBeforeGuirellas();
                  buttonActionMakeInvisible();
             break;
             case "Accept Card":

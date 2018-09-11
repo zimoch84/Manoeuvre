@@ -21,10 +21,13 @@ public class PlayerState{
     public  MapStateHandler mapStateHandler;
     public  CardPlayingHandler cardPlayingHandler;
     
-    public PlayerState(Game game) {
+    
+    
+    public PlayerState(Game game, CommandQueue cmdQueue) {
+        
         cardCommandFactory = new CardCommandFactory(game);
         mapStateHandler = new MapStateHandler(game, cardCommandFactory);
-        cardPlayingHandler = new CardPlayingHandler(game, mapStateHandler);
+        cardPlayingHandler = new CardPlayingHandler(game, mapStateHandler, cmdQueue, cardCommandFactory);
         cardStateHandler = new HandStateHandler(game, cardPlayingHandler, mapStateHandler);
         
         game.addObserver(mapStateHandler);

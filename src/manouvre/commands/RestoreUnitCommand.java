@@ -33,7 +33,7 @@ public class RestoreUnitCommand implements Command {
     public void execute(Game game) {
         
         mtt.execute(game);
-        game.getUnitByName(storedUnit.getName()).restoreUnit();
+        game.getUnit(storedUnit).restoreUnit();
         game.unselectAllUnits();
  
         

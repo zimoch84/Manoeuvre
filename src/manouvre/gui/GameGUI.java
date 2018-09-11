@@ -230,10 +230,13 @@ public class GameGUI {
     
     }
     private void drawUnitSelection(Graphics g){
-    
-        Unit selectedUnit = game.getSelectedUnit();
-        if (selectedUnit.getID() != -1) 
-            drawRectangleOnPosition(g, selectedUnit.getPosition(), Color.WHITE);    
+        for(Unit selectedUnit:game.getCurrentPlayer().getNotKilledUnits())
+            if (selectedUnit.isSelected())
+                drawRectangleOnPosition(g, selectedUnit.getPosition(), Color.WHITE);    
+        
+        for(Unit selectedUnit:game.getOpponentPlayer().getNotKilledUnits())
+            if (selectedUnit.isSelected())
+                drawRectangleOnPosition(g, selectedUnit.getPosition(), Color.WHITE);    
     }
     private void drawPossibleMove(Graphics g){
         /*Draws selection of possible move whlie not playing card
@@ -243,11 +246,12 @@ public class GameGUI {
             {
                 ArrayList<Position> movePositions;
                 if(game.freeMove)
-                    drawPossibleMoveInSetup(g);
+                    if(!selectedUnit.hasMoved())
+                        drawPossibleMoveInSetup(g);
                 else                 
                     if(!selectedUnit.hasMoved())
                     {
-                        movePositions = game.getPossibleMovement(selectedUnit);
+                        movePositions = game.positionCalculator.getPossibleMovement(selectedUnit);
                         drawMultipleRectanglesOnPositions(g, movePositions, Color.blue);
                     }
             }    
@@ -298,7 +302,6 @@ public class GameGUI {
             drawMoveCards(g);
         else 
             drawPossibleMove(g);
-        
     
     }
     private void drawMoveCards(Graphics g){
@@ -311,18 +314,23 @@ public class GameGUI {
                     case Card.FORCED_MARCH: 
                         if(!playingCard.hasPlayed()){
                             Unit lastMovedUnit = currentPlayer.getLastMovedUnit();
-                            movePositions = game.getOneSquareMovements(lastMovedUnit.getPosition());
+                            movePositions = game.positionCalculator.getOneSquareMovements(lastMovedUnit.getPosition());
                             drawMultipleRectanglesOnPositions(g, movePositions, Color.BLUE);
                         }
                         break;
                     case Card.SUPPLY: 
                         if(game.getSelectedUnit().getID() != -1)  {  
                             Unit selectedUnit = game.getSelectedUnit();
-                            movePositions = game.getPossibleMovement(selectedUnit);
-                            drawMultipleRectanglesOnPositions(g, movePositions, Color.BLUE);
+                            if(!selectedUnit.hasMoved())
+                            {
+                                movePositions = game.positionCalculator.getPossibleMovement(selectedUnit);
+                                drawMultipleRectanglesOnPositions(g, movePositions, Color.BLUE);
+                            }
                         }
                         else 
-                            drawMultipleRectanglesOnPositions(g, game.positionCalculator.getCurrentPlayerNotMovedUnits(), Color.BLUE);
+                            if(!playingCard.hasPlayed())
+                                drawMultipleRectanglesOnPositions(g, game.positionCalculator.getCurrentPlayerNotMovedUnits(), Color.BLUE);
+                            
                         break;
                     }
                 case Card.UNIT:
@@ -372,7 +380,6 @@ public class GameGUI {
         case Combat.PURSUIT:
             drawArrowFromAttackingToDefending(g);
             drawArrowFromSupportingUnits(g);
-            drawRetrievingPositionPossibility(g);
             drawPursuitAvalaibleUnits(g);
         break;    
         
@@ -503,7 +510,7 @@ public class GameGUI {
                         break;
                      case Card.SKIRMISH: 
                         Unit attackingUnit = game.getCombat().getAttackingUnit();
-                        movePositions = game.getTwoSquareMovements(attackingUnit.getPosition());
+                        movePositions = game.positionCalculator.getTwoSquareMovements(attackingUnit.getPosition());
                         drawMultipleRectanglesOnPositions(g, movePositions, Color.BLUE);
                         break;
                     }
@@ -550,7 +557,12 @@ public class GameGUI {
                     case Card.REGROUP:
                          restorePossiblePostions = game.positionCalculator.getCurrentPlayerInjuredUnitPositions();
                         drawMultipleRectanglesOnPositions(g, restorePossiblePostions, Color.yellow);
+                    break;
+                    case Card.REDOUBDT:
+                        drawMultipleRectanglesOnPositions(g, game.getCurrentPlayer().getArmyPositions(), Color.yellow);
+                    break;    
                     }
+                    
                 break;
                 case Card.UNIT :
                     Position restorePossiblePostion = game.getCurrentPlayerUnitByCard(playingCard).getPosition();
@@ -559,7 +571,8 @@ public class GameGUI {
                 case Card.LEADER:
                     restorePossiblePostions = game.positionCalculator.getCurrentPlayerInjuredUnitPositions();
                     drawMultipleRectanglesOnPositions(g, restorePossiblePostions, Color.yellow);
-                break;    
+                break; 
+                
                 }
         
         }
@@ -586,14 +599,15 @@ public class GameGUI {
     
     private void drawDice(Graphics g, Dice dice, Position unitPosition){
 
-    //int dicePaddingLeft = (int)(CardGUI.WIDTH)*(cardPosition) + GAP;
-    
         DiceGUI diceGUI = new DiceGUI(dice);
-        int x = Position.convertXtoMouseX(unitPosition.getX());
-        int y = Position.convertYToMouseY(unitPosition.getY());
         int sizex = (int)(diceGUI.getImage().getWidth()* DiceGUI.SCALE_FACTOR_D6);
         int sizey = (int)(diceGUI.getImage().getHeight()*DiceGUI.SCALE_FACTOR_D6);
-        g.drawImage(diceGUI.getImage(),  x, y ,sizex, sizey , null);
+        g.drawImage(diceGUI.getImage(), 
+                   unitPosition.getMouseX(windowMode),
+                   unitPosition.getMouseY(windowMode),
+                   sizex, 
+                   sizey
+                   , null);
 
     }
     
@@ -860,7 +874,7 @@ public class GameGUI {
         if (game.getSelectedUnit().getID() != -1){
         Unit selectedUnit = game.getSelectedUnit();
             if(selectedUnit.isShowingLOS()) 
-                drawArrowToPositions(g, selectedUnit.getPosition(), game.getLOS(selectedUnit, 2), Color.yellow);
+                drawArrowToPositions(g, selectedUnit.getPosition(), game.positionCalculator.getLOS(selectedUnit, 2), Color.yellow);
             }
     }
     

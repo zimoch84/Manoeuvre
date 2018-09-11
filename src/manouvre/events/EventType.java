@@ -52,7 +52,7 @@ public class EventType {
     public static final String SUPPLY_SELECTED = "SUPPLY_SELECTED";
     
     public static final String SKIRMISH_PLAYED = "SKIRMISH_PLAYED";
-    public static final String GUIRELLA_PLAYED = "CARD_REJECTED";
+    public static final String GUIRELLA_PLAYED = "GUIRELLA_PLAYED";
     public static final String REDOUBT_PLAYED = "REDOUBT_PLAYED";
     
     
@@ -87,6 +87,6 @@ public class EventType {
     public static final String COMMAND_EXECUTED = "COMMAND_EXECUTED"; 
     public static final String COMMAND_CANCEL = "COMMAND_CANCEL"; 
 
-
+    public static final String DIALOG_NO_DECISION = "DIALOG_NO_DECISION";
     
 }

@@ -24,6 +24,8 @@ import manouvre.interfaces.CardCommand;
  */
 public class CardCommands {
     private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(CardCommands.class.getName());  
+
+
     public static class MoveToTableCommand implements CardCommand {
     
         Card card;
@@ -162,10 +164,12 @@ public class CardCommands {
         Card card;
         Command moveToTableCommand;
         String senderPlayerName;
+        Unit movedUnit;
 
-        public ForcedMarchCommand(Command moveUnitCommand, Card card, String senderPlayerName) {
+        public ForcedMarchCommand(Command moveUnitCommand,Unit movedUnit,  Card card, String senderPlayerName) {
             this.moveUnitCommand = moveUnitCommand;
             this.card = card;
+            this.movedUnit = movedUnit;
             this.moveToTableCommand = new CardCommands.MoveToTableCommand(card, senderPlayerName);
             this.senderPlayerName = senderPlayerName;
         }
@@ -175,6 +179,7 @@ public class CardCommands {
 
             moveToTableCommand.execute(game);
             moveUnitCommand.execute(game);
+            game.getUnit(movedUnit).setSelected(true);
              
         }
 
@@ -183,7 +188,7 @@ public class CardCommands {
 
             moveUnitCommand.undo(game);
             game.getCurrentPlayer().setMoved(true);
-
+            game.getUnitByCard(card).setSelected(false);
         }
 
         @Override
@@ -338,7 +343,6 @@ public class CardCommands {
         }
 
     }
-
 
     public static class AttackCommand implements Command {
 
@@ -757,7 +761,7 @@ public class CardCommands {
                 
                 case Combat.ATTACKER_TAKES_HIT :
                      game.injureUnit(combat.getAttackingUnit());
-                     if(  !game.getUnitByName(combat.getAttackingUnit().getName()).isEliminated())
+                     if( !game.getUnit(combat.getAttackingUnit()).isEliminated())
                      {
                         game.notifyAbout(EventType.COMBAT_ATTACKER_TAKES_HIT);
                         log = "Combat ends with attacking unit takes a hit";
@@ -795,7 +799,7 @@ public class CardCommands {
                 case Combat.HIT_AND_RETREAT :
                 {
                    
-                    Unit defendingUnit =  game.getUnitByName(combat.getDefendingUnit().getName());
+                    Unit defendingUnit =  game.getUnit(combat.getDefendingUnit());
                     ArrayList<Position> retreatPosition =  game.positionCalculator.getRetreatPositions(defendingUnit);
                     game.injureUnit(defendingUnit);
                     
@@ -1006,6 +1010,7 @@ public class CardCommands {
         Card skirmishCard;
         MoveToTableCommand moveToTable;
         Command moveUnitCommand;
+        Unit movedUnit;
         /*
         The Active Player returns the Unit Card
         used to initiate the combat into their hand. All cards which were played by
@@ -1016,10 +1021,11 @@ public class CardCommands {
         may not be played at all during an Ambush.
         */
         
-        public SkirmishCommand(String senderPlayerName, String opponentPlayerName, Card skirmishCard, Command moveUnitCommand) {
+        public SkirmishCommand(String senderPlayerName, String opponentPlayerName, Card skirmishCard, Unit movedUnit, Command moveUnitCommand) {
             this.senderPlayerName = senderPlayerName;
             this.opponentPlayerName = opponentPlayerName;
             this.skirmishCard = skirmishCard;
+            this.movedUnit = movedUnit;
             moveToTable = new MoveToTableCommand(skirmishCard, senderPlayerName);
             this.moveUnitCommand = moveUnitCommand;
         }
@@ -1051,6 +1057,7 @@ public class CardCommands {
             
             //Set action button and info bar
             game.notifyAbout(EventType.SKIRMISH_PLAYED);
+            game.getUnit(movedUnit).setSelected(true);
             game.endCombat();
         }
 

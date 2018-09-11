@@ -61,11 +61,14 @@ public void update(Observable o, Object arg) {
             break;
         case EventType.CARD_ACCEPTED:
         case EventType.GUIRELLA_PLAYED:    
-          if(game.getCurrentPlayer().isActive())
+          if(game.getCurrentPlayer().isActive()){
               if(game.getPhase() == Game.MOVE)
                 buttonToNextPhaseSetText("End Move", true);
               if(game.getPhase() == Game.RESTORATION)
                 buttonToNextPhaseSetText("End Turn", true);
+            }
+          else 
+              buttonActionMakeInvisible();
           
         LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);  
         break;

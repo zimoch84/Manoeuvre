@@ -102,8 +102,7 @@ private void handleUnitsHitsPositionSituation(Game game, Position pos, CommandQu
                             combat.setDefendingUnit(defendingUnit);
                             Terrain defenceTerrain = game.getMap().getTerrainAtPosition(defendingUnit.getPosition());
                             combat.setDefenseTerrain(defenceTerrain);
-                            
-                            Command attackCommand = ccf.createCardCommand(playingCard);
+                            Command attackCommand = new CardCommands.AttackCommand(game.getCurrentPlayer().getName(),  game.getCombat());
                             CustomDialogFactory.showSureToPlayCardDialog(cmdQueue, attackCommand, game);
                         break;    
                         default: System.err.println("MapPickUnitByCardStatt.handleINput() Nie obslugujemy tego stanu combat: " + combat.getState());

@@ -174,11 +174,11 @@ public class CustomDialog extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
-         if(okCommand != null)   {
+        if(okCommand != null)   {
             /*
             Execute command locally and remotely
             */
-            cmdQueue.storeAndExecuteAndSend(okCommand);
+            cmdQueue.storeAndExecuteAndSend(okCommand); 
             
         }
         
@@ -192,7 +192,7 @@ public class CustomDialog extends javax.swing.JFrame {
             if (dialogType == Type.YES_NO_UNDO_TYPE)
             cmdQueue.undoCommand(cancelCommand);
             else
-            cmdQueue.storeAndExecuteAndSend(cancelCommand);
+            cmdQueue.storeAndExecuteWithoutLogs(cancelCommand);
  
         }
             

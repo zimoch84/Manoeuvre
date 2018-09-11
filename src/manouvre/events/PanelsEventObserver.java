@@ -136,6 +136,10 @@ public class PanelsEventObserver implements Observer {
                 game.setInfoBarText("There is no room for move");
                 LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
                 break;
+                
+            case EventType.GUIRELLA_PLAYED:
+                game.setInfoBarText("Guirellas has been played");
+            break;     
         
     }
     } 

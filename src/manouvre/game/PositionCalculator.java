@@ -7,6 +7,9 @@ package manouvre.game;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
+import manouvre.interfaces.PositionInterface;
+import manouvre.network.server.UnoptimizedDeepCopy;
 
 /**
  *
@@ -110,7 +113,7 @@ public class PositionCalculator implements Serializable{
                 if (game.freeMove) 
                     return getSetupPossibleMovement();
                 selectedUnit = game.getSelectedUnit();
-                ArrayList<Position> movePositions = game.getPossibleMovement(selectedUnit);
+                ArrayList<Position> movePositions = getPossibleMovement(selectedUnit);
                 return movePositions;
             case Game.COMBAT:
                 switch (game.getCombat().getState()) {
@@ -188,7 +191,7 @@ public class PositionCalculator implements Serializable{
                 }
                 break;
             case Game.RESTORATION:
-                return game.getCurrentPlayerInjuredUnitPositions();
+                return getCurrentPlayerInjuredUnitPositions();
         }
         return new ArrayList<>();
     }
@@ -212,7 +215,7 @@ public class PositionCalculator implements Serializable{
          */
         Unit attackingUnit = game.getCombat().getAttackingUnit();
         
-        ArrayList<Position> possiblePositions = game.getOneSquarePositions(game.getCombat().getDefendingUnit().getPosition());
+        ArrayList<Position> possiblePositions = getOneSquarePositions(game.getCombat().getDefendingUnit().getPosition());
         ArrayList<Position> supportingPositions = new ArrayList<>();
         Position atackingPosition = game.getCombat().getAttackingUnit().getPosition();
         for (Position checkPosition : possiblePositions) {
@@ -236,7 +239,7 @@ public class PositionCalculator implements Serializable{
         the enemy’s Starting Edge. If all four squares are blocked or are the map edge,
         then the unit may not retreat and is Eliminated instead.
          */
-        ArrayList<Position> possibleMovements = game.getOneSquareMovements(unit.getPosition());
+        ArrayList<Position> possibleMovements = getOneSquareMovements(unit.getPosition());
         /*
         If there is no room for movement return null
          */
@@ -285,16 +288,16 @@ public class PositionCalculator implements Serializable{
                 case Card.HQCARD:
                     switch (playingCard.getHQType()) {
                         case Card.FORCED_MARCH:
-                            movePositions = game.getOneSquareMovements(movingUnit.getPosition());
+                            movePositions = getOneSquareMovements(movingUnit.getPosition());
                         break;
                         case Card.SUPPLY:
-                            movePositions = game.getPossibleMovement(movingUnit);
+                            movePositions = getPossibleMovement(movingUnit);
                         break;
                         case Card.WITHDRAW:
                             movePositions = game.positionCalculator.getRetreatPositions(movingUnit);
                         break;
                         case Card.SKIRMISH:
-                            movePositions = game.getTwoSquareMovements(movingUnit.getPosition());
+                            movePositions = getTwoSquareMovements(movingUnit.getPosition());
                         break;
                     }
                     break;
@@ -309,11 +312,11 @@ public class PositionCalculator implements Serializable{
         
         if (attackCard.getPlayingCardMode().equals(Card.ASSAULT) 
                 || attackCard.getPlayingCardMode().equals(Card.VOLLEY)) {
-            attackPositions = game.getPossibleAssault(attackUnit);
+            attackPositions = getPossibleAssault(attackUnit);
         } 
         else if (attackCard.getPlayingCardMode().equals(Card.BOMBARD)) {
         {
-            ArrayList<Position> attackPossiblePositions  = game.getLOS(attackUnit, 2);
+            ArrayList<Position> attackPossiblePositions  = getLOS(attackUnit, 2);
             for (Position checkPosition : attackPossiblePositions) {
                 if (game.checkOpponentPlayerUnitAtPosition(checkPosition)) {
                     attackPositions.add(checkPosition);
@@ -322,6 +325,136 @@ public class PositionCalculator implements Serializable{
         }
         }
         return attackPositions;
+    }
+
+    /**
+    Firstly get adjenced tiles then check on terrain restrictions then check if another tile is occupied
+     * @param unit
+     * @return Position
+     */
+    public ArrayList<Position> getOneSquareMovements(Position unitPosition) {
+        ArrayList<Position> moves;
+        moves = new ArrayList<>();
+        /*
+        Firstly get adjenced tiles then check on terrain restrictions then check if another tile is occupied
+         */
+        if (unitPosition.getX() - 1 >= 0) {
+            if (game.getMap().getTerrainAtXY(unitPosition.getX() - 1, unitPosition.getY()).isPassable()) {
+                moves.add(new Position(unitPosition.getX() - 1, unitPosition.getY()));
+            }
+        }
+        if (unitPosition.getY() - 1 >= 0) {
+            if (game.getMap().getTerrainAtXY(unitPosition.getX(), unitPosition.getY() - 1).isPassable()) {
+                moves.add(new Position(unitPosition.getX(), unitPosition.getY() - 1));
+            }
+        }
+        if (unitPosition.getY() + 1 <= PositionInterface.ROW_8) {
+            if (game.getMap().getTerrainAtXY(unitPosition.getX(), unitPosition.getY() + 1).isPassable()) {
+                moves.add(new Position(unitPosition.getX(), unitPosition.getY() + 1));
+            }
+        }
+        if (unitPosition.getX() + 1 <= PositionInterface.COLUMN_H) {
+            if (game.getMap().getTerrainAtXY(unitPosition.getX() + 1, unitPosition.getY()).isPassable()) {
+                moves.add(new Position(unitPosition.getX() + 1, unitPosition.getY()));
+            }
+        }
+        return moves;
+    }
+
+    public ArrayList<Position> getTwoSquareMovements(Position unitPosition) {
+        ArrayList<Position> moves = game.positionCalculator.getOneSquareMovements(unitPosition);
+        ArrayList<Position> tempMoves;
+        ArrayList<Position> tempMoves2 = new ArrayList<Position>();
+        for (Position move : moves) {
+            if (!game.getMap().getTerrainAtXY(move.getX(), move.getY()).isEndsMove()) {
+                tempMoves = game.positionCalculator.getOneSquareMovements(move);
+                for (Position addPosition : tempMoves) {
+                    if (!moves.contains(addPosition) && !addPosition.equals(unitPosition)) {
+                        tempMoves2.add(addPosition);
+                    }
+                }
+            }
+        }
+        moves.addAll(tempMoves2);
+        return moves;
+    }
+
+    public ArrayList<Position> getOneSquarePositions(Position unitPosition) {
+        ArrayList<Position> positions = new ArrayList<>();
+        if (unitPosition.getX() - 1 >= 0) {
+            positions.add(new Position(unitPosition.getX() - 1, unitPosition.getY()));
+        }
+        if (unitPosition.getY() - 1 >= 0) {
+            positions.add(new Position(unitPosition.getX(), unitPosition.getY() - 1));
+        }
+        if (unitPosition.getY() + 1 <= PositionInterface.ROW_8) {
+            positions.add(new Position(unitPosition.getX(), unitPosition.getY() + 1));
+        }
+        if (unitPosition.getX() + 1 <= PositionInterface.COLUMN_H) {
+            positions.add(new Position(unitPosition.getX() + 1, unitPosition.getY()));
+        }
+        return positions;
+    }
+
+    public ArrayList<Position> getPossibleVolley(Unit unit) {
+        return getLOS(unit, 1);
+    }
+
+    public ArrayList<Position> getPossibleBombard(Unit unit) {
+        return getLOS(unit, 2);
+    }
+
+    public ArrayList<Position> getPossibleAssault(Unit unit) {
+        ArrayList<Position> getOneSquarePositionsArray = game.positionCalculator.getOneSquarePositions(unit.getPosition());
+        ArrayList<Position> getPossibleAssaultArray = new ArrayList<>();
+        for (Position checkPositon : getOneSquarePositionsArray) {
+            if (game.checkOpponentPlayerUnitAtPosition(checkPositon)) {
+                getPossibleAssaultArray.add(checkPositon);
+            }
+        }
+        return getPossibleAssaultArray;
+    }
+
+    public ArrayList<Position> getLOS(Unit unit, int lenght) {
+        Position unitPosition = unit.getPosition();
+        ArrayList<Position> los = game.positionCalculator.getOneSquarePositions(unitPosition);
+        ArrayList<Position> loscopy = (ArrayList<Position>) UnoptimizedDeepCopy.copy(los);
+        ArrayList<Position> los2;
+        /*
+        If length = 1 then we have volley
+         */
+        if (lenght == 1) {
+            return loscopy;
+        } else {
+            for (Iterator<Position> checkLOSPosition = loscopy.iterator(); checkLOSPosition.hasNext();) {
+                /*
+                If 1st square terrain blocks los then 2nd squara wont be visible
+                 */
+                Position position = checkLOSPosition.next();
+                if (!game.getMap().getTerrainAtPosition(position).isBlockingLOS()) {
+                    los2 = getOneSquarePositions(position);
+                    los2.remove(unitPosition);
+                    los.addAll(los2);
+                }
+            }
+        }
+        return los;
+    }
+
+    public ArrayList<Position> getPossibleMovement(Unit unit) {
+        ArrayList<Position> moves = new ArrayList<>();
+        /*
+        get Infantry Moves
+         */
+        if (unit.getType() == Unit.INFANTRY) {
+            moves = getOneSquareMovements(unit.getPosition());
+            /*
+            If calvary do check of every infantry move considering Terrain.MARSH which ends move
+             */
+        } else if (unit.getType() == Unit.CALVARY) {
+            moves =getTwoSquareMovements(unit.getPosition());
+        }
+        return moves;
     }
    
 }

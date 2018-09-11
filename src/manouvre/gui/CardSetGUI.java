@@ -41,6 +41,7 @@ import manouvre.game.Dice;
     public static final int TABLE_CARD_PADDING_TOP_OPP = 20 ;
     public static final int TABLE_CARD_PADDING_TOP = TABLE_CARD_PADDING_TOP_OPP + CardGUI.HEIGHT_TABLE + GAP;
     
+    public static final int DICE_PADDING_TOP = 15;
     
    
     //private static final int ONETHIRDCARD = 30; //set during mouse move
@@ -225,16 +226,13 @@ import manouvre.game.Dice;
     private void paintDices(Graphics g, Card paintedCard, int cardPosition, boolean ifopp){
 
         int dicePaddingLeft = (int)(CardGUI.WIDTH)*(cardPosition) + GAP;
-                  
         int tablePaddingTop;
         
         if(ifopp)
             tablePaddingTop = TABLE_CARD_PADDING_TOP_OPP;
         else 
             tablePaddingTop = TABLE_CARD_PADDING_TOP;
-        
         int i=0;
-        
         
         if(paintedCard.getDices()!=null)
             for(Dice dice : paintedCard.getDices() ){
@@ -244,8 +242,8 @@ import manouvre.game.Dice;
                 int sizex = (int)(diceGUI.getImage().getWidth()* DiceGUI.SCALE_FACTOR_D6);
                 int sizey = (int)(diceGUI.getImage().getHeight()*DiceGUI.SCALE_FACTOR_D6);
                 
-                g.drawImage(diceGUI.getImage(),  x, tablePaddingTop,sizex, sizey , null);
-                i++;
+                g.drawImage(diceGUI.getImage(),  x, tablePaddingTop + DICE_PADDING_TOP ,sizex, sizey , null);
+                    i++;
                 }
   
     }
