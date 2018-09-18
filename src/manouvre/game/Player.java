@@ -112,18 +112,18 @@ public class Player  implements Serializable{
         this.discardPile = new CardSet(nation ,"DISCARD"); 
         this.tablePile = new CardSet(nation ,"TABLE");
         if(nation==CardInterface.AU){
-            hand.addCard(drawPile.getCardByName("Skirmish", true));
-            hand.addCard(drawPile.getCardByName("Guerrillas", true));
-            hand.addCard(drawPile.getCardByName("Supply", true));
-            hand.addCard(drawPile.getCardByName("Duke of Schwarzenberg", true));
-            hand.addCard(drawPile.getCardByName("4th  Regiment", true));
+            hand.addCard(drawPile.getFirstCardByName("Committed Attack", true));
+            hand.addCard(drawPile.getFirstCardByName("Guerrillas", true));
+            hand.addCard(drawPile.getFirstCardByName("Redoubt", true));
+            hand.addCard(drawPile.getFirstCardByName("Duke of Schwarzenberg", true));
+            hand.addCard(drawPile.getFirstCardByName("4th  Regiment", true));
         }
         else if(nation==CardInterface.FR){
-            hand.addCard(drawPile.getCardByName("Joachim Murat", true));
-            hand.addCard(drawPile.getCardByName("French Sappers", true));
-            hand.addCard(drawPile.getCardByName("1st Cuirassiers", true));
-            hand.addCard(drawPile.getCardByName("Forced March", true));
-            hand.addCard(drawPile.getCardByName("Supply", true));
+            hand.addCard(drawPile.getFirstCardByName("Joachim Murat", true));
+            hand.addCard(drawPile.getFirstCardByName("French Sappers", true));
+            hand.addCard(drawPile.getFirstCardByName("1st Cuirassiers", true));
+            hand.addCard(drawPile.getFirstCardByName("Supply", true));
+            hand.addCard(drawPile.getFirstCardByName("Supply", true));
         } 
         else
         drawPile.moveTopXCardsTo(5, hand);
@@ -270,44 +270,46 @@ public class Player  implements Serializable{
         this.draw = draw;
     }
 
-    
-    
-    
+    public void setUnit(Unit unit){
+        for(int i=0; i< army.length; i++)
+            if(army[i].equals(unit)){
+                army[i].advanced = unit.advanced;
+                army[i].eliminated = unit.eliminated;
+                army[i].hasAttacked = unit.hasAttacked;
+                army[i].hasMoved = unit.hasMoved;
+                army[i].injured = unit.injured;
+                army[i].position = unit.position;
+                army[i].retrieving = unit.retrieving;
+                army[i].selected = unit.selected;
+                army[i].supporting = unit.supporting;
+                return;
+                }
+    }
     
     @Override
     public String toString() {
-    
         return getName() +
-                ",Nation: " + getNationAsString(false)+  
-                ",Army size: " + (army != null ? getArmy().length  : "0"
-                +",Hand Size: "  + (hand != null ? getHand().getCardList().size()  : "0") 
-                ) ;
-
+                ",Nation: " 
+                + getNationAsString(false)+  
+                (isActive() ? " active" : " inactive");
     }
- 
     public Unit getLastMovedUnit(){
-    
         for(Unit checkUnit: getArmy()){
         
             if(checkUnit.hasMoved()) return checkUnit;
         }
         return null;
-        
     }
     
     public Unit getUnitByPosition(Position position){
-    
            for(Unit unitSearch: getArmy()){
-        
             if(unitSearch.getPosition().equals(position))
             {
                 return unitSearch;
             }
 
         }
-              
         return null;
-    
     }
     
     public int getScore()

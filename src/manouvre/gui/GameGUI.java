@@ -395,6 +395,10 @@ public class GameGUI {
             drawArrowFromSupportingUnits(g);
         break;    
              
+        case Combat.COMMITTED_ATTACK_CASUALITIES:
+            drawSupportingUnitsSelection(g);
+        break;
+        
         default: 
             drawArrowFromAttackingToDefending(g);
             drawArrowFromSupportingUnits(g);
@@ -422,6 +426,12 @@ public class GameGUI {
         drawMultipleRectanglesOnPositions(g,
                     game.positionCalculator.getPossibleSupportingUnitsPositions()
                     , Color.red);   
+    }
+    
+    private void drawSupportingUnitsSelection(Graphics g){
+        
+        
+            drawMultipleRectanglesOnPositions(g, game.positionCalculator.getAllAttackingUnitsPositions(), Color.red);
     }
     
     private void drawPursuitAvalaibleUnits(Graphics g){

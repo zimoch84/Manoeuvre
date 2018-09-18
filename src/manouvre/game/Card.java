@@ -263,6 +263,10 @@ public class Card implements CardInterface, Serializable  {
     }
 
     public int getUnitDiceValue(){
+        
+        if(getHQType() == Card.COMMITED_ATTACK)
+            return Dice.DICE2d6;
+        
         switch(getPlayingCardMode()){
             case Card.BOMBARD :
             {

@@ -215,9 +215,9 @@ public class CardSet extends Observable implements CardSetInterface, Serializabl
      */
     public Card getLastCard(boolean remove){
         if(size()>0){
-        Card temp = getCardByPosInSet(size()-1);
+        Card temp = getCardByPos(size()-1);
         if(remove)
-            removeCard(getCardByPosInSet(size()-1));
+            removeCard(getCardByPos(size()-1));
         return temp;
         }
      return null;
@@ -259,25 +259,13 @@ public class CardSet extends Observable implements CardSetInterface, Serializabl
          cardList.remove(removedCard);
         
      }
-    /*
-    TODO:Remove this
-    */
     
-    public ArrayList<String> getAllCardsNamesFromSet(){
-        ArrayList<String> cardNames = new ArrayList<>();
-    for(int i=0; i<cardList.size(); i++){
-       System.out.println("Card " +i+": " + cardList.get(i).getCardName()); 
-       cardNames.add(cardList.get(i).getCardName());
-    }
-    return cardNames;
-    }  
-        
     @Override
-    public Card getCardByPosInSet(int cardPosition){
+    public Card getCardByPos(int cardPosition){
        return cardList.get(cardPosition);     
     }
     
-    public Card getCardByName(String name, boolean remove){
+    public Card getFirstCardByName(String name, boolean remove){
         for (int i=0; i<cardList.size(); i++){
             if(cardList.get(i).getCardName().equals(name)){
                 Card card = cardList.get(i);
@@ -285,7 +273,7 @@ public class CardSet extends Observable implements CardSetInterface, Serializabl
                 return card;
             }
         }  
-        return (Card)null;
+        return new Card();
     }
  
     public int getPositionInSet(Card card) {
@@ -332,16 +320,6 @@ public class CardSet extends Observable implements CardSetInterface, Serializabl
         return defCardSetSize;
     }
      
-     public Card getCardFromSetByID(int cardID){
-          for (int i=0; i<cardList.size(); i++){
-            if(cardList.get(i).getCardID()==cardID){
-                return cardList.get(i);
-            }
-        }
-        return (Card)null;
-     
-     }
-     
     public Card getCard(Card card){
         if(cardList.contains(card)){
               return  cardList.get(cardList.indexOf(card));
@@ -352,7 +330,12 @@ public class CardSet extends Observable implements CardSetInterface, Serializabl
     public ArrayList<Card> getCardList() {
         return cardList;
     }
-     
     
-   }
+    public boolean contains(Card card){
+        if(getFirstCardByName(card.getCardName(), false).getType() == Card.NO_CARD)
+            return false;
+        else 
+            return true;
+    }
+}
  

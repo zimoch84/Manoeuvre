@@ -34,6 +34,7 @@ public class Combat implements Serializable{
     public static final String PICK_SUPPORT_CARDS= "PICK_SUPPORT_CARDS";
     public static final String THROW_DICES= "THROW_DICES";
     public static final String PURSUIT= "PURSUIT";
+    public static final String COMMITTED_ATTACK_CASUALITIES = "COMMITTED_ATTACK_CASUALITIES";
     public static final String END_COMBAT= "END_COMBAT";
     
     /*
@@ -122,7 +123,7 @@ public class Combat implements Serializable{
         
         for(Card checkCards : defenceCards)
             {
-        defenceValue +=  checkCards.getUnitDefence();
+        defenceValue +=  checkCards.getUnitDefence();       
         }
 
         /*
@@ -349,10 +350,10 @@ public class Combat implements Serializable{
         int leaderMaxPursuitModifier = 0;
          for (Card supportCard:supportCards)
             if(supportCard.getType() == Card.LEADER)
-                if(leaderMaxPursuitModifier < supportCard.getLeaderPursuit() )
+                if(leaderMaxPursuitModifier > supportCard.getLeaderPursuit() )
                     leaderMaxPursuitModifier = supportCard.getLeaderPursuit();
-       
-        if(pursuitDiceResult - leaderMaxPursuitModifier <= card.getUnitPursuit() )
+        //leader pursuit bonus is negative so it must be + not -
+        if(pursuitDiceResult + leaderMaxPursuitModifier <= card.getUnitPursuit() )
            return DEFFENDER_TAKES_HIT;
         
         else return NO_EFFECT;
@@ -427,7 +428,7 @@ public class Combat implements Serializable{
     return attackCards;
     }
 
-    public ArrayList<Unit>getAttackingUnits(){
+     public ArrayList<Unit>getAttackingUnits(){
 
         return attackingUnits;
     }
@@ -492,33 +493,19 @@ public class Combat implements Serializable{
     }
     
     public boolean canAttackerPursue(){
-    
-            /*
+        /*
         Find unit that advanced and check if it is Calvary with proper Card
         */
-        
         for(Unit attackingUnit: attackingUnits)
-                
-                if(attackingUnit.hasAdvanced())
-                {
-                    
-                    if(supportCards.contains(attackingUnit))
+            if(attackingUnit.hasAdvanced())
+                if(supportCards.contains(attackingUnit))
+                    for(Card checkingCard : supportCards)
                     {
-                        for(Card checkingCard : supportCards)
-                        {
-                            if(checkingCard.equals(attackingUnit))
-                            {
-                                if(checkingCard.canPursue()){
-                                    return true;
-                                }
-                            }
-                                
-                        }
+                        if(checkingCard.equals(attackingUnit))
+                            if(checkingCard.canPursue())
+                                return true;
                     }
-                }
-                    
        return false;
-        
     }
 public ArrayList<Card> getPursuitCards(Unit advancingUnit){
     ArrayList<Card> pursueCards = new ArrayList<>();
@@ -533,6 +520,7 @@ public ArrayList<Card> getPursuitCards(Unit advancingUnit){
     }     
     return pursueCards;
 }
+
     public void resetCombat()
     {
         setState(Combat.COMBAT_NOT_INITIALIZED);
@@ -563,4 +551,22 @@ public ArrayList<Card> getPursuitCards(Unit advancingUnit){
         attackingPositions.clear();
     }
     
+    public int getNumberOfCommittedAttackCards()
+    {
+        int number=0;
+        for(Card checkCard:getSupportCards())
+            if(checkCard.getHQType() == Card.COMMITED_ATTACK)
+                number++;
+        return number;
+    }
+    
+    public Card getTopCommittedAttackCard(){
+    
+        for(Card checkCard:getSupportCards())
+            if(checkCard.getHQType() == Card.COMMITED_ATTACK)
+                return checkCard;
+            
+        return new Card();
+    
+    }
 }

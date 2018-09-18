@@ -85,7 +85,7 @@ public class CardDialog extends javax.swing.JFrame {
     {
         
         
-            if(game.getCurrentPlayer().getHand().getCardByName("Guerrillas", false)!=null)
+            if(game.getCurrentPlayer().getHand().getFirstCardByName("Guerrillas", false)!=null)
             cancelButton.setEnabled(true);
     }
             

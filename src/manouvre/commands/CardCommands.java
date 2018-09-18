@@ -187,7 +187,7 @@ public class CardCommands {
         public void undo(Game game) {
 
             moveUnitCommand.undo(game);
-            game.getCurrentPlayer().setMoved(true);
+            game.getPlayerByName(senderPlayerName).setMoved(true);
             game.getUnitByCard(card).setSelected(false);
         }
 
@@ -729,7 +729,7 @@ public class CardCommands {
                 case  Combat.NO_EFFECT:
                      game.notifyAbout(EventType.COMBAT_NO_RESULT);
                      log = "Combat ends with no effect";
-                     game.endCombat();
+                     game.checkCommittedAttackandEndCombat();
                      break;
                 case  Combat.DEFFENDER_TAKES_HIT:
                      game.injureUnit(combat.getDefendingUnit());
@@ -737,6 +737,7 @@ public class CardCommands {
                      {
                          game.notifyAbout(EventType.COMBAT_DEFENDER_TAKES_HIT);
                          log = "Combat ends with defending unit takes a hit";
+                         game.checkCommittedAttackandEndCombat();
                      }
                      else 
                      {
@@ -746,17 +747,13 @@ public class CardCommands {
                         
                         log = "Combat ends with defending unit takes a hit and is eliminated";
                      }
-                     
-                     game.endCombat();
                 break;
-                
                 case  Combat.ELIMINATE:
                      game.eliminateUnit(combat.getDefendingUnit());
                      game.notifyAbout(EventType.COMBAT_DEFENDER_ELIMINATE);
                      log = "Combat ends with defending unit is eliminated";
                      game.getCombat().setState(Combat.PURSUIT);
                      game.notifyAbout(EventType.COMBAT_PURSUIT_STARTED);
-
                 break;
                 
                 case Combat.ATTACKER_TAKES_HIT :
@@ -772,7 +769,7 @@ public class CardCommands {
                         log = "Combat ends with attacking unit takes a hit and is eliminated" ;
                      }
                      
-                     game.endCombat();
+                     game.checkCommittedAttackandEndCombat();
                 break;  
 
                 case Combat.DEFENDER_DECIDES :
@@ -1058,7 +1055,7 @@ public class CardCommands {
             //Set action button and info bar
             game.notifyAbout(EventType.SKIRMISH_PLAYED);
             game.getUnit(movedUnit).setSelected(true);
-            game.endCombat();
+            game.checkCommittedAttackandEndCombat();
         }
 
         @Override

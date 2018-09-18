@@ -67,6 +67,12 @@ public class UnitGUI  {
            }   
         
     }
+
+    @Override
+    public String toString() {
+        return unit.toString();
+    }
+    
     
         
 }

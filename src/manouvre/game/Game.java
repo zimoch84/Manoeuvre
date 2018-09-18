@@ -7,13 +7,10 @@ package manouvre.game;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Observer;
 import manouvre.commands.CommandQueue;
 import manouvre.events.EventEmiter;
 import manouvre.events.EventType;
-import static manouvre.interfaces.PositionInterface.COLUMN_H;
-import static manouvre.interfaces.PositionInterface.ROW_8;
 import manouvre.gui.CreateRoomWindow;
 import manouvre.network.server.UnoptimizedDeepCopy;
 import manouvre.state.MapPickAvalibleUnitState;
@@ -167,8 +164,6 @@ public final class Game implements Serializable{
     public Player getGuestPlayer() {
         return guestPlayer;
     }
-      
-    
     
     public void nextTurn(){
         turn++;
@@ -222,42 +217,6 @@ public final class Game implements Serializable{
              map.getTerrainAtXY(unit.getPosition().getX(), unit.getPosition().getY()).setIsOccupiedByUnit(true);
          
      }
- 
-    public Unit searchUnit(Unit unit){
-    
-        for(Unit unitSearch : hostPlayer.getArmy())
-        {if(unitSearch.equals(unit))
-            {
-                return unitSearch;
-              }
-        }
-        for(Unit unitSearch : guestPlayer.getArmy())
-        {   if(unitSearch.equals(unit))
-            {
-                return unitSearch;
-              }
-        }
-      return null;
-             
-    }
-    
-    public Unit getAdvancedUnit(String playerName){
-     for (Unit unitSearch : getPlayerByName(playerName).getArmy()) {
-            if (unitSearch.hasAdvanced()) {
-                return unitSearch;
-            }
-        }
-    return null;
-    }
-    
-    public Unit getRetrievedUnit(String playerName){
-     for (Unit unitSearch : getPlayerByName(playerName).getArmy()) {
-            if (unitSearch.isRetriving()) {
-                return unitSearch;
-            }
-        }
-    return null;
-    }
     
     /*
     Gets first selected unit  - in single selection mode its only one selected unit
@@ -271,16 +230,6 @@ public final class Game implements Serializable{
         }
     return new Unit();
     }
-    
-    public Unit getSelectedUnit(String playerName){
-     for (Unit unitSearch : getPlayerByName(playerName).getNotKilledUnits()) {
-            if (unitSearch.isSelected()) {
-                return unitSearch;
-            }
-        }
-    return new Unit();
-    }
-    
       
     public Unit getCurrentPlayerUnitAtPosition(Position position){
         for(Unit unitSearch: currentPlayer.getArmy()){
@@ -323,13 +272,10 @@ public final class Game implements Serializable{
      
     public void setUnit(Unit newUnit){
     
-        Unit setUnit = getUnit(newUnit);
-        if(setUnit.getID() != -1)
-             setUnit = newUnit;
+        getCurrentPlayer().setUnit(newUnit);
+        getOpponentPlayer().setUnit(newUnit);
         
     }
-     
-     
     public Unit getUnit(Unit searchedUnit)
     {
         for(Unit unitSearch: currentPlayer.getArmy()){
@@ -394,14 +340,7 @@ public final class Game implements Serializable{
             }
         return false;
     } 
-//-----------phases-----------
-//   SETUP = -1    
-//   DISCARD = 0;
-//   DRAW = 1;
-//   MOVE = 2;
-//   COMBAT = 3;
-//   RESTORATION = 4;
-       
+      
     public int getPhase() {
         return phase;
     }
@@ -414,7 +353,6 @@ public final class Game implements Serializable{
 
     public void setPhase(int phase) {
         this.phase = phase;
-        
       
     } 
        
@@ -436,8 +374,6 @@ public final class Game implements Serializable{
             getGuestPlayer().setActive(true);
         }
     }
-   
- 
     /*
     Returns true if starting position of army is OK.
     */
@@ -474,18 +410,14 @@ public final class Game implements Serializable{
         getCurrentPlayer().setActive(true);
         getOpponentPlayer().setActive(false);
         }
-
     }
 
     public void unselectAllUnits(){
-     
     LOGGER.debug(getCurrentPlayer().getName() + " game.unselectAllUnits()" );
-    
     for (Unit unit: getSelectedUnits()){
              unit.setSelected(false);
              getMap().unselectAllTerrains();
        }
-       
     }
     
      /*
@@ -569,8 +501,10 @@ public final class Game implements Serializable{
     public void eliminateUnit(Unit unit){
          unit =getUnit(unit);
          unit.eliminated = true;
-         getMap().getTerrainAtPosition(unit.getPosition()).setIsOccupiedByUnit(false);
-               
+         Terrain terrain = getMap().getTerrainAtPosition(unit.getPosition());
+         terrain.setIsOccupiedByUnit(false);
+         if(terrain.isRedoubt())
+             terrain.setRedoubt(false);
      }
     void setPlayersScore(){
     
@@ -585,7 +519,26 @@ public final class Game implements Serializable{
         ee.addObserver(observer);
     }
 
+    public void checkCommittedAttackandEndCombat() {
+        
+        if(combat.getNumberOfCommittedAttackCards()==0)
+            endCombat();
+        else 
+        {
+            if(combat.getSupportUnitCount()> 0){
+                combat.setState(Combat.COMMITTED_ATTACK_CASUALITIES);
+                notifyAbout(EventType.PICK_COMMITTED_ATTACK_CASUALITIES);
+            }
+            else
+                
+                injureUnit(getUnit(combat.getAttackingUnit()));
+                endCombat();
+        }
+            
+    }
+    
     public void endCombat() {
+        
         combat.setState(Combat.END_COMBAT);
         /*
         Clear advance flag after combat

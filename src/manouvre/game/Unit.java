@@ -187,9 +187,9 @@ public class Unit implements UnitInterface, Serializable{
    
     @Override
     public String toString(){
-    return "Unit ID:[" + ID +"] Name: "  + name + " Army "+ army + " type "  + type + " Strenght [" + strenght +"/" + reducedStrength +"][Position:" + getPosition().toString()+"]";
-      
-            
+    return "ID:[" + ID +"] Name: "  + name + " " + army + "[" + strenght +"/" + reducedStrength +"]["+ getPosition().toString()+"]" 
+                + (isEliminated()? " eliminated":  " alive")
+            ;
     }
     
     public  String getImageReducedName() {

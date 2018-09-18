@@ -8,6 +8,7 @@ package manouvre.game;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.stream.Collectors;
 import manouvre.interfaces.PositionInterface;
 import manouvre.network.server.UnoptimizedDeepCopy;
 
@@ -188,6 +189,8 @@ public class PositionCalculator implements Serializable{
                         }
                     case Combat.PICK_SUPPORT_UNIT:
                         return getPossibleSupportingUnitsPositions();
+                    case Combat.COMMITTED_ATTACK_CASUALITIES:
+                        return getAllAttackingUnitsPositions();
                 }
                 break;
             case Game.RESTORATION:
@@ -225,6 +228,16 @@ public class PositionCalculator implements Serializable{
                 supportingPositions.add(checkPosition);
         }
         return supportingPositions;
+    }
+    
+    public ArrayList<Position> getAllAttackingUnitsPositions(){
+        
+        ArrayList<Position> allPositions = new ArrayList<>();
+                
+        game.getCombat().getAttackingUnits().stream().map(Unit::getPosition).forEach(allPositions::add);
+        
+        return allPositions;
+    
     }
 
     public ArrayList<Position> getRetreatPositions(Unit unit) {

@@ -5,6 +5,7 @@
  */
 package manouvre.game;
 
+import java.awt.Dialog;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -131,8 +132,12 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
                 
                 case Card.SKIRMISH:
                 case Card.FRENCH_SAPPERS:    
+                case Card.ROYAL_ENG:    
+                case Card.COMMITED_ATTACK:
                         handleCombatPickSupportCardsOnSelection(card, game);
                         break;
+                        
+                        
                         
                 }
         break;   
@@ -258,11 +263,16 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
                                 game.getCombat().setState(Combat.PICK_DEFENSE_CARDS);
                             }
                             break;
-                        case Card.SKIRMISH:
-                            card.setSelected(false);
-                            setPlayingCard(new Card());
-                            game.notifyAbout(EventType.SKIRMISH_DESELECTED);
-                        break;
+                    case Card.SKIRMISH:
+                        card.setSelected(false);
+                        setPlayingCard(new Card());
+                        game.notifyAbout(EventType.SKIRMISH_DESELECTED);
+                    break;
+                    case Card.FRENCH_SAPPERS:  
+                    case Card.ROYAL_ENG:
+                    case Card.COMMITED_ATTACK:    
+                        handleCombatPickSupportCardsOnDeselection(card, game);
+                    break;
             
             }
         break;
@@ -365,7 +375,14 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
         {
           case Card.FORCED_MARCH:
           case Card.SUPPLY:
+              
+              if(game.getCurrentPlayer().getTablePile().contains(card)){
+                    CustomDialogFactory.showCannotPlayCardTwiceDialog();
+                    return false;
+                    }
+              else 
               return game.getCurrentPlayer().hasMoved();
+              
                         
           case Card.GUERRILLAS:
               Card opponentPlayedCard = game.getOpponentPlayer().getTablePile().getLastCard(false);
@@ -409,10 +426,12 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
                 case Card.HQCARD:
                     switch(card.getHQType()){
                         case Card.SKIRMISH:
-                        case Card.COMMITED_ATTACK:
+                        
                         case Card.ROYAL_ENG:
                         case Card.FRENCH_SAPPERS:
                             return true;
+                        case Card.COMMITED_ATTACK:
+                            return (game.getCombat().getCombatType().equals(Combat.ASSAULT));
                         default: return false;    
                     }
                 case Card.LEADER:
@@ -484,21 +503,47 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
                 case Card.HQCARD:
                     switch(card.getHQType()){
                         case Card.REDOUBDT:
-                            return true;
+                            if(game.getCurrentPlayer().getTablePile().contains(card)){
+                                CustomDialogFactory.showCannotPlayCardTwiceDialog();
+                                return false;
+                                }
+                            else return true;
                         case Card.SUPPLY:
-                            return game.checkIfCurrentPlayerHasAnyUnitInjured();
+                            if(game.getCurrentPlayer().getTablePile().contains(card)){
+                                CustomDialogFactory.showCannotPlayCardTwiceDialog();
+                                return false;
+                                }
+                            else{ 
+                                boolean hasInjured =game.checkIfCurrentPlayerHasAnyUnitInjured();
+                                if(hasInjured)
+                                    return hasInjured ;
+                                else {
+                                    CustomDialogFactory.showThereIsNoUnitInjured();
+                                    return false;
+                                }
+                            }
                         default: return false;    
                     }
                 case Card.LEADER:
-                    return game.checkIfCurrentPlayerHasAnyUnitInjured();
+                    boolean hasInjured =game.checkIfCurrentPlayerHasAnyUnitInjured();
+                    if(hasInjured)
+                        return hasInjured ;
+                    else {
+                        CustomDialogFactory.showThereIsNoUnitInjured();
+                        return false;
+                    }
                 case Card.UNIT:
-                     return game.getUnitByCard(card).isInjured(); 
+                    boolean isInjured =game.getUnitByCard(card).isInjured(); 
+                        if(isInjured)
+                            return isInjured ;
+                        else {
+                            CustomDialogFactory.showUnitIsNotInjured();
+                            return false;
+                        }
                 default: 
                     return false;        
         }
     }
-
- 
 
     private void handleCombatInitializationOnSelection(Card card , Game game){
     
@@ -583,12 +628,16 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
             
                 case Card.FRENCH_SAPPERS:
                 case Card.ROYAL_ENG:    
+                case Card.COMMITED_ATTACK:
                     game.getCombat().addSupportCard(card);
                 break;  
                 case Card.SKIRMISH:
                     card.setSelected(true);
                     setPlayingCard(card);
                     game.notifyAbout(EventType.SKIRMISH_SELECTED);
+                    
+                    
+                    
                 default:
                     System.err.println("manouvre.game.CardPlayingHandler.handleCombatPickSupportCardsOnSelection() Nie ma obsługi tej karty"  + card.getCardName());
             }
@@ -614,6 +663,7 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
                     break;
                     case Card.ROYAL_ENG:
                     case Card.FRENCH_SAPPERS:
+                    case Card.COMMITED_ATTACK:
                         game.getCombat().removeSupportCard(card);
                     break;    
                     

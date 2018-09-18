@@ -287,6 +287,12 @@ public class MapStateHandler implements Observer, Serializable{
                 LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);   
             break;
             
+            case EventType.PICK_COMMITTED_ATTACK_CASUALITIES:
+                if(game.getCurrentPlayer().isActive())
+                 setState(MapStateHandler.PICK_MULTIPLE_UNITS);
+            break;     
+                 
+            
             
             
             

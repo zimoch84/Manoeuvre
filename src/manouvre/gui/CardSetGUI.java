@@ -19,6 +19,7 @@ import manouvre.game.Card;
 import manouvre.game.CardSet;
 import manouvre.game.Game;
 import manouvre.game.Dice;
+import manouvre.game.Unit;
 
 /**
  * Retrives card picture/image
@@ -41,7 +42,7 @@ import manouvre.game.Dice;
     public static final int TABLE_CARD_PADDING_TOP_OPP = 20 ;
     public static final int TABLE_CARD_PADDING_TOP = TABLE_CARD_PADDING_TOP_OPP + CardGUI.HEIGHT_TABLE + GAP;
     
-    public static final int DICE_PADDING_TOP = 15;
+    public static final int DICE_PADDING_TOP = 50;
     
    
     //private static final int ONETHIRDCARD = 30; //set during mouse move
@@ -156,6 +157,26 @@ import manouvre.game.Dice;
         }
     }
     
+    public void paintDeadCard(Graphics g, int positionInSet ){
+        
+        g.setColor(Color.RED);
+        int LINEGAP = 5;
+        
+        int leftUpCornerX =  CARDPADDINGLEFT + LINEGAP +(CardGUI.WIDTH+GAP) * positionInSet ;
+        int leftUpCornerY =  CARDPADDINGTOP + LINEGAP;
+        int rightUpCornerX =  CARDPADDINGLEFT + LINEGAP +(CardGUI.WIDTH+GAP) * (positionInSet + 1)  ;
+        int rightUpCornerY =  CARDPADDINGTOP  + CardGUI.HEIGHT - LINEGAP ;        
+        int[] x1 =   {leftUpCornerX}     ; 
+        int[] x2 =   {rightUpCornerX}     ; 
+        int[] y1 =   {leftUpCornerY}     ; 
+        int[] y2 =   {rightUpCornerY}     ; 
+        
+        g.drawPolyline(x1, y1, 2);
+        g.drawPolyline(x2, y2, 2);
+        
+    }
+    
+    
      public void paintHand(Graphics g, Game game)                 
     {   
        int cardPadTemp;
@@ -163,25 +184,29 @@ import manouvre.game.Dice;
        try{
        for (CardGUI drawingCard : handGUI ){
             Card card = drawingCard.getCard();
-             if(     card.isMouseOverCard()
-                    || card.isSelected()
-                   //&& card.canBePlayed(game)
-                    )
-                    cardPadTemp=CARDPADDINGTOP-CARDPADDELTA;
+            if(card.isMouseOverCard()|| card.isSelected())
+                 cardPadTemp=CARDPADDINGTOP-CARDPADDELTA;
             else cardPadTemp=CARDPADDINGTOP;
+             
+            int positionInSet = game.getCurrentPlayer().getHand().getPositionInSet(card); 
             g.drawImage(drawingCard.getImgFull(), 
-                    CARDPADDINGLEFT+(CardGUI.WIDTH+GAP)*  game.getCurrentPlayer().getHand().getPositionInSet(card) ,
+                    CARDPADDINGLEFT+(CardGUI.WIDTH+GAP)*  positionInSet,
                     cardPadTemp, 
                     CardGUI.WIDTH, 
                     CardGUI.HEIGHT, null);  
-           }
-       }
-       catch (ConcurrentModificationException ex)
+            
+            if(card.getType() == Card.UNIT)
+            {
+                Unit cardUnit = game.getUnitByCard(card);
+                if(cardUnit.isEliminated())
+                    paintDeadCard(g, positionInSet);
+            }
+        }
+        }
+        catch (ConcurrentModificationException ex)
            {
-               
                ex.printStackTrace();
            }
-       
     }  
 
     public void paintTablePanel(Graphics g){
@@ -242,7 +267,7 @@ import manouvre.game.Dice;
                 int sizex = (int)(diceGUI.getImage().getWidth()* DiceGUI.SCALE_FACTOR_D6);
                 int sizey = (int)(diceGUI.getImage().getHeight()*DiceGUI.SCALE_FACTOR_D6);
                 
-                g.drawImage(diceGUI.getImage(),  x, tablePaddingTop + DICE_PADDING_TOP ,sizex, sizey , null);
+                g.drawImage(diceGUI.getImage(),  x + GAP, tablePaddingTop + DICE_PADDING_TOP ,sizex, sizey , null);
                     i++;
                 }
   
@@ -329,14 +354,14 @@ import manouvre.game.Dice;
             int mouseXmax = CardSetGUI.CARDPADDINGLEFT +(CardSetGUI.GAP*i)  + CardGUI.WIDTH*(i+1);
             
             if(    
-                   game.getCurrentPlayer().getHand().getCardByPosInSet(i).isMouseOverCard() ||
-                   game.getCurrentPlayer().getHand().getCardByPosInSet(i).isSelected()
+                   game.getCurrentPlayer().getHand().getCardByPos(i).isMouseOverCard() ||
+                   game.getCurrentPlayer().getHand().getCardByPos(i).isSelected()
                )
                 mouseYmin=mouseYmin-CardGUI.LIFTSELECTEDBY;
     
             if( mouseCoorY>mouseYmin && mouseCoorY<mouseYmax &&
                 mouseCoorX>mouseXmin && mouseCoorX<mouseXmax)
-               return game.getCurrentPlayer().getHand().getCardByPosInSet(i);
+               return game.getCurrentPlayer().getHand().getCardByPos(i);
         }
         return (Card)null;
     } 

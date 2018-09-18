@@ -1,6 +1,5 @@
 package manouvre.interfaces;
 
-import java.util.ArrayList;
 import manouvre.game.Card;
 
 /**
@@ -28,7 +27,7 @@ public interface CardSetInterface {
     * @param cardPosition
     * @return 
     */
-   public Card getCardByPosInSet(int cardPosition);
+   public Card getCardByPos(int cardPosition);
    
   /**
    * As cards are dealt from the deck, the number of 

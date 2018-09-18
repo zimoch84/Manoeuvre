@@ -38,6 +38,7 @@ public class EventType {
     public static final String PUSRUIT_SUCCEDED = "PUSRUIT_SUCCEDED";
     public static final String PUSRUIT_FAILED = "PUSRUIT_FAILED";
     public static final String PICKED_ADVANCE = "PLAYER_CHOSEN_ADVANCE_UNIT";
+    public static final String PICK_COMMITTED_ATTACK_CASUALITIES = "PICK_COMMITTED_ATTACK_CASUALITIES";
     public static final String END_COMBAT = "END_COMBAT";
     
     public static final String HOST_GAME_OVER = "HOST_GAME_OVER";

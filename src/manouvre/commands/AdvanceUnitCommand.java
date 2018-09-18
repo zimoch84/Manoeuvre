@@ -51,7 +51,7 @@ public class AdvanceUnitCommand extends MoveUnitCommand  {
             /*
             End Combat
             */
-            game.endCombat();
+            game.checkCommittedAttackandEndCombat();
             game.unselectAllUnits();
 }
     @Override

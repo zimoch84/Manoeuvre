@@ -6,12 +6,10 @@
 package manouvre.commands;
 
 import manouvre.events.EventType;
-import manouvre.game.CardCommandFactory;
 import manouvre.game.Combat;
 import manouvre.game.Game;
 import manouvre.game.Unit;
 import manouvre.interfaces.Command;
-import manouvre.state.MapStateHandler;
 import org.apache.logging.log4j.LogManager;
 
 /**
@@ -83,7 +81,7 @@ public class TakeHitCommand implements Command{
                 LOGGER.debug(game.getCurrentPlayer().getName() + " swapActivePlayer " + game.getCurrentPlayer().isActive());
             }
             
-            game.endCombat();
+            game.checkCommittedAttackandEndCombat();
            
         }    
         game.checkGameOver();

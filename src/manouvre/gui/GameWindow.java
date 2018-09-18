@@ -35,6 +35,9 @@ import manouvre.events.ButtonActions;
 import manouvre.events.PanelsEventObserver;
 import manouvre.state.PlayerState;
 import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
+import static java.lang.Math.abs;
 
 /**
  *

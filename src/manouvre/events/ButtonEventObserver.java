@@ -40,8 +40,10 @@ public void update(Observable o, Object arg) {
                 LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
             break;
         case EventType.PLAYER_MOVED:
-            buttonToNextPhaseSetText("End Move", game.getCurrentPlayer().isActive());
-            LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
+            if(game.getCurrentPlayer().isActive()){
+                buttonToNextPhaseSetText("End Move", true);
+                LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
+            }
             break;
         case EventType.CANCELLABLE_CARD_PLAYED: 
             /*Guirellas decision*/
@@ -241,6 +243,10 @@ public void update(Observable o, Object arg) {
            LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);    
        break;
        
+       case EventType.PICK_COMMITTED_ATTACK_CASUALITIES:
+           buttonActionMakeInvisible();
+           buttonToNextPhaseMakeInvisible();
+       break;
        
            
            

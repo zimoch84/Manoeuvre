@@ -35,7 +35,7 @@ public class SetupPositionCommand implements Command{
        
         for(Unit searchUnit: units)
         {
-            game.searchUnit(searchUnit).move(searchUnit.getPosition());
+            game.getUnit(searchUnit).move(searchUnit.getPosition());
             /*
             To clear has moved and other flags
             */

@@ -110,7 +110,7 @@ public class PanelsEventObserver implements Observer {
             break;
             
             case EventType.END_COMBAT:
-                 game.setInfoBarText("Combat Ended");
+                 //game.setInfoBarText("Combat Ended");
             break;    
 
             case EventType.ASSAULT_BEGINS:
@@ -139,6 +139,10 @@ public class PanelsEventObserver implements Observer {
                 
             case EventType.GUIRELLA_PLAYED:
                 game.setInfoBarText("Guirellas has been played");
+            break;   
+            
+            case EventType.PICK_COMMITTED_ATTACK_CASUALITIES:
+                 game.setInfoBarText("Pick committed attack casualities");
             break;     
         
     }

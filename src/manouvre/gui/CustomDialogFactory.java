@@ -24,10 +24,21 @@ public static void showSureToPlayCardDialog(CommandQueue cmdQueue, Command comma
 public static void showCannotPlayCardDialog(){
     showConfirmationDialog( "You cannot play this card");
 }
+
+public static void showCannotPlayCardTwiceDialog(){
+    showConfirmationDialog( "You cannot play this card twice in one phase");
+}
+
 public static void showCardNoValidTargetDialog(){
      showConfirmationDialog("This card doesn't have valid target");
     }
 
+public static void showThereIsNoUnitInjured(){
+     showConfirmationDialog("There is no unit injured");
+    }
+public static void showUnitIsNotInjured(){
+     showConfirmationDialog("This unit is notinjured");
+    }
 public static void showThereIsNoRoomToWithdraw(){
      showConfirmationDialog("There is no room to withdraw");
     }
@@ -57,5 +68,11 @@ public static void showYesNoDialog(String decistionText,  CommandQueue cmdQueue,
         dialog.setCancelCommand(noCommand);
         dialog.setVisible(true);
     }
+
+public static void showSureToPickUnitDialog(CommandQueue cmdQueue, Command command){
+
+    showYesNoDialog("Are You sure pick this unit?", cmdQueue, command);
+    
+}
 
 }

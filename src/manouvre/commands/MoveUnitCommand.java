@@ -35,7 +35,7 @@ public class MoveUnitCommand implements Command {
         /*
         Searching reference to unit based on storeUnit.
         */
-        Unit movingUnit =  game.searchUnit(storedUnit);
+        Unit movingUnit =  game.getUnit(storedUnit);
         /*
         Store last position to undo be passible
         */
@@ -62,7 +62,7 @@ public class MoveUnitCommand implements Command {
     
     @Override
     public void undo(Game game){
-      Unit movingUnit =  game.searchUnit(storedUnit);
+      Unit movingUnit =  game.getUnit(storedUnit);
       movingUnit.move(lastPosition);
       game.getMap().getTerrainAtXY(lastPosition.getX(), lastPosition.getY()).setIsOccupiedByUnit(true);
       game.getMap().getTerrainAtXY(newPosition.getX(), newPosition.getY()).setIsOccupiedByUnit(false);
