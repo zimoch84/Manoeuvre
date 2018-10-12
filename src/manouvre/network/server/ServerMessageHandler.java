@@ -75,7 +75,7 @@ public class ServerMessageHandler {
                     GameRoom newRoom = msg.getChannelList().get(0);
                     Player hostPlayer = newRoom.getHostPlayer();
                     //Predefine choice if player would choose nothing
-                    hostPlayer.setNation(CardInterface.AU);
+                    hostPlayer.setNation(Player.Nation.AU);
                     
                     /*
                     Check if socket client localport  = server port
@@ -109,7 +109,7 @@ public class ServerMessageHandler {
                             room.setGuestSocketPortId(portID);
                             Player guestPlayer = msg.getPlayer();
                             //Predefine choice if player would choose nothing                     
-                            guestPlayer.setNation(CardInterface.US);
+                            guestPlayer.setNation(Player.Nation.US);
                             room.setGuestPlayer(guestPlayer);
                             System.out.println("manouvre.network.server.ManouvreServer.handle() " + msg.getPlayer().getName() + " has joined room");
                             /*
@@ -196,7 +196,7 @@ public class ServerMessageHandler {
                     /*
                     Setting Player Nation
                     */
-                    gameRoom.getCurrentPlayer(portID).setNation(msg.getContentP());
+                    gameRoom.getCurrentPlayer(portID).setNation(Player.Nation.fromValue(msg.getContentP()));
                     /*
                     Sending message to opponent if room is full
                     */

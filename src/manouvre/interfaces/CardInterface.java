@@ -5,24 +5,14 @@
  */
 package manouvre.interfaces;
 
+import manouvre.game.Dice;
+
 /**
  *
  * @author Piotr
  */
 public interface CardInterface {
-    
-    /*
-    flags
-    */
-    public static int BR  = 0; //GreatBritain
-    public static int AU  = 1; //Austria
-    public static int FR  = 2; //France
-    public static int OT  = 3; //Ottoman
-    public static int PR  = 4; //Prussia
-    public static int RU  = 5; //Russland
-    public static int SP  = 6; //Spain
-    public static int US  = 7; //USA
-    
+
     /*
     Card Type
     */
@@ -82,10 +72,6 @@ public interface CardInterface {
     */
     public String getCardName(); 
     /*
-    Returns flag of card
-    */
-    public int getCardFlag(); 
-    /*
     Returns card image String
     */
     public String getCardImg();    
@@ -96,7 +82,7 @@ public interface CardInterface {
     /*
     Returns unit attack value
     */
-    public int getUnitAttack();
+    public Dice.Set getUnitAttack();
     /*
     Returns unit defence value
     */
@@ -108,11 +94,11 @@ public interface CardInterface {
     /*
     Returns unit bombard value
     */
-    public int getUnitBombard();
+    public Dice.Set getUnitBombard();
     /*
     Returns unit volley value
     */
-    public int getUnitVolley();
+    public Dice.Set getUnitVolley();
     /*
     Returns unit pursuit value
     */

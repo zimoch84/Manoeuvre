@@ -7,7 +7,6 @@ package manouvre.game;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import manouvre.interfaces.CardInterface;
 
 /**
  *  Nation
@@ -25,7 +24,40 @@ public class Player  implements Serializable{
     
     private static final long serialVersionUID = 43211L;
     String name;
-    int nation; //for nation description see Card
+     
+    public enum Nation {
+        BR(0, "Great Brittain"), AU(1, "Austria"), FR(2, "France"), OT(3, "Ottoman Empire"), PR(4 , "Prusia"), RU(5, "Russia"), SP(6, "Spain"), US(7,"USA"); 
+
+        int number ;
+        String name;
+
+        Nation(int number, String name){
+            this.number = ordinal();
+            this.name = name;
+        }
+
+        final public int getNumber(){
+        return number;
+        }
+
+        public static Nation fromValue(int value){
+            return Nation.values()[value];
+        }
+
+       
+        
+        @Override
+        public String toString(){
+        return name;
+        }
+        String getShortName()
+        {
+            return name();
+        }
+    
+    };
+    
+    Nation nation; //for nation description see Card
     
     CardSet hand;
     CardSet drawPile;
@@ -44,6 +76,8 @@ public class Player  implements Serializable{
     Unit[] army;
     
     int score;
+    
+    Unit lastMovedUnit;
  
     boolean host, finishedSetup;
 
@@ -70,58 +104,26 @@ public class Player  implements Serializable{
         setDraw(false);
         hasAttacked(false);
         getHand().unselectAllCards();
+        setLastMovedUnit(null);
     }
 
-    public String getNationAsString(boolean shortName)
-    {
-    if(!shortName) {       
-        switch(getNation())
-        {
-        case Card.BR: return "GreatBritain";
-        case Card.AU: return "Austria";
-        case Card.FR: return "France"; 
-        case Card.OT: return "Ottoman";
-        case Card.PR: return "Prussia";
-        case Card.RU: return "Russland";
-        case Card.SP: return "Spain";
-        case Card.US: return "USA";
-        default: return "Unknown";
-        }
-    }
-    else
-    {
-        switch(getNation())
-        {
-        case Card.BR: return "BR";
-        case Card.AU: return "AU";
-        case Card.FR: return "FR"; 
-        case Card.OT: return "OT";
-        case Card.PR: return "PR";
-        case Card.RU: return "RU";
-        case Card.SP: return "SP";
-        case Card.US: return "US";
-        default: return "Unknown";
-        }  
-    }
-    }
-            
-    
+       
     public void setCards() {
         this.drawPile = new CardSet(nation ,"DRAW"); 
         this.hand = new CardSet(nation ,"HAND"); 
         this.discardPile = new CardSet(nation ,"DISCARD"); 
         this.tablePile = new CardSet(nation ,"TABLE");
-        if(nation==CardInterface.AU){
+        if(nation==Nation.AU){
             hand.addCard(drawPile.getFirstCardByName("Committed Attack", true));
             hand.addCard(drawPile.getFirstCardByName("Guerrillas", true));
-            hand.addCard(drawPile.getFirstCardByName("Redoubt", true));
+            hand.addCard(drawPile.getFirstCardByName("Ambush", true));
             hand.addCard(drawPile.getFirstCardByName("Duke of Schwarzenberg", true));
             hand.addCard(drawPile.getFirstCardByName("4th  Regiment", true));
         }
-        else if(nation==CardInterface.FR){
+        else if(nation==Nation.FR){
             hand.addCard(drawPile.getFirstCardByName("Joachim Murat", true));
             hand.addCard(drawPile.getFirstCardByName("French Sappers", true));
-            hand.addCard(drawPile.getFirstCardByName("1st Cuirassiers", true));
+            hand.addCard(drawPile.getFirstCardByName("Forced March", true));
             hand.addCard(drawPile.getFirstCardByName("Supply", true));
             hand.addCard(drawPile.getFirstCardByName("Supply", true));
         } 
@@ -135,13 +137,13 @@ public class Player  implements Serializable{
         If its host then place units on B row else place unit on G row
         */
         int y=0;
-      for (int x=getNation()*8  ;x<getNation()*8+8;x++)
+      for (int x=getNation().getNumber()*8  ;x<getNation().getNumber()*8+8;x++)
         {
             Unit unit =  new Unit(x+1);
           /*
             Startting position row B or G
             */
-            unit.setPosition(new Position (  x- ( getNation()*8)    , ( isHost() ? Position.ROW_2 : Position.ROW_7) ));
+            unit.setPosition(new Position (  x- ( getNation().getNumber()*8)    , ( isHost() ? Position.ROW_2 : Position.ROW_7) ));
             unit.setOwner(this);
              army[y] =   unit  ;      
               y++;     
@@ -161,12 +163,12 @@ public class Player  implements Serializable{
         return name;
     }
  
-    public void setNation(int nation) {
+    public void setNation(Nation nation) {
       //  System.out.println("Nation Set to:"+nation);
         this.nation = nation;
     }
     
-    public int getNation() {
+    public Nation getNation() {
         return nation;
     }
     
@@ -183,22 +185,16 @@ public class Player  implements Serializable{
     }
     
     public ArrayList<Position> getArmyPositions(){
-     
-       ArrayList<Position> unitsPositions = new ArrayList<>();
-       Unit[] units = getArmy();
-        
-    for (int i=0;i<getArmy().length;i++)
-             {
-                if(!units[i].isEliminated())
-                        unitsPositions.add(units[i].getPosition());
-             }
-             return unitsPositions;
+        ArrayList<Position> unitsPositions = new ArrayList<>();
+        for (Unit unit : getNotKilledUnits()  )
+            if(!unit.isEliminated())
+                unitsPositions.add(unit.getPosition());
+        return unitsPositions;
     }
 
     public void setArmy(Unit[] army) {
         this.army = army;
     }
-
    
     public CardSet getDiscardPile() {
         return discardPile;
@@ -290,15 +286,16 @@ public class Player  implements Serializable{
     public String toString() {
         return getName() +
                 ",Nation: " 
-                + getNationAsString(false)+  
+                + nation.toString()+  
                 (isActive() ? " active" : " inactive");
     }
+
+    public void setLastMovedUnit(Unit lastMovedUnit) {
+        this.lastMovedUnit = lastMovedUnit;
+    }
+    
     public Unit getLastMovedUnit(){
-        for(Unit checkUnit: getArmy()){
-        
-            if(checkUnit.hasMoved()) return checkUnit;
-        }
-        return null;
+        return lastMovedUnit;
     }
     
     public Unit getUnitByPosition(Position position){
@@ -307,7 +304,6 @@ public class Player  implements Serializable{
             {
                 return unitSearch;
             }
-
         }
         return null;
     }

@@ -149,17 +149,17 @@ public void update(Observable o, Object arg) {
         }
         LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
     break;
-    case EventType.COMBAT_PURSUIT_STARTED: 
+    case EventType.COMBAT_ADVANCE_STARTED: 
           if( game.getCurrentPlayer().isActive() ){
               if(game.getCombat().isAttackerNotRequiredToAdvance())
                   buttonActionSetText("Not requre to adv.", true);
               else 
-                  game.setInfoBarText("Pick Pursuit Unit");
+                  game.setInfoBarText("Pick unit to advance");
           }
           else 
           { 
              buttonActionMakeInvisible();
-             game.setInfoBarText("Opponent is picking pursuit unit"); 
+             game.setInfoBarText("Opponent is picking advancement unit"); 
           }
           LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
     break;

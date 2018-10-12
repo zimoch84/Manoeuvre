@@ -44,49 +44,45 @@ public class ThrowDiceCommand implements Command{
         if(checkCard.getType() != Card.LEADER)
         switch(checkCard.getUnitDiceValue()){
         
-            case Dice.DICE1d6:{
-                
-                
-                dices.add(new Dice(Dice.D6));
-                checkCard.setDices(dices);
-                d6dices.addAll(dices);
-                
-                break;
-            }
-            case Dice.DICE2d6:{
-                dices.add(new Dice(Dice.D6));
-                dices.add(new Dice(Dice.D6));
+            case DICE1d6:{
+                dices.add(new Dice(Dice.Type.D6));
                 checkCard.setDices(dices);
                 d6dices.addAll(dices);
                 break;
             }
-            case Dice.DICE1d8:{
-                dices.add(new Dice(Dice.D8));
+            case DICE2d6:{
+                dices.add(new Dice(Dice.Type.D6));
+                dices.add(new Dice(Dice.Type.D6));
+                checkCard.setDices(dices);
+                d6dices.addAll(dices);
+                break;
+            }
+            case DICE1d8:{
+                dices.add(new Dice(Dice.Type.D8));
                 checkCard.setDices(dices);
                 d8dices.addAll(dices);
                 break;
             }
-            case Dice.DICE2d8:{
-                dices.add(new Dice(Dice.D8));
-                dices.add(new Dice(Dice.D8));
+            case DICE2d8:{
+                dices.add(new Dice(Dice.Type.D8));
+                dices.add(new Dice(Dice.Type.D8));
                 checkCard.setDices(dices);
                 d8dices.addAll(dices);
                 break;
             }
-            case Dice.DICE1d10:{
-                dices.add(new Dice(Dice.D10));
+            case DICE1d10:{
+                dices.add(new Dice(Dice.Type.D10));
                 checkCard.setDices(dices);
                 d10dices.addAll(dices);
                 break;
             }
-            case Dice.DICE2d10:{
-                dices.add(new Dice(Dice.D10));
-                dices.add(new Dice(Dice.D10));
+            case DICE2d10:{
+                dices.add(new Dice(Dice.Type.D10));
+                dices.add(new Dice(Dice.Type.D10));
                 checkCard.setDices(dices);
                 d10dices.addAll(dices);
                 break;
             }
-           
         }
     }
     }

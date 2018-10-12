@@ -54,7 +54,7 @@ public final class Game implements Serializable{
     Describes and calculate combats
     */
     private Combat combat;
-    public boolean freeMove = true;
+    public boolean freeMove = false;
     /*
     Move to gui
     */
@@ -419,7 +419,6 @@ public final class Game implements Serializable{
              getMap().unselectAllTerrains();
        }
     }
-    
      /*
     In multiple selection mode 
     */
@@ -455,7 +454,6 @@ public final class Game implements Serializable{
      public boolean checkGameOver()
      {
          if(getHostPlayer().getUnitsKilled() > 4  )
-             
          {
              notifyAbout(EventType.HOST_GAME_OVER);
              lockGUI();
@@ -465,7 +463,7 @@ public final class Game implements Serializable{
          {
             notifyAbout(EventType.GUEST_GAME_OVER);
             lockGUI();
-             return true;
+            return true;
          }
          return false;
      }
@@ -521,25 +519,37 @@ public final class Game implements Serializable{
 
     public void checkCommittedAttackandEndCombat() {
         
-        if(combat.getNumberOfCommittedAttackCards()==0)
+        int numberOfComCards =  combat.getNumberOfCommittedAttackCards();
+        if(numberOfComCards==0)
             endCombat();
         else 
         {
-            if(combat.getSupportUnitCount()> 0){
-                combat.setState(Combat.COMMITTED_ATTACK_CASUALITIES);
+            int numberOfAttackingUnits = combat.getAttackingUnits().size();
+            
+            if(numberOfComCards == numberOfAttackingUnits){
+                for(Unit attackingUnit : combat.getAttackingUnits())
+                    injureUnit(getUnit(attackingUnit)); 
+                
+                endCombat();     
+                }
+            else{
+                combat.setState(Combat.State.COMMITTED_ATTACK_CASUALITIES);
                 notifyAbout(EventType.PICK_COMMITTED_ATTACK_CASUALITIES);
             }
-            else
-                
-                injureUnit(getUnit(combat.getAttackingUnit()));
-                endCombat();
         }
-            
+    }
+    
+    public void checkConditionAndStartAdvancementOrEndCombat(){
+        if(getCombat().getType().isAdvancementAfterCombat()){
+            getCombat().setState(Combat.State.PURSUIT);
+            notifyAbout(EventType.COMBAT_ADVANCE_STARTED);
+         }
+        else checkCommittedAttackandEndCombat();
     }
     
     public void endCombat() {
         
-        combat.setState(Combat.END_COMBAT);
+        combat.setState(Combat.State.END_COMBAT);
         /*
         Clear advance flag after combat
          */

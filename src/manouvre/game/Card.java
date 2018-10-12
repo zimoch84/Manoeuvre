@@ -59,13 +59,12 @@ public class Card implements CardInterface, Serializable  {
     
     private static final long serialVersionUID = 419321L;
     int countId=480;
-    int countNation=8;
+    
     int countCards=60;
-    String chosenName;
     
     String CardID="";
     String CardName="";				
-    String CardFlag="";
+    Player.Nation flag;
     String CardImg="";                            
     String CardType="";
     String CardAttack="";				
@@ -88,7 +87,6 @@ public class Card implements CardInterface, Serializable  {
     
     boolean cardNotFound=false;
     boolean selected;
-    boolean mouseOverCard;
     /*
     To indticate if card has been played
     */
@@ -96,17 +94,14 @@ public class Card implements CardInterface, Serializable  {
     /*
     Case if card is playing as an assoult or volley , bombard etc
     */
-    String playingCardMode;
+    Combat.Type playingCardMode;
     
-    boolean availableForDefance=false;
-    boolean availableForSupport=false;
-   
     ArrayList<Dice> dices;
     
     public Card ()
     {
-    CardType = Card.NO_TYPE;
-    playingCardMode = Card.NO_TYPE;
+        CardType = Card.NO_TYPE;
+        playingCardMode = Combat.Type.NO_TYPE;
     }
     
     public Card (int chosenID) { 
@@ -115,7 +110,7 @@ public class Card implements CardInterface, Serializable  {
             CsvReader cards = new CsvReader("resources\\cards\\cards.csv", ';');		
             cards.readHeaders();
             cards.readRecord();
-            setPlayingCardMode(Card.NO_TYPE);
+            setPlayingCardMode(Combat.Type.NO_TYPE);
             while (!strChosenId.equals(cards.get("CardID"))&&countId>0)
             {
                 cards.readRecord();
@@ -123,7 +118,7 @@ public class Card implements CardInterface, Serializable  {
             }
             this.CardID = cards.get("CardID");
             this.CardName = cards.get("CardName");
-            this.CardFlag = cards.get("CardFlag");
+            this.flag = Player.Nation.valueOf(cards.get("CardFlag"));
             this.CardImg = cards.get("CardImg");
             this.CardType = cards.get("CardType");
             this.CardAttack = cards.get("UnitAttack");
@@ -163,17 +158,16 @@ public class Card implements CardInterface, Serializable  {
             
             while (!chosenName.equals(cards.get("CardName"))&&countCards>0)
             {
-               
                 cards.readRecord();
                 countCards--;
 
             }
-            //countNation--;
+            
             if (countCards==0) cardNotFound=true; 
             
             this.CardID = cards.get("CardID");
             this.CardName = cards.get("CardName");
-            this.CardFlag = cards.get("CardFlag");
+            this.flag = Player.Nation.valueOf(cards.get("CardFlag"));
             this.CardImg = cards.get("CardImg");
             this.CardType = cards.get("CardType");
             this.CardAttack = cards.get("UnitAttack");
@@ -224,24 +218,8 @@ public class Card implements CardInterface, Serializable  {
         return CardName;
     }
 
-    public int getCardFlag() {
-        switch (CardFlag){
-            case "BR": 
-                return CardInterface.BR;
-            case "FR":
-                return CardInterface.FR;
-            case "RU":
-                return CardInterface.RU;
-            case "PR":
-                return CardInterface.PR;
-            case "AU":
-                return CardInterface.AU;
-            case "SP":
-                return CardInterface.SP;
-            case "OT":
-                return CardInterface.OT;
-        }          
-        return 99; //if else return wrong value
+    public Player.Nation getCardFlag() {
+        return flag;
     }
 
     public String getCardImg() {
@@ -262,43 +240,28 @@ public class Card implements CardInterface, Serializable  {
         return 99; //if else return wrong value
     }
 
-    public int getUnitDiceValue(){
+    public Dice.Set getUnitDiceValue(){
         
         if(getHQType() == Card.COMMITED_ATTACK)
-            return Dice.DICE2d6;
+            return Dice.Set.DICE2d6;
+        
+        if(getHQType() == Card.AMBUSH)
+            return Dice.Set.DICE1d10;
         
         switch(getPlayingCardMode()){
-            case Card.BOMBARD :
-            {
+            case BOMBARD :
                 return getUnitBombard();
-            }
-            case Card.ASSAULT : {
+            case ASSAULT : 
                 return getUnitAttack();
-            
-            }
-            case Card.VOLLEY :
-            {
+            case VOLLEY :
                 return getUnitVolley();
-            
-            }
-            case Card.PURSUIT :
-            {
-                return Dice.DICE1d6;
-            
-            }
-            
-           
+            case PURSUIT :
+                return Dice.Set.DICE1d6;
             default: return getUnitAttack();
         }
             
     }
     
-    public int getUnitAttack() { 
-        if(!CardAttack.equals(""))
-        return Dice.diceTypeToInt(CardAttack); //if else return wrong value
-        else return 0;
-    }
-
     public int getUnitDefence() {
         if(getType() == Card.UNIT)
             return Integer.parseInt(CardDefense);
@@ -313,16 +276,16 @@ public class Card implements CardInterface, Serializable  {
          else return 0;
     }
 
-    public int getUnitBombard() {
-         if(!CardBombard.equals(""))
-        return Dice.diceTypeToInt(CardBombard); 
-         else return 99;
+    public Dice.Set getUnitBombard() {
+        return Dice.Set.getFromString(CardBombard); 
     }
   
-    public int getUnitVolley() {
-         if(!CardVolley.equals(""))
-        return Dice.diceTypeToInt(CardVolley); 
-         else return 99;
+    public Dice.Set getUnitVolley() {
+         return Dice.Set.getFromString(CardVolley); 
+    }
+    
+    public Dice.Set getUnitAttack() { 
+        return Dice.Set.getFromString(CardAttack); 
     }
       
     public boolean canPursue(){
@@ -415,24 +378,15 @@ public class Card implements CardInterface, Serializable  {
     ASSAULT/VOLLEY
     BOMBARD
     */
-    public ArrayList<String> getPlayingPossibleCardModes() {
+    public ArrayList<Combat.Type> getPlayingPossibleCardModes() {
         
-        ArrayList<String> cardPlayingModes = new ArrayList<String>();
-       
-        
-        if(!this.CardAttack.equals("")) 
-        {cardPlayingModes.add(Card.ASSAULT);
-         
-          }
+        ArrayList<Combat.Type> cardPlayingModes = new ArrayList<Combat.Type>();
+        if(!this.CardAttack.equals(""))
+            cardPlayingModes.add(Combat.Type.ASSAULT);
         if(this.CardRange.equals("1") )
-        {
-        cardPlayingModes.add(Card.VOLLEY);
- 
-        }
+            cardPlayingModes.add(Combat.Type.VOLLEY);
         if(this.CardRange.equals("2") )
-        {
-        cardPlayingModes.add(Card.BOMBARD);
-                }
+            cardPlayingModes.add(Combat.Type.BOMBARD);
  
         return cardPlayingModes;
     }
@@ -445,11 +399,11 @@ public class Card implements CardInterface, Serializable  {
         this.dices = dices;
     }
     
-    final public void setPlayingCardMode(String playingCardMode) {
+    final public void setPlayingCardMode(Combat.Type playingCardMode) {
         this.playingCardMode = playingCardMode;
     }
 
-    public String getPlayingCardMode() {
+    public Combat.Type getPlayingCardMode() {
         return playingCardMode;
     }
     
@@ -522,15 +476,7 @@ public class Card implements CardInterface, Serializable  {
     public boolean isCardNotFoundInNation() {
         return cardNotFound;
     }
-    
-    public boolean isMouseOverCard() {
-        return mouseOverCard;
-    }
 
-    public void setMouseOverCard(boolean mouseOverCard) {
-        this.mouseOverCard = mouseOverCard;
-    }
- 
     @Override
     public String toString()
     {

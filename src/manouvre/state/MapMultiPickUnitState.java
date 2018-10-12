@@ -34,7 +34,7 @@ private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogg
         if(avalaiblePositions.contains(pos))
         {
             switch(game.getCombat().getState()){
-                case Combat.PICK_SUPPORT_UNIT:
+                case PICK_SUPPORT_UNIT:
                     Card leader = game.getCombat().getSupportingLeader();
                     int maxSupporters = leader.getLederCommand() - 1; 
                     int currentSupporters = game.getCombat().getSupportUnitCount();
@@ -55,7 +55,7 @@ private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogg
                         game.setInfoBarText("You can only pick up to " + maxSupporters + " units");
                     }
                 break;
-                case Combat.COMMITTED_ATTACK_CASUALITIES:
+                case COMMITTED_ATTACK_CASUALITIES:
                     Unit hitUnit =  game.getUnitAtPosition(pos);
                     Card commitedAttackCard = game.getCombat().getTopCommittedAttackCard();
                     Command takeHitCommand = new TakeCommittedAttackHit(game.getCurrentPlayer().getName(), hitUnit, commitedAttackCard);

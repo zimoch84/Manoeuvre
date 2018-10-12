@@ -75,6 +75,23 @@ private void handleUnitsHitsPositionSituation(Game game, Position pos, CommandQu
                             
                     }
                 break;
+                
+                case Card.AMBUSH:
+                    Combat combat = game.getCombat() ;
+                    
+                    playingCard.setPlayingCardMode(Combat.Type.AMBUSH);
+                    combat.setState(Combat.State.INITIALIZING_COMBAT);
+                    
+                    Unit defendingUnit = game.getUnitAtPosition(pos);
+                    combat.setDefendingUnit(defendingUnit);
+                    
+                    Terrain defenceTerrain = game.getMap().getTerrainAtPosition(defendingUnit.getPosition());
+                    combat.setDefenseTerrain(defenceTerrain);
+                    
+                    Command attackCommand = new CardCommands.AttackCommand(game.getCurrentPlayer().getName(),  game.getCombat());
+                    CustomDialogFactory.showSureToPlayCardDialog(cmdQueue, attackCommand, game);
+                break;    
+                    
                 default : System.err.println("Nie obslugujemy tej karty " + playingCard.getHQType() );    
             }
         break;    
@@ -84,7 +101,7 @@ private void handleUnitsHitsPositionSituation(Game game, Position pos, CommandQu
                 case Game.COMBAT:
                     Combat combat = game.getCombat() ;
                     switch(combat.getState()){
-                        case Combat.PURSUIT:
+                        case PURSUIT:
                             pickedUnit.setSelected(true);
                             pickedUnit.setAdvanced(true);
                             Command advanceCommand = 
@@ -94,14 +111,16 @@ private void handleUnitsHitsPositionSituation(Game game, Position pos, CommandQu
                                    game.getCombat().getPursuitCards(pickedUnit)
                                    );
                             cmdQueue.storeAndExecuteAndSend(advanceCommand);
-                            game.notifyAbout(EventType.PICKED_ADVANCE);
                         break;
-                        case Combat.INITIALIZING_COMBAT:
+                        case INITIALIZING_COMBAT:
                             
                             Unit defendingUnit = game.getUnitAtPosition(pos);
+                            Unit attackingUnit = game.getUnitByCard(playingCard);
                             combat.setDefendingUnit(defendingUnit);
                             Terrain defenceTerrain = game.getMap().getTerrainAtPosition(defendingUnit.getPosition());
+                            Terrain attackingTerrain = game.getMap().getTerrainAtPosition(attackingUnit.getPosition());
                             combat.setDefenseTerrain(defenceTerrain);
+                            combat.setAttackTerrain(attackingTerrain);
                             Command attackCommand = new CardCommands.AttackCommand(game.getCurrentPlayer().getName(),  game.getCombat());
                             CustomDialogFactory.showSureToPlayCardDialog(cmdQueue, attackCommand, game);
                         break;    

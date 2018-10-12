@@ -37,13 +37,11 @@ public class MoveUnitCommand implements Command {
         */
         Unit movingUnit =  game.getUnit(storedUnit);
         /*
-        Store last position to undo be passible
-        */
-       // lastPosition = new Position (storedUnit.getPosition().getX(), storedUnit.getPosition().getY()) ;
-        /*
         Move unit on game 
         */
         movingUnit.move(newPosition);
+        
+        game.getPlayerByName(playerName).setLastMovedUnit(movingUnit);
         /*
         Setting map on current game object to set occupation on it.
         */ 
@@ -52,6 +50,7 @@ public class MoveUnitCommand implements Command {
         if(game.getMap().getTerrainAtXY(lastPosition.getX(), lastPosition.getY()).isRedoubt())
             game.getMap().getTerrainAtXY(lastPosition.getX(), lastPosition.getY()).setRedoubt(false);
         game.unselectAllUnits();
+        
         if (game.getPhase()== Game.MOVE && !game.getPlayerByName(playerName).hasMoved() )
         {
             game.getPlayerByName(playerName).setMoved(true);

@@ -27,21 +27,11 @@ public class WithrdawCommand implements Command {
 
         @Override
         public void execute(Game game) {
-                       
+            
+            game.swapActivePlayer();         
             moveUnitCommand.execute(game);
-            log = senderPlayerName +" withdrawn" ;
-            
-            game.getCombat().setState(Combat.PURSUIT);
-            /*
-            Attacking player chooses unit to pursuit
-            */
-            game.swapActivePlayer();
-            game.notifyAbout(EventType.COMBAT_PURSUIT_STARTED);
-            
-            if(game.getCurrentPlayer().isActive())
-            {
-               game.notifyAbout(EventType.PUSRUIT_AFTER_WITHDRAW);
-            }
+            log = senderPlayerName +"has withdrawn" ;
+            game.checkConditionAndStartAdvancementOrEndCombat();
         }
 
         @Override

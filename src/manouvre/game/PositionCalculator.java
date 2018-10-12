@@ -31,39 +31,41 @@ public class PositionCalculator implements Serializable{
         ArrayList<Position> returnPositions = new ArrayList<>();
         switch (card.getType()) {
             case Card.HQCARD:
-                if (card.getHQType() == Card.SUPPLY) {
-                    if (game.getPhase() == Game.MOVE) {
-                        return getCurrentPlayerNotMovedUnits();
-                    }
-                    if (game.getPhase() == Game.RESTORATION) {
-                        return getCurrentPlayerInjuredUnitPositions();
-                    }
+                
+                switch(card.getHQType()){
+                    case Card.SUPPLY:
+                        if (game.getPhase() == Game.MOVE) 
+                            return getCurrentPlayerNotMovedUnits();
+                        if (game.getPhase() == Game.RESTORATION) 
+                            return getCurrentPlayerInjuredUnitPositions();
+                    break;
+                    
+                    case Card.WITHDRAW:
+                        returnPositions.add(game.getCombat().getDefendingUnit().getPosition());
+                        return returnPositions;
+                      
+                    case Card.REDOUBDT:
+                        return game.getCurrentPlayer().getArmyPositions();
+                    
+                    case Card.AMBUSH:
+                        return game.getOpponentPlayer().getArmyPositions();
+                
                 }
-                /*
-                Defending player
-                 */
-                if (card.getHQType() == Card.WITHDRAW) {
-                    returnPositions.add(game.getCombat().getDefendingUnit().getPosition());
-                    return returnPositions;
-                }
-                if (card.getHQType() == Card.REDOUBDT) {
-                    return game.getCurrentPlayer().getArmyPositions();
-                }
-                break;
+               
             case Card.UNIT:
                 switch(game.getPhase()){
                     case Game.COMBAT:
                     Combat combat = game.getCombat();
                     switch(combat.getState()){
-                        case Combat.COMBAT_NOT_INITIALIZED:
-                        case Combat.INITIALIZING_COMBAT:    
-                            if(card.getPlayingCardMode() != Card.NO_TYPE )
+                        case COMBAT_NOT_INITIALIZED:
+                        case INITIALIZING_COMBAT:    
+                            if(card.getPlayingCardMode() != Combat.Type.NO_TYPE )
                             {
                                 return getAttackingPositions(card, game.getUnitByCard(card));    
                             }
                         break;
                
-                        case Combat.PURSUIT:
+                        case PURSUIT:
                             returnPositions.add(combat.getAttackingUnit().getPosition());
                             return returnPositions;
                         default:
@@ -86,10 +88,10 @@ public class PositionCalculator implements Serializable{
                     case Game.COMBAT:
                     Combat combat = game.getCombat();
                     switch(combat.getState()){
-                        case Combat.PICK_SUPPORT_UNIT:
+                        case PICK_SUPPORT_UNIT:
                           return getPossibleSupportingUnitsPositions();
                       
-                        case Combat.PURSUIT:
+                        case PURSUIT:
                             returnPositions.add(combat.getAttackingUnit().getPosition());
                             return returnPositions;
                     }
@@ -118,7 +120,7 @@ public class PositionCalculator implements Serializable{
                 return movePositions;
             case Game.COMBAT:
                 switch (game.getCombat().getState()) {
-                    case Combat.WITHRDAW:
+                    case WITHRDAW:
                         {
                         if (game.getUnit(game.getCombat().getDefendingUnit()).isRetriving()) {
                             ArrayList<Position> retreatPosition = getRetreatPositions(game.getUnit(game.getCombat().getDefendingUnit()));
@@ -170,9 +172,9 @@ public class PositionCalculator implements Serializable{
             case Game.COMBAT:
                 ArrayList<Position> possiblePositions = new ArrayList<>();
                 switch (game.getCombat().getState()) {
-                    case Combat.COMBAT_NOT_INITIALIZED:
+                    case COMBAT_NOT_INITIALIZED:
                         return game.getCurrentPlayer().getArmyPositions();
-                    case Combat.WITHRDAW:
+                    case WITHRDAW:
                         if (game.getCurrentPlayer().hasAttacked()) {
                             possiblePositions.add(game.getCombat().getAttackingUnit().getPosition());
                             return possiblePositions;
@@ -180,16 +182,16 @@ public class PositionCalculator implements Serializable{
                             possiblePositions.add(game.getCombat().getDefendingUnit().getPosition());
                             return possiblePositions;
                         }
-                    case Combat.PURSUIT:
+                    case PURSUIT:
                         {
                             for (Unit pursueUnit : game.getCombat().getUnitThatCanAdvance()) {
                                 possiblePositions.add(pursueUnit.getPosition());
                             }
                             return possiblePositions;
                         }
-                    case Combat.PICK_SUPPORT_UNIT:
+                    case PICK_SUPPORT_UNIT:
                         return getPossibleSupportingUnitsPositions();
-                    case Combat.COMMITTED_ATTACK_CASUALITIES:
+                    case COMMITTED_ATTACK_CASUALITIES:
                         return getAllAttackingUnitsPositions();
                 }
                 break;
@@ -217,15 +219,16 @@ public class PositionCalculator implements Serializable{
         get attacking Units position that are adjenced to the defending one
          */
         Unit attackingUnit = game.getCombat().getAttackingUnit();
-        
-        ArrayList<Position> possiblePositions = getOneSquarePositions(game.getCombat().getDefendingUnit().getPosition());
+        Unit defendingUnit = game.getCombat().getDefendingUnit();
+        Position atackingPosition = attackingUnit.getPosition();
+         
+        ArrayList<Position> possiblePositions = getOneSquarePositions(defendingUnit.getPosition());
         ArrayList<Position> supportingPositions = new ArrayList<>();
-        Position atackingPosition = game.getCombat().getAttackingUnit().getPosition();
+       
         for (Position checkPosition : possiblePositions) {
             if (game.isCurrentPlayerUnitAtPosition(checkPosition) && !checkPosition.equals(atackingPosition)) 
-                if(game.getUnitAtPosition(checkPosition).getOwner().getNation() == attackingUnit.getOwner().getNation())
-            
-                supportingPositions.add(checkPosition);
+                if(game.getUnitAtPosition(checkPosition).getOwner().getNation() != defendingUnit.getOwner().getNation())
+                    supportingPositions.add(checkPosition);
         }
         return supportingPositions;
     }
@@ -323,11 +326,11 @@ public class PositionCalculator implements Serializable{
         
         ArrayList<Position> attackPositions = new ArrayList<Position>();
         
-        if (attackCard.getPlayingCardMode().equals(Card.ASSAULT) 
-                || attackCard.getPlayingCardMode().equals(Card.VOLLEY)) {
+        if (attackCard.getPlayingCardMode().equals(Combat.Type.ASSAULT) 
+                || attackCard.getPlayingCardMode().equals(Combat.Type.VOLLEY)) {
             attackPositions = getPossibleAssault(attackUnit);
         } 
-        else if (attackCard.getPlayingCardMode().equals(Card.BOMBARD)) {
+        else if (attackCard.getPlayingCardMode().equals(Combat.Type.BOMBARD)) {
         {
             ArrayList<Position> attackPossiblePositions  = getLOS(attackUnit, 2);
             for (Position checkPosition : attackPossiblePositions) {

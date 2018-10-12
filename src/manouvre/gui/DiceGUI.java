@@ -10,7 +10,6 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import manouvre.game.Dice;
-import manouvre.game.Terrain;
 
 /**
  *
@@ -44,7 +43,7 @@ public class DiceGUI {
     BufferedImage cutImage;
     switch(dice.getType()){
     
-        case Dice.D6:
+        case D6:
         {
             try{
             String filename = "resources\\dices\\D6.png";
@@ -59,7 +58,7 @@ public class DiceGUI {
             break;
         }
         
-        case Dice.D8:
+        case D8:
         {
             try{
             String filename = "resources\\dices\\D8.png";
@@ -84,7 +83,7 @@ public class DiceGUI {
             break;
         }
         
-        case Dice.D10:
+        case D10:
         {
              try{
             String filename = "resources\\dices\\D10.png";

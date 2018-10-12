@@ -36,7 +36,7 @@ public class TestWindow extends javax.swing.JFrame {
         this.gameWindow=gameWindow;
         this.game=game;
         this.gameGui=gameGui;
-        this.testCards=new CardSet(game.getCurrentPlayer().getNation(),"TEST");
+        //this.testCards=new CardSet(game.getCurrentPlayer().getNation(),"TEST");
         this.phase=phase;
         
         initComponents();
@@ -52,7 +52,7 @@ public class TestWindow extends javax.swing.JFrame {
     }
     
     private void initAllTheHqCards(){
-    this.flag=game.getCurrentPlayer().getNationAsString(true);
+    this.flag=game.getCurrentPlayer().getNation().toString();
     
     this.ambush = new Card("Ambush", flag);   
     if(ambush.isCardNotFoundInNation()==true) AmbushBox.setEnabled(false);

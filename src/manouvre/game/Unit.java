@@ -9,6 +9,7 @@ import com.csvreader.CsvReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import manouvre.interfaces.UnitInterface;
@@ -28,6 +29,8 @@ public class Unit implements UnitInterface, Serializable{
     Dice restorationDice;
    
     Position position;
+    
+    ArrayList<Position> moves;
 
     @Override
     public Position getPosition() {
@@ -69,12 +72,15 @@ public class Unit implements UnitInterface, Serializable{
 
      public Unit()
      {
+         this.name = "";
          this.ID = -1;
          this.position = new Position(-1, -1);
          this.owner = new Player("Null player");
          this.strenght = 0 ;
          this.injured = false;
+         this.eliminated = false;
          owner.setHost(true);
+         this.moves = new ArrayList<>();
      }
      
      public Unit(int ID)  {
@@ -82,7 +88,7 @@ public class Unit implements UnitInterface, Serializable{
         this.injured = false;
         this.eliminated = false;
         this.retrieving = false;
-        
+        this.moves = new ArrayList<>();
         try{
             CsvReader csvReader = new CsvReader("resources\\units\\units.csv", ';');
             csvReader.readHeaders();
@@ -209,15 +215,23 @@ public class Unit implements UnitInterface, Serializable{
     }
     
     public void move(Position newPosition){
-    
+        moves.add(position);
         setPosition(newPosition);
         setMoved(true);
             if(isSelected()) setSelected(false);
             
-            
+    }
+    
+    public Position getLastPosition(){
+        try{
+        return moves.get(moves.size()-1);
+        }
+        catch(IndexOutOfBoundsException e){
+            return null;
+        }
+        
     }
         
-    //Bart
     public boolean hasMoved() {
         return hasMoved;
     }

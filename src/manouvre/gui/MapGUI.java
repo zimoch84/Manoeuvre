@@ -5,6 +5,7 @@
  */
 package manouvre.gui;
 
+import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -49,8 +50,13 @@ public class MapGUI{
      Map map;
     
      int windowMode;
-     public static final int BOARD_START_X = 60;
-     public static final int BOARD_START_Y = 60;
+     
+     public static final int GAP_SELECTION = 5;
+     public static final int BACKGRNDTABLE_SIZE = 600;
+     public static final int GAP_UNIT = 7;
+     
+     public static final int BOARD_START_X = 18;
+     public static final int BOARD_START_Y = 18;
 
      public static final int SQUARE_WIDTH = 70;
      public static final int SQUARE_HEIGHT = 70;
@@ -67,6 +73,7 @@ public class MapGUI{
      public static final float REDOUBT_IMG_SCALE = 1f;
      
      Image background ;
+   
      
      public MapGUI() throws IOException{
            
@@ -98,12 +105,14 @@ public class MapGUI{
                        if(windowMode == CreateRoomWindow.AS_HOST)
                        { terrainsGUI[x][y] = new TerrainGUI(map.getTerrainAtXY(x, y));
                         wrappingArrayOfTerrains.add(terrainsGUI[x][y]);
+                          
                        }
                        else
                        {
                            /*
                            Rotate map view 180 degreees
                            */
+                          
                        terrainsGUI[x][y] = new TerrainGUI(map.getTerrainAtXY(7-x, 7-y));
                        wrappingArrayOfTerrains.add(terrainsGUI[x][y]);
                        }
@@ -149,6 +158,11 @@ public class MapGUI{
         }
         return null;
             
+    }
+    
+    public void drawMap(Graphics g){
+        
+    
     }
     
    }

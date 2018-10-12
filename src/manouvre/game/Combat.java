@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package manouvre.game;
 
 import java.io.Serializable;
@@ -16,65 +11,57 @@ import org.apache.logging.log4j.LogManager;
  * Class to descrie flow and calculation of combat
  */
 public class Combat implements Serializable{
-     private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(CardCommands.class.getName());  
+    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(CardCommands.class.getName());  
     /*
     Combat TYPE
     */
-    public static final String ASSAULT = "ASSAULT";
-    public static final String VOLLEY = "VOLLEY";
-    public static final String BOMBARD = "BOMBARD";
-    /*
-    COmbat flow state
-    */
-    public static final String COMBAT_NOT_INITIALIZED= "COMBAT_NOT_INITIALIZED";
-    public static final String INITIALIZING_COMBAT= "INITIALIZING_COMBAT";
-    public static final String WITHRDAW= "WITHRDAW";
-    public static final String PICK_DEFENSE_CARDS = "PICK_DEFENSE_CARDS";
-    public static final String PICK_SUPPORT_UNIT= "PICK_SUPPORT_UNIT";
-    public static final String PICK_SUPPORT_CARDS= "PICK_SUPPORT_CARDS";
-    public static final String THROW_DICES= "THROW_DICES";
-    public static final String PURSUIT= "PURSUIT";
-    public static final String COMMITTED_ATTACK_CASUALITIES = "COMMITTED_ATTACK_CASUALITIES";
-    public static final String END_COMBAT= "END_COMBAT";
-    
-    /*
-    Combat Outcome
-    */
-    public static final String DEFENDER_DECIDES= "DEFENDER_DECIDES";
-    public static final String ATTACKER_DECIDES= "ATTACKER_DECIDES";
-    public static final String DEFFENDER_TAKES_HIT="DEFFENDER_TAKES_HIT";
-    public static final String ATTACKER_TAKES_HIT= "ATTACKER_TAKES_HIT";
-    public static final String HIT_AND_RETREAT= "HIT_AND_RETREAT";
-    public static final String ELIMINATE= "ELIMINATE";
-    public static final String NO_EFFECT= "NO_EFFECT";
+    public enum Type { ASSAULT(true),VOLLEY(false),BOMBARD(false),AMBUSH(false), NO_TYPE(false), PURSUIT(false);
+        private boolean advance;
+        
+        Type(boolean advance){
+        this.advance = advance;
+        }
+        
+        public boolean isAdvancementAfterCombat()
+        {
+            return advance;
+        }
+        
+        @Override
+        public String toString() {
+            return name();  
+            }
+    } ;
 
-   
+    public enum State {COMBAT_NOT_INITIALIZED, INITIALIZING_COMBAT, WITHRDAW, PICK_DEFENSE_CARDS,
+                        PICK_SUPPORT_UNIT, PICK_SUPPORT_CARDS, THROW_DICES,PURSUIT, 
+                        DEFENDER_DECIDES, ATTACKER_DECIDES,
+                        COMMITTED_ATTACK_CASUALITIES, END_COMBAT }
+    
+    public enum Outcome { DEFENDER_DECIDES,ATTACKER_DECIDES  , DEFFENDER_TAKES_HIT, 
+    ATTACKER_TAKES_HIT,HIT_AND_RETREAT, ELIMINATE,  NO_EFFECT
+    
+    }
+      
     Unit initAttackUnit, defendingUnit;
     Card supportingLeader;
     ArrayList<Unit> attackingUnits;     
-    
-    
 
-    /*
-    Descibe state of the combat 
-    */
-    String state;
+    Combat.State state;
+    Combat.Type combatType;
     
-    int defenceValue, attackValue, defenseBonus, attackBonus, leaderBonus;
+    private int defenceValue, attackValue, defenseBonus, attackBonus, leaderBonus;
 
     ArrayList<Dice> dices;
     Card initAttackingCard; 
     ArrayList<Card> supportCards, defenceCards;
-
-   
     Terrain attackTerrain, defenseTerrain;
- 
-    String combatType;
+    
     ArrayList<Position> attackingPositions = new ArrayList<>();
 
     public Combat()
     {
-        setState(COMBAT_NOT_INITIALIZED);
+        setState(State.COMBAT_NOT_INITIALIZED);
         this.supportCards = new ArrayList<>();
         this.defenceCards = new ArrayList<>();
         this.dices = new ArrayList<>();
@@ -84,34 +71,10 @@ public class Combat implements Serializable{
         this.defendingUnit = new Unit();
         this.initAttackUnit = new Unit();
         this.initAttackingCard = new Card();
-        
     
     }
-    
-    public Combat(Unit initAttackUnit, Card initAttackingCard,Terrain attackTerrain, Unit defendingUnit, Terrain defenseTerrain) {
         
-    this.initAttackUnit = initAttackUnit;
-    this.defendingUnit = defendingUnit;
-    this.supportCards = new ArrayList<>();
-    this.defenceCards = new ArrayList<>();
-    this.dices = new ArrayList<>();
-    this.attackingUnits = new ArrayList<>();
-    this.initAttackingCard = initAttackingCard;
- 
-    this.attackingUnits.add(initAttackUnit);
-    
-    this.attackTerrain = attackTerrain;
-    this.defenseTerrain = defenseTerrain;
-    
-    this.combatType = initAttackingCard.getPlayingCardMode();
-    
-    this.state= INITIALIZING_COMBAT;
-    calculateBonuses();
-    calculateCombatValues();
-
-    }
-        
-    public void calculateCombatValues()
+    private void calculateCombatValues()
     {
         calculateBonuses();
         /*
@@ -131,8 +94,8 @@ public class Combat implements Serializable{
         */
         attackValue=0;
         //bomard do not get advantage of Unit Attack
-        if(!initAttackingCard.getPlayingCardMode().equals(Card.BOMBARD)
-                && !initAttackingCard.getPlayingCardMode().equals(Card.VOLLEY)
+        if(!initAttackingCard.getPlayingCardMode().equals(Combat.Type.BOMBARD)
+                && !initAttackingCard.getPlayingCardMode().equals(Combat.Type.VOLLEY)
                 ){
             
         attackValue = initAttackUnit.getCurrentStrenght();  
@@ -158,13 +121,11 @@ public class Combat implements Serializable{
     }
     
     private void calculateBonuses(){
-        defenseBonus=0;
+            defenseBonus=0;
         defenseBonus = defenseTerrain.getDefenceBonus();
         if(defenseTerrain.isRedoubt())
            defenseBonus = defenseBonus - calculateRedoubtBonusModifier();
-       
         attackBonus = attackTerrain.getAttackBonus(defenseTerrain);
-    
     }
     
     private int calculateRedoubtBonusModifier()
@@ -189,11 +150,11 @@ public class Combat implements Serializable{
         }
     }
 
-    public String getState() {
+    public State getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(State state) {
         this.state = state;
     }
 
@@ -208,6 +169,7 @@ public class Combat implements Serializable{
     public void setDices(ArrayList<Dice> dices)
     {
     this.dices = dices;
+    calculateCombatValues();
     }
     public void addDefenceCard(Card defenceCard)
     {
@@ -282,6 +244,7 @@ public class Combat implements Serializable{
 
     public void setDefenceCards(ArrayList<Card> defenceCards) {
         this.defenceCards = defenceCards;
+        calculateCombatValues();
     }
 
     public ArrayList<Unit> getSupportingUnits() {
@@ -306,45 +269,46 @@ public class Combat implements Serializable{
     }
     
 
-   public String getOutcome()
+   public Outcome getOutcome()
    {
-   switch(getCombatType()){
+   switch(getType()){
    
-       case Combat.ASSAULT : 
+       case ASSAULT : 
+       case AMBUSH:    
            return getAssaultOutcome();
            
-       case Combat.BOMBARD: return getBombardOutcome();
+       case BOMBARD: return getBombardOutcome();
        
-       case Combat.VOLLEY: return getBombardOutcome();
-       default : return NO_EFFECT;
+       case VOLLEY: return getBombardOutcome();
+       default : return Outcome.NO_EFFECT;
    }
    }
     
     
-    private String getAssaultOutcome()
+    private Outcome getAssaultOutcome()
     {
-        if(attackValue <  defenceValue) return ATTACKER_TAKES_HIT;
+        if(attackValue <  defenceValue) return Outcome.ATTACKER_TAKES_HIT;
         
-        if(attackValue == defenceValue) return NO_EFFECT; // if(defenceValue == attackValue) 
+        if(attackValue == defenceValue) return Outcome.NO_EFFECT; // if(defenceValue == attackValue) 
         
-        if(attackValue > defenceValue && attackValue <  defenceValue * 2 ) return DEFENDER_DECIDES;
+        if(attackValue > defenceValue && attackValue <  defenceValue * 2 ) return Outcome.DEFENDER_DECIDES;
         
-        if(attackValue >= defenceValue * 2  && attackValue <  defenceValue * 3 ) return ATTACKER_DECIDES;
+        if(attackValue >= defenceValue * 2  && attackValue <  defenceValue * 3 ) return Outcome.ATTACKER_DECIDES;
         
-        if(attackValue >= defenceValue * 3  && attackValue <  defenceValue * 4 ) return HIT_AND_RETREAT;
+        if(attackValue >= defenceValue * 3  && attackValue <  defenceValue * 4 ) return Outcome.HIT_AND_RETREAT;
         
-         if(attackValue >= defenceValue * 4 ) return ELIMINATE;
+         if(attackValue >= defenceValue * 4 ) return Outcome.ELIMINATE;
         
-        return NO_EFFECT;
+        return Outcome.NO_EFFECT;
     }
-    public String getBombardOutcome()
+    public Outcome getBombardOutcome()
     {
-        if(attackValue >  defenceValue) return DEFFENDER_TAKES_HIT; 
-        return NO_EFFECT;   
+        if(attackValue >  defenceValue) return Outcome.DEFFENDER_TAKES_HIT; 
+        return Outcome.NO_EFFECT;   
         
     }
     
-    public String getPursuitOutcome(Card card)
+    public Outcome getPursuitOutcome(Card card)
     {
         int pursuitDiceResult = card.getDices().get(0).getResult();
         int leaderMaxPursuitModifier = 0;
@@ -354,9 +318,9 @@ public class Combat implements Serializable{
                     leaderMaxPursuitModifier = supportCard.getLeaderPursuit();
         //leader pursuit bonus is negative so it must be + not -
         if(pursuitDiceResult + leaderMaxPursuitModifier <= card.getUnitPursuit() )
-           return DEFFENDER_TAKES_HIT;
+           return Outcome.DEFFENDER_TAKES_HIT;
         
-        else return NO_EFFECT;
+        else return Outcome.NO_EFFECT;
             
            
     }
@@ -367,8 +331,9 @@ public class Combat implements Serializable{
 
     public void setDefenseTerrain(Terrain defenseTerrain) {
         this.defenseTerrain = defenseTerrain;
+        calculateCombatValues();
     }
-    public String getCombatType() {
+    public Type getType() {
         return combatType;
     }
 
@@ -394,12 +359,13 @@ public class Combat implements Serializable{
 
     public void setInitAttackingCard(Card initAttackingCard) {
         this.initAttackingCard = initAttackingCard;
-        if( initAttackingCard.getType()!= Card.NO_CARD)
+        if( initAttackingCard.getType()!= Card.NO_CARD){
             combatType = initAttackingCard.getPlayingCardMode();
-        else combatType = Card.NO_TYPE;
+            calculateCombatValues();
+        }
+        else combatType = Combat.Type.NO_TYPE;
     
     }
-    
     
     public Unit getAttackingUnit() {
         return initAttackUnit;
@@ -422,15 +388,18 @@ public class Combat implements Serializable{
     }
     
     public ArrayList<Card> getAttackCards() {
-    ArrayList<Card> attackCards = new  ArrayList<>();
-    attackCards.add(initAttackingCard);
-    attackCards.addAll(supportCards);
-    return attackCards;
+        ArrayList<Card> attackCards = new  ArrayList<>();
+        attackCards.add(initAttackingCard);
+        attackCards.addAll(supportCards);
+        return attackCards;
     }
 
-     public ArrayList<Unit>getAttackingUnits(){
-
-        return attackingUnits;
+    public ArrayList<Unit>getAttackingUnits(){
+        ArrayList<Unit> returnUnits = new ArrayList<>();
+        for(Unit attackingUnit : attackingUnits)
+            if(attackingUnit.getID()!= -1)
+                returnUnits.add(attackingUnit);
+        return returnUnits;
     }
     
     public Terrain getAttackTerrain() {
@@ -443,8 +412,14 @@ public class Combat implements Serializable{
     
     public boolean isAttackerNotRequiredToAdvance(){
         /*
-        If supoprting card doesnt have "Not required to advance" feature then attacker have to advance
+        If supporting card doesnt have "Not required to advance" feature then attacker have to advance
         */
+        
+        if(getType().equals(Combat.Type.AMBUSH)) 
+            return true;
+        
+        else
+        
         
         if(initAttackingCard.isNotRequredToAdvanceAfterAttack())
         {
@@ -470,7 +445,6 @@ public class Combat implements Serializable{
         } 
         
         return false;
-        
         
     }
     /*
@@ -507,23 +481,23 @@ public class Combat implements Serializable{
                     }
        return false;
     }
-public ArrayList<Card> getPursuitCards(Unit advancingUnit){
-    ArrayList<Card> pursueCards = new ArrayList<>();
-    ArrayList<Card> attackingCards = new ArrayList<>();
-    attackingCards.add(initAttackingCard);
-    attackingCards.addAll(supportCards);
-    for(Card checkCard : attackingCards)
-    {    
-        if(checkCard.canPursue())
-            if(checkCard.equals(advancingUnit))
-                pursueCards.add(checkCard);
-    }     
-    return pursueCards;
-}
+    public ArrayList<Card> getPursuitCards(Unit advancingUnit){
+        ArrayList<Card> pursueCards = new ArrayList<>();
+        ArrayList<Card> attackingCards = new ArrayList<>();
+        attackingCards.add(initAttackingCard);
+        attackingCards.addAll(supportCards);
+        for(Card checkCard : attackingCards)
+        {    
+            if(checkCard.canPursue())
+                if(checkCard.equals(advancingUnit))
+                    pursueCards.add(checkCard);
+        }     
+        return pursueCards;
+    }
 
     public void resetCombat()
     {
-        setState(Combat.COMBAT_NOT_INITIALIZED);
+        setState(State.COMBAT_NOT_INITIALIZED);
         setAttackingUnit(new Unit());
         setAttackTerrain(new Terrain());
         setInitAttackingCard(new Card());
@@ -535,7 +509,7 @@ public ArrayList<Card> getPursuitCards(Unit advancingUnit){
     @Override
     public String toString(){
     
-        return getCombatType() + " " + getState() ;
+        return getType() + " " + getState() ;
     }
 
 
@@ -569,4 +543,6 @@ public ArrayList<Card> getPursuitCards(Unit advancingUnit){
         return new Card();
     
     }
+    
+    
 }

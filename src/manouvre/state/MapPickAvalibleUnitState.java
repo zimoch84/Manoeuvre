@@ -36,29 +36,24 @@ public class MapPickAvalibleUnitState implements MapState, Serializable{
         {
             if(handler.unitSelectionMode == MapStateHandler.PICK_ONE_UNIT)
             {
-                
                 game.unselectAllUnits();
             }
             
             Unit pickedUnit = game.getCurrentPlayerUnitAtPosition(pos);
             pickedUnit.setSelected(true);
         
-            //if(game.getCardCommandFactory().getPlayingCard() == null) 
-        
-            //{
             if(game.getPhase() == Game.SETUP || game.getPhase() == Game.MOVE )
             {
-                
                 handler.setState(MapStateHandler.PICK_MOVE_POSITION);
             }   
             
             if(game.getPhase() == Game.COMBAT)
             {
-            Combat combat = game.getCombat() ;
+                Combat combat = game.getCombat() ;
             /*
             If its withdraw then select attacking unit position
             */
-            if(combat.getState() == Combat.PURSUIT) 
+            if(combat.getState().equals(Combat.State.PURSUIT))
             {
                 /*
                 Chosen unit to advance
@@ -72,8 +67,6 @@ public class MapPickAvalibleUnitState implements MapState, Serializable{
                             );
 
                 cmdQueue.storeAndExecuteAndSend(advanceCommand);
-
-                game.notifyAbout(EventType.PICKED_ADVANCE);
             }
            
         }   

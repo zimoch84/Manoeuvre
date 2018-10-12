@@ -28,8 +28,8 @@ public class Maneuvre {  //Fake! this is temporary just to start game quick
         
           Player player1 = new Player ("Piotr")      ;
           Player player2 = new Player ("Bartek")      ;
-          player1.setNation(CardInterface.AU);
-          player2.setNation(CardInterface.FR);
+          player1.setNation(Player.Nation.AU);
+          player2.setNation(Player.Nation.FR);
           
           ArrayList<Player> players = new ArrayList<Player>();
           players.add(player1);

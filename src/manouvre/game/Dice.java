@@ -13,100 +13,38 @@ import java.util.Random;
  */
 public class Dice implements Serializable{
 
-    /*
-    Possible dices on cards
-    */
-    public static final int DICE1d6 = 6;
-    public static final int DICE1d8 = 8;
-    public static final int DICE1d10 = 10;
-    public static final int DICE2d6 = 12;
-    public static final int DICE2d8 = 16;
-    public static final int DICE2d10 = 20;
     
-    
-    public static final int D6 = 0;
-    public static final int D8 = 1;
-    public static final int D10 = 3;
-    
-    
-    int type;
+    public enum Set{DICE1d6,DICE1d8,DICE1d10,DICE2d6,DICE2d8,DICE2d10;
+        public static Set getFromString(String dice){
+            String diceStr = "DICE"+ dice;
+        return valueOf(diceStr);
+        }
+    };
+
+    public enum Type {D6, D8, D10;};
+
+    Type type;
     int result;
-    int max;
-
-
-    public Dice(int type) {
-    
-    this.type = type;
-    generateResult();
-    
+  
+    public Dice(Type type) {
+        this.type = type;
+        generateResult();
     }
   
-    private void generateResult()
+    private void  generateResult()
     {
     switch(type){
-        
-        case Dice.D6:
-        {result = k6();
-            break;
-        }
-        case Dice.D8:
-        {
+        case D6:
+            result = k6();
+        break;
+        case D8:
             result = k8();
-            break;
-        }
-        case Dice.D10:
-        {
+         break;
+        case D10:
             result = k10();
-            break;
+        break;
         }
-      
     }
-    
-    }
-    
-    public int getMax(){
-        switch(type){
-        
-        case Dice.D6:
-        {
-            max = 6;
-            break;
-        }
-        case Dice.D8:
-        {
-            max = 8;
-            break;
-        }
-        case Dice.D10:
-        {
-            max = 10;
-            break;
-        }
-      
-    }
-        return max;
-    }
-    
-    public static int diceTypeToInt(String diceType){
-        switch (diceType){
-            case "":
-                return 98; //if No Value
-            case "1d6": 
-                return Dice.DICE1d6;
-            case "1d8":
-                return Dice.DICE1d8;
-            case "1d10":
-                return Dice.DICE1d10;
-            case "2d6":
-                return Dice.DICE2d6;
-            case "2d8":
-                return Dice.DICE2d8;
-            case "2d10":
-                return Dice.DICE2d10; 
-        }     
-        return 99; //if another value
-    }
- 
     static public int k6(){
         int nextInt =  new Random().nextInt(6) + 1;
         return nextInt ;
@@ -138,11 +76,11 @@ public class Dice implements Serializable{
         return nextInt ;
     }
 
-    public int getType() {
+    public Dice.Type getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(Dice.Type type) {
         this.type = type;
     }
 

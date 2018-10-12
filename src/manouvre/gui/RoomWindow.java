@@ -545,7 +545,7 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
         AbstractButton button = (AbstractButton) evt.getSource();
         setNationFromButton(button, currentPlayer);
         
-        Message msg = new Message (Message.SET_NATION, currentPlayer.getName(), currentPlayer.getNation(), "IN_ROOM");
+        Message msg = new Message (Message.SET_NATION, currentPlayer.getName(), currentPlayer.getNation().toString(), "IN_ROOM");
         client.send(msg);
         
     }
@@ -554,86 +554,89 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
     
         switch(button.getText()){
         case "Austria": 
-           player.setNation(CardInterface.AU);
+           player.setNation(Player.Nation.AU);
             break;
         case "France" :
-            player.setNation(CardInterface.FR);
+            player.setNation(Player.Nation.FR);
             break;
         case "Russia": 
-           player.setNation(CardInterface.RU);
+           player.setNation(Player.Nation.RU);
             break;
         case "Prussia" :
-            player.setNation(CardInterface.PR);
+            player.setNation(Player.Nation.PR);
             break;
         case "Britain": 
-           player.setNation(CardInterface.BR);
+           player.setNation(Player.Nation.BR);
             break;
         case "Spain" :
-            player.setNation(CardInterface.SP);
+            player.setNation(Player.Nation.SP);
             break;
         case "Ottoman": 
-           player.setNation(CardInterface.OT);
+           player.setNation(Player.Nation.OT);
             break;
         case "USA" :
-            player.setNation(CardInterface.US);
+            player.setNation(Player.Nation.US);
             break;
                 }
     
     }
     
     public void setButtonFromNation (int nation){
+        
+        Player.Nation nat = Player.Nation.fromValue(nation)  ;  
         if(currentPlayer == guestPlayer)
-        switch(nation){
-            case CardInterface.AU: 
+        
+        switch(nat){
+            case AU: 
                 AustriaRB1.setSelected(true);
                 break;
-            case CardInterface.BR: 
+            case BR: 
                 BritainRB1.setSelected(true);
                 break;
-            case CardInterface.FR: 
+            case FR: 
                 FranceRB1.setSelected(true);
                 break;
-            case CardInterface.OT: 
+            case OT: 
                 OttomanRB1.setSelected(true);
                 break;
-            case CardInterface.PR: 
+            case PR: 
                 PrussiaRB1.setSelected(true);
                 break;
-            case CardInterface.RU: 
+            case RU: 
                 RussiaRB1.setSelected(true);
                 break;
-            case CardInterface.SP: 
+            case SP: 
                 SpainRB1.setSelected(true);
                 break;
-            case CardInterface.US: 
+            case US: 
                 USARB1.setSelected(true);
                 break;
          }
         else 
         {
-            switch(nation){
-            case CardInterface.AU: 
+            switch(nat){
+            case AU: 
                 AustriaRB2.setSelected(true);
                 break;
-            case CardInterface.BR: 
+            case BR: 
                 BritainRB2.setSelected(true);
                 break;
-            case CardInterface.FR: 
+            case FR: 
                 FranceRB2.setSelected(true);
                 break;
-            case CardInterface.OT: 
+            case OT: 
                 OttomanRB2.setSelected(true);
                 break;
-            case CardInterface.PR: 
+            case PR: 
                 PrussiaRB2.setSelected(true);
                 break;
-            case CardInterface.RU: 
+            case RU: 
                 RussiaRB2.setSelected(true);
                 break;
-            case CardInterface.SP: 
+            case SP: 
                 SpainRB2.setSelected(true);
                 break;
-            case CardInterface.US: 
+            case US: 
                 USARB2.setSelected(true);
                 break;
         }
@@ -763,7 +766,7 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
     public void setHostPlayer(Player hostPlayer) {
         this.hostPlayer = hostPlayer;
         setBorders();
-        setButtonFromNation(hostPlayer.getNation());
+        setButtonFromNation(hostPlayer.getNation().getNumber());
     }
 
     public Player getGuestPlayer() {
@@ -774,7 +777,7 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
     public void setGuestPlayer(Player guestPlayer) {
         this.guestPlayer = guestPlayer;
          setBorders();
-         setButtonFromNation(guestPlayer.getNation());
+         setButtonFromNation(guestPlayer.getNation().getNumber());
           
     }
 

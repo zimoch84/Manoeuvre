@@ -59,7 +59,7 @@ public class Terrain  implements TerrainInterface, Serializable {
     public Terrain()
     {
         this.type = NO_TERRAIN;
-       
+        this.defenceBonus = 0;
     }
     
     public Terrain(int type, Position pos){

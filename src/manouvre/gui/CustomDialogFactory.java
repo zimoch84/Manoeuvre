@@ -29,6 +29,10 @@ public static void showCannotPlayCardTwiceDialog(){
     showConfirmationDialog( "You cannot play this card twice in one phase");
 }
 
+public static void showCannotPlayForcedMarch(){
+    showConfirmationDialog( "You cannot play Forced March if You started/ended move on march or field");
+}
+
 public static void showCardNoValidTargetDialog(){
      showConfirmationDialog("This card doesn't have valid target");
     }

@@ -63,29 +63,25 @@ public class TakeHitCommand implements Command{
         LOGGER.debug(game.getCurrentPlayer().getName() + " game.getCombat().getState() " + game.getCombat().getState());
         if(unit.isEliminated())
         {
-            if(game.getCombat().getState() == Combat.DEFENDER_DECIDES)
+            if(game.getCombat().getState().equals(Combat.State.DEFENDER_DECIDES))
             {
                 
                 game.swapActivePlayer();
                 LOGGER.debug(game.getCurrentPlayer().getName() + " swapActivePlayer " + game.getCurrentPlayer().isActive());
             }
-            game.getCombat().setState(Combat.PURSUIT);
-            game.notifyAbout(EventType.COMBAT_PURSUIT_STARTED);
+                                
+            game.checkConditionAndStartAdvancementOrEndCombat();
         }
         else 
         {
-            if(game.getCombat().getState() == Combat.DEFENDER_DECIDES)
+            if(game.getCombat().getState().equals(Combat.State.DEFENDER_DECIDES))
             {
-                
                 game.swapActivePlayer();
                 LOGGER.debug(game.getCurrentPlayer().getName() + " swapActivePlayer " + game.getCurrentPlayer().isActive());
             }
-            
             game.checkCommittedAttackandEndCombat();
-           
         }    
         game.checkGameOver();
-        
     }
 
     @Override

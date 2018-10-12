@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Observable;
-import manouvre.interfaces.CardInterface;
 import manouvre.interfaces.CardSetInterface;
 
 
@@ -24,7 +23,7 @@ public class CardSet extends Observable implements CardSetInterface, Serializabl
     
     private static final long serialVersionUID = 455321L;
     private int defCardSetSize=0;           
-    private int nation;
+    private Player.Nation nation;
     public String name;
     
     private ArrayList<Card> cardList = new ArrayList<Card>();
@@ -35,7 +34,7 @@ public class CardSet extends Observable implements CardSetInterface, Serializabl
      * @param nation - number of the nation - for details see CardInterface
      * shuffleDeck - to made a Deck
      */
-    public CardSet(int nation, String name){ 
+    public CardSet(Player.Nation nation, String name){ 
         
         this.nation=nation;
         
@@ -99,28 +98,6 @@ public class CardSet extends Observable implements CardSetInterface, Serializabl
              card.setSelected(false);
     }
     
-    public void unselectMouseOverCard()
-    {
-         for(Card card : cardList )
-             card.setMouseOverCard(false);
-    }
-    
-    public void selectCard(Card cardToSelect){
-    
-        if(getCard(cardToSelect)!=null)
-            getCard(cardToSelect).setSelected(true);
-        
-    }
-    
-    public void deselectCard(Card cardToDeSelect){
-    
-        if(getCard(cardToDeSelect)!=null)
-            getCard(cardToDeSelect).setSelected(false);
-        
-    }
-    
-        
-
     //-----------------DECK------------------------------------------------
     /**
      * Get cards for specific nation out of all (480) 
@@ -131,28 +108,28 @@ public class CardSet extends Observable implements CardSetInterface, Serializabl
         int range = 60;
         for (int i=0; i<range; i++){
             switch (nation){
-                case CardInterface.BR:
+                case BR:
                     cardID=i; 
                     break;
-                case CardInterface.AU:  //1
+                case AU:  //1
                     cardID=i+60;
                     break;
-                case CardInterface.FR:
+                case FR:
                     cardID=i+2*60;
                     break;
-                case CardInterface.OT:
+                case OT:
                     cardID=i+3*60;
                     break;
-                case CardInterface.PR:
+                case PR:
                     cardID=i+4*60;    
                     break;
-                case CardInterface.RU:
+                case RU:
                     cardID=i+5*60;
                     break;
-                case CardInterface.SP:
+                case SP:
                     cardID=i+6*60;  
                     break;
-                case CardInterface.US:
+                case US:
                     cardID=i+7*60;   
                     break;
                 } 
@@ -282,13 +259,6 @@ public class CardSet extends Observable implements CardSetInterface, Serializabl
     
     public String getCardNameByPosInSet(int cardPosition){
        return cardList.get(cardPosition).getCardName();     
-    }
-    public int getCardTypeByPosInSet(int cardPosition){
-       return cardList.get(cardPosition).getType();     
-    }
-    
-     public int getCardIDByPosInSet(int cardPosition){
-       return cardList.get(cardPosition).getCardID();     
     }
 
     @Override

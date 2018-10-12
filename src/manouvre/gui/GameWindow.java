@@ -11,8 +11,12 @@ import static java.awt.Desktop.isDesktopSupported;
 import manouvre.network.client.Message;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -29,16 +33,12 @@ import javax.swing.JOptionPane;
 import manouvre.game.Card;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.JMenuItem;
 import org.apache.logging.log4j.LogManager;
 import manouvre.events.ButtonEventObserver;
 import manouvre.events.ButtonActions;
 import manouvre.events.PanelsEventObserver;
 import manouvre.state.PlayerState;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-import static java.lang.Math.abs;
-
 /**
  *
  * @author Piotr
@@ -60,6 +60,8 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     
     private Image bgImage;
   
+    private HashMap<String, String> backgroundFileMap;
+    
     private ButtonEventObserver buttonEventsObserver;
     private PanelsEventObserver panelObserver;
     
@@ -89,35 +91,33 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         
         /*Sets current Player based on HOST/GUEST settings*/
         game.setCurrentPlayer(windowMode);
-        
         /*
         Creates new GUI respects HOST/GUEST settings
         */
         gameGui = new GameGUI(this.game, playerState, windowMode);
         bgImage = ImageIO.read( new File("resources\\backgrounds\\24209cb208yezho.jpg"));
-
-        String title = "Manouvre, " + (windowMode== CreateRoomWindow.AS_HOST  
+        this.setIconImage(new ImageIcon("resources\\icons\\WindowIcon.png").getImage());    
+        
+        String title = "Manoeuvre, " + (windowMode== CreateRoomWindow.AS_HOST  
                             ? game.getHostPlayer().getName() + " as HOST" 
                             : game.getGuestPlayer().getName() + " as GUEST" );
 
         title = title + (game.getCurrentPlayer().isFirst() ? " and first player" : " and second player");
         this.setTitle(title);
-
-        game.setInfoBarText(title);
         
         UIManager.put("TabbedPane.contentOpaque", false);  
          
         initComponents();
         initButtons();
-
+       
+        fillBackgroundMenu();
+        
         setPhaseLabelText();
         setPlayerInfoValues();
-
         
         buttonEventsObserver = new ButtonEventObserver(game, actionButton, buttonYes, buttonNo, buttonToNextPhase);
-        panelObserver = new PanelsEventObserver(game, currentPlayerPanel, opponentPlayerPanel, infoPanel, tablePanel, buttonsPanel);
+        panelObserver = new PanelsEventObserver(game, currentPlayerPanel, opponentPlayerPanel, tablePanel, buttonsPanel);
         butttonActions = new ButtonActions(actionButton, buttonYes, buttonNo, this.game, this.cmdQueue, playerState );
-        
                 
         this.addWindowListener(new ManouvreWindowListener(game, client, clientThread));
       
@@ -134,25 +134,64 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         buttonToNextPhase.setEnabled(true);
         
     }
+    
+    private void fillBackgroundMenu(){
+        
+        this.backgroundFileMap = new HashMap<>();
+        File dir = new File("resources\\backgrounds\\");
+        File f[] = dir.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                    return name.toLowerCase().endsWith(".png") || name.toLowerCase().endsWith(".jpg")  ;
+            }
+        });
+        
+        for(File file : f)
+        {
+            backgroundFileMap.put(file.getName(), file.getAbsolutePath());
+            JMenuItem backgroundMenuItem = new JMenuItem(file.getName());
+            backgroundMenuItem.addActionListener(new BackGroundMenuListener());
+            
+            backgroundChooser.add(backgroundMenuItem);
+            
+        }
+        backgroundChooser.revalidate();
+        editMenu.revalidate();
+    
+    }
+    
+    class BackGroundMenuListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+           
+           JMenuItem menuItem = (JMenuItem)(e.getSource());
+           
+           String fileName = menuItem.getText();
+           
+           String fullFileName = (String) backgroundFileMap.get(fileName);
+                    
+            try {
+                bgImage = ImageIO.read(new File(fullFileName));
+            } catch (IOException ex) {
+                Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            repaint();
+        }
+    }    
     @Override
     public void update(Observable o, Object arg) {
         refreshAll();  
         repaint();
     }
      
-
     private void drawMainBackground(Graphics g){
      g.drawImage(bgImage, 0, 0, this.getSize().width, this.getSize().height,Color.red, null);
     }
-     
-    private void paintInfoPanel(Graphics g){
-    
-        gameGui.paintInfoPanel(g);
-    }
-    
+   
     private void drawMap(Graphics g )                   
     {
-        gameGui.drawMap(g,windowMode );
+        gameGui.paintMap(g,windowMode );
     }
     
     public void refreshAll(){
@@ -164,14 +203,8 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         Updates gui for card sets
         */
         game.setShowOpponentHand(false);
-        subphaseLabel.setText(game.getCombat().getState());
+        subphaseLabel.setText(game.getCombat().getState().name());
 
-    }
-     
-    private void  buttonActionSetText(String text, boolean isActive){
-    
-            actionButton.setText(text);
-            actionButton.setEnabled(isActive);
     }
     
     private void setPlayerInfoValues(){
@@ -278,11 +311,6 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jFrame1 = new javax.swing.JFrame();
-        jPanel1 = new javax.swing.JPanel();
-        jRadioButtonMenuItem1 = new javax.swing.JRadioButtonMenuItem();
-        jMenu4 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
         jLabel5 = new javax.swing.JLabel();
         mainWindowPanel = new javax.swing.JPanel()
         {
@@ -311,15 +339,11 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             }
         }
         ;
-        infoPanel = new javax.swing.JPanel()
-        {
-            @Override
-            public void paintComponent(Graphics g) {
-                paintInfoPanel(g);
-
-            }
-        }
-        ;
+        chatPanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        chatTextArea = new javax.swing.JTextArea();
+        sendMessageButton = new javax.swing.JButton();
+        sendText = new javax.swing.JTextField();
         bottomPanel = new javax.swing.JPanel();
         playersTabbedPane = new javax.swing.JTabbedPane();
         currentPlayerPanel = new javax.swing.JPanel();
@@ -395,13 +419,8 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         turnLabel = new javax.swing.JLabel();
         gameTurnCounter = new javax.swing.JLabel();
         subphaseLabel = new javax.swing.JLabel();
-        chatPanel = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        chatTextArea = new javax.swing.JTextArea();
-        sendMessageButton = new javax.swing.JButton();
-        sendText = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        debugMenu = new javax.swing.JMenu();
         FindCard = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         checkRetreat = new javax.swing.JCheckBoxMenuItem();
@@ -419,8 +438,9 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         jMenuItem6 = new javax.swing.JMenuItem();
         jCheckBoxMenuItem2 = new javax.swing.JCheckBoxMenuItem();
         jCheckBoxMenuItem3 = new javax.swing.JCheckBoxMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenu5 = new javax.swing.JMenu();
+        editMenu = new javax.swing.JMenu();
+        backgroundChooser = new javax.swing.JMenu();
+        helpMenu = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         jMenuItemAmbush = new javax.swing.JMenuItem();
@@ -434,35 +454,6 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         jMenuItemForced_March = new javax.swing.JMenuItem();
         jMenuItemEngineers = new javax.swing.JMenuItem();
         jMenuItemScout = new javax.swing.JMenuItem();
-
-        javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
-        jFrame1.getContentPane().setLayout(jFrame1Layout);
-        jFrame1Layout.setHorizontalGroup(
-            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        jFrame1Layout.setVerticalGroup(
-            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-
-        jRadioButtonMenuItem1.setSelected(true);
-        jRadioButtonMenuItem1.setText("jRadioButtonMenuItem1");
-
-        jMenu4.setText("jMenu4");
-
-        jMenuItem3.setText("jMenuItem3");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -499,16 +490,15 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         mainMapPanel.setLayout(mainMapPanelLayout);
         mainMapPanelLayout.setHorizontalGroup(
             mainMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 666, Short.MAX_VALUE)
+            .addGap(0, 600, Short.MAX_VALUE)
         );
         mainMapPanelLayout.setVerticalGroup(
             mainMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 600, Short.MAX_VALUE)
         );
 
         rightSidePanel.setOpaque(false);
 
-        tablePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Table Panel"));
         tablePanel.setName(""); // NOI18N
         tablePanel.setOpaque(false);
 
@@ -516,24 +506,53 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         tablePanel.setLayout(tablePanelLayout);
         tablePanelLayout.setHorizontalGroup(
             tablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 603, Short.MAX_VALUE)
+            .addGap(0, 614, Short.MAX_VALUE)
         );
         tablePanelLayout.setVerticalGroup(
             tablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 331, Short.MAX_VALUE)
+            .addGap(0, 392, Short.MAX_VALUE)
         );
 
-        infoPanel.setOpaque(false);
+        chatPanel.setOpaque(false);
 
-        javax.swing.GroupLayout infoPanelLayout = new javax.swing.GroupLayout(infoPanel);
-        infoPanel.setLayout(infoPanelLayout);
-        infoPanelLayout.setHorizontalGroup(
-            infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        jScrollPane1.setAutoscrolls(true);
+
+        chatTextArea.setColumns(20);
+        chatTextArea.setRows(5);
+        jScrollPane1.setViewportView(chatTextArea);
+
+        sendMessageButton.setText("Send");
+        sendMessageButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sendMessageButtonActionPerformed(evt);
+            }
+        });
+
+        sendText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sendTextActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout chatPanelLayout = new javax.swing.GroupLayout(chatPanel);
+        chatPanel.setLayout(chatPanelLayout);
+        chatPanelLayout.setHorizontalGroup(
+            chatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(chatPanelLayout.createSequentialGroup()
+                .addComponent(sendText)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(sendMessageButton, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jScrollPane1)
         );
-        infoPanelLayout.setVerticalGroup(
-            infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 188, Short.MAX_VALUE)
+        chatPanelLayout.setVerticalGroup(
+            chatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(chatPanelLayout.createSequentialGroup()
+                .addComponent(jScrollPane1)
+                .addGap(8, 8, 8)
+                .addGroup(chatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(sendMessageButton, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                    .addComponent(sendText))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout rightSidePanelLayout = new javax.swing.GroupLayout(rightSidePanel);
@@ -543,7 +562,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             .addGroup(rightSidePanelLayout.createSequentialGroup()
                 .addGroup(rightSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(tablePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(infoPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(chatPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         rightSidePanelLayout.setVerticalGroup(
@@ -551,8 +570,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
             .addGroup(rightSidePanelLayout.createSequentialGroup()
                 .addComponent(tablePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(infoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(chatPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tablePanel.getAccessibleContext().setAccessibleName("");
@@ -560,11 +578,11 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         bottomPanel.setOpaque(false);
 
         playersTabbedPane.setFocusCycleRoot(true);
+        playersTabbedPane.setPreferredSize(new java.awt.Dimension(960, 270));
 
-        currentPlayerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(game.getCurrentPlayer().getNationAsString(false)+ (game.getCurrentPlayer().isFirst() ? " (First player)" : "")));
         currentPlayerPanel.setForeground(new java.awt.Color(153, 0, 102));
         currentPlayerPanel.setOpaque(false);
-        currentPlayerPanel.setPreferredSize(new java.awt.Dimension(955, 250));
+        currentPlayerPanel.setPreferredSize(new java.awt.Dimension(955, 270));
 
         scoreLabelCurrPlayer.setText("Score: " + game.getCurrentPlayer().getScore());
 
@@ -580,23 +598,22 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         );
         curPlayerFlagLayout.setVerticalGroup(
             curPlayerFlagLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 56, Short.MAX_VALUE)
+            .addGap(0, 50, Short.MAX_VALUE)
         );
 
         drawPileCurrPlayer.setText("Draw Pile: " + game.getCurrentPlayer().getDrawPile().size());
 
-        discardPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Discard Pile"));
         discardPanel.setPreferredSize(new java.awt.Dimension(100, 25));
 
         javax.swing.GroupLayout discardPanelLayout = new javax.swing.GroupLayout(discardPanel);
         discardPanel.setLayout(discardPanelLayout);
         discardPanelLayout.setHorizontalGroup(
             discardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 141, Short.MAX_VALUE)
+            .addGap(0, 158, Short.MAX_VALUE)
         );
         discardPanelLayout.setVerticalGroup(
             discardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 230, Short.MAX_VALUE)
         );
 
         playerHandPanel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -624,7 +641,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         );
         playerHandPanelLayout.setVerticalGroup(
             playerHandPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 230, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout currentPlayerPanelLayout = new javax.swing.GroupLayout(currentPlayerPanel);
@@ -641,36 +658,37 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(playerHandPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(discardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE))
+                .addComponent(discardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         currentPlayerPanelLayout.setVerticalGroup(
             currentPlayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(currentPlayerPanelLayout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addGroup(currentPlayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(discardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
+                    .addComponent(discardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(currentPlayerPanelLayout.createSequentialGroup()
-                        .addComponent(curPlayerFlag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(scoreLabelCurrPlayer)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(unitsKilledCurrPlayer)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(drawPileCurrPlayer)
-                        .addGap(0, 103, Short.MAX_VALUE))
-                    .addComponent(playerHandPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(currentPlayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(currentPlayerPanelLayout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(curPlayerFlag, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(12, 12, 12)
+                                .addComponent(scoreLabelCurrPlayer)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(unitsKilledCurrPlayer)
+                                .addGap(12, 12, 12)
+                                .addComponent(drawPileCurrPlayer))
+                            .addComponent(playerHandPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
 
         playersTabbedPane.addTab(game.getCurrentPlayer().getName(), currentPlayerPanel);
         currentPlayerPanel.getAccessibleContext().setAccessibleName(game.getCurrentPlayer().getName());
 
-        opponentPlayerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(game.getOpponentPlayer().getNationAsString(false)+ (game.getOpponentPlayer().isFirst() ? " (First player)" : "")));
         opponentPlayerPanel.setForeground(new java.awt.Color(153, 0, 102));
         opponentPlayerPanel.setOpaque(false);
 
         scoreOpponent.setText("Score: " + game.getOpponentPlayer().getScore());
 
-        discardPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Discard Pile"));
         discardPanel1.setPreferredSize(new java.awt.Dimension(100, 25));
         discardPanel1.setRequestFocusEnabled(false);
 
@@ -678,11 +696,11 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         discardPanel1.setLayout(discardPanel1Layout);
         discardPanel1Layout.setHorizontalGroup(
             discardPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 138, Short.MAX_VALUE)
+            .addGap(0, 158, Short.MAX_VALUE)
         );
         discardPanel1Layout.setVerticalGroup(
             discardPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 230, Short.MAX_VALUE)
         );
 
         unitsKilledOppPlayer.setText("Units Killed: " + game.getOpponentPlayer().getUnitsKilled());
@@ -727,7 +745,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         );
         opponentHandPanelLayout.setVerticalGroup(
             opponentHandPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 230, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout opponentPlayerPanelLayout = new javax.swing.GroupLayout(opponentPlayerPanel);
@@ -744,7 +762,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(opponentHandPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(discardPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE))
+                .addComponent(discardPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         opponentPlayerPanelLayout.setVerticalGroup(
             opponentPlayerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -757,15 +775,14 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                 .addComponent(unitsKilledOppPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(drawPileOppPlayer)
-                .addContainerGap(97, Short.MAX_VALUE))
-            .addComponent(opponentHandPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(discardPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(opponentHandPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(discardPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         playersTabbedPane.addTab(game.getOpponentPlayer().getName(), opponentPlayerPanel);
         opponentPlayerPanel.getAccessibleContext().setAccessibleName(game.getOpponentPlayer().getName());
 
-        buttonsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Phase Panel"));
         buttonsPanel.setOpaque(false);
 
         buttonToNextPhase.setText("to Next Phase");
@@ -871,7 +888,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                 .addComponent(actionButton)
                 .addGap(7, 7, 7)
                 .addComponent(buttonToNextPhase, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout bottomPanelLayout = new javax.swing.GroupLayout(bottomPanel);
@@ -887,61 +904,10 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         bottomPanelLayout.setVerticalGroup(
             bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(bottomPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(buttonsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(bottomPanelLayout.createSequentialGroup()
-                .addComponent(playersTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(playersTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        chatPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Chat / Game Log"));
-        chatPanel.setOpaque(false);
-
-        jScrollPane1.setAutoscrolls(true);
-
-        chatTextArea.setColumns(20);
-        chatTextArea.setRows(5);
-        jScrollPane1.setViewportView(chatTextArea);
-
-        sendMessageButton.setText("Send");
-        sendMessageButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sendMessageButtonActionPerformed(evt);
-            }
-        });
-
-        sendText.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sendTextActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout chatPanelLayout = new javax.swing.GroupLayout(chatPanel);
-        chatPanel.setLayout(chatPanelLayout);
-        chatPanelLayout.setHorizontalGroup(
-            chatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(chatPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(chatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(chatPanelLayout.createSequentialGroup()
-                        .addComponent(sendText)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(sendMessageButton, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20))
-                    .addGroup(chatPanelLayout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 591, Short.MAX_VALUE)
-                        .addContainerGap())))
-        );
-        chatPanelLayout.setVerticalGroup(
-            chatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(chatPanelLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
-                .addGap(8, 8, 8)
-                .addGroup(chatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(sendText, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(sendMessageButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
         );
 
         javax.swing.GroupLayout mainWindowPanelLayout = new javax.swing.GroupLayout(mainWindowPanel);
@@ -953,40 +919,37 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                 .addGroup(mainWindowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(bottomPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(mainWindowPanelLayout.createSequentialGroup()
-                        .addComponent(mainMapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 666, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(mainMapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(mainWindowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(rightSidePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(chatPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(rightSidePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(0, 0, 0))
         );
         mainWindowPanelLayout.setVerticalGroup(
             mainWindowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainWindowPanelLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(0, 0, 0)
                 .addGroup(mainWindowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(mainMapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
+                    .addComponent(rightSidePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(mainWindowPanelLayout.createSequentialGroup()
-                        .addComponent(rightSidePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(chatPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(mainMapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bottomPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jMenu1.setText("Debug");
-        jMenu1.addMenuListener(new javax.swing.event.MenuListener() {
+        debugMenu.setText("Debug");
+        debugMenu.addMenuListener(new javax.swing.event.MenuListener() {
             public void menuCanceled(javax.swing.event.MenuEvent evt) {
             }
             public void menuDeselected(javax.swing.event.MenuEvent evt) {
             }
             public void menuSelected(javax.swing.event.MenuEvent evt) {
-                jMenu1MenuSelected(evt);
+                debugMenuMenuSelected(evt);
             }
         });
-        jMenu1.addActionListener(new java.awt.event.ActionListener() {
+        debugMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenu1ActionPerformed(evt);
+                debugMenuActionPerformed(evt);
             }
         });
 
@@ -997,10 +960,15 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                 FindCardActionPerformed(evt);
             }
         });
-        jMenu1.add(FindCard);
+        debugMenu.add(FindCard);
 
         jMenuItem2.setText("jMenuItem2");
-        jMenu1.add(jMenuItem2);
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        debugMenu.add(jMenuItem2);
 
         checkRetreat.setText("toogleRetreat");
         checkRetreat.addActionListener(new java.awt.event.ActionListener() {
@@ -1008,7 +976,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                 checkRetreatActionPerformed(evt);
             }
         });
-        jMenu1.add(checkRetreat);
+        debugMenu.add(checkRetreat);
 
         checkLos.setText("toogleLOS");
         checkLos.addActionListener(new java.awt.event.ActionListener() {
@@ -1016,7 +984,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                 checkLosActionPerformed(evt);
             }
         });
-        jMenu1.add(checkLos);
+        debugMenu.add(checkLos);
 
         jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("freeMove");
@@ -1025,10 +993,10 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                 jCheckBoxMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu1.add(jCheckBoxMenuItem1);
+        debugMenu.add(jCheckBoxMenuItem1);
 
         allowDrawOnDiscard.setText("Allow draw during discard");
-        jMenu1.add(allowDrawOnDiscard);
+        debugMenu.add(allowDrawOnDiscard);
 
         jMenu3.setText("Commands");
 
@@ -1050,10 +1018,10 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         });
         jMenu3.add(jMenuItem4);
 
-        jMenu1.add(jMenu3);
+        debugMenu.add(jMenu3);
 
         jMenuItem5.setText("jMenuItem5");
-        jMenu1.add(jMenuItem5);
+        debugMenu.add(jMenuItem5);
 
         jMenu7.setText("During Attack");
 
@@ -1073,7 +1041,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         });
         jMenu7.add(jMenuItem7);
 
-        jMenu1.add(jMenu7);
+        debugMenu.add(jMenu7);
 
         jMenu8.setText("Change Phase to");
 
@@ -1085,7 +1053,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         });
         jMenu8.add(jMenuItem6);
 
-        jMenu1.add(jMenu8);
+        debugMenu.add(jMenu8);
 
         jCheckBoxMenuItem2.setSelected(true);
         jCheckBoxMenuItem2.setText("Lock/Unlock");
@@ -1094,7 +1062,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                 jCheckBoxMenuItem2ActionPerformed(evt);
             }
         });
-        jMenu1.add(jCheckBoxMenuItem2);
+        debugMenu.add(jCheckBoxMenuItem2);
 
         jCheckBoxMenuItem3.setSelected(true);
         jCheckBoxMenuItem3.setText("ActivePlayer/NotActive");
@@ -1103,15 +1071,19 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                 jCheckBoxMenuItem3ActionPerformed(evt);
             }
         });
-        jMenu1.add(jCheckBoxMenuItem3);
+        debugMenu.add(jCheckBoxMenuItem3);
 
-        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(debugMenu);
 
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
+        editMenu.setText("Edit");
 
-        jMenu5.setText("Help");
-        jMenu5.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        backgroundChooser.setText("Change Background");
+        editMenu.add(backgroundChooser);
+
+        jMenuBar1.add(editMenu);
+
+        helpMenu.setText("Help");
+        helpMenu.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
 
         jMenuItem1.setText("Manoeuvre_Rules.pdf");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -1119,7 +1091,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                 jMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu5.add(jMenuItem1);
+        helpMenu.add(jMenuItem1);
 
         jMenu6.setText("Show Card Description");
 
@@ -1211,11 +1183,11 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         });
         jMenu6.add(jMenuItemScout);
 
-        jMenu5.add(jMenu6);
+        helpMenu.add(jMenu6);
 
         jMenuBar1.add(Box.createHorizontalGlue());// <-- horizontal glue
 
-        jMenuBar1.add(jMenu5);
+        jMenuBar1.add(helpMenu);
 
         setJMenuBar(jMenuBar1);
 
@@ -1229,13 +1201,13 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addComponent(mainWindowPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 2, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(mainWindowPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel5)
                 .addContainerGap())
         );
@@ -1251,9 +1223,8 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     
     private void playerHandPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseClicked
  
-            Card cardClicked = gameGui.cardSetsGUI.getCardFromMousePosition(evt.getPoint().x,evt.getPoint().y);
-            
-            if(cardClicked != null)
+            Card cardClicked = gameGui.cardSetsGUI.getCardFromMousePosition(evt.getPoint().x,evt.getPoint().y).getCard();
+            if(cardClicked.getType() != Card.NO_CARD)
             {   
                 playerState.cardStateHandler.handle(cardClicked, game);
                 LOGGER.debug(game.getCurrentPlayer().getName() + " clicked card: " + cardClicked);
@@ -1270,38 +1241,28 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     }//GEN-LAST:event_playerHandPanelMouseEntered
 
     private void playerHandPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseExited
-         // TODO add your handling code here:
-        // repaint(CURR_X, CURR_Y, CURR_W, CURR_H);
+        repaint();
     }//GEN-LAST:event_playerHandPanelMouseExited
 
     private void playerHandPanelMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playerHandPanelMouseMoved
-        
         int handMouseCoorX,handMouseCoorY;
         int handMouseCoorXdeaf=0;
         int handMouseCoorYdeaf=0;
-        int deafband=20; //repaint after mouse change of
-        int repaintAddedArea=20;//refreash little more than just the sqare
-         final int CURR_X = playerHandPanel.getX();
-         final int CURR_Y = playerHandPanel.getY();
-         final int CURR_W = playerHandPanel.getWidth()+repaintAddedArea;
-         final int CURR_H = playerHandPanel.getHeight()+3*repaintAddedArea;
+        int repaintAfterMouseChangeOf=20; 
+
         handMouseCoorX = evt.getPoint().x;
         handMouseCoorY = evt.getPoint().y;
 
-        gameGui.cardSetsGUI.setMouseOverCard(handMouseCoorX, handMouseCoorY);
-        if(abs(handMouseCoorX-handMouseCoorXdeaf)>deafband){  //change repainting step
+        if(java.lang.Math.abs(handMouseCoorX-handMouseCoorXdeaf)>repaintAfterMouseChangeOf){  
             handMouseCoorXdeaf=handMouseCoorX;
-            //repaint(CURR_X, CURR_Y, CURR_W, CURR_H);
             repaint();
         }
 
-        if(abs(handMouseCoorY-handMouseCoorYdeaf)>deafband){
+        if(java.lang.Math.abs(handMouseCoorY-handMouseCoorYdeaf)>
+                repaintAfterMouseChangeOf){
            handMouseCoorYdeaf=handMouseCoorY; 
            repaint();
         }
-
-    
- 
     }//GEN-LAST:event_playerHandPanelMouseMoved
 
     private void mainMapPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainMapPanelMouseClicked
@@ -1363,7 +1324,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         int x = evt.getPoint().x;
         int y = evt.getPoint().y;
         Position movedPos = Position.getPositionFromMouse(x, y, windowMode);
-        gameGui.setHoverPosition(movedPos);
+        gameGui.cardSetsGUI.setHoverPosition(movedPos);
         repaint();
    
     }//GEN-LAST:event_mainMapPanelMouseMoved
@@ -1624,14 +1585,14 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         ); 
     }//GEN-LAST:event_jMenuItemScoutActionPerformed
 
-    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
+    private void debugMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_debugMenuActionPerformed
        
-    }//GEN-LAST:event_jMenu1ActionPerformed
+    }//GEN-LAST:event_debugMenuActionPerformed
 
-    private void jMenu1MenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_jMenu1MenuSelected
+    private void debugMenuMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_debugMenuMenuSelected
         game.freeMove = !game.freeMove;
         repaint();// TODO add your handling code here:
-    }//GEN-LAST:event_jMenu1MenuSelected
+    }//GEN-LAST:event_debugMenuMenuSelected
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
       
     }//GEN-LAST:event_jMenuItem4ActionPerformed
@@ -1711,6 +1672,10 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     private void opponentHandPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_opponentHandPanelMouseExited
         // TODO add your handling code here:
     }//GEN-LAST:event_opponentHandPanelMouseExited
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
  
            
     @Override
@@ -1727,6 +1692,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     private javax.swing.JMenuItem MoveToTableCommand;
     javax.swing.JButton actionButton;
     private javax.swing.JCheckBoxMenuItem allowDrawOnDiscard;
+    private javax.swing.JMenu backgroundChooser;
     private javax.swing.JPanel bottomPanel;
     private javax.swing.JButton buttonNo;
     private javax.swing.JButton buttonToNextPhase;
@@ -1738,29 +1704,25 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     private javax.swing.JCheckBoxMenuItem checkRetreat;
     private javax.swing.JPanel curPlayerFlag;
     private javax.swing.JPanel currentPlayerPanel;
+    private javax.swing.JMenu debugMenu;
     private javax.swing.JPanel discardPanel;
     private javax.swing.JPanel discardPanel1;
     private javax.swing.JLabel drawPileCurrPlayer;
     private javax.swing.JLabel drawPileOppPlayer;
+    private javax.swing.JMenu editMenu;
     private javax.swing.JLabel gameTurnCounter;
-    private javax.swing.JPanel infoPanel;
+    private javax.swing.JMenu helpMenu;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem2;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem3;
-    private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenu jMenu8;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
@@ -1776,8 +1738,6 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     private javax.swing.JMenuItem jMenuItemSkirmish;
     private javax.swing.JMenuItem jMenuItemSupply;
     private javax.swing.JMenuItem jMenuItemWithdraw;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel mainMapPanel;
     private javax.swing.JPanel mainWindowPanel;

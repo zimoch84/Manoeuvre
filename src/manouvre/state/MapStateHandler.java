@@ -192,8 +192,8 @@ public class MapStateHandler implements Observer, Serializable{
            break;
            case Game.COMBAT:
                switch(game.getCombat().getState()){
-                   case Combat.PICK_DEFENSE_CARDS:
-                   case Combat.PICK_SUPPORT_CARDS:   
+                   case PICK_DEFENSE_CARDS:
+                   case PICK_SUPPORT_CARDS:   
                        switch(card.getHQType()){
                            case Card.SKIRMISH:
                                 return Card.MOVE_UNIT_ACTION;
@@ -211,7 +211,7 @@ public class MapStateHandler implements Observer, Serializable{
                             return Card.PICK_UNIT_ACTION;
                         if(card.getType() == Card.UNIT)
                         {
-                            if(card.getPlayingCardMode().equals(Card.NO_TYPE))
+                            if(card.getPlayingCardMode().equals(Combat.Type.NO_TYPE))
                                 return Card.NO_ACTION;
                             else return Card.PICK_UNIT_ACTION;
                                         
@@ -261,7 +261,7 @@ public class MapStateHandler implements Observer, Serializable{
                 LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);   
             break;
             
-            case EventType.COMBAT_PURSUIT_STARTED:
+            case EventType.COMBAT_ADVANCE_STARTED:
                 if(game.getCurrentPlayer().isActive())
                     setState(MapStateHandler.PICK_ONE_UNIT);
                 else
@@ -277,9 +277,7 @@ public class MapStateHandler implements Observer, Serializable{
             case EventType.LEADER_DESELECTED:
             case EventType.END_COMBAT: 
             case EventType.SKIRMISH_DESELECTED:    
-                if(game.getCurrentPlayer().isActive())
                     setState(MapStateHandler.NOSELECTION);
-                LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);   
             break;
             
             case EventType.PICK_SUPPORT_UNIT:

@@ -19,24 +19,24 @@ import org.apache.logging.log4j.LogManager;
 public class ForceWithdraw implements Command{
     
     String playerName;
-    Unit hitUnit;
+    Unit attackedUnit;
     String log;
     private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(ForceWithdraw.class.getName());
 
-    public ForceWithdraw(String playerName, Unit hitUnit) {
+    public ForceWithdraw(String playerName, Unit attackedUnit) {
         this.playerName = playerName;
-        this.hitUnit = hitUnit;
+        this.attackedUnit = attackedUnit;
       
     }
     
     @Override
     public void execute(Game game) {
             
-      Unit unit = game.getUnit(hitUnit);
+      Unit unit = game.getUnit(attackedUnit);
     
       game.swapActivePlayer();
       LOGGER.debug(game.getCurrentPlayer().getName() + " swapActivePlayer " + game.getCurrentPlayer().isActive());
-      game.getCombat().setState(Combat.WITHRDAW);
+      game.getCombat().setState(Combat.State.WITHRDAW);
       unit.setRetriving(true);
       unit.setSelected(true);
 

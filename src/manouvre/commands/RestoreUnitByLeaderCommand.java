@@ -37,7 +37,7 @@ public class RestoreUnitByLeaderCommand implements Command {
         d6dices = new ArrayList<>();
         
         for(Unit healingUnit:this.healingUnits){
-            Dice d6 = new Dice(Dice.D6);
+            Dice d6 = new Dice(Dice.Type.D6);
            d6dices.add(d6);
            healingUnit.setRestorationDice(d6);
         }

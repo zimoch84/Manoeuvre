@@ -92,7 +92,7 @@ public class ButtonActions  extends Observable{
 
                         game.getUnit(game.getCombat().getDefendingUnit()).setRetriving(true);
                         game.getUnit(game.getCombat().getDefendingUnit()).setSelected(true);
-                        game.getCombat().setState(Combat.WITHRDAW);
+                        game.getCombat().setState(Combat.State.WITHRDAW);
                         game.notifyAbout(EventType.COMBAT_DEFENDER_WITHDRAW);
                     }
                     /*
@@ -106,6 +106,7 @@ public class ButtonActions  extends Observable{
                 } 
                 /*dont have position to withdraw */
                 else {
+                    //TODO warning of dead
                     TakeHitCommand th = new TakeHitCommand(game.getCurrentPlayer().getName(), game.getCombat().getDefendingUnit(), true);
                     cmdQueue.storeAndExecuteAndSend(th);
                 }
@@ -159,7 +160,7 @@ public class ButtonActions  extends Observable{
                 
             break;
             case "End picking":
-                game.getCombat().setState(Combat.PICK_SUPPORT_CARDS);
+                game.getCombat().setState(Combat.State.PICK_SUPPORT_CARDS);
                 game.notifyAbout(EventType.LEADER_END_PICKING_SUPPORT);
                 
             break;
@@ -194,9 +195,7 @@ public class ButtonActions  extends Observable{
                     */
                     SetupPositionCommand setupCommand = new SetupPositionCommand(game.getCurrentPlayer().getName(), new ArrayList<Unit>(Arrays.asList(game.getCurrentPlayer().getArmy())));
                     EndSetupCommand endSetupCommand = new EndSetupCommand(game.getCurrentPlayer().getName(), setupCommand);
-                    
                     CustomDialogFactory.showEndSetupDialog(cmdQueue, endSetupCommand, game);
-                    
                     
                 } 
                 else {

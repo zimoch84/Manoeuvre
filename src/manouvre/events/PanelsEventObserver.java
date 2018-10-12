@@ -26,10 +26,9 @@ public class PanelsEventObserver implements Observer {
     
     CommandLogger cmdLogger;
     
-    public PanelsEventObserver(Game game, JPanel currentPlayerPanel, JPanel opponentPlayerPanel, JPanel infoPanel, JPanel tablePanel, JPanel phasePanel) {
+    public PanelsEventObserver(Game game, JPanel currentPlayerPanel, JPanel opponentPlayerPanel,  JPanel tablePanel, JPanel phasePanel) {
         this.currentPlayerPanel = currentPlayerPanel;
         this.opponentPlayerPanel = opponentPlayerPanel;
-        this.infoPanel = infoPanel;
         this.tablePanel = tablePanel;
         this.phasePanel = phasePanel;
         this.game = game;
@@ -49,7 +48,7 @@ public class PanelsEventObserver implements Observer {
                 LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
                 break;
 
-            case EventType.COMBAT_PURSUIT_STARTED:
+            case EventType.COMBAT_ADVANCE_STARTED:
                 if(game.getCurrentPlayer().isActive())
                     game.setInfoBarText("Pick puruit unit");
                 else 

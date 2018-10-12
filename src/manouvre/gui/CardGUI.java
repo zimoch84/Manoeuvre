@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import manouvre.game.Card;
+import manouvre.game.Player;
 
 /**
  *
@@ -40,11 +41,18 @@ public class CardGUI {
     
     public static final int WIDTH_TABLE = Math.round(CardGUI.CARD_WIDTH * CardGUI.SCALE_FACTOR_TABLE);
     public static final int HEIGHT_TABLE = Math.round(CardGUI.CARD_HEIGHT * CardGUI.SCALE_FACTOR_TABLE);
+    public boolean mouseOverCard;
     /**
      * Gets the card image based on its ID in cards.csv 
      * @param ID    cardID
      * @see resources.cards
      */
+    public CardGUI()
+    {
+        this.card = new Card();
+    }
+            
+    
     public CardGUI(Card newCard) {
         this.card=newCard;    
         setImg();  
@@ -63,21 +71,21 @@ public class CardGUI {
     
     private String getBackCoverImgName(){
         switch (card.getCardFlag()){ //check first card in the list for flag
-            case Card.BR:  
+            case BR:  
                 return "BRMask.JPG";      
-            case Card.FR: 
+            case FR: 
                 return "FRMask.JPG";    
-            case Card.RU: 
+            case RU: 
                 return "RUMask.JPG";    
-            case Card.PR: 
+            case PR: 
                 return "PRMask.JPG";    
-            case Card.AU: 
+            case AU: 
                 return "AUMask.JPG";    
-            case Card.SP: 
+            case SP: 
                 return "SPMask.JPG";    
-            case Card.OT: 
+            case OT: 
                 return "OTMask.JPG";  
-            case Card.US: 
+            case US: 
                 return "USMask.JPG"; 
                 
         }   
@@ -117,7 +125,7 @@ public class CardGUI {
         return buffImage.getSubimage(x, y, width, height);
     }
 
-    public int getFlag() {
+    public Player.Nation getFlag() {
         return card.getCardFlag();
     }
     public int getCardID() {
@@ -130,6 +138,16 @@ public class CardGUI {
    public Card getCard(){
        return card;
    }
+/*
+    public boolean isMouseOverCard() {
+        return mouseOverCard;
+    }
+
+    public void setMouseOverCard(boolean mouseOverCard) {
+        this.mouseOverCard = mouseOverCard;
+    }
+   
+  */ 
     
     @Override
     public String toString()

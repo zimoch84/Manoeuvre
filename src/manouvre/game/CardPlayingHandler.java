@@ -5,7 +5,6 @@
  */
 package manouvre.game;
 
-import java.awt.Dialog;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -118,56 +117,54 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
                 
                 switch (card.getHQType()) {
                 case Card.WITHDRAW:
-                        if (combat.getDefendingUnit() != null) 
-                        {
-                            game.getUnit(combat.getDefendingUnit()).setSelected(true);
-                            game.getUnit(combat.getDefendingUnit()).setRetriving(true);
-                            combat.setState(Combat.WITHRDAW);
-                        }
-                        break;
+                    if (combat.getDefendingUnit() != null) 
+                    {
+                        game.getUnit(combat.getDefendingUnit()).setSelected(true);
+                        game.getUnit(combat.getDefendingUnit()).setRetriving(true);
+                        combat.setState(Combat.State.WITHRDAW);
+                    }
+                break;
                 case Card.GUERRILLAS:
-                        CustomDialogFactory.showSureToPlayCardDialog(cmdQueue, ccf.createGuerrillaCardCommand(card), game);
-                        //cmdQueue.storeAndExecuteAndSend(ccf.createGuerrillaCardCommand(card));
-                        break;
+                    CustomDialogFactory.showSureToPlayCardDialog(cmdQueue, ccf.createGuerrillaCardCommand(card), game);
+                break;
                 
                 case Card.SKIRMISH:
                 case Card.FRENCH_SAPPERS:    
                 case Card.ROYAL_ENG:    
                 case Card.COMMITED_ATTACK:
-                        handleCombatPickSupportCardsOnSelection(card, game);
-                        break;
-                        
-                        
-                        
+                     handleCombatPickSupportCardsOnSelection(card);
+                break;
+                case Card.AMBUSH:
+                    handleAmbushCardSelection(card);
+                break;    
                 }
         break;   
         case Card.UNIT:
             
             switch(combat.getState()){
-                case Combat.COMBAT_NOT_INITIALIZED:
-                    handleCombatInitializationOnSelection(card, game);
+                case COMBAT_NOT_INITIALIZED:
+                    handleCombatInitializationOnSelection(card);
                     break;
                     
-                case Combat.PICK_DEFENSE_CARDS:
-                    
+                case PICK_DEFENSE_CARDS:
                     if(game.getUnit(combat.getDefendingUnit()).equals(card) )
                         combat.addDefenceCard(card);
                     break;
                    
-                case Combat.PICK_SUPPORT_CARDS:
-                        handleCombatPickSupportCardsOnSelection(card, game);
-                        break;  
+                case PICK_SUPPORT_CARDS:
+                        handleCombatPickSupportCardsOnSelection(card);
+                    break;  
                         
             }
             break;
                 
             case Card.LEADER:
                 switch(combat.getState()){
-                    case Combat.PICK_DEFENSE_CARDS:
+                    case PICK_DEFENSE_CARDS:
                         combat.addDefenceCard(card);
                         break;
-                    case Combat.PICK_SUPPORT_CARDS:
-                        handleCombatPickSupportCardsOnSelection(card, game);
+                    case PICK_SUPPORT_CARDS:
+                        handleCombatPickSupportCardsOnSelection(card);
                         break;    
                     }
              break;
@@ -256,13 +253,13 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
         case Card.HQCARD:
             switch (card.getHQType()) {
                     case Card.WITHDRAW:
-                            if (game.getCombat().getDefendingUnit() != null) {
-                                game.getUnit(game.getCombat().getDefendingUnit()).setSelected(false);
-                                game.getUnit(game.getCombat().getDefendingUnit()).setRetriving(false);
-                                setPlayingCard(new Card());
-                                game.getCombat().setState(Combat.PICK_DEFENSE_CARDS);
-                            }
-                            break;
+                        if (game.getCombat().getDefendingUnit() != null) {
+                            game.getUnit(game.getCombat().getDefendingUnit()).setSelected(false);
+                            game.getUnit(game.getCombat().getDefendingUnit()).setRetriving(false);
+                            setPlayingCard(new Card());
+                            game.getCombat().setState(Combat.State.PICK_DEFENSE_CARDS);
+                        }
+                    break;
                     case Card.SKIRMISH:
                         card.setSelected(false);
                         setPlayingCard(new Card());
@@ -271,36 +268,39 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
                     case Card.FRENCH_SAPPERS:  
                     case Card.ROYAL_ENG:
                     case Card.COMMITED_ATTACK:    
-                        handleCombatPickSupportCardsOnDeselection(card, game);
+                        handleCombatPickSupportCardsOnDeselection(card);
+                    break;    
+                    case Card.AMBUSH:
+                        handleAmbushCardDeselection(card);
                     break;
             
             }
         break;
         case Card.UNIT:
             switch(game.getCombat().getState()){
-                case Combat.INITIALIZING_COMBAT:
-                    handleCombatInitializationOnDeselection(card, game);
+                case INITIALIZING_COMBAT:
+                    handleCombatInitializationOnDeselection(card);
                 break;
-                case Combat.PICK_DEFENSE_CARDS:
+                case PICK_DEFENSE_CARDS:
                     game.getCombat().removeDefenceCard(card);
                 break;
     
-                case Combat.PICK_SUPPORT_CARDS:   
-                    handleCombatPickSupportCardsOnDeselection(card, game);
+                case PICK_SUPPORT_CARDS:   
+                    handleCombatPickSupportCardsOnDeselection(card);
                 break;    
                 }
             break;
             case Card.LEADER:
                 switch(game.getCombat().getState()){
-                     case Combat.PICK_DEFENSE_CARDS:
+                     case PICK_DEFENSE_CARDS:
                          game.getCombat().removeDefenceCard(card);
                      break;    
 
-                     case Combat.PICK_SUPPORT_CARDS:
-                         handleCombatPickSupportCardsOnDeselection(card, game);
+                     case PICK_SUPPORT_CARDS:
+                         handleCombatPickSupportCardsOnDeselection(card);
                      break;
 
-                     case Combat.PICK_SUPPORT_UNIT:
+                     case PICK_SUPPORT_UNIT:
                          handleLeaderDeselectedInCombat(card, game);
                      break;    
                  }
@@ -374,37 +374,66 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
         switch(card.getHQType())
         {
           case Card.FORCED_MARCH:
+               return checkForcedMarchCondition(card);
           case Card.SUPPLY:
-              
-              if(game.getCurrentPlayer().getTablePile().contains(card)){
-                    CustomDialogFactory.showCannotPlayCardTwiceDialog();
-                    return false;
-                    }
-              else 
-              return game.getCurrentPlayer().hasMoved();
-              
-                        
+               return checkSupplyCondition(card);
           case Card.GUERRILLAS:
-              Card opponentPlayedCard = game.getOpponentPlayer().getTablePile().getLastCard(false);
-                return opponentPlayedCard.getHQType() == Card.FORCED_MARCH 
+               Card opponentPlayedCard = game.getOpponentPlayer().getTablePile().getLastCard(false);
+               return opponentPlayedCard.getHQType() == Card.FORCED_MARCH 
                         || opponentPlayedCard.getHQType() == Card.SUPPLY
                         || opponentPlayedCard.getHQType() == Card.REDOUBDT;
               
           default: return false;
-
         }
       else return false;
     }       
+    
+    private boolean checkForcedMarchCondition(Card card ){
+
+        boolean commonCondtion = checkSupplyCondition(card);
+        
+        if(commonCondtion)
+        {
+        Unit lastMovedUnit = game.getCurrentPlayer().getLastMovedUnit();
+        Terrain lastPositionTerrain = game.getMap().getTerrainAtPosition(lastMovedUnit.getLastPosition());
+        Terrain currentPositionTerrain = game.getMap().getTerrainAtPosition(lastMovedUnit.getPosition());
+        
+        if(lastPositionTerrain.getType() == Terrain.FIELDS || lastPositionTerrain.getType() == Terrain.MARSH ||
+                currentPositionTerrain.getType() == Terrain.FIELDS || currentPositionTerrain.getType() == Terrain.MARSH
+                )
+            { CustomDialogFactory.showCannotPlayForcedMarch();
+                return false;
+            }
+        else 
+            return true;
+        }
+        else return commonCondtion;
+       
+    }
+    
+    private boolean checkSupplyCondition(Card card){
+        
+         if(game.getCurrentPlayer().getTablePile().contains(card)){
+                    CustomDialogFactory.showCannotPlayCardTwiceDialog();
+                    return false;
+                    }
+        else  return game.getCurrentPlayer().hasMoved();
+         
+         
+        
+    }
+            
+            
     
      private boolean canCardBePlayedInCombat(Card card){
        
            switch(game.getCombat().getState())  
        {
-           case Combat.COMBAT_NOT_INITIALIZED:
-           case Combat.INITIALIZING_COMBAT:    
+           case COMBAT_NOT_INITIALIZED:
+           case INITIALIZING_COMBAT:    
                 if(card.getType() == Card.UNIT)
                 {
-                    if(!card.getPlayingCardMode().equals(Card.NO_TYPE))
+                    if(!card.getPlayingCardMode().equals(Combat.Type.NO_TYPE))
                     {
                         boolean isNotEliminated =  !game.getUnitByCard(card).isEliminated();                   
                         //boolean isThereValidTargets = !game.positionCalculator.getUnitsPositionToSelectByCard(card).isEmpty();
@@ -421,17 +450,18 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
                     return !game.getCurrentPlayer().hasAttacked();
                 
            break;     
-           case Combat.PICK_SUPPORT_CARDS:
+           case PICK_SUPPORT_CARDS:
                switch(card.getType()){
                 case Card.HQCARD:
                     switch(card.getHQType()){
                         case Card.SKIRMISH:
-                        
+                            return checkSkirmishCondition();
+                            
                         case Card.ROYAL_ENG:
                         case Card.FRENCH_SAPPERS:
                             return true;
                         case Card.COMMITED_ATTACK:
-                            return (game.getCombat().getCombatType().equals(Combat.ASSAULT));
+                            return checkCommittedAttackCondition(card);
                         default: return false;    
                     }
                 case Card.LEADER:
@@ -441,8 +471,8 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
                     
                }
            break;
-           case Combat.WITHRDAW:
-           case Combat.PICK_DEFENSE_CARDS:
+           case WITHRDAW:
+           case PICK_DEFENSE_CARDS:
                 switch(card.getType()){
                     case Card.HQCARD:
                         switch(card.getHQType()){
@@ -459,7 +489,7 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
                         return game.getCombat().getDefendingUnit().equals(card);
                 }
            break;    
-           case Combat.PICK_SUPPORT_UNIT:
+           case PICK_SUPPORT_UNIT:
                switch(card.getType()){
                 case Card.LEADER:
                     return true;
@@ -471,14 +501,41 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
        }
        return false;    
     }
+    private boolean checkSkirmishCondition(){
+        if(game.getCombat().getType().equals(Combat.Type.AMBUSH))
+            return false;
+        else return true;    
+    }
+     
+    private boolean checkCommittedAttackCondition(Card card){
+        Combat combat = game.getCombat();
+        if(combat.getType().equals(Combat.Type.ASSAULT) ||
+           combat.getType().equals(Combat.Type.AMBUSH)){
+            
+            int numberOfAllAttackingUnits =  0;
+            numberOfAllAttackingUnits = combat.getAttackingUnits().size();
+                
+            int numberOfCommittedAttackAlreadySelected=0;        
+
+            numberOfCommittedAttackAlreadySelected = 0;
+                for(Card cardInHand: game.getCurrentPlayer().getHand().getCardList())
+                    if( cardInHand.isSelected() && cardInHand.getHQType() == Card.COMMITED_ATTACK )
+                            numberOfAllAttackingUnits++;
+            if(numberOfAllAttackingUnits > numberOfCommittedAttackAlreadySelected )
+                return true;
+            }
+        return false;
+    
+    }
+     
     private boolean checkIfSupportUnitMatchesCardWithAssaultMode(Card card, Game game){
         /*
         Check if support unit matches card with assault mode
          */
         for (Unit supportUnit : game.getCombat().getSupportingUnits()) {
             if (supportUnit.equals(card)) {
-                for (String cardMode : card.getPlayingPossibleCardModes()) {
-                    if (cardMode == Card.ASSAULT) {
+                for (Combat.Type cardMode : card.getPlayingPossibleCardModes()) {
+                    if (cardMode == Combat.Type.ASSAULT) {
                         return true;
                     }
                 }
@@ -488,8 +545,8 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
         Check if attack unit matches card with assault mode
          */
         if (game.getCombat().getAttackingUnit().equals(card)) {
-            for (String cardMode : card.getPlayingPossibleCardModes()) {
-                if (cardMode == Card.ASSAULT) {
+            for (Combat.Type cardMode : card.getPlayingPossibleCardModes()) {
+                if (cardMode == Combat.Type.ASSAULT) {
                     return true;
                 }
             }
@@ -545,56 +602,71 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
         }
     }
 
-    private void handleCombatInitializationOnSelection(Card card , Game game){
+    private void handleAmbushCardSelection(Card card){
+        Combat combat = game.getCombat();
+        card.setPlayingCardMode(Combat.Type.AMBUSH);
+        combat.setState(Combat.State.INITIALIZING_COMBAT);
+        combat.setInitAttackingCard(card); 
+        
+    }
     
-            Unit attackingUnit = game.getUnitByCard(card);
-            attackingUnit.setSelected(true);
-            Combat combat = game.getCombat();
-            /*
-            Volley Decision
-             */
-            int playingModeCounter = card.getPlayingPossibleCardModes().size();
-            /*
-            Set bombard or asssault
-             */
-            if (playingModeCounter == 1) {
-                card.setPlayingCardMode(card.getPlayingPossibleCardModes().get(0));
-                combat.setState(Combat.INITIALIZING_COMBAT);
-                Terrain attackingTerrain = game.getMap().getTerrainAtPosition(attackingUnit.getPosition());
+    private void handleAmbushCardDeselection(Card card){
+        Combat combat = game.getCombat();
+        combat.setState(Combat.State.COMBAT_NOT_INITIALIZED);
+        combat.setInitAttackingCard(new Card()); 
+        
+    }
+    
+    private void handleCombatInitializationOnSelection(Card card){
 
-                combat.setAttackingUnit(attackingUnit);
-                combat.setAttackTerrain(attackingTerrain);
-                combat.setInitAttackingCard(card);
-                combat.calculateCombatValues();
-                ArrayList<Position> attackingPositions = game.positionCalculator.getAttackingPositions(card, attackingUnit);
-                combat.setAttackingPositions(attackingPositions);
+        Unit attackingUnit = game.getUnitByCard(card);
+        attackingUnit.setSelected(true);
+        Combat combat = game.getCombat();
+        /*
+        Volley Decision
+         */
+        int playingModeCounter = card.getPlayingPossibleCardModes().size();
+        /*
+        Set bombard or asssault
+         */
+        if (playingModeCounter == 1) {
+            card.setPlayingCardMode(card.getPlayingPossibleCardModes().get(0));
+            combat.setState(Combat.State.INITIALIZING_COMBAT);
+            Terrain attackingTerrain = game.getMap().getTerrainAtPosition(attackingUnit.getPosition());
 
-            }
-            /*
-            Notify to pick proper card mode
-             */ else if (playingModeCounter == 2) {
-                game.notifyAbout(EventType.VOLLEY_ASSAULT_DECISION);
-            }
-            /*
-            If we know what mode is playing we can calculate attacking positions
-             */
+            combat.setAttackingUnit(attackingUnit);
+            combat.setAttackTerrain(attackingTerrain);
+            combat.setInitAttackingCard(card);
+            
+            ArrayList<Position> attackingPositions = game.positionCalculator.getAttackingPositions(card, attackingUnit);
+            combat.setAttackingPositions(attackingPositions);
+
+        }
+        /*
+        Notify to pick proper card mode
+         */ else if (playingModeCounter == 2) {
+            game.notifyAbout(EventType.VOLLEY_ASSAULT_DECISION);
+        }
+        /*
+        If we know what mode is playing we can calculate attacking positions
+         */
             
     
     }
     
-    private void handleCombatInitializationOnDeselection(Card card, Game game){
+    private void handleCombatInitializationOnDeselection(Card card){
         game.getUnitByCard(card).setSelected(false);
         int playingModeCounter = card.getPlayingPossibleCardModes().size();
         if (playingModeCounter == 2) {
             game.notifyAbout(EventType.VOLLEY_ASSAULT_DECISION_DESELECTION);
         }
         
-        card.setPlayingCardMode(Card.NO_TYPE);
+        card.setPlayingCardMode(Combat.Type.NO_TYPE);
         game.getCombat().resetCombat(); 
        
     }
                 
-    private void handleCombatPickSupportCardsOnSelection(Card card, Game game){
+    private void handleCombatPickSupportCardsOnSelection(Card card){
         
         switch(card.getType()){
         case  Card.LEADER:
@@ -646,7 +718,7 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
        }
    }
 
-    private void handleCombatPickSupportCardsOnDeselection(Card card, Game game){
+    private void handleCombatPickSupportCardsOnDeselection(Card card){
         switch(card.getType()){
             case Card.LEADER:
         
@@ -683,11 +755,11 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
             Unit attackingUnit = game.getUnit(game.getCombat().getAttackingUnit());
             if(card.equals(attackingUnit))
             {
-                for(String cardMode:card.getPlayingPossibleCardModes() )
+                for(Combat.Type cardMode:card.getPlayingPossibleCardModes() )
                 {
-                    if(cardMode == Card.ASSAULT)
+                    if(cardMode == Combat.Type.ASSAULT)
                     {
-                        card.setPlayingCardMode(Card.ASSAULT);
+                        card.setPlayingCardMode(Combat.Type.ASSAULT);
                         game.getCombat().addSupportCard(card); 
                         card.setSelected(true);
                         break;
@@ -700,11 +772,11 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
             Unit attackingUnit = game.getUnit(game.getCombat().getAttackingUnit());
             if(card.equals(attackingUnit))
             {
-                for(String cardMode:card.getPlayingPossibleCardModes() )
+                for(Combat.Type cardMode:card.getPlayingPossibleCardModes() )
                 {
-                    if(cardMode == Card.ASSAULT)
+                    if(cardMode == Combat.Type.ASSAULT)
                     {
-                        card.setPlayingCardMode(Card.ASSAULT);
+                        card.setPlayingCardMode(Combat.Type.ASSAULT);
                         game.getCombat().removeSupportCard(card); 
                         card.setSelected(false);
                         break;
@@ -718,11 +790,11 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
              for(Unit unit:supportingUnits){
                  if(card.equals(unit))
                  {
-                     for(String cardMode:card.getPlayingPossibleCardModes() )
+                     for(Combat.Type cardMode:card.getPlayingPossibleCardModes() )
                      {
-                         if(cardMode == Card.ASSAULT)
+                         if(cardMode == Combat.Type.ASSAULT)
                          {
-                             card.setPlayingCardMode(Card.ASSAULT);
+                             card.setPlayingCardMode(Combat.Type.ASSAULT);
                              game.getCombat().addSupportCard(card); 
                              break;
                          }
@@ -736,11 +808,11 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
              for(Unit unit:supportingUnits){
                  if(card.equals(unit))
                  {
-                     for(String cardMode:card.getPlayingPossibleCardModes() )
+                     for(Combat.Type cardMode:card.getPlayingPossibleCardModes() )
                      {
-                         if(cardMode == Card.ASSAULT)
+                         if(cardMode == Combat.Type.ASSAULT)
                          {
-                             card.setPlayingCardMode(Card.ASSAULT);
+                             card.setPlayingCardMode(Combat.Type.ASSAULT);
                              game.getCombat().removeSupportCard(card); 
                              break;
                          }
@@ -763,7 +835,7 @@ public class CardPlayingHandler extends Observable implements  Serializable, Obs
     if(combat.getSupportCards().contains(card))
         combat.removeSupportCard(card);
     setPlayingCard(new Card());
-    combat.setState(Combat.PICK_SUPPORT_CARDS);
+    combat.setState(Combat.State.PICK_SUPPORT_CARDS);
     game.notifyAbout(EventType.LEADER_DESELECTED);
  }
     public Card getPlayingCard() {
@@ -814,26 +886,26 @@ public void update(Observable o, Object arg) {
             LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
         break;
         case EventType.CARD_ASSAULT_MODE:
-            playingCard.setPlayingCardMode(Card.ASSAULT);
+            playingCard.setPlayingCardMode(Combat.Type.ASSAULT);
             game.getCombat().setAttackingUnit(game.getUnitByCard(playingCard));
             game.getCombat().setInitAttackingCard(playingCard);
             game.getCombat().setAttackingPositions(game.positionCalculator.getAttackingPositions(playingCard, game.getUnitByCard(playingCard)));
-            game.getCombat().setState(Combat.INITIALIZING_COMBAT);
+            game.getCombat().setState(Combat.State.INITIALIZING_COMBAT);
             mapStateHandler.setStateByCard(playingCard, MapStateHandler.CHOOSE_BY_CARD);
             LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
         break;
         case EventType.CARD_VOLLEY_MODE:
-            playingCard.setPlayingCardMode(Card.VOLLEY);
+            playingCard.setPlayingCardMode(Combat.Type.VOLLEY);
             game.getCombat().setAttackingUnit(game.getUnitByCard(playingCard));
             game.getCombat().setInitAttackingCard(playingCard);
             game.getCombat().setAttackingPositions(game.positionCalculator.getAttackingPositions(playingCard, game.getUnitByCard(playingCard)));
-            game.getCombat().setState(Combat.INITIALIZING_COMBAT);
+            game.getCombat().setState(Combat.State.INITIALIZING_COMBAT);
             mapStateHandler.setStateByCard(playingCard, MapStateHandler.CHOOSE_BY_CARD);
             LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
         break;
         case EventType.PICK_SUPPORT_UNIT:
             /*We have to select supporting units equal to the support value*/
-            game.getCombat().setState(Combat.PICK_SUPPORT_UNIT);
+            game.getCombat().setState(Combat.State.PICK_SUPPORT_UNIT);
             game.getCombat().setSupportingLeader(getPlayingCard());
             LOGGER.debug(game.getCurrentPlayer().getName() + " Incoming Event: " + dialogType);
         break;
