@@ -7,7 +7,6 @@ package manouvre.commands;
 
 import manouvre.events.EventType;
 import manouvre.game.Card;
-import manouvre.game.Combat;
 import manouvre.game.Game;
 import manouvre.game.Unit;
 import manouvre.interfaces.Command;
@@ -62,8 +61,8 @@ public class TakeCommittedAttackHit implements Command{
     }
 
     @Override
-    public String getType() {
-        return Command.TAKE_HIT;
+    public Type getType() {
+        return Command.Type.TAKE_HIT;
     }
     
     

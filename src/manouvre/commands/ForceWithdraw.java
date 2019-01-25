@@ -56,8 +56,8 @@ public class ForceWithdraw implements Command{
     }
 
     @Override
-    public String getType() {
-        return Command.FORCE_WITHDRAW;
+    public Type getType() {
+        return Command.Type.FORCE_WITHDRAW;
     }
     
     

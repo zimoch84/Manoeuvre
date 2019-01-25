@@ -8,7 +8,7 @@ package manouvre.gui;
 import java.awt.Color;
 import java.awt.Desktop;
 import static java.awt.Desktop.isDesktopSupported;
-import manouvre.network.client.Message;
+import manouvre.network.core.Message;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -16,6 +16,15 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,6 +42,8 @@ import javax.swing.JOptionPane;
 import manouvre.game.Card;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import javax.swing.JMenuItem;
 import org.apache.logging.log4j.LogManager;
 import manouvre.events.ButtonEventObserver;
@@ -71,7 +82,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
     private  CommandLogger cmdLogger;
     
     private PlayerState playerState;
-    
+    private ManouvreWindowListener mwListener;
     
     public GameWindow(Game game, int windowMode, CommandQueue cmdQueue) throws IOException{
         /*
@@ -95,8 +106,18 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         Creates new GUI respects HOST/GUEST settings
         */
         gameGui = new GameGUI(this.game, playerState, windowMode);
-        bgImage = ImageIO.read( new File("resources\\backgrounds\\24209cb208yezho.jpg"));
-        this.setIconImage(new ImageIcon("resources\\icons\\WindowIcon.png").getImage());    
+        
+         String filename = "resources/backgrounds/24209cb208yezho.jpg";
+         bgImage = ImageIO.read(
+                getClass().getClassLoader().
+                getResource(filename)
+            );
+        filename = "resources/icons/WindowIcon.png"; 
+        Image icon = ImageIO.read(
+                getClass().getClassLoader().
+                getResource(filename)
+            );
+        this.setIconImage(icon);    
         
         String title = "Manoeuvre, " + (windowMode== CreateRoomWindow.AS_HOST  
                             ? game.getHostPlayer().getName() + " as HOST" 
@@ -119,7 +140,7 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         panelObserver = new PanelsEventObserver(game, currentPlayerPanel, opponentPlayerPanel, tablePanel, buttonsPanel);
         butttonActions = new ButtonActions(actionButton, buttonYes, buttonNo, this.game, this.cmdQueue, playerState );
                 
-        this.addWindowListener(new ManouvreWindowListener(game, client, clientThread));
+        this.addWindowListener(new ManouvreWindowListener(game.getCurrentPlayer(), client, clientThread));
       
         DefaultCaret caret = (DefaultCaret)chatTextArea.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
@@ -135,30 +156,72 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
         
     }
     
+    private Path getFolderPath(String path) throws URISyntaxException, IOException {
+    URI uri = getClass().getClassLoader().getResource(path).toURI();
+    if ("jar".equals(uri.getScheme())) {
+      FileSystem fileSystem = FileSystems.newFileSystem(uri, Collections.emptyMap(), null);
+      return fileSystem.getPath(path);
+    } else {
+      return Paths.get(uri);
+    }
+  }
+    
     private void fillBackgroundMenu(){
         
         this.backgroundFileMap = new HashMap<>();
-        File dir = new File("resources\\backgrounds\\");
-        File f[] = dir.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                    return name.toLowerCase().endsWith(".png") || name.toLowerCase().endsWith(".jpg")  ;
-            }
-        });
-        
-        for(File file : f)
-        {
-            backgroundFileMap.put(file.getName(), file.getAbsolutePath());
-            JMenuItem backgroundMenuItem = new JMenuItem(file.getName());
-            backgroundMenuItem.addActionListener(new BackGroundMenuListener());
+        String path = "resources/backgrounds";
+        File jarFile = new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
+       
+        try {
+        if(jarFile.isFile()) {  
+            final JarFile jar = new JarFile(jarFile);
+            final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+            while(entries.hasMoreElements()) {
+                final String name = entries.nextElement().getName();
+                if (name.startsWith(path + "/")) { 
+                    backgroundFileMap.put(name, name);
+                    JMenuItem backgroundMenuItem = new JMenuItem(name);
+                    backgroundMenuItem.addActionListener(new BackGroundMenuListener());
             
             backgroundChooser.add(backgroundMenuItem);
-            
+                    
+                }
+            }
+            jar.close();
+        } 
+        else { // Run with IDE
+             URL url = getClass().getResource("/" + path);
+            if (url != null) {
+                try {
+                    File apps = new File(url.toURI());
+                    for (File app : apps.listFiles(
+
+                            new FilenameFilter() {
+                                @Override
+                                public boolean accept(File dir, String name) {
+                                        return name.toLowerCase().endsWith(".png") || name.toLowerCase().endsWith(".jpg")  ;
+                                }
+                                })
+                    
+                    ) 
+                    {
+                        backgroundFileMap.put(app.getName(), app.getAbsolutePath());
+                        JMenuItem backgroundMenuItem = new JMenuItem(app.getName());
+                        backgroundMenuItem.addActionListener(new BackGroundMenuListener());
+                        backgroundChooser.add(backgroundMenuItem);
+                    }
+                } 
+                catch (URISyntaxException ex) {
+                    // never happens
+                }
+            }}
+        
+       }   catch (IOException ex) {
+            Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
-        backgroundChooser.revalidate();
-        editMenu.revalidate();
-    
-    }
+        
+    }      
+   
     
     class BackGroundMenuListener implements ActionListener{
 
@@ -168,12 +231,11 @@ public class GameWindow extends javax.swing.JFrame  implements FrameInterface, O
            JMenuItem menuItem = (JMenuItem)(e.getSource());
            
            String fileName = menuItem.getText();
-           
            String fullFileName = (String) backgroundFileMap.get(fileName);
                     
             try {
-                bgImage = ImageIO.read(new File(fullFileName));
-            } catch (IOException ex) {
+                bgImage = ImageIO.read(getClass().getResourceAsStream(fullFileName));
+               } catch (IOException ex) {
                 Logger.getLogger(GameWindow.class.getName()).log(Level.SEVERE, null, ex);
             }
             repaint();

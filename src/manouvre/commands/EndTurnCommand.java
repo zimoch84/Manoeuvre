@@ -51,8 +51,8 @@ public class EndTurnCommand implements Command{
     }
 
     @Override
-    public String getType() {
-       return Command.END_TURN;
+    public Type getType() {
+       return Command.Type.END_TURN;
     }
     
 }

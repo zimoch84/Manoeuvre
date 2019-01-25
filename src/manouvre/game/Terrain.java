@@ -22,9 +22,8 @@ public class Terrain  implements TerrainInterface, Serializable {
     boolean ispassable;
     boolean endsMove;
 
-
-    boolean noAssaultOut;
     
+    boolean noAssaultOut;
     boolean redoubt;
     boolean isOccupiedByUnit;
 
@@ -233,7 +232,20 @@ public class Terrain  implements TerrainInterface, Serializable {
         this.selected = selected;
     }
 
-    
-    
-    
+    public String getShotLetter()
+    {
+        switch(getType()){
+        
+            case Terrain.CITY:
+                return "C";
+            case Terrain.FOREST:
+                return "F";
+            case Terrain.HILL:
+                return "H";
+            case Terrain.MARSH:
+                return "M";
+            default: 
+                return "NULL";
+        }
+    }
 }

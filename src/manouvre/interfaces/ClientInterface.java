@@ -5,7 +5,7 @@
  */
 package manouvre.interfaces;
 
-import manouvre.network.client.Message;
+import manouvre.network.core.Message;
 
 /**
  *

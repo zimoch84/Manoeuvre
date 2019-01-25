@@ -6,7 +6,7 @@
 package manouvre.gui;
 
 import manouvre.game.Player;
-import manouvre.network.client.Message;
+import manouvre.network.core.Message;
 import manouvre.network.client.SocketClient;
 import manouvre.network.server.GameRoom;
 

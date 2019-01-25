@@ -13,31 +13,18 @@ import manouvre.game.Game;
  * @author Piotr
  */
 public interface Command extends  Serializable{
-
-    public static final String REDOUBT = "REDOUBT";
-    public static final String SKIRMISH = "SKIRMISH";
-    public static final String THROW_DICE = "THROW_DICE";
-    public static final String END_TURN = "END_TURN";
-    public static final String MOVE_UNIT = "MOVE_UNIT";
-    public static final String COMBAT = "COMBAT";
-    public static final String SETUP_POSITION = "SETUP_POSITION";
-    public static final String PLAY_CARD = "PLAY_CARD";
-    public static final String NEXT_PHASE = "NEXT_PHASE";
-    public static final String END_SETUP = "END_SETUP";
-    public static final String DISCARD_CARD = "DISCARD_CARD";
-    public static final String FORCE_WITHDRAW = "FORCE_WITHDRAW";
-    public static final String TAKE_HIT = "TAKE_HIT";
-    public static final String DRAW_CARD = "DRAW_CARD";
-    public static final String RESET_FACTORY = "RESET_FACTORY";
-    public static final String RESTORE_UNIT = "RESTORE_UNIT";
-    public static final String CANCEL_ACTION = "CANCEL_ACTION";
     
-
-      
+    enum Type {REDOUBT ,SKIRMISH, THROW_DICE , END_TURN, MOVE_UNIT, COMBAT, 
+    SETUP_POSITION, PLAY_CARD, NEXT_PHASE, END_SETUP, DISCARD_CARD, FORCE_WITHDRAW, 
+    TAKE_HIT, DRAW_CARD, RESET_FACTORY, RESTORE_UNIT, CANCEL_ACTION,
+    
+    LOGIN, CHAT, CHAT_IN_ROOM, CREATE_ROOM, JOIN_ROOM, 
+    GET_ROOM_LIST, BYE, START_GAME, SET_NATION, GAME_COMMAND, OK, ERROR
+    }
     
     public void execute(Game game);
     public void undo(Game game);
     public String logCommand();
-    public String getType();
+    public Type getType();
     
 }

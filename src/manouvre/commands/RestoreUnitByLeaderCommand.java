@@ -77,7 +77,7 @@ public class RestoreUnitByLeaderCommand implements Command {
     }
 
     @Override
-    public String getType() {
-        return Command.RESTORE_UNIT;
+    public Type getType() {
+        return Command.Type.RESTORE_UNIT;
     }
 }

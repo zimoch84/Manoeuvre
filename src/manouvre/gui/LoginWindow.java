@@ -8,15 +8,15 @@ package manouvre.gui;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
-import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import manouvre.game.Player;
-import manouvre.network.client.Message;
+import manouvre.network.core.Message;
 import manouvre.network.client.SocketClient;
+import manouvre.network.core.User;
 
 /**
  *
@@ -70,10 +70,13 @@ public class LoginWindow extends javax.swing.JFrame {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 try{
+                    System.out.println(getClass().getClassLoader().
+                        getResource("resources/backgrounds/Manouvre.jpg").getPath());
                     Image bgImage =
                     ImageIO.read(
-                        new File("resources\\backgrounds\\Manouvre.jpg"));
-
+                        getClass().getClassLoader().
+                        getResource("resources/backgrounds/Manouvre.jpg")
+                    );
                     g.drawImage(bgImage, 0, 0, null);
 
                 }
@@ -214,7 +217,7 @@ public class LoginWindow extends javax.swing.JFrame {
         
         password = Arrays.toString(jPasswordField.getPassword());
         
-        player = new Player(username);
+        player = new Player(new User(username));
         
         
         try {

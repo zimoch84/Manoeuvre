@@ -51,8 +51,8 @@ public class DrawCardCommand implements Command {
     }
 
     @Override
-    public String getType() {
-        return Command.DRAW_CARD;
+    public Type getType() {
+        return Command.Type.DRAW_CARD;
     }
 }
 

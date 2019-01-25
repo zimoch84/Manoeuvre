@@ -55,7 +55,7 @@
             </Property>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JPanel(){&#xa;    @Override&#xa;    protected void paintComponent(Graphics g) {&#xa;        super.paintComponent(g);&#xa;        try{&#xa;            Image bgImage =&#xa;            ImageIO.read(&#xa;                new File(&quot;resources\\backgrounds\\Manouvre.jpg&quot;));&#xa;&#xa;            g.drawImage(bgImage, 0, 0, null);&#xa;&#xa;        }&#xa;        catch(IOException ex)&#xa;        {&#xa;            System.out.println(ex.getMessage());&#xa;        }&#xa;    }&#xa;}"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JPanel(){&#xa;    @Override&#xa;    protected void paintComponent(Graphics g) {&#xa;        super.paintComponent(g);&#xa;        try{&#xa;            System.out.println(getClass().getClassLoader().&#xa;                getResource(&quot;resources/backgrounds/Manouvre.jpg&quot;).getPath());&#xa;            Image bgImage =&#xa;            ImageIO.read(&#xa;                getClass().getClassLoader().&#xa;                getResource(&quot;resources/backgrounds/Manouvre.jpg&quot;)&#xa;            );&#xa;        g.drawImage(bgImage, 0, 0, null);&#xa;&#xa;    }&#xa;    catch(IOException ex)&#xa;    {&#xa;        System.out.println(ex.getMessage());&#xa;    }&#xa;}&#xa;}"/>
           </AuxValues>
 
           <Layout>

@@ -41,7 +41,7 @@ public class DontAdvanceUnitCommand implements Command  {
     }
 
    @Override
-    public String getType() {
-        return Command.MOVE_UNIT;
+    public Type getType() {
+        return Command.Type.MOVE_UNIT;
     }
 }

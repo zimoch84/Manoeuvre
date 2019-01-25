@@ -66,8 +66,8 @@ public class CardCommands {
         }
 
         @Override
-        public String getType() {
-            return Command.PLAY_CARD;
+        public Type getType() {
+            return Command.Type.PLAY_CARD;
         }
 
         @Override
@@ -108,8 +108,8 @@ public class CardCommands {
         }
 
         @Override
-        public String getType() {
-            return Command.PLAY_CARD;
+        public Type getType() {
+             return Command.Type.PLAY_CARD;
         }
 
         @Override
@@ -149,8 +149,8 @@ public class CardCommands {
         }
 
         @Override
-        public String getType() {
-            return Command.PLAY_CARD;
+        public Type getType() {
+            return Command.Type.PLAY_CARD;
         }
    }
 
@@ -193,8 +193,8 @@ public class CardCommands {
         }
 
         @Override
-        public String getType() {
-            return Command.PLAY_CARD;
+        public Type getType() {
+            return Command.Type.PLAY_CARD;
         }
 
         @Override
@@ -239,8 +239,8 @@ public class CardCommands {
         }
 
         @Override
-        public String getType() {
-            return Command.PLAY_CARD;
+        public Type getType() {
+            return Command.Type.PLAY_CARD;
         }
 
         @Override
@@ -305,8 +305,8 @@ public class CardCommands {
         }
 
         @Override
-        public String getType() {
-            return Command.PLAY_CARD;
+        public Type getType() {
+            return Command.Type.PLAY_CARD;
         }
 
         @Override
@@ -373,8 +373,8 @@ public class CardCommands {
         }
 
         @Override
-        public String getType() {
-            return Command.PLAY_CARD;
+        public Type getType() {
+            return Command.Type.PLAY_CARD;
         }
 
     }
@@ -419,8 +419,8 @@ public class CardCommands {
         }
 
         @Override
-        public String getType() {
-            return Command.PLAY_CARD;
+        public Type getType() {
+            return Command.Type.PLAY_CARD;
         }
     }
 
@@ -456,8 +456,8 @@ public class CardCommands {
         }
 
         @Override
-        public String getType() {
-            return Command.PLAY_CARD;
+        public Type getType() {
+           return Command.Type.PLAY_CARD;
         }
     }
 
@@ -486,8 +486,8 @@ public class CardCommands {
         }
 
         @Override
-        public String getType() {
-            return Command.RESET_FACTORY;
+        public Type getType() {
+            return Command.Type.RESET_FACTORY;
         }
     }
      
@@ -550,8 +550,8 @@ public class CardCommands {
         }
 
         @Override
-        public String getType() {
-            return Command.PLAY_CARD;
+        public Type getType() {
+            return Command.Type.PLAY_CARD;
         }
 
         @Override
@@ -638,8 +638,8 @@ public class CardCommands {
         }
 
         @Override
-        public String getType() {
-            return Command.PLAY_CARD;
+        public Type getType() {
+            return Command.Type.PLAY_CARD;
         }
 
         @Override
@@ -822,8 +822,8 @@ public class CardCommands {
         }
 
         @Override
-        public String getType() {
-            return Command.COMBAT;
+        public Type getType() {
+            return Command.Type.COMBAT;
         }
 
     }
@@ -907,8 +907,8 @@ public class CardCommands {
         }
 
         @Override
-        public String getType() {
-            return Command.COMBAT;
+        public Type getType() {
+           return Command.Type.COMBAT;
         }
     
     }
@@ -959,8 +959,8 @@ public class CardCommands {
         }
 
         @Override
-        public String getType() {
-            return Command.REDOUBT;
+        public Type getType() {
+           return Command.Type.REDOUBT;
         }
    
 
@@ -1035,8 +1035,8 @@ public class CardCommands {
         }
 
         @Override
-        public String getType() {
-            return Command.SKIRMISH;
+        public Type getType() {
+            return Command.Type.SKIRMISH;
         }
   }
 }

@@ -5,8 +5,6 @@
  */
 package manouvre.commands;
 
-import manouvre.events.EventType;
-import manouvre.game.Combat;
 import manouvre.game.Game;
 import manouvre.interfaces.Command;
 
@@ -46,8 +44,8 @@ public class WithrdawCommand implements Command {
         }
 
         @Override
-        public String getType() {
-            return Command.PLAY_CARD;
+        public Type getType() {
+            return Command.Type.PLAY_CARD;
         }
 
     }

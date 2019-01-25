@@ -59,8 +59,8 @@ public class DiscardCardCommand implements Command {
     }
 
     @Override
-    public String getType() {
-       return Command.DISCARD_CARD;
+    public Type getType() {
+       return Command.Type.DISCARD_CARD;
     }
     
 }

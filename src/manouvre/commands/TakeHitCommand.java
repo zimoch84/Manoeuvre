@@ -95,8 +95,8 @@ public class TakeHitCommand implements Command{
     }
 
     @Override
-    public String getType() {
-        return Command.TAKE_HIT;
+    public Type getType() {
+        return Command.Type.TAKE_HIT;
     }
     
     

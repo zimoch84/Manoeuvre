@@ -6,7 +6,6 @@
 package manouvre.gui;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,48 +30,28 @@ public class UnitGUI  {
                         
     }
 
-    public UnitGUI(int ID) {
-        unit = new Unit(ID);
-        try {
-            imgFull = ImageIO.read(new File("resources\\units\\"+  unit.getImageFullName()   ));
-            imgReduced = ImageIO.read(new File("resources\\units\\"+  unit.getImageReducedName()   ));
-        } catch (IOException ex) {
-            Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-    }
-    
     public UnitGUI(Unit unit) {
         this.unit = unit;
         try {
-            imgFull = ImageIO.read(new File("resources\\units\\"+  unit.getImageFullName()   ));
-            imgReduced = ImageIO.read(new File("resources\\units\\"+  unit.getImageReducedName()   ));
+            imgFull = ImageIO.read(
+                 getClass().getClassLoader().
+                 getResource("resources/units/" + unit.getImageFullName() )
+             ); 
+            imgReduced = ImageIO.read(
+                 getClass().getClassLoader().
+                 getResource("resources/units/" + unit.getImageReducedName() )
+             ); 
         } catch (IOException ex) {
             Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
-    
     public Unit getUnit() {
         return unit;
     }
-
-    public void setUnit(Unit unit) {
-        this.unit = unit;
-        try {
-               imgFull = ImageIO.read(new File("resources\\units\\"+  unit.getImageFullName()   ));
-               imgReduced = ImageIO.read(new File("resources\\units\\"+  unit.getImageReducedName()   ));
-           } catch (IOException ex) {
-               Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
-           }   
-        
-    }
-
     @Override
     public String toString() {
         return unit.toString();
     }
-    
-    
         
 }

@@ -1,7 +1,8 @@
-package manouvre.network.client;
+package manouvre.network.core;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.UUID;
 import manouvre.game.Game;
 import manouvre.game.Player;
 import manouvre.network.server.GameRoom;
@@ -12,9 +13,18 @@ import manouvre.interfaces.Command;
  */
 public class Message implements Serializable{
     
-    /*
-    Set of messages used in protocol
-    */
+    public enum Type{REQUEST,RESPONSE};
+    
+    public enum Result{OK, NOT_OK};
+    
+    public enum Target{INROOM, ALL, PRIVATE, SEVER};
+    
+    Type messageType2;
+    Result response;
+    Target target;
+    
+    UUID id;
+    
     public final static int NOT_OK = 0;
     public final static int OK = 1;
     public final static int BAD_CHANNEL_NAME = 2;
@@ -22,13 +32,11 @@ public class Message implements Serializable{
     public final static int IS_ROOM_LOCKED = 4;
     public final static int ROOM_NOT_FOUND = 5; 
     public final static int USER_JOINED_IN_ROOM = 6; 
-    
-    
-    
+       
     /*
     Message types
-    */
-    
+    */    
+
     public final static int CREATE_ROOM = 10;
     public final static int JOIN_ROOM = 11;
     public final static int IN_ROOM_CHAT = 12;
@@ -42,24 +50,16 @@ public class Message implements Serializable{
     public final static int SET_NATION = 20;
     public final static int COMMAND = 21;
     public final static int CHAT = 99;
-    /*
-    COMMAND TYPES
-    */
-    public final static int MOVE_COMMAND = 100;
-    public final static int DRAW_CARD_COMMAND = 101;
-    public final static int DISCARD_CARD_COMMAND = 102;
-    public final static int NEXT_PHASE_COMMAND = 103;
-    public final static int END_SETUP_COMMAND = 104;
-    
-    
+    public final static int RECONNECT = 99;
   
     private static final long serialVersionUID = 1L;
     /**
      * type login, .bye, message, signup, create_room, room_list
      */
     public String type, sender, content, recipient;
-   
     
+    public User senderUser;
+      
     public int messageType, contentP;
 
     ArrayList<Player> players;
@@ -72,7 +72,35 @@ public class Message implements Serializable{
     
     public Command command;
 
-      
+    public Message(Type type, String senderName, Result response)   {
+          this.sender = senderName; 
+          this.messageType2 = type;    
+          this.response = response;
+    }
+    
+    
+    public Message(Type type, String from, Target to, Command content )   {
+          this.sender = from; 
+          this.target = to;
+          this.messageType2 = type;    
+          this.command = content;
+    }
+    
+    public Message(Type type, User from, Target to, Command content )   {
+      this.senderUser = from; 
+      this.target = to;
+      this.messageType2 = type;    
+      this.command = content;
+    }
+    
+     public Message(Type type, User from, Target to)   {
+      this.senderUser = from; 
+      this.target = to;
+      this.messageType2 = type;    
+    }
+    
+    
+    
     public Message(String type, String sender, String content, String recipient){
         this.type = type; this.sender = sender; this.content = content; this.recipient = recipient;
         channelList = new ArrayList<GameRoom> ();
@@ -93,16 +121,11 @@ public class Message implements Serializable{
     
     @Override
     public String toString(){
-        
         return "{type='"+getType()+"', sender='"+sender+"', content='"+getContent()+"', recipient='"+recipient
-                
                 +   (game != null ? "Game:"+game.toString() : "")
                 +"'}"
-                
-                
                 ;
     }
-    
     
     boolean isType(int messageType)
     {
@@ -141,10 +164,17 @@ public class Message implements Serializable{
         else  return content;
     }
 
-    
+    public String getRecipient() {
+        return recipient;
+    }
+
+    public Target getTarget(){
+        return target;
+    }
+    public User getSender() {
+        return senderUser;
+    }    
     public int getContentP() {
-        
-        
         return contentP;
     }
 

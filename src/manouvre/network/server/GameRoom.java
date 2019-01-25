@@ -9,24 +9,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import manouvre.game.Game;
 import manouvre.game.Player;
+import manouvre.network.core.User;
 
 /**
  *
  * @author Piotr
  */
 public class GameRoom implements Serializable {
-
-    
     
     Player hostPlayer;
     Player guestPlayer;
-    
-    
     String name, password;
-    
-
     Game game;
-
    /*
         Port nasluchujacy serwera =  Port socketa klienta 
         Port wynegocjowany z serwerem to localPort socketa klienta
@@ -42,92 +36,66 @@ public class GameRoom implements Serializable {
     
     */
     
-    int hostSocketPortId,
-
+    int hostSocketPortId,  guestSocketPortId;
     /**
      * hostSocketPortId = server.host.socket.localPort = host.socket.port
  guestSocketPortId = = server.quest.socket.localPort = quest.socket.port
      */
-    guestSocketPortId;
+  
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    
     int ID;
-    
-    
     boolean locked;
-
     
- 
-    
-    public GameRoom(String name, String password, int hostSocketPortId, Player hostPlayer) {
+    public GameRoom(String name, String password, int hostSocketPortId, User hostPlayer) {
         this.name = name;
         this.password = password;
-      
-               
         this.hostSocketPortId = hostSocketPortId;
-        this.hostPlayer = hostPlayer;
+        this.hostPlayer = new Player(hostPlayer);
         setLocked(false);
         
     }
      
     public void addPlayer(Player guestPlayer){
-        
-        
         if(!locked){
             this.guestPlayer= guestPlayer;
             setLocked(true);
-            
         }
-               
     }
     
     public ArrayList<Player> getPlayers() {
         
         ArrayList<Player> players = new ArrayList<>();
-        
         players.add(hostPlayer);
         players.add(guestPlayer);
-        
         return players;
         
     }
 
     public void setPlayers(ArrayList<Player> players) {
-        
         if(players.size() == 2)
         {hostPlayer = players.get(0);
         guestPlayer = players.get(1);
         }
-        
     }
     
     @Override
     public boolean equals(Object o){
-     GameRoom c = (GameRoom)    o;
-   
-     return this.name == c.name;
-        
-     
+        GameRoom c = (GameRoom)  o;
+        return this.name == c.name;
     }
+    
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
     
     @Override
     public String toString(){
-    
         String out = "";
-            
         out =   name + " hosted by : "  + getHostPlayer().getName() + " guest : " +
                 (guestPlayer != null ? getGuestPlayer().getName() : "noone")
                ;
         return out;   
-                       
-//            if (password == null || password.equals("") )        
-//              ;
-//            else 
-//             return out  +   " password protected";
-    
     }
     
      public String getName() {
@@ -154,11 +122,7 @@ public class GameRoom implements Serializable {
     public int getHostSocketPortId() {
         return hostSocketPortId;
     }
-
-    public void setHostSocketPortId(int hostSocketPortId) {
-        this.hostSocketPortId = hostSocketPortId;
-    }
-
+  
     public int getGuestSocketPortId() {
         return guestSocketPortId;
     }
@@ -183,13 +147,11 @@ public class GameRoom implements Serializable {
     }
 
     public Player getGuestPlayer() {
-       
             return guestPlayer;
-        
     }
 
-    public void setGuestPlayer(Player guestPlayer) {
-        this.guestPlayer = guestPlayer;
+    public void setGuestPlayer(User guestPlayer) {
+        this.guestPlayer = new Player(guestPlayer);
         if(guestPlayer != null)
             setLocked(true);
     }
@@ -200,7 +162,6 @@ public class GameRoom implements Serializable {
                     
         else return getGuestPlayer();
         
-        
     }
     
     public int getOpponentPortSocket(int socketPortID){
@@ -209,14 +170,9 @@ public class GameRoom implements Serializable {
                     
         else return getHostSocketPortId();
         
-        
     }
-            
-            
     public boolean isHost(int port){
-        
         return (port == hostSocketPortId);
-        
     
     }
 }

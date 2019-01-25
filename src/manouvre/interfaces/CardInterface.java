@@ -74,7 +74,7 @@ public interface CardInterface {
     /*
     Returns card image String
     */
-    public String getCardImg();    
+    public String getCardImgName();    
     /*
     Return type of card
     */

@@ -48,10 +48,12 @@ public class TerrainGUI {
         
         
         public void generateImageForPiece(int terrainType) throws IOException {
-
-		String filename = "resources\\terrain\\TerrainMap400.png";
-               
-                BufferedImage bigImage = ImageIO.read(new File(filename));
+                
+            String filename = "resources/terrain/TerrainMap400.png" ;
+                BufferedImage  bigImage = ImageIO.read(
+                        getClass().getClassLoader().
+                        getResource(filename)
+                    );    
                 BufferedImage cutImage;
   
                 switch (terrainType) {

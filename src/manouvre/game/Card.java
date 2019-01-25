@@ -48,7 +48,10 @@ hQunit cards has differant names and features:
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import com.csvreader.CsvReader;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import org.apache.logging.log4j.LogManager;
 
@@ -107,7 +110,9 @@ public class Card implements CardInterface, Serializable  {
     public Card (int chosenID) { 
         try {		
             String strChosenId=Integer.toString(chosenID);
-            CsvReader cards = new CsvReader("resources\\cards\\cards.csv", ';');		
+            String filename = "resources/cards/cards.csv";
+            InputStream csvResource   = getClass().getClassLoader().getResourceAsStream(filename);
+            CsvReader cards = new CsvReader(csvResource, ';', Charset.forName("ISO-8859-1"));
             cards.readHeaders();
             cards.readRecord();
             setPlayingCardMode(Combat.Type.NO_TYPE);
@@ -208,8 +213,6 @@ public class Card implements CardInterface, Serializable  {
          }
          return false;
      }
-     
-   
     public int getCardID() {
         return Integer.parseInt(CardID);
     }
@@ -222,7 +225,7 @@ public class Card implements CardInterface, Serializable  {
         return flag;
     }
 
-    public String getCardImg() {
+    public String getCardImgName() {
         return CardImg;
     }
 

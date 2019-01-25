@@ -7,6 +7,7 @@ package manouvre.gui;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -80,7 +81,7 @@ public class MapGUI{
         super();
         this.terrainsGUI = new TerrainGUI[8][8];
         loadTerrains();
-        background= ImageIO.read( new File("resources\\backgrounds\\table800_800.jpg" ));
+        background= ImageIO.read( new File("backgrounds\\table800_800.jpg" ));
         
                     
     }   
@@ -93,9 +94,13 @@ public class MapGUI{
     this.terrainsGUI = new TerrainGUI[8][8];
   
     loadTerrains();
-    background= ImageIO.read( new File("resources\\backgrounds\\table800_800.jpg" ));
     
-    }
+    String filename = "resources/backgrounds/table800_800.jpg" ;
+        background = ImageIO.read(
+                 getClass().getClassLoader().
+                 getResource(filename)
+             ); 
+}
    
     private void loadTerrains() throws IOException{
     

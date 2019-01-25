@@ -7,13 +7,14 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import manouvre.network.core.User;
 import org.w3c.dom.*;
 
-public class Database {
+public class FileDatabase implements AuthorizitionControl{
     
     public String filePath;
     
-    public Database(String filePath){
+    public FileDatabase(String filePath){
         this.filePath = filePath;
     }
     
@@ -45,7 +46,7 @@ public class Database {
         }
     }
     
-    public boolean checkLogin(String username, String password){
+    public boolean authorize(User username, String password){
         return true;
 //        if(!userExists(username)){ return false; }
 //        
@@ -76,7 +77,7 @@ public class Database {
 //        }
     }
     
-    public void addUser(String username, String password){
+    public boolean addUser(User username, String password){
         
         try {
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -86,7 +87,7 @@ public class Database {
             Node data = doc.getFirstChild();
             
             Element newuser = doc.createElement("user");
-            Element newusername = doc.createElement("username"); newusername.setTextContent(username);
+            Element newusername = doc.createElement("username"); newusername.setTextContent(username.getName());
             Element newpassword = doc.createElement("password"); newpassword.setTextContent(password);
             
             newuser.appendChild(newusername); newuser.appendChild(newpassword); data.appendChild(newuser);
@@ -96,14 +97,15 @@ public class Database {
             DOMSource source = new DOMSource(doc);
             StreamResult result = new StreamResult(new File(filePath));
             transformer.transform(source, result);
- 
 	   } 
            catch(Exception ex){
-		System.out.println("Exceptionmodify xml");
+               System.err.println("");
+		return false;
 	   }
+        return true;
 	}
     
-    public static String getTagValue(String sTag, Element eElement) {
+    private static String getTagValue(String sTag, Element eElement) {
 	NodeList nlList = eElement.getElementsByTagName(sTag).item(0).getChildNodes();
         Node nValue = (Node) nlList.item(0);
 	return nValue.getNodeValue();

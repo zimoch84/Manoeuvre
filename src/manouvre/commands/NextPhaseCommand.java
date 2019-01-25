@@ -83,8 +83,8 @@ public class NextPhaseCommand implements Command{
     
     }
     @Override
-    public String getType() {
-       return Command.NEXT_PHASE;
+    public Type getType() {
+       return Command.Type.NEXT_PHASE;
     }
     
 }

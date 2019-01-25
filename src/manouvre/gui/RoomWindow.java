@@ -10,9 +10,8 @@ import java.util.Enumeration;
 import javax.swing.AbstractButton;
 import javax.swing.DefaultListModel;
 import manouvre.game.Player;
-import manouvre.interfaces.CardInterface;
 import manouvre.interfaces.FrameInterface;
-import manouvre.network.client.Message;
+import manouvre.network.core.Message;
 import manouvre.network.client.SocketClient;
 
 /**
@@ -58,6 +57,7 @@ public class RoomWindow extends javax.swing.JFrame  implements FrameInterface{
        setEditableButtons();
        setBorders();
        setTitleBar();
+       addWindowListener(new ManouvreWindowListener(player, passSocket, clientThread));
       
     }
     

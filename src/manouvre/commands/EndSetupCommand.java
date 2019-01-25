@@ -64,8 +64,8 @@ public class EndSetupCommand implements Command{
     }
 
     @Override
-    public String getType() {
-        return Command.END_SETUP;
+    public Type getType() {
+        return Command.Type.END_SETUP;
     }
     
     

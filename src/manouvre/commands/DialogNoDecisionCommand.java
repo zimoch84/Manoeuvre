@@ -34,19 +34,14 @@ public class DialogNoDecisionCommand implements Command{
     }
     
     @Override
-    public String toString(){
-        return Command.CANCEL_ACTION;
-    
-    }
-    @Override
     public String logCommand(){
         return "No button pressed";
     
     }
 
     @Override
-    public String getType() {
-        return Command.END_SETUP;
+    public Type getType() {
+        return Command.Type.END_SETUP;
     }
     
     

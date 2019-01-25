@@ -8,11 +8,14 @@ package manouvre.game;
 import com.csvreader.CsvReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import manouvre.interfaces.UnitInterface;
+import manouvre.network.core.User;
 import org.apache.logging.log4j.LogManager;
 
 /**
@@ -75,7 +78,7 @@ public class Unit implements UnitInterface, Serializable{
          this.name = "";
          this.ID = -1;
          this.position = new Position(-1, -1);
-         this.owner = new Player("Null player");
+         this.owner = new Player(new User("Null player"));
          this.strenght = 0 ;
          this.injured = false;
          this.eliminated = false;
@@ -90,7 +93,9 @@ public class Unit implements UnitInterface, Serializable{
         this.retrieving = false;
         this.moves = new ArrayList<>();
         try{
-            CsvReader csvReader = new CsvReader("resources\\units\\units.csv", ';');
+            String filename = "resources/units/units.csv";
+            InputStream csvResource   = getClass().getClassLoader().getResourceAsStream(filename);
+            CsvReader csvReader = new CsvReader(csvResource, ';', Charset.forName("ISO-8859-1"));
             csvReader.readHeaders();
             
            //FileReader fileReader = new FileReader(new File("resources\\units\\units.csv"));

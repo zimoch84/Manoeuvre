@@ -7,6 +7,7 @@ package manouvre.game;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import manouvre.network.core.User;
 
 /**
  *  Nation
@@ -20,7 +21,7 @@ import java.util.ArrayList;
     int US  = 7; //USA
  * @author Piotr
  */
-public class Player  implements Serializable{
+public class Player  extends User implements Serializable{
     
     private static final long serialVersionUID = 43211L;
     String name;
@@ -39,12 +40,12 @@ public class Player  implements Serializable{
         final public int getNumber(){
         return number;
         }
-
+        final public String getFlagImageName(){
+            return name() + "icon.jpg";
+        }
         public static Nation fromValue(int value){
             return Nation.values()[value];
         }
-
-       
         
         @Override
         public String toString(){
@@ -81,8 +82,8 @@ public class Player  implements Serializable{
  
     boolean host, finishedSetup;
 
-    public Player(String name) {
-       this.name = name;
+    public Player(User user) {
+       this.name = user.getName();
        this.active = true;
        this.score = 0;
     }

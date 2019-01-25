@@ -1,6 +1,7 @@
 
 package manouvre.network.client;
 
+import manouvre.network.core.Message;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;

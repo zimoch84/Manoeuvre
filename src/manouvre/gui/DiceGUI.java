@@ -46,8 +46,11 @@ public class DiceGUI {
         case D6:
         {
             try{
-            String filename = "resources\\dices\\D6.png";
-            bigImage = ImageIO.read(new File(filename));
+            String filename = "resources/dices/D6.png";
+            bigImage = ImageIO.read(
+                getClass().getClassLoader().
+                getResource(filename)
+            );
             cutImage = bigImage.getSubimage((dice.getResult()-1)*D6SQUARE_WIDTH, 0, D6SQUARE_WIDTH, D6SQUARE_HEIGHT);
             diceImage = cutImage;
             
@@ -61,8 +64,11 @@ public class DiceGUI {
         case D8:
         {
             try{
-            String filename = "resources\\dices\\D8.png";
-            bigImage = ImageIO.read(new File(filename));
+            String filename = "resources/dices/D8.png";
+            bigImage = ImageIO.read(
+                getClass().getClassLoader().
+                getResource(filename)
+            );
             switch(dice.getResult()){
             case 1: cutImage = bigImage.getSubimage((10)*D8SQUARE_WIDTH, 0, D8SQUARE_WIDTH, D8SQUARE_HEIGHT); break;
             case 2: cutImage = bigImage.getSubimage((6)*D8SQUARE_WIDTH, 0, D8SQUARE_WIDTH, D8SQUARE_HEIGHT);break;
@@ -85,9 +91,12 @@ public class DiceGUI {
         
         case D10:
         {
-             try{
-            String filename = "resources\\dices\\D10.png";
-            bigImage = ImageIO.read(new File(filename));
+            try{
+            String filename = "resources/dices/D10.png";
+            bigImage = ImageIO.read(
+                getClass().getClassLoader().
+                getResource(filename)
+            );
             switch(dice.getResult()){
             case 1: cutImage = bigImage.getSubimage((0)*D10SQUARE_WIDTH, 0*D10SQUARE_HEIGHT , D10SQUARE_WIDTH, D10SQUARE_HEIGHT); break;
             case 2: cutImage = bigImage.getSubimage((1)*D10SQUARE_WIDTH, 0* D10SQUARE_HEIGHT, D10SQUARE_WIDTH, D10SQUARE_HEIGHT);break;
@@ -110,14 +119,10 @@ public class DiceGUI {
             }
              break;
         }
-    
     }    
-
     }
-    
-    BufferedImage getImage()
-    {
-    return diceImage;
+    BufferedImage getImage(){
+        return diceImage;
     }
    
 }

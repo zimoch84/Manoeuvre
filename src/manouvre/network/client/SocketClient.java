@@ -1,5 +1,6 @@
 package manouvre.network.client;
 
+import manouvre.network.core.Message;
 import java.io.*;
 import java.net.*;
 import manouvre.game.Game;
@@ -89,7 +90,7 @@ public class SocketClient implements Runnable, ClientInterface{
     @Override
     public void run() {
         
-        while(keepRunning){
+    while(keepRunning){
             Message msg = null;
             try {
                 msg = (Message) In.readObject();
@@ -119,170 +120,153 @@ public class SocketClient implements Runnable, ClientInterface{
     public void handle (Message msg){
     
     switch( msg.getMessageType() ){
-            
-                    case Message.LOGIN :
-                 
-                         if(msg.getContentP() == Message.OK){
-                        
-                             currentPlayer = welcome.getPlayer();
-                             welcome.setVisible(false);
-                            /*
-                            Run chat window
-                            */
-                             java.awt.EventQueue.invokeLater(new Runnable() {
-                                public void run() {
-                                    try {
-                                        mainChat = new MainChatWindow(SocketClient.this, currentPlayer);
-                                        mainChat.setVisible(true);
-                                        setActiveWindow(mainChat);
-                                    } catch (IOException ex) {
-                                        keepRunning = false;
-                                        System.out.println("SocketClient.run() invoke MainChat IOException" + ex);
-                                        ex.printStackTrace();
-                                    }
-                                }
-                            }); 
-                     }
-                         break;
-                    
-                    case Message.CHAT:
-                    
-                        
-                        mainChat.printOnChat(msg.sender + " : " + msg.content) ;
-
-                        break;
-                        
-                    case Message.CHAT_IN_ROOM:
-                    
-                       /*
-                        Either roomwindow chat or gamewindow chat
-                        */
-                        activeWindow.printOnChat(msg.sender + " : " + msg.content) ;
-
-                        break;    
-                            
-                            
-                    case Message.GET_ROOM_LIST : 
-                      /*
-                        add channels to list
-                        */
-                    mainChat.setRoomList(msg.getChannelList());
-                    
-                      break;
-                  
-                    case Message.CREATE_ROOM:
-                      
-                       if(msg.getContentP() == Message.OK)
-                      /*
-                        Run room window
-                        */
-                            currentPlayer.setHost(true);
-                        java.awt.EventQueue.invokeLater(new Runnable() {
-                            public void run() {
-                                roomWindow = new RoomWindow(SocketClient.this, currentPlayer, CreateRoomWindow.AS_HOST);
-                                roomWindow.setVisible(true);
-                                /*
-                                Set focus to this window do recive comunication to
-                                */
-                                setActiveWindow(roomWindow);
-                            }
-                        });
-                     break;  
-                   
-                  case Message.JOIN_ROOM:
-                      
-                       if(msg.getContentP() == Message.OK)
-                       {
-                           Player hostPlayer = msg.getPlayer();
-                          /*
-                        Run room window
-                        */
-                             java.awt.EventQueue.invokeLater(new Runnable() {
-                            public void run() {
-                                roomWindow = new RoomWindow(SocketClient.this, currentPlayer, CreateRoomWindow.AS_GUEST);
-                                roomWindow.setVisible(true);
-                                roomWindow.setHostPlayer(hostPlayer);
-                                
-                                setActiveWindow(roomWindow);
-                                roomWindow.printOnChat("Player " +hostPlayer.getName() + " joined room" );
-                            }
-                        });
-                       }
-                      if(msg.getContentP() == Message.USER_JOINED_IN_ROOM)
-                      {   
-                           roomWindow.setGuestPlayer(msg.getPlayer());
-                           roomWindow.printOnChat("Player " +msg.getPlayer().getName() + " joined room" );
-                      }
-                      break;
-                  case Message.START_GAME:
-                      if(msg.getContentP() == Message.OK)
-                      {
-                        
-                        Game game = msg.getGame();
-                        System.out.println("SocketClient.run() Game: " + game.toString() );
-                        System.out.println("SocketClient.run() currentPlayer: " + currentPlayer.toString() );
-                       
-                        Player hostPlayer = msg.hostPlayer;
-                        Player guestPlayer = msg.guestPlayer;
-
-                        /* Create and display the form */
-                        java.awt.EventQueue.invokeLater(new Runnable() {
-                            public void run() {
-                                try {
-                                    SocketClient.this.cmdQueue = new CommandQueue(game, SocketClient.this);
-                                    
-                                    if(currentPlayer.isHost() )
-                                    { 
-                                    clientGame = new GameWindow( game ,  CreateRoomWindow.AS_HOST, cmdQueue );
-                                    }
-                                    else 
-                                    { 
-                                    clientGame = new GameWindow( game,  CreateRoomWindow.AS_GUEST, cmdQueue );
-                                    }
-                                    
-                                    setActiveWindow(clientGame);
-                                    clientGame.setVisible(true);
-                                    roomWindow.setVisible(false);
-                                    mainChat.setVisible(false);
-                                    
-                                } catch (IOException  ex) {
-                                        keepRunning = false;
-                                        System.out.println("SocketClient.run() invoke GameWindow IOException" + ex);
-                                        ex.printStackTrace();
-                                }
-                            }
-                         });
-                      }
-                      break;
-                   case Message.SET_NATION:
-                       /*
-                       Setting opponent choice of nation
-                       */
-                       roomWindow.setButtonFromNation(msg.getContentP());
-                       break;
-                      
-                   case Message.COMMAND:
-                        Command executeCommand = msg.getCommand();
-                
+            case Message.LOGIN :
+                 if(msg.getContentP() == Message.OK){
+                     currentPlayer = welcome.getPlayer();
+                     welcome.setVisible(false);
                     /*
-                    Executing command over game on socketClient
+                    Run chat window
                     */
-                     clientGame.cmdQueue.storeAndExecute(executeCommand);
-                    
-                  //  clientGame.checkPopUps();
-                   
-                    /*
-                        Show command desc in console in game;
+                    java.awt.EventQueue.invokeLater(new Runnable() {
+                        public void run() {
+                            try {
+                                mainChat = new MainChatWindow(SocketClient.this, currentPlayer);
+                                mainChat.setVisible(true);
+                                setActiveWindow(mainChat);
+                            } catch (IOException ex) {
+                                keepRunning = false;
+                                System.out.println("SocketClient.run() invoke MainChat IOException" + ex);
+                                ex.printStackTrace();
+                            }
+                        }
+                    }); 
+             }
+                 break;
+
+            case Message.CHAT:
+
+
+                mainChat.printOnChat(msg.sender + " : " + msg.content) ;
+
+                break;
+
+            case Message.CHAT_IN_ROOM:
+
+               /*
+                Either roomwindow chat or gamewindow chat
+                */
+                activeWindow.printOnChat(msg.sender + " : " + msg.content) ;
+
+                break;    
+
+
+            case Message.GET_ROOM_LIST : 
+              /*
+                add channels to list
+                */
+            mainChat.setRoomList(msg.getChannelList());
+
+              break;
+
+            case Message.CREATE_ROOM:
+
+               if(msg.getContentP() == Message.OK)
+              /*
+                Run room window
+                */
+                currentPlayer.setHost(true);
+                java.awt.EventQueue.invokeLater(new Runnable() {
+                    public void run() {
+                        roomWindow = new RoomWindow(SocketClient.this, currentPlayer, CreateRoomWindow.AS_HOST);
+                        roomWindow.setVisible(true);
+                        /*
+                        Set focus to this window do recive comunication to
                         */
-                    //commandLogger.log(executeCommand);
-                    
-                   // clientGame.repaint();
-                    
-                       break;
-                  default:
-                       System.out.println("manouvre.network.client.SocketClient.run() Unknown msg type" + msg.toString()) ;
-              
-                 }
+                        setActiveWindow(roomWindow);
+                    }
+                });
+             break;  
+
+          case Message.JOIN_ROOM:
+
+               if(msg.getContentP() == Message.OK)
+               {
+                   Player hostPlayer = msg.getPlayer();
+                  /*
+                Run room window
+                */
+                     java.awt.EventQueue.invokeLater(new Runnable() {
+                    public void run() {
+                        roomWindow = new RoomWindow(SocketClient.this, currentPlayer, CreateRoomWindow.AS_GUEST);
+                        roomWindow.setVisible(true);
+                        roomWindow.setHostPlayer(hostPlayer);
+
+                        setActiveWindow(roomWindow);
+                        roomWindow.printOnChat("Player " +hostPlayer.getName() + " joined room" );
+                    }
+                });
+               }
+              if(msg.getContentP() == Message.USER_JOINED_IN_ROOM)
+              {   
+                   roomWindow.setGuestPlayer(msg.getPlayer());
+                   roomWindow.printOnChat("Player " +msg.getPlayer().getName() + " joined room" );
+              }
+              break;
+          case Message.START_GAME:
+              if(msg.getContentP() == Message.OK)
+              {
+                Game game = msg.getGame();
+                System.out.println("SocketClient.run() Game: " + game.toString() );
+                System.out.println("SocketClient.run() currentPlayer: " + currentPlayer.toString() );
+                Player hostPlayer = msg.hostPlayer;
+                Player guestPlayer = msg.guestPlayer;
+                /* Create and display the form */
+                java.awt.EventQueue.invokeLater(new Runnable() {
+                    public void run() {
+                        try {
+                            SocketClient.this.cmdQueue = new CommandQueue(game, SocketClient.this);
+
+                            if(currentPlayer.isHost() )
+                            { 
+                            clientGame = new GameWindow( game ,  CreateRoomWindow.AS_HOST, cmdQueue );
+                            }
+                            else 
+                            { 
+                            clientGame = new GameWindow( game,  CreateRoomWindow.AS_GUEST, cmdQueue );
+                            }
+
+                            setActiveWindow(clientGame);
+                            clientGame.setVisible(true);
+                            roomWindow.setVisible(false);
+                            mainChat.setVisible(false);
+
+                        } catch (IOException  ex) {
+                                keepRunning = false;
+                                System.out.println("SocketClient.run() invoke GameWindow IOException" + ex);
+                                ex.printStackTrace();
+                        }
+                    }
+                 });
+              }
+              break;
+           case Message.SET_NATION:
+               /*
+               Setting opponent choice of nation
+               */
+               roomWindow.setButtonFromNation(msg.getContentP());
+               break;
+
+           case Message.COMMAND:
+            Command executeCommand = msg.getCommand();
+            /*
+            Executing command over game on socketClient
+            */
+             clientGame.cmdQueue.storeAndExecute(executeCommand);
+             break;
+          default:
+               System.out.println("manouvre.network.client.SocketClient.run() Unknown msg type" + msg.toString()) ;
+
+         }
     }
     
     @Override

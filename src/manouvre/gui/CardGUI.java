@@ -51,7 +51,6 @@ public class CardGUI {
     {
         this.card = new Card();
     }
-            
     
     public CardGUI(Card newCard) {
         this.card=newCard;    
@@ -59,12 +58,15 @@ public class CardGUI {
         setBackCoverImg();
     }
     
-    
     private void setImg(){
+        String filename = "resources/cards/" + card.getCardImgName();
         try {
-            
-            imgFull = ImageIO.read(new File("resources\\cards\\"+card.getCardImg()));
-        } catch (IOException ex) {
+            imgFull = ImageIO.read(
+                getClass().getClassLoader().
+                getResource(filename)
+            );    
+        } 
+        catch (IOException ex) {
             Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -93,9 +95,14 @@ public class CardGUI {
     }
    
     private void setBackCoverImg(){
+        String filename = "resources/cards/" + getBackCoverImgName();
         try {
-            imgBackCover = ImageIO.read(new File("resources\\cards\\"+getBackCoverImgName()));
-        } catch (IOException ex) {
+            imgBackCover = ImageIO.read(
+                getClass().getClassLoader().
+                getResource(filename)
+            );    
+        } 
+        catch (IOException ex) {
             Logger.getLogger(UnitGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -138,16 +145,6 @@ public class CardGUI {
    public Card getCard(){
        return card;
    }
-/*
-    public boolean isMouseOverCard() {
-        return mouseOverCard;
-    }
-
-    public void setMouseOverCard(boolean mouseOverCard) {
-        this.mouseOverCard = mouseOverCard;
-    }
-   
-  */ 
     
     @Override
     public String toString()

@@ -8,13 +8,13 @@ package manouvre.game;
 import java.io.IOException;
 import java.util.ArrayList;
 import manouvre.commands.CommandQueue;
-import manouvre.interfaces.CardInterface;
 import manouvre.gui.CreateRoomWindow;
 import manouvre.gui.GameWindow;
 import manouvre.gui.LoginWindow;
 import manouvre.network.client.QueueClient;
+import manouvre.network.core.User;
 import manouvre.network.server.UnoptimizedDeepCopy;
-
+import org.apache.log4j.PropertyConfigurator;
 /**
  *
  * @author Piotr
@@ -26,8 +26,9 @@ public class Maneuvre {  //Fake! this is temporary just to start game quick
      */
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         
-          Player player1 = new Player ("Piotr")      ;
-          Player player2 = new Player ("Bartek")      ;
+          PropertyConfigurator.configure( Maneuvre.class.getResourceAsStream("log4j.xml") );
+          Player player1 = new Player (new User("Piotr"))      ;
+          Player player2 = new Player (new User("Bartek"))      ;
           player1.setNation(Player.Nation.AU);
           player2.setNation(Player.Nation.FR);
           
@@ -69,35 +70,7 @@ public class Maneuvre {  //Fake! this is temporary just to start game quick
           clientGameHost.setVisible(true);
            
           clientGameGuest.setVisible(true);
-          
-          
-//          //Serialization
-//              FileOutputStream fos = new FileOutputStream("out.myobj");
-//              FileOutputStream fos2 = new FileOutputStream("out2.myobj");
-//              ObjectOutputStream oos = new ObjectOutputStream(fos);
-//              ObjectOutputStream oos2 = new ObjectOutputStream(fos2);
-//              //Message p = new Message(Message.CHAT, "TEST", "TEST", "TEST");
-//                           
-//              oos.writeObject(game);
-//              oos.flush();
-//              
-//              oos2.writeObject(game);
-//              oos2.flush();
-//              
-//
-//              //read it in
-//              FileInputStream fis = new FileInputStream("out.myobj");
-//              ObjectInputStream ois = new ObjectInputStream(fis);
-//              
-//              FileInputStream fis2 = new FileInputStream("out2.myobj");
-//              ObjectInputStream ois2 = new ObjectInputStream(fis2);
-//              
-//              Game x = (Game)ois.readObject();
-//              
-//              Game x2 = (Game)ois2.readObject();
-//              ois.close();
-//              ois2.close();
-//              System.out.println("manouvre.game.Maneuvre.main()"+ x.toString());
+         
           
     }
 }

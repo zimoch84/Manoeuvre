@@ -23,7 +23,7 @@ import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import manouvre.game.Player;
-import manouvre.network.client.Message;
+import manouvre.network.core.Message;
 import manouvre.network.client.SocketClient;
 import manouvre.network.server.GameRoom;
 import manouvre.interfaces.FrameInterface;
@@ -117,62 +117,27 @@ public class MainChatWindow extends javax.swing.JFrame implements FrameInterface
     GameRoomRenderer gameRoomListRenderer;
         
     public MainChatWindow(SocketClient passSocket, Player player) throws IOException{
-       
-     
         
         socketClient = passSocket;
         this.player  = player;
         gameRoomListModel = new GameRoomListModel();
         gameRoomListRenderer = new GameRoomRenderer();
-        
-        
-        
         initComponents();
        
         roomList.setCellRenderer(gameRoomListRenderer);
-        
         jPlayerTextField.setText(player.getName());
         this.setTitle("Manouvre");
             model.addElement("All");
             model.addElement(player.getName());
         userList.setSelectedIndex(0);
-        bgImage = ImageIO.read( new File("resources\\backgrounds\\cossaks.jpg"));
-          this.addWindowListener(new WindowListener() {
-
-            @Override public void windowOpened(WindowEvent e) {}
-            @Override public void windowClosing(WindowEvent e) { try{ socketClient.send(new Message(Message.BYE, player.getName(), ".bye", "SERVER"));  }catch(Exception ex){} }
-            @Override public void windowClosed(WindowEvent e) {}
-            @Override public void windowIconified(WindowEvent e) {}
-            @Override public void windowDeiconified(WindowEvent e) {}
-            @Override public void windowActivated(WindowEvent e) {}
-            @Override public void windowDeactivated(WindowEvent e) {}
-        });
-    }
-    
-
-    public MainChatWindow() throws IOException {
-        //this.roomListModel = new DefaultListModel<>();
-        initComponents();
-        this.setTitle("Manouvre");
-        model.addElement("All");
-        userList.setSelectedIndex(0);
-         bgImage = ImageIO.read( new File("resources\\backgrounds\\cossaks.jpg"));
+        String filename = "resources/backgrounds/cossaks.jpg";
+         bgImage = ImageIO.read(
+                getClass().getClassLoader().
+                getResource(filename)
+        );
+            
+         this.addWindowListener(new ManouvreWindowListener(player, socketClient, null));
         
-        this.addWindowListener(new WindowListener() {
-
-            @Override public void windowOpened(WindowEvent e) {}
-            @Override public void windowClosing(WindowEvent e) { try{ socketClient.send(new Message(Message.BYE, player.getName(), ".bye", "SERVER"));}catch(Exception ex){} }
-            @Override public void windowClosed(WindowEvent e) {}
-            @Override public void windowIconified(WindowEvent e) {}
-            @Override public void windowDeiconified(WindowEvent e) {}
-            @Override public void windowActivated(WindowEvent e) {}
-            @Override public void windowDeactivated(WindowEvent e) {}
-        });
-        
-            }
-    
-    public boolean isWin32(){
-        return System.getProperty("os.name").startsWith("Windows");
     }
 
     private void drawBackground(Graphics g){
@@ -598,26 +563,7 @@ public class MainChatWindow extends javax.swing.JFrame implements FrameInterface
     mainChat.append(inString+ "\n");
     }
     
-    
-    public static void main(String args[]) {
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } 
-        catch(Exception ex){
-            System.out.println("Look & Feel exception");
-        }
         
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    new MainChatWindow().setVisible(true);
-                } catch (IOException ex) {
-                    Logger.getLogger(MainChatWindow.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
-    }
-    
     class RoomListener implements Runnable{
 
         private volatile boolean running = true;    

@@ -12,7 +12,7 @@ import manouvre.events.EventType;
 import manouvre.game.Game;
 import manouvre.game.Player;
 import manouvre.interfaces.ClientInterface;
-import manouvre.network.client.Message;
+import manouvre.network.core.Message;
 import manouvre.interfaces.Command;
 import org.apache.logging.log4j.LogManager;
 
@@ -50,7 +50,7 @@ public class CommandQueue extends Observable implements Observer{
         this.commands.add(cmd);
         cmd.execute(game); 
 
-        Message message = new Message(Message.COMMAND, game.getCurrentPlayer().getName() , cmd.getType(), "IN_CHANNEL");
+        Message message = new Message(Message.COMMAND, game.getCurrentPlayer().getName() , cmd.getType().name(), "IN_CHANNEL");
         message.setCommand(cmd);
         client.send(message);
         

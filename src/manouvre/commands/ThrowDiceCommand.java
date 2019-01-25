@@ -147,8 +147,8 @@ public class ThrowDiceCommand implements Command{
     }
 
     @Override
-    public String getType() {
-        return Command.THROW_DICE;
+    public Type getType() {
+        return Command.Type.THROW_DICE;
     }
     
     

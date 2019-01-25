@@ -9,6 +9,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -68,7 +70,11 @@ public class GameGUI {
              game.getCurrentPlayer().getName() + ", You are" + (game.getCurrentPlayer().isFirst() ? " first " : " second ") + "player");
            
          try {
-            redoubtImage = ImageIO.read(new File("resources\\icons\\Redbt_mini.png"));
+         String filename = "resources/icons/Redbt_mini.png";
+         redoubtImage = ImageIO.read(
+                getClass().getClassLoader().
+                getResource(filename)
+            );
         } catch (IOException ex) {
             LOGGER.error("Error during loading redoubt image " + ex.toString());
         }
@@ -134,8 +140,10 @@ public class GameGUI {
             {
                 ArrayList<Position> movePositions;
                 if(game.freeMove)
-                    if(!selectedUnit.hasMoved())
+                    {
+                        if(!selectedUnit.hasMoved())
                         drawPossibleMoveInSetup(g);
+                    }
                 else                 
                     if(!selectedUnit.hasMoved())
                     {
@@ -659,43 +667,13 @@ public class GameGUI {
         Draw a single letter to indicate rough terrain
         */
         Terrain terrain = game.getMap().getTerrainAtPosition(unit.getPosition());
-
-        if(
-                game.getMap().getTerrainAtPosition(unit.getPosition()).getType() == Terrain.CITY ||
-                game.getMap().getTerrainAtPosition(unit.getPosition()).getType() == Terrain.HILL ||
-                game.getMap().getTerrainAtPosition(unit.getPosition()).getType() == Terrain.MARSH ||
-                game.getMap().getTerrainAtPosition(unit.getPosition()).getType() == Terrain.FOREST
-                )
+        if(!terrain.getShotLetter().equals("NULL"))
         {
             g.setColor(Color.BLACK);
             g.setFont(new Font("Bookman Old Style", 1, 14));
-            switch(terrain.getType())
-            {
-                case Terrain.CITY: 
-                {
-                drawLetterOnPosition(g, unit.getPosition(), Color.BLACK, "C");
-
-                break;
-                }
-                case Terrain.HILL: 
-                {
-                drawLetterOnPosition(g, unit.getPosition(), Color.BLACK, "H");
-                break;
-                }
-                case Terrain.MARSH: 
-                {
-                drawLetterOnPosition(g, unit.getPosition(), Color.BLACK, "M");
-                break;
-                }
-                case Terrain.FOREST: 
-                {
-                drawLetterOnPosition(g, unit.getPosition(), Color.BLACK, "F");
-                break;
-                }
-            }
+            drawLetterOnPosition(g, unit.getPosition(), Color.BLACK,terrain.getShotLetter());
         }
     }
-    
     /**
       * Draw an arrow line betwwen two point 
       * @param g the graphic component
@@ -822,47 +800,18 @@ public class GameGUI {
     
     Image getFlagIcon(Player player){
         Image flag;
-         try {
-            switch (player.getNation()) {
-            case BR : {
-                flag = ImageIO.read( new File("resources\\icons\\BRicon.jpg" ));
-                return flag;
-                }
-            case AU : {
-                flag = ImageIO.read( new File("resources\\icons\\AUicon.jpg" ));
-                return flag;
-                }
-            case FR : {
-                flag = ImageIO.read( new File("resources\\icons\\FRicon.jpg" ));
-                return flag;
-                }
-            case OT : {
-                flag = ImageIO.read( new File("resources\\icons\\OTicon.jpg" ));
-                return flag;
-                }
-            case PR : {
-                flag = ImageIO.read( new File("resources\\icons\\PRicon.jpg" ));
-                return flag;
-                }
-            case RU : {
-                flag = ImageIO.read( new File("resources\\icons\\RUicon.jpg" ));
-                return flag;
-                }
-            case SP : {
-                flag = ImageIO.read( new File("resources\\icons\\SPicon.jpg" ));
-                return flag;
-                }
-            case US : {
-                flag = ImageIO.read( new File("resources\\icons\\USicon.jpg" ));
-                return flag;
-                }
-            
-            default: return null;
-            }
-          } catch (IOException ex) {
+        String filename = "resources/icons/";
+        try {
+        flag = ImageIO.read(
+                getClass().getClassLoader().
+                getResource(filename + player.getNation().getFlagImageName() )
+            );
+        return flag;
+        }
+        catch (IOException ex) {
                 Logger.getLogger(GameGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-         return null;
+        return new BufferedImage(0,0,0);
     }
     
     public void paintHand(Graphics g){   
@@ -884,9 +833,6 @@ public class GameGUI {
         cardSetsGUI.paintTablePanel(g);
     }
       
-
-   
-
     public BufferedImage getInfoImage() {
         return infoImage;
     }
