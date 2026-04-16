@@ -1,0 +1,15 @@
+{
+  "java.project.sourcePaths": [
+    "src"
+  ],
+  "java.project.outputPath": "build/classes",
+  "java.project.referencedLibraries": [
+    "lib/javacsv.jar/javacsv.jar",
+    "lib/apache-log4j-2.8.2-bin/log4j-api-2.8.2.jar",
+    "lib/apache-log4j-2.8.2-bin/log4j-core-2.8.2.jar"
+  ],
+  "dart.projectSearchDepth": 4,
+  "dart.flutterSdkPath": "Q:\\Program Files\\Flutter",
+  "dart.debugExternalPackageLibraries": false,
+  "dart.debugSdkLibraries": false
+}

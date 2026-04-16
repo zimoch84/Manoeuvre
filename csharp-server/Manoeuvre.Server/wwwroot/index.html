@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manoeuvre Server</title>
+  <style>
+    :root {
+      --bg: #f0ece4;
+      --panel: rgba(255, 250, 241, 0.92);
+      --ink: #2f241c;
+      --accent: #7c2f20;
+      --line: #cdb9a0;
+      --muted: #6f655d;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--ink);
+      background:
+        linear-gradient(135deg, rgba(124,47,32,0.08), rgba(45,63,51,0.04)),
+        var(--bg);
+    }
+
+    header {
+      padding: 24px 28px 12px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 32px;
+      color: var(--accent);
+    }
+
+    p {
+      margin: 8px 0 0;
+      color: var(--muted);
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: 1.1fr 1.1fr 1.4fr;
+      gap: 18px;
+      padding: 18px 28px 32px;
+    }
+
+    section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 12px 30px rgba(66, 48, 30, 0.08);
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 18px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .stat {
+      padding: 14px;
+      border-radius: 14px;
+      background: rgba(124, 47, 32, 0.06);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 24px;
+      color: var(--accent);
+    }
+
+    .card-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .card {
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: #fffdf8;
+    }
+
+    .card small {
+      display: block;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .logs {
+      max-height: 70vh;
+      overflow: auto;
+      font-family: Consolas, monospace;
+      font-size: 12px;
+      white-space: pre-wrap;
+      background: #241b16;
+      color: #f6ead7;
+      border-radius: 14px;
+      padding: 14px;
+    }
+
+    @media (max-width: 1100px) {
+      main { grid-template-columns: 1fr; }
+      .logs { max-height: 40vh; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Manoeuvre Server</h1>
+    <p>Socket server in C# with a web admin dashboard. TCP transport uses newline-delimited JSON while keeping the Java message contract semantics.</p>
+  </header>
+  <main>
+    <section>
+      <h2>Overview</h2>
+      <div class="stats">
+        <div class="stat"><strong id="sessionCount">0</strong><span>Sessions</span></div>
+        <div class="stat"><strong id="roomCount">0</strong><span>Rooms</span></div>
+        <div class="stat"><strong id="logCount">0</strong><span>Log lines</span></div>
+      </div>
+      <div class="card-list" id="sessionList"></div>
+    </section>
+
+    <section>
+      <h2>Rooms</h2>
+      <div class="card-list" id="roomList"></div>
+    </section>
+
+    <section>
+      <h2>Live Log</h2>
+      <div class="logs" id="logList">Loading...</div>
+    </section>
+  </main>
+
+  <script>
+    async function refresh() {
+      const response = await fetch('/api/status');
+      const status = await response.json();
+
+      document.getElementById('sessionCount').textContent = status.sessions.length;
+      document.getElementById('roomCount').textContent = status.rooms.length;
+      document.getElementById('logCount').textContent = status.logs.length;
+
+      document.getElementById('sessionList').innerHTML = status.sessions.map(session => `
+        <article class="card">
+          <strong>${session.username ?? 'anonymous'}</strong>
+          <small>${session.remoteEndPoint}</small>
+          <small>Authenticated: ${session.isAuthenticated}</small>
+          <small>SocketPortId: ${session.socketPortId}</small>
+        </article>
+      `).join('') || '<article class="card"><strong>No sessions</strong></article>';
+
+      document.getElementById('roomList').innerHTML = status.rooms.map(room => `
+        <article class="card">
+          <strong>${room.name}</strong>
+          <small>Host: ${room.hostPlayer?.name ?? 'n/a'} (${room.hostPlayer?.nation ?? '-'})</small>
+          <small>Guest: ${room.guestPlayer?.name ?? 'open'} ${room.guestPlayer?.nation ? '(' + room.guestPlayer.nation + ')' : ''}</small>
+          <small>Locked: ${room.locked}</small>
+          <small>Game: ${room.game?.status ?? 'not started'}</small>
+        </article>
+      `).join('') || '<article class="card"><strong>No rooms</strong></article>';
+
+      document.getElementById('logList').textContent = status.logs.join('\n') || 'No logs yet.';
+    }
+
+    refresh();
+    setInterval(refresh, 2000);
+  </script>
+</body>
+</html>

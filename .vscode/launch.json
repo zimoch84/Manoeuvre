@@ -1,0 +1,96 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Manoeuvre C#: Server",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-csharp-server",
+      "program": "${workspaceFolder}/csharp-server/Manoeuvre.Server/bin/Debug/net9.0/Manoeuvre.Server.dll",
+      "cwd": "${workspaceFolder}/csharp-server/Manoeuvre.Server",
+      "stopAtEntry": false,
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+      }
+    },
+    {
+      "name": "Manoeuvre Flutter: Web Client",
+      "type": "dart",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/flutter-client/manoeuvre_web_client",
+      "program": "${workspaceFolder}/flutter-client/manoeuvre_web_client/lib/main.dart",
+      "deviceId": "chrome",
+      "flutterMode": "debug"
+    },
+    {
+      "type": "java",
+      "name": "Manoeuvre: Client LoginWindow",
+      "request": "launch",
+      "mainClass": "manouvre.gui.LoginWindow",
+      "cwd": "${workspaceFolder}",
+      "classPaths": [
+        "${workspaceFolder}/build/classes",
+        "${workspaceFolder}/resources",
+        "${workspaceFolder}/lib/javacsv.jar/javacsv.jar",
+        "${workspaceFolder}/lib/apache-log4j-2.8.2-bin/log4j-api-2.8.2.jar",
+        "${workspaceFolder}/lib/apache-log4j-2.8.2-bin/log4j-core-2.8.2.jar"
+      ]
+    },
+    {
+      "type": "java",
+      "name": "Manoeuvre: Server",
+      "request": "launch",
+      "mainClass": "manouvre.network.server.ServerFrame",
+      "cwd": "${workspaceFolder}",
+      "classPaths": [
+        "${workspaceFolder}/build/classes",
+        "${workspaceFolder}/resources",
+        "${workspaceFolder}/lib/javacsv.jar/javacsv.jar",
+        "${workspaceFolder}/lib/apache-log4j-2.8.2-bin/log4j-api-2.8.2.jar",
+        "${workspaceFolder}/lib/apache-log4j-2.8.2-bin/log4j-core-2.8.2.jar"
+      ]
+    },
+    {
+      "type": "java",
+      "name": "Manoeuvre: Local Prototype",
+      "request": "launch",
+      "mainClass": "manouvre.game.Maneuvre",
+      "cwd": "${workspaceFolder}",
+      "classPaths": [
+        "${workspaceFolder}/build/classes",
+        "${workspaceFolder}/resources",
+        "${workspaceFolder}/lib/javacsv.jar/javacsv.jar",
+        "${workspaceFolder}/lib/apache-log4j-2.8.2-bin/log4j-api-2.8.2.jar",
+        "${workspaceFolder}/lib/apache-log4j-2.8.2-bin/log4j-core-2.8.2.jar"
+      ]
+    },
+    {
+      "type": "java",
+      "name": "Manoeuvre: Mock Client",
+      "request": "launch",
+      "mainClass": "manouvre.network.client.MockClient",
+      "cwd": "${workspaceFolder}",
+      "classPaths": [
+        "${workspaceFolder}/build/classes",
+        "${workspaceFolder}/resources",
+        "${workspaceFolder}/lib/javacsv.jar/javacsv.jar",
+        "${workspaceFolder}/lib/apache-log4j-2.8.2-bin/log4j-api-2.8.2.jar",
+        "${workspaceFolder}/lib/apache-log4j-2.8.2-bin/log4j-core-2.8.2.jar"
+      ]
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Manoeuvre: C# Server + Flutter Web",
+      "configurations": [
+        "Manoeuvre C#: Server",
+        "Manoeuvre Flutter: Web Client"
+      ],
+      "stopAll": true
+    }
+  ]
+}

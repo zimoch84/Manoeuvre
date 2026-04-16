@@ -9,12 +9,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import manouvre.interfaces.ClientInterface;
-import manouvre.gui.CommandLogger;
-import manouvre.interfaces.Command;
 import static java.lang.Thread.sleep;
 import manouvre.commands.CommandQueue;
-import static java.lang.Thread.sleep;
+import manouvre.gui.CommandLogger;
+import manouvre.interfaces.ClientInterface;
+import manouvre.interfaces.Command;
 
 /**
  *

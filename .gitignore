@@ -12,3 +12,40 @@ hs_err_pid*
 /nbproject/private/
 /build/
 /src/manouvre/gui/SwingPlayerHandler.java
+
+# Logs
+*.log
+/log/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Java / JVM
+out/
+target/
+
+# .NET
+**/bin/
+**/obj/
+*.user
+*.rsuser
+*.suo
+
+# Flutter / Dart
+**/.dart_tool/
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+**/.packages
+**/.pub/
+**/.pub-cache/
+**/build/
+**/coverage/
+**/flutter_*.png
+
+# IDE metadata that should stay local
+**/.idea/
+**/.vs/

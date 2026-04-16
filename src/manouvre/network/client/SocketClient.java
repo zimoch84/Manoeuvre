@@ -1,19 +1,22 @@
 package manouvre.network.client;
 
-import java.io.*;
-import java.net.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.InetAddress;
+import java.net.Socket;
+import manouvre.commands.CommandQueue;
 import manouvre.game.Game;
 import manouvre.game.Player;
-import manouvre.commands.CommandQueue;
-import manouvre.interfaces.ClientInterface;
-import manouvre.interfaces.FrameInterface;
 import manouvre.gui.CommandLogger;
 import manouvre.gui.CreateRoomWindow;
 import manouvre.gui.GameWindow;
 import manouvre.gui.LoginWindow;
 import manouvre.gui.MainChatWindow;
 import manouvre.gui.RoomWindow;
+import manouvre.interfaces.ClientInterface;
 import manouvre.interfaces.Command;
+import manouvre.interfaces.FrameInterface;
 
 public class SocketClient implements Runnable, ClientInterface{
     
